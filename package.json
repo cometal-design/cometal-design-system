@@ -1,0 +1,25 @@
+{
+  "name": "cometal-design-system",
+  "version": "0.0.0",
+  "private": true,
+  "description": "Portable source repository for Cometal Design System",
+  "license": "UNLICENSED",
+  "type": "module",
+  "packageManager": "pnpm@11.9.0",
+  "engines": {
+    "node": ">=22"
+  },
+  "scripts": {
+    "build": "pnpm build:tokens && pnpm build:react && pnpm build:storybook",
+    "build:tokens": "pnpm --filter @cometal/tokens build",
+    "build:react": "pnpm --filter @cometal/react build",
+    "build:storybook": "pnpm --filter @cometal/storybook build",
+    "dev": "pnpm --filter @cometal/storybook dev",
+    "test": "pnpm test:unit && pnpm test:storybook",
+    "test:unit": "pnpm --filter @cometal/react test",
+    "test:storybook": "pnpm --filter @cometal/storybook test",
+    "typecheck": "pnpm -r typecheck",
+    "validate:sources": "node ./scripts/validate-sources.mjs",
+    "validate": "pnpm validate:sources && pnpm typecheck && pnpm test && pnpm build"
+  }
+}

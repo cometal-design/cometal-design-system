@@ -1,0 +1,12 @@
+{
+  "$description": "Cometal DS tokens. Values are added only after verification against Figma DS Core.",
+  "primitive": {
+    "$description": "Raw foundation values from DS Core."
+  },
+  "semantic": {
+    "$description": "Purpose-based aliases used by components."
+  },
+  "component": {
+    "$description": "Component-specific aliases added only when a semantic token is insufficient."
+  }
+}

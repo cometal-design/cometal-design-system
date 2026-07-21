@@ -1,0 +1,58 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "title": "Cometal Design System component registry",
+  "type": "object",
+  "required": ["version", "components"],
+  "properties": {
+    "version": { "type": "integer", "minimum": 1 },
+    "components": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "name", "status", "platform", "links"],
+        "properties": {
+          "id": { "type": "string", "pattern": "^[a-z0-9]+(?:[.-][a-z0-9]+)*$" },
+          "name": { "type": "string", "minLength": 1 },
+          "status": {
+            "enum": [
+              "candidate",
+              "specified",
+              "in-development",
+              "in-review",
+              "changes-requested",
+              "blocked",
+              "beta",
+              "ready",
+              "deprecated",
+              "archived"
+            ]
+          },
+          "platform": { "const": "web" },
+          "version": { "type": "string" },
+          "links": {
+            "type": "object",
+            "required": ["figma", "specification", "source", "storybook", "knowledge"],
+            "properties": {
+              "figma": { "type": "string" },
+              "specification": { "type": "string" },
+              "source": { "type": "string" },
+              "storybook": { "type": "string" },
+              "knowledge": { "type": "string" }
+            }
+          },
+          "checks": {
+            "type": "object",
+            "properties": {
+              "visualMatch": { "type": "boolean" },
+              "specificationMatch": { "type": "boolean" },
+              "testsPassed": { "type": "boolean" },
+              "accessibilityPassed": { "type": "boolean" },
+              "knowledgeUpdated": { "type": "boolean" }
+            }
+          }
+        }
+      }
+    }
+  }
+}

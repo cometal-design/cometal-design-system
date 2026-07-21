@@ -1,0 +1,15 @@
+node_modules/
+dist/
+storybook-static/
+coverage/
+*.log
+.DS_Store
+.env
+.env.*
+!.env.example
+
+# Local Obsidian state. The knowledge files remain versioned.
+knowledge-base/.obsidian/workspace.json
+knowledge-base/.obsidian/workspace-mobile.json
+knowledge-base/.obsidian/cache/
+knowledge-base/.obsidian/plugins/
