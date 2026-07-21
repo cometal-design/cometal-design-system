@@ -4,6 +4,9 @@ import { mkdir, writeFile } from 'node:fs/promises';
 const dictionary = new StyleDictionary({
   source: ['src/**/*.tokens.json'],
   usesDtcg: true,
+  log: {
+    verbosity: 'verbose',
+  },
   platforms: {
     css: {
       transformGroup: 'css',

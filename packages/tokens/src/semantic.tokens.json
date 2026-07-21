@@ -1,0 +1,1588 @@
+{
+  "Semantic": {
+    "$description": "Semantic design tokens synchronized from Figma DS Core.",
+    "$extensions": {
+      "com.cometal.figma": {
+        "fileKey": "KKNGucImxFAtQLBhPy8tLs",
+        "collectionId": "VariableCollectionId:580:2",
+        "collectionKey": "8a40dcc2ea07c8d37c16350305e19aa15c089b93",
+        "modes": [
+          {
+            "name": "Default",
+            "modeId": "580:0"
+          }
+        ]
+      }
+    },
+    "Color": {
+      "Button": {
+        "Primary": {
+          "Container": {
+            "Default": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Blue.600.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:797:1567",
+                  "key": "e2c5cab6e51f59c674dc6ea6ed324530e896a13f",
+                  "name": "Color/Button/Primary/Container/Default"
+                }
+              }
+            },
+            "Hover": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Blue.700.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:797:1568",
+                  "key": "6a691963ba9a78c1fb2d27b9953e83a9687d3918",
+                  "name": "Color/Button/Primary/Container/Hover"
+                }
+              }
+            },
+            "Pressed": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Blue.800.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:797:1570",
+                  "key": "0490beed3ed456f54a1c4ab83863dc54dfc7f2c7",
+                  "name": "Color/Button/Primary/Container/Pressed"
+                }
+              }
+            },
+            "Disabled": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Neutral.100.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:797:1571",
+                  "key": "c9d81306522f1002979ef0523e8a85d679e03c00",
+                  "name": "Color/Button/Primary/Container/Disabled"
+                }
+              }
+            }
+          }
+        },
+        "Secondary": {
+          "Container": {
+            "Default": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Neutral.100.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:848:2",
+                  "key": "5db3c2793e2b5fa5b65d5c017624eb82e166add4",
+                  "name": "Color/Button/Secondary/Container/Default"
+                }
+              }
+            },
+            "Hover": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Neutral.300.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:848:3",
+                  "key": "3e4ae88419a000a784459b7b95c8433e5f4d25ab",
+                  "name": "Color/Button/Secondary/Container/Hover"
+                }
+              }
+            },
+            "Pressed": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Neutral.400.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:848:5",
+                  "key": "10a94b50873ff7730e3a5e827ec9f33fb3d9a2a3",
+                  "name": "Color/Button/Secondary/Container/Pressed"
+                }
+              }
+            },
+            "Disabled": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Neutral.100.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:848:6",
+                  "key": "18481c9346667ed383fd4c9b3a0a4080fbbc365d",
+                  "name": "Color/Button/Secondary/Container/Disabled"
+                }
+              }
+            }
+          }
+        },
+        "Ghost": {
+          "Container": {
+            "Default": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Neutral.0.0p1}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:848:7",
+                  "key": "92dabaab253bd9d7b377d84207c720f8fc6cd39b",
+                  "name": "Color/Button/Ghost/Container/Default"
+                }
+              }
+            },
+            "Hover": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Neutral.0.0p1}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:848:8",
+                  "key": "4637edbd57cc9d360cdd272f5d3c29e677da9564",
+                  "name": "Color/Button/Ghost/Container/Hover"
+                }
+              }
+            },
+            "Pressed": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Neutral.0.0p1}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:848:10",
+                  "key": "161b4ef78cf61c9ed195ac681d0b25da28e3578b",
+                  "name": "Color/Button/Ghost/Container/Pressed"
+                }
+              }
+            },
+            "Disabled": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Neutral.0.0p1}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:848:11",
+                  "key": "8edc30e980ec8758bd54785bd13867a8941bd51e",
+                  "name": "Color/Button/Ghost/Container/Disabled"
+                }
+              }
+            }
+          }
+        },
+        "Link": {
+          "Container": {
+            "Default": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Blue.600.0p1}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:851:391",
+                  "key": "c7ceccee1bc52234b0ca867d7548bba4b3eb62f8",
+                  "name": "Color/Button/Link/Container/Default"
+                }
+              }
+            },
+            "Hover": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Blue.600.0p1}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:851:392",
+                  "key": "7ec081620510409e32b864004f0d50adb7685eb2",
+                  "name": "Color/Button/Link/Container/Hover"
+                }
+              }
+            },
+            "Pressed": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Blue.600.0p1}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:851:394",
+                  "key": "647b34a3a1f95447a3f00449ad0940f187036a5c",
+                  "name": "Color/Button/Link/Container/Pressed"
+                }
+              }
+            },
+            "Disabled": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Blue.600.0p1}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:851:395",
+                  "key": "f9ae8450c0a48972ece5aa9474b30674875325e4",
+                  "name": "Color/Button/Link/Container/Disabled"
+                }
+              }
+            }
+          }
+        },
+        "Danger": {
+          "Container": {
+            "Default": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Red.700.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:851:396",
+                  "key": "3122f5077b35cd84510422193a2cbc25e1ac3f10",
+                  "name": "Color/Button/Danger/Container/Default"
+                }
+              }
+            },
+            "Hover": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Red.800.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:851:397",
+                  "key": "ab2933ec7c46b5115759ec88002a01c8340b358a",
+                  "name": "Color/Button/Danger/Container/Hover"
+                }
+              }
+            },
+            "Pressed": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Red.900.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:851:399",
+                  "key": "0f862d3144cae119a69d32c00c80cfde73688cc7",
+                  "name": "Color/Button/Danger/Container/Pressed"
+                }
+              }
+            },
+            "Disabled": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Neutral.100.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:851:400",
+                  "key": "11fd8090b5d3007fefc1d83f23841432161d0685",
+                  "name": "Color/Button/Danger/Container/Disabled"
+                }
+              }
+            }
+          }
+        },
+        "Success": {
+          "Container": {
+            "Default": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Green.600.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:851:401",
+                  "key": "5ef7b9b334107a9338cefabebfb2da9f3fec9052",
+                  "name": "Color/Button/Success/Container/Default"
+                }
+              }
+            },
+            "Hover": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Green.700.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:851:402",
+                  "key": "5a0b942df42483a3df649577491ce1370662d8bb",
+                  "name": "Color/Button/Success/Container/Hover"
+                }
+              }
+            },
+            "Pressed": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Green.800.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:851:404",
+                  "key": "9418da8b1fc13750f097084d1960c04e99ed01be",
+                  "name": "Color/Button/Success/Container/Pressed"
+                }
+              }
+            },
+            "Disabled": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Neutral.100.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:851:405",
+                  "key": "7ca11f47d9f90a4b682f679618c1d4d8ec281f80",
+                  "name": "Color/Button/Success/Container/Disabled"
+                }
+              }
+            }
+          }
+        },
+        "Warning": {
+          "Container": {
+            "Default": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Yellow.700.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:851:406",
+                  "key": "8a95682314f68113714a44fe8134ae8892d2cd31",
+                  "name": "Color/Button/Warning/Container/Default"
+                }
+              }
+            },
+            "Hover": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Yellow.800.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:851:407",
+                  "key": "336017c032b627b4fcb45a0d79981e162ef94ff5",
+                  "name": "Color/Button/Warning/Container/Hover"
+                }
+              }
+            },
+            "Pressed": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Yellow.900.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:851:409",
+                  "key": "ee34da019c393a64a08ecebe9e78c8362bd1161a",
+                  "name": "Color/Button/Warning/Container/Pressed"
+                }
+              }
+            },
+            "Disabled": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Neutral.100.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:851:410",
+                  "key": "3706694393d58b9fb8584f445d14ad23e02e3a19",
+                  "name": "Color/Button/Warning/Container/Disabled"
+                }
+              }
+            }
+          }
+        },
+        "Inverse": {
+          "Container": {
+            "Default": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Neutral.0.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:852:391",
+                  "key": "bcff7296ffc625c01932d026509cd36be926c282",
+                  "name": "Color/Button/Inverse/Container/Default"
+                }
+              }
+            },
+            "Hover": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Neutral.300.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:852:392",
+                  "key": "faf14248ac080ce8df76f52848ea703070498d1a",
+                  "name": "Color/Button/Inverse/Container/Hover"
+                }
+              }
+            },
+            "Pressed": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Neutral.400.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:852:394",
+                  "key": "9a8202c33b532083d12e28701e36d25d60a1c0a7",
+                  "name": "Color/Button/Inverse/Container/Pressed"
+                }
+              }
+            },
+            "Disabled": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Neutral.100.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:852:395",
+                  "key": "66118fcbd0ab7e21ef735eb15bd50bcdb154d0d4",
+                  "name": "Color/Button/Inverse/Container/Disabled"
+                }
+              }
+            }
+          }
+        },
+        "Inverse Ghost": {
+          "Container": {
+            "Default": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Blue.600.0p1}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:852:396",
+                  "key": "e380ef2e6b7541da0ed27d90fc4fedeb0bd46ca0",
+                  "name": "Color/Button/Inverse Ghost/Container/Default"
+                }
+              }
+            },
+            "Hover": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Blue.600.0p1}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:852:397",
+                  "key": "74d2396e2a258ea1db2fae89e5053ba4c03ef7c7",
+                  "name": "Color/Button/Inverse Ghost/Container/Hover"
+                }
+              }
+            },
+            "Pressed": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Blue.600.0p1}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:852:399",
+                  "key": "02e62d66bf92816b399f3b474881000a92011292",
+                  "name": "Color/Button/Inverse Ghost/Container/Pressed"
+                }
+              }
+            },
+            "Disabled": {
+              "$type": "color",
+              "$value": "{Primitive.Color Primitive Palette.Blue.600.0p1}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:852:400",
+                  "key": "8d5862af0308e4ad6bfa6d272f748bc5bcd49264",
+                  "name": "Color/Button/Inverse Ghost/Container/Disabled"
+                }
+              }
+            }
+          }
+        }
+      },
+      "State": {
+        "Focus": {
+          "Ring": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Blue.400.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:797:1574",
+                "key": "01a868f23d281c37e4989fdec2ae5241742db496",
+                "name": "Color/State/Focus/Ring"
+              }
+            }
+          }
+        }
+      },
+      "Surface": {
+        "Canvas": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.0.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1852",
+              "key": "25c47b424877aaec26c035f6e21b72c1bbb69f0d",
+              "name": "Color/Surface/Canvas"
+            }
+          }
+        },
+        "Subtle": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.100.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1853",
+              "key": "1f3789dccbaa564728b2df04a0f377d1850d74f4",
+              "name": "Color/Surface/Subtle"
+            }
+          }
+        },
+        "Muted": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.200.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1854",
+              "key": "b651413a092a0ac930d68064b7166af65d9d93c3",
+              "name": "Color/Surface/Muted"
+            }
+          }
+        },
+        "Raised": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.0.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1855",
+              "key": "7a140488794588ea3c75c461d4733d29d42ab712",
+              "name": "Color/Surface/Raised"
+            }
+          }
+        },
+        "Strong": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.900.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1856",
+              "key": "8a21bf1caabe117ed54e31152422a6b7dd587702",
+              "name": "Color/Surface/Strong"
+            }
+          }
+        },
+        "Brand": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Blue.600.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1857",
+              "key": "9cb7eecfbeed3a1d9e3429b9405ae1a38db93055",
+              "name": "Color/Surface/Brand"
+            }
+          }
+        },
+        "Inverse": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.900.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1858",
+              "key": "754de0c7c4b9da5172a1c32865283a78377e6c5b",
+              "name": "Color/Surface/Inverse"
+            }
+          }
+        }
+      },
+      "Text": {
+        "Primary": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.900.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1859",
+              "key": "2f395279a70b7295e90b47ad9d8555f59183f381",
+              "name": "Color/Text/Primary"
+            }
+          }
+        },
+        "Secondary": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.700.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1860",
+              "key": "234fc8e939ed4bb5979e3e9fa720548e7e4dee9d",
+              "name": "Color/Text/Secondary"
+            }
+          }
+        },
+        "Muted": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.600.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1861",
+              "key": "9b060ea93b9c9e7754319f10879bebb64a8832b4",
+              "name": "Color/Text/Muted"
+            }
+          }
+        },
+        "Disabled": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.400.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1862",
+              "key": "4d6c155ed59250abec2a0ce0ec1edafc23c92722",
+              "name": "Color/Text/Disabled"
+            }
+          }
+        },
+        "Inverse": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.0.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1863",
+              "key": "e8409d6e517485c82966612da4b36d124ad71361",
+              "name": "Color/Text/Inverse"
+            }
+          }
+        },
+        "Link": {
+          "Default": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Blue.700.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1338:1864",
+                "key": "020143b3099c3636b0cca7cf8cfccc8055ca2ec6",
+                "name": "Color/Text/Link/Default"
+              }
+            }
+          },
+          "Hover": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Blue.800.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1338:1865",
+                "key": "201bc3fe90fef26ee8fa835a4ef62aab6c2134d3",
+                "name": "Color/Text/Link/Hover"
+              }
+            }
+          }
+        },
+        "Danger": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Red.700.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1866",
+              "key": "8951adb5def408a08f7ab416e78f4f021eacf56b",
+              "name": "Color/Text/Danger"
+            }
+          }
+        },
+        "Success": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Green.700.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1867",
+              "key": "454478674e916ee69749c6cb804dd931d5d416c1",
+              "name": "Color/Text/Success"
+            }
+          }
+        },
+        "Warning": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Yellow.900.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1868",
+              "key": "6385ee3fad9bd6a237178bcd6a3b66ec65dfb159",
+              "name": "Color/Text/Warning"
+            }
+          }
+        }
+      },
+      "Icon": {
+        "Primary": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.800.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1869",
+              "key": "9df99897f66b4006d91a82825a6f034cb9d2dc9b",
+              "name": "Color/Icon/Primary"
+            }
+          }
+        },
+        "Secondary": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.600.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1870",
+              "key": "16edfce0a01003f46eaf4b93d5de56f3fa4b4818",
+              "name": "Color/Icon/Secondary"
+            }
+          }
+        },
+        "Disabled": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.400.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1871",
+              "key": "12c2ab81569bcc29cd0c3c1aaa84cc4448c6e407",
+              "name": "Color/Icon/Disabled"
+            }
+          }
+        },
+        "Inverse": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.0.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1872",
+              "key": "6154d249ee65e68355e01b517415d1c6d7dfa6cc",
+              "name": "Color/Icon/Inverse"
+            }
+          }
+        },
+        "Brand": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Blue.600.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1873",
+              "key": "3283324049f12c72dc7119b31b50a606ff88cfe5",
+              "name": "Color/Icon/Brand"
+            }
+          }
+        },
+        "Danger": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Red.700.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1874",
+              "key": "531f362a847b3b6fa43fd711f4ae8b8bb680c648",
+              "name": "Color/Icon/Danger"
+            }
+          }
+        },
+        "Success": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Green.700.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1875",
+              "key": "d25fa71fcc5eb905147bcf767c5e21175d49f585",
+              "name": "Color/Icon/Success"
+            }
+          }
+        },
+        "Warning": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Yellow.800.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1876",
+              "key": "8723a95ee081ddf78daade63d6c58cc5890c4e18",
+              "name": "Color/Icon/Warning"
+            }
+          }
+        }
+      },
+      "Border": {
+        "Default": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.300.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1877",
+              "key": "1a3ea2b792fcc38ab0fe6245e2c0b24ffc9e8d9c",
+              "name": "Color/Border/Default"
+            }
+          }
+        },
+        "Strong": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.600.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1878",
+              "key": "bf7faa63ecd1e4492e550134f31e48204851cc9b",
+              "name": "Color/Border/Strong"
+            }
+          }
+        },
+        "Disabled": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.200.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1879",
+              "key": "7738af3110dbac562d7a055f1b8fe7fc595b5f64",
+              "name": "Color/Border/Disabled"
+            }
+          }
+        },
+        "Brand": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Blue.600.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1880",
+              "key": "3b1e1d4ef4d722abd4ec579c4807ff3838470407",
+              "name": "Color/Border/Brand"
+            }
+          }
+        },
+        "Danger": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Red.700.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1881",
+              "key": "5b9f69b89cf15942e352420769b736349b02d349",
+              "name": "Color/Border/Danger"
+            }
+          }
+        },
+        "Success": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Green.600.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1882",
+              "key": "681902503f278f3e6da41a15d9d35655b96a58a4",
+              "name": "Color/Border/Success"
+            }
+          }
+        },
+        "Warning": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Yellow.300.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1338:1883",
+              "key": "cf66d2a55fa2d25f9438614d70a3837f9c79682d",
+              "name": "Color/Border/Warning"
+            }
+          }
+        }
+      },
+      "Action": {
+        "Brand": {
+          "Default": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Blue.600.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1338:1884",
+                "key": "133ef3b6abb9362997abeb5429d0675de9ff8af0",
+                "name": "Color/Action/Brand/Default"
+              }
+            }
+          },
+          "Hover": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Blue.700.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1338:1885",
+                "key": "e77228a95c87b407c27f4fdd0f12e56bf587e657",
+                "name": "Color/Action/Brand/Hover"
+              }
+            }
+          },
+          "Pressed": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Blue.800.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1338:1886",
+                "key": "faf6af8b595ff58865b8cc607b0235a510278567",
+                "name": "Color/Action/Brand/Pressed"
+              }
+            }
+          },
+          "Disabled": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Neutral.300.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1338:1887",
+                "key": "f2b870ee5d5bad6f9ffe4dc66ae180a295b294d2",
+                "name": "Color/Action/Brand/Disabled"
+              }
+            }
+          }
+        }
+      },
+      "Status": {
+        "Info": {
+          "Surface": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Blue.100.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1338:1888",
+                "key": "af55ce9ecf98097f4beae8b25ddc2ba7a2a3e44e",
+                "name": "Color/Status/Info/Surface"
+              }
+            }
+          },
+          "Content": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Blue.800.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1338:1889",
+                "key": "1f23fdb2277f39485a83a950fad0001c17bf25d6",
+                "name": "Color/Status/Info/Content"
+              }
+            }
+          },
+          "Border": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Blue.300.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1338:1890",
+                "key": "0b96aa47c32ed6fa051437c60f454ac5afdac39b",
+                "name": "Color/Status/Info/Border"
+              }
+            }
+          }
+        },
+        "Success": {
+          "Surface": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Green.100.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1338:1891",
+                "key": "8049a4a4971a853a033497d232648cab9d3f4eb8",
+                "name": "Color/Status/Success/Surface"
+              }
+            }
+          },
+          "Content": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Green.800.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1338:1892",
+                "key": "b344631238903409829130d9a729dfa75e964792",
+                "name": "Color/Status/Success/Content"
+              }
+            }
+          },
+          "Border": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Green.300.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1338:1893",
+                "key": "fe867c195d0ce1e3efc91d1ed64cfc839b007b48",
+                "name": "Color/Status/Success/Border"
+              }
+            }
+          }
+        },
+        "Warning": {
+          "Surface": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Yellow.100.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1338:1894",
+                "key": "ed0d9043771a0995e1fa3ab2073653d6a7058b27",
+                "name": "Color/Status/Warning/Surface"
+              }
+            }
+          },
+          "Content": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Yellow.900.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1338:1895",
+                "key": "8b6321ea032760a32b8deb1b59db1d4f6bb5307f",
+                "name": "Color/Status/Warning/Content"
+              }
+            }
+          },
+          "Border": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Yellow.300.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1338:1896",
+                "key": "80bf4320e9e0f1ad0d928595db4f5b49ebe0c20b",
+                "name": "Color/Status/Warning/Border"
+              }
+            }
+          }
+        },
+        "Danger": {
+          "Surface": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Red.100.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1338:1897",
+                "key": "cb0e4cdec4cbfb5594b9c62405385ec2fb0b098c",
+                "name": "Color/Status/Danger/Surface"
+              }
+            }
+          },
+          "Content": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Red.800.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1338:1898",
+                "key": "c0b43ffaf0355fd71dee0c4d007ffa3224b33bd8",
+                "name": "Color/Status/Danger/Content"
+              }
+            }
+          },
+          "Border": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Red.300.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1338:1899",
+                "key": "63b948be55e60e98b32932b7f4ef523b27e615a5",
+                "name": "Color/Status/Danger/Border"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Radius": {
+      "Button": {
+        "$type": "dimension",
+        "$value": "{Primitive.Radius.100}",
+        "$extensions": {
+          "com.cometal.figma": {
+            "id": "VariableID:580:3",
+            "key": "d416fb01e807a24e1512d57b9abebcd0a35f723c",
+            "name": "Radius/Button"
+          }
+        }
+      },
+      "Input": {
+        "$type": "dimension",
+        "$value": "{Primitive.Radius.100}",
+        "$extensions": {
+          "com.cometal.figma": {
+            "id": "VariableID:580:5",
+            "key": "e8f0014c1074d2d7a43a51bbd93df2ae5054c0a5",
+            "name": "Radius/Input"
+          }
+        }
+      },
+      "Documentation": {
+        "Header": {
+          "$type": "dimension",
+          "$value": "{Primitive.Radius.150}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:894:8",
+              "key": "52b5b55bf2d97cad0d9220249ba04653bf18b216",
+              "name": "Radius/Documentation/Header"
+            }
+          }
+        }
+      },
+      "Focus": {
+        "$type": "dimension",
+        "$value": "{Primitive.Radius.150}",
+        "$extensions": {
+          "com.cometal.figma": {
+            "id": "VariableID:1185:2072",
+            "key": "6a10a550f795c37d82620b2ce0ea7b492f227423",
+            "name": "Radius/Focus"
+          }
+        }
+      },
+      "Checkbox": {
+        "$type": "dimension",
+        "$value": "{Primitive.Radius.50}",
+        "$extensions": {
+          "com.cometal.figma": {
+            "id": "VariableID:1589:3",
+            "key": "c65b1a53541c8160f4357cb4856c111ba173dba4",
+            "name": "Radius/Checkbox"
+          }
+        },
+        "Focus": {
+          "$type": "dimension",
+          "$value": "{Primitive.Radius.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1589:4",
+              "key": "4fff42a123a85aeccbcf9d936cb5efcc31c9f400",
+              "name": "Radius/Checkbox/Focus"
+            }
+          }
+        }
+      }
+    },
+    "Spacing": {
+      "Stack": {
+        "XS": {
+          "$type": "dimension",
+          "$value": "{Primitive.Spacing.50}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:580:12",
+              "key": "8f2cad74a7774805270be9715cac60c4640b0b7f",
+              "name": "Spacing/Stack/XS"
+            }
+          }
+        },
+        "M": {
+          "$type": "dimension",
+          "$value": "{Primitive.Spacing.150}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:580:14",
+              "key": "d81daa8f67f3ff33f2bfce38a4bbd4f1d67c47a6",
+              "name": "Spacing/Stack/M"
+            }
+          }
+        },
+        "L": {
+          "$type": "dimension",
+          "$value": "{Primitive.Spacing.200}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:580:15",
+              "key": "ac7300776ce9c16849f940710424625335e5ade6",
+              "name": "Spacing/Stack/L"
+            }
+          }
+        }
+      },
+      "Section": {
+        "M": {
+          "$type": "dimension",
+          "$value": "{Primitive.Spacing.400}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:580:17",
+              "key": "fbae951917ed0b5ca76f34549f3d05fefceed8c9",
+              "name": "Spacing/Section/M"
+            }
+          }
+        }
+      },
+      "Button": {
+        "L": {
+          "Inset": {
+            "$type": "dimension",
+            "$value": "{Primitive.Spacing.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:780:1325",
+                "key": "771f3c738a0c0f91d1e93d832b4e2eb2f2e26b82",
+                "name": "Spacing/Button/L/Inset"
+              }
+            },
+            "Icon": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.75}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:780:1326",
+                  "key": "02776f9182883c983f2e506ea433afaa904d1ca2",
+                  "name": "Spacing/Button/L/Inset/Icon"
+                }
+              }
+            }
+          },
+          "Gap": {
+            "$type": "dimension",
+            "$value": "{Primitive.Spacing.50}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:780:1327",
+                "key": "02663f3df08445df8c7e37cbee8c1bad95c3a371",
+                "name": "Spacing/Button/L/Gap"
+              }
+            }
+          }
+        },
+        "M": {
+          "Inset": {
+            "$type": "dimension",
+            "$value": "{Primitive.Spacing.75}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:780:1328",
+                "key": "37e69bbef25088d2bc0cfcad2688b8d13d7b2456",
+                "name": "Spacing/Button/M/Inset"
+              }
+            },
+            "Icon": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.50}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:780:1329",
+                  "key": "aa03d8e526ceebb75ad4cdb91a339d5b59463776",
+                  "name": "Spacing/Button/M/Inset/Icon"
+                }
+              }
+            }
+          },
+          "Gap": {
+            "$type": "dimension",
+            "$value": "{Primitive.Spacing.50}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:780:1330",
+                "key": "1e5e31e24265aaac714df4242b19fd907544f217",
+                "name": "Spacing/Button/M/Gap"
+              }
+            }
+          }
+        },
+        "S": {
+          "Inset": {
+            "$type": "dimension",
+            "$value": "{Primitive.Spacing.50}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:780:1331",
+                "key": "8d545f7eb77bbbad7b2250b7f5174e1314935570",
+                "name": "Spacing/Button/S/Inset"
+              }
+            },
+            "Icon": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.25}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:780:1332",
+                  "key": "c5cc1ae4a95a70aa619718907031c06f30ed5370",
+                  "name": "Spacing/Button/S/Inset/Icon"
+                }
+              }
+            }
+          },
+          "Gap": {
+            "$type": "dimension",
+            "$value": "{Primitive.Spacing.25}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:780:1333",
+                "key": "c1de846a54b6a43ce43c70216c899e95febd790c",
+                "name": "Spacing/Button/S/Gap"
+              }
+            }
+          }
+        },
+        "Optical": {
+          "Label": {
+            "$type": "dimension",
+            "$value": "{Primitive.Spacing.12}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:799:1569",
+                "key": "92d336709d37d8f324c7d500f60a2ff3bc39bf72",
+                "name": "Spacing/Button/Optical/Label"
+              }
+            }
+          }
+        },
+        "Content": {
+          "Label": {
+            "Inset": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.25}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:1473:2735",
+                  "key": "e34d8087cb1ca563c83e50bc839c2e1ac5acca25",
+                  "name": "Spacing/Button/Content/Label/Inset"
+                }
+              }
+            }
+          },
+          "L": {
+            "Gap": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.25}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:1473:2736",
+                  "key": "63daaf79d10db28ca0fd5f3cc8951dc1c509618f",
+                  "name": "Spacing/Button/Content/L/Gap"
+                }
+              }
+            }
+          },
+          "M": {
+            "Gap": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.25}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:1473:2737",
+                  "key": "a740e25d1497d8287efc57043ef029de4ac384f9",
+                  "name": "Spacing/Button/Content/M/Gap"
+                }
+              }
+            }
+          },
+          "S": {
+            "Gap": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.0}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:1473:2738",
+                  "key": "b6ca5dbb5818540463177ee22679e0e74b460638",
+                  "name": "Spacing/Button/Content/S/Gap"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Documentation": {
+        "Header-Content": {
+          "$type": "dimension",
+          "$value": "{Primitive.Spacing.750}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:874:3",
+              "key": "3dc36cd25893974315db9c4c02e1c0108ca14b65",
+              "name": "Spacing/Documentation/Header-Content"
+            }
+          }
+        },
+        "Header": {
+          "Inset": {
+            "Horizontal": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.450}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:894:4",
+                  "key": "2d04403a8a4f519f953fe3ada1f83647641f2997",
+                  "name": "Spacing/Documentation/Header/Inset/Horizontal"
+                }
+              }
+            },
+            "Vertical": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.300}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:894:5",
+                  "key": "076998a9ef1c81bbcb0b39be6827655f981918ff",
+                  "name": "Spacing/Documentation/Header/Inset/Vertical"
+                }
+              }
+            }
+          },
+          "Gap": {
+            "Brand-Content": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.350}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:894:6",
+                  "key": "bea061b024bd3010c642a648f75849ec14218ba2",
+                  "name": "Spacing/Documentation/Header/Gap/Brand-Content"
+                }
+              }
+            },
+            "Title-Description": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.125}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:894:7",
+                  "key": "0d383134623c5383060d38c1eafc070bfeea309a",
+                  "name": "Spacing/Documentation/Header/Gap/Title-Description"
+                }
+              }
+            }
+          }
+        },
+        "Content": {
+          "Inset": {
+            "Horizontal": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.450}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:899:2",
+                  "key": "776ecf0efe1110c29fdd3eecdb7ac52456a55161",
+                  "name": "Spacing/Documentation/Content/Inset/Horizontal"
+                }
+              }
+            }
+          }
+        },
+        "Artboard": {
+          "Inset": {
+            "Bottom": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.1000}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:1096:3",
+                  "key": "b6cb467233d9100e68e00f789f04fbf6c1020948",
+                  "name": "Spacing/Documentation/Artboard/Inset/Bottom"
+                }
+              }
+            }
+          }
+        }
+      },
+      "Input": {
+        "L": {
+          "Inset": {
+            "$type": "dimension",
+            "$value": "{Primitive.Spacing.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:981:2467",
+                "key": "99586c9ac2a4f3a1843b473488b9cd55bb38688e",
+                "name": "Spacing/Input/L/Inset"
+              }
+            }
+          }
+        },
+        "M": {
+          "Inset": {
+            "$type": "dimension",
+            "$value": "{Primitive.Spacing.75}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:981:2468",
+                "key": "8bc994fdcf5ef8d7b1409d2110435580ffd147d8",
+                "name": "Spacing/Input/M/Inset"
+              }
+            }
+          }
+        },
+        "Gap": {
+          "$type": "dimension",
+          "$value": "{Primitive.Spacing.50}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2469",
+              "key": "7055370a0a5dabe46d91ff474210ba51f56c2648",
+              "name": "Spacing/Input/Gap"
+            }
+          }
+        },
+        "Label": {
+          "Gap": {
+            "$type": "dimension",
+            "$value": "{Primitive.Spacing.50}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:981:2470",
+                "key": "4a1ceca980766b4640e0cf9466f384b8851eb61c",
+                "name": "Spacing/Input/Label/Gap"
+              }
+            }
+          }
+        },
+        "Helper": {
+          "Gap": {
+            "$type": "dimension",
+            "$value": "{Primitive.Spacing.25}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:981:2471",
+                "key": "28b09e6a45586c80f7e70c5a8883a8212deab366",
+                "name": "Spacing/Input/Helper/Gap"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Size": {
+      "Button": {
+        "L": {
+          "$type": "dimension",
+          "$value": "{Primitive.Size.44}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:768:1237",
+              "key": "820ce9023e97152545d30daf8918631bb25f9620",
+              "name": "Size/Button/L"
+            }
+          }
+        },
+        "M": {
+          "$type": "dimension",
+          "$value": "{Primitive.Size.36}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:768:1238",
+              "key": "1f5af0608322749bd11410a142d37c5fdca33e6d",
+              "name": "Size/Button/M"
+            }
+          }
+        },
+        "S": {
+          "$type": "dimension",
+          "$value": "{Primitive.Size.28}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:768:1239",
+              "key": "61ae827703f510d90427b2d59eb55d25aa323d31",
+              "name": "Size/Button/S"
+            }
+          }
+        }
+      },
+      "Icon": {
+        "Button": {
+          "L": {
+            "$type": "dimension",
+            "$value": "{Primitive.Size.20}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:768:1240",
+                "key": "5748c4bb4ab261893a939cc53df69c458377ee25",
+                "name": "Size/Icon/Button/L"
+              }
+            }
+          },
+          "M": {
+            "$type": "dimension",
+            "$value": "{Primitive.Size.16}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:768:1241",
+                "key": "1d436684c3b8bc6267a71ed38a3b62fddcbd2c91",
+                "name": "Size/Icon/Button/M"
+              }
+            }
+          },
+          "S": {
+            "$type": "dimension",
+            "$value": "{Primitive.Size.14}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:768:1242",
+                "key": "fe5b64fc90706829c968a425ff8082876cf51226",
+                "name": "Size/Icon/Button/S"
+              }
+            }
+          }
+        }
+      },
+      "Field": {
+        "Value Tag": {
+          "L": {
+            "$type": "dimension",
+            "$value": "{Primitive.Size.32}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1491:1701",
+                "key": "1c4eb4bc89019bef173943f286cc3d77e8156e8e",
+                "name": "Size/Field/Value Tag/L"
+              }
+            }
+          },
+          "M": {
+            "$type": "dimension",
+            "$value": "{Primitive.Size.24}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1491:1702",
+                "key": "ff2bda8d6891dd0b905c7a888d42b47ddd0de429",
+                "name": "Size/Field/Value Tag/M"
+              }
+            }
+          }
+        }
+      }
+    },
+    "Stroke": {
+      "State": {
+        "Focus": {
+          "$type": "dimension",
+          "$value": "{Primitive.Stroke.200}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1185:2071",
+              "key": "d135de28758c5742ad89abd8b21b2aea5a26f9f6",
+              "name": "Stroke/State/Focus"
+            }
+          }
+        }
+      }
+    }
+  }
+}

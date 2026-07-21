@@ -14,7 +14,7 @@
     "build:tokens": "pnpm --filter @cometal/tokens build",
     "build:react": "pnpm --filter @cometal/react build",
     "build:storybook": "pnpm --filter @cometal/storybook build",
-    "dev": "pnpm --filter @cometal/storybook dev",
+    "dev": "pnpm build:tokens && pnpm --filter @cometal/storybook dev",
     "test": "pnpm test:unit && pnpm test:storybook",
     "test:unit": "pnpm --filter @cometal/react test",
     "test:storybook": "pnpm --filter @cometal/storybook test",

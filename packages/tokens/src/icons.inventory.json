@@ -1,0 +1,24 @@
+{
+  "$description": "Icon library inventory synchronized from Figma DS Core.",
+  "$extensions": {
+    "com.cometal.figma": {
+      "fileKey": "KKNGucImxFAtQLBhPy8tLs",
+      "pageId": "381:25439"
+    }
+  },
+  "totalComponents": 2810,
+  "libraries": [
+    { "name": "Outline", "frameId": "691:9685", "components": 875, "categories": 20 },
+    { "name": "Filled", "frameId": "691:12877", "components": 877, "categories": 19 },
+    { "name": "Feature Icons and Logos", "frameId": "691:15704", "components": 1058, "categories": 9 }
+  ],
+  "replacementMap": {
+    "frameId": "483:657",
+    "highConfidence": 163,
+    "needsVisualReview": 46,
+    "notFound": 25,
+    "policy": "Outline first; Filled only when no Outline form exists."
+  },
+  "codeStatus": "metadata-only",
+  "codeStatusReason": "SVG assets and a React icon API have not been approved or exported yet."
+}

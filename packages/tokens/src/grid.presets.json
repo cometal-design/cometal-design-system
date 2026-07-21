@@ -1,0 +1,19 @@
+{
+  "$description": "Responsive grid presets documented in Figma DS Core.",
+  "$extensions": {
+    "com.cometal.figma": {
+      "fileKey": "KKNGucImxFAtQLBhPy8tLs",
+      "pageId": "1026:3600",
+      "frameId": "1611:2",
+      "implementation": "documentation-only",
+      "note": "No local Figma Grid Styles are defined."
+    }
+  },
+  "presets": [
+    { "name": "Desktop 1440", "viewport": 1440, "columns": 12, "margin": 72, "gutter": 24 },
+    { "name": "Desktop 1280", "viewport": 1280, "columns": 12, "margin": 64, "gutter": 24 },
+    { "name": "Tablet 1024", "viewport": 1024, "columns": 8, "margin": 48, "gutter": 24 },
+    { "name": "Mobile 428", "viewport": 428, "columns": 4, "margin": 16, "gutter": 16 }
+  ],
+  "adaptiveColumnCounts": [12, 8, 6, 4, 3, 2]
+}
