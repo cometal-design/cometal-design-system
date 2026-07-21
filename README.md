@@ -38,5 +38,6 @@ pnpm validate
 - [Источники истины](docs/governance/sources-of-truth.md)
 - [Доступы и владение](docs/governance/access-and-ownership.md)
 - [Настройка GitHub, Vercel и Obsidian](docs/runbooks/account-bootstrap.md)
+- [План настройки на 23 июля 2026](docs/runbooks/plan-2026-07-23.md)
 
 Секреты никогда не хранятся в этом репозитории. Документация содержит только карту доступов и названия записей в командном менеджере паролей.

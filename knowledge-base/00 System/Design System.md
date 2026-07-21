@@ -29,3 +29,4 @@ Design System Lead принимает финальные дизайн-решен
 - [[../05 Processes/Component Distribution]]
 - [[../05 Processes/Mismatch Handling]]
 - [[Access and Ownership]]
+- [[../05 Processes/Plan 2026-07-23]]
