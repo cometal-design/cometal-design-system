@@ -1,0 +1,46 @@
+{
+  "$schema": "./sources.schema.json",
+  "version": 1,
+  "sources": [
+    {
+      "id": "figma",
+      "name": "Figma DS Core",
+      "ownerRole": "Design System Lead",
+      "owns": ["visual composition", "variants", "visual states", "prototype behavior"],
+      "location": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs",
+      "status": "connected"
+    },
+    {
+      "id": "git-specification-registry",
+      "name": "Git specifications and registry",
+      "ownerRole": "Design System Lead",
+      "owns": ["stable IDs", "status", "component specification", "ownership", "source links"],
+      "location": "specifications/; registry/",
+      "status": "local-only"
+    },
+    {
+      "id": "git-implementation",
+      "name": "Git tokens and React implementation",
+      "ownerRole": "Design System Lead with Frontend Lead review",
+      "owns": ["tokens", "React API", "behavior", "types", "accessibility implementation"],
+      "location": "packages/tokens/; packages/react/",
+      "status": "local-only"
+    },
+    {
+      "id": "storybook",
+      "name": "Storybook",
+      "ownerRole": "Design System Lead with Frontend Lead review",
+      "owns": ["rendered states", "implementation documentation", "interaction tests", "accessibility checks", "release preview"],
+      "location": "apps/storybook/; http://localhost:6006",
+      "status": "local-only"
+    },
+    {
+      "id": "obsidian",
+      "name": "Obsidian knowledge base",
+      "ownerRole": "Design System Lead",
+      "owns": ["context", "patterns", "templates", "processes", "decisions", "relationships"],
+      "location": "knowledge-base/",
+      "status": "connected"
+    }
+  ]
+}

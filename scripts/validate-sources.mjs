@@ -5,6 +5,8 @@ import { fileURLToPath } from 'node:url';
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const registryPath = path.join(root, 'registry/components.json');
 const registry = JSON.parse(await readFile(registryPath, 'utf8'));
+const sourcesPath = path.join(root, 'registry/sources.json');
+const sourceRegistry = JSON.parse(await readFile(sourcesPath, 'utf8'));
 const ids = new Set();
 const requiredLinks = ['figma', 'specification', 'source', 'storybook', 'knowledge'];
 const requiredReadyChecks = [
@@ -15,6 +17,26 @@ const requiredReadyChecks = [
   'knowledgeUpdated',
 ];
 const errors = [];
+const expectedSources = new Set([
+  'figma',
+  'git-specification-registry',
+  'git-implementation',
+  'storybook',
+  'obsidian',
+]);
+
+if (sourceRegistry.sources.length !== expectedSources.size) {
+  errors.push(`sources: expected ${expectedSources.size} logical sources, found ${sourceRegistry.sources.length}`);
+}
+
+for (const source of sourceRegistry.sources) {
+  if (!expectedSources.delete(source.id)) errors.push(`sources: unexpected or duplicate source ${source.id}`);
+  if (!source.ownerRole || !source.location || source.owns?.length === 0) {
+    errors.push(`sources: incomplete ownership record for ${source.id}`);
+  }
+}
+
+for (const missingSource of expectedSources) errors.push(`sources: missing ${missingSource}`);
 
 for (const component of registry.components) {
   if (ids.has(component.id)) errors.push(`${component.id}: duplicate component ID`);
@@ -49,5 +71,5 @@ if (errors.length > 0) {
   console.error(['Source validation failed:', ...errors.map((error) => `- ${error}`)].join('\n'));
   process.exitCode = 1;
 } else {
-  console.log(`Source validation passed for ${registry.components.length} component(s).`);
+  console.log(`Source validation passed for 5 logical sources and ${registry.components.length} component(s).`);
 }

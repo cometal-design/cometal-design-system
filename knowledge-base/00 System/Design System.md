@@ -18,6 +18,8 @@ Foundation → Components → Patterns → Templates → Business Processes → 
 
 Источники дополняют друг друга. Компонент не может получить `Ready`, если связанные данные расходятся.
 
+GitHub и Vercel не считаются отдельными источниками истины: GitHub размещает Git, а Vercel публикует Storybook.
+
 ## Владелец
 
 Design System Lead принимает финальные дизайн-решения и явно запускает распространение утверждённого Figma-компонента.
@@ -26,3 +28,4 @@ Design System Lead принимает финальные дизайн-решен
 
 - [[../05 Processes/Component Distribution]]
 - [[../05 Processes/Mismatch Handling]]
+- [[Access and Ownership]]

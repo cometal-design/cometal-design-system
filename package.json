@@ -20,6 +20,7 @@
     "test:storybook": "pnpm --filter @cometal/storybook test",
     "typecheck": "pnpm -r typecheck",
     "validate:sources": "node ./scripts/validate-sources.mjs",
-    "validate": "pnpm validate:sources && pnpm typecheck && pnpm test && pnpm build"
+    "validate:secrets": "node ./scripts/validate-secrets.mjs",
+    "validate": "pnpm validate:sources && pnpm validate:secrets && pnpm typecheck && pnpm test && pnpm build"
   }
 }
