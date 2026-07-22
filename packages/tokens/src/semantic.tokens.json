@@ -1147,16 +1147,16 @@
                 "key": "771f3c738a0c0f91d1e93d832b4e2eb2f2e26b82",
                 "name": "Spacing/Button/L/Inset"
               }
-            },
-            "Icon": {
-              "$type": "dimension",
-              "$value": "{Primitive.Spacing.75}",
-              "$extensions": {
-                "com.cometal.figma": {
-                  "id": "VariableID:780:1326",
-                  "key": "02776f9182883c983f2e506ea433afaa904d1ca2",
-                  "name": "Spacing/Button/L/Inset/Icon"
-                }
+            }
+          },
+          "Inset Icon": {
+            "$type": "dimension",
+            "$value": "{Primitive.Spacing.75}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:780:1326",
+                "key": "02776f9182883c983f2e506ea433afaa904d1ca2",
+                "name": "Spacing/Button/L/Inset/Icon"
               }
             }
           },
@@ -1182,16 +1182,16 @@
                 "key": "37e69bbef25088d2bc0cfcad2688b8d13d7b2456",
                 "name": "Spacing/Button/M/Inset"
               }
-            },
-            "Icon": {
-              "$type": "dimension",
-              "$value": "{Primitive.Spacing.50}",
-              "$extensions": {
-                "com.cometal.figma": {
-                  "id": "VariableID:780:1329",
-                  "key": "aa03d8e526ceebb75ad4cdb91a339d5b59463776",
-                  "name": "Spacing/Button/M/Inset/Icon"
-                }
+            }
+          },
+          "Inset Icon": {
+            "$type": "dimension",
+            "$value": "{Primitive.Spacing.50}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:780:1329",
+                "key": "aa03d8e526ceebb75ad4cdb91a339d5b59463776",
+                "name": "Spacing/Button/M/Inset/Icon"
               }
             }
           },
@@ -1217,16 +1217,16 @@
                 "key": "8d545f7eb77bbbad7b2250b7f5174e1314935570",
                 "name": "Spacing/Button/S/Inset"
               }
-            },
-            "Icon": {
-              "$type": "dimension",
-              "$value": "{Primitive.Spacing.25}",
-              "$extensions": {
-                "com.cometal.figma": {
-                  "id": "VariableID:780:1332",
-                  "key": "c5cc1ae4a95a70aa619718907031c06f30ed5370",
-                  "name": "Spacing/Button/S/Inset/Icon"
-                }
+            }
+          },
+          "Inset Icon": {
+            "$type": "dimension",
+            "$value": "{Primitive.Spacing.25}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:780:1332",
+                "key": "c5cc1ae4a95a70aa619718907031c06f30ed5370",
+                "name": "Spacing/Button/S/Inset/Icon"
               }
             }
           },

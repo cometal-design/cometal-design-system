@@ -1,0 +1,221 @@
+.cometal-button {
+  --cometal-button-container: transparent;
+  --cometal-button-container-hover: transparent;
+  --cometal-button-container-pressed: transparent;
+  --cometal-button-container-disabled: var(--cometal-semantic-color-button-primary-container-disabled);
+  --cometal-button-content: var(--cometal-semantic-color-text-primary);
+  --cometal-button-content-hover: var(--cometal-button-content);
+  --cometal-button-content-pressed: var(--cometal-button-content);
+  --cometal-button-content-disabled: var(--cometal-semantic-color-text-disabled);
+  --cometal-button-height: var(--cometal-semantic-size-button-l);
+  --cometal-button-icon-size: var(--cometal-semantic-size-icon-button-l);
+  --cometal-button-inset: var(--cometal-semantic-spacing-button-l-inset-icon);
+  --cometal-button-icon-inset: var(--cometal-semantic-spacing-button-l-inset-icon);
+  --cometal-button-gap: var(--cometal-semantic-spacing-button-content-l-gap);
+
+  position: relative;
+  display: inline-flex;
+  min-width: var(--cometal-button-height);
+  height: var(--cometal-button-height);
+  margin: 0;
+  padding: 0 var(--cometal-button-inset);
+  align-items: center;
+  justify-content: center;
+  border: 0;
+  border-radius: var(--cometal-semantic-radius-button);
+  background: var(--cometal-button-container);
+  color: var(--cometal-button-content);
+  font-family: 'Grtsk Peta', Arial, sans-serif;
+  font-size: 16px;
+  font-weight: 400;
+  line-height: 20px;
+  letter-spacing: 0;
+  text-align: center;
+  text-decoration: none;
+  white-space: nowrap;
+  cursor: pointer;
+  appearance: none;
+  -webkit-tap-highlight-color: transparent;
+  transition: background-color 120ms ease, color 120ms ease;
+}
+
+.cometal-button:hover:not(:disabled) {
+  background: var(--cometal-button-container-hover);
+  color: var(--cometal-button-content-hover);
+}
+
+.cometal-button:active:not(:disabled) {
+  background: var(--cometal-button-container-pressed);
+  color: var(--cometal-button-content-pressed);
+}
+
+.cometal-button:focus-visible {
+  outline: var(--cometal-semantic-stroke-state-focus) solid var(--cometal-semantic-color-state-focus-ring);
+  outline-offset: 2px;
+}
+
+.cometal-button:disabled {
+  background: var(--cometal-button-container-disabled);
+  color: var(--cometal-button-content-disabled);
+  cursor: not-allowed;
+}
+
+.cometal-button__content {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: var(--cometal-button-gap);
+}
+
+.cometal-button__label {
+  padding-inline: var(--cometal-semantic-spacing-button-content-label-inset);
+  padding-bottom: var(--cometal-semantic-spacing-button-optical-label);
+}
+
+.cometal-button__icon {
+  display: inline-flex;
+  width: var(--cometal-button-icon-size);
+  height: var(--cometal-button-icon-size);
+  flex: 0 0 var(--cometal-button-icon-size);
+  align-items: center;
+  justify-content: center;
+}
+
+.cometal-button__icon > svg,
+.cometal-button__icon > img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cometal-button:not(:has(.cometal-button__label)) {
+  width: var(--cometal-button-height);
+  padding-inline: 0;
+}
+
+.cometal-button:has(.cometal-button__icon) {
+  padding-inline: var(--cometal-button-icon-inset);
+}
+
+.cometal-button[data-loading='true'] .cometal-button__content {
+  opacity: 0;
+}
+
+.cometal-button__loader {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: var(--cometal-button-icon-size);
+  height: var(--cometal-button-icon-size);
+  border: max(1px, calc(var(--cometal-button-icon-size) / 12)) solid currentColor;
+  border-right-color: transparent;
+  border-radius: 50%;
+  transform: translate(-50%, -50%);
+  animation: cometal-button-spin 700ms linear infinite;
+}
+
+.cometal-button[data-size='m'] {
+  --cometal-button-height: var(--cometal-semantic-size-button-m);
+  --cometal-button-icon-size: var(--cometal-semantic-size-icon-button-m);
+  --cometal-button-inset: var(--cometal-semantic-spacing-button-m-inset-icon);
+  --cometal-button-icon-inset: var(--cometal-semantic-spacing-button-m-inset-icon);
+  --cometal-button-gap: var(--cometal-semantic-spacing-button-content-m-gap);
+  font-size: 14px;
+  line-height: 16px;
+  letter-spacing: .0025em;
+}
+
+.cometal-button[data-size='s'] {
+  --cometal-button-height: var(--cometal-semantic-size-button-s);
+  --cometal-button-icon-size: var(--cometal-semantic-size-icon-button-s);
+  --cometal-button-inset: var(--cometal-semantic-spacing-button-s-inset-icon);
+  --cometal-button-icon-inset: var(--cometal-semantic-spacing-button-s-inset-icon);
+  --cometal-button-gap: var(--cometal-semantic-spacing-button-content-s-gap);
+  font-size: 12px;
+  line-height: 16px;
+  letter-spacing: .005em;
+}
+
+.cometal-button[data-variant='primary'] {
+  --cometal-button-container: var(--cometal-semantic-color-button-primary-container-default);
+  --cometal-button-container-hover: var(--cometal-semantic-color-button-primary-container-hover);
+  --cometal-button-container-pressed: var(--cometal-semantic-color-button-primary-container-pressed);
+  --cometal-button-content: var(--cometal-semantic-color-text-inverse);
+}
+
+.cometal-button[data-variant='secondary'] {
+  --cometal-button-container: var(--cometal-semantic-color-button-secondary-container-default);
+  --cometal-button-container-hover: var(--cometal-semantic-color-button-secondary-container-hover);
+  --cometal-button-container-pressed: var(--cometal-semantic-color-button-secondary-container-pressed);
+  --cometal-button-content: var(--cometal-primitive-color-primitive-palette-neutral-800-100);
+}
+
+.cometal-button[data-variant='ghost'] {
+  --cometal-button-container: var(--cometal-semantic-color-button-ghost-container-default);
+  --cometal-button-container-hover: var(--cometal-semantic-color-button-ghost-container-hover);
+  --cometal-button-container-pressed: var(--cometal-semantic-color-button-ghost-container-pressed);
+  --cometal-button-container-disabled: var(--cometal-semantic-color-button-ghost-container-disabled);
+  --cometal-button-content: var(--cometal-semantic-color-text-inverse);
+  --cometal-button-content-disabled: var(--cometal-primitive-color-primitive-palette-neutral-0-40);
+}
+
+.cometal-button[data-variant='link'] {
+  --cometal-button-container: var(--cometal-semantic-color-button-link-container-default);
+  --cometal-button-container-hover: var(--cometal-semantic-color-button-link-container-hover);
+  --cometal-button-container-pressed: var(--cometal-semantic-color-button-link-container-pressed);
+  --cometal-button-container-disabled: var(--cometal-semantic-color-button-link-container-disabled);
+  --cometal-button-content: var(--cometal-primitive-color-primitive-palette-blue-600-100);
+  --cometal-button-content-hover: var(--cometal-primitive-color-primitive-palette-blue-700-100);
+  --cometal-button-content-pressed: var(--cometal-primitive-color-primitive-palette-blue-900-100);
+}
+
+.cometal-button[data-variant='danger'] {
+  --cometal-button-container: var(--cometal-semantic-color-button-danger-container-default);
+  --cometal-button-container-hover: var(--cometal-semantic-color-button-danger-container-hover);
+  --cometal-button-container-pressed: var(--cometal-semantic-color-button-danger-container-pressed);
+  --cometal-button-content: var(--cometal-semantic-color-text-inverse);
+}
+
+.cometal-button[data-variant='success'] {
+  --cometal-button-container: var(--cometal-semantic-color-button-success-container-default);
+  --cometal-button-container-hover: var(--cometal-semantic-color-button-success-container-hover);
+  --cometal-button-container-pressed: var(--cometal-semantic-color-button-success-container-pressed);
+  --cometal-button-content: var(--cometal-semantic-color-text-inverse);
+}
+
+.cometal-button[data-variant='warning'] {
+  --cometal-button-container: var(--cometal-semantic-color-button-warning-container-default);
+  --cometal-button-container-hover: var(--cometal-semantic-color-button-warning-container-hover);
+  --cometal-button-container-pressed: var(--cometal-semantic-color-button-warning-container-pressed);
+  --cometal-button-content: var(--cometal-semantic-color-text-inverse);
+}
+
+.cometal-button[data-variant='inverse'] {
+  --cometal-button-container: var(--cometal-semantic-color-button-inverse-container-default);
+  --cometal-button-container-hover: var(--cometal-semantic-color-button-inverse-container-hover);
+  --cometal-button-container-pressed: var(--cometal-semantic-color-button-inverse-container-pressed);
+  --cometal-button-content: var(--cometal-primitive-color-primitive-palette-neutral-800-100);
+}
+
+.cometal-button[data-variant='inverse-ghost'] {
+  --cometal-button-container: var(--cometal-semantic-color-button-inverse-ghost-container-default);
+  --cometal-button-container-hover: var(--cometal-semantic-color-button-inverse-ghost-container-hover);
+  --cometal-button-container-pressed: var(--cometal-semantic-color-button-inverse-ghost-container-pressed);
+  --cometal-button-container-disabled: var(--cometal-semantic-color-button-inverse-ghost-container-disabled);
+  --cometal-button-content: var(--cometal-primitive-color-primitive-palette-neutral-800-100);
+}
+
+.cometal-button[data-loading='true'] {
+  background: var(--cometal-button-container);
+  color: var(--cometal-button-content);
+  cursor: wait;
+}
+
+@keyframes cometal-button-spin {
+  to { transform: translate(-50%, -50%) rotate(360deg); }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cometal-button { transition: none; }
+  .cometal-button__loader { animation-duration: 1400ms; }
+}

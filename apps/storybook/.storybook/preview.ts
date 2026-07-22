@@ -1,5 +1,6 @@
 import type { Preview } from '@storybook/react-vite';
 import '@cometal/tokens/css';
+import '@cometal/react/styles.css';
 import '../stories/foundation.css';
 
 const preview: Preview = {

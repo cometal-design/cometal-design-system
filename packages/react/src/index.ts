@@ -1,4 +1,2 @@
-/**
- * Public exports are added only for components registered in registry/components.json.
- */
-export {};
+export { Button, buttonSizes, buttonVariants } from './Button/Button';
+export type { ButtonProps, ButtonSize, ButtonVariant } from './Button/Button';
