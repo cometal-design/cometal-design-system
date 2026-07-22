@@ -19,7 +19,7 @@
 | Система | Адрес или расположение | Состояние |
 |---|---|---|
 | Figma DS Core | [DS Core](https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs) | Подключено |
-| Git repository | Локально: корень `cometal-design-system`; удалённый GitHub пока не подключён | Требует настройки |
+| Git repository | [cometal-design/cometal-design-system](https://github.com/cometal-design/cometal-design-system) | Подключено, private |
 | Storybook | `http://localhost:6006`; Production URL в Vercel пока не создан | Работает локально |
 | Obsidian Vault | `knowledge-base/` | Готов локально |
 

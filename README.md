@@ -4,6 +4,8 @@
 
 Репозиторий не привязан к личному GitHub, домену или хостингу. Его можно передать в корпоративный Git с сохранением всей истории.
 
+Remote repository: [cometal-design/cometal-design-system](https://github.com/cometal-design/cometal-design-system) — private.
+
 ## Что находится внутри
 
 - `packages/tokens` — DTCG-токены и их сборка в CSS/JavaScript/JSON.

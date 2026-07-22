@@ -20,3 +20,10 @@
 Полные правила: [Access and ownership](../../docs/governance/access-and-ownership.md).
 
 Порядок настройки: [Account bootstrap](../../docs/runbooks/account-bootstrap.md).
+
+## Текущее состояние
+
+- GitHub Organization: `cometal-design`.
+- Private repository: `cometal-design-system`.
+- Текущий Owner: `dyuminvadim-stack`.
+- Branch protection для private repository недоступна на текущем бесплатном тарифе; до изменения тарифа защита обеспечивается процессом веток и pull requests.

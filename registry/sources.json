@@ -15,16 +15,16 @@
       "name": "Git specifications and registry",
       "ownerRole": "Design System Lead",
       "owns": ["stable IDs", "status", "component specification", "ownership", "source links"],
-      "location": "specifications/; registry/",
-      "status": "local-only"
+      "location": "https://github.com/cometal-design/cometal-design-system/tree/main/specifications; https://github.com/cometal-design/cometal-design-system/tree/main/registry",
+      "status": "connected"
     },
     {
       "id": "git-implementation",
       "name": "Git tokens and React implementation",
       "ownerRole": "Design System Lead with Frontend Lead review",
       "owns": ["tokens", "React API", "behavior", "types", "accessibility implementation"],
-      "location": "packages/tokens/; packages/react/",
-      "status": "local-only"
+      "location": "https://github.com/cometal-design/cometal-design-system/tree/main/packages",
+      "status": "connected"
     },
     {
       "id": "storybook",

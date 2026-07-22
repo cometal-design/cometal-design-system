@@ -17,7 +17,7 @@
 
 | Сервис | Предлагаемое имя | Административный владелец | Где лежит секрет | Статус |
 |---|---|---|---|---|
-| GitHub | организация `cometal-design` или временный личный namespace; repo `cometal-design-system` | Infrastructure Owner + Company Owner | `Cometal DS / GitHub recovery` в Apple Passwords | Не настроено |
+| GitHub | Organization `cometal-design`; private repo `cometal-design-system` | `dyuminvadim-stack`, Organization Owner; Company Owner будет добавлен позже | `Cometal DS / GitHub recovery` в Apple Passwords | Подключено |
 | Vercel | Team/Project `cometal-design-system` | Infrastructure Owner + Company Owner | OAuth; recovery в Apple Passwords | Не настроено |
 | Storybook viewer | Production URL и пароль определяются при деплое | Design System Lead | `Cometal DS / Storybook viewer` в Apple Passwords | Не настроено |
 | Obsidian | Vault `Cometal Design System` → папка `knowledge-base` | Git-доступ определяет доступ к базе | Отдельного секрета нет; Obsidian Sync — только если будет выбран | Локально готово |
@@ -41,6 +41,12 @@
 - GitHub recovery codes;
 - SSH private keys;
 - cookies и экспортированные browser sessions.
+
+## Текущее ограничение GitHub
+
+На бесплатном тарифе GitHub branch protection недоступна для этого приватного репозитория. Репозиторий не переводим в public. До смены тарифа действует процессное правило: рабочие изменения идут через ветку и pull request; прямой push в `main` используется только при первоначальной настройке инфраструктуры.
+
+Доступные настройки уже включены: удаление рабочей ветки после merge, squash/rebase merge; merge commits, Projects и Wiki отключены.
 
 ## Передача компании считается завершённой, когда
 
