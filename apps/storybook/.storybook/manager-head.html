@@ -1,1 +1,8 @@
 <script src="/storybook-ru.js" data-scope="manager"></script>
+<style>
+  /* Keep the navigation typographic: hide Storybook type glyphs, preserve disclosure chevrons. */
+  .sidebar-item[data-nodetype] > a > div > svg[viewBox="0 0 14 14"],
+  .sidebar-item[data-nodetype] > button > div > svg[viewBox="0 0 14 14"] {
+    display: none;
+  }
+</style>

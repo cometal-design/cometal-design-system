@@ -12,9 +12,6 @@ const config: StorybookConfig = {
     name: '@storybook/react-vite',
     options: {},
   },
-  docs: {
-    defaultName: 'Documentation',
-  },
   core: {
     disableTelemetry: true,
     disableWhatsNewNotifications: true,

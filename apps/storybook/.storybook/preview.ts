@@ -22,7 +22,6 @@ const preview: Preview = {
       lang: 'ru',
     },
   },
-  tags: ['autodocs'],
 };
 
 export default preview;

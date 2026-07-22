@@ -158,7 +158,7 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Overview: Story = {
-  name: 'Документация',
+  name: 'Обзор',
   parameters: { layout: 'fullscreen', controls: { disable: true } },
   render: () => <ButtonDocumentation />,
 };
