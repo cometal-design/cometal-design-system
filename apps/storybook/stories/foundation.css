@@ -4,19 +4,19 @@
 :root { font-family: 'Grtsk Peta', Arial, sans-serif; color: #111; background: #f6f7f9; }
 * { box-sizing: border-box; }
 body { margin: 0; }
-.ds-home { position: relative; overflow: hidden; min-height: 100vh; background: #0041a0; color: #f9fafb; }
+.ds-home { position: relative; overflow: hidden; min-height: 100vh; background: #0041a0; color: #f9fafb; font-family: 'SF Pro', 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif; font-kerning: normal; }
 .ds-home__identity { position: absolute; top: 27.75vh; left: 6.25vw; }
-.ds-home__wordmark { display: flex; align-items: center; font-size: clamp(76px, 12.5vw, 200px); line-height: 1; letter-spacing: -.075em; white-space: nowrap; }
+.ds-home__wordmark { display: flex; align-items: center; font-size: clamp(76px, 12.5vw, 200px); line-height: 1; font-weight: 590; letter-spacing: 1px; white-space: nowrap; }
 .ds-home__wordmark > span:first-child { margin-right: .035em; }
 .ds-home__wordmark > i { display: grid; width: .48em; margin-right: .035em; gap: .085em; transform: translateY(.01em); }
 .ds-home__wordmark > i b { display: block; height: .115em; background: #ff0000; transform: skewX(-20deg); }
 .ds-home__wordmark > i b:nth-child(2) { width: 96%; }
-.ds-home__identity h1 { margin: clamp(20px, 2vw, 32px) 0 0; color: #f9fafb; font-size: clamp(28px, 3.5vw, 56px); line-height: 1.15; font-weight: 400; letter-spacing: -.035em; }
+.ds-home__identity h1 { margin: clamp(20px, 2vw, 32px) 0 0; color: #f9fafb; font-size: clamp(28px, 3.5vw, 56px); line-height: 1.142857; font-weight: 400; letter-spacing: 0; }
 .ds-home__footer { position: absolute; right: 6.25vw; bottom: 5.35vh; left: 6.25vw; display: flex; align-items: flex-end; justify-content: space-between; }
 .ds-home__footer > div { display: flex; flex-direction: column; gap: 18px; }
 .ds-home__footer span { color: rgba(249,250,251,.5); font-size: clamp(20px, 2.5vw, 40px); line-height: 1; }
-.ds-home__footer strong { font-size: clamp(28px, 3.5vw, 56px); line-height: 1; font-weight: 400; letter-spacing: -.035em; }
-.ds-home__footer time { padding: .5em .72em; border-radius: 999px; background: rgba(255,255,255,.1); font-size: clamp(28px, 3.5vw, 56px); line-height: 1; }
+.ds-home__footer strong { font-size: clamp(28px, 3.5vw, 56px); line-height: 1.142857; font-weight: 400; letter-spacing: 0; }
+.ds-home__footer time { padding: .5em .72em; border-radius: 999px; background: rgba(255,255,255,.1); font-size: clamp(28px, 3.5vw, 56px); line-height: 1.142857; }
 .ds-page { min-height: 100vh; padding: 64px 72px 120px; background: #f6f7f9; }
 .ds-header { display: flex; justify-content: space-between; align-items: flex-end; gap: 32px; padding-bottom: 48px; border-bottom: 1px solid #d6dee7; }
 .ds-header > div { max-width: 920px; }
