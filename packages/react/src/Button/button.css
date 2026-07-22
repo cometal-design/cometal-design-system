@@ -202,7 +202,7 @@
   --cometal-button-container-hover: var(--cometal-semantic-color-button-inverse-ghost-container-hover);
   --cometal-button-container-pressed: var(--cometal-semantic-color-button-inverse-ghost-container-pressed);
   --cometal-button-container-disabled: var(--cometal-semantic-color-button-inverse-ghost-container-disabled);
-  --cometal-button-content: var(--cometal-primitive-color-primitive-palette-neutral-800-100);
+  --cometal-button-content: var(--cometal-semantic-color-text-inverse);
 }
 
 .cometal-button[data-loading='true'] {

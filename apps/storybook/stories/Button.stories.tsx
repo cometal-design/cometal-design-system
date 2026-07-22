@@ -18,6 +18,18 @@ const variantLabels: Record<ButtonVariant, string> = {
   'inverse-ghost': 'Inverse Ghost',
 };
 
+const documentedButtonVariants: ButtonVariant[] = [
+  'primary',
+  'secondary',
+  'link',
+  'danger',
+  'success',
+  'warning',
+  'ghost',
+  'inverse',
+  'inverse-ghost',
+];
+
 function Arrow() {
   return <span aria-hidden="true">→</span>;
 }
@@ -50,8 +62,8 @@ function ButtonDocumentation() {
       <section className="ds-component-section">
         <div className="ds-component-section__intro"><span>03</span><div><h2>Варианты</h2><p>Девять визуальных ролей совпадают с DS Core. Тёмные варианты показаны на тёмной поверхности.</p></div></div>
         <div className="ds-button-variants">
-          {buttonVariants.map((variant) => (
-            <article key={variant} className={variant === 'ghost' || variant === 'inverse' ? 'dark' : ''}>
+          {documentedButtonVariants.map((variant) => (
+            <article key={variant} className={variant === 'ghost' || variant === 'inverse' || variant === 'inverse-ghost' ? 'dark' : ''}>
               <code>{variantLabels[variant]}</code>
               <Button variant={variant}>Продолжить</Button>
             </article>
