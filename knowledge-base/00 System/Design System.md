@@ -26,6 +26,7 @@ GitHub и Vercel не считаются отдельными источника
 
 - `Theme=light` и `Theme=dark` — версии логотипа для соответствующего фона.
 - `Theme=favicon` — favicon Storybook; SVG-копия хранится в `apps/storybook/public/cometal-favicon.svg`.
+- `Core / cover` — визуальный источник главной страницы Storybook и social preview; PNG-копия для Open Graph хранится в `apps/storybook/public/cometal-storybook-card.png`.
 - Изменение брендового ассета начинается в Figma и затем распространяется в Git, Storybook и этот контекст.
 
 ## Владелец

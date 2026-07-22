@@ -6,8 +6,8 @@ addons.setConfig({
     base: 'light',
     brandTitle: 'Cometal Design System',
     // Figma DS Core / System / Brand / Theme=dark / logotype (node 1655:3822).
-    brandUrl: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs',
+    brandUrl: '/?path=/story/обзор--welcome-page',
     brandImage: '/cometal-logotype.svg',
-    brandTarget: '_blank',
+    brandTarget: '_self',
   }),
 });
