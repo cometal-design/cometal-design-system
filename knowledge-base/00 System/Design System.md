@@ -20,6 +20,14 @@ Foundation → Components → Patterns → Templates → Business Processes → 
 
 GitHub и Vercel не считаются отдельными источниками истины: GitHub размещает Git, а Vercel публикует Storybook.
 
+## Оформление системы
+
+Мастер-источник брендовых ассетов для Storybook и документационных артбордов находится в Figma DS Core на странице `System`, компонент `Brand`.
+
+- `Theme=light` и `Theme=dark` — версии логотипа для соответствующего фона.
+- `Theme=favicon` — favicon Storybook; SVG-копия хранится в `apps/storybook/public/cometal-favicon.svg`.
+- Изменение брендового ассета начинается в Figma и затем распространяется в Git, Storybook и этот контекст.
+
 ## Владелец
 
 Design System Lead принимает финальные дизайн-решения и явно запускает распространение утверждённого Figma-компонента.

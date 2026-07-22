@@ -5,7 +5,7 @@ addons.setConfig({
   theme: create({
     base: 'light',
     brandTitle: 'Cometal Design System',
-    // Figma DS Core / Documentation / Brand / Theme=dark / logotype (node 1655:3822).
+    // Figma DS Core / System / Brand / Theme=dark / logotype (node 1655:3822).
     brandUrl: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs',
     brandImage: '/cometal-logotype.svg',
     brandTarget: '_blank',
