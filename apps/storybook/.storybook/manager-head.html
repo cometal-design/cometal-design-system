@@ -5,4 +5,15 @@
   .sidebar-item[data-nodetype] > button > div > svg[viewBox="0 0 14 14"] {
     display: none;
   }
+
+  /* Removing the type glyph must not collapse the disclosure-control line. */
+  .sidebar-item[data-nodetype] > button > div {
+    height: 20px;
+    margin-top: 0;
+  }
+
+  /* Leaf rows no longer need the now-empty type-icon wrapper. */
+  .sidebar-item[data-nodetype] > a > div:has(> svg[viewBox="0 0 14 14"]) {
+    display: none;
+  }
 </style>
