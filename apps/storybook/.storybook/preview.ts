@@ -4,6 +4,7 @@ import '../stories/foundation.css';
 
 const preview: Preview = {
   parameters: {
+    htmlLang: 'ru',
     a11y: {
       test: 'error',
     },
@@ -15,6 +16,9 @@ const preview: Preview = {
       storySort: {
         order: ['Обзор', 'Foundation', 'Components', 'Patterns', '*'],
       },
+    },
+    docs: {
+      lang: 'ru',
     },
   },
   tags: ['autodocs'],
