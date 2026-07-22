@@ -15,7 +15,7 @@
 
 ## Секреты
 
-В Obsidian и Git не хранятся пароли. Здесь фиксируются только название аккаунта, владелец, ссылка и имя записи в password vault.
+В Obsidian и Git не хранятся пароли. Здесь фиксируются только название аккаунта, владелец, ссылка и имя записи в группе `Cometal Design System` приложения Apple Passwords.
 
 Полные правила: [Access and ownership](../../docs/governance/access-and-ownership.md).
 

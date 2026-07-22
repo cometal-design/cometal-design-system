@@ -42,6 +42,6 @@
 - GitHub хранит удалённый Git-репозиторий, историю и релизы.
 - Vercel собирает Storybook из Git и публикует Preview/Production deployments.
 - Obsidian открывает папку `knowledge-base` как Vault; отдельная облачная учётная запись не обязательна.
-- Менеджер паролей хранит секреты. В Git, Figma, Storybook и Obsidian пароли не записываются.
+- Apple Passwords хранит секреты и recovery-коды. В Git, Figma, Storybook и Obsidian пароли не записываются.
 
 Машиночитаемая версия матрицы: `registry/sources.json`.

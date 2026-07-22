@@ -2,7 +2,7 @@
 
 ## Принцип
 
-Документация хранит **карту доступов**, но не сами пароли, токены, recovery codes и ключи. Секреты хранятся в командном менеджере паролей. Это позволяет передать систему компании, не раскрывая секреты в истории Git.
+Документация хранит **карту доступов**, но не сами пароли, токены, recovery codes и ключи. Сейчас секреты хранятся в Apple Passwords в группе `Cometal Design System`. Это позволяет не раскрывать секреты в истории Git.
 
 ## Роли
 
@@ -17,13 +17,13 @@
 
 | Сервис | Предлагаемое имя | Административный владелец | Где лежит секрет | Статус |
 |---|---|---|---|---|
-| GitHub | организация `cometal-design` или временный личный namespace; repo `cometal-design-system` | Infrastructure Owner + Company Owner | `Cometal DS / GitHub recovery` в password vault | Не настроено |
-| Vercel | Team/Project `cometal-design-system` | Infrastructure Owner + Company Owner | OAuth; recovery в password vault | Не настроено |
-| Storybook viewer | Production URL и пароль определяются при деплое | Design System Lead | `Cometal DS / Storybook viewer` в password vault | Не настроено |
+| GitHub | организация `cometal-design` или временный личный namespace; repo `cometal-design-system` | Infrastructure Owner + Company Owner | `Cometal DS / GitHub recovery` в Apple Passwords | Не настроено |
+| Vercel | Team/Project `cometal-design-system` | Infrastructure Owner + Company Owner | OAuth; recovery в Apple Passwords | Не настроено |
+| Storybook viewer | Production URL и пароль определяются при деплое | Design System Lead | `Cometal DS / Storybook viewer` в Apple Passwords | Не настроено |
 | Obsidian | Vault `Cometal Design System` → папка `knowledge-base` | Git-доступ определяет доступ к базе | Отдельного секрета нет; Obsidian Sync — только если будет выбран | Локально готово |
 | Figma | DS Core `KKNGucImxFAtQLBhPy8tLs` | Design System Lead | Вход управляется Figma | Подключено |
 
-## Что должно храниться в password vault
+## Что должно храниться в Apple Passwords
 
 - recovery codes и резервные методы входа;
 - сервисные токены, если они появятся;
@@ -47,6 +47,6 @@
 1. У компании есть собственный Owner в GitHub и Vercel.
 2. Репозиторий и Vercel Project переданы в корпоративные Team/Organization.
 3. Компания владеет доменом и платёжным профилем, если они используются.
-4. Recovery-данные лежат в корпоративном password vault.
+4. Recovery-данные переданы из Apple Passwords в утверждённое корпоративное хранилище доступов.
 5. Личные токены удалены или отозваны.
 6. Сборка проходит после удаления личного доступа первоначального владельца.
