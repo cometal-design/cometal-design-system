@@ -5,7 +5,7 @@ status: in-review
 platform: web
 framework: react
 figma: "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=835-3693"
-storybook: "https://cometal-design-system-storybook.vercel.app/?path=/story/components-button--overview"
+storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-button--overview"
 ---
 
 # Button

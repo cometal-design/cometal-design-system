@@ -31,7 +31,7 @@
       "name": "Storybook",
       "ownerRole": "Design System Lead with Frontend Lead review",
       "owns": ["rendered states", "implementation documentation", "interaction tests", "accessibility checks", "release preview"],
-      "location": "https://cometal-design-system-storybook.vercel.app; apps/storybook/",
+      "location": "https://cometal-design-system-storybook.vercel.app/storybook/; apps/storybook/",
       "status": "connected"
     },
     {

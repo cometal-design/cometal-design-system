@@ -1,6 +1,10 @@
 node_modules/
 dist/
 storybook-static/
+site-static/
+.next/
+out/
+*.tsbuildinfo
 coverage/
 *.log
 .DS_Store

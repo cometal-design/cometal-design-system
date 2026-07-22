@@ -26,10 +26,10 @@
 2. Импортировать repository `cometal-design-system`.
 3. Настроить:
    - Install command: `pnpm install --frozen-lockfile`
-   - Build command: `pnpm build:storybook`
-   - Output directory: `apps/storybook/storybook-static`
+   - Build command: `pnpm build:site`
+   - Output directory: `apps/storybook/site-static`
    - Production branch: `main`
-4. Проверить Preview deployment из отдельной ветки.
+4. Проверить Preview deployment из отдельной ветки: портал в корне и Storybook по `/storybook/`.
 5. Проверить Production deployment после merge в `main`.
 6. Настроить защиту просмотра. Встроенный общий пароль требует поддерживаемого тарифа Vercel; иначе выбирается отдельный слой авторизации.
 

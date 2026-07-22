@@ -18,15 +18,24 @@ Foundation → Components → Patterns → Templates → Business Processes → 
 
 Источники дополняют друг друга. Компонент не может получить `Ready`, если связанные данные расходятся.
 
-GitHub и Vercel не считаются отдельными источниками истины: GitHub размещает Git, а Vercel публикует Storybook.
+GitHub и Vercel не считаются отдельными источниками истины: GitHub размещает Git, а Vercel публикует документационный портал и Storybook.
+
+## Портал дизайн-системы
+
+Портал на Next.js является единой точкой входа в систему и собирает информацию из существующих источников истины. Он не становится шестым источником и не хранит отдельную ручную копию статусов компонентов.
+
+- Корень сайта — документация, Foundation, Components, Patterns, Templates и Releases.
+- `/storybook/` — технический Playground со states, Controls, accessibility и тестами.
+- Components Overview строится из `registry/components.json`.
+- Документационные страницы используют реальный пакет `@cometal/react`.
 
 ## Оформление системы
 
 Мастер-источник брендовых ассетов для Storybook и документационных артбордов находится в Figma DS Core на странице `System`, компонент `Brand`.
 
 - `Theme=light` и `Theme=dark` — версии логотипа для соответствующего фона.
-- `Theme=favicon` — favicon Storybook; SVG-копия хранится в `apps/storybook/public/cometal-favicon.svg`.
-- `Core / cover` — визуальный источник главной страницы Storybook и social preview; PNG-копия для Open Graph хранится в `apps/storybook/public/cometal-storybook-card.png`.
+- `Theme=favicon` — favicon портала и Storybook; SVG-копии хранятся в `apps/docs/public` и `apps/storybook/public`.
+- `Core / cover` — визуальный источник social preview; PNG-копии хранятся рядом с публичными ассетами приложений.
 - Изменение брендового ассета начинается в Figma и затем распространяется в Git, Storybook и этот контекст.
 
 ## Владелец

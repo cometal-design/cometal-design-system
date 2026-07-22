@@ -10,11 +10,14 @@
     "node": ">=22"
   },
   "scripts": {
-    "build": "pnpm build:tokens && pnpm build:react && pnpm build:storybook",
+    "build": "pnpm build:tokens && pnpm build:react && pnpm build:storybook && pnpm build:docs",
     "build:tokens": "pnpm --filter @cometal/tokens build",
     "build:react": "pnpm --filter @cometal/react build",
     "build:storybook": "pnpm --filter @cometal/storybook build",
-    "dev": "pnpm build:tokens && pnpm --filter @cometal/storybook dev",
+    "build:docs": "pnpm --filter @cometal/docs build",
+    "build:site": "pnpm build && node ./scripts/assemble-site.mjs",
+    "dev": "pnpm build:tokens && pnpm build:react && pnpm --filter @cometal/docs dev",
+    "dev:storybook": "pnpm build:tokens && pnpm build:react && pnpm --filter @cometal/storybook dev",
     "test": "pnpm test:unit && pnpm test:storybook",
     "test:unit": "pnpm --filter @cometal/react test",
     "test:storybook": "pnpm --filter @cometal/storybook test",

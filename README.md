@@ -10,7 +10,8 @@ Remote repository: [cometal-design/cometal-design-system](https://github.com/com
 
 - `packages/tokens` — DTCG-токены и их сборка в CSS/JavaScript/JSON.
 - `packages/react` — типизированная React-библиотека `@cometal/react`.
-- `apps/storybook` — документация, состояния и проверки компонентов.
+- `apps/docs` — документационный портал на Next.js + MDX.
+- `apps/storybook` — технический Playground, состояния и проверки компонентов.
 - `specifications` — спецификации компонентов.
 - `registry` — ID, статусы, версии и ссылки.
 - `knowledge-base` — Obsidian Vault с контекстом, решениями и правилами.
@@ -29,7 +30,15 @@ pnpm dev
 pnpm validate
 ```
 
-Команда проверяет связи реестра, типы, unit- и browser-тесты, сборку пакетов и статического Storybook.
+Команда проверяет связи реестра, типы, unit- и browser-тесты, сборку пакетов, портала и статического Storybook.
+
+Единая production-сборка:
+
+```bash
+pnpm build:site
+```
+
+Она публикует портал в корне сайта и Storybook по `/storybook/`.
 
 ## Главное правило
 

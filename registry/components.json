@@ -12,7 +12,7 @@
         "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=835-3693",
         "specification": "specifications/components/button.md",
         "source": "packages/react/src/Button/Button.tsx",
-        "storybook": "https://cometal-design-system-storybook.vercel.app/?path=/story/components-button--overview",
+        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-button--overview",
         "knowledge": "knowledge-base/02 Components/Button.md"
       },
       "checks": {

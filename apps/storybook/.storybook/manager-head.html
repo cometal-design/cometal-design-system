@@ -1,18 +1,18 @@
-<script src="/storybook-ru.js" data-scope="manager"></script>
+<script src="./storybook-ru.js" data-scope="manager"></script>
 <script>
   if (!new URLSearchParams(window.location.search).has('path')) {
-    window.history.replaceState(null, '', '/?path=/story/обзор--welcome-page');
+    window.history.replaceState(null, '', `${window.location.pathname}?path=/story/обзор--welcome-page`);
   }
 </script>
 <title>Cometal Design System — Storybook</title>
 <meta name="description" content="Компоненты, токены, состояния, React API и правила использования дизайн-системы Cometal." />
 <meta name="theme-color" content="#0041A0" />
-<link rel="canonical" href="https://cometal-design-system-storybook.vercel.app/" />
+<link rel="canonical" href="https://cometal-design-system-storybook.vercel.app/storybook/" />
 <meta property="og:type" content="website" />
 <meta property="og:locale" content="ru_RU" />
 <meta property="og:title" content="Cometal Design System" />
 <meta property="og:description" content="Компоненты, токены, состояния, React API и правила использования дизайн-системы Cometal." />
-<meta property="og:url" content="https://cometal-design-system-storybook.vercel.app/" />
+<meta property="og:url" content="https://cometal-design-system-storybook.vercel.app/storybook/" />
 <meta property="og:image" content="https://cometal-design-system-storybook.vercel.app/cometal-storybook-card.png" />
 <meta property="og:image:width" content="1600" />
 <meta property="og:image:height" content="900" />
@@ -22,7 +22,7 @@
 <meta name="twitter:description" content="Компоненты, токены, состояния, React API и правила использования дизайн-системы Cometal." />
 <meta name="twitter:image" content="https://cometal-design-system-storybook.vercel.app/cometal-storybook-card.png" />
 <!-- Figma DS Core / System / Brand / Theme=favicon (node 1655:6179). -->
-<link rel="icon" type="image/svg+xml" href="/cometal-favicon.svg" />
+<link rel="icon" type="image/svg+xml" href="./cometal-favicon.svg" />
 <style>
   /* Keep the navigation typographic: hide Storybook type glyphs, preserve disclosure chevrons. */
   .sidebar-item[data-nodetype] > a > div > svg[viewBox="0 0 14 14"],
