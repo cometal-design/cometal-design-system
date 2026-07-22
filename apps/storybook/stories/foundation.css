@@ -70,6 +70,18 @@ body { margin: 0; }
 .ds-empty strong { font-size: 24px; }.ds-empty p { margin: 12px auto 0; max-width: 560px; color: #667085; }
 .ds-overview { max-width: none; }.ds-overview > h1 { margin-top: 16px; }.ds-overview .ds-lead { max-width: 720px; }
 
+.ds-release-page { min-height: 100vh; padding: 8px 8px 160px; background: #fff; color: #111; }
+.ds-release-hero { display: flex; min-height: 240px; padding: 48px 72px; align-items: flex-end; justify-content: space-between; gap: 48px; border-radius: 12px; background: #0041a0; color: #fff; }
+.ds-release-hero > div { max-width: 980px; }.ds-release-hero h1 { margin: 0; font-size: 40px; line-height: 48px; font-weight: 500; letter-spacing: -.03em; }.ds-release-hero p { margin: 12px 0 0; font-size: 16px; line-height: 24px; }
+.ds-release-hero a { flex: 0 0 auto; padding: 12px 16px; border: 1px solid rgba(255,255,255,.55); border-radius: 8px; color: #fff; font-size: 13px; text-decoration: none; }.ds-release-hero a:hover { background: rgba(255,255,255,.1); }
+.ds-release-source { display: flex; margin: 32px 72px 0; justify-content: space-between; gap: 24px; color: #667085; font-size: 12px; line-height: 18px; }
+.ds-release-list { margin: 88px 72px 0; }
+.ds-release { padding-bottom: 112px; }.ds-release + .ds-release { padding-top: 112px; border-top: 1px solid #d6dee7; }
+.ds-release__header { display: flex; align-items: flex-start; justify-content: space-between; gap: 32px; }.ds-release__header > div { max-width: 1120px; }.ds-release__header h2 { margin: 0; font-size: 24px; line-height: 32px; font-weight: 500; }.ds-release__header h2 span { color: #0041a0; }.ds-release__header p { margin: 12px 0 0; color: #667085; font-size: 14px; line-height: 22px; }
+.ds-release__status { flex: 0 0 auto; padding: 7px 10px; border-radius: 6px; background: #eaf7e4; color: #287a18; font-size: 12px; line-height: 16px; }
+.ds-release__sections { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 56px 64px; margin-top: 64px; }
+.ds-release__sections section { min-width: 0; }.ds-release__sections h3 { margin: 0 0 20px; padding-bottom: 16px; border-bottom: 1px solid #d6dee7; font-size: 18px; line-height: 24px; font-weight: 500; }.ds-release__sections ul { margin: 0; padding: 0; list-style: none; }.ds-release__sections li { position: relative; margin-top: 10px; padding-left: 18px; color: #4b5563; font-size: 14px; line-height: 21px; }.ds-release__sections li::before { position: absolute; top: 0; left: 0; content: '—'; color: #9fa8b3; }
+
 .ds-component-page { min-height: 100vh; padding: 8px 8px 120px; background: #fff; color: var(--cometal-semantic-color-text-primary); }
 .ds-component-hero { display: flex; min-height: 240px; padding: 48px 72px; align-items: flex-end; justify-content: space-between; gap: 48px; border-radius: var(--cometal-semantic-radius-documentation-header); background: var(--cometal-semantic-color-surface-brand); color: var(--cometal-semantic-color-text-inverse); }
 .ds-component-hero > div { max-width: 960px; }
@@ -114,5 +126,6 @@ body { margin: 0; }
   .ds-home__footer time { align-self: flex-end; }
   .ds-page { padding: 40px 24px 80px; }.ds-header { align-items: flex-start; flex-direction: column; }.ds-page h1 { font-size: 36px; line-height: 44px; }
   .ds-type-list article { grid-template-columns: 1fr; gap: 16px; }.ds-grid-presets, .ds-status-grid { grid-template-columns: 1fr 1fr; }.ds-review-grid { grid-template-columns: 1fr; }
+  .ds-release-hero { min-height: 220px; padding: 40px 32px; align-items: flex-start; flex-direction: column; }.ds-release-source { margin: 24px 24px 0; flex-direction: column; gap: 4px; }.ds-release-list { margin: 64px 24px 0; }.ds-release__header { flex-direction: column; }.ds-release__sections { grid-template-columns: 1fr; }.ds-release + .ds-release { padding-top: 80px; }
   .ds-component-hero { align-items: flex-start; flex-direction: column; padding: 40px 32px; }.ds-component-section, .ds-review-note { margin-right: 24px; margin-left: 24px; }.ds-button-variants, .ds-button-state-grid, .ds-guidance-grid { grid-template-columns: 1fr; }.ds-button-size-table article { grid-template-columns: 80px 1fr; padding: 24px 0; }.ds-rule-list article, .ds-api-table article { grid-template-columns: 1fr; gap: 8px; }
 }

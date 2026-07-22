@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { releases, releasesSource } from './releases.generated';
 
 function Welcome() {
   return (
@@ -40,6 +41,50 @@ function SetupStatus() {
   );
 }
 
+function Releases() {
+  return (
+    <main className="ds-release-page">
+      <header className="ds-release-hero">
+        <div>
+          <h1>Релизы</h1>
+          <p>История изменений, архитектурных решений и публичных выпусков дизайн-системы Cometal.</p>
+        </div>
+        <a href={releasesSource.url} target="_blank" rel="noreferrer">Открыть источник в Figma</a>
+      </header>
+
+      <div className="ds-release-source" aria-label="Источник данных">
+        <span>Источник: {releasesSource.label}</span>
+        <span>Синхронизировано: {releasesSource.syncedAt}</span>
+      </div>
+
+      <div className="ds-release-list">
+        {releases.map((release) => (
+          <article className="ds-release" key={release.version}>
+            <header className="ds-release__header">
+              <div>
+                <h2><span>{release.version}</span> — {release.title}</h2>
+                <p>{release.description}</p>
+              </div>
+              <span className="ds-release__status">{release.status}</span>
+            </header>
+
+            <div className="ds-release__sections">
+              {release.sections.map((section) => (
+                <section key={section.title}>
+                  <h3>{section.title}</h3>
+                  <ul>
+                    {section.changes.map((change) => <li key={change}>{change}</li>)}
+                  </ul>
+                </section>
+              ))}
+            </div>
+          </article>
+        ))}
+      </div>
+    </main>
+  );
+}
+
 const meta = {
   title: 'Обзор',
   component: Welcome,
@@ -62,4 +107,13 @@ export const WelcomePage: Story = {
 export const FoundationSynchronized: Story = {
   name: 'Состояние системы',
   render: () => <SetupStatus />,
+};
+
+export const ReleasesPage: Story = {
+  name: 'Релизы',
+  render: () => <Releases />,
+  parameters: {
+    controls: { disable: true },
+    options: { showPanel: false },
+  },
 };
