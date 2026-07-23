@@ -126,8 +126,8 @@ function PrimitiveColorsPage() {
       {[...families].map(([family, tokens]) => (
         <section className="ds-section" key={family}>
           <h2>{family} <span>{tokens.length}</span></h2>
-          <div className="ds-color-table">
-            {tokens.map((token) => <article key={token.name}><i style={{ background: cssValue(token.value) }} /><code>{token.name}</code><span>{cssValue(token.value)}</span></article>)}
+          <div className="ds-color-table" role="table" aria-label={`${family}: примитивные цвета`}>
+            {tokens.map((token) => <div role="row" key={token.name}><i role="cell" aria-label={`Preview: ${cssValue(token.value)}`} style={{ background: cssValue(token.value) }} /><code role="cell">{token.name}</code><span role="cell">{cssValue(token.value)}</span></div>)}
           </div>
         </section>
       ))}
@@ -144,9 +144,9 @@ function SemanticColorsPage() {
       {[...groups].map(([group, tokens]) => (
         <section className="ds-section" key={group}>
           <h2>{group} <span>{tokens.length}</span></h2>
-          <div className="ds-semantic-table">
-            <div className="ds-table-head"><span>Роль</span><span>Preview</span><span>Alias</span><span>Resolved</span></div>
-            {tokens.map((token) => <article key={token.name}><code>{token.name}</code><i style={{ background: cssValue(token.value) }} /><span>{aliasName(token.value)}</span><strong>{cssValue(token.value)}</strong></article>)}
+          <div className="ds-semantic-table" role="table" aria-label={`${group}: семантические цвета`}>
+            <div className="ds-table-head" role="row"><span role="columnheader">Роль</span><span role="columnheader">Preview</span><span role="columnheader">Alias</span><span role="columnheader">Resolved</span></div>
+            {tokens.map((token) => <div role="row" key={token.name}><code role="cell">{token.name}</code><i role="cell" aria-label={`Preview: ${cssValue(token.value)}`} style={{ background: cssValue(token.value) }} /><span role="cell">{aliasName(token.value)}</span><strong role="cell">{cssValue(token.value)}</strong></div>)}
           </div>
         </section>
       ))}
@@ -170,8 +170,8 @@ function MetricPage({ kind, title, nodeId }: { kind: 'Spacing' | 'Size' | 'Radiu
   return (
     <main className="ds-page">
       <PageHeader eyebrow={`FOUNDATION / ${kind.toUpperCase()}`} title={title} description={`Primitive задаёт шкалу. Semantic фиксирует назначение и хранит alias. В каталоге показаны все ${primitive.length + semantic.length} значения из Figma.`} nodeId={nodeId} />
-      <section className="ds-section"><h2>Primitive <span>{primitive.length}</span></h2><div className="ds-metric-table">{primitive.map((token) => <article key={token.name}><code>{token.name}</code><div><i style={{width: `${Math.max(1, numericValue(token.value))}px`, borderRadius: kind === 'Radius' ? cssValue(token.value) : 0}} /></div><strong>{cssValue(token.value)}</strong></article>)}</div></section>
-      <section className="ds-section"><h2>Semantic <span>{semantic.length}</span></h2><div className="ds-alias-table">{semantic.map((token) => <article key={token.name}><code>{token.name}</code><span>{aliasName(token.value)}</span><strong>{cssValue(token.value)}</strong></article>)}</div></section>
+      <section className="ds-section"><h2>Primitive <span>{primitive.length}</span></h2><div className="ds-metric-table" role="table" aria-label={`${title}: primitive`}><div className="ds-table-head ds-table-head--metric" role="row"><span role="columnheader">Токен</span><span role="columnheader">Preview</span><span role="columnheader">Значение</span></div>{primitive.map((token) => <div role="row" key={token.name}><code role="cell">{token.name}</code><div role="cell"><i style={{width: `${Math.max(1, numericValue(token.value))}px`, borderRadius: kind === 'Radius' ? cssValue(token.value) : 0}} /></div><strong role="cell">{cssValue(token.value)}</strong></div>)}</div></section>
+      <section className="ds-section"><h2>Semantic <span>{semantic.length}</span></h2><div className="ds-alias-table" role="table" aria-label={`${title}: semantic`}><div className="ds-table-head ds-table-head--metric" role="row"><span role="columnheader">Роль</span><span role="columnheader">Alias</span><span role="columnheader">Resolved</span></div>{semantic.map((token) => <div role="row" key={token.name}><code role="cell">{token.name}</code><span role="cell">{aliasName(token.value)}</span><strong role="cell">{cssValue(token.value)}</strong></div>)}</div></section>
     </main>
   );
 }

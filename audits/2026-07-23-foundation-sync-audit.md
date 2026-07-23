@@ -31,6 +31,9 @@ stroke, responsive grid, icons, shadows/effects и инженерные мета
 - Grid exposes viewport, columns, margins and gutters for all presets.
 - Engineering passport records collections, modes, aliases, scopes, code syntax and local styles.
 - Documentation portal acts as the readable index; Storybook remains the complete technical catalog and Playground.
+- Catalog rows expose table, row, column-header and cell semantics to assistive technology.
+- Foundation documentation styling consumes the published token variables instead of maintaining a parallel raw-color palette.
+- Portal navigation exposes Radius and Stroke as separate technical destinations.
 - Conflicting token/group paths use DTCG `$root`, preserving both the base token and its child token.
 - Semantic token source now contains all 132 Figma semantic variables.
 
@@ -62,8 +65,12 @@ Design System Lead aligns the page and the variable collection.
 - Documentation static build: passed.
 - Source validation: 5 logical sources and 9 registered components passed.
 - Secret validation: passed.
+- Independent post-deployment Visual QA covered all 11 Foundation stories at
+  1440, 768 and 390 px. The three implementation defects found in that pass
+  (table semantics, raw documentation colors and the missing Stroke link) were
+  corrected and the full validation suite passed again.
 
 ## Completion rule
 
-Foundation can be marked fully matched only after the two Figma page conflicts
-are resolved and the post-deployment Visual QA pass reports no new defects.
+Foundation implementation and documentation are verified. Foundation can be
+marked fully matched only after the two Figma page conflicts are resolved.
