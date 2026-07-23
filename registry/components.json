@@ -16,7 +16,7 @@
         "knowledge": "knowledge-base/02 Components/Button.md"
       },
       "checks": {
-        "visualMatch": false,
+        "visualMatch": true,
         "specificationMatch": true,
         "testsPassed": true,
         "accessibilityPassed": true,
