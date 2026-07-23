@@ -96,19 +96,18 @@
   border: 1px solid var(--cometal-semantic-color-border-default);
   border-radius: var(--cometal-primitive-radius-100);
   background: var(--cometal-semantic-color-surface-canvas);
-  box-shadow: 0 12px 32px rgb(16 24 40 / 12%);
 }
 .cometal-field__listbox[data-size='m'] { height: 248px; }
 .cometal-field__option {
   display: flex;
-  width: 100%;
+  width: calc(100% + 2px);
   min-height: 48px;
   padding: 0 var(--cometal-primitive-spacing-100);
   flex: 0 0 48px;
   align-items: center;
   justify-content: space-between;
   border: 0;
-  border-radius: var(--cometal-primitive-radius-50);
+  border-radius: var(--cometal-primitive-radius-100);
   background: transparent;
   color: var(--cometal-semantic-color-text-primary);
   font-family: inherit;
@@ -122,9 +121,7 @@
 .cometal-field__option:hover { background: var(--cometal-semantic-color-surface-subtle); }
 .cometal-field__option[data-active] { background: var(--cometal-semantic-color-surface-subtle); }
 .cometal-field__option[data-selected] { background: var(--cometal-primitive-color-primitive-palette-blue-100-40); color: var(--cometal-primitive-color-primitive-palette-blue-700-100); }
-.cometal-field__option:disabled { color: var(--cometal-semantic-color-text-disabled); cursor: not-allowed; }
-.cometal-field__option:focus-visible { outline: var(--cometal-semantic-stroke-state-focus) solid var(--cometal-semantic-color-state-focus-ring); outline-offset: -2px; }
-.cometal-field__option-check { font-size: var(--cometal-typography-body-m-default-font-size); }
+.cometal-field__option[aria-disabled='true'] { color: var(--cometal-semantic-color-text-disabled); cursor: not-allowed; }
 .cometal-field__listbox[data-size='m'] .cometal-field__option { min-height: 40px; padding-inline: var(--cometal-primitive-spacing-75); flex-basis: 40px; font-size: var(--cometal-typography-body-s-default-font-size); line-height: var(--cometal-typography-body-s-default-line-height); }
 .cometal-field__control--textarea { height: calc((var(--cometal-primitive-size-44) + var(--cometal-primitive-size-4)) * 3); padding-block: var(--cometal-primitive-spacing-75); align-items: stretch; }
 .cometal-field[data-size='m'] .cometal-field__control--textarea { height: calc(var(--cometal-primitive-size-40) * 3); padding-block: 10px; }
@@ -147,7 +144,7 @@
 .cometal-field[data-size='m'] .cometal-field__tag-remove { width: 12px; height: 12px; flex-basis: 12px; }
 .cometal-field-read__label { color: var(--cometal-primitive-color-primitive-palette-neutral-800-100); font-size: var(--cometal-typography-caption-label-label-font-size); font-weight: var(--cometal-typography-caption-label-label-font-weight); line-height: var(--cometal-typography-caption-label-label-line-height); letter-spacing: var(--cometal-typography-caption-label-label-letter-spacing); }
 .cometal-field-read__value { min-height: 24px; color: var(--cometal-semantic-color-text-primary); font-size: var(--cometal-typography-body-m-default-font-size); font-weight: var(--cometal-typography-body-m-default-font-weight); line-height: var(--cometal-typography-body-m-default-line-height); letter-spacing: var(--cometal-typography-body-m-default-letter-spacing); white-space: nowrap; }
-.cometal-field-read { min-height: 80px; gap: var(--cometal-semantic-spacing-input-label-gap); }
-.cometal-field-read[data-multiline] .cometal-field-read__value { white-space: normal; }
+.cometal-field-read { height: 80px; min-height: 80px; gap: var(--cometal-semantic-spacing-input-label-gap); }
+.cometal-field-read[data-multiline] .cometal-field-read__value { min-height: 48px; white-space: normal; }
 
 @media (prefers-reduced-motion: reduce) { .cometal-field__control { transition: none; } }

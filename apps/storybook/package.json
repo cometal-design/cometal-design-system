@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "storybook dev --port 6006 --no-open",
     "build": "storybook build",
-    "test": "vitest run --project storybook",
+    "test": "pnpm --dir ../.. build:tokens && pnpm --dir ../.. build:react && vitest run --project storybook",
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {

@@ -5,24 +5,24 @@ import { Combobox, MultiSelect, Select, TextArea, TextField, fieldSizes } from '
 
 const FIGMA_URL = 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1096-42';
 const options = [
-  { value: 'active', label: 'Активный' },
   { value: 'draft', label: 'Черновик' },
   { value: 'approval', label: 'На согласовании' },
-  { value: 'archived', label: 'Архивный' },
-  { value: 'blocked', label: 'Заблокированный', disabled: true },
+  { value: 'active', label: 'Активный' },
+  { value: 'completed', label: 'Завершён' },
+  { value: 'archive', label: 'Архив', disabled: true },
 ];
 const contractorOptions = [
   { value: 'severstal', label: 'Северсталь' },
   { value: 'nlmk', label: 'НЛМК' },
   { value: 'mmk', label: 'ММК' },
   { value: 'evraz', label: 'Евраз' },
-  { value: 'nornickel', label: 'Норникель' },
+  { value: 'nornickel', label: 'Норникель', disabled: true },
 ];
 
 function SelectInteractionExample() {
   const [value, setValue] = useState('');
   return (
-    <div style={{ width: 480 }}>
+    <div style={{ width: '100%', maxWidth: 480 }}>
       <Select label="Статус" options={options} value={value} onValueChange={setValue} />
       <output aria-live="polite">Выбрано: {value || '—'}</output>
     </div>
@@ -32,9 +32,19 @@ function SelectInteractionExample() {
 function MultiSelectInteractionExample() {
   const [values, setValues] = useState<string[]>([]);
   return (
-    <div style={{ width: 480 }}>
+    <div style={{ width: '100%', maxWidth: 480 }}>
       <MultiSelect label="Контрагенты" selectedValues={values} options={contractorOptions} onSelectedValuesChange={setValues} />
       <output aria-live="polite">Выбрано: {values.join(', ') || '—'}</output>
+    </div>
+  );
+}
+
+function ComboboxInteractionExample() {
+  const [value, setValue] = useState('');
+  return (
+    <div style={{ width: '100%', maxWidth: 480 }}>
+      <Combobox label="Контрагент" placeholder="Найдите значение" options={contractorOptions} onOptionSelect={setValue} />
+      <output aria-live="polite">Выбрано: {value || '—'}</output>
     </div>
   );
 }
@@ -45,7 +55,7 @@ function FieldsDocumentation() {
       <header className="ds-component-hero"><div><span className="ds-eyebrow">COMPONENT GROUP · WEB · IN REVIEW</span><h1>Fields</h1><p>Пять публичных компонентов. Общая визуальная оболочка не объединяет разные browser semantics в один универсальный API.</p></div><a href={FIGMA_URL} target="_blank" rel="noreferrer">Открыть Fields в Figma ↗</a></header>
       <section className="ds-component-section"><div className="ds-component-section__intro"><span>01</span><div><h2>Состав family</h2><p>Edit и Read показаны рядом. Read полностью убирает интерактивную оболочку.</p></div></div><div className="ds-field-family">
         <article><header><code>TextField</code><span>input</span></header><div><TextField label="Название поля" placeholder="Введите значение" helperText="Подсказка или описание" /><TextField label="Название поля" mode="read" readValue="ООО Северсталь" /></div></article>
-        <article><header><code>TextArea</code><span>textarea</span></header><div><TextArea label="Комментарий" placeholder="Введите комментарий" rows={4} /><TextArea label="Комментарий" mode="read" readValue="Условия поставки и оплаты." /></div></article>
+        <article><header><code>TextArea</code><span>textarea</span></header><div><TextArea label="Комментарий" placeholder="Введите комментарий" rows={4} /><TextArea label="Комментарий" mode="read" readValue={<>Условия поставки согласованы.<br />Оплата в течение 10 дней.</>} /></div></article>
         <article><header><code>Select</code><span>select</span></header><div><Select label="Статус" options={options} defaultValue="" /><Select label="Статус" options={options} mode="read" readValue="Активный" /></div></article>
         <article><header><code>Combobox</code><span>input + listbox pattern</span></header><div><Combobox label="Контрагент" placeholder="Найдите значение" /><Combobox label="Контрагент" mode="read" readValue="ООО Северсталь" /></div></article>
         <article><header><code>MultiSelect</code><span>button + listbox pattern</span></header><div><MultiSelect label="Контрагенты" selectedValues={['Северсталь', 'НЛМК', 'ММК']} /><MultiSelect label="Контрагенты" selectedValues={['Северсталь', 'НЛМК', 'ММК']} mode="read" /></div></article>
@@ -76,27 +86,28 @@ export const TextFieldPlayground: Story = { name: 'Text Field', play: async ({ c
 export const TextAreaPlayground: Story = { name: 'Text Area', render: () => <TextArea label="Комментарий" placeholder="Введите комментарий" rows={4} />, play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('textbox', { name: 'Комментарий' })).toBeInTheDocument(); } };
 export const SelectPlayground: Story = { name: 'Select', render: () => <Select label="Статус" options={options} defaultValue="" />, play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('combobox', { name: 'Статус' })).toHaveAttribute('aria-haspopup', 'listbox'); } };
 export const ComboboxPlayground: Story = { name: 'Combobox', render: () => <Combobox label="Контрагент" placeholder="Найдите значение" />, play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('combobox', { name: 'Контрагент' })).toHaveAttribute('aria-expanded', 'false'); } };
-export const MultiSelectPlayground: Story = { name: 'Multi Select', render: () => <MultiSelect label="Контрагенты" selectedValues={['Северсталь','НЛМК','ММК']} />, play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('button', { name: /Контрагенты/ })).toHaveAttribute('aria-haspopup', 'listbox'); } };
+export const MultiSelectPlayground: Story = { name: 'Multi Select', render: () => <MultiSelect label="Контрагенты" selectedValues={['Северсталь','НЛМК','ММК']} />, play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('combobox', { name: /Контрагенты/ })).toHaveAttribute('aria-haspopup', 'listbox'); } };
 export const SelectActive: Story = {
   name: 'Select · Active Listbox',
   parameters: { controls: { disable: true } },
-  render: () => <div style={{ width: 480 }}><Select label="Статус" options={options} defaultValue="active" expanded /></div>,
+  render: () => <div style={{ width: '100%', maxWidth: 480 }}><Select label="Статус" options={options} defaultValue="active" expanded /></div>,
   play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('listbox')).toBeInTheDocument(); },
 };
 export const ComboboxActive: Story = {
   name: 'Combobox · Active Listbox',
   parameters: { controls: { disable: true } },
-  render: () => <div style={{ width: 480 }}><Combobox label="Контрагент" placeholder="Найдите значение" options={contractorOptions} expanded /></div>,
+  render: () => <div style={{ width: '100%', maxWidth: 480 }}><Combobox label="Контрагент" placeholder="Найдите значение" options={contractorOptions} defaultValue="НЛМК" expanded /></div>,
   play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('listbox')).toBeInTheDocument(); },
 };
 export const MultiSelectActive: Story = {
   name: 'Multi Select · Active Listbox',
   parameters: { controls: { disable: true } },
-  render: () => <div style={{ width: 480 }}><MultiSelect label="Контрагенты" selectedValues={['severstal', 'nlmk']} options={contractorOptions} expanded /></div>,
+  render: () => <div style={{ width: '100%', maxWidth: 480 }}><MultiSelect label="Контрагенты" selectedValues={['severstal', 'mmk']} options={contractorOptions} expanded /></div>,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByRole('listbox')).toHaveAttribute('aria-multiselectable', 'true');
     await expect(canvas.getByRole('option', { name: /Северсталь/ })).toHaveAttribute('aria-selected', 'true');
+    await expect(canvas.getByRole('option', { name: /ММК/ })).toHaveAttribute('aria-selected', 'true');
   },
 };
 export const SelectInteraction: Story = {
@@ -108,8 +119,21 @@ export const SelectInteraction: Story = {
     const trigger = canvas.getByRole('combobox', { name: 'Статус' });
     trigger.focus();
     await userEvent.keyboard('{ArrowDown}{ArrowDown}{Enter}');
-    await expect(canvas.getByText('Выбрано: draft')).toBeInTheDocument();
+    await expect(canvas.getByText('Выбрано: approval')).toBeInTheDocument();
     await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+  },
+};
+export const ComboboxInteraction: Story = {
+  name: 'Combobox · Keyboard & selection',
+  parameters: { controls: { disable: true } },
+  render: () => <ComboboxInteractionExample />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const input = canvas.getByRole('combobox', { name: 'Контрагент' });
+    input.focus();
+    await userEvent.keyboard('{ArrowDown}{Enter}');
+    await expect(canvas.getByText('Выбрано: nlmk')).toBeInTheDocument();
+    await expect(input).toHaveAttribute('aria-expanded', 'false');
   },
 };
 export const MultiSelectInteraction: Story = {
@@ -118,9 +142,10 @@ export const MultiSelectInteraction: Story = {
   render: () => <MultiSelectInteractionExample />,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await userEvent.click(canvas.getByRole('button', { name: 'Контрагенты' }));
-    await userEvent.click(canvas.getByRole('option', { name: /Северсталь/ }));
-    await userEvent.click(canvas.getByRole('option', { name: /НЛМК/ }));
+    const trigger = canvas.getByRole('combobox', { name: 'Контрагенты' });
+    trigger.focus();
+    await userEvent.keyboard('{ArrowDown}{Enter}{ArrowDown}{Enter}');
     await expect(canvas.getByText('Выбрано: severstal, nlmk')).toBeInTheDocument();
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true');
   },
 };

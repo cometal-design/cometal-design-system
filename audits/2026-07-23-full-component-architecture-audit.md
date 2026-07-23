@@ -53,8 +53,10 @@
 | Проход | Исполнитель | Статус | Результат |
 |---|---|---|---|
 | 1 | Visual QA | Завершён | Все 9 компонентов проверены; Button — Partial Match, остальные 8 — Conflict |
-| 2 | Codex + Visual QA | Ожидается | Проверка исправлений и поиск регрессий |
-| 3 | Visual QA | Ожидается | Независимый чистый проход |
+| 2 | Visual QA | Завершён | Baseline `ba33855`: Button, Text Field, Text Area, Checkbox, Radio Button, Switch — Partial Match; Select, Combobox, Multi Select — Conflict |
+| 3 | Codex | Локально завершён | Исправлены все объективные High/Medium-дефекты прохода 2; полный `pnpm validate` пройден |
+| 4 | Visual QA | Ожидается | Независимый production-проход после нового deployment |
+| 5 | Visual QA | Ожидается | Второй независимый чистый production-проход |
 
 ## Зафиксированный конфликт исходного дизайна
 
@@ -118,3 +120,52 @@
 
 `Исправлено локально` не означает `MATCH`: пункт закрывается только после
 production deployment и повторного независимого прохода.
+
+## Результат прохода 2
+
+Baseline — только опубликованный commit `ba33855`. Более новые локальные
+изменения не использовались как evidence. Deployment drift не подтверждён.
+
+Подтверждено, что Button уже использует правильные именованные типографические
+стили L/M/S, размеры icon container, внутреннюю геометрию Arrow и Loader.
+Базовая геометрия Fields и Selection controls также совпала после первого
+цикла исправлений.
+
+Остались следующие объективные дефекты:
+
+| ID | Область | Severity | Исправление в candidate |
+|---|---|---:|---|
+| P2-FLD-01 | Option 462×48 и radius 4 вместо 464×48 и radius 8 | Medium | Option 464×48, radius 8 |
+| P2-FLD-02 | Лишняя тень Listbox | Medium | Тень удалена |
+| P2-FLD-03 | Select Active: неверные порядок, labels и selected/disabled | Medium | Композиция повторяет Figma master |
+| P2-FLD-04 | Combobox Active не показывал selected/disabled | Medium | Добавлены selected и disabled option |
+| P2-FLD-05 | Multi Select показывал лишний `✓` и неверные selected rows | Medium | Glyph удалён; выбраны первая и третья строки |
+| P2-FLD-06 | Value Tags показывали IDs | Medium | В UI выводятся labels |
+| P2-ARIA-01 | Select имел две доступные interaction-модели | High | Единственный focus owner — visible combobox trigger; native form select исключён из accessibility tree |
+| P2-ARIA-02 | Combobox не управлял active option | High | `aria-activedescendant`, Arrow Up/Down, Enter, Escape |
+| P2-ARIA-03 | Multi Select не был composite widget | High | combobox/listbox relation, active descendant и keyboard multiple selection |
+| P2-RESP-01 | Active stories переполняли viewport 390 | Medium | `width: 100%; max-width: 480px`; при 390 listbox = 358 px, overflow отсутствует |
+| P2-READ-01 | Text Field Read растягивался документацией | Medium | Read height = 80 px; grid больше не растягивает child |
+| P2-READ-02 | Text Area Read становился 170 px и оставался single-line | High | root = 80 px; multiline value layer = 48 px |
+| P2-SEL-01 | Checkbox roots теряли master widths | Medium | L/M/S = 276/252/230 px |
+| P2-SEL-02 | Radio roots теряли master widths | Medium | L/M/S = 276/252/230 px |
+| P2-SEL-03 | Switch roots теряли master widths | Medium | L/M/S = 304/276/248 px |
+| P2-DOC-01 | Radio group растягивал root до 1280 px | High | Intrinsic flex items; root L = 276 px |
+
+## Локальная проверка candidate
+
+- Listbox L: `480×288`, padding `8`, gap `8`, shadow `none`.
+- Option L: `464×48`, radius `8`, `tabIndex=-1`.
+- Select Active: Черновик → На согласовании → Активный selected →
+  Завершён → Архив disabled.
+- Combobox Active: один selected и один disabled option.
+- Multi Select Active: первая и третья options selected; glyph отсутствует.
+- Responsive 390: listbox `358 px`, option `342 px`, document
+  `scrollWidth=390`.
+- Read roots: `80 px`; multiline value layer `48 px`.
+- Checkbox/Radio L/M/S: `276/252/230 px`.
+- Switch L/M/S: `304/276/248 px`.
+- Radio group L roots: `276 px`, документационный stretch устранён.
+- `pnpm validate`: source validation, secret validation, typecheck,
+  13 unit tests, 34 Storybook tests, Storybook build и documentation build —
+  успешно.

@@ -31,7 +31,37 @@ describe('Fields', () => {
     const multi = renderToStaticMarkup(<MultiSelect label="Контрагенты" selectedValues={['Северсталь', 'НЛМК', 'ММК']} />);
     expect(combobox).toContain('role="combobox"');
     expect(combobox).toContain('aria-controls="contractors"');
+    expect(multi).toContain('role="combobox"');
     expect(multi).toContain('aria-haspopup="listbox"');
     expect(multi).toContain('+1');
+  });
+
+  it('keeps listbox options out of the Tab sequence', () => {
+    const select = renderToStaticMarkup(<Select label="Статус" expanded options={[{ value: 'active', label: 'Активный' }]} />);
+    const combobox = renderToStaticMarkup(<Combobox label="Контрагент" expanded options={[{ value: 'north', label: 'Северсталь' }]} />);
+    expect(select).toContain('role="option"');
+    expect(combobox).toContain('role="option"');
+    expect(select).toContain('tabindex="-1"');
+    expect(combobox).toContain('tabindex="-1"');
+    expect(select).toContain('aria-hidden="true"');
+    expect((select.match(/role="combobox"/g) ?? [])).toHaveLength(1);
+  });
+
+  it('keeps Multi Select labels visual and active state free of non-Figma glyphs', () => {
+    const html = renderToStaticMarkup(
+      <MultiSelect
+        label="Контрагенты"
+        expanded
+        selectedValues={['severstal', 'mmk']}
+        options={[
+          { value: 'severstal', label: 'Северсталь' },
+          { value: 'mmk', label: 'ММК' },
+        ]}
+      />,
+    );
+    expect(html).toContain('Северсталь');
+    expect(html).toContain('ММК');
+    expect(html).not.toContain('✓');
+    expect(html).toContain('aria-multiselectable="true"');
   });
 });
