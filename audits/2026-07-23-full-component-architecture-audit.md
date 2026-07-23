@@ -4,7 +4,7 @@
 - Figma: DS Core, утверждённые компоненты с синим ромбом
 - Storybook: production
 - Начальный статус: `CONFLICT`
-- Текущий статус: `FIXING`
+- Текущий статус: `PARTIAL MATCH — IMPLEMENTATION CLEAN, COVERAGE INCOMPLETE`
 
 ## Компоненты
 
@@ -54,9 +54,9 @@
 |---|---|---|---|
 | 1 | Visual QA | Завершён | Все 9 компонентов проверены; Button — Partial Match, остальные 8 — Conflict |
 | 2 | Visual QA | Завершён | Baseline `ba33855`: Button, Text Field, Text Area, Checkbox, Radio Button, Switch — Partial Match; Select, Combobox, Multi Select — Conflict |
-| 3 | Codex | Локально завершён | Исправлены все объективные High/Medium-дефекты прохода 2; полный `pnpm validate` пройден |
-| 4 | Visual QA | Ожидается | Независимый production-проход после нового deployment |
-| 5 | Visual QA | Ожидается | Второй независимый чистый production-проход |
+| 3 | Codex | Завершён | Исправлены все объективные High/Medium-дефекты прохода 2; полный `pnpm validate` пройден; опубликован `dde79cf` |
+| 4 | Visual QA | Чистый | 16/16 дефектов закрыты; новых implementation mismatch и регрессий нет |
+| 5 | Visual QA | Чистый | Повторно 16/16 закрыты; новых дефектов и регрессий нет; условие двух clean-pass выполнено |
 
 ## Зафиксированный конфликт исходного дизайна
 
@@ -167,5 +167,43 @@ Baseline — только опубликованный commit `ba33855`. Бол�
 - Switch L/M/S: `304/276/248 px`.
 - Radio group L roots: `276 px`, документационный stretch устранён.
 - `pnpm validate`: source validation, secret validation, typecheck,
-  13 unit tests, 34 Storybook tests, Storybook build и documentation build —
+  14 unit tests, 34 Storybook tests, Storybook build и documentation build —
   успешно.
+
+## Production pass 3
+
+- Baseline: `dde79cf6f07410a1c5baebb854f2633e535060be`.
+- Проверены 24 production stories, DOM/computed styles, keyboard/ARIA,
+  responsive `1440/768/390`, документационные roots и повторно Figma masters.
+- Закрыто: `16/16` дефектов pass 2.
+- Новых объективных implementation mismatch: `0`.
+- Компонентов со статусом `CONFLICT`: `0`.
+
+## Production pass 4
+
+Независимый повтор того же фиксированного scope на неизменном baseline:
+
+- новых visual/typography/icon/geometry дефектов: `0`;
+- новых DOM/API/keyboard/ARIA дефектов: `0`;
+- responsive/documentation-root регрессий: `0`;
+- повторно закрыто: `16/16`;
+- второй последовательный clean-pass: успешно.
+
+## Итоговый статус
+
+В доступном production scope реализация совпадает с утверждёнными Figma
+masters; после исправлений два независимых полных прохода не нашли новых
+объективных расхождений.
+
+Каждый из девяти компонентов остаётся `PARTIAL MATCH`, а не `MATCH`, только
+из-за неполной материализации доказательной матрицы в Storybook:
+
+- нет полного Button cross-product `9 variants × 3 sizes × 5 states`;
+- не вынесены все `size × state × mode × content × width` для Fields;
+- Active Listbox не имеет отдельных stories для каждого размера;
+- Checkbox/Radio/Switch не показывают весь state cross-product L/M/S;
+- нет полной theme matrix и экспортированного pixel-diff каждой комбинации.
+
+Это coverage gaps, а не найденные дефекты реализации. Поэтому
+`checks.visualMatch` в реестре остаётся `false` до отдельного релиза audit
+matrices. `SRC-01` также остаётся отдельным source accessibility conflict.
