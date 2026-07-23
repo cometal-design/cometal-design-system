@@ -30,7 +30,7 @@
 .cometal-selection[data-kind='checkbox'] .cometal-selection__control { border-radius: var(--cometal-semantic-radius-checkbox); }
 .cometal-selection[data-kind='radio'] .cometal-selection__control { border-radius: 50%; }
 .cometal-selection__control img { display: none; width: 60%; height: 60%; }
-.cometal-selection__content { display: flex; width: 240px; min-width: 0; flex-direction: column; gap: var(--cometal-primitive-spacing-12); }
+.cometal-selection__content { display: flex; width: fit-content; max-width: 240px; min-width: 0; flex-direction: column; gap: var(--cometal-primitive-spacing-12); }
 .cometal-selection__label { font-size: var(--cometal-selection-label-size); line-height: var(--cometal-selection-label-line); }
 .cometal-selection__description { color: var(--cometal-semantic-color-text-secondary); font-size: max(12px, calc(var(--cometal-selection-label-size) - 2px)); line-height: 20px; letter-spacing: .0025em; }
 .cometal-selection:hover > input:not(:disabled) + .cometal-selection__control { border-color: var(--cometal-semantic-color-border-brand); }
@@ -45,10 +45,10 @@
 .cometal-selection:has(input:disabled) { color: var(--cometal-semantic-color-text-disabled); cursor: not-allowed; }
 .cometal-selection:has(input:disabled) .cometal-selection__description { color: var(--cometal-semantic-color-text-disabled); }
 .cometal-selection[data-kind='switch'] { gap: var(--cometal-primitive-spacing-75); }
-.cometal-selection[data-kind='switch'] .cometal-selection__control { --switch-width: var(--cometal-primitive-size-44); --switch-height: var(--cometal-primitive-size-24); width: var(--switch-width); height: var(--switch-height); border-radius: calc(var(--switch-height) / 2); }
+.cometal-selection[data-kind='switch'] .cometal-selection__control { --switch-width: var(--cometal-primitive-size-44); --switch-height: var(--cometal-primitive-size-24); width: var(--switch-width); height: var(--switch-height); margin-top: 0; border-radius: calc(var(--switch-height) / 2); }
 .cometal-selection[data-kind='switch'][data-size='m'] .cometal-selection__control { --switch-width: var(--cometal-primitive-size-36); --switch-height: var(--cometal-primitive-size-20); }
 .cometal-selection[data-kind='switch'][data-size='s'] .cometal-selection__control { --switch-width: var(--cometal-primitive-size-32); --switch-height: var(--cometal-primitive-size-16); }
-.cometal-selection__thumb { position: absolute; top: 1px; left: 1px; width: calc(var(--switch-height) - 2px); height: calc(var(--switch-height) - 2px); border-radius: 50%; background: var(--cometal-semantic-color-surface-canvas); transition: transform 120ms ease; }
+.cometal-selection__thumb { position: absolute; top: 2px; left: 2px; width: calc(var(--switch-height) - 4px); height: calc(var(--switch-height) - 4px); border-radius: 50%; background: var(--cometal-semantic-color-surface-canvas); transition: transform 120ms ease; }
 .cometal-selection[data-kind='switch'] > input:checked + .cometal-selection__control { border-color: var(--cometal-semantic-color-action-brand-default); background: var(--cometal-semantic-color-action-brand-default); }
 .cometal-selection[data-kind='switch'] > input:checked + .cometal-selection__control .cometal-selection__thumb { transform: translateX(calc(var(--switch-width) - var(--switch-height))); }
 

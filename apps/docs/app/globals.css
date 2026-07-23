@@ -163,7 +163,9 @@ a { color: inherit; }
 .component-catalog { display: grid; margin-top: 32px; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 24px; }
 .component-card { overflow: hidden; border: 1px solid var(--portal-line); border-radius: 12px; background: #fff; }
 .component-card__preview { display: flex; min-height: 250px; align-items: center; justify-content: center; background: var(--portal-canvas); }
-.component-card__demo { width: min(100% - 48px, 360px); }
+.component-card__demo { display: grid; width: min(100% - 48px, 360px); place-items: center; }
+.component-card__demo > .cometal-field,
+.component-card__demo > .cometal-field-read { width: 100%; }
 .component-card__body { padding: 24px; }
 .component-card__body > div { display: flex; align-items: center; justify-content: space-between; }
 .component-card code, .component-card footer { color: var(--portal-muted); font: 11px/16px ui-monospace, SFMono-Regular, Menlo, monospace; }
