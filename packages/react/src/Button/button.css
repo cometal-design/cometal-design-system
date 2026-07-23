@@ -25,11 +25,11 @@
   border-radius: var(--cometal-semantic-radius-button);
   background: var(--cometal-button-container);
   color: var(--cometal-button-content);
-  font-family: 'Grtsk Peta', Arial, sans-serif;
-  font-size: 16px;
-  font-weight: 400;
-  line-height: 20px;
-  letter-spacing: 0;
+  font-family: var(--cometal-typography-control-l-font-family);
+  font-size: var(--cometal-typography-control-l-font-size);
+  font-weight: var(--cometal-typography-control-l-font-weight);
+  line-height: var(--cometal-typography-control-l-line-height);
+  letter-spacing: var(--cometal-typography-control-l-letter-spacing);
   text-align: center;
   text-decoration: none;
   white-space: nowrap;
@@ -127,9 +127,10 @@
   --cometal-button-inset: var(--cometal-semantic-spacing-button-m-inset-icon);
   --cometal-button-icon-inset: var(--cometal-semantic-spacing-button-m-inset-icon);
   --cometal-button-gap: var(--cometal-semantic-spacing-button-content-m-gap);
-  font-size: 14px;
-  line-height: 16px;
-  letter-spacing: .0025em;
+  font-size: var(--cometal-typography-control-m-font-size);
+  font-weight: var(--cometal-typography-control-m-font-weight);
+  line-height: var(--cometal-typography-control-m-line-height);
+  letter-spacing: var(--cometal-typography-control-m-letter-spacing);
 }
 
 .cometal-button[data-size='s'] {
@@ -138,9 +139,10 @@
   --cometal-button-inset: var(--cometal-semantic-spacing-button-s-inset-icon);
   --cometal-button-icon-inset: var(--cometal-semantic-spacing-button-s-inset-icon);
   --cometal-button-gap: var(--cometal-semantic-spacing-button-content-s-gap);
-  font-size: 12px;
-  line-height: 16px;
-  letter-spacing: .005em;
+  font-size: var(--cometal-typography-control-s-font-size);
+  font-weight: var(--cometal-typography-control-s-font-weight);
+  line-height: var(--cometal-typography-control-s-line-height);
+  letter-spacing: var(--cometal-typography-control-s-letter-spacing);
 }
 
 .cometal-button[data-variant='primary'] {

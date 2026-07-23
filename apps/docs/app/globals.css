@@ -197,9 +197,8 @@ a { color: inherit; }
 .size-list__head, .size-list article { display: grid; grid-template-columns: 88px repeat(4, minmax(120px, 1fr)); align-items: center; gap: 20px; border-bottom: 1px solid var(--portal-line); }
 .size-list__head { min-height: 52px; color: var(--portal-muted); font: 10px/16px ui-monospace, SFMono-Regular, Menlo, monospace; text-transform: uppercase; letter-spacing: .05em; }
 .size-list article { min-height: 112px; }
-.size-list article > div { display: flex; flex-direction: column; gap: 4px; }.size-list strong { font-size: 13px; font-weight: 500; }.size-list span, .size-list code { color: var(--portal-muted); font-size: 11px; }.size-list code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
+.size-list article > div { display: flex; flex-direction: column; gap: 4px; }.size-list strong { font-size: 13px; font-weight: 500; }.size-list article > div > span, .size-list article > code { color: var(--portal-muted); font-size: 11px; }.size-list article > code { font-family: ui-monospace, SFMono-Regular, Menlo, monospace; }
 .size-list .cometal-button { justify-self: start; }
-.button-composition-icon { display: block; width: 100%; height: 100%; filter: brightness(0) invert(1); }
 .state-board { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); column-gap: 32px; }
 .state-board article { position: relative; display: grid; min-height: 176px; padding: 24px; place-items: center; }
 .state-board article:nth-child(n+4) { border-top: 1px solid var(--portal-line-soft); }
@@ -218,14 +217,16 @@ a { color: inherit; }
 .field-family-board { border-top: 1px solid var(--portal-line); }
 .field-family-board > article { display: grid; min-height: 260px; padding: 40px 0; grid-template-columns: 220px minmax(0, 1fr); gap: 48px; border-bottom: 1px solid var(--portal-line); scroll-margin-top: calc(var(--portal-header-height) + 72px); }
 .field-family-board header code { color: var(--portal-muted); font: 11px/16px ui-monospace, SFMono-Regular, Menlo, monospace; }.field-family-board h3 { margin: 12px 0 0; font-size: 20px; font-weight: 500; }
-.field-family-board__examples { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); align-items: start; gap: 40px; }
+.field-family-board__examples { display: grid; grid-template-columns: minmax(0, 480px); align-items: start; gap: 40px; }
 .field-state-board { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--portal-line-soft); }
 .field-state-board article { min-height: 190px; padding: 52px 28px 28px; background: #fff; }.field-state-board code, .selection-value-board code, .selection-size-row code { display: block; margin-bottom: 28px; color: var(--portal-muted); font: 11px/16px ui-monospace, SFMono-Regular, Menlo, monospace; }
-.docs-field--focus .cometal-field__control { border-color: var(--cometal-semantic-color-border-brand); box-shadow: 0 0 0 var(--cometal-semantic-stroke-state-focus) var(--cometal-semantic-color-state-focus-ring); }
+.docs-field--focus .cometal-field__control { outline: var(--cometal-semantic-stroke-state-focus) solid var(--cometal-semantic-color-state-focus-ring); outline-offset: var(--cometal-primitive-spacing-12); }
 .selection-value-board { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: 1px; background: var(--portal-line-soft); }
 .selection-value-board article { min-height: 160px; padding: 28px; background: #fff; }
 .selection-size-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }
 .selection-size-row article { min-height: 160px; padding: 28px; border-right: 1px solid var(--portal-line-soft); }.selection-size-row article:last-child { border-right: 0; }
+.selection-value-board .cometal-selection,
+.selection-size-row .cometal-selection { justify-self: start; align-self: start; }
 
 .empty-state { display: flex; min-height: 420px; padding: 64px; align-items: center; justify-content: center; flex-direction: column; border: 1px solid var(--portal-line); border-radius: 12px; background: var(--portal-canvas); text-align: center; }
 .empty-state span { color: var(--portal-muted); font-size: 11px; }.empty-state h2 { margin: 20px 0 0; font-size: 28px; font-weight: 500; }.empty-state p { max-width: 620px; margin: 16px 0 0; color: var(--portal-muted); font-size: 14px; line-height: 22px; }

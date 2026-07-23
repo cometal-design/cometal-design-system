@@ -11,7 +11,11 @@ const darkVariants = new Set(['ghost', 'inverse', 'inverse-ghost']);
 const documentedVariants: ButtonVariant[] = ['primary', 'secondary', 'link', 'danger', 'success', 'warning', 'ghost', 'inverse', 'inverse-ghost'];
 
 function ArrowIcon() {
-  return <img className="button-composition-icon" src="/arrow-right.svg" alt="" />;
+  return (
+    <svg viewBox="0 0 24 24" fill="none" focusable="false">
+      <path d="M13.333 19 20 12l-6.667-7M20 12H4" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+    </svg>
+  );
 }
 
 export default function ButtonPage() {

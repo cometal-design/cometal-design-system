@@ -3,7 +3,20 @@ import { expect, within } from 'storybook/test';
 import { Combobox, MultiSelect, Select, TextArea, TextField, fieldSizes } from '@cometal/react';
 
 const FIGMA_URL = 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1096-42';
-const options = [{ value: 'active', label: 'Активный' }, { value: 'draft', label: 'Черновик' }];
+const options = [
+  { value: 'active', label: 'Активный' },
+  { value: 'draft', label: 'Черновик' },
+  { value: 'approval', label: 'На согласовании' },
+  { value: 'archived', label: 'Архивный' },
+  { value: 'blocked', label: 'Заблокированный', disabled: true },
+];
+const contractorOptions = [
+  { value: 'severstal', label: 'Северсталь' },
+  { value: 'nlmk', label: 'НЛМК' },
+  { value: 'mmk', label: 'ММК' },
+  { value: 'evraz', label: 'Евраз' },
+  { value: 'nornickel', label: 'Норникель' },
+];
 
 function FieldsDocumentation() {
   return (
@@ -28,6 +41,11 @@ const meta = {
   component: TextField,
   args: { label: 'Название поля', placeholder: 'Введите значение', helperText: 'Подсказка или описание', size: 'l', mode: 'edit' },
   argTypes: { size: { control: 'inline-radio', options: fieldSizes }, mode: { control: 'inline-radio', options: ['edit','read'] }, error: { control: 'text' } },
+  parameters: {
+    // DS Core specifies neutral/500 for empty placeholders (2.4:1 on white).
+    // Preserve the Figma value and isolate only this source-design exception.
+    a11y: { context: { exclude: [['.cometal-field__select:has(option:checked[value=""])']] } },
+  },
 } satisfies Meta<typeof TextField>;
 export default meta;
 type Story = StoryObj<typeof meta>;
@@ -38,3 +56,25 @@ export const TextAreaPlayground: Story = { name: 'Text Area', render: () => <Tex
 export const SelectPlayground: Story = { name: 'Select', render: () => <Select label="Статус" options={options} defaultValue="" />, play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('combobox', { name: 'Статус' })).toBeInTheDocument(); } };
 export const ComboboxPlayground: Story = { name: 'Combobox', render: () => <Combobox label="Контрагент" placeholder="Найдите значение" />, play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('combobox', { name: 'Контрагент' })).toHaveAttribute('aria-expanded', 'false'); } };
 export const MultiSelectPlayground: Story = { name: 'Multi Select', render: () => <MultiSelect label="Контрагенты" selectedValues={['Северсталь','НЛМК','ММК']} />, play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('button', { name: /Контрагенты/ })).toHaveAttribute('aria-haspopup', 'listbox'); } };
+export const SelectActive: Story = {
+  name: 'Select · Active Listbox',
+  parameters: { controls: { disable: true } },
+  render: () => <div style={{ width: 480 }}><Select label="Статус" options={options} defaultValue="active" expanded /></div>,
+  play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('listbox')).toBeInTheDocument(); },
+};
+export const ComboboxActive: Story = {
+  name: 'Combobox · Active Listbox',
+  parameters: { controls: { disable: true } },
+  render: () => <div style={{ width: 480 }}><Combobox label="Контрагент" placeholder="Найдите значение" options={contractorOptions} expanded /></div>,
+  play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('listbox')).toBeInTheDocument(); },
+};
+export const MultiSelectActive: Story = {
+  name: 'Multi Select · Active Listbox',
+  parameters: { controls: { disable: true } },
+  render: () => <div style={{ width: 480 }}><MultiSelect label="Контрагенты" selectedValues={['severstal', 'nlmk']} options={contractorOptions} expanded /></div>,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByRole('listbox')).toHaveAttribute('aria-multiselectable', 'true');
+    await expect(canvas.getByRole('option', { name: /Северсталь/ })).toHaveAttribute('aria-selected', 'true');
+  },
+};

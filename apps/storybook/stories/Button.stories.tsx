@@ -31,7 +31,18 @@ const documentedButtonVariants: ButtonVariant[] = [
 ];
 
 function Arrow() {
-  return <img className="ds-button-icon" src="./arrow-right.svg" alt="" />;
+  return (
+    <svg viewBox="0 0 24 24" fill="none" focusable="false" aria-hidden="true">
+      <path
+        d="M13.3333 19L20 12L13.3333 5M20 12H4"
+        stroke="currentColor"
+        strokeWidth="1.6"
+        strokeLinecap="round"
+        strokeLinejoin="round"
+        vectorEffect="non-scaling-stroke"
+      />
+    </svg>
+  );
 }
 
 function ButtonDocumentation() {

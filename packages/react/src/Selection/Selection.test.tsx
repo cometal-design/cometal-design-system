@@ -7,7 +7,19 @@ describe('Selection controls', () => {
     const html = renderToStaticMarkup(<Checkbox label="Выбрать всё" indeterminate />);
     expect(html).toContain('type="checkbox"');
     expect(html).toContain('data-indeterminate="true"');
+    expect(html).toContain('viewBox="0 0 20 20"');
+    expect(html).toContain('stroke-width="1.6"');
     expect(html).toContain('Выбрать всё');
+  });
+
+  it('uses the approved discrete checkmark geometry for every size', () => {
+    const medium = renderToStaticMarkup(<Checkbox label="M" size="m" defaultChecked />);
+    const small = renderToStaticMarkup(<Checkbox label="S" size="s" defaultChecked />);
+
+    expect(medium).toContain('viewBox="0 0 16 16"');
+    expect(medium).toContain('M4.5 7.88L6.74 10.12L11.5 5.08');
+    expect(small).toContain('viewBox="0 0 14 14"');
+    expect(small).toContain('M4 6.84L5.92 8.76L10 4.44');
   });
 
   it('renders a native grouped radio', () => {
