@@ -76,11 +76,11 @@
 .cometal-field__icon > svg, .cometal-field__icon > img, .cometal-field__asset > svg { display: block; width: 100%; height: 100%; }
 .cometal-field[data-disabled] .cometal-field__icon,
 .cometal-field[data-disabled] .cometal-field__asset { color: var(--cometal-semantic-color-icon-disabled); }
-.cometal-field__select { appearance: none; cursor: pointer; }
-.cometal-field__select:has(option:checked[value='']) { color: var(--cometal-primitive-color-primitive-palette-neutral-500-100); }
-.cometal-field:hover .cometal-field__select:not(:disabled):has(option:checked[value='']) { color: var(--cometal-semantic-color-text-muted); }
-.cometal-field__select:disabled:has(option:checked[value='']) { color: var(--cometal-semantic-color-text-disabled); }
 .cometal-field__trigger-stack { position: relative; display: block; width: 100%; min-width: 0; }
+.cometal-field__select-trigger { justify-content: space-between; color: var(--cometal-semantic-color-text-primary); font: inherit; font-size: var(--cometal-typography-body-l-default-font-size); line-height: var(--cometal-typography-body-l-default-line-height); text-align: left; cursor: pointer; }
+.cometal-field[data-size='m'] .cometal-field__select-trigger { font-size: var(--cometal-typography-body-m-default-font-size); line-height: var(--cometal-typography-body-m-default-line-height); }
+.cometal-field__value, .cometal-field__placeholder { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.cometal-field__native-select { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 .cometal-field__listbox {
   position: absolute;
   z-index: 20;
@@ -120,6 +120,7 @@
   cursor: pointer;
 }
 .cometal-field__option:hover { background: var(--cometal-semantic-color-surface-subtle); }
+.cometal-field__option[data-active] { background: var(--cometal-semantic-color-surface-subtle); }
 .cometal-field__option[data-selected] { background: var(--cometal-primitive-color-primitive-palette-blue-100-40); color: var(--cometal-primitive-color-primitive-palette-blue-700-100); }
 .cometal-field__option:disabled { color: var(--cometal-semantic-color-text-disabled); cursor: not-allowed; }
 .cometal-field__option:focus-visible { outline: var(--cometal-semantic-stroke-state-focus) solid var(--cometal-semantic-color-state-focus-ring); outline-offset: -2px; }
@@ -132,11 +133,15 @@
 .cometal-field__scrollbar { position: absolute; top: 11px; right: 7px; width: 4px; height: 40px; border-radius: 2px; background: var(--cometal-primitive-color-primitive-palette-neutral-400-100); }
 .cometal-field[data-size='m'] .cometal-field__scrollbar { top: 9px; }
 .cometal-field__multi-select { justify-content: space-between; color: var(--cometal-semantic-color-text-primary); font-family: inherit; font-size: var(--cometal-typography-body-l-default-font-size); font-weight: var(--cometal-typography-body-l-default-font-weight); line-height: var(--cometal-typography-body-l-default-line-height); letter-spacing: var(--cometal-typography-body-l-default-letter-spacing); text-align: left; cursor: pointer; }
+.cometal-field__multi-select-trigger { position: absolute; z-index: 0; inset: 0; width: 100%; border: 0; border-radius: inherit; background: transparent; cursor: pointer; }
+.cometal-field__multi-select-trigger:disabled { cursor: not-allowed; }
 .cometal-field[data-size='m'] .cometal-field__multi-select { font-size: var(--cometal-typography-body-m-default-font-size); line-height: var(--cometal-typography-body-m-default-line-height); letter-spacing: var(--cometal-typography-body-m-default-letter-spacing); }
+.cometal-field__tags, .cometal-field__multi-select > .cometal-field__placeholder, .cometal-field__multi-select > .cometal-field__asset { position: relative; z-index: 1; pointer-events: none; }
 .cometal-field__tags { display: flex; min-width: 0; align-items: center; gap: var(--cometal-primitive-spacing-25); overflow: hidden; }
 .cometal-field__tag { display: inline-flex; max-width: 160px; height: var(--cometal-semantic-size-field-value-tag-l); padding: 0 var(--cometal-primitive-spacing-25) 0 var(--cometal-primitive-spacing-50); align-items: center; gap: var(--cometal-primitive-spacing-25); overflow: hidden; border-radius: var(--cometal-primitive-radius-50); background: var(--cometal-semantic-color-surface-subtle); color: var(--cometal-semantic-color-text-secondary); font-size: var(--cometal-typography-control-s-font-size); font-weight: var(--cometal-typography-control-s-font-weight); line-height: var(--cometal-typography-control-s-line-height); letter-spacing: var(--cometal-typography-control-s-letter-spacing); white-space: nowrap; }
 .cometal-field__tag-label { overflow: hidden; text-overflow: ellipsis; }
-.cometal-field__tag-remove { display: inline-flex; width: var(--cometal-primitive-size-14); height: var(--cometal-primitive-size-14); flex: 0 0 var(--cometal-primitive-size-14); align-items: center; justify-content: center; color: var(--cometal-semantic-color-icon-secondary); }
+.cometal-field__tag-remove { display: inline-flex; width: var(--cometal-primitive-size-14); height: var(--cometal-primitive-size-14); padding: 0; flex: 0 0 var(--cometal-primitive-size-14); align-items: center; justify-content: center; border: 0; background: transparent; color: var(--cometal-semantic-color-icon-secondary); cursor: pointer; pointer-events: auto; }
+.cometal-field__tag-remove:focus-visible { outline: 1px solid var(--cometal-semantic-color-state-focus-ring); outline-offset: 1px; }
 .cometal-field__tag-remove > svg { display: block; width: 100%; height: 100%; }
 .cometal-field[data-size='m'] .cometal-field__tag { height: var(--cometal-semantic-size-field-value-tag-m); }
 .cometal-field[data-size='m'] .cometal-field__tag-remove { width: 12px; height: 12px; flex-basis: 12px; }

@@ -1,6 +1,7 @@
-import { forwardRef, useId } from 'react';
+import { forwardRef, useEffect, useId, useImperativeHandle, useRef, useState } from 'react';
 import type {
   ButtonHTMLAttributes,
+  KeyboardEvent,
   InputHTMLAttributes,
   ReactNode,
   SelectHTMLAttributes,
@@ -200,6 +201,16 @@ function FieldListbox({ id, label, options, selectedValues = [], size, multiple 
   );
 }
 
+function usePopupState(expanded: boolean | undefined, defaultExpanded: boolean, onExpandedChange?: (expanded: boolean) => void) {
+  const [internalExpanded, setInternalExpanded] = useState(defaultExpanded);
+  const isExpanded = expanded ?? internalExpanded;
+  const setExpanded = (next: boolean) => {
+    if (expanded === undefined) setInternalExpanded(next);
+    onExpandedChange?.(next);
+  };
+  return [isExpanded, setExpanded] as const;
+}
+
 export interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'size'> {
   label: string;
   options: SelectOption[];
@@ -211,40 +222,128 @@ export interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement
   mode?: FieldMode;
   readValue?: ReactNode;
   expanded?: boolean;
+  defaultExpanded?: boolean;
   onExpandedChange?: (expanded: boolean) => void;
+  onValueChange?: (value: string) => void;
 }
 
 export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select(
-  { label, options, placeholder = 'Выберите значение', helperText, optional, error, size = 'l', mode = 'edit', readValue, className, disabled, expanded = false, onExpandedChange, onChange, ...selectProps },
-  ref,
+  { label, options, placeholder = 'Выберите значение', helperText, optional, error, size = 'l', mode = 'edit', readValue, className, disabled, expanded, defaultExpanded = false, onExpandedChange, onValueChange, onChange, value, defaultValue, ...selectProps },
+  forwardedRef,
 ) {
   const generatedId = useId();
   const controlId = selectProps.id ?? `cometal-select-${generatedId}`;
   const listboxId = `${controlId}-listbox`;
   const supportingId = helperText || error ? `${controlId}-supporting` : undefined;
-  const selectedValue = String(selectProps.value ?? selectProps.defaultValue ?? '');
+  const nativeRef = useRef<HTMLSelectElement | null>(null);
+  useImperativeHandle(forwardedRef, () => nativeRef.current as HTMLSelectElement);
+  const [internalExpanded, setInternalExpanded] = useState(defaultExpanded);
+  const [internalValue, setInternalValue] = useState(String(defaultValue ?? ''));
+  const [activeIndex, setActiveIndex] = useState(() => Math.max(0, options.findIndex((option) => !option.disabled)));
+  const isExpanded = expanded ?? internalExpanded;
+  const selectedValue = String(value ?? internalValue);
+  const selectedLabel = options.find((option) => option.value === selectedValue)?.label;
+  const setExpanded = (next: boolean) => {
+    if (expanded === undefined) setInternalExpanded(next);
+    onExpandedChange?.(next);
+  };
+  const commitValue = (nextValue: string) => {
+    if (value === undefined) setInternalValue(nextValue);
+    onValueChange?.(nextValue);
+    const native = nativeRef.current;
+    if (native) {
+      const valueSetter = Object.getOwnPropertyDescriptor(HTMLSelectElement.prototype, 'value')?.set;
+      valueSetter?.call(native, nextValue);
+      native.dispatchEvent(new Event('change', { bubbles: true }));
+    }
+    setExpanded(false);
+  };
+  const moveActive = (direction: 1 | -1) => {
+    let next = activeIndex;
+    for (let attempt = 0; attempt < options.length; attempt += 1) {
+      next = (next + direction + options.length) % options.length;
+      if (!options[next]?.disabled) break;
+    }
+    setActiveIndex(next);
+  };
+  const handleKeyDown = (event: KeyboardEvent<HTMLButtonElement>) => {
+    if (event.key === 'Escape') {
+      event.preventDefault();
+      setExpanded(false);
+      return;
+    }
+    if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
+      event.preventDefault();
+      if (!isExpanded) setExpanded(true);
+      else moveActive(event.key === 'ArrowDown' ? 1 : -1);
+      return;
+    }
+    if ((event.key === 'Enter' || event.key === ' ') && isExpanded) {
+      event.preventDefault();
+      const option = options[activeIndex];
+      if (option && !option.disabled) commitValue(option.value);
+    }
+  };
+  useEffect(() => {
+    const selectedIndex = options.findIndex((option) => option.value === selectedValue && !option.disabled);
+    if (selectedIndex >= 0) setActiveIndex(selectedIndex);
+  }, [options, selectedValue]);
   return (
     <FieldChrome className={className} label={label} helperText={helperText} optional={optional} error={error} size={size} mode={mode} readValue={readValue} controlId={controlId} supportingId={supportingId} disabled={disabled}>
       <span className="cometal-field__trigger-stack">
-        <span className="cometal-field__control">
-          <select
-            {...selectProps}
-            id={controlId}
-            ref={ref}
-            disabled={disabled}
-            aria-describedby={selectProps['aria-describedby'] ?? supportingId}
-            aria-invalid={error ? true : undefined}
-            aria-expanded={expanded}
-            aria-controls={expanded ? listboxId : undefined}
-            onChange={(event) => { onChange?.(event); onExpandedChange?.(false); }}
-            className="cometal-field__input cometal-field__select"
-          >
-            <option value="" disabled>{placeholder}</option>
-            {options.map((option) => <option key={option.value} value={option.value} disabled={option.disabled}>{option.label}</option>)}
-          </select>
+        <button
+          id={controlId}
+          type="button"
+          role="combobox"
+          disabled={disabled}
+          aria-haspopup="listbox"
+          aria-expanded={isExpanded}
+          aria-controls={listboxId}
+          aria-activedescendant={isExpanded ? `${listboxId}-option-${activeIndex}` : undefined}
+          aria-describedby={selectProps['aria-describedby'] ?? supportingId}
+          aria-invalid={error ? true : undefined}
+          className="cometal-field__control cometal-field__select-trigger"
+          onClick={() => setExpanded(!isExpanded)}
+          onKeyDown={handleKeyDown}
+        >
+          <span className={selectedLabel ? 'cometal-field__value' : 'cometal-field__placeholder'}>{selectedLabel ?? placeholder}</span>
           <span className="cometal-field__asset" aria-hidden="true"><ChevronDownIcon /></span>
-        </span>
-        {expanded ? <FieldListbox id={listboxId} label={`${label}: варианты`} options={options} selectedValues={selectedValue ? [selectedValue] : []} size={size} onSelect={() => onExpandedChange?.(false)} /> : null}
+        </button>
+        <select
+          {...selectProps}
+          ref={nativeRef}
+          value={value}
+          defaultValue={value === undefined ? defaultValue : undefined}
+          onChange={(event) => onChange?.(event)}
+          disabled={disabled}
+          tabIndex={-1}
+          aria-hidden="true"
+          className="cometal-field__native-select"
+        >
+          <option value="" disabled>{placeholder}</option>
+          {options.map((option) => <option key={option.value} value={option.value} disabled={option.disabled}>{option.label}</option>)}
+        </select>
+        {isExpanded ? (
+          <div className="cometal-field__listbox" id={listboxId} role="listbox" aria-label={`${label}: варианты`} data-size={size}>
+            {options.map((option, index) => (
+              <button
+                id={`${listboxId}-option-${index}`}
+                className="cometal-field__option"
+                type="button"
+                role="option"
+                aria-selected={option.value === selectedValue}
+                disabled={option.disabled}
+                data-selected={option.value === selectedValue || undefined}
+                data-active={index === activeIndex || undefined}
+                key={option.value}
+                onPointerMove={() => { if (!option.disabled) setActiveIndex(index); }}
+                onClick={() => commitValue(option.value)}
+              >
+                <span>{option.label}</span>
+              </button>
+            ))}
+          </div>
+        ) : null}
       </span>
     </FieldChrome>
   );
@@ -259,27 +358,48 @@ export interface ComboboxProps extends Omit<InputHTMLAttributes<HTMLInputElement
   mode?: FieldMode;
   readValue?: ReactNode;
   expanded?: boolean;
+  defaultExpanded?: boolean;
+  onExpandedChange?: (expanded: boolean) => void;
   listboxId?: string;
   options?: SelectOption[];
   onOptionSelect?: (value: string) => void;
 }
 
 export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
-  { label, helperText, optional, error, size = 'l', mode = 'edit', readValue, expanded = false, listboxId, options = [], onOptionSelect, className, disabled, ...inputProps },
+  { label, helperText, optional, error, size = 'l', mode = 'edit', readValue, expanded, defaultExpanded = false, onExpandedChange, listboxId, options = [], onOptionSelect, className, disabled, onFocus, onKeyDown, ...inputProps },
   ref,
 ) {
   const generatedId = useId();
   const controlId = inputProps.id ?? `cometal-combobox-${generatedId}`;
   const resolvedListboxId = listboxId ?? `${controlId}-listbox`;
   const supportingId = helperText || error ? `${controlId}-supporting` : undefined;
+  const [isExpanded, setExpanded] = usePopupState(expanded, defaultExpanded, onExpandedChange);
   return (
     <FieldChrome className={className} label={label} helperText={helperText} optional={optional} error={error} size={size} mode={mode} readValue={readValue ?? inputProps.value ?? inputProps.defaultValue} controlId={controlId} supportingId={supportingId} disabled={disabled}>
       <span className="cometal-field__trigger-stack">
         <span className="cometal-field__control">
           <span className="cometal-field__asset" aria-hidden="true"><SearchIcon /></span>
-          <input {...inputProps} id={controlId} ref={ref} disabled={disabled} role="combobox" aria-autocomplete="list" aria-expanded={expanded} aria-controls={resolvedListboxId} aria-describedby={inputProps['aria-describedby'] ?? supportingId} aria-invalid={error ? true : undefined} className="cometal-field__input" />
+          <input
+            {...inputProps}
+            id={controlId}
+            ref={ref}
+            disabled={disabled}
+            role="combobox"
+            aria-autocomplete="list"
+            aria-expanded={isExpanded}
+            aria-controls={resolvedListboxId}
+            aria-describedby={inputProps['aria-describedby'] ?? supportingId}
+            aria-invalid={error ? true : undefined}
+            onFocus={(event) => { onFocus?.(event); if (options.length) setExpanded(true); }}
+            onKeyDown={(event) => {
+              onKeyDown?.(event);
+              if (event.key === 'Escape') setExpanded(false);
+              if (event.key === 'ArrowDown' && options.length) setExpanded(true);
+            }}
+            className="cometal-field__input"
+          />
         </span>
-        {expanded && options.length ? <FieldListbox id={resolvedListboxId} label={`${label}: результаты`} options={options} size={size} onSelect={onOptionSelect} /> : null}
+        {isExpanded && options.length ? <FieldListbox id={resolvedListboxId} label={`${label}: результаты`} options={options} size={size} onSelect={(value) => { onOptionSelect?.(value); setExpanded(false); }} /> : null}
       </span>
     </FieldChrome>
   );
@@ -295,38 +415,68 @@ export interface MultiSelectProps extends Omit<ButtonHTMLAttributes<HTMLButtonEl
   size?: FieldSize;
   mode?: FieldMode;
   expanded?: boolean;
+  defaultExpanded?: boolean;
+  onExpandedChange?: (expanded: boolean) => void;
   options?: SelectOption[];
   onSelectedValuesChange?: (values: string[]) => void;
 }
 
 export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(function MultiSelect(
-  { label, selectedValues = [], placeholder = 'Выберите значение', helperText, optional, error, size = 'l', mode = 'edit', expanded = false, options = [], onSelectedValuesChange, className, type = 'button', disabled, ...buttonProps },
+  { label, selectedValues = [], placeholder = 'Выберите значение', helperText, optional, error, size = 'l', mode = 'edit', expanded, defaultExpanded = false, onExpandedChange, options = [], onSelectedValuesChange, className, type = 'button', disabled, onClick, onKeyDown, ...buttonProps },
   ref,
 ) {
   const generatedId = useId();
   const controlId = buttonProps.id ?? `cometal-multiselect-${generatedId}`;
   const listboxId = `${controlId}-listbox`;
   const supportingId = helperText || error ? `${controlId}-supporting` : undefined;
-  const readValue = selectedValues.length ? selectedValues.join(', ') : '—';
+  const displayValues = selectedValues.map((value) => options.find((option) => option.value === value)?.label ?? value);
+  const readValue = displayValues.length ? displayValues.join(', ') : '—';
+  const [isExpanded, setExpanded] = usePopupState(expanded, defaultExpanded, onExpandedChange);
   const toggleValue = (value: string) => onSelectedValuesChange?.(
     selectedValues.includes(value) ? selectedValues.filter((item) => item !== value) : [...selectedValues, value],
   );
   return (
     <FieldChrome className={className} label={label} helperText={helperText} optional={optional} error={error} size={size} mode={mode} readValue={readValue} multilineRead controlId={controlId} supportingId={supportingId} disabled={disabled}>
       <span className="cometal-field__trigger-stack">
-        <button {...buttonProps} id={controlId} ref={ref} type={type} disabled={disabled} aria-describedby={buttonProps['aria-describedby'] ?? supportingId} aria-haspopup="listbox" aria-expanded={expanded} aria-controls={listboxId} className="cometal-field__control cometal-field__multi-select">
+        <span className="cometal-field__control cometal-field__multi-select">
+          <button
+            {...buttonProps}
+            id={controlId}
+            ref={ref}
+            type={type}
+            disabled={disabled}
+            aria-describedby={buttonProps['aria-describedby'] ?? supportingId}
+            aria-haspopup="listbox"
+            aria-expanded={isExpanded}
+            aria-controls={listboxId}
+            onClick={(event) => { onClick?.(event); setExpanded(!isExpanded); }}
+            onKeyDown={(event) => {
+              onKeyDown?.(event);
+              if (event.key === 'Escape') setExpanded(false);
+              if (event.key === 'ArrowDown') setExpanded(true);
+            }}
+            className="cometal-field__multi-select-trigger"
+          />
           <span className={selectedValues.length ? 'cometal-field__tags' : 'cometal-field__placeholder'}>
-            {selectedValues.length ? selectedValues.slice(0, 2).map((item) => (
-              <span className="cometal-field__tag" key={item}>
+            {displayValues.length ? displayValues.slice(0, 2).map((item, index) => (
+              <span className="cometal-field__tag" key={selectedValues[index]}>
                 <span className="cometal-field__tag-label">{item}</span>
-                <span className="cometal-field__tag-remove" aria-hidden="true"><RemoveValueIcon /></span>
+                <button
+                  type="button"
+                  className="cometal-field__tag-remove"
+                  aria-label={`Удалить ${item}`}
+                  disabled={disabled}
+                  onClick={() => toggleValue(selectedValues[index] as string)}
+                >
+                  <RemoveValueIcon />
+                </button>
               </span>
             )) : placeholder}
             {selectedValues.length > 2 ? <span className="cometal-field__tag">+{selectedValues.length - 2}</span> : null}
           </span>
           {selectedValues.length ? null : <span className="cometal-field__asset" aria-hidden="true"><ChevronDownIcon /></span>}
-        </button>
-        {expanded && options.length ? <FieldListbox id={listboxId} label={`${label}: варианты`} options={options} selectedValues={selectedValues} size={size} multiple onSelect={toggleValue} /> : null}
+        </span>
+        {isExpanded && options.length ? <FieldListbox id={listboxId} label={`${label}: варианты`} options={options} selectedValues={selectedValues} size={size} multiple onSelect={toggleValue} /> : null}
       </span>
     </FieldChrome>
   );
