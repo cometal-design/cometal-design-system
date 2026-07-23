@@ -1,0 +1,78 @@
+{
+  "$description": "Verified engineering inventory of Foundation in Figma DS Core.",
+  "verifiedAt": "2026-07-23",
+  "figma": {
+    "fileKey": "KKNGucImxFAtQLBhPy8tLs",
+    "variables": {
+      "total": 542,
+      "foundation": 531,
+      "primitive": 399,
+      "semantic": 132,
+      "component": 11,
+      "color": 462,
+      "dimension": 80,
+      "withAliases": 143,
+      "withCodeSyntax": 527,
+      "withScopes": 542
+    },
+    "collections": [
+      { "name": "Primitive", "variables": 399, "modes": 1 },
+      { "name": "Semantic", "variables": 132, "modes": 1 },
+      { "name": "Component / Button", "variables": 1, "modes": 7 },
+      { "name": "Component / Input", "variables": 7, "modes": 6 },
+      { "name": "Component / Option", "variables": 3, "modes": 5 }
+    ],
+    "styles": {
+      "text": 18,
+      "paint": 0,
+      "grid": 0,
+      "effect": 0
+    }
+  },
+  "repository": {
+    "primitiveTokens": 399,
+    "semanticTokens": 132,
+    "typographyStyles": 18,
+    "gridPresets": 4,
+    "iconComponents": 2810
+  },
+  "notes": [
+    "Approved Spacing and Radius documentation pages contain wider legacy scales than the published Figma variables. Runtime tokens follow variables; the page conflict requires a Design System Lead decision.",
+    "Grid presets are documented values; Figma has no published local Grid Styles.",
+    "Icons are an inventory only; approved SVG assets and React API do not exist yet.",
+    "Shadows are not defined in Figma and must not be invented in code."
+  ],
+  "sourceConflicts": [
+    {
+      "severity": "blocker",
+      "area": "Spacing",
+      "pageId": "4:33",
+      "pageOnlyTokens": [
+        "Spacing/10",
+        "Spacing/175",
+        "Spacing/240",
+        "Spacing/500",
+        "Spacing/600",
+        "Spacing/800",
+        "Spacing/negative25",
+        "Spacing/negative50",
+        "Spacing/negative75",
+        "Spacing/negative150"
+      ],
+      "decision": "Do not publish as runtime tokens until variables and documentation agree."
+    },
+    {
+      "severity": "blocker",
+      "area": "Radius",
+      "pageId": "4:32",
+      "pageOnlyTokens": [
+        "Border Radius/none",
+        "Border Radius/300",
+        "Border Radius/400",
+        "Border Radius/700",
+        "Border Radius/round"
+      ],
+      "decision": "Do not publish as runtime tokens until variables and documentation agree."
+    }
+  ]
+}

@@ -33,6 +33,7 @@ const dictionary = new StyleDictionary({
 
 await dictionary.buildAllPlatforms();
 await preserveLowAlphaColors();
+await normalizeRootTokenNames();
 
 const typographySource = JSON.parse(
   await readFile('src/typography.styles.json', 'utf8'),
@@ -100,6 +101,12 @@ async function preserveLowAlphaColors() {
     '$1, 0.001);',
   );
   await writeFile(path, corrected);
+}
+
+async function normalizeRootTokenNames() {
+  const path = 'dist/tokens.css';
+  const generated = await readFile(path, 'utf8');
+  await writeFile(path, generated.replace(/-root:/g, ':'));
 }
 
 function toKebab(value) {

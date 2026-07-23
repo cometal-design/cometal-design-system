@@ -943,6 +943,17 @@
                 "name": "Color/Status/Success/Border"
               }
             }
+          },
+          "Strong": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Green.500.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1630:18",
+                "key": "1221282787b7884dbbebab1ae66d196fc00c28a3",
+                "name": "Color/Status/Success/Strong"
+              }
+            }
           }
         },
         "Warning": {
@@ -976,6 +987,17 @@
                 "id": "VariableID:1338:1896",
                 "key": "80bf4320e9e0f1ad0d928595db4f5b49ebe0c20b",
                 "name": "Color/Status/Warning/Border"
+              }
+            }
+          },
+          "Strong": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Yellow.500.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1630:19",
+                "key": "4c54bdc6991fa14d026af0fb7e7def4eac23575c",
+                "name": "Color/Status/Warning/Strong"
               }
             }
           }
@@ -1065,13 +1087,15 @@
         }
       },
       "Checkbox": {
-        "$type": "dimension",
-        "$value": "{Primitive.Radius.50}",
-        "$extensions": {
-          "com.cometal.figma": {
-            "id": "VariableID:1589:3",
-            "key": "c65b1a53541c8160f4357cb4856c111ba173dba4",
-            "name": "Radius/Checkbox"
+        "$root": {
+          "$type": "dimension",
+          "$value": "{Primitive.Radius.50}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1589:3",
+              "key": "c65b1a53541c8160f4357cb4856c111ba173dba4",
+              "name": "Radius/Checkbox"
+            }
           }
         },
         "Focus": {
@@ -1139,24 +1163,26 @@
       "Button": {
         "L": {
           "Inset": {
-            "$type": "dimension",
-            "$value": "{Primitive.Spacing.100}",
-            "$extensions": {
-              "com.cometal.figma": {
-                "id": "VariableID:780:1325",
-                "key": "771f3c738a0c0f91d1e93d832b4e2eb2f2e26b82",
-                "name": "Spacing/Button/L/Inset"
+            "$root": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:780:1325",
+                  "key": "771f3c738a0c0f91d1e93d832b4e2eb2f2e26b82",
+                  "name": "Spacing/Button/L/Inset"
+                }
               }
-            }
-          },
-          "Inset Icon": {
-            "$type": "dimension",
-            "$value": "{Primitive.Spacing.75}",
-            "$extensions": {
-              "com.cometal.figma": {
-                "id": "VariableID:780:1326",
-                "key": "02776f9182883c983f2e506ea433afaa904d1ca2",
-                "name": "Spacing/Button/L/Inset/Icon"
+            },
+            "Icon": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.75}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:780:1326",
+                  "key": "02776f9182883c983f2e506ea433afaa904d1ca2",
+                  "name": "Spacing/Button/L/Inset/Icon"
+                }
               }
             }
           },
@@ -1174,24 +1200,26 @@
         },
         "M": {
           "Inset": {
-            "$type": "dimension",
-            "$value": "{Primitive.Spacing.75}",
-            "$extensions": {
-              "com.cometal.figma": {
-                "id": "VariableID:780:1328",
-                "key": "37e69bbef25088d2bc0cfcad2688b8d13d7b2456",
-                "name": "Spacing/Button/M/Inset"
+            "$root": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.75}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:780:1328",
+                  "key": "37e69bbef25088d2bc0cfcad2688b8d13d7b2456",
+                  "name": "Spacing/Button/M/Inset"
+                }
               }
-            }
-          },
-          "Inset Icon": {
-            "$type": "dimension",
-            "$value": "{Primitive.Spacing.50}",
-            "$extensions": {
-              "com.cometal.figma": {
-                "id": "VariableID:780:1329",
-                "key": "aa03d8e526ceebb75ad4cdb91a339d5b59463776",
-                "name": "Spacing/Button/M/Inset/Icon"
+            },
+            "Icon": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.50}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:780:1329",
+                  "key": "aa03d8e526ceebb75ad4cdb91a339d5b59463776",
+                  "name": "Spacing/Button/M/Inset/Icon"
+                }
               }
             }
           },
@@ -1209,6 +1237,7 @@
         },
         "S": {
           "Inset": {
+            "$root": {
             "$type": "dimension",
             "$value": "{Primitive.Spacing.50}",
             "$extensions": {
@@ -1218,8 +1247,8 @@
                 "name": "Spacing/Button/S/Inset"
               }
             }
-          },
-          "Inset Icon": {
+            },
+            "Icon": {
             "$type": "dimension",
             "$value": "{Primitive.Spacing.25}",
             "$extensions": {
@@ -1228,6 +1257,7 @@
                 "key": "c5cc1ae4a95a70aa619718907031c06f30ed5370",
                 "name": "Spacing/Button/S/Inset/Icon"
               }
+            }
             }
           },
           "Gap": {
