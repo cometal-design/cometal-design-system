@@ -1,0 +1,76 @@
+.cometal-field,
+.cometal-field-read {
+  --cometal-field-height: calc(var(--cometal-primitive-size-44) + var(--cometal-primitive-size-4));
+  --cometal-field-inset: var(--cometal-semantic-spacing-input-l-inset);
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  flex-direction: column;
+  gap: var(--cometal-semantic-spacing-input-label-gap);
+  color: var(--cometal-semantic-color-text-primary);
+  font-family: 'Grtsk Peta', Arial, sans-serif;
+}
+
+.cometal-field[data-size='m'] {
+  --cometal-field-height: var(--cometal-primitive-size-40);
+  --cometal-field-inset: var(--cometal-semantic-spacing-input-m-inset);
+}
+
+.cometal-field__label-row { display: flex; align-items: center; gap: var(--cometal-primitive-spacing-25); }
+.cometal-field__label { color: var(--cometal-primitive-color-primitive-palette-neutral-800-100); font-size: 12px; line-height: 18px; letter-spacing: .005em; }
+.cometal-field__optional { color: var(--cometal-semantic-color-text-muted); font-size: 12px; line-height: 18px; }
+.cometal-field__control {
+  display: flex;
+  width: 100%;
+  min-width: 0;
+  height: var(--cometal-field-height);
+  padding: 0 var(--cometal-field-inset);
+  align-items: center;
+  gap: var(--cometal-semantic-spacing-input-gap);
+  border: 1px solid var(--cometal-semantic-color-border-default);
+  border-radius: var(--cometal-semantic-radius-input);
+  background: var(--cometal-semantic-color-surface-canvas);
+  transition: border-color 120ms ease, box-shadow 120ms ease, background-color 120ms ease;
+}
+.cometal-field:hover .cometal-field__control { border-color: var(--cometal-semantic-color-border-strong); }
+.cometal-field:focus-within .cometal-field__control {
+  border-color: var(--cometal-semantic-color-border-brand);
+  box-shadow: 0 0 0 var(--cometal-semantic-stroke-state-focus) var(--cometal-semantic-color-state-focus-ring);
+}
+.cometal-field[data-invalid] .cometal-field__control { border-color: var(--cometal-semantic-color-border-danger); }
+.cometal-field:has(:disabled) .cometal-field__control { border-color: var(--cometal-semantic-color-border-disabled); background: var(--cometal-semantic-color-surface-subtle); }
+.cometal-field__input {
+  width: 100%;
+  min-width: 0;
+  height: 100%;
+  padding: 0;
+  border: 0;
+  outline: 0;
+  background: transparent;
+  color: var(--cometal-semantic-color-text-primary);
+  font: inherit;
+  font-size: 16px;
+  line-height: 24px;
+}
+.cometal-field[data-size='m'] .cometal-field__input { font-size: 14px; line-height: 20px; letter-spacing: .0025em; }
+.cometal-field__input::placeholder, .cometal-field__placeholder { color: var(--cometal-semantic-color-text-muted); }
+.cometal-field__input:disabled { color: var(--cometal-semantic-color-text-disabled); cursor: not-allowed; }
+.cometal-field__supporting { min-height: 20px; color: var(--cometal-semantic-color-text-muted); font-size: 13px; line-height: 20px; letter-spacing: .005em; }
+.cometal-field[data-invalid] .cometal-field__supporting { color: var(--cometal-semantic-color-text-danger); }
+.cometal-field__icon, .cometal-field__asset { display: block; width: var(--cometal-primitive-size-20); height: var(--cometal-primitive-size-20); flex: 0 0 var(--cometal-primitive-size-20); }
+.cometal-field__icon { display: inline-flex; align-items: center; justify-content: center; color: var(--cometal-semantic-color-icon-secondary); }
+.cometal-field__icon > svg, .cometal-field__icon > img { width: 100%; height: 100%; }
+.cometal-field__asset { object-fit: contain; }
+.cometal-field__select { appearance: none; cursor: pointer; }
+.cometal-field__control--textarea { height: calc((var(--cometal-primitive-size-44) + var(--cometal-primitive-size-4)) * 3); padding-block: var(--cometal-primitive-spacing-75); align-items: stretch; }
+.cometal-field[data-size='m'] .cometal-field__control--textarea { height: calc(var(--cometal-primitive-size-40) * 3); }
+.cometal-field__textarea { resize: vertical; }
+.cometal-field__multi-select { justify-content: space-between; color: var(--cometal-semantic-color-text-primary); font: inherit; text-align: left; cursor: pointer; }
+.cometal-field__tags { display: flex; min-width: 0; align-items: center; gap: var(--cometal-primitive-spacing-25); overflow: hidden; }
+.cometal-field__tag { display: inline-flex; max-width: 160px; min-height: var(--cometal-semantic-size-field-value-tag-l); padding: 0 var(--cometal-primitive-spacing-50); align-items: center; overflow: hidden; border-radius: var(--cometal-primitive-radius-50); background: var(--cometal-semantic-color-surface-subtle); color: var(--cometal-semantic-color-text-secondary); font-size: 13px; text-overflow: ellipsis; white-space: nowrap; }
+.cometal-field[data-size='m'] .cometal-field__tag { min-height: var(--cometal-semantic-size-field-value-tag-m); font-size: 12px; }
+.cometal-field-read__label { color: var(--cometal-primitive-color-primitive-palette-neutral-800-100); font-size: 12px; line-height: 18px; letter-spacing: .005em; }
+.cometal-field-read__value { min-height: 24px; color: var(--cometal-semantic-color-text-primary); font-size: 14px; line-height: 20px; white-space: nowrap; }
+.cometal-field-read[data-multiline] .cometal-field-read__value { white-space: normal; }
+
+@media (prefers-reduced-motion: reduce) { .cometal-field__control { transition: none; } }

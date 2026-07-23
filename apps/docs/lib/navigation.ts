@@ -32,6 +32,10 @@ export const sectionNavigation: Record<string, NavItem[]> = {
   components: [
     { label: 'Overview', href: '/components/' },
     { label: 'Button', href: '/components/button/' },
+    { label: 'Fields', href: '/components/fields/' },
+    { label: 'Checkbox', href: '/components/checkbox/' },
+    { label: 'Radio Button', href: '/components/radio-button/' },
+    { label: 'Switch', href: '/components/switch/' },
   ],
   patterns: [{ label: 'Overview', href: '/patterns/' }],
   templates: [{ label: 'Overview', href: '/templates/' }],

@@ -31,7 +31,7 @@ const documentedButtonVariants: ButtonVariant[] = [
 ];
 
 function Arrow() {
-  return <span aria-hidden="true">→</span>;
+  return <img className="ds-button-icon" src="./arrow-right.svg" alt="" />;
 }
 
 function ButtonDocumentation() {

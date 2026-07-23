@@ -1,13 +1,18 @@
 import type { Metadata } from 'next';
-import { Button, buttonSizes } from '@cometal/react';
+import { Button } from '@cometal/react';
 import type { ButtonVariant } from '@cometal/react';
 import { components, statusLabels } from '../../../lib/registry';
 
 export const metadata: Metadata = { title: 'Button' };
 
 const component = components.find((item) => item.id === 'action.button')!;
+const buttonSizes = ['l', 'm', 's'] as const;
 const darkVariants = new Set(['ghost', 'inverse', 'inverse-ghost']);
 const documentedVariants: ButtonVariant[] = ['primary', 'secondary', 'link', 'danger', 'success', 'warning', 'ghost', 'inverse', 'inverse-ghost'];
+
+function ArrowIcon() {
+  return <img className="button-composition-icon" src="/arrow-right.svg" alt="" />;
+}
 
 export default function ButtonPage() {
   return (
@@ -17,7 +22,7 @@ export default function ButtonPage() {
         <div className="component-title__links"><a href={component.links.figma} target="_blank" rel="noreferrer">Figma ↗</a><a href="/storybook/?path=/story/components-button--playground">Открыть Playground ↗</a></div>
       </header>
 
-      <nav className="on-page-nav" aria-label="Содержание страницы"><a href="#usage">Использование</a><a href="#variants">Варианты</a><a href="#states">Состояния</a><a href="#api">React API</a></nav>
+      <nav className="on-page-nav" aria-label="Содержание страницы"><a href="#usage">Использование</a><a href="#variants">Варианты</a><a href="#sizes">Размеры</a><a href="#states">Состояния</a><a href="#api">React API</a></nav>
 
       <section className="content-section" id="usage">
         <div className="section-heading"><h2>Использование</h2><p>Кнопка выполняет действие. Для обычного перехода используйте ссылку, для переключения режима — Toggle.</p></div>
@@ -31,9 +36,20 @@ export default function ButtonPage() {
         </div>
       </section>
 
-      <section className="content-section">
-        <div className="section-heading"><h2>Размеры</h2><p>Высота и внутренние отступы управляются системными токенами.</p></div>
-        <div className="size-list">{buttonSizes.map((size) => <article key={size}><div><strong>{size.toUpperCase()}</strong><span>{size === 'l' ? 44 : size === 'm' ? 36 : 28}px</span></div><Button size={size}>Продолжить</Button><code>{`size="${size}"`}</code></article>)}</div>
+      <section className="content-section" id="sizes">
+        <div className="section-heading"><h2>Размеры и композиция</h2><p>Каждый размер проверяется в четырёх композициях DS Core: текст, иконка слева, иконка справа и только иконка.</p></div>
+        <div className="size-list size-list--compositions">
+          <div className="size-list__head"><span>Размер</span><span>Текст</span><span>Иконка слева</span><span>Иконка справа</span><span>Только иконка</span></div>
+          {buttonSizes.map((size) => (
+            <article key={size}>
+              <div><strong>{size.toUpperCase()}</strong><span>{size === 'l' ? 44 : size === 'm' ? 36 : 28}px</span></div>
+              <Button size={size}>Продолжить</Button>
+              <Button size={size} startIcon={<ArrowIcon />}>Продолжить</Button>
+              <Button size={size} endIcon={<ArrowIcon />}>Продолжить</Button>
+              <Button size={size} startIcon={<ArrowIcon />} aria-label="Продолжить" />
+            </article>
+          ))}
+        </div>
       </section>
 
       <section className="content-section" id="states">

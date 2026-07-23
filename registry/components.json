@@ -22,6 +22,126 @@
         "accessibilityPassed": true,
         "knowledgeUpdated": true
       }
+    },
+    {
+      "id": "input.text-field",
+      "name": "Text Field",
+      "status": "in-review",
+      "platform": "web",
+      "version": "0.1.0-beta.1",
+      "links": {
+        "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1102-8230",
+        "specification": "specifications/components/text-field.md",
+        "source": "packages/react/src/Field/Field.tsx",
+        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--overview",
+        "knowledge": "knowledge-base/02 Components/Text Field.md"
+      },
+      "checks": { "visualMatch": true, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
+    },
+    {
+      "id": "input.text-area",
+      "name": "Text Area",
+      "status": "in-review",
+      "platform": "web",
+      "version": "0.1.0-beta.1",
+      "links": {
+        "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1102-8399",
+        "specification": "specifications/components/text-area.md",
+        "source": "packages/react/src/Field/Field.tsx",
+        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--overview",
+        "knowledge": "knowledge-base/02 Components/Text Area.md"
+      },
+      "checks": { "visualMatch": true, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
+    },
+    {
+      "id": "input.select",
+      "name": "Select",
+      "status": "in-review",
+      "platform": "web",
+      "version": "0.1.0-beta.1",
+      "links": {
+        "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1103-535",
+        "specification": "specifications/components/select.md",
+        "source": "packages/react/src/Field/Field.tsx",
+        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--overview",
+        "knowledge": "knowledge-base/02 Components/Select.md"
+      },
+      "checks": { "visualMatch": true, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
+    },
+    {
+      "id": "input.combobox",
+      "name": "Combobox",
+      "status": "in-review",
+      "platform": "web",
+      "version": "0.1.0-beta.1",
+      "links": {
+        "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1104-661",
+        "specification": "specifications/components/combobox.md",
+        "source": "packages/react/src/Field/Field.tsx",
+        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--overview",
+        "knowledge": "knowledge-base/02 Components/Combobox.md"
+      },
+      "checks": { "visualMatch": true, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
+    },
+    {
+      "id": "input.multi-select",
+      "name": "Multi Select",
+      "status": "in-review",
+      "platform": "web",
+      "version": "0.1.0-beta.1",
+      "links": {
+        "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1106-1005",
+        "specification": "specifications/components/multi-select.md",
+        "source": "packages/react/src/Field/Field.tsx",
+        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--overview",
+        "knowledge": "knowledge-base/02 Components/Multi Select.md"
+      },
+      "checks": { "visualMatch": true, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
+    },
+    {
+      "id": "selection.checkbox",
+      "name": "Checkbox",
+      "status": "in-review",
+      "platform": "web",
+      "version": "0.1.0-beta.1",
+      "links": {
+        "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1571-521",
+        "specification": "specifications/components/checkbox.md",
+        "source": "packages/react/src/Selection/Selection.tsx",
+        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-checkbox--overview",
+        "knowledge": "knowledge-base/02 Components/Checkbox.md"
+      },
+      "checks": { "visualMatch": true, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
+    },
+    {
+      "id": "selection.radio-button",
+      "name": "Radio Button",
+      "status": "in-review",
+      "platform": "web",
+      "version": "0.1.0-beta.1",
+      "links": {
+        "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1571-8954",
+        "specification": "specifications/components/radio-button.md",
+        "source": "packages/react/src/Selection/Selection.tsx",
+        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-radio-button--overview",
+        "knowledge": "knowledge-base/02 Components/Radio Button.md"
+      },
+      "checks": { "visualMatch": true, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
+    },
+    {
+      "id": "selection.switch",
+      "name": "Switch",
+      "status": "in-review",
+      "platform": "web",
+      "version": "0.1.0-beta.1",
+      "links": {
+        "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1571-9673",
+        "specification": "specifications/components/switch.md",
+        "source": "packages/react/src/Selection/Selection.tsx",
+        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-switch--overview",
+        "knowledge": "knowledge-base/02 Components/Switch.md"
+      },
+      "checks": { "visualMatch": true, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
     }
   ]
 }
