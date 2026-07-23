@@ -32,6 +32,9 @@ describe('Button', () => {
     expect(html).toContain('aria-busy="true"');
     expect(html).toContain('data-loading="true"');
     expect(html).toContain('cometal-button__loader');
+    expect(html).toContain('viewBox="0 0 15 15"');
+    expect(html).toContain('stroke-width="1.6"');
+    expect(html).toContain('vector-effect="non-scaling-stroke"');
     expect(html).toContain('Сохранить');
   });
 
@@ -45,4 +48,3 @@ describe('Button', () => {
     expect(html).not.toContain('cometal-button__label');
   });
 });
-

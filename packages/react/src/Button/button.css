@@ -6,7 +6,7 @@
   --cometal-button-content: var(--cometal-semantic-color-text-primary);
   --cometal-button-content-hover: var(--cometal-button-content);
   --cometal-button-content-pressed: var(--cometal-button-content);
-  --cometal-button-content-disabled: var(--cometal-semantic-color-text-disabled);
+  --cometal-button-content-disabled: var(--cometal-primitive-color-primitive-palette-neutral-500-100);
   --cometal-button-height: var(--cometal-semantic-size-button-l);
   --cometal-button-icon-size: var(--cometal-semantic-size-icon-button-l);
   --cometal-button-inset: var(--cometal-semantic-spacing-button-l-inset-icon);
@@ -105,13 +105,20 @@
   position: absolute;
   top: 50%;
   left: 50%;
+  display: flex;
   width: var(--cometal-button-icon-size);
   height: var(--cometal-button-icon-size);
-  border: max(1px, calc(var(--cometal-button-icon-size) / 12)) solid currentColor;
-  border-right-color: transparent;
-  border-radius: 50%;
+  align-items: center;
+  justify-content: center;
   transform: translate(-50%, -50%);
   animation: cometal-button-spin 700ms linear infinite;
+}
+
+.cometal-button__loader > svg {
+  display: block;
+  width: 75%;
+  height: 75%;
+  overflow: visible;
 }
 
 .cometal-button[data-size='m'] {
@@ -202,7 +209,7 @@
   --cometal-button-container-hover: var(--cometal-semantic-color-button-inverse-ghost-container-hover);
   --cometal-button-container-pressed: var(--cometal-semantic-color-button-inverse-ghost-container-pressed);
   --cometal-button-container-disabled: var(--cometal-semantic-color-button-inverse-ghost-container-disabled);
-  --cometal-button-content: var(--cometal-semantic-color-text-inverse);
+  --cometal-button-content: var(--cometal-primitive-color-primitive-palette-neutral-800-100);
 }
 
 .cometal-button[data-loading='true'] {

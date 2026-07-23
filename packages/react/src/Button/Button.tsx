@@ -33,6 +33,23 @@ export interface ButtonProps
   endIcon?: ReactNode;
 }
 
+function ButtonLoader() {
+  return (
+    <span className="cometal-button__loader" aria-hidden="true">
+      <svg viewBox="0 0 15 15" fill="none" focusable="false">
+        <path
+          d="M7.5 3.42857V0M7.5 15V11.5714M11.5714 7.5H15M0 7.5H3.42857M10.3792 4.62121L12.8036 2.19685M2.19617 12.8034L4.62054 10.379M10.3792 10.3788L12.8036 12.8032M2.19617 2.19659L4.62054 4.62095"
+          stroke="currentColor"
+          strokeWidth="1.6"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          vectorEffect="non-scaling-stroke"
+        />
+      </svg>
+    </span>
+  );
+}
+
 export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button(
   {
     variant = 'primary',
@@ -76,8 +93,7 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
           </span>
         ) : null}
       </span>
-      {loading ? <span className="cometal-button__loader" aria-hidden="true" /> : null}
+      {loading ? <ButtonLoader /> : null}
     </button>
   );
 });
-

@@ -60,10 +60,10 @@ function ButtonDocumentation() {
       </section>
 
       <section className="ds-component-section">
-        <div className="ds-component-section__intro"><span>03</span><div><h2>Варианты</h2><p>Девять визуальных ролей совпадают с DS Core. Тёмные варианты показаны на тёмной поверхности.</p></div></div>
+        <div className="ds-component-section__intro"><span>03</span><div><h2>Варианты</h2><p>Девять визуальных ролей совпадают с DS Core. Контекстные варианты показаны на поверхности, для которой рассчитан их контраст.</p></div></div>
         <div className="ds-button-variants">
           {documentedButtonVariants.map((variant) => (
-            <article key={variant} className={variant === 'ghost' || variant === 'inverse' || variant === 'inverse-ghost' ? 'dark' : ''}>
+            <article key={variant} className={variant === 'ghost' || variant === 'inverse' ? 'dark' : ''}>
               <code>{variantLabels[variant]}</code>
               <Button variant={variant}>Продолжить</Button>
             </article>
