@@ -13,11 +13,13 @@ figma: "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1102-8399"
 
 Многострочный ввод текста. Повторяет контракт Text Field, но использует нативный `textarea`, поддерживает счётчик и многострочный `Read`.
 
-## Contract
+## Спецификация компонента
 
-- Размеры: `l` и `m`; высота поля задаётся через `rows`, минимальная высота соответствует DS Core.
+- Размеры: `l` и `m`; минимальная высота соответствует DS Core.
 - Состояния: default, hover, filled, error, disabled и focus-visible.
 - Helper и счётчик занимают одну supporting-строку.
+- `startIcon/endIcon`, `showCounter` и `showScrollbar` отражают boolean и
+  instance-swap properties утверждённого Figma master.
 
 ## Accessibility
 
@@ -27,5 +29,5 @@ figma: "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1102-8399"
 ## Acceptance criteria
 
 - [x] Визуальная модель и состояния считаны из DS Core.
-- [ ] React API, stories и browser-проверки реализованы.
+- [x] React API, stories и browser-проверки реализованы.
 - [ ] Frontend Lead подтвердил совместимость с продуктом.

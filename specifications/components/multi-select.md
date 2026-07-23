@@ -13,19 +13,23 @@ figma: "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1106-1005"
 
 Выбор нескольких значений. В `Edit` выбранные элементы представлены tags внутри trigger; в `Read` выводится полный текстовый список без tags, chevron и `+N`.
 
-## Contract
+## Спецификация компонента
 
 - Trigger — нативный button с `aria-haspopup="listbox"` и `aria-expanded`.
 - Размеры: `l` и `m`; режимы: `edit` и `read`.
-- Overlay и Option являются отдельным pattern и не встраиваются в компонент поля.
+- Active включает Listbox с `aria-multiselectable`.
+- `options`, `selectedValues` и `onSelectedValuesChange` образуют controlled API.
+- Каждый Value Tag имеет отдельную доступную кнопку удаления.
 
 ## Accessibility
 
 - Trigger имеет доступное имя от label.
-- Удаление значения, keyboard-listbox и скрытые form-values добавляются интеграцией pattern.
+- Arrow Down открывает Listbox, Escape закрывает.
+- Options используют `role="option"` и `aria-selected`.
+- Кнопка удаления имеет имя `Удалить {label}`.
 
 ## Acceptance criteria
 
 - [x] Визуальная модель и состояния считаны из DS Core.
-- [ ] React API, stories и browser-проверки реализованы.
-- [ ] Полный multi-select pattern описан отдельно.
+- [x] React API, Active/interaction stories и browser-проверки реализованы.
+- [ ] Скрытые form-values должны быть добавлены при интеграции с конкретной формой.

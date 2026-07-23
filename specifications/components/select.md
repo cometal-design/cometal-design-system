@@ -11,21 +11,28 @@ figma: "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1103-535"
 
 ## Назначение
 
-Выбор одного значения из заранее известного набора. Поле использует нативный `select`; открытый список не считается состоянием самого поля.
+Выбор одного значения из заранее известного набора. Видимый trigger и Listbox
+воспроизводят утверждённую Figma-композицию; скрытый нативный `select` сохраняет
+form-value и совместимость с HTML-формами.
 
-## Contract
+## Спецификация компонента
 
 - Размеры: `l` и `m`; режимы: `edit` и `read`.
-- Состояния: default, hover, filled, error, disabled, focus-visible.
-- Placeholder отображается disabled-option до выбора значения.
+- Состояния: default, hover, filled, error, disabled, focus-visible и active.
+- `expanded/defaultExpanded/onExpandedChange` управляют раскрытием.
+- `value/defaultValue/onValueChange` управляют выбранным значением.
+- Active содержит связанный Listbox с default, selected и disabled options.
 
 ## Accessibility
 
-- Сохраняются нативные keyboard и form semantics.
-- Label и supporting text программно связаны с select.
+- Trigger имеет `role="combobox"`, `aria-haspopup`, `aria-expanded`,
+  `aria-controls` и `aria-activedescendant`.
+- Arrow Up/Down перемещают active option, Enter выбирает, Escape закрывает.
+- Label и supporting text программно связаны с trigger.
+- Скрытый native select исключён из tab-order и accessibility tree.
 
 ## Acceptance criteria
 
 - [x] Визуальная модель и состояния считаны из DS Core.
-- [ ] React API, stories и browser-проверки реализованы.
+- [x] React API, Active/interaction stories и browser-проверки реализованы.
 - [ ] Frontend Lead подтвердил совместимость с продуктом.

@@ -11,21 +11,25 @@ figma: "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1104-661"
 
 ## Назначение
 
-Поиск и выбор одного значения. Поле управляет запросом; результаты и keyboard-navigation списка принадлежат отдельному Listbox pattern.
+Поиск и выбор одного значения. Поле управляет запросом и раскрывает связанный
+Listbox с результатами.
 
-## Contract
+## Спецификация компонента
 
 - Нативный input получает `role="combobox"`, `aria-expanded` и связь с listbox.
 - Размеры: `l` и `m`; режимы: `edit` и `read`.
 - Search icon является частью композиции, но декоративен для screen reader.
+- `options`, `expanded/defaultExpanded/onExpandedChange` и `onOptionSelect`
+  образуют публичный interaction API.
 
 ## Accessibility
 
-- Интегратор передаёт `aria-controls`, `aria-activedescendant` и фактическое состояние раскрытия.
+- Focus и Arrow Down открывают результаты; Escape закрывает список.
+- Input использует `aria-autocomplete="list"` и `aria-controls`.
 - Label, helper и error программно связаны с input.
 
 ## Acceptance criteria
 
 - [x] Визуальная модель и состояния считаны из DS Core.
-- [ ] React API, stories и browser-проверки реализованы.
-- [ ] Полный Listbox pattern описан отдельно.
+- [x] React API, Active story и browser-проверки реализованы.
+- [ ] Roving active option и Enter-selection завершены.

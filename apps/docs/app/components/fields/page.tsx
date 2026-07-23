@@ -42,7 +42,7 @@ export default function FieldsPage() {
 
       <section className="content-section" id="behavior">
         <div className="section-heading"><h2>Поведение</h2><p>Общий визуальный слой не смешивает разные пользовательские задачи и browser semantics.</p></div>
-        <div className="definition-list"><article><span>01</span><strong>Text Field / Text Area</strong><p>Вводят текст через нативные input и textarea.</p></article><article><span>02</span><strong>Select</strong><p>Выбирает из известного набора и сохраняет нативное form-поведение.</p></article><article><span>03</span><strong>Combobox</strong><p>Управляет поисковым запросом; Listbox подключается pattern-слоем.</p></article><article><span>04</span><strong>Multi Select</strong><p>Открывает отдельный listbox; выбранные значения показывает tags.</p></article><article><span>05</span><strong>Read</strong><p>Показывает данные обычным текстом без рамки, chevron и tab-stop.</p></article></div>
+        <div className="definition-list"><article><span>01</span><strong>Text Field / Text Area</strong><p>Вводят текст через нативные input и textarea.</p></article><article><span>02</span><strong>Select</strong><p>Видимый trigger открывает DS Core Listbox; скрытый native select хранит form-value.</p></article><article><span>03</span><strong>Combobox</strong><p>Управляет поисковым запросом и связанным Listbox результатов.</p></article><article><span>04</span><strong>Multi Select</strong><p>Открывает multi-select Listbox; выбранные значения показывает Value Tags с отдельным удалением.</p></article><article><span>05</span><strong>Read</strong><p>Показывает данные обычным текстом без рамки, chevron и tab-stop.</p></article></div>
       </section>
 
       <section className="content-section" id="api">
