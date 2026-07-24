@@ -420,8 +420,8 @@ a { color: inherit; }
 .process-line strong { display: block; margin-top: var(--cometal-primitive-spacing-400); font-family: var(--cometal-typography-body-m-accent-font-family); font-size: var(--cometal-typography-body-m-accent-font-size); line-height: var(--cometal-typography-body-m-accent-line-height); font-weight: var(--cometal-typography-body-m-accent-font-weight); letter-spacing: var(--cometal-typography-body-m-accent-letter-spacing); }
 .process-line p { margin: var(--cometal-primitive-spacing-60) 0 0; color: var(--portal-muted); font-family: var(--cometal-typography-body-s-default-font-family); font-size: var(--cometal-typography-body-s-default-font-size); line-height: var(--cometal-typography-body-s-default-line-height); letter-spacing: var(--cometal-typography-body-s-default-letter-spacing); }
 
-.foundation-stats { display: grid; margin-bottom: var(--cometal-primitive-spacing-450); grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.foundation-stats article { padding: var(--cometal-primitive-spacing-200) var(--cometal-primitive-spacing-150); }
+.foundation-stats { display: grid; width: fit-content; margin-bottom: var(--cometal-primitive-spacing-450); grid-template-columns: repeat(4, max-content); gap: var(--cometal-primitive-spacing-450); }
+.foundation-stats article { padding: var(--cometal-primitive-spacing-200) 0; }
 .foundation-stats strong, .foundation-stats span { display: block; }
 .foundation-stats strong { font-family: var(--cometal-typography-display-s-font-family); font-size: var(--cometal-typography-display-s-font-size); line-height: var(--cometal-typography-display-s-line-height); font-weight: var(--cometal-typography-display-s-font-weight); letter-spacing: var(--cometal-typography-display-s-letter-spacing); }
 .foundation-stats span { margin-top: var(--cometal-primitive-spacing-50); color: var(--portal-muted); font: var(--portal-code-s-size)/var(--portal-code-line-height) var(--portal-font-code); }
@@ -673,7 +673,7 @@ a { color: inherit; }
   .page-header--with-stat { align-items: flex-start; flex-direction: column; }.page-stat { align-items: flex-start; }
   .content-section { padding: var(--cometal-semantic-spacing-section-m) 0; }
   .definition-list article { grid-template-columns: 36px 1fr; }.definition-list p { grid-column: 2; }
-  .foundation-stats { grid-template-columns: 1fr 1fr; }
+  .foundation-stats { width: 100%; grid-template-columns: 1fr 1fr; }
   .color-ramp { min-height: 360px; grid-template-columns: repeat(2, 1fr); }.type-specimen { padding: var(--cometal-primitive-spacing-200) var(--cometal-primitive-spacing-125); }.type-specimen strong { margin: var(--cometal-primitive-spacing-200) 0; font-size: 40px; }.foundation-links { grid-template-columns: 1fr; }.foundation-links article { border-right: 0; border-bottom: 1px solid var(--portal-line); }.foundation-links article:last-child { border-bottom: 0; }.theme-preview { grid-template-columns: 1fr; }
   .foundation-catalog a { grid-template-columns: 36px 1fr; }.foundation-catalog small { grid-column: 2; justify-self: start; }
   .foundation-swatch-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); }
