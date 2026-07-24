@@ -70,11 +70,11 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="portal">
       <header className="topbar">
-        <div className="topbar__group">
-          <Link className="brand" href="/" aria-label="Cometal Design System — главная">
-            <Image src="/cometal-favicon.svg" alt="" width={24} height={24} priority />
-          </Link>
+        <Link className="brand" href="/" aria-label="Cometal Design System — главная">
+          <Image src="/cometal-favicon.svg" alt="" width={24} height={24} priority />
+        </Link>
 
+        <div className="topbar__group">
           <nav className="primary-nav" aria-label="Основные разделы">
             {primaryNavigation.map((item) => {
               const active = item.external ? false : pathname.startsWith(item.href);

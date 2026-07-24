@@ -53,6 +53,9 @@
   --portal-header-height: 64px;
   --portal-sidebar-width: 260px;
   --portal-mobile-navigation-width: 360px;
+  --portal-navigation-glass: color-mix(in srgb, var(--portal-surface-raised) 72%, transparent);
+  --portal-navigation-glass-border: color-mix(in srgb, var(--portal-line) 62%, transparent);
+  --portal-navigation-shadow: 0 var(--cometal-primitive-spacing-50) var(--cometal-primitive-spacing-150) color-mix(in srgb, var(--portal-ink) 10%, transparent);
 }
 
 * { box-sizing: border-box; }
@@ -86,22 +89,29 @@ a { color: inherit; }
 .topbar__group {
   display: flex;
   align-items: center;
-  gap: var(--cometal-primitive-spacing-50);
 }
 .brand {
+  position: absolute;
+  top: 50%;
+  left: var(--cometal-primitive-spacing-150);
   display: inline-flex;
   width: var(--cometal-primitive-size-40);
   height: var(--cometal-primitive-size-40);
   align-items: center;
   justify-content: center;
   flex: 0 0 var(--cometal-primitive-size-40);
+  border: var(--portal-hairline) solid var(--portal-navigation-glass-border);
   border-radius: var(--cometal-primitive-size-40);
-  background: color-mix(in srgb, var(--portal-canvas) 86%, transparent);
+  background: var(--portal-navigation-glass);
+  box-shadow: var(--portal-navigation-shadow);
   text-decoration: none;
-  transition: background-color 180ms cubic-bezier(.22,1,.36,1);
+  transform: translateY(-50%);
+  transition: background-color 180ms cubic-bezier(.22,1,.36,1), box-shadow 180ms cubic-bezier(.22,1,.36,1);
+  -webkit-backdrop-filter: blur(var(--cometal-primitive-spacing-150));
+  backdrop-filter: blur(var(--cometal-primitive-spacing-150));
 }
 .brand img { display: block; width: var(--cometal-primitive-size-24); height: var(--cometal-primitive-size-24); }
-.brand:hover { background: var(--portal-surface-raised); }
+.brand:hover { background: color-mix(in srgb, var(--portal-surface-raised) 90%, transparent); }
 .brand:focus-visible,
 .menu-button:focus-visible,
 .primary-nav__link:focus-visible,
@@ -116,9 +126,12 @@ a { color: inherit; }
   align-items: center;
   justify-content: center;
   gap: var(--cometal-primitive-spacing-12);
+  border: var(--portal-hairline) solid var(--portal-navigation-glass-border);
   border-radius: var(--cometal-primitive-size-40);
-  background: color-mix(in srgb, var(--portal-canvas) 86%, transparent);
-  backdrop-filter: blur(var(--cometal-primitive-spacing-75));
+  background: var(--portal-navigation-glass);
+  box-shadow: var(--portal-navigation-shadow);
+  -webkit-backdrop-filter: blur(var(--cometal-primitive-spacing-150));
+  backdrop-filter: blur(var(--cometal-primitive-spacing-150));
 }
 .primary-nav__link {
   display: inline-flex;
@@ -149,14 +162,17 @@ a { color: inherit; }
   align-items: center;
   justify-content: center;
   flex: 0 0 var(--cometal-primitive-size-40);
-  border: 0;
+  border: var(--portal-hairline) solid var(--portal-navigation-glass-border);
   border-radius: var(--cometal-primitive-size-40);
-  background: color-mix(in srgb, var(--portal-canvas) 86%, transparent);
+  background: var(--portal-navigation-glass);
+  box-shadow: var(--portal-navigation-shadow);
   color: var(--portal-ink);
   cursor: pointer;
-  transition: background-color 180ms cubic-bezier(.22,1,.36,1);
+  transition: background-color 180ms cubic-bezier(.22,1,.36,1), box-shadow 180ms cubic-bezier(.22,1,.36,1);
+  -webkit-backdrop-filter: blur(var(--cometal-primitive-spacing-150));
+  backdrop-filter: blur(var(--cometal-primitive-spacing-150));
 }
-.menu-button:hover { background: var(--portal-surface-raised); }
+.menu-button:hover { background: color-mix(in srgb, var(--portal-surface-raised) 90%, transparent); }
 .menu-icon {
   position: relative;
   display: block;
@@ -188,8 +204,11 @@ a { color: inherit; }
   padding: var(--cometal-primitive-spacing-50);
   border: var(--portal-hairline) solid var(--portal-line);
   border-radius: var(--portal-radius-l);
-  background: var(--portal-surface-raised);
+  background: var(--portal-navigation-glass);
+  box-shadow: var(--portal-navigation-shadow);
   transform: translateX(-50%);
+  -webkit-backdrop-filter: blur(var(--cometal-primitive-spacing-150));
+  backdrop-filter: blur(var(--cometal-primitive-spacing-150));
 }
 .mobile-navigation[hidden] { display: none; }
 .mobile-navigation a {
@@ -631,7 +650,10 @@ a { color: inherit; }
 }
 
 @media (max-width: 920px) {
+  .brand { left: var(--cometal-primitive-spacing-125); }
+  .topbar__group { position: absolute; right: var(--cometal-primitive-spacing-125); }
   .primary-nav { display: none; }.menu-button { display: inline-flex; }
+  .mobile-navigation { right: var(--cometal-primitive-spacing-125); left: auto; transform: none; }
   .home-hero__line-break { display: none; }
   .portal-body[data-has-sidebar] { grid-template-columns: 1fr; }
   .section-sidebar { position: static; overflow-x: auto; display: block; width: 100%; height: auto; padding: var(--cometal-primitive-spacing-75) var(--cometal-primitive-spacing-125); border-right: 0; border-bottom: 1px solid var(--portal-line); }
