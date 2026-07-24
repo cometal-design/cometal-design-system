@@ -24,6 +24,12 @@
 <!-- Figma DS Core / System / Brand / Theme=favicon (node 1655:6179). -->
 <link rel="icon" type="image/svg+xml" href="./cometal-favicon.svg" />
 <style>
+  /* Match the compact 24px navigation mark used by the documentation portal. */
+  img[src$="cometal-favicon.svg"] {
+    width: 24px;
+    height: 24px;
+  }
+
   /* Keep the navigation typographic: hide Storybook type glyphs, preserve disclosure chevrons. */
   .sidebar-item[data-nodetype] > a > div > svg[viewBox="0 0 14 14"],
   .sidebar-item[data-nodetype] > button > div > svg[viewBox="0 0 14 14"] {

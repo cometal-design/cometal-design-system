@@ -86,7 +86,7 @@ a { color: inherit; }
 }
 
 .brand { display: inline-flex; width: fit-content; align-items: center; }
-.brand img { display: block; width: var(--cometal-primitive-size-32); height: var(--cometal-primitive-size-32); }
+.brand img { display: block; width: var(--cometal-primitive-size-24); height: var(--cometal-primitive-size-24); }
 .primary-nav { display: flex; min-width: 0; align-items: center; justify-content: center; gap: var(--cometal-primitive-spacing-25); }
 .primary-nav__link {
   position: relative;

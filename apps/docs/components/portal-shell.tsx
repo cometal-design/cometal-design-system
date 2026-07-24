@@ -55,7 +55,7 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
     <div className="portal">
       <header className="topbar">
         <Link className="brand" href="/" aria-label="Cometal Design System — главная">
-          <Image src="/cometal-favicon.svg" alt="" width={32} height={32} priority />
+          <Image src="/cometal-favicon.svg" alt="" width={24} height={24} priority />
         </Link>
 
         <nav className="primary-nav" aria-label="Основные разделы">
