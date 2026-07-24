@@ -146,8 +146,8 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
                         aria-label={`${expanded ? 'Свернуть' : 'Раскрыть'} раздел «${item.label}»`}
                         onClick={() => toggleGroup(item.href)}
                       >
-                        <span>{item.label}</span>
                         <ArrowDownIcon />
+                        <span>{item.label}</span>
                       </button>
                     </div>
                     <div className="section-nav__children" id={groupId} hidden={!expanded} role="group" aria-label={item.label}>

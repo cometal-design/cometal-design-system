@@ -249,7 +249,7 @@ a { color: inherit; }
   height: var(--cometal-primitive-size-32);
   padding: 0 var(--cometal-primitive-spacing-50);
   align-items: center;
-  justify-content: space-between;
+  justify-content: flex-start;
   gap: var(--cometal-primitive-spacing-50);
   border: 0;
   border-radius: var(--portal-radius-l);
