@@ -224,16 +224,6 @@ a { color: inherit; }
 .portal-body { display: grid; min-height: calc(100vh - var(--portal-header-height)); grid-template-columns: 1fr; }
 .portal-body[data-has-sidebar] { grid-template-columns: var(--portal-sidebar-width) minmax(0, 1fr); }
 .section-sidebar { position: sticky; top: var(--portal-header-height); height: calc(100vh - var(--portal-header-height)); padding: var(--cometal-primitive-spacing-200) var(--cometal-primitive-spacing-50); background: var(--portal-surface); }
-.section-sidebar__title {
-  margin: 0 var(--cometal-primitive-spacing-50) var(--cometal-primitive-spacing-150);
-  color: var(--portal-subtle);
-  font-family: var(--cometal-typography-caption-label-caption-font-family);
-  font-size: var(--cometal-typography-caption-label-caption-font-size);
-  font-weight: var(--cometal-typography-caption-label-caption-font-weight);
-  line-height: var(--cometal-typography-caption-label-caption-line-height);
-  letter-spacing: var(--cometal-typography-caption-label-caption-letter-spacing);
-  text-transform: var(--cometal-typography-caption-label-caption-text-transform);
-}
 .section-sidebar nav { display: grid; gap: var(--cometal-primitive-spacing-12); }
 .section-sidebar a {
   display: flex;
@@ -651,7 +641,7 @@ a { color: inherit; }
   .home-hero__line-break { display: none; }
   .portal-body[data-has-sidebar] { grid-template-columns: 1fr; }
   .section-sidebar { position: static; overflow-x: auto; display: block; width: 100%; height: auto; padding: var(--cometal-primitive-spacing-75) var(--cometal-primitive-spacing-125); border-right: 0; border-bottom: 1px solid var(--portal-line); }
-  .section-sidebar__title { display: none; }.section-sidebar nav { display: flex; width: max-content; align-items: flex-start; gap: var(--cometal-primitive-spacing-25); }.section-sidebar a { white-space: nowrap; }
+  .section-sidebar nav { display: flex; width: max-content; align-items: flex-start; gap: var(--cometal-primitive-spacing-25); }.section-sidebar a { white-space: nowrap; }
   .section-nav__group { display: flex; min-width: max-content; align-items: flex-start; }
   .section-nav__parent { width: auto; }
   .section-nav__parent > button { width: auto; min-width: max-content; }

@@ -125,7 +125,6 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
       <div className="portal-body" data-has-sidebar={items.length > 0 || undefined}>
         {items.length > 0 ? (
           <aside className="section-sidebar">
-            <div className="section-sidebar__title">{primaryNavigation.find((item) => pathname.startsWith(item.href))?.label ?? 'Документация'}</div>
             <nav className="section-nav" aria-label="Навигация раздела">
               {items.map((item) => {
                 const active = normalizePath(pathname) === normalizePath(item.href);
