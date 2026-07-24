@@ -4,7 +4,6 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
-import { Button } from '@cometal/react';
 import { primaryNavigation, sectionNavigation } from '../lib/navigation';
 
 function normalizePath(path: string) {
@@ -24,6 +23,15 @@ function ArrowDownIcon() {
   );
 }
 
+function MenuIcon({ open }: { open: boolean }) {
+  return (
+    <span className="menu-icon" data-open={open || undefined} aria-hidden="true">
+      <span />
+      <span />
+    </span>
+  );
+}
+
 export function PortalShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const section = currentSection(pathname);
@@ -34,6 +42,14 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
   });
 
   useEffect(() => setMenuOpen(false), [pathname]);
+  useEffect(() => {
+    if (!menuOpen) return;
+    function closeOnEscape(event: KeyboardEvent) {
+      if (event.key === 'Escape') setMenuOpen(false);
+    }
+    window.addEventListener('keydown', closeOnEscape);
+    return () => window.removeEventListener('keydown', closeOnEscape);
+  }, [menuOpen]);
   useEffect(() => {
     const activeGroups = items
       .filter((item) => item.children?.some((child) => normalizePath(pathname) === normalizePath(child.href)))
@@ -54,44 +70,57 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
   return (
     <div className="portal">
       <header className="topbar">
-        <Link className="brand" href="/" aria-label="Cometal Design System — главная">
-          <Image src="/cometal-favicon.svg" alt="" width={24} height={24} priority />
-        </Link>
+        <div className="topbar__group">
+          <Link className="brand" href="/" aria-label="Cometal Design System — главная">
+            <Image src="/cometal-favicon.svg" alt="" width={24} height={24} priority />
+          </Link>
 
-        <nav className="primary-nav" aria-label="Основные разделы">
+          <nav className="primary-nav" aria-label="Основные разделы">
+            {primaryNavigation.map((item) => {
+              const active = item.external ? false : pathname.startsWith(item.href);
+              return item.external ? (
+                <a key={item.href} href={item.href} className="primary-nav__link primary-nav__link--playground">
+                  {item.label}<span aria-hidden="true">↗</span>
+                </a>
+              ) : (
+                <Link
+                  key={item.href}
+                  href={item.href}
+                  className="primary-nav__link"
+                  data-active={active || undefined}
+                  aria-current={active ? 'page' : undefined}
+                >
+                  {item.label}
+                </Link>
+              );
+            })}
+          </nav>
+
+          <button
+            type="button"
+            className="menu-button"
+            aria-label={menuOpen ? 'Закрыть меню' : 'Открыть меню'}
+            aria-expanded={menuOpen}
+            aria-controls="mobile-navigation"
+            onClick={() => setMenuOpen((value) => !value)}
+          >
+            <MenuIcon open={menuOpen} />
+          </button>
+        </div>
+
+        <nav className="mobile-navigation" id="mobile-navigation" hidden={!menuOpen} aria-label="Основные разделы">
           {primaryNavigation.map((item) => {
             const active = item.external ? false : pathname.startsWith(item.href);
             return item.external ? (
-              <a key={item.href} href={item.href} className="primary-nav__link primary-nav__link--playground">
-                {item.label}<span aria-hidden="true">↗</span>
-              </a>
+              <a key={item.href} href={item.href}>{item.label}<span aria-hidden="true">↗</span></a>
             ) : (
-              <Link key={item.href} href={item.href} className="primary-nav__link" data-active={active || undefined}>
+              <Link key={item.href} href={item.href} data-active={active || undefined} aria-current={active ? 'page' : undefined}>
                 {item.label}
               </Link>
             );
           })}
         </nav>
-
-        <Button
-          className="menu-button"
-          variant="link"
-          size="m"
-          aria-expanded={menuOpen}
-          aria-controls="mobile-navigation"
-          onClick={() => setMenuOpen((value) => !value)}
-        >
-          {menuOpen ? 'Закрыть' : 'Меню'}
-        </Button>
       </header>
-
-      <div className="mobile-navigation" id="mobile-navigation" hidden={!menuOpen}>
-        {primaryNavigation.map((item) => item.external ? (
-          <a key={item.href} href={item.href}>{item.label} ↗</a>
-        ) : (
-          <Link key={item.href} href={item.href}>{item.label}</Link>
-        ))}
-      </div>
 
       <div className="portal-body" data-has-sidebar={items.length > 0 || undefined}>
         {items.length > 0 ? (
