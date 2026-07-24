@@ -343,6 +343,13 @@ a { color: inherit; }
 .foundation-type-group > div { border-top: 1px solid var(--portal-line); }
 .foundation-type-group article { display: grid; min-height: 132px; padding: 24px 0; grid-template-columns: 180px minmax(280px, 1fr) minmax(240px, 300px); align-items: center; gap: 32px; border-bottom: 1px solid var(--portal-line); }
 .foundation-type-group article > div strong, .foundation-type-group article > div code { display: block; }
+.foundation-type-group article > div strong {
+  font-family: var(--cometal-typography-body-m-accent-font-family);
+  font-size: var(--cometal-typography-body-m-accent-font-size);
+  font-weight: var(--cometal-typography-body-m-accent-font-weight);
+  line-height: var(--cometal-typography-body-m-accent-line-height);
+  letter-spacing: var(--cometal-typography-body-m-accent-letter-spacing);
+}
 .foundation-type-group article > div code, .foundation-type-group article > span { margin-top: var(--cometal-primitive-spacing-25); color: var(--portal-muted); font: var(--portal-code-s-size)/var(--portal-code-line-height) var(--portal-font-code); }
 .foundation-type-group article > p { overflow: hidden; margin: 0; text-overflow: ellipsis; white-space: nowrap; }
 
