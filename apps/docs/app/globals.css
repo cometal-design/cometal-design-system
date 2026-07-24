@@ -185,62 +185,66 @@ a { color: inherit; }
   letter-spacing: var(--cometal-typography-caption-label-caption-letter-spacing);
   text-transform: var(--cometal-typography-caption-label-caption-text-transform);
 }
-.text-link { display: inline-flex; align-items: center; gap: var(--cometal-primitive-spacing-50); color: var(--portal-ink); font-family: var(--cometal-typography-body-m-default-font-family); font-size: var(--cometal-typography-body-m-default-font-size); line-height: var(--cometal-typography-body-m-default-line-height); text-decoration: none; }
-.text-link:hover { color: var(--portal-blue); }
-
 .home-page { min-height: calc(100vh - var(--portal-header-height)); }
-.home-hero { display: grid; min-height: 620px; padding: 72px clamp(40px, 6vw, 96px); grid-template-columns: minmax(0, .9fr) minmax(560px, 1.1fr); align-items: center; gap: 72px; border-bottom: 1px solid var(--portal-line); }
-.home-hero__copy { max-width: 660px; }
+.home-hero {
+  display: grid;
+  min-height: calc(100vh - var(--portal-header-height));
+  padding: 96px clamp(32px, 7vw, 120px);
+  place-items: center;
+  text-align: center;
+}
+.home-hero__copy { width: min(100%, 900px); }
 .home-hero h1 {
-  max-width: 700px;
-  margin: var(--cometal-primitive-spacing-150) 0 0;
+  max-width: 900px;
+  margin: 0 auto;
   font-family: var(--cometal-typography-display-l-font-family);
   font-size: var(--cometal-typography-display-l-font-size);
   font-weight: var(--cometal-typography-display-l-font-weight);
   line-height: var(--cometal-typography-display-l-line-height);
   letter-spacing: var(--cometal-typography-display-l-letter-spacing);
+  text-wrap: balance;
 }
-.home-hero__copy > p { max-width: 620px; margin: var(--cometal-primitive-spacing-200) 0 0; color: var(--portal-muted); font-family: var(--cometal-typography-body-l-default-font-family); font-size: var(--cometal-typography-body-l-default-font-size); line-height: var(--cometal-typography-body-l-default-line-height); letter-spacing: var(--cometal-typography-body-l-default-letter-spacing); }
-.home-hero__actions { display: flex; margin-top: 40px; align-items: center; gap: 24px; }
-.primary-action {
+.home-hero__copy > p {
+  max-width: 720px;
+  margin: var(--cometal-primitive-spacing-200) auto 0;
+  color: var(--portal-text-secondary);
+  font-family: var(--cometal-typography-body-l-default-font-family);
+  font-size: var(--cometal-typography-body-l-default-font-size);
+  font-weight: var(--cometal-typography-body-l-default-font-weight);
+  line-height: var(--cometal-typography-body-l-default-line-height);
+  letter-spacing: var(--cometal-typography-body-l-default-letter-spacing);
+  text-wrap: pretty;
+}
+.home-hero__actions {
+  display: flex;
+  margin-top: var(--cometal-primitive-spacing-300);
+  align-items: center;
+  justify-content: center;
+  gap: var(--cometal-primitive-spacing-75);
+}
+.home-action {
   display: inline-flex;
   min-height: var(--cometal-semantic-size-button-l);
   padding: 0 var(--cometal-semantic-spacing-button-l-inset);
   align-items: center;
+  justify-content: center;
+  border: var(--portal-hairline) solid transparent;
   border-radius: var(--cometal-semantic-radius-button);
-  background: var(--cometal-semantic-color-action-brand-default);
-  color: var(--cometal-semantic-color-text-inverse);
   font-family: var(--cometal-typography-control-l-font-family);
   font-size: var(--cometal-typography-control-l-font-size);
   font-weight: var(--cometal-typography-control-l-font-weight);
   line-height: var(--cometal-typography-control-l-line-height);
   letter-spacing: var(--cometal-typography-control-l-letter-spacing);
   text-decoration: none;
-  transition: background-color 120ms ease, color 120ms ease;
+  transition: background-color 160ms cubic-bezier(.22,1,.36,1), border-color 160ms cubic-bezier(.22,1,.36,1), color 160ms cubic-bezier(.22,1,.36,1);
 }
-.primary-action:hover { background: var(--cometal-semantic-color-action-brand-hover); }
-.primary-action:active { background: var(--cometal-semantic-color-action-brand-pressed); }
-.primary-action:focus-visible { outline: var(--cometal-semantic-stroke-state-focus) solid var(--portal-focus); outline-offset: var(--cometal-primitive-spacing-12); }
-
-.source-orbit { position: relative; display: grid; min-height: 440px; grid-template-columns: repeat(2, minmax(0, 1fr)); align-content: center; gap: 12px; }
-.source-orbit::before { position: absolute; inset: 50% auto auto 50%; width: 1px; height: 70%; background: var(--portal-line); content: ''; transform: translate(-50%, -50%) rotate(90deg); }
-.source-orbit__center { position: absolute; z-index: 2; top: 50%; left: 50%; display: flex; width: 154px; height: 154px; align-items: center; justify-content: center; flex-direction: column; border: var(--portal-hairline) solid var(--portal-blue-border); border-radius: 50%; background: var(--portal-surface); box-shadow: 0 0 0 18px var(--portal-blue-soft-transparent); transform: translate(-50%, -50%); }
-.source-orbit__center strong { font-family: var(--cometal-typography-heading-m-font-family); font-size: var(--cometal-typography-heading-m-font-size); font-weight: var(--cometal-typography-heading-m-font-weight); line-height: var(--cometal-typography-heading-m-line-height); letter-spacing: var(--cometal-typography-heading-m-letter-spacing); }
-.source-orbit__center span { margin-top: var(--cometal-primitive-spacing-25); color: var(--portal-muted); font: var(--portal-code-s-size)/var(--portal-code-line-height) var(--portal-font-code); }
-.source-orbit__item { position: relative; z-index: 1; min-height: 82px; padding: 17px var(--cometal-primitive-spacing-125); border: var(--portal-hairline) solid var(--portal-line); border-radius: var(--portal-radius-m); background: var(--portal-surface); }
-.source-orbit__item:nth-of-type(2), .source-orbit__item:nth-of-type(4) { margin-right: 72px; }
-.source-orbit__item:nth-of-type(3), .source-orbit__item:nth-of-type(5) { margin-left: 72px; }
-.source-orbit__item:last-child { grid-column: 1 / -1; width: calc(50% - 36px); justify-self: center; }
-.source-orbit__item strong, .source-orbit__item span { display: block; }
-.source-orbit__item strong { font-family: var(--cometal-typography-body-s-accent-font-family); font-size: var(--cometal-typography-body-s-accent-font-size); font-weight: var(--cometal-typography-body-s-accent-font-weight); line-height: var(--cometal-typography-body-s-accent-line-height); letter-spacing: var(--cometal-typography-body-s-accent-letter-spacing); }
-.source-orbit__item span { margin-top: var(--cometal-primitive-spacing-25); color: var(--portal-muted); font: var(--portal-code-s-size)/var(--portal-code-line-height) var(--portal-font-code); }
-.home-entry-points { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); }
-.home-entry-points a { min-height: 230px; padding: 36px; border-right: 1px solid var(--portal-line); text-decoration: none; }
-.home-entry-points a:last-child { border-right: 0; }
-.home-entry-points a:hover { background: var(--portal-canvas); }
-.home-entry-points span { color: var(--portal-subtle); font: var(--portal-code-s-size)/var(--portal-code-line-height) var(--portal-font-code); }
-.home-entry-points strong { display: block; margin-top: var(--cometal-primitive-spacing-350); font-family: var(--cometal-typography-heading-m-font-family); font-size: var(--cometal-typography-heading-m-font-size); font-weight: var(--cometal-typography-heading-m-font-weight); line-height: var(--cometal-typography-heading-m-line-height); letter-spacing: var(--cometal-typography-heading-m-letter-spacing); }
-.home-entry-points p { max-width: 260px; margin: var(--cometal-primitive-spacing-60) 0 0; color: var(--portal-muted); font-family: var(--cometal-typography-body-s-default-font-family); font-size: var(--cometal-typography-body-s-default-font-size); line-height: var(--cometal-typography-body-s-default-line-height); letter-spacing: var(--cometal-typography-body-s-default-letter-spacing); }
+.home-action--primary { background: var(--cometal-semantic-color-action-brand-default); color: var(--cometal-semantic-color-text-inverse); }
+.home-action--primary:hover { background: var(--cometal-semantic-color-action-brand-hover); }
+.home-action--primary:active { background: var(--cometal-semantic-color-action-brand-pressed); }
+.home-action--secondary { border-color: var(--portal-line); background: var(--portal-surface); color: var(--portal-ink); }
+.home-action--secondary:hover { border-color: var(--portal-blue-border); background: var(--portal-canvas); }
+.home-action--secondary:active { background: var(--portal-line-soft); }
+.home-action:focus-visible { outline: var(--cometal-semantic-stroke-state-focus) solid var(--portal-focus); outline-offset: var(--cometal-primitive-spacing-12); }
 
 .content-page { width: min(100%, 1240px); margin: 0 auto; padding: 72px 64px 140px; }
 .page-header { max-width: 860px; padding-bottom: 64px; }
@@ -484,11 +488,6 @@ a { color: inherit; }
 @media (max-width: 1180px) {
   .topbar { grid-template-columns: 150px minmax(0, 1fr) 40px; }
   .primary-nav__link { padding-inline: 8px; }
-  .home-hero { grid-template-columns: 1fr; }
-  .home-hero__copy { max-width: 760px; }
-  .source-orbit { width: min(100%, 720px); }
-  .home-entry-points { grid-template-columns: repeat(2, minmax(0, 1fr)); }
-  .home-entry-points a:nth-child(2) { border-right: 0; }.home-entry-points a:nth-child(-n+2) { border-bottom: 1px solid var(--portal-line); }
 }
 
 @media (max-width: 920px) {
@@ -512,9 +511,10 @@ a { color: inherit; }
 }
 
 @media (max-width: 680px) {
-  .home-hero { min-height: auto; padding: var(--cometal-primitive-spacing-350) var(--cometal-primitive-spacing-125) var(--cometal-primitive-spacing-450); gap: var(--cometal-primitive-spacing-350); }.home-hero h1 { font-family: var(--cometal-typography-display-s-font-family); font-size: var(--cometal-typography-display-s-font-size); line-height: var(--cometal-typography-display-s-line-height); letter-spacing: var(--cometal-typography-display-s-letter-spacing); }.home-hero__actions { align-items: flex-start; flex-direction: column; }
-  .source-orbit { min-height: 560px; grid-template-columns: 1fr; }.source-orbit::before { display: none; }.source-orbit__center { top: 50%; width: 132px; height: 132px; opacity: .14; }.source-orbit__item, .source-orbit__item:nth-of-type(2), .source-orbit__item:nth-of-type(3), .source-orbit__item:nth-of-type(4), .source-orbit__item:nth-of-type(5), .source-orbit__item:last-child { width: auto; margin: 0; grid-column: auto; }
-  .home-entry-points { grid-template-columns: 1fr; }.home-entry-points a { min-height: 180px; border-right: 0; border-bottom: 1px solid var(--portal-line); }.home-entry-points a:last-child { border-bottom: 0; }.home-entry-points strong { margin-top: 36px; }
+  .home-hero { padding: var(--cometal-primitive-spacing-450) var(--cometal-primitive-spacing-125); }
+  .home-hero h1 { font-family: var(--cometal-typography-display-s-font-family); font-size: var(--cometal-typography-display-s-font-size); line-height: var(--cometal-typography-display-s-line-height); letter-spacing: var(--cometal-typography-display-s-letter-spacing); }
+  .home-hero__copy > p { font-size: var(--cometal-typography-body-m-default-font-size); line-height: var(--cometal-typography-body-m-default-line-height); }
+  .home-hero__actions { align-items: stretch; flex-direction: column; }
   .content-page { padding: var(--cometal-primitive-spacing-300) var(--cometal-primitive-spacing-125) 88px; }.page-header { padding-bottom: var(--cometal-primitive-spacing-300); }.page-header h1, .component-title h1 { font-family: var(--cometal-typography-display-s-font-family); font-size: var(--cometal-typography-display-s-font-size); line-height: var(--cometal-typography-display-s-line-height); letter-spacing: var(--cometal-typography-display-s-letter-spacing); }.page-header p, .component-title p { font-size: var(--cometal-typography-body-m-default-font-size); line-height: var(--cometal-typography-body-m-default-line-height); }
   .page-header--with-stat { align-items: flex-start; flex-direction: column; }.page-stat { align-items: flex-start; }
   .content-section { padding: 64px 0; }.section-heading { grid-template-columns: 1fr; gap: 14px; }
@@ -543,4 +543,5 @@ a { color: inherit; }
 
 @media (prefers-reduced-motion: reduce) {
   html { scroll-behavior: auto; }
+  .home-action { transition: none; }
 }
