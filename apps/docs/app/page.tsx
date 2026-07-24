@@ -1,10 +1,20 @@
 import Image from 'next/image';
 import Link from 'next/link';
+import { ReactiveGrid } from '../components/reactive-grid';
 
 export default function HomePage() {
   return (
     <main className="home-page">
       <section className="home-hero">
+        <ReactiveGrid
+          className="home-hero__grid"
+          maxSize={16}
+          minSize={0}
+          gap={8}
+          influenceRadius={240}
+          particleColor="#F0F0F0"
+          backgroundColor="#FFFFFF"
+        />
         <div className="home-hero__copy">
           <Image
             className="home-hero__brand"
