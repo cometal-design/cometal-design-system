@@ -4,6 +4,7 @@ import Image from 'next/image';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
+import { Button } from '@cometal/react';
 import { primaryNavigation, sectionNavigation } from '../lib/navigation';
 
 function normalizePath(path: string) {
@@ -72,9 +73,16 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
           })}
         </nav>
 
-        <button className="menu-button" type="button" aria-expanded={menuOpen} aria-controls="mobile-navigation" onClick={() => setMenuOpen((value) => !value)}>
-          <span>{menuOpen ? 'Закрыть' : 'Меню'}</span>
-        </button>
+        <Button
+          className="menu-button"
+          variant="link"
+          size="m"
+          aria-expanded={menuOpen}
+          aria-controls="mobile-navigation"
+          onClick={() => setMenuOpen((value) => !value)}
+        >
+          {menuOpen ? 'Закрыть' : 'Меню'}
+        </Button>
       </header>
 
       <div className="mobile-navigation" id="mobile-navigation" hidden={!menuOpen}>
