@@ -33,8 +33,8 @@ export default function ComponentsPage() {
   return (
     <main className="content-page components-page">
       <header className="page-header page-header--with-stat">
-        <div><span className="eyebrow">КОМПОНЕНТЫ</span><h1>Overview</h1><p>Единый каталог реализованных компонентов. Карточка появляется здесь из реестра Git, а не добавляется вручную.</p></div>
-        <div className="page-stat"><strong>{components.length}</strong><span>зарегистрирован</span></div>
+        <div><span className="eyebrow">КОМПОНЕНТЫ</span><h1>Каталог компонентов</h1><p>Единый каталог реализованных компонентов. Карточка появляется здесь из реестра Git, а не добавляется вручную.</p></div>
+        <div className="page-stat"><strong>{components.length}</strong><span>компонентов в реестре</span></div>
       </header>
 
       <section className="catalog-toolbar" aria-label="Сводка каталога">

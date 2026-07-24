@@ -3,8 +3,8 @@ import { SectionHeading } from '../../../../components/section-heading';
 import { cssValue, semanticTokens } from '../../../../lib/foundation-data';
 
 export const metadata: Metadata = {
-  title: 'Default theme — Foundation',
-  description: 'Утверждённая Default theme Cometal.',
+  title: 'Основная тема — Foundation',
+  description: 'Утверждённая основная тема Default для Cometal.',
 };
 
 const themeRoles = semanticTokens.filter((token) =>
@@ -16,12 +16,12 @@ export default function FoundationDefaultThemePage() {
     <main className="content-page">
       <header className="page-header">
         <span className="eyebrow">FOUNDATION / ТЕМЫ / DEFAULT</span>
-        <h1>Default theme</h1>
-        <p>Единственный опубликованный режим Semantic collection. Именно его используют портал, Storybook и React-компоненты.</p>
+        <h1>Основная тема</h1>
+        <p>Единственный опубликованный режим Default семантической коллекции. Именно его используют портал, Storybook и React-компоненты.</p>
       </header>
 
       <section className="content-section">
-        <SectionHeading title="Semantic-роли" description="Тема меняет значения ролей, но не API компонентов." />
+        <SectionHeading title="Семантические роли" description="Тема меняет значения ролей, но не API компонентов." />
         <div className="foundation-theme-sample">
           <div>
             <span>Surface / Canvas</span>
@@ -40,12 +40,12 @@ export default function FoundationDefaultThemePage() {
       </section>
 
       <section className="content-section">
-        <SectionHeading title="Граница готовности" description="Dark theme пока не утверждена как отдельный mode в Figma и поэтому не создаётся локально в коде." />
+        <SectionHeading title="Граница готовности" description="Тёмная тема пока не утверждена как отдельный режим в Figma и поэтому не создаётся локально в коде." />
         <div className="guidance">
-          <article data-tone="positive"><strong>Работает сейчас</strong><p>Default mode, semantic aliases и единое потребление токенов всеми компонентами.</p></article>
-          <article data-tone="negative"><strong>Не опубликовано</strong><p>Dark mode, переключатель темы и отдельная карта контраста для тёмных поверхностей.</p></article>
+          <article data-tone="positive"><strong>Работает сейчас</strong><p>Режим Default, семантические связи и единое использование токенов всеми компонентами.</p></article>
+          <article data-tone="negative"><strong>Не опубликовано</strong><p>Тёмный режим, переключатель темы и отдельная карта контраста для тёмных поверхностей.</p></article>
         </div>
-        <a className="technical-link" href="/storybook/?path=/story/foundation--semantic-colors">Проверить semantic-роли в Storybook ↗</a>
+        <a className="technical-link" href="/storybook/?path=/story/foundation--semantic-colors">Проверить семантические роли в Storybook ↗</a>
       </section>
     </main>
   );

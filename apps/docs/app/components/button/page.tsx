@@ -23,7 +23,7 @@ export default function ButtonPage() {
   return (
     <main className="content-page component-detail">
       <header className="component-title">
-        <div><span className="eyebrow">COMPONENT · WEB · {statusLabels[component.status].toUpperCase()}</span><h1>Button</h1><p>Запускает одно понятное действие пользователя: сохранить, продолжить, создать, подтвердить или удалить.</p></div>
+        <div><span className="eyebrow">КОМПОНЕНТ · WEB · {statusLabels[component.status].toUpperCase()}</span><h1>Button</h1><p>Запускает одно понятное действие пользователя: сохранить, продолжить, создать, подтвердить или удалить.</p></div>
         <div className="component-title__links"><a href={component.links.figma} target="_blank" rel="noreferrer">Figma ↗</a><a href="/storybook/?path=/story/components-button--playground">Открыть Playground ↗</a></div>
       </header>
 

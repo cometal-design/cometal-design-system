@@ -16,8 +16,8 @@ export default function FoundationIconsPage() {
       items={[
         {
           index: '01',
-          title: 'Каталог и статус',
-          description: 'Источники Figma, карта замены и граница готовности SVG assets и React API.',
+          title: 'Каталог',
+          description: 'Источники Figma, карта замены и граница готовности SVG-ресурсов и React API.',
           meta: `${icons.totalComponents.toLocaleString('ru-RU')} компонентов`,
           href: '/foundation/icons/catalog/',
         },

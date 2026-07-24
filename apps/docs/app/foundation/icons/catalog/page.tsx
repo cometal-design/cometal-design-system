@@ -12,9 +12,9 @@ export default function FoundationIconsCatalogPage() {
     <main className="content-page">
       <header className="page-header page-header--with-stat">
         <div>
-          <span className="eyebrow">FOUNDATION / ИКОНКИ / КАТАЛОГ И СТАТУС</span>
+          <span className="eyebrow">FOUNDATION / ИКОНКИ / КАТАЛОГ</span>
           <h1>Каталог иконок</h1>
-          <p>Страница фиксирует реальный инвентарь Figma и границу готовности. Пока SVG assets и React API не утверждены, каталог не подменяет их самодельными иконками.</p>
+          <p>Страница фиксирует реальный инвентарь Figma и границу готовности. Пока SVG-ресурсы и React API не утверждены, каталог не подменяет их самодельными иконками.</p>
         </div>
         <div className="page-stat"><strong>{icons.totalComponents.toLocaleString('ru-RU')}</strong><span>компонентов Figma</span></div>
       </header>

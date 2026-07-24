@@ -13,7 +13,7 @@ export default function FieldsPage() {
   return (
     <main className="content-page component-detail">
       <header className="component-title">
-        <div><span className="eyebrow">COMPONENT GROUP · WEB · {statusLabels[firstField.status].toUpperCase()}</span><h1>Fields</h1><p>Пять публичных полей с общей визуальной основой и разной семантикой: ввод текста, многострочный ввод, выбор, поиск и множественный выбор.</p></div>
+        <div><span className="eyebrow">ГРУППА КОМПОНЕНТОВ · WEB · {statusLabels[firstField.status].toUpperCase()}</span><h1>Fields</h1><p>Пять публичных полей с общей визуальной основой и разной семантикой: ввод текста, многострочный ввод, выбор, поиск и множественный выбор.</p></div>
         <div className="component-title__links"><a href="https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1096-42" target="_blank" rel="noreferrer">Figma ↗</a><a href="/storybook/?path=/story/components-fields--overview">Открыть Playground ↗</a></div>
       </header>
 

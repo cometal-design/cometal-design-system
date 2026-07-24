@@ -23,7 +23,7 @@ const categories = [
     number: '02',
     title: 'Цвет · Семантика',
     count: '87 ролей',
-    description: 'Роли Button, Surface, Text, Icon, Border, Action, State и Status с прямыми alias на primitive.',
+    description: 'Системные роли компонентов, поверхностей, текста, иконок, границ, действий и состояний.',
     href: '/foundation/color/semantic/',
   },
   {
@@ -37,7 +37,7 @@ const categories = [
     number: '04',
     title: 'Отступы',
     count: 'Primitive + Semantic',
-    description: 'Шкала spacing и роли Stack, Section, Button, Input и Documentation.',
+    description: 'Шкала отступов и роли для групп, разделов, кнопок, полей и документации.',
     href: '/foundation/layout/spacing/',
   },
   {
@@ -51,7 +51,7 @@ const categories = [
     number: '06',
     title: 'Радиусы',
     count: 'Primitive + Semantic',
-    description: 'Радиусы компонентов, controls и focus в primitive- и semantic-слоях.',
+    description: 'Радиусы компонентов, элементов управления и фокуса в базовом и семантическом слоях.',
     href: '/foundation/layout/radius/',
   },
   {
@@ -65,14 +65,14 @@ const categories = [
     number: '08',
     title: 'Адаптивная сетка',
     count: `${grid.presets.length} пресета`,
-    description: 'Desktop, tablet и mobile: viewport, columns, margin и gutter.',
+    description: 'Десктоп, планшет и мобильные устройства: области просмотра, колонки, поля и межколонники.',
     href: '/foundation/layout/grid/',
   },
   {
     number: '09',
     title: 'Темы',
-    count: '1 mode',
-    description: 'Текущий Default mode, semantic-роли и границы будущей Dark theme.',
+    count: '1 режим',
+    description: 'Основная тема Default, семантические роли и границы будущей тёмной темы.',
     href: '/foundation/themes/default/',
   },
   {
@@ -87,9 +87,9 @@ const categories = [
 export default function FoundationPage() {
   const figures = [
     [inventory.figma.variables.total, 'переменных Figma'],
-    [inventory.figma.variables.foundation, 'foundation tokens'],
+    [inventory.figma.variables.foundation, 'токенов Foundation'],
     [inventory.figma.variables.withAliases, 'alias-связей'],
-    [inventory.figma.variables.withCodeSyntax, 'с code syntax'],
+    [inventory.figma.variables.withCodeSyntax, 'с именами для кода'],
   ];
 
   return (
@@ -97,7 +97,7 @@ export default function FoundationPage() {
       <header className="page-header">
         <span className="eyebrow">FOUNDATION</span>
         <h1>Основа системы</h1>
-        <p>Портал объясняет назначение. Storybook показывает полный инженерный каталог, resolved values и Playground. Значения поступают из token source, синхронизированного с Figma.</p>
+        <p>Портал объясняет назначение. Storybook показывает инженерный каталог, итоговые значения и Playground. Значения поступают из источника токенов, синхронизированного с Figma.</p>
       </header>
 
       <section className="foundation-stats" aria-label="Инвентарь Foundation">
@@ -118,7 +118,7 @@ export default function FoundationPage() {
       </section>
 
       <section className="content-section">
-        <SectionHeading title="Путь значения" description="Компоненты и продукт не должны обращаться к primitive напрямую." />
+        <SectionHeading title="Путь значения" description="Компоненты и продукт не должны обращаться к базовым значениям напрямую." />
         <ol className="process-line">
           <li><span>01</span><strong>Primitive</strong><p>Хранит значение.</p></li>
           <li><span>02</span><strong>Semantic</strong><p>Назначает роль.</p></li>
@@ -130,12 +130,12 @@ export default function FoundationPage() {
       <section className="content-section">
         <SectionHeading title="Границы готовности" description="Пробелы фиксируются явно и не заполняются придуманными решениями." />
         <div className="guidance">
-          <article data-tone="positive"><strong>Готово</strong><p>Primitive, semantic, typography и responsive grid documentation читаются из проверенных источников.</p></article>
-          <article data-tone="negative"><strong>Требуется решение</strong><p>Страницы Spacing и Radius расходятся с Variables. Icons остаются inventory-only; shadows отсутствуют.</p></article>
+          <article data-tone="positive"><strong>Готово</strong><p>Цвет, типографика и адаптивная сетка читаются из проверенных источников.</p></article>
+          <article data-tone="negative"><strong>Требуется решение</strong><p>Страницы отступов и радиусов расходятся с переменными Figma. Иконки доступны только как инвентарь; тени отсутствуют.</p></article>
         </div>
         <aside className="review-banner">
           <div><span>Последняя сверка</span><strong>{inventory.verifiedAt}</strong></div>
-          <p>Проверены collections, modes, aliases, scopes, code syntax, local styles и token build.</p>
+          <p>Проверены коллекции, режимы, связи, области применения, имена для кода, локальные стили и сборка токенов.</p>
           <a href="/storybook/?path=/story/foundation--engineering">Инженерный паспорт ↗</a>
         </aside>
       </section>
