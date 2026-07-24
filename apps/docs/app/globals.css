@@ -238,9 +238,10 @@ a { color: inherit; }
   line-height: var(--cometal-typography-body-m-default-line-height);
   letter-spacing: var(--cometal-typography-body-m-default-letter-spacing);
   text-decoration: none;
+  transition: color 180ms cubic-bezier(.22,1,.36,1);
 }
-.section-sidebar a:hover { background: var(--portal-canvas); color: var(--portal-ink); }
-.section-sidebar a[data-active] { background: var(--portal-blue-soft); color: var(--portal-ink); font-weight: var(--cometal-typography-body-m-accent-font-weight); }
+.section-sidebar a:hover { color: var(--portal-blue); }
+.section-sidebar a[data-active] { color: var(--portal-blue); font-weight: var(--cometal-typography-body-m-accent-font-weight); }
 .section-nav__group { display: grid; }
 .section-nav__parent { width: 100%; }
 .section-nav__parent > button {
@@ -261,8 +262,11 @@ a { color: inherit; }
   line-height: var(--cometal-typography-body-m-default-line-height);
   letter-spacing: var(--cometal-typography-body-m-default-letter-spacing);
   cursor: pointer;
+  transition: color 180ms cubic-bezier(.22,1,.36,1);
 }
-.section-nav__parent > button:hover { background: var(--portal-canvas); }
+.section-nav__parent > button:hover,
+.section-nav__group[data-current] .section-nav__parent > button { color: var(--portal-blue); }
+.section-nav__group[data-current] .section-nav__parent > button { font-weight: var(--cometal-typography-body-m-accent-font-weight); }
 .section-nav__parent > button:focus-visible { outline: var(--cometal-semantic-stroke-state-focus) solid var(--portal-focus); outline-offset: var(--portal-hairline); }
 .section-nav__parent > button span { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .section-nav__parent > button svg { display: block; width: 14px; height: 14px; flex: 0 0 14px; transform: rotate(-90deg); transition: transform 180ms cubic-bezier(.22,1,.36,1); }
