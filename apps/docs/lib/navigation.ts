@@ -3,6 +3,7 @@ export type NavItem = {
   href: string;
   description?: string;
   external?: boolean;
+  children?: NavItem[];
 };
 
 export const primaryNavigation: NavItem[] = [
@@ -23,11 +24,51 @@ export const sectionNavigation: Record<string, NavItem[]> = {
   ],
   foundation: [
     { label: 'Обзор', href: '/foundation/' },
-    { label: 'Цвет', href: '/foundation/color/' },
-    { label: 'Типографика', href: '/foundation/typography/' },
-    { label: 'Размеры и сетки', href: '/foundation/layout/' },
-    { label: 'Темы', href: '/foundation/themes/' },
-    { label: 'Иконки', href: '/foundation/icons/' },
+    {
+      label: 'Цвет',
+      href: '/foundation/color/',
+      children: [
+        { label: 'Обзор', href: '/foundation/color/' },
+        { label: 'Примитивы', href: '/foundation/color/primitives/' },
+        { label: 'Семантика', href: '/foundation/color/semantic/' },
+      ],
+    },
+    {
+      label: 'Типографика',
+      href: '/foundation/typography/',
+      children: [
+        { label: 'Обзор', href: '/foundation/typography/' },
+        { label: 'Web', href: '/foundation/typography/web/' },
+      ],
+    },
+    {
+      label: 'Размеры и сетки',
+      href: '/foundation/layout/',
+      children: [
+        { label: 'Обзор', href: '/foundation/layout/' },
+        { label: 'Отступы', href: '/foundation/layout/spacing/' },
+        { label: 'Размеры', href: '/foundation/layout/size/' },
+        { label: 'Радиусы', href: '/foundation/layout/radius/' },
+        { label: 'Толщины линий', href: '/foundation/layout/stroke/' },
+        { label: 'Адаптивная сетка', href: '/foundation/layout/grid/' },
+      ],
+    },
+    {
+      label: 'Темы',
+      href: '/foundation/themes/',
+      children: [
+        { label: 'Обзор', href: '/foundation/themes/' },
+        { label: 'Default', href: '/foundation/themes/default/' },
+      ],
+    },
+    {
+      label: 'Иконки',
+      href: '/foundation/icons/',
+      children: [
+        { label: 'Обзор', href: '/foundation/icons/' },
+        { label: 'Каталог и статус', href: '/foundation/icons/catalog/' },
+      ],
+    },
   ],
   components: [
     { label: 'Overview', href: '/components/' },
