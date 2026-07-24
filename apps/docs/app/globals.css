@@ -212,7 +212,7 @@ a { color: inherit; }
   display: grid;
   width: min(100%, 1040px);
   justify-items: center;
-  gap: var(--cometal-semantic-spacing-documentation-header-gap-brand-content);
+  gap: calc(var(--cometal-semantic-spacing-documentation-header-gap-brand-content) * .8);
 }
 .home-hero__brand {
   display: block;
@@ -560,7 +560,7 @@ a { color: inherit; }
 
 @media (max-width: 680px) {
   .home-hero { padding: var(--cometal-primitive-spacing-400) var(--cometal-primitive-spacing-125) var(--cometal-primitive-spacing-450); }
-  .home-hero__copy { gap: var(--cometal-primitive-spacing-300); }
+  .home-hero__copy { gap: calc(var(--cometal-primitive-spacing-300) * .8); }
   .home-hero__brand { width: min(86.4vw, 360px); }
   .home-hero__content { gap: var(--cometal-primitive-spacing-150); }
   .home-hero__entry { width: 100%; gap: var(--cometal-primitive-spacing-100); }
