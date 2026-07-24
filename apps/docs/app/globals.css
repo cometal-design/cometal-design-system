@@ -223,7 +223,7 @@ a { color: inherit; }
 
 .portal-body { display: grid; min-height: calc(100vh - var(--portal-header-height)); grid-template-columns: 1fr; }
 .portal-body[data-has-sidebar] { grid-template-columns: var(--portal-sidebar-width) minmax(0, 1fr); }
-.section-sidebar { position: sticky; top: var(--portal-header-height); height: calc(100vh - var(--portal-header-height)); padding: var(--cometal-primitive-spacing-200) var(--cometal-primitive-spacing-50); border-right: var(--portal-hairline) solid var(--portal-line); background: var(--portal-surface); }
+.section-sidebar { position: sticky; top: var(--portal-header-height); height: calc(100vh - var(--portal-header-height)); padding: var(--cometal-primitive-spacing-200) var(--cometal-primitive-spacing-50); background: var(--portal-surface); }
 .section-sidebar__title {
   margin: 0 var(--cometal-primitive-spacing-50) var(--cometal-primitive-spacing-150);
   color: var(--portal-subtle);
