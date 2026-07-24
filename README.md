@@ -10,8 +10,8 @@ Remote repository: [cometal-design/cometal-design-system](https://github.com/com
 
 - `packages/tokens` — DTCG-токены и их сборка в CSS/JavaScript/JSON.
 - `packages/react` — типизированная React-библиотека `@cometal/react`.
-- `apps/docs` — документационный портал на Next.js + MDX.
-- `apps/storybook` — технический Playground, состояния и проверки компонентов.
+- `apps/docs` — портал дизайн-системы Cometal на Next.js + MDX.
+- `apps/storybook` — Storybook: техническая среда, состояния и проверки React-компонентов.
 - `specifications` — спецификации компонентов.
 - `registry` — ID, статусы, версии и ссылки.
 - `knowledge-base` — Obsidian Vault с контекстом, решениями и правилами.
@@ -47,6 +47,7 @@ pnpm build:site
 ## Управление системой
 
 - [Источники истины](docs/governance/sources-of-truth.md)
+- [Терминология интерфейсов](docs/terminology.md)
 - [Доступы и владение](docs/governance/access-and-ownership.md)
 - [Настройка GitHub, Vercel и Obsidian](docs/runbooks/account-bootstrap.md)
 - [План настройки на 23 июля 2026](docs/runbooks/plan-2026-07-23.md)

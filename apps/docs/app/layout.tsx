@@ -8,7 +8,10 @@ export const metadata: Metadata = {
   metadataBase: new URL('https://cometal-design-system-storybook.vercel.app'),
   title: { default: 'Cometal Design System', template: '%s — Cometal Design System' },
   description: 'Компоненты, правила, паттерны и техническая реализация дизайн-системы Cometal.',
-  icons: { icon: '/cometal-favicon.svg' },
+  icons: {
+    icon: [{ url: '/cometal-favicon.svg?brand=2', type: 'image/svg+xml', sizes: 'any' }],
+    shortcut: ['/cometal-favicon.svg?brand=2'],
+  },
   openGraph: {
     title: 'Cometal Design System',
     description: 'Компоненты, правила, паттерны и техническая реализация дизайн-системы Cometal.',

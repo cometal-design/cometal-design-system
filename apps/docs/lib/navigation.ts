@@ -12,7 +12,7 @@ export const primaryNavigation: NavItem[] = [
   { label: 'Компоненты', href: '/components/' },
   { label: 'Паттерны', href: '/patterns/' },
   { label: 'Шаблоны', href: '/templates/' },
-  { label: 'Playground', href: '/storybook/', external: true },
+  { label: 'Storybook', href: '/storybook/', external: true },
 ];
 
 export const sectionNavigation: Record<string, NavItem[]> = {
