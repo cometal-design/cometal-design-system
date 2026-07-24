@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import Link from 'next/link';
 import inventory from '../../../../packages/tokens/src/foundation.inventory.json';
 import typography from '../../../../packages/tokens/src/typography.styles.json';
 import grid from '../../../../packages/tokens/src/grid.presets.json';
@@ -15,63 +16,70 @@ const categories = [
     title: 'Цвет · Примитивы',
     count: '364 значений',
     description: 'Исходная палитра: 8 цветовых семейств, ступени и уровни прозрачности.',
-    href: '/storybook/?path=/story/foundation--primitive-colors',
+    href: '/foundation/color/',
   },
   {
     number: '02',
     title: 'Цвет · Семантика',
     count: '87 ролей',
     description: 'Роли Button, Surface, Text, Icon, Border, Action, State и Status с прямыми alias на primitive.',
-    href: '/storybook/?path=/story/foundation--semantic-colors',
+    href: '/foundation/color/#semantic',
   },
   {
     number: '03',
     title: 'Типографика',
     count: `${typography.styles.length} стилей`,
     description: 'Grtsk Peta: Display, Heading, Body, Control, Caption и Label с точными метриками.',
-    href: '/storybook/?path=/story/foundation--typography',
+    href: '/foundation/typography/',
   },
   {
     number: '04',
     title: 'Отступы',
     count: 'Primitive + Semantic',
     description: 'Шкала spacing и роли Stack, Section, Button, Input и Documentation.',
-    href: '/storybook/?path=/story/foundation--spacing',
+    href: '/foundation/layout/#spacing',
   },
   {
     number: '05',
     title: 'Размеры',
     count: 'Primitive + Semantic',
     description: 'Базовые размеры и роли Button, Icon и Field без локальных чисел.',
-    href: '/storybook/?path=/story/foundation--size',
+    href: '/foundation/layout/#size',
   },
   {
     number: '06',
     title: 'Радиусы',
     count: 'Primitive + Semantic',
     description: 'Радиусы компонентов, controls и focus в primitive- и semantic-слоях.',
-    href: '/storybook/?path=/story/foundation--radius',
+    href: '/foundation/layout/#radius',
   },
   {
     number: '07',
     title: 'Толщины линий',
     count: 'Primitive + Semantic',
     description: 'Системная шкала stroke и семантические роли линий.',
-    href: '/storybook/?path=/story/foundation--stroke',
+    href: '/foundation/layout/#stroke',
   },
   {
     number: '08',
     title: 'Адаптивная сетка',
     count: `${grid.presets.length} пресета`,
     description: 'Desktop, tablet и mobile: viewport, columns, margin и gutter.',
-    href: '/storybook/?path=/story/foundation--grid',
+    href: '/foundation/layout/#grid',
   },
   {
     number: '09',
+    title: 'Темы',
+    count: '1 mode',
+    description: 'Текущий Default mode, semantic-роли и границы будущей Dark theme.',
+    href: '/foundation/themes/',
+  },
+  {
+    number: '10',
     title: 'Иконки',
     count: `${icons.totalComponents.toLocaleString('ru-RU')} компонентов`,
     description: 'Инвентарь и карта замены. SVG/React API не считаются готовыми до отдельного утверждения.',
-    href: '/storybook/?path=/story/foundation--icons',
+    href: '/foundation/icons/',
   },
 ];
 
@@ -96,14 +104,14 @@ export default function FoundationPage() {
       </section>
 
       <section className="content-section">
-        <div className="section-heading"><h2>Каталог</h2><p>Каждая категория ведёт в техническую витрину Storybook. Там показан не пример, а полный набор утверждённых данных.</p></div>
+        <div className="section-heading"><h2>Каталог</h2><p>Каждая строка открывает самостоятельную страницу Foundation. Технические stories и Playground доступны уже внутри соответствующего раздела.</p></div>
         <div className="foundation-catalog">
           {categories.map((category) => (
-            <a href={category.href} key={category.title}>
+            <Link href={category.href} key={category.title}>
               <code>{category.number}</code>
               <div><strong>{category.title}</strong><span>{category.description}</span></div>
               <small>{category.count}</small>
-            </a>
+            </Link>
           ))}
         </div>
       </section>

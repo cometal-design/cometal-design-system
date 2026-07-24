@@ -23,11 +23,11 @@ export const sectionNavigation: Record<string, NavItem[]> = {
   ],
   foundation: [
     { label: 'Обзор', href: '/foundation/' },
-    { label: 'Цвет', href: '/foundation/#color' },
-    { label: 'Типографика', href: '/foundation/#typography' },
-    { label: 'Размеры и сетки', href: '/foundation/#layout' },
-    { label: 'Темы', href: '/foundation/#themes' },
-    { label: 'Иконки', href: '/foundation/#icons' },
+    { label: 'Цвет', href: '/foundation/color/' },
+    { label: 'Типографика', href: '/foundation/typography/' },
+    { label: 'Размеры и сетки', href: '/foundation/layout/' },
+    { label: 'Темы', href: '/foundation/themes/' },
+    { label: 'Иконки', href: '/foundation/icons/' },
   ],
   components: [
     { label: 'Overview', href: '/components/' },
