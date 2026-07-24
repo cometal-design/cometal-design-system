@@ -100,18 +100,12 @@ a { color: inherit; }
   align-items: center;
   justify-content: center;
   flex: 0 0 var(--cometal-primitive-size-40);
-  border: var(--portal-hairline) solid var(--portal-navigation-glass-border);
-  border-radius: var(--cometal-primitive-size-40);
-  background: var(--portal-navigation-glass);
-  box-shadow: var(--portal-navigation-shadow);
+  border: 0;
+  background: transparent;
   text-decoration: none;
   transform: translateY(-50%);
-  transition: background-color 180ms cubic-bezier(.22,1,.36,1), box-shadow 180ms cubic-bezier(.22,1,.36,1);
-  -webkit-backdrop-filter: blur(var(--cometal-primitive-spacing-150));
-  backdrop-filter: blur(var(--cometal-primitive-spacing-150));
 }
 .brand img { display: block; width: var(--cometal-primitive-size-24); height: var(--cometal-primitive-size-24); }
-.brand:hover { background: color-mix(in srgb, var(--portal-surface-raised) 90%, transparent); }
 .brand:focus-visible,
 .menu-button:focus-visible,
 .primary-nav__link:focus-visible,
