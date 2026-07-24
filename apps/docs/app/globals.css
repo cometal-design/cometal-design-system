@@ -564,11 +564,11 @@ a { color: inherit; }
   .home-hero__brand { width: min(86.4vw, 360px); }
   .home-hero__content { gap: var(--cometal-primitive-spacing-150); }
   .home-hero__entry { width: 100%; gap: var(--cometal-primitive-spacing-100); }
-  .home-hero__line-break { display: none; }
-  .home-hero h1 { font-family: var(--cometal-typography-heading-l-font-family); font-size: var(--cometal-typography-heading-l-font-size); line-height: var(--cometal-typography-heading-l-line-height); letter-spacing: var(--cometal-typography-heading-l-letter-spacing); }
+  .home-hero__line-break { display: block; }
+  .home-hero h1 { font-family: var(--cometal-typography-heading-m-font-family); font-size: var(--cometal-typography-heading-m-font-size); line-height: var(--cometal-typography-heading-m-line-height); letter-spacing: var(--cometal-typography-heading-m-letter-spacing); }
   .home-hero__description { font-size: var(--cometal-typography-body-s-default-font-size); line-height: var(--cometal-typography-body-s-default-line-height); }
-  .home-hero__actions { align-items: stretch; flex-direction: column; }
-  .home-action { width: 100%; }
+  .home-hero__actions { align-items: center; flex-direction: row; flex-wrap: nowrap; }
+  .home-action { width: auto; }
   .content-page { padding: var(--cometal-primitive-spacing-300) var(--cometal-primitive-spacing-125) var(--cometal-primitive-spacing-450); }.page-header { padding-bottom: var(--cometal-primitive-spacing-300); }.page-header h1, .component-title h1 { font-family: var(--cometal-typography-display-s-font-family); font-size: var(--cometal-typography-display-s-font-size); line-height: var(--cometal-typography-display-s-line-height); letter-spacing: var(--cometal-typography-display-s-letter-spacing); }.page-header p, .component-title p { font-size: var(--cometal-typography-body-m-default-font-size); line-height: var(--cometal-typography-body-m-default-line-height); }
   .page-header--with-stat { align-items: flex-start; flex-direction: column; }.page-stat { align-items: flex-start; }
   .content-section { padding: var(--cometal-semantic-spacing-section-m) 0; }.section-heading { grid-template-columns: 1fr; gap: var(--cometal-primitive-spacing-75); }
