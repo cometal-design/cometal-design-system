@@ -5,10 +5,10 @@ addons.setConfig({
   theme: create({
     base: 'light',
     brandTitle: 'Cometal Design System',
-    // Figma DS Core / System / Brand / Theme=dark / logotype (node 1655:3822).
+    // Figma DS Core / System / Brand / Theme=favicon (node 1655:6179).
     // Storybook is mounted at /storybook; the logo returns to the documentation portal.
     brandUrl: '/',
-    brandImage: './cometal-logotype.svg',
+    brandImage: './cometal-favicon.svg',
     brandTarget: '_self',
   }),
 });
