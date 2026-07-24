@@ -1,6 +1,7 @@
 import Image from 'next/image';
 import Link from 'next/link';
 import { ReactiveGrid } from '../components/reactive-grid';
+import { releases } from '../../storybook/stories/releases.generated';
 
 export default function HomePage() {
   return (
@@ -24,12 +25,29 @@ export default function HomePage() {
             height={26}
             priority
           />
-          <h1>Дизайн‑система, которую можно полностью настроить под продукт и использовать вместе с AI‑агентами</h1>
-          <div className="home-hero__actions">
-            <Link className="home-action home-action--primary" href="/documentation/">Начать работу</Link>
-            <Link className="home-action home-action--secondary" href="/components/">Компоненты</Link>
+          <div className="home-hero__content">
+            <h1>
+              Дизайн‑система для согласованной
+              <br className="home-hero__line-break" />
+              работы команды и ИИ‑агентов
+            </h1>
+            <div className="home-hero__entry">
+              <div className="home-hero__actions">
+                <Link className="home-action home-action--primary" href="/documentation/">Начать работу</Link>
+                <Link className="home-action home-action--secondary" href="/components/">Компоненты</Link>
+              </div>
+              <p className="home-hero__description">
+                <span>{releases[0].version}</span>
+                <span aria-hidden="true">·</span>
+                <span>
+                  Собрано на{' '}
+                  <a href="https://react.dev/learn/installation" target="_blank" rel="noreferrer">
+                    React
+                  </a>
+                </span>
+              </p>
+            </div>
           </div>
-          <p className="home-hero__description">Foundation, React-компоненты, паттерны и шаблоны для согласованной работы дизайнеров и разработчиков.</p>
         </div>
       </section>
     </main>
