@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { SectionHeading } from '../../components/section-heading';
 
 export const metadata: Metadata = { title: 'Документация' };
 
@@ -20,7 +21,7 @@ export default function DocumentationPage() {
       </header>
 
       <section className="content-section" id="sources">
-        <div className="section-heading"><h2>Источники истины</h2><p>Каждый источник отвечает только за свою часть. Портал показывает их состояние, но не заменяет их.</p></div>
+        <SectionHeading title="Источники истины" description="Каждый источник отвечает только за свою часть. Портал показывает их состояние, но не заменяет их." />
         <div className="definition-list">
           {sources.map(([name, description], index) => (
             <article key={name}><span>{String(index + 1).padStart(2, '0')}</span><strong>{name}</strong><p>{description}</p></article>
@@ -29,7 +30,7 @@ export default function DocumentationPage() {
       </section>
 
       <section className="content-section" id="lifecycle">
-        <div className="section-heading"><h2>Жизненный цикл компонента</h2><p>Компонент становится готовым только после проверки всех связанных частей.</p></div>
+        <SectionHeading title="Жизненный цикл компонента" description="Компонент становится готовым только после проверки всех связанных частей." />
         <ol className="process-line">
           <li><span>01</span><strong>Утверждён в Figma</strong><p>Design System Lead подтверждает визуальную модель.</p></li>
           <li><span>02</span><strong>Описан</strong><p>Появляются ID, реестр и спецификация.</p></li>

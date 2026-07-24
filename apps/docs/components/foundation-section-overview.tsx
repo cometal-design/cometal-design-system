@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import { SectionHeading } from './section-heading';
 
 type FoundationSectionItem = {
   index: string;
@@ -28,10 +29,10 @@ export function FoundationSectionOverview({
       </header>
 
       <section className="content-section">
-        <div className="section-heading">
-          <h2>Разделы</h2>
-          <p>Каждый пункт — самостоятельная страница. Тот же уровень доступен через раскрывающуюся группу в боковой навигации.</p>
-        </div>
+        <SectionHeading
+          title="Разделы"
+          description="Каждый пункт — самостоятельная страница. Тот же уровень доступен через раскрывающуюся группу в боковой навигации."
+        />
         <div className="foundation-catalog">
           {items.map((item) => (
             <Link key={item.href} href={item.href}>

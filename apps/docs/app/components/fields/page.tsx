@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import { Combobox, MultiSelect, Select, TextArea, TextField } from '@cometal/react';
+import { SectionHeading } from '../../../components/section-heading';
 import { components, statusLabels } from '../../../lib/registry';
 
 export const metadata: Metadata = { title: 'Fields' };
@@ -19,7 +20,7 @@ export default function FieldsPage() {
       <nav className="on-page-nav" aria-label="Содержание страницы"><a href="#family">Состав</a><a href="#states">Состояния</a><a href="#behavior">Поведение</a><a href="#api">React API</a></nav>
 
       <section className="content-section" id="family">
-        <div className="section-heading"><h2>Пять компонентов</h2><p>Mode=Read не копирует disabled-поле: рамка и интерактивность полностью исчезают.</p></div>
+        <SectionHeading title="Пять компонентов" description="Mode=Read не копирует disabled-поле: рамка и интерактивность полностью исчезают." />
         <div className="field-family-board">
           <article id="text-field"><header><code>input.text-field</code><h3>Text Field</h3></header><div className="field-family-board__examples"><TextField label="Название поля" placeholder="Введите значение" helperText="Подсказка или описание" /><TextField label="Название поля" mode="read" readValue="ООО Северсталь" /></div></article>
           <article id="text-area"><header><code>input.text-area</code><h3>Text Area</h3></header><div className="field-family-board__examples"><TextArea label="Комментарий" placeholder="Введите комментарий" helperText="До 500 символов" rows={4} /><TextArea label="Комментарий" mode="read" readValue="Условия поставки и порядок согласования изменений." /></div></article>
@@ -30,7 +31,7 @@ export default function FieldsPage() {
       </section>
 
       <section className="content-section" id="states">
-        <div className="section-heading"><h2>Состояния</h2><p>Filled определяется значением, hover и focus возникают от взаимодействия. Error и disabled задаёт приложение.</p></div>
+        <SectionHeading title="Состояния" description="Filled определяется значением, hover и focus возникают от взаимодействия. Error и disabled задаёт приложение." />
         <div className="field-state-board">
           <article><code>Default</code><TextField label="Название поля" placeholder="Введите значение" /></article>
           <article><code>Filled</code><TextField label="Название поля" defaultValue="Договор поставки" /></article>
@@ -41,12 +42,12 @@ export default function FieldsPage() {
       </section>
 
       <section className="content-section" id="behavior">
-        <div className="section-heading"><h2>Поведение</h2><p>Общий визуальный слой не смешивает разные пользовательские задачи и browser semantics.</p></div>
+        <SectionHeading title="Поведение" description="Общий визуальный слой не смешивает разные пользовательские задачи и browser semantics." />
         <div className="definition-list"><article><span>01</span><strong>Text Field / Text Area</strong><p>Вводят текст через нативные input и textarea.</p></article><article><span>02</span><strong>Select</strong><p>Видимый trigger открывает DS Core Listbox; скрытый native select хранит form-value.</p></article><article><span>03</span><strong>Combobox</strong><p>Управляет поисковым запросом и связанным Listbox результатов.</p></article><article><span>04</span><strong>Multi Select</strong><p>Открывает multi-select Listbox; выбранные значения показывает Value Tags с отдельным удалением.</p></article><article><span>05</span><strong>Read</strong><p>Показывает данные обычным текстом без рамки, chevron и tab-stop.</p></article></div>
       </section>
 
       <section className="content-section" id="api">
-        <div className="section-heading"><h2>Общий React API</h2><p>Каждый компонент расширяет нативные props своего HTML-элемента.</p></div>
+        <SectionHeading title="Общий React API" description="Каждый компонент расширяет нативные props своего HTML-элемента." />
         <div className="api-table"><div className="api-table__head"><span>Prop</span><span>Тип</span><span>Default</span></div>{[['label','string','required'],['size',"'l' | 'm'","'l'"],['mode',"'edit' | 'read'","'edit'"],['helperText','string','—'],['optional','boolean','false'],['error','string','—'],['readValue','ReactNode','—']].map(([name,type,value])=><div key={name}><code>{name}</code><span>{type}</span><span>{value}</span></div>)}</div>
       </section>
 

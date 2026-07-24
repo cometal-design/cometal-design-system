@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { SectionHeading } from '../../components/section-heading';
 import inventory from '../../../../packages/tokens/src/foundation.inventory.json';
 import typography from '../../../../packages/tokens/src/typography.styles.json';
 import grid from '../../../../packages/tokens/src/grid.presets.json';
@@ -104,7 +105,7 @@ export default function FoundationPage() {
       </section>
 
       <section className="content-section">
-        <div className="section-heading"><h2>Каталог</h2><p>Каждая строка открывает самостоятельную страницу Foundation. Технические stories и Playground доступны уже внутри соответствующего раздела.</p></div>
+        <SectionHeading title="Каталог" description="Каждая строка открывает самостоятельную страницу Foundation. Технические stories и Playground доступны уже внутри соответствующего раздела." />
         <div className="foundation-catalog">
           {categories.map((category) => (
             <Link href={category.href} key={category.title}>
@@ -117,7 +118,7 @@ export default function FoundationPage() {
       </section>
 
       <section className="content-section">
-        <div className="section-heading"><h2>Путь значения</h2><p>Компоненты и продукт не должны обращаться к primitive напрямую.</p></div>
+        <SectionHeading title="Путь значения" description="Компоненты и продукт не должны обращаться к primitive напрямую." />
         <ol className="process-line">
           <li><span>01</span><strong>Primitive</strong><p>Хранит значение.</p></li>
           <li><span>02</span><strong>Semantic</strong><p>Назначает роль.</p></li>
@@ -127,7 +128,7 @@ export default function FoundationPage() {
       </section>
 
       <section className="content-section">
-        <div className="section-heading"><h2>Границы готовности</h2><p>Пробелы фиксируются явно и не заполняются придуманными решениями.</p></div>
+        <SectionHeading title="Границы готовности" description="Пробелы фиксируются явно и не заполняются придуманными решениями." />
         <div className="guidance">
           <article data-tone="positive"><strong>Готово</strong><p>Primitive, semantic, typography и responsive grid documentation читаются из проверенных источников.</p></article>
           <article data-tone="negative"><strong>Требуется решение</strong><p>Страницы Spacing и Radius расходятся с Variables. Icons остаются inventory-only; shadows отсутствуют.</p></article>

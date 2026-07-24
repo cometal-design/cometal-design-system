@@ -405,7 +405,7 @@ a { color: inherit; }
 .page-stat span { margin-top: var(--cometal-primitive-spacing-50); color: var(--portal-muted); font: var(--portal-code-s-size)/var(--portal-code-line-height) var(--portal-font-code); }
 
 .content-section { padding: var(--cometal-primitive-spacing-450) 0; border-top: 1px solid var(--portal-line); scroll-margin-top: calc(var(--portal-header-height) + var(--cometal-primitive-spacing-150)); }
-.section-heading { display: grid; margin-bottom: var(--cometal-primitive-spacing-250); grid-template-columns: minmax(220px, .7fr) minmax(320px, 1.3fr); gap: var(--cometal-primitive-spacing-300); }
+.section-heading { display: grid; max-width: 680px; margin-bottom: var(--cometal-primitive-spacing-250); gap: var(--cometal-primitive-spacing-75); }
 .section-heading h2 { margin: 0; font-family: var(--cometal-typography-heading-l-font-family); font-size: var(--cometal-typography-heading-l-font-size); font-weight: var(--cometal-typography-heading-l-font-weight); line-height: var(--cometal-typography-heading-l-line-height); letter-spacing: var(--cometal-typography-heading-l-letter-spacing); }
 .section-heading p { max-width: 680px; margin: 0; color: var(--portal-muted); font-family: var(--cometal-typography-body-m-default-font-family); font-size: var(--cometal-typography-body-m-default-font-size); font-weight: var(--cometal-typography-body-m-default-font-weight); line-height: var(--cometal-typography-body-m-default-line-height); letter-spacing: var(--cometal-typography-body-m-default-letter-spacing); }
 .definition-list { border-top: 1px solid var(--portal-line); }
@@ -673,7 +673,7 @@ a { color: inherit; }
   .home-action { width: auto; }
   .content-page { padding: var(--cometal-primitive-spacing-300) var(--cometal-primitive-spacing-125) var(--cometal-primitive-spacing-450); }.page-header { padding-bottom: var(--cometal-primitive-spacing-300); }.page-header h1, .component-title h1 { font-family: var(--cometal-typography-display-s-font-family); font-size: var(--cometal-typography-display-s-font-size); line-height: var(--cometal-typography-display-s-line-height); letter-spacing: var(--cometal-typography-display-s-letter-spacing); }.page-header p, .component-title p { font-size: var(--cometal-typography-body-m-default-font-size); line-height: var(--cometal-typography-body-m-default-line-height); }
   .page-header--with-stat { align-items: flex-start; flex-direction: column; }.page-stat { align-items: flex-start; }
-  .content-section { padding: var(--cometal-semantic-spacing-section-m) 0; }.section-heading { grid-template-columns: 1fr; gap: var(--cometal-primitive-spacing-75); }
+  .content-section { padding: var(--cometal-semantic-spacing-section-m) 0; }
   .definition-list article { grid-template-columns: 36px 1fr; }.definition-list p { grid-column: 2; }
   .foundation-stats { grid-template-columns: 1fr 1fr; }.foundation-stats article:nth-child(2) { border-right: 0; }.foundation-stats article:nth-child(-n+2) { border-bottom: 1px solid var(--portal-line); }
   .color-ramp { min-height: 360px; grid-template-columns: repeat(2, 1fr); }.type-specimen { padding: var(--cometal-primitive-spacing-200) var(--cometal-primitive-spacing-125); }.type-specimen strong { margin: var(--cometal-primitive-spacing-200) 0; font-size: 40px; }.foundation-links { grid-template-columns: 1fr; }.foundation-links article { border-right: 0; border-bottom: 1px solid var(--portal-line); }.foundation-links article:last-child { border-bottom: 0; }.theme-preview { grid-template-columns: 1fr; }

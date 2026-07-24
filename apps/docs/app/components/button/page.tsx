@@ -2,6 +2,7 @@ import type { Metadata } from 'next';
 import { Button } from '@cometal/react';
 import type { ButtonVariant } from '@cometal/react';
 import { components, statusLabels } from '../../../lib/registry';
+import { SectionHeading } from '../../../components/section-heading';
 
 export const metadata: Metadata = { title: 'Button' };
 
@@ -29,19 +30,19 @@ export default function ButtonPage() {
       <nav className="on-page-nav" aria-label="Содержание страницы"><a href="#usage">Использование</a><a href="#variants">Варианты</a><a href="#sizes">Размеры</a><a href="#states">Состояния</a><a href="#api">React API</a></nav>
 
       <section className="content-section" id="usage">
-        <div className="section-heading"><h2>Использование</h2><p>Кнопка выполняет действие. Для обычного перехода используйте ссылку, для переключения режима — Toggle.</p></div>
+        <SectionHeading title="Использование" description="Кнопка выполняет действие. Для обычного перехода используйте ссылку, для переключения режима — Toggle." />
         <div className="guidance"><article data-tone="positive"><strong>Используйте</strong><p>Один Primary на локальную область. Подпись начинается с глагола и объясняет результат.</p></article><article data-tone="negative"><strong>Не используйте</strong><p>Для навигации, выбора значения или нескольких равнозначных основных действий рядом.</p></article></div>
       </section>
 
       <section className="content-section" id="variants">
-        <div className="section-heading"><h2>Варианты</h2><p>Девять визуальных ролей синхронизированы с DS Core.</p></div>
+        <SectionHeading title="Варианты" description="Девять визуальных ролей синхронизированы с DS Core." />
         <div className="variant-board">
           {documentedVariants.map((variant) => <article key={variant} data-dark={darkVariants.has(variant) || undefined}><code>{variant}</code><Button variant={variant}>Продолжить</Button></article>)}
         </div>
       </section>
 
       <section className="content-section" id="sizes">
-        <div className="section-heading"><h2>Размеры и композиция</h2><p>Каждый размер проверяется в четырёх композициях DS Core: текст, иконка слева, иконка справа и только иконка.</p></div>
+        <SectionHeading title="Размеры и композиция" description="Каждый размер проверяется в четырёх композициях DS Core: текст, иконка слева, иконка справа и только иконка." />
         <div className="size-list size-list--compositions">
           <div className="size-list__head"><span>Размер</span><span>Текст</span><span>Иконка слева</span><span>Иконка справа</span><span>Только иконка</span></div>
           {buttonSizes.map((size) => (
@@ -57,12 +58,12 @@ export default function ButtonPage() {
       </section>
 
       <section className="content-section" id="states">
-        <div className="section-heading"><h2>Состояния</h2><p>Hover, pressed и focus появляются от взаимодействия. Disabled и loading задаёт приложение.</p></div>
+        <SectionHeading title="Состояния" description="Hover, pressed и focus появляются от взаимодействия. Disabled и loading задаёт приложение." />
         <div className="state-board"><article><code>Default</code><Button>Продолжить</Button></article><article><code>Hover</code><Button className="docs-button--hover">Продолжить</Button></article><article><code>Focus visible</code><Button className="docs-button--focus">Продолжить</Button></article><article><code>Pressed</code><Button className="docs-button--pressed">Продолжить</Button></article><article><code>Disabled</code><Button disabled>Продолжить</Button></article><article><code>Loading</code><Button loading>Продолжить</Button></article></div>
       </section>
 
       <section className="content-section" id="api">
-        <div className="section-heading"><h2>React API</h2><p>Публичный API остаётся минимальным. Интерактивные состояния не передаются props.</p></div>
+        <SectionHeading title="React API" description="Публичный API остаётся минимальным. Интерактивные состояния не передаются props." />
         <div className="api-table"><div className="api-table__head"><span>Prop</span><span>Тип</span><span>Default</span></div>{[
           ['variant', "'primary' | 'secondary' | …", "'primary'"], ['size', "'l' | 'm' | 's'", "'l'"], ['loading', 'boolean', 'false'], ['disabled', 'boolean', 'false'], ['startIcon / endIcon', 'ReactNode', '—'], ['children', 'ReactNode', '—'],
         ].map(([name, type, value]) => <div key={name}><code>{name}</code><span>{type}</span><span>{value}</span></div>)}</div>

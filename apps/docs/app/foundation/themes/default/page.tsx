@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { SectionHeading } from '../../../../components/section-heading';
 import { cssValue, semanticTokens } from '../../../../lib/foundation-data';
 
 export const metadata: Metadata = {
@@ -20,10 +21,7 @@ export default function FoundationDefaultThemePage() {
       </header>
 
       <section className="content-section">
-        <div className="section-heading">
-          <h2>Semantic-роли</h2>
-          <p>Тема меняет значения ролей, но не API компонентов.</p>
-        </div>
+        <SectionHeading title="Semantic-роли" description="Тема меняет значения ролей, но не API компонентов." />
         <div className="foundation-theme-sample">
           <div>
             <span>Surface / Canvas</span>
@@ -42,10 +40,7 @@ export default function FoundationDefaultThemePage() {
       </section>
 
       <section className="content-section">
-        <div className="section-heading">
-          <h2>Граница готовности</h2>
-          <p>Dark theme пока не утверждена как отдельный mode в Figma и поэтому не создаётся локально в коде.</p>
-        </div>
+        <SectionHeading title="Граница готовности" description="Dark theme пока не утверждена как отдельный mode в Figma и поэтому не создаётся локально в коде." />
         <div className="guidance">
           <article data-tone="positive"><strong>Работает сейчас</strong><p>Default mode, semantic aliases и единое потребление токенов всеми компонентами.</p></article>
           <article data-tone="negative"><strong>Не опубликовано</strong><p>Dark mode, переключатель темы и отдельная карта контраста для тёмных поверхностей.</p></article>

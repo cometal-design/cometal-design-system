@@ -5,6 +5,7 @@ import {
   primitiveTokens,
   semanticTokens,
 } from '../lib/foundation-data';
+import { SectionHeading } from './section-heading';
 
 const metricContent = {
   Spacing: {
@@ -52,10 +53,10 @@ export function FoundationMetricPage({ kind }: { kind: MetricKind }) {
       </header>
 
       <section className="content-section foundation-metric-section">
-        <div className="section-heading">
-          <h2>Primitive и Semantic</h2>
-          <p>{primitive.length} primitive-значений и {semantic.length} semantic-ролей. Runtime использует только опубликованные Figma Variables.</p>
-        </div>
+        <SectionHeading
+          title="Primitive и Semantic"
+          description={<>{primitive.length} primitive-значений и {semantic.length} semantic-ролей. Runtime использует только опубликованные Figma Variables.</>}
+        />
         <div className="foundation-metric-columns">
           <div>
             <h3>Primitive</h3>
