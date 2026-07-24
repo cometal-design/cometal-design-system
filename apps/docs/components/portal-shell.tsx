@@ -15,6 +15,14 @@ function currentSection(pathname: string) {
   return section;
 }
 
+function ArrowDownIcon() {
+  return (
+    <svg viewBox="0 0 20 20" fill="none" focusable="false" aria-hidden="true">
+      <path d="M5.833 7.917 10 12.083l4.167-4.166" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+    </svg>
+  );
+}
+
 export function PortalShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
   const section = currentSection(pathname);
@@ -95,7 +103,6 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
                 return (
                   <div className="section-nav__group" key={item.href} data-current={containsActive || undefined}>
                     <div className="section-nav__parent">
-                      <Link href={item.href}>{item.label}</Link>
                       <button
                         type="button"
                         aria-expanded={expanded}
@@ -103,7 +110,8 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
                         aria-label={`${expanded ? 'Свернуть' : 'Раскрыть'} раздел «${item.label}»`}
                         onClick={() => toggleGroup(item.href)}
                       >
-                        <span aria-hidden="true">›</span>
+                        <span>{item.label}</span>
+                        <ArrowDownIcon />
                       </button>
                     </div>
                     <div className="section-nav__children" id={groupId} hidden={!expanded} role="group" aria-label={item.label}>
