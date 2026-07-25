@@ -48,8 +48,8 @@ export function ReactiveGrid({
   minSize = 0,
   gap = 8,
   influenceRadius = 240,
-  particleColor = '#F0F0F0',
-  backgroundColor = '#FFFFFF',
+  particleColor = '--portal-line-soft',
+  backgroundColor = '--portal-surface',
 }: ReactiveGridProps) {
   const canvasRef = useRef<HTMLCanvasElement>(null);
 
@@ -60,6 +60,12 @@ export function ReactiveGrid({
 
     if (!canvas || !container || !context) return;
 
+    const resolveColor = (value: string) => {
+      if (!value.startsWith('--')) return value;
+      return getComputedStyle(container).getPropertyValue(value).trim();
+    };
+    const resolvedBackgroundColor = resolveColor(backgroundColor);
+    const resolvedParticleColor = resolveColor(particleColor);
     const reducedMotionQuery = window.matchMedia('(prefers-reduced-motion: reduce)');
     const cursor = { x: 0, y: 0, active: false };
     let cells: GridCell[] = [];
@@ -69,9 +75,9 @@ export function ReactiveGrid({
     let lastFrameTime = 0;
 
     const drawFrame = () => {
-      context.fillStyle = backgroundColor;
+      context.fillStyle = resolvedBackgroundColor;
       context.fillRect(0, 0, width, height);
-      context.fillStyle = particleColor;
+      context.fillStyle = resolvedParticleColor;
 
       cells.forEach((cell) => {
         drawHexagon(context, cell.x, cell.y, cell.size);

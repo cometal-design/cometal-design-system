@@ -13,8 +13,6 @@ export default function HomePage() {
           minSize={0}
           gap={8}
           influenceRadius={240}
-          particleColor="#F0F0F0"
-          backgroundColor="#FFFFFF"
         />
         <div className="home-hero__copy">
           <Image

@@ -1,9 +1,11 @@
 .cometal-selection {
   --cometal-selection-control: var(--cometal-primitive-size-20);
   --cometal-selection-label-size: var(--cometal-typography-body-l-default-font-size);
+  --cometal-selection-label-weight: var(--cometal-typography-body-l-default-font-weight);
   --cometal-selection-label-line: var(--cometal-typography-body-l-default-line-height);
   --cometal-selection-label-spacing: var(--cometal-typography-body-l-default-letter-spacing);
   --cometal-selection-description-size: var(--cometal-typography-body-m-default-font-size);
+  --cometal-selection-description-weight: var(--cometal-typography-body-m-default-font-weight);
   --cometal-selection-description-line: var(--cometal-typography-body-m-default-line-height);
   --cometal-selection-description-spacing: var(--cometal-typography-body-m-default-letter-spacing);
   --cometal-selection-indicator: 8px;
@@ -11,6 +13,7 @@
   --cometal-selection-content-width: 240px;
   position: relative;
   display: inline-grid;
+  max-width: 100%;
   padding: var(--cometal-primitive-spacing-25);
   grid-template-columns: auto minmax(0, 1fr);
   align-items: start;
@@ -19,8 +22,8 @@
   font-family: var(--cometal-typography-body-l-default-font-family);
   cursor: pointer;
 }
-.cometal-selection[data-size='m'] { --cometal-selection-control: var(--cometal-primitive-size-16); --cometal-selection-label-size: var(--cometal-typography-body-m-default-font-size); --cometal-selection-label-line: var(--cometal-typography-body-m-default-line-height); --cometal-selection-label-spacing: var(--cometal-typography-body-m-default-letter-spacing); --cometal-selection-description-size: var(--cometal-typography-body-s-default-font-size); --cometal-selection-description-line: var(--cometal-typography-body-s-default-line-height); --cometal-selection-description-spacing: var(--cometal-typography-body-s-default-letter-spacing); --cometal-selection-indicator: 6px; --cometal-selection-content-width: 220px; }
-.cometal-selection[data-size='s'] { --cometal-selection-control: var(--cometal-primitive-size-14); --cometal-selection-label-size: var(--cometal-typography-body-s-default-font-size); --cometal-selection-label-line: var(--cometal-typography-body-s-default-line-height); --cometal-selection-label-spacing: var(--cometal-typography-body-s-default-letter-spacing); --cometal-selection-description-size: var(--cometal-typography-caption-label-label-font-size); --cometal-selection-description-line: var(--cometal-typography-caption-label-label-line-height); --cometal-selection-description-spacing: var(--cometal-typography-caption-label-label-letter-spacing); --cometal-selection-indicator: 4px; --cometal-selection-content-width: 200px; }
+.cometal-selection[data-size='m'] { --cometal-selection-control: var(--cometal-primitive-size-16); --cometal-selection-label-size: var(--cometal-typography-body-m-default-font-size); --cometal-selection-label-weight: var(--cometal-typography-body-m-default-font-weight); --cometal-selection-label-line: var(--cometal-typography-body-m-default-line-height); --cometal-selection-label-spacing: var(--cometal-typography-body-m-default-letter-spacing); --cometal-selection-description-size: var(--cometal-typography-body-s-default-font-size); --cometal-selection-description-weight: var(--cometal-typography-body-s-default-font-weight); --cometal-selection-description-line: var(--cometal-typography-body-s-default-line-height); --cometal-selection-description-spacing: var(--cometal-typography-body-s-default-letter-spacing); --cometal-selection-indicator: 6px; --cometal-selection-content-width: 220px; }
+.cometal-selection[data-size='s'] { --cometal-selection-control: var(--cometal-primitive-size-14); --cometal-selection-label-size: var(--cometal-typography-body-s-default-font-size); --cometal-selection-label-weight: var(--cometal-typography-body-s-default-font-weight); --cometal-selection-label-line: var(--cometal-typography-body-s-default-line-height); --cometal-selection-label-spacing: var(--cometal-typography-body-s-default-letter-spacing); --cometal-selection-description-size: var(--cometal-typography-caption-label-label-font-size); --cometal-selection-description-weight: var(--cometal-typography-caption-label-label-font-weight); --cometal-selection-description-line: var(--cometal-typography-caption-label-label-line-height); --cometal-selection-description-spacing: var(--cometal-typography-caption-label-label-letter-spacing); --cometal-selection-indicator: 4px; --cometal-selection-content-width: 200px; }
 .cometal-selection[data-kind='radio'][data-size='s'] { --cometal-selection-focus-offset: 3px; }
 .cometal-selection > input { position: absolute; width: 1px; height: 1px; margin: 0; opacity: 0; pointer-events: none; }
 .cometal-selection__control {
@@ -38,9 +41,11 @@
 .cometal-selection[data-kind='checkbox'] .cometal-selection__control { border-radius: var(--cometal-semantic-radius-checkbox); }
 .cometal-selection[data-kind='radio'] .cometal-selection__control { border-radius: 50%; }
 .cometal-selection__control svg { display: none; width: 100%; height: 100%; color: var(--cometal-semantic-color-text-inverse); }
-.cometal-selection__content { display: flex; width: var(--cometal-selection-content-width); min-width: 0; flex-direction: column; gap: var(--cometal-primitive-spacing-12); }
-.cometal-selection__label { font-size: var(--cometal-selection-label-size); font-weight: 400; line-height: var(--cometal-selection-label-line); letter-spacing: var(--cometal-selection-label-spacing); }
-.cometal-selection__description { color: var(--cometal-semantic-color-text-secondary); font-size: var(--cometal-selection-description-size); font-weight: 400; line-height: var(--cometal-selection-description-line); letter-spacing: var(--cometal-selection-description-spacing); }
+.cometal-selection__content { display: flex; width: var(--cometal-selection-content-width); max-width: 100%; min-width: 0; flex-direction: column; gap: var(--cometal-primitive-spacing-12); }
+.cometal-selection__label,
+.cometal-selection__description { overflow-wrap: anywhere; }
+.cometal-selection__label { font-size: var(--cometal-selection-label-size); font-weight: var(--cometal-selection-label-weight); line-height: var(--cometal-selection-label-line); letter-spacing: var(--cometal-selection-label-spacing); }
+.cometal-selection__description { color: var(--cometal-semantic-color-text-secondary); font-size: var(--cometal-selection-description-size); font-weight: var(--cometal-selection-description-weight); line-height: var(--cometal-selection-description-line); letter-spacing: var(--cometal-selection-description-spacing); }
 .cometal-selection > input:focus-visible + .cometal-selection__control { outline: var(--cometal-semantic-stroke-state-focus) solid var(--cometal-semantic-color-state-focus-ring); outline-offset: var(--cometal-selection-focus-offset); }
 
 /* Checkbox: every interaction state mirrors the approved Figma control master. */

@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import { FoundationCategoryHeader } from '../../../../components/foundation-category-header';
 import { SectionHeading } from '../../../../components/section-heading';
 import { cssValue, semanticTokens } from '../../../../lib/foundation-data';
-import { foundationTabs } from '../../../../lib/navigation';
 
 export const metadata: Metadata = {
   title: 'Основная тема — Foundation',
@@ -19,8 +18,6 @@ export default function FoundationDefaultThemePage() {
       <FoundationCategoryHeader
         title="Темы"
         description="Каждая тема является отдельным режимом семантической коллекции и может развиваться независимо, не меняя API компонентов. Сейчас утверждён режим Default."
-        tabs={foundationTabs.themes}
-        activeHref="/foundation/themes/default/"
       />
 
       <section className="content-section">

@@ -2,7 +2,6 @@ import type { Metadata } from 'next';
 import icons from '../../../../../../packages/tokens/src/icons.inventory.json';
 import { FoundationCategoryHeader } from '../../../../components/foundation-category-header';
 import { SectionHeading } from '../../../../components/section-heading';
-import { foundationTabs } from '../../../../lib/navigation';
 
 export const metadata: Metadata = {
   title: 'Каталог иконок — Foundation',
@@ -15,8 +14,6 @@ export default function FoundationIconsCatalogPage() {
       <FoundationCategoryHeader
         title="Иконографика"
         description="Раздел будет расти вместе с платформенными библиотеками, правилами применения и API. Сейчас опубликован проверенный инвентарь и инженерный статус."
-        tabs={foundationTabs.icons}
-        activeHref="/foundation/icons/catalog/"
       />
 
       <section className="content-section">

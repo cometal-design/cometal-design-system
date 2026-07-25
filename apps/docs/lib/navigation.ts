@@ -48,13 +48,10 @@ export const sectionNavigation: Record<string, NavItem[]> = {
   ],
 };
 
-export const foundationTabs: Record<'color' | 'typography' | 'layout' | 'themes' | 'icons', FoundationTab[]> = {
+export const foundationTabs: Record<'color' | 'layout', FoundationTab[]> = {
   color: [
     { label: 'Примитивы', href: '/foundation/color/primitives/' },
     { label: 'Семантика', href: '/foundation/color/semantic/' },
-  ],
-  typography: [
-    { label: 'Web', href: '/foundation/typography/web/' },
   ],
   layout: [
     { label: 'Отступы', href: '/foundation/layout/spacing/' },
@@ -62,11 +59,5 @@ export const foundationTabs: Record<'color' | 'typography' | 'layout' | 'themes'
     { label: 'Радиусы', href: '/foundation/layout/radius/' },
     { label: 'Толщины линий', href: '/foundation/layout/stroke/' },
     { label: 'Адаптивная сетка', href: '/foundation/layout/grid/' },
-  ],
-  themes: [
-    { label: 'Основная тема', href: '/foundation/themes/default/' },
-  ],
-  icons: [
-    { label: 'Каталог', href: '/foundation/icons/catalog/' },
   ],
 };

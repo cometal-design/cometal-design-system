@@ -3,7 +3,6 @@ import typography from '../../../../../../packages/tokens/src/typography.styles.
 import { FoundationCategoryHeader } from '../../../../components/foundation-category-header';
 import { SectionHeading } from '../../../../components/section-heading';
 import { groupBy } from '../../../../lib/foundation-data';
-import { foundationTabs } from '../../../../lib/navigation';
 
 export const metadata: Metadata = {
   title: 'Web-типографика — Foundation',
@@ -18,8 +17,6 @@ export default function FoundationWebTypographyPage() {
       <FoundationCategoryHeader
         title="Типографика"
         description="Типографика организуется по платформам, потому что шрифты, метрики и системные ограничения Web, iOS и Android различаются. Сейчас утверждён слой Web."
-        tabs={foundationTabs.typography}
-        activeHref="/foundation/typography/web/"
       />
 
       <section className="content-section">
