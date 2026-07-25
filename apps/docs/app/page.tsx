@@ -1,5 +1,5 @@
 import Image from 'next/image';
-import Link from 'next/link';
+import { ActionLink, InlineLink } from '@cometal/react';
 import { ReactiveGrid } from '../components/reactive-grid';
 import { releases } from '../../storybook/stories/releases.generated';
 
@@ -31,17 +31,17 @@ export default function HomePage() {
             </h1>
             <div className="home-hero__entry">
               <div className="home-hero__actions">
-                <Link className="home-action home-action--primary" href="/documentation/">Начать работу</Link>
-                <Link className="home-action home-action--secondary" href="/components/">Компоненты</Link>
+                <ActionLink href="/documentation/">Начать работу</ActionLink>
+                <ActionLink href="/components/" variant="secondary">Компоненты</ActionLink>
               </div>
               <p className="home-hero__description">
                 <span>{releases[0].version}</span>
                 <span aria-hidden="true">·</span>
                 <span>
                   Собрано на{' '}
-                  <a href="https://react.dev/learn/installation" target="_blank" rel="noreferrer">
+                  <InlineLink href="https://react.dev/learn/installation" target="_blank" rel="noreferrer">
                     React
-                  </a>
+                  </InlineLink>
                 </span>
               </p>
             </div>

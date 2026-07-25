@@ -1,0 +1,38 @@
+.cometal-inline-link {
+  display: inline-flex;
+  align-items: center;
+  color: var(--cometal-primitive-color-primitive-palette-blue-600-100);
+  font-family: var(--cometal-typography-body-s-accent-font-family);
+  font-size: var(--cometal-typography-body-s-accent-font-size);
+  font-weight: var(--cometal-typography-body-s-accent-font-weight);
+  line-height: var(--cometal-typography-body-s-accent-line-height);
+  letter-spacing: var(--cometal-typography-body-s-accent-letter-spacing);
+  text-decoration-line: underline;
+  text-decoration-color: transparent;
+  text-decoration-thickness: var(--cometal-primitive-stroke-200);
+  text-underline-offset: var(--cometal-primitive-spacing-25);
+  transition: color 120ms ease, text-decoration-color 120ms ease;
+}
+
+.cometal-inline-link[data-touch-target='true'] {
+  min-height: var(--cometal-primitive-size-44);
+}
+
+.cometal-inline-link:hover {
+  color: var(--cometal-primitive-color-primitive-palette-blue-700-100);
+  text-decoration-color: currentColor;
+}
+
+.cometal-inline-link:active {
+  color: var(--cometal-primitive-color-primitive-palette-blue-900-100);
+}
+
+.cometal-inline-link:focus-visible {
+  border-radius: var(--cometal-primitive-radius-50);
+  outline: var(--cometal-semantic-stroke-state-focus) solid var(--cometal-semantic-color-state-focus-ring);
+  outline-offset: var(--cometal-primitive-spacing-12);
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .cometal-inline-link { transition: none; }
+}

@@ -1,3 +1,4 @@
+import { InlineLink } from '@cometal/react';
 import {
   aliasName,
   cssValue,
@@ -86,7 +87,7 @@ export function FoundationMetricPage({ kind }: { kind: MetricKind }) {
             </div>
           </div>
         </div>
-        <a className="technical-link" href={`/storybook/?path=/story/foundation--${content.story}`}>Открыть техническую story ↗</a>
+        <InlineLink className="technical-link" href={`/storybook/?path=/story/foundation--${content.story}`} touchTarget>Открыть техническую story ↗</InlineLink>
       </section>
     </main>
   );

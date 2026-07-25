@@ -5,6 +5,8 @@ import { Checkbox, RadioButton, Switch } from './Selection';
 describe('Selection controls', () => {
   it('renders a native checkbox and marks the mixed visual state', () => {
     const html = renderToStaticMarkup(<Checkbox label="Выбрать всё" indeterminate />);
+
+    expect(html).toContain('data-cometal-component="checkbox"');
     expect(html).toContain('type="checkbox"');
     expect(html).toContain('data-indeterminate="true"');
     expect(html).toContain('viewBox="0 0 20 20"');
@@ -24,6 +26,8 @@ describe('Selection controls', () => {
 
   it('renders a native grouped radio', () => {
     const html = renderToStaticMarkup(<RadioButton label="Без НДС" name="vat" value="none" />);
+
+    expect(html).toContain('data-cometal-component="radio-button"');
     expect(html).toContain('type="radio"');
     expect(html).toContain('name="vat"');
     expect(html).toContain('value="none"');
@@ -31,6 +35,8 @@ describe('Selection controls', () => {
 
   it('renders switch semantics over a native checkbox', () => {
     const html = renderToStaticMarkup(<Switch label="Получать уведомления" defaultChecked />);
+
+    expect(html).toContain('data-cometal-component="switch"');
     expect(html).toContain('type="checkbox"');
     expect(html).toContain('role="switch"');
     expect(html).toContain('checked=""');

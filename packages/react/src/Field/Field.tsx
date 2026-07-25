@@ -72,7 +72,7 @@ function FieldChrome({
 }: FieldChromeProps) {
   if (mode === 'read') {
     return (
-      <div className={['cometal-field-read', className].filter(Boolean).join(' ')} data-size={size} data-multiline={multilineRead || undefined}>
+      <div className={['cometal-field-read', className].filter(Boolean).join(' ')} data-cometal-component="field" data-size={size} data-multiline={multilineRead || undefined}>
         <span className="cometal-field-read__label">{label}</span>
         <span className="cometal-field-read__value">{readValue || '—'}</span>
       </div>
@@ -80,7 +80,7 @@ function FieldChrome({
   }
 
   return (
-    <div className={['cometal-field', className].filter(Boolean).join(' ')} data-size={size} data-invalid={Boolean(error) || undefined} data-disabled={disabled || undefined}>
+    <div className={['cometal-field', className].filter(Boolean).join(' ')} data-cometal-component="field" data-size={size} data-invalid={Boolean(error) || undefined} data-disabled={disabled || undefined}>
       <div className="cometal-field__body">
         <span className="cometal-field__label-row">
           <label className="cometal-field__label" htmlFor={controlId}>{label}</label>

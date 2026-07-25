@@ -1,5 +1,5 @@
 import { forwardRef } from 'react';
-import type { ButtonHTMLAttributes, ReactNode } from 'react';
+import type { AnchorHTMLAttributes, ButtonHTMLAttributes, ReactNode } from 'react';
 import './button.css';
 
 export const buttonVariants = [
@@ -31,6 +31,52 @@ export interface ButtonProps
   startIcon?: ReactNode;
   /** Декоративная иконка после подписи. */
   endIcon?: ReactNode;
+}
+
+export interface ActionLinkProps
+  extends Omit<AnchorHTMLAttributes<HTMLAnchorElement>, 'color' | 'href' | 'size'> {
+  href: string;
+  /** Визуальная роль ссылки. Семантика остаётся ссылкой и требует href. */
+  variant?: ButtonVariant;
+  /** L = 44px, M = 36px, S = 28px. */
+  size?: ButtonSize;
+  /** Декоративная иконка перед подписью. */
+  startIcon?: ReactNode;
+  /** Декоративная иконка после подписи. */
+  endIcon?: ReactNode;
+}
+
+export interface IconButtonProps
+  extends Omit<ButtonProps, 'children' | 'startIcon' | 'endIcon'> {
+  /** Иконка действия. Доступное имя передаётся через aria-label. */
+  icon: ReactNode;
+  'aria-label': string;
+}
+
+function ButtonContent({
+  children,
+  startIcon,
+  endIcon,
+}: {
+  children?: ReactNode;
+  startIcon?: ReactNode;
+  endIcon?: ReactNode;
+}) {
+  return (
+    <span className="cometal-button__content">
+      {startIcon ? (
+        <span className="cometal-button__icon" aria-hidden="true">
+          {startIcon}
+        </span>
+      ) : null}
+      {children != null ? <span className="cometal-button__label">{children}</span> : null}
+      {endIcon ? (
+        <span className="cometal-button__icon" aria-hidden="true">
+          {endIcon}
+        </span>
+      ) : null}
+    </span>
+  );
 }
 
 function ButtonLoader() {
@@ -80,20 +126,43 @@ export const Button = forwardRef<HTMLButtonElement, ButtonProps>(function Button
       data-size={size}
       data-loading={loading || undefined}
     >
-      <span className="cometal-button__content">
-        {startIcon ? (
-          <span className="cometal-button__icon" aria-hidden="true">
-            {startIcon}
-          </span>
-        ) : null}
-        {children != null ? <span className="cometal-button__label">{children}</span> : null}
-        {endIcon ? (
-          <span className="cometal-button__icon" aria-hidden="true">
-            {endIcon}
-          </span>
-        ) : null}
-      </span>
+      <ButtonContent startIcon={startIcon} endIcon={endIcon}>{children}</ButtonContent>
       {loading ? <ButtonLoader /> : null}
     </button>
   );
+});
+
+export const ActionLink = forwardRef<HTMLAnchorElement, ActionLinkProps>(function ActionLink(
+  {
+    variant = 'primary',
+    size = 'l',
+    startIcon,
+    endIcon,
+    children,
+    className,
+    ...anchorProps
+  },
+  ref,
+) {
+  const classes = ['cometal-button', className].filter(Boolean).join(' ');
+
+  return (
+    <a
+      {...anchorProps}
+      ref={ref}
+      className={classes}
+      data-cometal-component="action-link"
+      data-variant={variant}
+      data-size={size}
+    >
+      <ButtonContent startIcon={startIcon} endIcon={endIcon}>{children}</ButtonContent>
+    </a>
+  );
+});
+
+export const IconButton = forwardRef<HTMLButtonElement, IconButtonProps>(function IconButton(
+  { icon, ...buttonProps },
+  ref,
+) {
+  return <Button {...buttonProps} ref={ref} startIcon={icon} />;
 });

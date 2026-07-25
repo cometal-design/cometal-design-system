@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { InlineLink } from '@cometal/react';
 import { FoundationCategoryHeader } from '../../../../components/foundation-category-header';
 import { SectionHeading } from '../../../../components/section-heading';
 import { aliasName, cssValue, groupBy, semanticTokens } from '../../../../lib/foundation-data';
@@ -47,7 +48,7 @@ export default function FoundationSemanticColorsPage() {
             </section>
           ))}
         </div>
-        <a className="technical-link" href="/storybook/?path=/story/foundation--semantic-colors">Открыть техническую Semantic story ↗</a>
+        <InlineLink className="technical-link" href="/storybook/?path=/story/foundation--semantic-colors" touchTarget>Открыть техническую Semantic story ↗</InlineLink>
       </section>
     </main>
   );

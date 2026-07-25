@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { InlineLink } from '@cometal/react';
 import { FoundationCategoryHeader } from '../../../../components/foundation-category-header';
 import { SectionHeading } from '../../../../components/section-heading';
 import { cssValue, groupBy, primitiveTokens } from '../../../../lib/foundation-data';
@@ -43,7 +44,7 @@ export default function FoundationPrimitiveColorsPage() {
             </section>
           ))}
         </div>
-        <a className="technical-link" href="/storybook/?path=/story/foundation--primitive-colors">Открыть технический каталог Primitive ↗</a>
+        <InlineLink className="technical-link" href="/storybook/?path=/story/foundation--primitive-colors" touchTarget>Открыть технический каталог Primitive ↗</InlineLink>
       </section>
     </main>
   );

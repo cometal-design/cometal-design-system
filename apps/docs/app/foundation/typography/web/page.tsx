@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { InlineLink } from '@cometal/react';
 import typography from '../../../../../../packages/tokens/src/typography.styles.json';
 import { FoundationCategoryHeader } from '../../../../components/foundation-category-header';
 import { SectionHeading } from '../../../../components/section-heading';
@@ -50,7 +51,7 @@ export default function FoundationWebTypographyPage() {
             </section>
           ))}
         </div>
-        <a className="technical-link" href="/storybook/?path=/story/foundation--typography">Открыть техническую Typography story ↗</a>
+        <InlineLink className="technical-link" href="/storybook/?path=/story/foundation--typography" touchTarget>Открыть техническую Typography story ↗</InlineLink>
       </section>
     </main>
   );

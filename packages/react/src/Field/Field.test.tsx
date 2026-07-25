@@ -5,6 +5,8 @@ import { Combobox, MultiSelect, Select, TextArea, TextField } from './Field';
 describe('Fields', () => {
   it('renders a native text input with its visible label and error semantics', () => {
     const html = renderToStaticMarkup(<TextField label="ИНН" error="Проверьте значение" name="inn" />);
+
+    expect(html).toContain('data-cometal-component="field"');
     expect(html).toContain('<input');
     expect(html).toContain('name="inn"');
     expect(html).toContain('aria-invalid="true"');

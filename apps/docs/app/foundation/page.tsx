@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { InlineLink } from '@cometal/react';
 import { SectionHeading } from '../../components/section-heading';
 import inventory from '../../../../packages/tokens/src/foundation.inventory.json';
 import typography from '../../../../packages/tokens/src/typography.styles.json';
@@ -106,7 +107,7 @@ export default function FoundationPage() {
         <aside className="review-banner">
           <div><span>Последняя сверка</span><strong>{inventory.verifiedAt}</strong></div>
           <p>Проверены коллекции, режимы, связи, области применения, имена для кода, локальные стили и сборка токенов.</p>
-          <a href="/storybook/?path=/story/foundation--engineering">Инженерный паспорт ↗</a>
+          <InlineLink href="/storybook/?path=/story/foundation--engineering" touchTarget>Инженерный паспорт ↗</InlineLink>
         </aside>
       </section>
     </main>

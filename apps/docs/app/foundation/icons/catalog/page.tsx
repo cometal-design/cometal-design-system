@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { InlineLink } from '@cometal/react';
 import icons from '../../../../../../packages/tokens/src/icons.inventory.json';
 import { FoundationCategoryHeader } from '../../../../components/foundation-category-header';
 import { SectionHeading } from '../../../../components/section-heading';
@@ -44,7 +45,7 @@ export default function FoundationIconsCatalogPage() {
       <section className="content-section">
         <SectionHeading title="Инженерный статус" description="Инвентарь существует, но кодовая библиотека ещё не утверждена." />
         <div className="notice"><strong>{icons.codeStatus}</strong><span>{icons.codeStatusReason}</span></div>
-        <a className="technical-link" href="/storybook/?path=/story/foundation--icons">Открыть техническую Icons story ↗</a>
+        <InlineLink className="technical-link" href="/storybook/?path=/story/foundation--icons" touchTarget>Открыть техническую Icons story ↗</InlineLink>
       </section>
     </main>
   );

@@ -1,6 +1,6 @@
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
-import { Button } from './Button';
+import { ActionLink, Button, IconButton } from './Button';
 
 describe('Button', () => {
   it('uses safe button semantics and default visual contract', () => {
@@ -45,6 +45,30 @@ describe('Button', () => {
 
     expect(html).toContain('aria-label="Добавить строку"');
     expect(html).toContain('aria-hidden="true"');
+    expect(html).not.toContain('cometal-button__label');
+  });
+
+  it('keeps navigation semantics in the action-link composition', () => {
+    const html = renderToStaticMarkup(
+      <ActionLink href="/components/" variant="secondary">
+        Компоненты
+      </ActionLink>,
+    );
+
+    expect(html).toContain('<a');
+    expect(html).toContain('href="/components/"');
+    expect(html).toContain('data-cometal-component="action-link"');
+    expect(html).toContain('data-variant="secondary"');
+    expect(html).not.toContain('type="button"');
+  });
+
+  it('requires an accessible name for the icon-button composition', () => {
+    const html = renderToStaticMarkup(
+      <IconButton aria-label="Открыть меню" icon={<span>+</span>} />,
+    );
+
+    expect(html).toContain('<button');
+    expect(html).toContain('aria-label="Открыть меню"');
     expect(html).not.toContain('cometal-button__label');
   });
 });

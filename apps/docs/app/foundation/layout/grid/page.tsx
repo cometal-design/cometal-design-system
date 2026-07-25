@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { InlineLink } from '@cometal/react';
 import grid from '../../../../../../packages/tokens/src/grid.presets.json';
 import { FoundationCategoryHeader } from '../../../../components/foundation-category-header';
 import { SectionHeading } from '../../../../components/section-heading';
@@ -42,7 +43,7 @@ export default function FoundationGridPage() {
             </article>
           ))}
         </div>
-        <a className="technical-link" href="/storybook/?path=/story/foundation--grid">Открыть техническую Grid story ↗</a>
+        <InlineLink className="technical-link" href="/storybook/?path=/story/foundation--grid" touchTarget>Открыть техническую Grid story ↗</InlineLink>
       </section>
     </main>
   );

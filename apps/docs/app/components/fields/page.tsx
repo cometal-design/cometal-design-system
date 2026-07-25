@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Combobox, MultiSelect, Select, TextArea, TextField } from '@cometal/react';
+import { ActionLink, Combobox, InlineLink, MultiSelect, Select, TextArea, TextField } from '@cometal/react';
 import { SectionHeading } from '../../../components/section-heading';
 import { components, statusLabels } from '../../../lib/registry';
 
@@ -14,10 +14,8 @@ export default function FieldsPage() {
     <main className="content-page component-detail">
       <header className="component-title">
         <div><span className="eyebrow">ГРУППА КОМПОНЕНТОВ · WEB · {statusLabels[firstField.status].toUpperCase()}</span><h1>Fields</h1><p>Пять публичных полей с общей визуальной основой и разной семантикой: ввод текста, многострочный ввод, выбор, поиск и множественный выбор.</p></div>
-        <div className="component-title__links"><a href="https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1096-42" target="_blank" rel="noreferrer">Figma ↗</a><a href="/storybook/?path=/story/components-fields--overview">Открыть Playground ↗</a></div>
+        <div className="component-title__links"><ActionLink href="https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1096-42" target="_blank" rel="noreferrer" variant="secondary">Figma ↗</ActionLink><ActionLink href="/storybook/?path=/story/components-fields--overview" variant="secondary">Открыть Playground ↗</ActionLink></div>
       </header>
-
-      <nav className="on-page-nav" aria-label="Содержание страницы"><a href="#family">Состав</a><a href="#states">Состояния</a><a href="#behavior">Поведение</a><a href="#api">React API</a></nav>
 
       <section className="content-section" id="family">
         <SectionHeading title="Пять компонентов" description="Mode=Read не копирует disabled-поле: рамка и интерактивность полностью исчезают." />
@@ -51,7 +49,7 @@ export default function FieldsPage() {
         <div className="api-table"><div className="api-table__head"><span>Prop</span><span>Тип</span><span>Default</span></div>{[['label','string','required'],['size',"'l' | 'm'","'l'"],['mode',"'edit' | 'read'","'edit'"],['helperText','string','—'],['optional','boolean','false'],['error','string','—'],['readValue','ReactNode','—']].map(([name,type,value])=><div key={name}><code>{name}</code><span>{type}</span><span>{value}</span></div>)}</div>
       </section>
 
-      <aside className="review-banner"><div><span>Статус</span><strong>In review</strong></div><p>Пять компонентов реализованы и проверяются как одна family. Для Beta нужны Frontend Lead review и продуктовый пилот.</p><a href="/storybook/?path=/story/components-fields--overview">Техническая документация ↗</a></aside>
+      <aside className="review-banner"><div><span>Статус</span><strong>In review</strong></div><p>Пять компонентов реализованы и проверяются как одна family. Для Beta нужны Frontend Lead review и продуктовый пилот.</p><InlineLink href="/storybook/?path=/story/components-fields--overview" touchTarget>Техническая документация ↗</InlineLink></aside>
     </main>
   );
 }

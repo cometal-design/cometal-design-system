@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Button } from '@cometal/react';
+import { ActionLink, Button, InlineLink } from '@cometal/react';
 import type { ButtonVariant } from '@cometal/react';
 import { components, statusLabels } from '../../../lib/registry';
 import { SectionHeading } from '../../../components/section-heading';
@@ -24,10 +24,8 @@ export default function ButtonPage() {
     <main className="content-page component-detail">
       <header className="component-title">
         <div><span className="eyebrow">КОМПОНЕНТ · WEB · {statusLabels[component.status].toUpperCase()}</span><h1>Button</h1><p>Запускает одно понятное действие пользователя: сохранить, продолжить, создать, подтвердить или удалить.</p></div>
-        <div className="component-title__links"><a href={component.links.figma} target="_blank" rel="noreferrer">Figma ↗</a><a href="/storybook/?path=/story/components-button--playground">Открыть Playground ↗</a></div>
+        <div className="component-title__links"><ActionLink href={component.links.figma} target="_blank" rel="noreferrer" variant="secondary">Figma ↗</ActionLink><ActionLink href="/storybook/?path=/story/components-button--playground" variant="secondary">Открыть Playground ↗</ActionLink></div>
       </header>
-
-      <nav className="on-page-nav" aria-label="Содержание страницы"><a href="#usage">Использование</a><a href="#variants">Варианты</a><a href="#sizes">Размеры</a><a href="#states">Состояния</a><a href="#api">React API</a></nav>
 
       <section className="content-section" id="usage">
         <SectionHeading title="Использование" description="Кнопка выполняет действие. Для обычного перехода используйте ссылку, для переключения режима — Toggle." />
@@ -69,7 +67,7 @@ export default function ButtonPage() {
         ].map(([name, type, value]) => <div key={name}><code>{name}</code><span>{type}</span><span>{value}</span></div>)}</div>
       </section>
 
-      <aside className="review-banner"><div><span>Статус</span><strong>{statusLabels[component.status]}</strong></div><p>Визуал, API, stories и автоматические проверки собраны. Для Beta требуется review Frontend Lead и проверка внутри продукта Cometal.</p><a href="/storybook/?path=/story/components-button--overview">Техническая документация ↗</a></aside>
+      <aside className="review-banner"><div><span>Статус</span><strong>{statusLabels[component.status]}</strong></div><p>Визуал, API, stories и автоматические проверки собраны. Для Beta требуется review Frontend Lead и проверка внутри продукта Cometal.</p><InlineLink href="/storybook/?path=/story/components-button--overview" touchTarget>Техническая документация ↗</InlineLink></aside>
     </main>
   );
 }

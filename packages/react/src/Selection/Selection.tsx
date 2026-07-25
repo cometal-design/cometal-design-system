@@ -51,7 +51,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
   }, [indeterminate]);
 
   return (
-    <label className={['cometal-selection', className].filter(Boolean).join(' ')} data-kind="checkbox" data-size={size} data-indeterminate={indeterminate || undefined}>
+    <label className={['cometal-selection', className].filter(Boolean).join(' ')} data-cometal-component="checkbox" data-kind="checkbox" data-size={size} data-indeterminate={indeterminate || undefined}>
       <input
         {...inputProps}
         ref={setRef}
@@ -73,7 +73,7 @@ export const RadioButton = forwardRef<HTMLInputElement, RadioButtonProps>(functi
   ref,
 ) {
   return (
-    <label className={['cometal-selection', className].filter(Boolean).join(' ')} data-kind="radio" data-size={size}>
+    <label className={['cometal-selection', className].filter(Boolean).join(' ')} data-cometal-component="radio-button" data-kind="radio" data-size={size}>
       <input {...inputProps} ref={ref} type="radio" />
       <span className="cometal-selection__control" aria-hidden="true" />
       <span className="cometal-selection__content"><span className="cometal-selection__label">{label}</span>{description ? <span className="cometal-selection__description">{description}</span> : null}</span>
@@ -88,7 +88,7 @@ export const Switch = forwardRef<HTMLInputElement, SwitchProps>(function Switch(
   ref,
 ) {
   return (
-    <label className={['cometal-selection', className].filter(Boolean).join(' ')} data-kind="switch" data-size={size}>
+    <label className={['cometal-selection', className].filter(Boolean).join(' ')} data-cometal-component="switch" data-kind="switch" data-size={size}>
       <input {...inputProps} ref={ref} type="checkbox" role="switch" />
       <span className="cometal-selection__control" aria-hidden="true"><span className="cometal-selection__thumb" /></span>
       <span className="cometal-selection__content"><span className="cometal-selection__label">{label}</span>{description ? <span className="cometal-selection__description">{description}</span> : null}</span>

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { InlineLink } from '@cometal/react';
 import { FoundationCategoryHeader } from '../../../../components/foundation-category-header';
 import { SectionHeading } from '../../../../components/section-heading';
 import { cssValue, semanticTokens } from '../../../../lib/foundation-data';
@@ -45,7 +46,7 @@ export default function FoundationDefaultThemePage() {
           <article data-tone="positive"><strong>Работает сейчас</strong><p>Режим Default, семантические связи и единое использование токенов всеми компонентами.</p></article>
           <article data-tone="negative"><strong>Не опубликовано</strong><p>Тёмный режим, переключатель темы и отдельная карта контраста для тёмных поверхностей.</p></article>
         </div>
-        <a className="technical-link" href="/storybook/?path=/story/foundation--semantic-colors">Проверить семантические роли в Storybook ↗</a>
+        <InlineLink className="technical-link" href="/storybook/?path=/story/foundation--semantic-colors" touchTarget>Проверить семантические роли в Storybook ↗</InlineLink>
       </section>
     </main>
   );
