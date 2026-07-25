@@ -21,8 +21,6 @@ export const sectionNavigation: Record<string, NavItem[]> = {
   documentation: [
     { label: 'Обзор', href: '/documentation/' },
     { label: 'Релизы', href: '/releases/' },
-    { label: 'Источники истины', href: '/documentation/#sources' },
-    { label: 'Жизненный цикл', href: '/documentation/#lifecycle' },
   ],
   foundation: [
     { label: 'Обзор', href: '/foundation/' },
