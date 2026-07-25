@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import icons from '../../../../../../packages/tokens/src/icons.inventory.json';
+import { FoundationCategoryHeader } from '../../../../components/foundation-category-header';
 import { SectionHeading } from '../../../../components/section-heading';
+import { foundationTabs } from '../../../../lib/navigation';
 
 export const metadata: Metadata = {
   title: 'Каталог иконок — Foundation',
@@ -10,17 +12,18 @@ export const metadata: Metadata = {
 export default function FoundationIconsCatalogPage() {
   return (
     <main className="content-page">
-      <header className="page-header page-header--with-stat">
-        <div>
-          <span className="eyebrow">FOUNDATION / ИКОНКИ / КАТАЛОГ</span>
-          <h1>Каталог иконок</h1>
-          <p>Страница фиксирует реальный инвентарь Figma и границу готовности. Пока SVG-ресурсы и React API не утверждены, каталог не подменяет их самодельными иконками.</p>
-        </div>
-        <div className="page-stat"><strong>{icons.totalComponents.toLocaleString('ru-RU')}</strong><span>компонентов Figma</span></div>
-      </header>
+      <FoundationCategoryHeader
+        title="Иконографика"
+        description="Раздел будет расти вместе с платформенными библиотеками, правилами применения и API. Сейчас опубликован проверенный инвентарь и инженерный статус."
+        tabs={foundationTabs.icons}
+        activeHref="/foundation/icons/catalog/"
+      />
 
       <section className="content-section">
-        <SectionHeading title="Библиотеки" description="Три источника внутри текущего набора иконок." />
+        <SectionHeading
+          title="Каталог"
+          description={`${icons.totalComponents.toLocaleString('ru-RU')} компонентов Figma распределены между тремя библиотеками. SVG-ресурсы и React API пока не утверждены.`}
+        />
         <div className="foundation-icon-libraries">
           {icons.libraries.map((library) => (
             <article key={library.name}>

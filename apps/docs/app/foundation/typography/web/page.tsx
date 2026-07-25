@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
 import typography from '../../../../../../packages/tokens/src/typography.styles.json';
+import { FoundationCategoryHeader } from '../../../../components/foundation-category-header';
+import { SectionHeading } from '../../../../components/section-heading';
 import { groupBy } from '../../../../lib/foundation-data';
+import { foundationTabs } from '../../../../lib/navigation';
 
 export const metadata: Metadata = {
   title: 'Web-типографика — Foundation',
@@ -12,40 +15,44 @@ const groups = groupBy(typography.styles, (style) => style.name.split('/')[0]);
 export default function FoundationWebTypographyPage() {
   return (
     <main className="content-page">
-      <header className="page-header page-header--with-stat">
-        <div>
-          <span className="eyebrow">FOUNDATION / ТИПОГРАФИКА / WEB</span>
-          <h1>Web-типографика</h1>
-          <p>Стили воспроизводят family, weight, size, line-height, letter-spacing и text case из Figma. Платформы iOS и Android будут добавлены только после отдельного утверждения.</p>
-        </div>
-        <div className="page-stat"><strong>{typography.styles.length}</strong><span>текстовых стилей</span></div>
-      </header>
+      <FoundationCategoryHeader
+        title="Типографика"
+        description="Типографика организуется по платформам, потому что шрифты, метрики и системные ограничения Web, iOS и Android различаются. Сейчас утверждён слой Web."
+        tabs={foundationTabs.typography}
+        activeHref="/foundation/typography/web/"
+      />
 
-      <section className="content-section foundation-type-catalog">
-        {[...groups].map(([group, styles]) => (
-          <section className="foundation-type-group" key={group}>
-            <header><h2>{group}</h2><span>{styles.length} стилей</span></header>
-            <div>
-              {styles.map((style) => (
-                <article key={style.name}>
-                  <div>
-                    <strong>{style.name}</strong>
-                    <code>{style.size}/{style.lineHeight}px · {style.weight} · {style.letterSpacingPercent}%</code>
-                  </div>
-                  <p style={{
-                    fontFamily: style.family,
-                    fontWeight: style.weight,
-                    fontSize: style.size,
-                    lineHeight: `${style.lineHeight}px`,
-                    letterSpacing: `${style.letterSpacingPercent / 100}em`,
-                    textTransform: style.textCase === 'upper' ? 'uppercase' : 'none',
-                  }}>Система управления закупками</p>
-                  <span>{style.description}</span>
-                </article>
-              ))}
-            </div>
-          </section>
-        ))}
+      <section className="content-section">
+        <SectionHeading
+          title="Web"
+          description={`${typography.styles.length} текстовых стилей воспроизводят family, weight, size, line-height, letter-spacing и text case из Figma.`}
+        />
+        <div className="foundation-type-catalog">
+          {[...groups].map(([group, styles]) => (
+            <section className="foundation-type-group" key={group}>
+              <header><h2>{group}</h2><span>{styles.length} стилей</span></header>
+              <div>
+                {styles.map((style) => (
+                  <article key={style.name}>
+                    <div>
+                      <strong>{style.name}</strong>
+                      <code>{style.size}/{style.lineHeight}px · {style.weight} · {style.letterSpacingPercent}%</code>
+                    </div>
+                    <p style={{
+                      fontFamily: style.family,
+                      fontWeight: style.weight,
+                      fontSize: style.size,
+                      lineHeight: `${style.lineHeight}px`,
+                      letterSpacing: `${style.letterSpacingPercent / 100}em`,
+                      textTransform: style.textCase === 'upper' ? 'uppercase' : 'none',
+                    }}>Система управления закупками</p>
+                    <span>{style.description}</span>
+                  </article>
+                ))}
+              </div>
+            </section>
+          ))}
+        </div>
         <a className="technical-link" href="/storybook/?path=/story/foundation--typography">Открыть техническую Typography story ↗</a>
       </section>
     </main>

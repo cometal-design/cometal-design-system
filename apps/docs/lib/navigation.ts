@@ -3,8 +3,10 @@ export type NavItem = {
   href: string;
   description?: string;
   external?: boolean;
-  children?: NavItem[];
+  activePrefix?: string;
 };
+
+export type FoundationTab = Pick<NavItem, 'label' | 'href'>;
 
 export const primaryNavigation: NavItem[] = [
   { label: 'Документация', href: '/documentation/' },
@@ -24,51 +26,11 @@ export const sectionNavigation: Record<string, NavItem[]> = {
   ],
   foundation: [
     { label: 'Обзор', href: '/foundation/' },
-    {
-      label: 'Цвет',
-      href: '/foundation/color/',
-      children: [
-        { label: 'Обзор', href: '/foundation/color/' },
-        { label: 'Примитивы', href: '/foundation/color/primitives/' },
-        { label: 'Семантика', href: '/foundation/color/semantic/' },
-      ],
-    },
-    {
-      label: 'Типографика',
-      href: '/foundation/typography/',
-      children: [
-        { label: 'Обзор', href: '/foundation/typography/' },
-        { label: 'Web', href: '/foundation/typography/web/' },
-      ],
-    },
-    {
-      label: 'Размеры и сетки',
-      href: '/foundation/layout/',
-      children: [
-        { label: 'Обзор', href: '/foundation/layout/' },
-        { label: 'Отступы', href: '/foundation/layout/spacing/' },
-        { label: 'Размеры', href: '/foundation/layout/size/' },
-        { label: 'Радиусы', href: '/foundation/layout/radius/' },
-        { label: 'Толщины линий', href: '/foundation/layout/stroke/' },
-        { label: 'Адаптивная сетка', href: '/foundation/layout/grid/' },
-      ],
-    },
-    {
-      label: 'Темы',
-      href: '/foundation/themes/',
-      children: [
-        { label: 'Обзор', href: '/foundation/themes/' },
-        { label: 'Основная тема', href: '/foundation/themes/default/' },
-      ],
-    },
-    {
-      label: 'Иконки',
-      href: '/foundation/icons/',
-      children: [
-        { label: 'Обзор', href: '/foundation/icons/' },
-        { label: 'Каталог', href: '/foundation/icons/catalog/' },
-      ],
-    },
+    { label: 'Цвет', href: '/foundation/color/primitives/', activePrefix: '/foundation/color/' },
+    { label: 'Типографика', href: '/foundation/typography/web/', activePrefix: '/foundation/typography/' },
+    { label: 'Размеры и сетки', href: '/foundation/layout/spacing/', activePrefix: '/foundation/layout/' },
+    { label: 'Темы', href: '/foundation/themes/default/', activePrefix: '/foundation/themes/' },
+    { label: 'Иконки', href: '/foundation/icons/catalog/', activePrefix: '/foundation/icons/' },
   ],
   components: [
     { label: 'Обзор', href: '/components/' },
@@ -83,5 +45,28 @@ export const sectionNavigation: Record<string, NavItem[]> = {
   releases: [
     { label: 'Обзор', href: '/documentation/' },
     { label: 'Релизы', href: '/releases/' },
+  ],
+};
+
+export const foundationTabs: Record<'color' | 'typography' | 'layout' | 'themes' | 'icons', FoundationTab[]> = {
+  color: [
+    { label: 'Примитивы', href: '/foundation/color/primitives/' },
+    { label: 'Семантика', href: '/foundation/color/semantic/' },
+  ],
+  typography: [
+    { label: 'Web', href: '/foundation/typography/web/' },
+  ],
+  layout: [
+    { label: 'Отступы', href: '/foundation/layout/spacing/' },
+    { label: 'Размеры', href: '/foundation/layout/size/' },
+    { label: 'Радиусы', href: '/foundation/layout/radius/' },
+    { label: 'Толщины линий', href: '/foundation/layout/stroke/' },
+    { label: 'Адаптивная сетка', href: '/foundation/layout/grid/' },
+  ],
+  themes: [
+    { label: 'Основная тема', href: '/foundation/themes/default/' },
+  ],
+  icons: [
+    { label: 'Каталог', href: '/foundation/icons/catalog/' },
   ],
 };

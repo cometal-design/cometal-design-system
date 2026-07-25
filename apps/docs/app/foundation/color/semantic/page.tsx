@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
+import { FoundationCategoryHeader } from '../../../../components/foundation-category-header';
+import { SectionHeading } from '../../../../components/section-heading';
 import { aliasName, cssValue, groupBy, semanticTokens } from '../../../../lib/foundation-data';
+import { foundationTabs } from '../../../../lib/navigation';
 
 export const metadata: Metadata = {
   title: 'Семантика цвета — Foundation',
@@ -12,16 +15,18 @@ const semanticGroups = groupBy(semanticColors, (token) => token.name.split('/')[
 export default function FoundationSemanticColorsPage() {
   return (
     <main className="content-page">
-      <header className="page-header page-header--with-stat">
-        <div>
-          <span className="eyebrow">FOUNDATION / ЦВЕТ / СЕМАНТИКА</span>
-          <h1>Семантика цвета</h1>
-          <p>Роль остаётся стабильной, даже если связанное primitive-значение меняется. Компоненты и продукт используют этот слой.</p>
-        </div>
-        <div className="page-stat"><strong>{semanticColors.length}</strong><span>semantic-ролей</span></div>
-      </header>
+      <FoundationCategoryHeader
+        title="Цветовая система"
+        description="Цвет разделён на два уровня: Primitive хранит исходные значения, Semantic назначает им продуктовые роли. Компоненты используют только semantic-токены."
+        tabs={foundationTabs.color}
+        activeHref="/foundation/color/semantic/"
+      />
 
       <section className="content-section">
+        <SectionHeading
+          title="Семантика"
+          description={`Карта содержит ${semanticColors.length} ролей. Роль остаётся стабильной, даже если связанное primitive-значение меняется; компоненты и продукт используют этот слой.`}
+        />
         <div className="foundation-semantic-groups">
           {[...semanticGroups].map(([group, tokens]) => (
             <section key={group} className="foundation-semantic-group">

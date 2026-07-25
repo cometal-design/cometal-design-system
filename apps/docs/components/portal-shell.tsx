@@ -15,14 +15,6 @@ function currentSection(pathname: string) {
   return section;
 }
 
-function ArrowDownIcon() {
-  return (
-    <svg viewBox="0 0 20 20" fill="none" focusable="false" aria-hidden="true">
-      <path d="M5.833 7.917 10 12.083l4.167-4.166" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
-    </svg>
-  );
-}
-
 function MenuIcon({ open }: { open: boolean }) {
   return (
     <span className="menu-icon" data-open={open || undefined} aria-hidden="true">
@@ -37,9 +29,6 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
   const section = currentSection(pathname);
   const items = sectionNavigation[section] ?? [];
   const [menuOpen, setMenuOpen] = useState(false);
-  const [openGroups, setOpenGroups] = useState<Set<string>>(() => {
-    return new Set(items.filter((item) => item.children?.some((child) => normalizePath(pathname) === normalizePath(child.href))).map((item) => item.href));
-  });
 
   useEffect(() => setMenuOpen(false), [pathname]);
   useEffect(() => {
@@ -50,22 +39,6 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
     window.addEventListener('keydown', closeOnEscape);
     return () => window.removeEventListener('keydown', closeOnEscape);
   }, [menuOpen]);
-  useEffect(() => {
-    const activeGroups = items
-      .filter((item) => item.children?.some((child) => normalizePath(pathname) === normalizePath(child.href)))
-      .map((item) => item.href);
-    if (activeGroups.length === 0) return;
-    setOpenGroups((current) => new Set([...current, ...activeGroups]));
-  }, [items, pathname]);
-
-  function toggleGroup(href: string) {
-    setOpenGroups((current) => {
-      const next = new Set(current);
-      if (next.has(href)) next.delete(href);
-      else next.add(href);
-      return next;
-    });
-  }
 
   return (
     <div className="portal">
@@ -127,37 +100,11 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
           <aside className="section-sidebar">
             <nav className="section-nav" aria-label="Навигация раздела">
               {items.map((item) => {
-                const active = normalizePath(pathname) === normalizePath(item.href);
-                if (!item.children?.length) {
-                  return <Link key={item.href} href={item.href} data-active={active || undefined}>{item.label}</Link>;
-                }
-
-                const expanded = openGroups.has(item.href);
-                const containsActive = item.children.some((child) => normalizePath(pathname) === normalizePath(child.href));
-                const groupId = `section-group-${item.href.split('/').filter(Boolean).join('-')}`;
-
-                return (
-                  <div className="section-nav__group" key={item.href} data-current={containsActive || undefined}>
-                    <div className="section-nav__parent">
-                      <button
-                        type="button"
-                        aria-expanded={expanded}
-                        aria-controls={groupId}
-                        aria-label={`${expanded ? 'Свернуть' : 'Раскрыть'} раздел «${item.label}»`}
-                        onClick={() => toggleGroup(item.href)}
-                      >
-                        <ArrowDownIcon />
-                        <span>{item.label}</span>
-                      </button>
-                    </div>
-                    <div className="section-nav__children" id={groupId} hidden={!expanded} role="group" aria-label={item.label}>
-                      {item.children.map((child) => {
-                        const childActive = normalizePath(pathname) === normalizePath(child.href);
-                        return <Link key={child.href} href={child.href} data-active={childActive || undefined}>{child.label}</Link>;
-                      })}
-                    </div>
-                  </div>
-                );
+                const itemPath = normalizePath(item.href);
+                const activePrefix = normalizePath(item.activePrefix ?? item.href);
+                const currentPath = normalizePath(pathname);
+                const active = currentPath === itemPath || (activePrefix !== '/foundation' && currentPath.startsWith(`${activePrefix}/`));
+                return <Link key={item.href} href={item.href} data-active={active || undefined}>{item.label}</Link>;
               })}
             </nav>
           </aside>

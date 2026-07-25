@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
+import { FoundationCategoryHeader } from '../../../../components/foundation-category-header';
+import { SectionHeading } from '../../../../components/section-heading';
 import { cssValue, groupBy, primitiveTokens } from '../../../../lib/foundation-data';
+import { foundationTabs } from '../../../../lib/navigation';
 
 export const metadata: Metadata = {
   title: 'Примитивы цвета — Foundation',
@@ -12,16 +15,18 @@ const primitiveFamilies = groupBy(primitiveColors, (token) => token.name.split('
 export default function FoundationPrimitiveColorsPage() {
   return (
     <main className="content-page">
-      <header className="page-header page-header--with-stat">
-        <div>
-          <span className="eyebrow">FOUNDATION / ЦВЕТ / ПРИМИТИВЫ</span>
-          <h1>Примитивы цвета</h1>
-          <p>Техническая палитра без продуктового смысла. Имя фиксирует семейство, ступень и прозрачность; компоненты не обращаются к этим значениям напрямую.</p>
-        </div>
-        <div className="page-stat"><strong>{primitiveColors.length}</strong><span>primitive-значений</span></div>
-      </header>
+      <FoundationCategoryHeader
+        title="Цветовая система"
+        description="Цвет разделён на два уровня: Primitive хранит исходные значения, Semantic назначает им продуктовые роли. Компоненты используют только semantic-токены."
+        tabs={foundationTabs.color}
+        activeHref="/foundation/color/primitives/"
+      />
 
       <section className="content-section">
+        <SectionHeading
+          title="Примитивы"
+          description={`Техническая палитра без продуктового смысла: ${primitiveColors.length} значений. Имя фиксирует семейство, ступень и прозрачность; компоненты не обращаются к этим значениям напрямую.`}
+        />
         <div className="foundation-color-families">
           {[...primitiveFamilies].map(([family, tokens]) => (
             <section key={family} className="foundation-color-family">

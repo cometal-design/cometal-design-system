@@ -1,5 +1,8 @@
 import type { Metadata } from 'next';
 import grid from '../../../../../../packages/tokens/src/grid.presets.json';
+import { FoundationCategoryHeader } from '../../../../components/foundation-category-header';
+import { SectionHeading } from '../../../../components/section-heading';
+import { foundationTabs } from '../../../../lib/navigation';
 
 export const metadata: Metadata = {
   title: 'Адаптивная сетка — Foundation',
@@ -9,16 +12,18 @@ export const metadata: Metadata = {
 export default function FoundationGridPage() {
   return (
     <main className="content-page">
-      <header className="page-header page-header--with-stat">
-        <div>
-          <span className="eyebrow">FOUNDATION / РАЗМЕРЫ И СЕТКИ / АДАПТИВНАЯ СЕТКА</span>
-          <h1>Адаптивная сетка</h1>
-          <p>Пресеты фиксируют viewport, количество колонок, margin и gutter. В Figma пока нет опубликованных локальных Grid Styles, поэтому портал не выдаёт их за готовый asset.</p>
-        </div>
-        <div className="page-stat"><strong>{grid.presets.length}</strong><span>grid-пресета</span></div>
-      </header>
+      <FoundationCategoryHeader
+        title="Пространственная система"
+        description="Числовые шкалы, semantic-роли и адаптивные сетки собраны в одной категории. Табы разделяют слои, сохраняя общий контекст."
+        tabs={foundationTabs.layout}
+        activeHref="/foundation/layout/grid/"
+      />
 
       <section className="content-section">
+        <SectionHeading
+          title="Адаптивная сетка"
+          description={`${grid.presets.length} пресета фиксируют viewport, количество колонок, margin и gutter. В Figma пока нет опубликованных локальных Grid Styles.`}
+        />
         <div className="foundation-grid-presets">
           {grid.presets.map((preset) => (
             <article key={preset.name}>

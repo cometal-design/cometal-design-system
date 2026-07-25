@@ -5,32 +5,34 @@ import {
   primitiveTokens,
   semanticTokens,
 } from '../lib/foundation-data';
+import { foundationTabs } from '../lib/navigation';
+import { FoundationCategoryHeader } from './foundation-category-header';
 import { SectionHeading } from './section-heading';
 
 const metricContent = {
   Spacing: {
-    eyebrow: 'FOUNDATION / РАЗМЕРЫ И СЕТКИ / ОТСТУПЫ',
     title: 'Отступы',
     description: 'Шкала расстояний задаёт внутренние и внешние отступы без локальных чисел в компонентах.',
     story: 'spacing',
+    href: '/foundation/layout/spacing/',
   },
   Size: {
-    eyebrow: 'FOUNDATION / РАЗМЕРЫ И СЕТКИ / РАЗМЕРЫ',
     title: 'Размеры',
     description: 'Базовые размеры и semantic-роли фиксируют высоты controls, размеры иконок и полей.',
     story: 'size',
+    href: '/foundation/layout/size/',
   },
   Radius: {
-    eyebrow: 'FOUNDATION / РАЗМЕРЫ И СЕТКИ / РАДИУСЫ',
     title: 'Радиусы',
     description: 'Радиусы формируют единый характер controls, контейнеров и focus-состояний.',
     story: 'radius',
+    href: '/foundation/layout/radius/',
   },
   Stroke: {
-    eyebrow: 'FOUNDATION / РАЗМЕРЫ И СЕТКИ / ТОЛЩИНЫ ЛИНИЙ',
     title: 'Толщины линий',
     description: 'Шкала stroke управляет границами, разделителями и focus-обводками.',
     story: 'stroke',
+    href: '/foundation/layout/stroke/',
   },
 } as const;
 
@@ -43,19 +45,17 @@ export function FoundationMetricPage({ kind }: { kind: MetricKind }) {
 
   return (
     <main className="content-page">
-      <header className="page-header page-header--with-stat">
-        <div>
-          <span className="eyebrow">{content.eyebrow}</span>
-          <h1>{content.title}</h1>
-          <p>{content.description}</p>
-        </div>
-        <div className="page-stat"><strong>{primitive.length + semantic.length}</strong><span>токенов и ролей</span></div>
-      </header>
+      <FoundationCategoryHeader
+        title="Пространственная система"
+        description="Числовые шкалы, semantic-роли и адаптивные сетки собраны в одной категории. Табы разделяют слои, сохраняя общий контекст."
+        tabs={foundationTabs.layout}
+        activeHref={content.href}
+      />
 
       <section className="content-section foundation-metric-section">
         <SectionHeading
-          title="Primitive и Semantic"
-          description={<>{primitive.length} primitive-значений и {semantic.length} semantic-ролей. Runtime использует только опубликованные Figma Variables.</>}
+          title={content.title}
+          description={<>{content.description} Опубликовано {primitive.length} primitive-значений и {semantic.length} semantic-ролей.</>}
         />
         <div className="foundation-metric-columns">
           <div>

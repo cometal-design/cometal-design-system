@@ -5,6 +5,11 @@ import inventory from '../../../../packages/tokens/src/foundation.inventory.json
 import typography from '../../../../packages/tokens/src/typography.styles.json';
 import grid from '../../../../packages/tokens/src/grid.presets.json';
 import icons from '../../../../packages/tokens/src/icons.inventory.json';
+import { primitiveTokens, semanticTokens } from '../../lib/foundation-data';
+
+const primitiveColors = primitiveTokens.filter((token) => token.type === 'color');
+const semanticColors = semanticTokens.filter((token) => token.type === 'color');
+const dimensionTokens = [...primitiveTokens, ...semanticTokens].filter((token) => token.type === 'dimension');
 
 export const metadata: Metadata = {
   title: 'Foundation',
@@ -14,69 +19,34 @@ export const metadata: Metadata = {
 const categories = [
   {
     number: '01',
-    title: 'Цвет · Примитивы',
-    count: '364 значений',
-    description: 'Исходная палитра: 8 цветовых семейств, ступени и уровни прозрачности.',
+    title: 'Цвет',
+    count: `${primitiveColors.length + semanticColors.length} значений`,
+    description: 'Примитивная палитра и семантические роли компонентов, поверхностей, текста и состояний.',
     href: '/foundation/color/primitives/',
   },
   {
     number: '02',
-    title: 'Цвет · Семантика',
-    count: '87 ролей',
-    description: 'Системные роли компонентов, поверхностей, текста, иконок, границ, действий и состояний.',
-    href: '/foundation/color/semantic/',
-  },
-  {
-    number: '03',
     title: 'Типографика',
     count: `${typography.styles.length} стилей`,
-    description: 'Grtsk Peta: Display, Heading, Body, Control, Caption и Label с точными метриками.',
+    description: 'Платформенная архитектура и опубликованная Web-шкала Grtsk Peta с точными метриками.',
     href: '/foundation/typography/web/',
   },
   {
-    number: '04',
-    title: 'Отступы',
-    count: 'Primitive + Semantic',
-    description: 'Шкала отступов и роли для групп, разделов, кнопок, полей и документации.',
+    number: '03',
+    title: 'Размеры и сетки',
+    count: `${dimensionTokens.length} токенов · ${grid.presets.length} пресета`,
+    description: 'Отступы, размеры, радиусы, толщины линий и адаптивные сетки в едином пространственном разделе.',
     href: '/foundation/layout/spacing/',
   },
   {
-    number: '05',
-    title: 'Размеры',
-    count: 'Primitive + Semantic',
-    description: 'Базовые размеры и роли Button, Icon и Field без локальных чисел.',
-    href: '/foundation/layout/size/',
-  },
-  {
-    number: '06',
-    title: 'Радиусы',
-    count: 'Primitive + Semantic',
-    description: 'Радиусы компонентов, элементов управления и фокуса в базовом и семантическом слоях.',
-    href: '/foundation/layout/radius/',
-  },
-  {
-    number: '07',
-    title: 'Толщины линий',
-    count: 'Primitive + Semantic',
-    description: 'Системная шкала stroke и семантические роли линий.',
-    href: '/foundation/layout/stroke/',
-  },
-  {
-    number: '08',
-    title: 'Адаптивная сетка',
-    count: `${grid.presets.length} пресета`,
-    description: 'Десктоп, планшет и мобильные устройства: области просмотра, колонки, поля и межколонники.',
-    href: '/foundation/layout/grid/',
-  },
-  {
-    number: '09',
+    number: '04',
     title: 'Темы',
     count: '1 режим',
     description: 'Основная тема Default, семантические роли и границы будущей тёмной темы.',
     href: '/foundation/themes/default/',
   },
   {
-    number: '10',
+    number: '05',
     title: 'Иконки',
     count: `${icons.totalComponents.toLocaleString('ru-RU')} компонентов`,
     description: 'Инвентарь и карта замены. SVG/React API не считаются готовыми до отдельного утверждения.',
@@ -105,7 +75,7 @@ export default function FoundationPage() {
       </section>
 
       <section className="content-section">
-        <SectionHeading title="Каталог" description="Каждая строка открывает самостоятельную страницу Foundation. Технические stories и Playground доступны уже внутри соответствующего раздела." />
+        <SectionHeading title="Каталог" description="Каждая строка открывает категорию Foundation. Связанные слои и платформы переключаются табами внутри выбранной страницы." />
         <div className="foundation-catalog">
           {categories.map((category) => (
             <Link href={category.href} key={category.title}>

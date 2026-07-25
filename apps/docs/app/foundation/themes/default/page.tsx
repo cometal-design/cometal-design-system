@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
+import { FoundationCategoryHeader } from '../../../../components/foundation-category-header';
 import { SectionHeading } from '../../../../components/section-heading';
 import { cssValue, semanticTokens } from '../../../../lib/foundation-data';
+import { foundationTabs } from '../../../../lib/navigation';
 
 export const metadata: Metadata = {
   title: 'Основная тема — Foundation',
@@ -14,14 +16,15 @@ const themeRoles = semanticTokens.filter((token) =>
 export default function FoundationDefaultThemePage() {
   return (
     <main className="content-page">
-      <header className="page-header">
-        <span className="eyebrow">FOUNDATION / ТЕМЫ / DEFAULT</span>
-        <h1>Основная тема</h1>
-        <p>Единственный опубликованный режим Default семантической коллекции. Именно его используют портал, Storybook и React-компоненты.</p>
-      </header>
+      <FoundationCategoryHeader
+        title="Темы"
+        description="Каждая тема является отдельным режимом семантической коллекции и может развиваться независимо, не меняя API компонентов. Сейчас утверждён режим Default."
+        tabs={foundationTabs.themes}
+        activeHref="/foundation/themes/default/"
+      />
 
       <section className="content-section">
-        <SectionHeading title="Семантические роли" description="Тема меняет значения ролей, но не API компонентов." />
+        <SectionHeading title="Основная тема" description="Режим Default меняет значения семантических ролей, но не API компонентов." />
         <div className="foundation-theme-sample">
           <div>
             <span>Surface / Canvas</span>
