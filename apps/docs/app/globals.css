@@ -578,10 +578,12 @@ a { color: inherit; }
 .component-card p { margin: var(--portal-space-related) 0 0; color: var(--portal-muted); font-family: var(--cometal-typography-body-s-default-font-family); font-size: var(--cometal-typography-body-s-default-font-size); line-height: var(--cometal-typography-body-s-default-line-height); letter-spacing: var(--cometal-typography-body-s-default-letter-spacing); }
 .component-card footer { display: flex; margin-top: var(--portal-space-group); padding-top: var(--cometal-semantic-spacing-documentation-header-gap-title-description); justify-content: space-between; border-top: var(--portal-hairline) solid var(--portal-line-soft); }
 
-.component-title { padding-bottom: var(--portal-space-section); }
+.component-title { padding-bottom: var(--cometal-primitive-spacing-150); }
 .component-title > div:first-child { max-width: 760px; }
 .component-title__meta { display: flex; align-items: center; flex-wrap: wrap; gap: var(--cometal-primitive-spacing-75); }
-.component-title__links { display: flex; margin-top: var(--portal-space-group); flex-wrap: wrap; gap: var(--cometal-primitive-spacing-50); }
+.component-title__toolbar { display: flex; margin-top: var(--portal-space-group); align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--cometal-primitive-spacing-100); }
+.component-title__links { display: flex; flex-wrap: wrap; gap: var(--cometal-primitive-spacing-50); }
+.status.component-title__status { min-height: var(--cometal-semantic-size-button-l); margin-left: auto; padding-inline: var(--cometal-semantic-spacing-button-l-inset-icon); border-radius: var(--cometal-semantic-radius-button); font-family: var(--cometal-typography-control-l-font-family); font-size: var(--cometal-typography-control-l-font-size); font-weight: var(--cometal-typography-control-l-font-weight); line-height: var(--cometal-typography-control-l-line-height); letter-spacing: var(--cometal-typography-control-l-letter-spacing); }
 .guidance { display: grid; grid-template-columns: 1fr 1fr; gap: var(--cometal-primitive-spacing-100); }
 .guidance article { min-height: 170px; padding: var(--cometal-primitive-spacing-150); border-radius: var(--portal-radius-l); }
 .guidance article[data-tone='positive'] { background: var(--portal-positive-surface); }.guidance article[data-tone='negative'] { background: var(--portal-negative-surface); }
