@@ -100,10 +100,10 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
             <nav className="section-nav" aria-label="Навигация раздела">
               {items.map((item) => {
                 const itemPath = normalizePath(item.href);
-                const activePrefix = normalizePath(item.activePrefix ?? item.href);
                 const currentPath = normalizePath(pathname);
-                const active = currentPath === itemPath || (activePrefix !== '/foundation' && currentPath.startsWith(`${activePrefix}/`));
-                return <Link key={item.href} href={item.href} data-active={active || undefined}>{item.label}</Link>;
+                const activePrefix = item.activePrefix ? normalizePath(item.activePrefix) : null;
+                const active = currentPath === itemPath || Boolean(activePrefix && currentPath.startsWith(`${activePrefix}/`));
+                return <Link key={item.href} href={item.href} data-active={active || undefined} aria-current={active ? 'page' : undefined}>{item.label}</Link>;
               })}
             </nav>
           </aside>
