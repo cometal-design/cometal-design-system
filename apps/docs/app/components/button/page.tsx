@@ -42,14 +42,15 @@ export default function ButtonPage() {
       <section className="content-section" id="sizes">
         <SectionHeading title="Размеры и композиция" description="Каждый размер проверяется в четырёх композициях DS Core: текст, иконка слева, иконка справа и только иконка." />
         <div className="size-list size-list--compositions">
-          <div className="size-list__head"><span>Размер</span><span>Текст</span><span>Иконка слева</span><span>Иконка справа</span><span>Только иконка</span></div>
           {buttonSizes.map((size) => (
             <article key={size}>
-              <div><strong>{size.toUpperCase()}</strong><span>{size === 'l' ? 44 : size === 'm' ? 36 : 28}px</span></div>
-              <Button size={size}>Продолжить</Button>
-              <Button size={size} startIcon={<ArrowIcon />}>Продолжить</Button>
-              <Button size={size} endIcon={<ArrowIcon />}>Продолжить</Button>
-              <Button size={size} startIcon={<ArrowIcon />} aria-label="Продолжить" />
+              <div className="size-list__size"><strong>{size.toUpperCase()}</strong><span>{size === 'l' ? 44 : size === 'm' ? 36 : 28}px</span></div>
+              <div className="size-list__examples">
+                <div className="size-list__example"><span>Текст</span><Button size={size}>Продолжить</Button></div>
+                <div className="size-list__example"><span>Иконка слева</span><Button size={size} startIcon={<ArrowIcon />}>Продолжить</Button></div>
+                <div className="size-list__example"><span>Иконка справа</span><Button size={size} endIcon={<ArrowIcon />}>Продолжить</Button></div>
+                <div className="size-list__example"><span>Только иконка</span><Button size={size} startIcon={<ArrowIcon />} aria-label="Продолжить" /></div>
+              </div>
             </article>
           ))}
         </div>
