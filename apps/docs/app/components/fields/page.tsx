@@ -13,8 +13,7 @@ export default function FieldsPage() {
   return (
     <main className="content-page component-detail">
       <header className="component-title">
-        <div><div className="component-title__meta"><span className="eyebrow">ГРУППА КОМПОНЕНТОВ · WEB</span><span className="status" data-status={firstField.status}>{statusLabels[firstField.status]}</span></div><h1>Fields</h1><p>Пять публичных полей с общей визуальной основой и разной семантикой: ввод текста, многострочный ввод, выбор, поиск и множественный выбор.</p></div>
-        <div className="component-title__links"><ActionLink href="https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1096-42" target="_blank" rel="noreferrer" variant="secondary">Figma ↗</ActionLink><ActionLink href="/storybook/?path=/story/components-fields--overview" variant="secondary">Открыть Playground ↗</ActionLink></div>
+        <div><div className="component-title__meta"><span className="eyebrow">ГРУППА КОМПОНЕНТОВ · WEB</span><span className="status" data-status={firstField.status}>{statusLabels[firstField.status]}</span></div><h1>Fields</h1><p>Пять публичных полей с общей визуальной основой и разной семантикой: ввод текста, многострочный ввод, выбор, поиск и множественный выбор.</p><div className="component-title__links"><ActionLink href="https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1096-42" target="_blank" rel="noreferrer" variant="secondary">Figma ↗</ActionLink><ActionLink href="/storybook/?path=/story/components-fields--overview" variant="secondary">Открыть Playground ↗</ActionLink></div></div>
       </header>
 
       <section className="content-section" id="family">
