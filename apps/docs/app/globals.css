@@ -67,7 +67,7 @@
 }
 
 * { box-sizing: border-box; }
-html { overflow-x: clip; scroll-behavior: smooth; }
+html { overflow-x: clip; scroll-behavior: auto; }
 body {
   overflow-x: clip;
   margin: 0;
