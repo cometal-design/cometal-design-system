@@ -25,7 +25,7 @@ export default function HomePage() {
           />
           <div className="home-hero__content">
             <h1>
-              Дизайн‑система для согласованной
+              Дизайн‑система для согласованной{' '}
               <br className="home-hero__line-break" />
               работы команды и ИИ‑агентов
             </h1>
