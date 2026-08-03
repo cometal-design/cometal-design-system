@@ -100,10 +100,13 @@ export const OpenCalendar: Story = {
     await expect(canvas.getByRole('dialog', { name: 'Июль 2026' })).toBeVisible();
     await expect(canvas.getAllByRole('gridcell')).toHaveLength(35);
     await expect(canvas.getByRole('gridcell', { name: /среда, 15 июля 2026/ })).toHaveAttribute('aria-selected', 'true');
+    const viewportWidth = canvasElement.ownerDocument.defaultView?.innerWidth ?? 364;
+    const expectedPanelWidth = Math.min(364, viewportWidth - 32);
+    const expectedCellWidth = Math.min(44, (expectedPanelWidth - 34) / 7);
     await expect(canvasElement.querySelector<HTMLElement>('.cometal-field__control')?.getBoundingClientRect().height).toBe(48);
-    await expect(canvasElement.querySelector<HTMLElement>('.cometal-date-picker__panel')?.getBoundingClientRect().width).toBe(364);
-    await expect(canvasElement.querySelector<HTMLElement>('[data-date="2026-07-15"]')?.getBoundingClientRect().width).toBe(40);
-    await expect(canvasElement.querySelector<HTMLElement>('[role="gridcell"]')?.getBoundingClientRect().width).toBe(44);
+    await expect(canvasElement.querySelector<HTMLElement>('.cometal-date-picker__panel')?.getBoundingClientRect().width).toBe(expectedPanelWidth);
+    await expect(canvasElement.querySelector<HTMLElement>('[data-date="2026-07-15"]')?.getBoundingClientRect().width).toBeCloseTo(Math.min(40, expectedCellWidth), 1);
+    await expect(canvasElement.querySelector<HTMLElement>('[role="gridcell"]')?.getBoundingClientRect().width).toBeCloseTo(expectedCellWidth, 1);
   },
 };
 

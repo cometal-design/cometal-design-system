@@ -206,7 +206,7 @@
   }
 
   .cometal-date-picker__day {
-    width: 100%;
+    width: min(var(--cometal-primitive-size-40), 100%);
   }
 
   .cometal-date-picker__day-row > [role='gridcell'] {
