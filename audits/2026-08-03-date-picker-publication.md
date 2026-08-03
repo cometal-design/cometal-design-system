@@ -4,7 +4,9 @@
 
 Компонент: `input.date-picker`
 
-Статус: `in-review` — техническая реализация готова, review Frontend Lead ещё не проведён.
+Статус реализации: `in-review` — техническая реализация и независимый Visual QA завершены, review Frontend Lead ещё не проведён.
+
+Вердикт Visual QA: `PASS` для production-коммита `1adf4a0`; непроверенного остатка в согласованном scope нет.
 
 ## Эталон
 
@@ -17,11 +19,12 @@
 
 - Проверены шесть публичных вариантов и состояния дня: default, hover, selected, today, outside, disabled, focus-visible.
 - Control: L — 48px, M — 40px.
-- Calendar Panel: 364px, отступ 8px, абсолютный overlay, Monday-first.
-- Calendar Day: ячейка 44×44px, интерактивная поверхность 40×40px.
+- Calendar Panel: 364×350px, внутренний отступ 16px, header/navigation/icon 32/32/24px, weekdays 18px, отступ от поля 8px, абсолютный overlay, Monday-first.
+- Calendar Day: ячейка 44×44px, интерактивная поверхность 40×40px, внешний focus ring 44×44px.
 - Read: корневой блок 50px, длинный формат даты.
-- Повторный browser-pass выполнен на 1440×1000, 390×844 и 320×720. Горизонтального переполнения и обрезки календаря нет.
-- Повторный чистый запуск Storybook не зафиксировал ошибок в консоли.
+- Повторный независимый production browser-pass выполнен на desktop, 390×844 и 320×720. Горизонтального переполнения, обрезки календаря и сжатия day-slot нет.
+- Production Overview показывает все шесть публичных вариантов шириной 480px и не искажает геометрию компонента.
+- Повторный чистый запуск Storybook не зафиксировал ошибок или предупреждений в консоли.
 
 ## Инженерная проверка
 
@@ -40,6 +43,13 @@
 - Storybook browser/a11y: 8 файлов, 47 тестов.
 - Impeccable detector: замечаний нет.
 - Финальный `pnpm validate`: пройден — sources, secrets, typecheck, unit, Storybook browser/a11y, React, Storybook и portal builds.
+
+## Независимый Visual QA
+
+- Эталон: Figma `1764:10502`, внутренние узлы `1754:84`, `1754:167`, `1752:108`.
+- Production: commit `1adf4a0`, CSS asset `iframe-D_s2TtEm.css`.
+- Проверены геометрия, типографика, токены, шесть публичных комбинаций, responsive 390/320, ручной ввод, keyboard navigation, month boundary, Read, Error, Disabled, ARIA и console/runtime.
+- Итог: `PASS`; подтверждённых визуальных или инженерных расхождений нет, непроверенного остатка нет.
 
 ## Источники истины
 
