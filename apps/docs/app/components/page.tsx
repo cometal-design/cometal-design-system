@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Button, Checkbox, Combobox, MultiSelect, RadioButton, Select, Switch, TextArea, TextField } from '@cometal/react';
+import { Button, Checkbox, Combobox, DatePicker, MultiSelect, RadioButton, Select, Switch, TextArea, TextField } from '@cometal/react';
 import { checksComplete, components, statusLabels } from '../../lib/registry';
 
 export const metadata: Metadata = { title: 'Компоненты' };
@@ -8,6 +8,7 @@ export const metadata: Metadata = { title: 'Компоненты' };
 const catalogContent: Record<string, { href: string; description: string }> = {
   'action.button': { href: '/components/button/', description: 'Запускает одно понятное действие пользователя.' },
   'input.text-field': { href: '/components/fields/#text-field', description: 'Однострочный ввод в режимах Edit и Read.' },
+  'input.date-picker': { href: '/components/date-picker/', description: 'Ручной ввод и календарный выбор одной даты.' },
   'input.text-area': { href: '/components/fields/#text-area', description: 'Многострочный ввод с helper и counter.' },
   'input.select': { href: '/components/fields/#select', description: 'Одиночный выбор из известного набора.' },
   'input.combobox': { href: '/components/fields/#combobox', description: 'Поиск и выбор одного значения.' },
@@ -19,6 +20,7 @@ const catalogContent: Record<string, { href: string; description: string }> = {
 
 function ComponentPreview({ id }: { id: string }) {
   if (id === 'input.text-field') return <TextField label="Название поля" placeholder="Введите значение" />;
+  if (id === 'input.date-picker') return <DatePicker label="Дата поставки" defaultValue="2026-07-15" />;
   if (id === 'input.text-area') return <TextArea label="Комментарий" placeholder="Введите комментарий" rows={3} />;
   if (id === 'input.select') return <Select label="Статус" options={[{ value: 'active', label: 'Активный' }]} defaultValue="" />;
   if (id === 'input.combobox') return <Combobox label="Контрагент" placeholder="Найдите значение" />;

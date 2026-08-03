@@ -34,6 +34,7 @@ export const sectionNavigation: Record<string, NavItem[]> = {
     { label: 'Обзор', href: '/components/' },
     { label: 'Button', href: '/components/button/' },
     { label: 'Fields', href: '/components/fields/' },
+    { label: 'Date Picker', href: '/components/date-picker/' },
     { label: 'Checkbox', href: '/components/checkbox/' },
     { label: 'Radio Button', href: '/components/radio-button/' },
     { label: 'Switch', href: '/components/switch/' },

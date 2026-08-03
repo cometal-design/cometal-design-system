@@ -39,6 +39,21 @@
       "checks": { "visualMatch": false, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
     },
     {
+      "id": "input.date-picker",
+      "name": "Date Picker",
+      "status": "in-review",
+      "platform": "web",
+      "version": "0.1.0-beta.1",
+      "links": {
+        "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1764-10502",
+        "specification": "specifications/components/date-picker.md",
+        "source": "packages/react/src/DatePicker/DatePicker.tsx",
+        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-date-picker--overview",
+        "knowledge": "knowledge-base/02 Components/Date Picker.md"
+      },
+      "checks": { "visualMatch": true, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
+    },
+    {
       "id": "input.text-area",
       "name": "Text Area",
       "status": "in-review",

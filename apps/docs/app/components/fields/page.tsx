@@ -5,7 +5,8 @@ import { components, statusLabels } from '../../../lib/registry';
 
 export const metadata: Metadata = { title: 'Fields' };
 
-const fieldComponents = components.filter((item) => item.id.startsWith('input.'));
+const fieldComponentIds = new Set(['input.text-field', 'input.text-area', 'input.select', 'input.combobox', 'input.multi-select']);
+const fieldComponents = components.filter((item) => fieldComponentIds.has(item.id));
 const firstField = fieldComponents[0]!;
 const options = [{ value: 'active', label: 'Активный' }, { value: 'draft', label: 'Черновик' }];
 

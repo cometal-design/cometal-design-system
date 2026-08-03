@@ -4,6 +4,8 @@ export { ActionLink, Button, IconButton, buttonSizes, buttonVariants } from './B
 export type { ActionLinkProps, ButtonProps, ButtonSize, ButtonVariant, IconButtonProps } from './Button/Button';
 export { Combobox, MultiSelect, Select, TextArea, TextField, fieldSizes } from './Field/Field';
 export type { ComboboxProps, FieldMode, FieldSize, MultiSelectProps, SelectOption, SelectProps, TextAreaProps, TextFieldProps } from './Field/Field';
+export { DatePicker, formatDisplayDate, parseDisplayDate, parseIsoDate } from './DatePicker/DatePicker';
+export type { DatePickerProps } from './DatePicker/DatePicker';
 export { InlineLink } from './Link/InlineLink';
 export type { InlineLinkProps } from './Link/InlineLink';
 export { Checkbox, RadioButton, Switch, selectionSizes } from './Selection/Selection';

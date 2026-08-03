@@ -13,7 +13,7 @@ export const fieldSizes = ['l', 'm'] as const;
 export type FieldSize = (typeof fieldSizes)[number];
 export type FieldMode = 'edit' | 'read';
 
-type FieldChromeProps = {
+export type FieldChromeProps = {
   className?: string;
   label: string;
   helperText?: string;
@@ -54,7 +54,7 @@ function RemoveValueIcon() {
   );
 }
 
-function FieldChrome({
+export function FieldChrome({
   className,
   label,
   helperText,
@@ -80,7 +80,7 @@ function FieldChrome({
   }
 
   return (
-    <div className={['cometal-field', className].filter(Boolean).join(' ')} data-cometal-component="field" data-size={size} data-invalid={Boolean(error) || undefined} data-disabled={disabled || undefined}>
+    <div className={['cometal-field', className].filter(Boolean).join(' ')} data-cometal-component="field" data-size={size} data-invalid={Boolean(error) || undefined} data-disabled={disabled || undefined} aria-disabled={disabled || undefined}>
       <div className="cometal-field__body">
         <span className="cometal-field__label-row">
           <label className="cometal-field__label" htmlFor={controlId}>{label}</label>
