@@ -61,7 +61,11 @@ function OverviewPage() {
 const meta = {
   title: 'Components/Date Picker',
   component: DatePicker,
-  decorators: [(Story) => <div className="ds-date-picker-story"><Story /></div>],
+  decorators: [(Story, context) => (
+    context.id === 'components-date-picker--overview'
+      ? <Story />
+      : <div className="ds-date-picker-story"><Story /></div>
+  )],
   args: {
     label: 'Дата поставки',
     helperText: 'Выберите дату',
@@ -80,7 +84,16 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Overview: Story = { name: 'Обзор', parameters: { layout: 'fullscreen', controls: { disable: true } }, render: () => <OverviewPage /> };
+export const Overview: Story = {
+  name: 'Обзор',
+  parameters: { layout: 'fullscreen', controls: { disable: true } },
+  render: () => <OverviewPage />,
+  play: async ({ canvasElement }) => {
+    const firstComponent = canvasElement.querySelector<HTMLElement>('.ds-date-picker-variants [data-cometal-component="date-picker"]');
+    await expect(canvasElement.querySelector('.ds-date-picker-story')).toBeNull();
+    await expect(firstComponent?.getBoundingClientRect().width).toBe(480);
+  },
+};
 
 export const Playground: Story = {
   name: 'Песочница',
@@ -101,12 +114,19 @@ export const OpenCalendar: Story = {
     await expect(canvas.getAllByRole('gridcell')).toHaveLength(35);
     await expect(canvas.getByRole('gridcell', { name: /среда, 15 июля 2026/ })).toHaveAttribute('aria-selected', 'true');
     const viewportWidth = canvasElement.ownerDocument.defaultView?.innerWidth ?? 364;
-    const expectedPanelWidth = Math.min(364, viewportWidth - 32);
-    const expectedCellWidth = Math.min(44, (expectedPanelWidth - 34) / 7);
+    const expectedPanelWidth = viewportWidth <= 360 ? viewportWidth - 4 : Math.min(364, viewportWidth - 8);
+    const panel = canvasElement.querySelector<HTMLElement>('.cometal-date-picker__panel');
+    const firstCell = canvasElement.querySelector<HTMLElement>('[role="gridcell"]');
+    const selectedDay = canvasElement.querySelector<HTMLElement>('[data-date="2026-07-15"]');
     await expect(canvasElement.querySelector<HTMLElement>('.cometal-field__control')?.getBoundingClientRect().height).toBe(48);
-    await expect(canvasElement.querySelector<HTMLElement>('.cometal-date-picker__panel')?.getBoundingClientRect().width).toBe(expectedPanelWidth);
-    await expect(canvasElement.querySelector<HTMLElement>('[data-date="2026-07-15"]')?.getBoundingClientRect().width).toBeCloseTo(Math.min(40, expectedCellWidth), 1);
-    await expect(canvasElement.querySelector<HTMLElement>('[role="gridcell"]')?.getBoundingClientRect().width).toBeCloseTo(expectedCellWidth, 1);
+    await expect(panel?.getBoundingClientRect().width).toBe(expectedPanelWidth);
+    await expect(firstCell?.getBoundingClientRect().width).toBe(44);
+    await expect(selectedDay?.getBoundingClientRect().width).toBe(40);
+    if (viewportWidth > 360) {
+      await expect(panel?.getBoundingClientRect().height).toBe(350);
+      await expect(canvasElement.querySelector<HTMLElement>('.cometal-date-picker__month-header')?.getBoundingClientRect().height).toBe(32);
+      await expect(canvasElement.querySelector<HTMLElement>('.cometal-date-picker__weekdays')?.getBoundingClientRect().height).toBe(18);
+    }
   },
 };
 

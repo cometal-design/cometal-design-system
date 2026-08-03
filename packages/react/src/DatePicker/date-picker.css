@@ -36,10 +36,14 @@
 }
 
 .cometal-date-picker__trigger:focus-visible,
-.cometal-date-picker__month-control:focus-visible,
-.cometal-date-picker__day:focus-visible {
+.cometal-date-picker__month-control:focus-visible {
   outline: var(--cometal-semantic-stroke-state-focus) solid var(--cometal-semantic-color-state-focus-ring);
   outline-offset: var(--cometal-primitive-spacing-12);
+}
+
+.cometal-date-picker__day:focus-visible {
+  outline: var(--cometal-semantic-stroke-state-focus) solid var(--cometal-semantic-color-state-focus-ring);
+  outline-offset: 0;
 }
 
 .cometal-date-picker__trigger:disabled {
@@ -51,15 +55,16 @@
   position: absolute;
   z-index: 30;
   top: calc(100% + var(--cometal-primitive-spacing-50));
-  left: 0;
+  left: min(0px, calc((100% - min(var(--cometal-calendar-width, 364px), calc(100vw - var(--cometal-primitive-spacing-50)))) / 2));
   display: flex;
-  width: min(var(--cometal-calendar-width, 364px), calc(100vw - var(--cometal-primitive-spacing-200)));
+  width: min(var(--cometal-calendar-width, 364px), calc(100vw - var(--cometal-primitive-spacing-50)));
   padding: var(--cometal-primitive-spacing-100);
   flex-direction: column;
   gap: var(--cometal-primitive-spacing-100);
-  border: 1px solid var(--cometal-semantic-color-border-default);
+  border: 0;
   border-radius: var(--cometal-semantic-radius-input);
   background: var(--cometal-semantic-color-surface-raised);
+  box-shadow: inset 0 0 0 1px var(--cometal-semantic-color-border-default);
   color: var(--cometal-semantic-color-text-primary);
 }
 
@@ -88,8 +93,8 @@
 }
 
 .cometal-date-picker__month-control {
-  width: var(--cometal-primitive-size-24);
-  height: var(--cometal-primitive-size-24);
+  width: var(--cometal-primitive-size-32);
+  height: var(--cometal-primitive-size-32);
   border-radius: var(--cometal-primitive-radius-50);
   color: var(--cometal-semantic-color-icon-primary);
 }
@@ -99,8 +104,8 @@
 }
 
 .cometal-date-picker__month-control svg {
-  width: var(--cometal-primitive-size-20);
-  height: var(--cometal-primitive-size-20);
+  width: var(--cometal-primitive-size-24);
+  height: var(--cometal-primitive-size-24);
 }
 
 .cometal-date-picker__month-control svg[data-direction='left'] {
@@ -111,6 +116,10 @@
   display: flex;
   flex-direction: column;
   gap: var(--cometal-primitive-spacing-25);
+}
+
+.cometal-date-picker__weekdays {
+  margin-bottom: calc(var(--cometal-primitive-spacing-100) - var(--cometal-primitive-spacing-25));
 }
 
 .cometal-date-picker__weekdays,
@@ -131,7 +140,7 @@
 
 .cometal-date-picker__weekdays span {
   display: flex;
-  height: var(--cometal-primitive-size-40);
+  height: var(--cometal-typography-caption-label-label-line-height);
   align-items: center;
   justify-content: center;
   color: var(--cometal-semantic-color-text-muted);
@@ -148,11 +157,11 @@
   border: 1px solid transparent;
   border-radius: var(--cometal-semantic-radius-input);
   color: var(--cometal-semantic-color-text-primary);
-  font-family: var(--cometal-typography-body-m-default-font-family);
-  font-size: var(--cometal-typography-body-m-default-font-size);
-  font-weight: var(--cometal-typography-body-m-default-font-weight);
+  font-family: var(--cometal-typography-control-m-font-family);
+  font-size: var(--cometal-typography-control-m-font-size);
+  font-weight: var(--cometal-typography-control-m-font-weight);
   line-height: var(--cometal-typography-control-m-line-height);
-  letter-spacing: var(--cometal-typography-body-m-default-letter-spacing);
+  letter-spacing: var(--cometal-typography-control-m-letter-spacing);
 }
 
 .cometal-date-picker__day:hover:not(:disabled) {
@@ -194,23 +203,17 @@
   min-height: calc(var(--cometal-primitive-size-44) + var(--cometal-primitive-spacing-25) + var(--cometal-primitive-spacing-12));
 }
 
-@media (max-width: 420px) {
+@media (max-width: 360px) {
   .cometal-date-picker__panel {
-    width: min(100%, calc(100vw - var(--cometal-primitive-spacing-200)));
+    left: calc((100% - (100vw - var(--cometal-primitive-spacing-25))) / 2);
+    width: calc(100vw - var(--cometal-primitive-spacing-25));
+    padding: var(--cometal-primitive-spacing-25);
   }
 
   .cometal-date-picker__weekdays,
   .cometal-date-picker__day-row {
-    grid-template-columns: repeat(7, minmax(36px, var(--cometal-primitive-size-44)));
+    grid-template-columns: repeat(7, var(--cometal-primitive-size-44));
     gap: 0;
-  }
-
-  .cometal-date-picker__day {
-    width: min(var(--cometal-primitive-size-40), 100%);
-  }
-
-  .cometal-date-picker__day-row > [role='gridcell'] {
-    width: 100%;
   }
 }
 
