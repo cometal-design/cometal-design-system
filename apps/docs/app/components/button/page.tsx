@@ -1,12 +1,16 @@
 import type { Metadata } from 'next';
 import { ActionLink, Button } from '@cometal/react';
 import type { ButtonVariant } from '@cometal/react';
+import { CodeExample } from '../../../components/code-example';
 import { components, statusLabels } from '../../../lib/registry';
 import { SectionHeading } from '../../../components/section-heading';
+import { usageExamples } from '../../../lib/usage-examples';
 
 export const metadata: Metadata = { title: 'Button' };
 
 const component = components.find((item) => item.id === 'action.button')!;
+const usage = usageExamples[component.id];
+const sourceHref = `https://github.com/cometal-design/cometal-design-system/blob/main/${component.links.source}`;
 const buttonSizes = ['l', 'm', 's'] as const;
 const darkVariants = new Set(['ghost', 'inverse', 'inverse-ghost']);
 const documentedVariants: ButtonVariant[] = ['primary', 'secondary', 'link', 'danger', 'success', 'warning', 'ghost', 'inverse', 'inverse-ghost'];
@@ -30,6 +34,11 @@ export default function ButtonPage() {
       <section className="content-section" id="usage">
         <SectionHeading title="Использование" description="Кнопка выполняет действие. Для обычного перехода используйте ссылку, для переключения режима — Toggle." />
         <div className="guidance"><article data-tone="positive"><strong>Используйте</strong><p>Один Primary на локальную область. Подпись начинается с глагола и объясняет результат.</p></article><article data-tone="negative"><strong>Не используйте</strong><p>Для навигации, выбора значения или нескольких равнозначных основных действий рядом.</p></article></div>
+      </section>
+
+      <section className="content-section" id="code">
+        <SectionHeading title="Код" description="Скопируйте установку, импорт или минимальный рабочий пример. Все представления соответствуют публичному React API." />
+        <CodeExample componentName={component.name} sourceHref={sourceHref} usage={usage} />
       </section>
 
       <section className="content-section" id="variants">

@@ -1,8 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent, within } from 'storybook/test';
 import { DatePicker } from '@cometal/react';
+import { ComponentCodeExample } from './ComponentCodeExample';
 
 const figmaUrl = 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1764-10502';
+const sourceUrl = 'https://github.com/cometal-design/cometal-design-system/blob/main/packages/react/src/DatePicker/DatePicker.tsx';
 
 function SectionIntro({ number, title, children }: { number: string; title: string; children: string }) {
   return <div className="ds-component-section__intro"><span>{number}</span><div><h2>{title}</h2><p>{children}</p></div></div>;
@@ -54,6 +56,11 @@ function OverviewPage() {
           ['label', 'string', 'required'], ['value / defaultValue', 'string | null (YYYY-MM-DD)', 'null'], ['onValueChange', '(value) => void', '—'], ['size', "'l' | 'm'", "'l'"], ['mode', "'edit' | 'read'", "'edit'"], ['open / defaultOpen', 'boolean', 'false'], ['onOpenChange', '(open) => void', '—'], ['min / max', 'string (YYYY-MM-DD)', '—'], ['name', 'string', '—'], ['today', 'string (YYYY-MM-DD)', 'system date'],
         ].map(([name, type, initial]) => <article key={name}><code>{name}</code><span>{type}</span><span>{initial}</span></article>)}</div>
       </section>
+
+      <section className="ds-component-section">
+        <SectionIntro number="07" title="Код">Установка, импорт и минимальный рабочий пример собраны из одного источника и соответствуют публичному React API.</SectionIntro>
+        <ComponentCodeExample componentId="input.date-picker" componentName="Date Picker" sourceHref={sourceUrl} />
+      </section>
     </main>
   );
 }
@@ -98,6 +105,8 @@ export const Overview: Story = {
     await expect(canvasElement.querySelector('.ds-date-picker-story')).toBeNull();
     await expect(firstComponent).not.toBeNull();
     await expect(firstComponent?.getBoundingClientRect().width).toBeCloseTo(Math.min(480, availableWidth), 0);
+    await expect(canvasElement.querySelector('[data-code-example="input.date-picker"]')).not.toBeNull();
+    await expect(canvasElement.querySelector('[data-code-example="input.date-picker"] pre')).toHaveTextContent('<DatePicker');
   },
 };
 

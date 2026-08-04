@@ -1,13 +1,17 @@
 import type { Metadata } from 'next';
 import { ActionLink, Combobox, MultiSelect, Select, TextArea, TextField } from '@cometal/react';
+import { CodeExample } from '../../../components/code-example';
 import { SectionHeading } from '../../../components/section-heading';
 import { components, statusLabels } from '../../../lib/registry';
+import { usageExamples } from '../../../lib/usage-examples';
 
 export const metadata: Metadata = { title: 'Fields' };
 
 const fieldComponentIds = new Set(['input.text-field', 'input.text-area', 'input.select', 'input.combobox', 'input.multi-select']);
 const fieldComponents = components.filter((item) => fieldComponentIds.has(item.id));
 const firstField = fieldComponents[0]!;
+const fieldsUsage = usageExamples['input.fields'];
+const sourceHref = `https://github.com/cometal-design/cometal-design-system/blob/main/${firstField.links.source}`;
 const options = [{ value: 'active', label: 'Активный' }, { value: 'draft', label: 'Черновик' }];
 
 export default function FieldsPage() {
@@ -27,6 +31,11 @@ export default function FieldsPage() {
           <article id="combobox"><header><code>input.combobox</code><h3>Combobox</h3></header><div className="field-family-board__examples"><Combobox label="Контрагент" placeholder="Найдите значение" helperText="Введите название или ИНН" /><Combobox label="Контрагент" mode="read" readValue="ООО Северсталь" /></div></article>
           <article id="multi-select"><header><code>input.multi-select</code><h3>Multi Select</h3></header><div className="field-family-board__examples"><MultiSelect label="Контрагенты" selectedValues={['Северсталь', 'НЛМК', 'ММК']} helperText="Выбрано 3" /><MultiSelect label="Контрагенты" selectedValues={['ООО Северсталь', 'ПАО НЛМК', 'ПАО ММК']} mode="read" /></div></article>
         </div>
+      </section>
+
+      <section className="content-section" id="code">
+        <SectionHeading title="Код" description="Один пример показывает подключение и базовое использование всех пяти публичных компонентов Fields." />
+        <CodeExample componentName="Fields" sourceHref={sourceHref} usage={fieldsUsage} />
       </section>
 
       <section className="content-section" id="states">

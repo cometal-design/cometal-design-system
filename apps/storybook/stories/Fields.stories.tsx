@@ -2,8 +2,10 @@ import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent, within } from 'storybook/test';
 import { Combobox, MultiSelect, Select, TextArea, TextField, fieldSizes } from '@cometal/react';
+import { ComponentCodeExample } from './ComponentCodeExample';
 
 const FIGMA_URL = 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1096-42';
+const SOURCE_URL = 'https://github.com/cometal-design/cometal-design-system/blob/main/packages/react/src/Field/Field.tsx';
 const options = [
   { value: 'draft', label: 'Черновик' },
   { value: 'approval', label: 'На согласовании' },
@@ -62,6 +64,7 @@ function FieldsDocumentation() {
       </div></section>
       <section className="ds-component-section"><div className="ds-component-section__intro"><span>02</span><div><h2>Состояния Text Field</h2><p>Focus остаётся независимым от filled/error и появляется от клавиатуры.</p></div></div><div className="ds-field-states"><article><code>Default</code><TextField label="Название поля" placeholder="Введите значение" /></article><article><code>Filled</code><TextField label="Название поля" defaultValue="Договор поставки" /></article><article><code>Error</code><TextField label="Название поля" defaultValue="123" error="Проверьте значение" /></article><article><code>Disabled</code><TextField label="Название поля" disabled placeholder="Недоступно" /></article></div></section>
       <section className="ds-component-section"><div className="ds-component-section__intro"><span>03</span><div><h2>API и границы</h2><p>Active Select, Combobox и Multi Select включают тот же Listbox/Option слой, который утверждён внутри Figma component sets.</p></div></div><div className="ds-rule-list"><article><code>mode</code><p><b>edit</b> использует интерактивный control; <b>read</b> выводит обычный текст.</p></article><article><code>error</code><p>Меняет border/supporting text и выставляет <b>aria-invalid</b>.</p></article><article><code>form semantics</code><p>Text controls нативны; Select сохраняет скрытый native select для form-value, а видимый trigger/Listbox обеспечивает точный визуал и keyboard behavior.</p></article></div></section>
+      <section className="ds-component-section"><div className="ds-component-section__intro"><span>04</span><div><h2>Код</h2><p>Установка, импорт и один базовый пример показывают все пять публичных компонентов family.</p></div></div><ComponentCodeExample componentId="input.fields" componentName="Fields" sourceHref={SOURCE_URL} /></section>
       <aside className="ds-review-note"><strong>Статус: In review</strong><p>Визуал, API, Active Listbox и автоматические проверки готовы. Продуктовый пилот остаётся отдельным quality gate.</p></aside>
     </main>
   );
@@ -81,7 +84,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Overview: Story = { name: 'Обзор', parameters: { layout: 'fullscreen', controls: { disable: true } }, render: () => <FieldsDocumentation /> };
+export const Overview: Story = { name: 'Обзор', parameters: { layout: 'fullscreen', controls: { disable: true } }, render: () => <FieldsDocumentation />, play: async ({ canvasElement }) => { await expect(canvasElement.querySelector('[data-code-example="input.fields"] pre')).toHaveTextContent('<TextField'); } };
 export const TextFieldPlayground: Story = { name: 'Text Field', play: async ({ canvasElement }) => { const canvas = within(canvasElement); await expect(canvas.getByRole('textbox', { name: 'Название поля' })).toBeEnabled(); } };
 export const TextAreaPlayground: Story = { name: 'Text Area', render: () => <TextArea label="Комментарий" placeholder="Введите комментарий" rows={4} />, play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('textbox', { name: 'Комментарий' })).toBeInTheDocument(); } };
 export const SelectPlayground: Story = { name: 'Select', render: () => <Select label="Статус" options={options} defaultValue="" />, play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('combobox', { name: 'Статус' })).toHaveAttribute('aria-haspopup', 'listbox'); } };

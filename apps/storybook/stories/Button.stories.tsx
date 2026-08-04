@@ -3,8 +3,10 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, fn, userEvent, within } from 'storybook/test';
 import { Button, buttonSizes, buttonVariants } from '@cometal/react';
 import type { ButtonProps, ButtonVariant } from '@cometal/react';
+import { ComponentCodeExample } from './ComponentCodeExample';
 
 const FIGMA_URL = 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=835-3693';
+const SOURCE_URL = 'https://github.com/cometal-design/cometal-design-system/blob/main/packages/react/src/Button/Button.tsx';
 
 const variantLabels: Record<ButtonVariant, string> = {
   primary: 'Primary',
@@ -59,7 +61,7 @@ function ButtonDocumentation() {
 
       <section className="ds-component-section">
         <div className="ds-component-section__intro"><span>01</span><div><h2>Быстрый старт</h2><p>Импортируйте компонент и стили библиотеки один раз в приложении.</p></div></div>
-        <pre className="ds-code"><code>{`import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport { Button } from '@cometal/react';\n\n<Button variant="primary" size="l">\n  Сохранить\n</Button>`}</code></pre>
+        <ComponentCodeExample componentId="action.button" componentName="Button" sourceHref={SOURCE_URL} />
       </section>
 
       <section className="ds-component-section">
@@ -184,6 +186,9 @@ export const Overview: Story = {
   name: 'Обзор',
   parameters: { layout: 'fullscreen', controls: { disable: true } },
   render: () => <ButtonDocumentation />,
+  play: async ({ canvasElement }) => {
+    await expect(canvasElement.querySelector('[data-code-example="action.button"] pre')).toHaveTextContent('<Button');
+  },
 };
 
 export const Playground: Story = {

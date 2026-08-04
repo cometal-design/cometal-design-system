@@ -1,0 +1,44 @@
+{
+  "action.button": {
+    "packageName": "@cometal/react",
+    "availability": "beta-target",
+    "install": "pnpm add @cometal/react @cometal/tokens",
+    "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport { Button } from '@cometal/react';",
+    "example": "<Button variant=\"primary\" size=\"l\">\n  Сохранить\n</Button>"
+  },
+  "input.fields": {
+    "packageName": "@cometal/react",
+    "availability": "beta-target",
+    "install": "pnpm add @cometal/react @cometal/tokens",
+    "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport {\n  Combobox,\n  MultiSelect,\n  Select,\n  TextArea,\n  TextField,\n} from '@cometal/react';",
+    "example": "const statuses = [\n  { value: 'draft', label: 'Черновик' },\n  { value: 'active', label: 'Активный' },\n];\n\n<>\n  <TextField\n    label=\"Название договора\"\n    placeholder=\"Введите название\"\n  />\n  <TextArea\n    label=\"Комментарий\"\n    placeholder=\"Введите комментарий\"\n  />\n  <Select label=\"Статус\" options={statuses} />\n  <Combobox label=\"Контрагент\" options={statuses} />\n  <MultiSelect\n    label=\"Контрагенты\"\n    options={statuses}\n    selectedValues={['active']}\n  />\n</>"
+  },
+  "input.date-picker": {
+    "packageName": "@cometal/react",
+    "availability": "beta-target",
+    "install": "pnpm add @cometal/react @cometal/tokens",
+    "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport { DatePicker } from '@cometal/react';",
+    "example": "<DatePicker\n  label=\"Дата поставки\"\n  name=\"deliveryDate\"\n  defaultValue=\"2026-07-15\"\n  min=\"2026-07-01\"\n  helperText=\"Выберите дату\"\n/>"
+  },
+  "selection.checkbox": {
+    "packageName": "@cometal/react",
+    "availability": "beta-target",
+    "install": "pnpm add @cometal/react @cometal/tokens",
+    "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport { Checkbox } from '@cometal/react';",
+    "example": "<Checkbox\n  label=\"Согласен с условиями\"\n  description=\"Подтвердите согласие перед отправкой\"\n  defaultChecked\n/>"
+  },
+  "selection.radio-button": {
+    "packageName": "@cometal/react",
+    "availability": "beta-target",
+    "install": "pnpm add @cometal/react @cometal/tokens",
+    "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport { RadioButton } from '@cometal/react';",
+    "example": "<fieldset>\n  <legend>Ставка НДС</legend>\n  <RadioButton\n    label=\"С НДС\"\n    name=\"vat\"\n    value=\"included\"\n    defaultChecked\n  />\n  <RadioButton\n    label=\"Без НДС\"\n    name=\"vat\"\n    value=\"excluded\"\n  />\n</fieldset>"
+  },
+  "selection.switch": {
+    "packageName": "@cometal/react",
+    "availability": "beta-target",
+    "install": "pnpm add @cometal/react @cometal/tokens",
+    "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport { Switch } from '@cometal/react';",
+    "example": "<Switch\n  label=\"Получать уведомления\"\n  description=\"Изменение применяется сразу\"\n  defaultChecked\n/>"
+  }
+}
