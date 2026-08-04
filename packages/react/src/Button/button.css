@@ -173,9 +173,10 @@
   --cometal-button-container-hover: var(--cometal-semantic-color-button-link-container-hover);
   --cometal-button-container-pressed: var(--cometal-semantic-color-button-link-container-pressed);
   --cometal-button-container-disabled: var(--cometal-semantic-color-button-link-container-disabled);
-  --cometal-button-content: var(--cometal-primitive-color-primitive-palette-blue-600-100);
-  --cometal-button-content-hover: var(--cometal-primitive-color-primitive-palette-blue-700-100);
-  --cometal-button-content-pressed: var(--cometal-primitive-color-primitive-palette-blue-900-100);
+  --cometal-button-content: var(--cometal-semantic-color-action-brand-default);
+  --cometal-button-content-hover: var(--cometal-semantic-color-action-brand-hover);
+  --cometal-button-content-pressed: var(--cometal-semantic-color-text-link-pressed);
+  --cometal-button-content-disabled: var(--cometal-semantic-color-text-link-disabled);
 }
 
 .cometal-button[data-variant='danger'] {

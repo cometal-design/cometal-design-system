@@ -1,7 +1,7 @@
 .cometal-inline-link {
   display: inline-flex;
   align-items: center;
-  color: var(--cometal-primitive-color-primitive-palette-blue-600-100);
+  color: var(--cometal-semantic-color-text-link-default);
   font-family: var(--cometal-typography-body-s-accent-font-family);
   font-size: var(--cometal-typography-body-s-accent-font-size);
   font-weight: var(--cometal-typography-body-s-accent-font-weight);
@@ -19,12 +19,12 @@
 }
 
 .cometal-inline-link:hover {
-  color: var(--cometal-primitive-color-primitive-palette-blue-700-100);
+  color: var(--cometal-semantic-color-text-link-hover);
   text-decoration-color: currentColor;
 }
 
 .cometal-inline-link:active {
-  color: var(--cometal-primitive-color-primitive-palette-blue-900-100);
+  color: var(--cometal-semantic-color-text-link-pressed);
 }
 
 .cometal-inline-link:focus-visible {

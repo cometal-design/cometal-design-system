@@ -202,7 +202,22 @@ body { margin: 0; }
   .ds-home__footer time { align-self: flex-end; }
   .ds-page { padding: 40px 24px 80px; }.ds-header { align-items: flex-start; flex-direction: column; }.ds-page h1 { font-size: 36px; line-height: 44px; }
   .ds-foundation-stats, .ds-engineering-grid { grid-template-columns: 1fr 1fr; }.ds-layer-flow { grid-template-columns: 1fr 1fr; }
-  .ds-table-head { display: none; }.ds-semantic-table article, .ds-color-table article, .ds-metric-table article, .ds-alias-table article { padding: 18px 0; grid-template-columns: 1fr; gap: 10px; }
+  .ds-table-head,
+  .ds-semantic-table [role="row"].ds-table-head { display: none; }
+  .ds-semantic-table [role="row"]:not(.ds-table-head),
+  .ds-color-table [role="row"],
+  .ds-metric-table [role="row"],
+  .ds-alias-table [role="row"] { min-width: 0; padding: 18px 0; grid-template-columns: minmax(0, 1fr); gap: 10px; }
+  .ds-semantic-table code,
+  .ds-semantic-table span,
+  .ds-semantic-table strong,
+  .ds-color-table code,
+  .ds-color-table span,
+  .ds-metric-table code,
+  .ds-metric-table strong,
+  .ds-alias-table code,
+  .ds-alias-table span,
+  .ds-alias-table strong { min-width: 0; overflow-wrap: anywhere; }
   .ds-type-list article { grid-template-columns: 1fr; gap: 16px; }.ds-grid-presets { grid-template-columns: 1fr; }.ds-status-grid { grid-template-columns: 1fr 1fr; }.ds-review-grid { grid-template-columns: 1fr; }
   .ds-grid-presets dl { grid-template-columns: 1fr 1fr; }
   .ds-release-hero { min-height: 220px; padding: 40px 32px; align-items: flex-start; flex-direction: column; }.ds-release-source { margin: 24px 24px 0; flex-direction: column; gap: 4px; }.ds-release-list { margin: 64px 24px 0; }.ds-release__header { flex-direction: column; }.ds-release__sections { grid-template-columns: 1fr; }.ds-release + .ds-release { padding-top: 80px; }

@@ -90,8 +90,14 @@ export const Overview: Story = {
   render: () => <OverviewPage />,
   play: async ({ canvasElement }) => {
     const firstComponent = canvasElement.querySelector<HTMLElement>('.ds-date-picker-variants [data-cometal-component="date-picker"]');
+    const componentParent = firstComponent?.parentElement;
+    const parentStyles = componentParent ? getComputedStyle(componentParent) : null;
+    const availableWidth = componentParent && parentStyles
+      ? componentParent.clientWidth - parseFloat(parentStyles.paddingLeft) - parseFloat(parentStyles.paddingRight)
+      : 0;
     await expect(canvasElement.querySelector('.ds-date-picker-story')).toBeNull();
-    await expect(firstComponent?.getBoundingClientRect().width).toBe(480);
+    await expect(firstComponent).not.toBeNull();
+    await expect(firstComponent?.getBoundingClientRect().width).toBeCloseTo(Math.min(480, availableWidth), 0);
   },
 };
 

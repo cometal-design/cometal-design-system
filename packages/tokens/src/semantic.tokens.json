@@ -531,6 +531,17 @@
             }
           }
         },
+        "Selected": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Blue.100.40}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1803:6",
+              "key": "88e30c84dc90b50d82455fcf60a2f040b49a613c",
+              "name": "Color/Surface/Selected"
+            }
+          }
+        },
         "Inverse": {
           "$type": "color",
           "$value": "{Primitive.Color Primitive Palette.Neutral.900.100}",
@@ -588,6 +599,28 @@
             }
           }
         },
+        "Selected": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Blue.700.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1803:7",
+              "key": "2b648c0564f90d4be3bc9c946abf7e01839b849b",
+              "name": "Color/Text/Selected"
+            }
+          }
+        },
+        "Placeholder": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.500.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1803:8",
+              "key": "42be855296754ba0a7050aeb24dbaf5f7dc243a8",
+              "name": "Color/Text/Placeholder"
+            }
+          }
+        },
         "Inverse": {
           "$type": "color",
           "$value": "{Primitive.Color Primitive Palette.Neutral.0.100}",
@@ -619,6 +652,28 @@
                 "id": "VariableID:1338:1865",
                 "key": "201bc3fe90fef26ee8fa835a4ef62aab6c2134d3",
                 "name": "Color/Text/Link/Hover"
+              }
+            }
+          },
+          "Pressed": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Blue.900.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1803:9",
+                "key": "9804233c36c4fcc67c177504a7bdca75c70e3c32",
+                "name": "Color/Text/Link/Pressed"
+              }
+            }
+          },
+          "Disabled": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Neutral.500.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1803:10",
+                "key": "7d0679d0d701667cb9f625c7a7e927661cb83532",
+                "name": "Color/Text/Link/Disabled"
               }
             }
           }
@@ -872,6 +927,52 @@
               }
             }
           }
+        },
+        "Neutral": {
+          "Default": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Neutral.0.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1803:2",
+                "key": "5257526771a67a3f5b8143207ab839c072247d1b",
+                "name": "Color/Action/Neutral/Default"
+              }
+            }
+          },
+          "Hover": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Neutral.100.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1803:3",
+                "key": "72375c3d3590cabb9d481234de5afeba6eb6ac45",
+                "name": "Color/Action/Neutral/Hover"
+              }
+            }
+          },
+          "Pressed": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Blue.100.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1803:4",
+                "key": "d9e9f1b9474f6785ce8e82631b6f5ec087f05917",
+                "name": "Color/Action/Neutral/Pressed"
+              }
+            }
+          },
+          "Disabled": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Neutral.100.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1803:5",
+                "key": "a5371876ce394cf198013167f8a9f779fc3bea23",
+                "name": "Color/Action/Neutral/Disabled"
+              }
+            }
+          }
         }
       },
       "Status": {
@@ -906,6 +1007,17 @@
                 "id": "VariableID:1338:1890",
                 "key": "0b96aa47c32ed6fa051437c60f454ac5afdac39b",
                 "name": "Color/Status/Info/Border"
+              }
+            }
+          },
+          "Strong": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Blue.500.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1803:11",
+                "key": "3fca394d81448587de235f58e715a0fbdfad8c20",
+                "name": "Color/Status/Info/Strong"
               }
             }
           }
@@ -1033,6 +1145,17 @@
                 "id": "VariableID:1338:1899",
                 "key": "63b948be55e60e98b32932b7f4ef523b27e615a5",
                 "name": "Color/Status/Danger/Border"
+              }
+            }
+          },
+          "Strong": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Red.500.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:1803:12",
+                "key": "6a5782ccfcbf5cc0f42042c2893ad25be71947e7",
+                "name": "Color/Status/Danger/Strong"
               }
             }
           }
