@@ -1,4 +1,4 @@
-import { access, readFile } from 'node:fs/promises';
+import { access, readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
@@ -24,6 +24,50 @@ const expectedSources = new Set([
   'storybook',
   'obsidian',
 ]);
+
+function toStoryIdPart(value) {
+  return value
+    .replace(/([a-z0-9])([A-Z])/g, '$1-$2')
+    .replace(/[^a-zA-Z0-9]+/g, '-')
+    .replace(/^-|-$/g, '')
+    .toLowerCase();
+}
+
+async function collectFiles(directory, predicate, result = []) {
+  for (const entry of await readdir(directory, { withFileTypes: true })) {
+    const absolute = path.join(directory, entry.name);
+    if (entry.isDirectory()) await collectFiles(absolute, predicate, result);
+    else if (predicate(entry.name)) result.push(absolute);
+  }
+  return result;
+}
+
+const storyFiles = await collectFiles(
+  path.join(root, 'apps/storybook/stories'),
+  (name) => name.endsWith('.stories.tsx'),
+);
+const storyIds = new Set();
+
+for (const storyFile of storyFiles) {
+  const source = await readFile(storyFile, 'utf8');
+  const title = source.match(/\btitle\s*:\s*['"]([^'"]+)['"]/)?.[1];
+  if (!title) {
+    errors.push(`storybook: missing static title in ${path.relative(root, storyFile)}`);
+    continue;
+  }
+  for (const match of source.matchAll(/export\s+const\s+([A-Za-z0-9_]+)/g)) {
+    storyIds.add(`${toStoryIdPart(title)}--${toStoryIdPart(match[1])}`);
+  }
+}
+
+function validateStoryLink(value, owner) {
+  const storyId = value.match(/[?&]path=\/story\/([a-z0-9-]+)/)?.[1];
+  if (!storyId) {
+    errors.push(`${owner}: Storybook link does not contain an exact story ID: ${value}`);
+  } else if (!storyIds.has(storyId)) {
+    errors.push(`${owner}: Storybook story does not exist: ${storyId}`);
+  }
+}
 
 if (sourceRegistry.sources.length !== expectedSources.size) {
   errors.push(`sources: expected ${expectedSources.size} logical sources, found ${sourceRegistry.sources.length}`);
@@ -56,6 +100,8 @@ for (const component of registry.components) {
         errors.push(`${component.id}: local links.${key} does not exist: ${value}`);
       }
     }
+
+    if (key === 'storybook') validateStoryLink(value, component.id);
   }
 
   if (component.status === 'ready') {
@@ -67,9 +113,24 @@ for (const component of registry.components) {
   }
 }
 
+const portalFiles = await collectFiles(
+  path.join(root, 'apps/docs'),
+  (name) => name.endsWith('.tsx') || name.endsWith('.ts'),
+);
+
+for (const portalFile of portalFiles) {
+  const source = await readFile(portalFile, 'utf8');
+  for (const match of source.matchAll(/\/storybook\/\?path=\/story\/([a-z0-9-]+)(?=['"])/g)) {
+    const storyId = match[1];
+    if (!storyIds.has(storyId)) {
+      errors.push(`${path.relative(root, portalFile)}: portal links to missing Storybook story ${storyId}`);
+    }
+  }
+}
+
 if (errors.length > 0) {
   console.error(['Source validation failed:', ...errors.map((error) => `- ${error}`)].join('\n'));
   process.exitCode = 1;
 } else {
-  console.log(`Source validation passed for 5 logical sources and ${registry.components.length} component(s).`);
+  console.log(`Source validation passed for 5 logical sources, ${registry.components.length} component(s) and ${storyIds.size} exact Storybook route(s).`);
 }

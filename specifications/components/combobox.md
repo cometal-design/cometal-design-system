@@ -21,15 +21,25 @@ Listbox с результатами.
 - Search icon является частью композиции, но декоративен для screen reader.
 - `options`, `expanded/defaultExpanded/onExpandedChange` и `onOptionSelect`
   образуют публичный interaction API.
+- Ввод фильтрует options без учёта регистра; выбор результата подставляет label
+  в поле и возвращает его value через `onOptionSelect`.
+- После ввода Listbox не подсвечивает первое совпадение автоматически. Active option задаётся только реальным pointer hover или Arrow Up/Down.
 
 ## Accessibility
 
-- Focus и Arrow Down открывают результаты; Escape закрывает список.
+- Focus и pointer click сами по себе не открывают результаты. Listbox появляется
+  после ввода непустого запроса только при наличии совпадений; Escape закрывает список.
+- Arrow Up/Down перемещают active option внутри уже найденных результатов.
 - Input использует `aria-autocomplete="list"` и `aria-controls`.
 - Label, helper и error программно связаны с input.
+
+## Motion
+
+- Listbox результатов обновляется мгновенно вслед за вводом: анимация не задерживает поиск и клавиатурную навигацию.
+- Компонент использует общие motion tokens только для будущих pointer-triggered сценариев, но не применяет spatial motion к текущему input-driven раскрытию.
 
 ## Acceptance criteria
 
 - [x] Визуальная модель и состояния считаны из DS Core.
 - [x] React API, Active story и browser-проверки реализованы.
-- [ ] Roving active option и Enter-selection завершены.
+- [x] Roving active option, фильтрация и Enter-selection завершены.

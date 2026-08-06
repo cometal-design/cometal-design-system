@@ -36,7 +36,9 @@
   justify-content: center;
   border: 1px solid var(--cometal-semantic-color-border-default);
   background: var(--cometal-semantic-color-surface-canvas);
-  transition: background-color 120ms ease, border-color 120ms ease;
+  transition:
+    background-color var(--cometal-motion-duration-state) var(--cometal-motion-easing-standard),
+    border-color var(--cometal-motion-duration-state) var(--cometal-motion-easing-standard);
 }
 .cometal-selection[data-kind='checkbox'] .cometal-selection__control { border-radius: var(--cometal-semantic-radius-checkbox); }
 .cometal-selection[data-kind='radio'] .cometal-selection__control { border-radius: 50%; }
@@ -73,7 +75,7 @@
   border-color: var(--cometal-semantic-color-action-brand-pressed);
   background: var(--cometal-semantic-color-action-brand-pressed);
 }
-.cometal-selection[data-kind='checkbox'] > input:checked + .cometal-selection__control svg { display: block; }
+.cometal-selection[data-kind='checkbox']:not([data-indeterminate]) > input:checked + .cometal-selection__control svg { display: block; }
 .cometal-selection[data-kind='checkbox'][data-indeterminate] .cometal-selection__control::after { width: var(--cometal-selection-indicator); height: 2px; border-radius: 1px; background: var(--cometal-semantic-color-text-inverse); content: ''; }
 .cometal-selection[data-kind='checkbox'] > input:disabled + .cometal-selection__control {
   border-color: var(--cometal-semantic-color-border-disabled);
@@ -129,7 +131,7 @@
 .cometal-selection[data-kind='switch'] .cometal-selection__control { --switch-width: var(--cometal-primitive-size-44); --switch-height: var(--cometal-primitive-size-24); width: var(--switch-width); height: var(--switch-height); margin-top: 0; border-radius: calc(var(--switch-height) / 2); }
 .cometal-selection[data-kind='switch'][data-size='m'] .cometal-selection__control { --switch-width: var(--cometal-primitive-size-36); --switch-height: var(--cometal-primitive-size-20); }
 .cometal-selection[data-kind='switch'][data-size='s'] .cometal-selection__control { --switch-width: var(--cometal-primitive-size-32); --switch-height: var(--cometal-primitive-size-16); }
-.cometal-selection__thumb { position: absolute; top: 1px; left: 1px; width: calc(var(--switch-height) - 4px); height: calc(var(--switch-height) - 4px); border-radius: 50%; background: var(--cometal-semantic-color-surface-canvas); transition: transform 120ms ease; }
+.cometal-selection__thumb { position: absolute; top: 1px; left: 1px; width: calc(var(--switch-height) - 4px); height: calc(var(--switch-height) - 4px); border-radius: 50%; background: var(--cometal-semantic-color-surface-canvas); transition: transform var(--cometal-motion-duration-state) var(--cometal-motion-easing-standard); }
 .cometal-selection[data-kind='switch'] > input:checked + .cometal-selection__control { border-color: var(--cometal-semantic-color-action-brand-default); background: var(--cometal-semantic-color-action-brand-default); }
 .cometal-selection[data-kind='switch']:hover > input:not(:disabled):not(:checked) + .cometal-selection__control { border-color: var(--cometal-semantic-color-border-strong); background: var(--cometal-semantic-color-surface-subtle); }
 .cometal-selection[data-kind='switch']:hover > input:not(:disabled):checked + .cometal-selection__control { border-color: var(--cometal-semantic-color-action-brand-hover); background: var(--cometal-semantic-color-action-brand-hover); }

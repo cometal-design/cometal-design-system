@@ -4,6 +4,7 @@ import type {
   KeyboardEvent,
   InputHTMLAttributes,
   ReactNode,
+  RefObject,
   SelectHTMLAttributes,
   TextareaHTMLAttributes,
 } from 'react';
@@ -173,14 +174,15 @@ type FieldListboxProps = {
   selectedValues?: string[];
   size: FieldSize;
   multiple?: boolean;
+  motion?: boolean;
   activeIndex?: number;
   onActiveChange?: (index: number) => void;
   onSelect?: (value: string) => void;
 };
 
-function FieldListbox({ id, label, options, selectedValues = [], size, multiple = false, activeIndex, onActiveChange, onSelect }: FieldListboxProps) {
+function FieldListbox({ id, label, options, selectedValues = [], size, multiple = false, motion = false, activeIndex, onActiveChange, onSelect }: FieldListboxProps) {
   return (
-    <div className="cometal-field__listbox" id={id} role="listbox" aria-label={label} aria-multiselectable={multiple || undefined} data-size={size}>
+    <div className="cometal-field__listbox" id={id} role="listbox" aria-label={label} aria-multiselectable={multiple || undefined} data-size={size} data-motion={motion ? 'enter' : undefined}>
       {options.map((option, index) => {
         const selected = selectedValues.includes(option.value);
         return (
@@ -194,7 +196,8 @@ function FieldListbox({ id, label, options, selectedValues = [], size, multiple 
             data-selected={selected || undefined}
             data-active={index === activeIndex || undefined}
             key={option.value}
-            onPointerMove={() => { if (!option.disabled) onActiveChange?.(index); }}
+            onPointerEnter={() => { if (!option.disabled) onActiveChange?.(index); }}
+            onPointerLeave={() => onActiveChange?.(-1)}
             onPointerDown={(event) => event.preventDefault()}
             onClick={() => { if (!option.disabled) onSelect?.(option.value); }}
           >
@@ -214,6 +217,18 @@ function usePopupState(expanded: boolean | undefined, defaultExpanded: boolean, 
     onExpandedChange?.(next);
   };
   return [isExpanded, setExpanded] as const;
+}
+
+function useOutsidePointerDismiss(containerRef: RefObject<HTMLElement | null>, isExpanded: boolean, onDismiss: () => void) {
+  useEffect(() => {
+    if (!isExpanded) return;
+    const handlePointerDown = (event: PointerEvent) => {
+      const target = event.target;
+      if (target instanceof Node && !containerRef.current?.contains(target)) onDismiss();
+    };
+    document.addEventListener('pointerdown', handlePointerDown);
+    return () => document.removeEventListener('pointerdown', handlePointerDown);
+  }, [containerRef, isExpanded, onDismiss]);
 }
 
 export interface SelectProps extends Omit<SelectHTMLAttributes<HTMLSelectElement>, 'size'> {
@@ -241,10 +256,12 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
   const listboxId = `${controlId}-listbox`;
   const supportingId = helperText || error ? `${controlId}-supporting` : undefined;
   const nativeRef = useRef<HTMLSelectElement | null>(null);
+  const popupRef = useRef<HTMLSpanElement | null>(null);
   useImperativeHandle(forwardedRef, () => nativeRef.current as HTMLSelectElement);
   const [internalExpanded, setInternalExpanded] = useState(defaultExpanded);
   const [internalValue, setInternalValue] = useState(String(defaultValue ?? ''));
-  const [activeIndex, setActiveIndex] = useState(() => Math.max(0, options.findIndex((option) => !option.disabled)));
+  const [listboxMotion, setListboxMotion] = useState(false);
+  const [activeIndex, setActiveIndex] = useState(-1);
   const isExpanded = expanded ?? internalExpanded;
   const selectedValue = String(value ?? internalValue);
   const selectedLabel = options.find((option) => option.value === selectedValue)?.label;
@@ -252,6 +269,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
     if (expanded === undefined) setInternalExpanded(next);
     onExpandedChange?.(next);
   };
+  useOutsidePointerDismiss(popupRef, isExpanded, () => setExpanded(false));
   const commitValue = (nextValue: string) => {
     if (value === undefined) setInternalValue(nextValue);
     onValueChange?.(nextValue);
@@ -264,7 +282,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
     setExpanded(false);
   };
   const moveActive = (direction: 1 | -1) => {
-    let next = activeIndex;
+    let next = activeIndex < 0 ? (direction === 1 ? -1 : 0) : activeIndex;
     for (let attempt = 0; attempt < options.length; attempt += 1) {
       next = (next + direction + options.length) % options.length;
       if (!options[next]?.disabled) break;
@@ -279,8 +297,11 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
     }
     if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
       event.preventDefault();
-      if (!isExpanded) setExpanded(true);
-      else moveActive(event.key === 'ArrowDown' ? 1 : -1);
+      if (!isExpanded) {
+        setListboxMotion(false);
+        setExpanded(true);
+      }
+      moveActive(event.key === 'ArrowDown' ? 1 : -1);
       return;
     }
     if ((event.key === 'Enter' || event.key === ' ') && isExpanded) {
@@ -295,7 +316,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
   }, [options, selectedValue]);
   return (
     <FieldChrome className={className} label={label} helperText={helperText} optional={optional} error={error} size={size} mode={mode} readValue={readValue} controlId={controlId} supportingId={supportingId} disabled={disabled}>
-      <span className="cometal-field__trigger-stack">
+      <span className="cometal-field__trigger-stack" ref={popupRef}>
         <button
           id={controlId}
           type="button"
@@ -304,11 +325,16 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
           aria-haspopup="listbox"
           aria-expanded={isExpanded}
           aria-controls={listboxId}
-          aria-activedescendant={isExpanded ? `${listboxId}-option-${activeIndex}` : undefined}
+          aria-activedescendant={isExpanded && activeIndex >= 0 ? `${listboxId}-option-${activeIndex}` : undefined}
           aria-describedby={selectProps['aria-describedby'] ?? supportingId}
           aria-invalid={error ? true : undefined}
           className="cometal-field__control cometal-field__select-trigger"
-          onClick={() => setExpanded(!isExpanded)}
+          onClick={() => {
+            const nextExpanded = !isExpanded;
+            setListboxMotion(nextExpanded);
+            if (nextExpanded) setActiveIndex(-1);
+            setExpanded(nextExpanded);
+          }}
           onKeyDown={handleKeyDown}
         >
           <span className={selectedLabel ? 'cometal-field__value' : 'cometal-field__placeholder'}>{selectedLabel ?? placeholder}</span>
@@ -329,7 +355,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
           {options.map((option) => <option key={option.value} value={option.value} disabled={option.disabled}>{option.label}</option>)}
         </select>
         {isExpanded ? (
-          <div className="cometal-field__listbox" id={listboxId} role="listbox" aria-label={`${label}: варианты`} data-size={size}>
+          <div className="cometal-field__listbox" id={listboxId} role="listbox" aria-label={`${label}: варианты`} data-size={size} data-motion={listboxMotion ? 'enter' : undefined}>
             {options.map((option, index) => (
               <div
                 id={`${listboxId}-option-${index}`}
@@ -341,7 +367,8 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
                 data-selected={option.value === selectedValue || undefined}
                 data-active={index === activeIndex || undefined}
                 key={option.value}
-                onPointerMove={() => { if (!option.disabled) setActiveIndex(index); }}
+                onPointerEnter={() => { if (!option.disabled) setActiveIndex(index); }}
+                onPointerLeave={() => setActiveIndex(-1)}
                 onPointerDown={(event) => event.preventDefault()}
                 onClick={() => { if (!option.disabled) commitValue(option.value); }}
               >
@@ -372,63 +399,79 @@ export interface ComboboxProps extends Omit<InputHTMLAttributes<HTMLInputElement
 }
 
 export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
-  { label, helperText, optional, error, size = 'l', mode = 'edit', readValue, expanded, defaultExpanded = false, onExpandedChange, listboxId, options = [], onOptionSelect, className, disabled, onFocus, onKeyDown, ...inputProps },
+  { label, helperText, optional, error, size = 'l', mode = 'edit', readValue, expanded, defaultExpanded = false, onExpandedChange, listboxId, options = [], onOptionSelect, className, disabled, onFocus, onKeyDown, onChange, value, defaultValue, ...inputProps },
   ref,
 ) {
   const generatedId = useId();
   const controlId = inputProps.id ?? `cometal-combobox-${generatedId}`;
   const resolvedListboxId = listboxId ?? `${controlId}-listbox`;
   const supportingId = helperText || error ? `${controlId}-supporting` : undefined;
+  const popupRef = useRef<HTMLSpanElement | null>(null);
   const [isExpanded, setExpanded] = usePopupState(expanded, defaultExpanded, onExpandedChange);
-  const [activeIndex, setActiveIndex] = useState(() => Math.max(0, options.findIndex((option) => !option.disabled)));
-  const inputValue = String(inputProps.value ?? inputProps.defaultValue ?? '');
+  useOutsidePointerDismiss(popupRef, isExpanded, () => setExpanded(false));
+  const [internalInputValue, setInternalInputValue] = useState(String(defaultValue ?? ''));
+  const inputValue = String(value ?? internalInputValue);
+  const normalizedQuery = inputValue.trim().toLocaleLowerCase('ru-RU');
+  const filteredOptions = normalizedQuery
+    ? options.filter((option) => `${option.label} ${option.value}`.toLocaleLowerCase('ru-RU').includes(normalizedQuery))
+    : [];
+  const [activeIndex, setActiveIndex] = useState(-1);
   const selectedOption = options.find((option) => option.value === inputValue || option.label === inputValue);
   const moveActive = (direction: 1 | -1) => {
-    let next = activeIndex;
-    for (let attempt = 0; attempt < options.length; attempt += 1) {
-      next = (next + direction + options.length) % options.length;
-      if (!options[next]?.disabled) break;
+    let next = activeIndex < 0 ? (direction === 1 ? -1 : 0) : activeIndex;
+    for (let attempt = 0; attempt < filteredOptions.length; attempt += 1) {
+      next = (next + direction + filteredOptions.length) % filteredOptions.length;
+      if (!filteredOptions[next]?.disabled) break;
     }
     setActiveIndex(next);
   };
   const commitActive = () => {
-    const option = options[activeIndex];
+    const option = filteredOptions[activeIndex];
     if (!option || option.disabled) return;
+    if (value === undefined) setInternalInputValue(option.label);
     onOptionSelect?.(option.value);
     setExpanded(false);
   };
   useEffect(() => {
-    const selectedIndex = options.findIndex((option) => option.value === selectedOption?.value && !option.disabled);
-    if (selectedIndex >= 0) setActiveIndex(selectedIndex);
-  }, [options, selectedOption?.value]);
+    setActiveIndex(-1);
+  }, [inputValue, options]);
   return (
-    <FieldChrome className={className} label={label} helperText={helperText} optional={optional} error={error} size={size} mode={mode} readValue={readValue ?? inputProps.value ?? inputProps.defaultValue} controlId={controlId} supportingId={supportingId} disabled={disabled}>
-      <span className="cometal-field__trigger-stack">
+    <FieldChrome className={className} label={label} helperText={helperText} optional={optional} error={error} size={size} mode={mode} readValue={readValue ?? inputValue} controlId={controlId} supportingId={supportingId} disabled={disabled}>
+      <span className="cometal-field__trigger-stack" ref={popupRef}>
         <span className="cometal-field__control">
           <span className="cometal-field__asset" aria-hidden="true"><SearchIcon /></span>
           <input
             {...inputProps}
             id={controlId}
             ref={ref}
+            value={value ?? internalInputValue}
             disabled={disabled}
             role="combobox"
             aria-autocomplete="list"
             aria-expanded={isExpanded}
             aria-controls={resolvedListboxId}
-            aria-activedescendant={isExpanded ? `${resolvedListboxId}-option-${activeIndex}` : undefined}
+            aria-activedescendant={isExpanded && activeIndex >= 0 ? `${resolvedListboxId}-option-${activeIndex}` : undefined}
             aria-describedby={inputProps['aria-describedby'] ?? supportingId}
             aria-invalid={error ? true : undefined}
-            onFocus={(event) => { onFocus?.(event); if (options.length) setExpanded(true); }}
+            onFocus={onFocus}
+            onChange={(event) => {
+              if (value === undefined) setInternalInputValue(event.currentTarget.value);
+              onChange?.(event);
+              setActiveIndex(-1);
+              const nextQuery = event.currentTarget.value.trim().toLocaleLowerCase('ru-RU');
+              const hasMatches = options.some((option) => `${option.label} ${option.value}`.toLocaleLowerCase('ru-RU').includes(nextQuery));
+              setExpanded(Boolean(nextQuery) && hasMatches);
+            }}
             onKeyDown={(event) => {
               onKeyDown?.(event);
               if (event.defaultPrevented) return;
               if (event.key === 'Escape') {
                 event.preventDefault();
                 setExpanded(false);
-              } else if ((event.key === 'ArrowDown' || event.key === 'ArrowUp') && options.length) {
+              } else if ((event.key === 'ArrowDown' || event.key === 'ArrowUp') && filteredOptions.length) {
                 event.preventDefault();
                 if (!isExpanded) setExpanded(true);
-                else moveActive(event.key === 'ArrowDown' ? 1 : -1);
+                moveActive(event.key === 'ArrowDown' ? 1 : -1);
               } else if (event.key === 'Enter' && isExpanded) {
                 event.preventDefault();
                 commitActive();
@@ -437,16 +480,21 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
             className="cometal-field__input"
           />
         </span>
-        {isExpanded && options.length ? (
+        {isExpanded && filteredOptions.length ? (
           <FieldListbox
             id={resolvedListboxId}
             label={`${label}: результаты`}
-            options={options}
+            options={filteredOptions}
             selectedValues={selectedOption ? [selectedOption.value] : []}
             size={size}
             activeIndex={activeIndex}
             onActiveChange={setActiveIndex}
-            onSelect={(value) => { onOptionSelect?.(value); setExpanded(false); }}
+            onSelect={(nextValue) => {
+              const option = options.find((item) => item.value === nextValue);
+              if (option && value === undefined) setInternalInputValue(option.label);
+              onOptionSelect?.(nextValue);
+              setExpanded(false);
+            }}
           />
         ) : null}
       </span>
@@ -478,24 +526,86 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(funct
   const controlId = buttonProps.id ?? `cometal-multiselect-${generatedId}`;
   const listboxId = `${controlId}-listbox`;
   const supportingId = helperText || error ? `${controlId}-supporting` : undefined;
+  const popupRef = useRef<HTMLSpanElement | null>(null);
+  const tagsRef = useRef<HTMLSpanElement | null>(null);
+  const tagsMeasureRef = useRef<HTMLSpanElement | null>(null);
   const displayValues = selectedValues.map((value) => options.find((option) => option.value === value)?.label ?? value);
   const readValue = displayValues.length ? displayValues.join(', ') : '—';
+  const [visibleTagCount, setVisibleTagCount] = useState(displayValues.length);
   const [isExpanded, setExpanded] = usePopupState(expanded, defaultExpanded, onExpandedChange);
-  const [activeIndex, setActiveIndex] = useState(() => Math.max(0, options.findIndex((option) => !option.disabled)));
+  const [listboxMotion, setListboxMotion] = useState(false);
+  useOutsidePointerDismiss(popupRef, isExpanded, () => setExpanded(false));
+  const [activeIndex, setActiveIndex] = useState(-1);
   const toggleValue = (value: string) => onSelectedValuesChange?.(
     selectedValues.includes(value) ? selectedValues.filter((item) => item !== value) : [...selectedValues, value],
   );
   const moveActive = (direction: 1 | -1) => {
-    let next = activeIndex;
+    let next = activeIndex < 0 ? (direction === 1 ? -1 : 0) : activeIndex;
     for (let attempt = 0; attempt < options.length; attempt += 1) {
       next = (next + direction + options.length) % options.length;
       if (!options[next]?.disabled) break;
     }
     setActiveIndex(next);
   };
+  useEffect(() => {
+    const container = tagsRef.current;
+    const measurement = tagsMeasureRef.current;
+    if (!container || !measurement || !displayValues.length) {
+      setVisibleTagCount(displayValues.length);
+      return undefined;
+    }
+
+    let active = true;
+    const updateVisibleTags = () => {
+      if (!active) return;
+      const availableWidth = container.clientWidth;
+      if (availableWidth <= 0) {
+        setVisibleTagCount(displayValues.length);
+        return;
+      }
+
+      const tagWidths = Array.from(measurement.querySelectorAll<HTMLElement>('[data-measure-tag]'))
+        .map((element) => element.getBoundingClientRect().width);
+      const styles = getComputedStyle(container);
+      const gap = Number.parseFloat(styles.columnGap || styles.gap) || 0;
+      const allTagsWidth = tagWidths.reduce((total, width) => total + width, 0) + gap * Math.max(0, tagWidths.length - 1);
+
+      if (allTagsWidth <= availableWidth) {
+        setVisibleTagCount(displayValues.length);
+        return;
+      }
+
+      for (let nextVisibleCount = displayValues.length - 1; nextVisibleCount >= 0; nextVisibleCount -= 1) {
+        const hiddenCount = displayValues.length - nextVisibleCount;
+        const counter = measurement.querySelector<HTMLElement>(`[data-measure-counter="${hiddenCount}"]`);
+        const visibleTagsWidth = tagWidths.slice(0, nextVisibleCount).reduce((total, width) => total + width, 0);
+        const requiredWidth = visibleTagsWidth
+          + (counter?.getBoundingClientRect().width ?? 0)
+          + gap * nextVisibleCount;
+        if (requiredWidth <= availableWidth) {
+          setVisibleTagCount(nextVisibleCount);
+          return;
+        }
+      }
+
+      setVisibleTagCount(0);
+    };
+
+    updateVisibleTags();
+    const observer = typeof ResizeObserver === 'undefined' ? undefined : new ResizeObserver(updateVisibleTags);
+    observer?.observe(container);
+    void document.fonts?.ready.then(updateVisibleTags);
+
+    return () => {
+      active = false;
+      observer?.disconnect();
+    };
+  }, [displayValues.join('\u0000')]);
+
+  const hiddenTagCount = Math.max(0, displayValues.length - visibleTagCount);
   return (
     <FieldChrome className={className} label={label} helperText={helperText} optional={optional} error={error} size={size} mode={mode} readValue={readValue} multilineRead controlId={controlId} supportingId={supportingId} disabled={disabled}>
-      <span className="cometal-field__trigger-stack">
+      <span className="cometal-field__trigger-stack" ref={popupRef}>
         <span className="cometal-field__control cometal-field__multi-select">
           <button
             {...buttonProps}
@@ -508,8 +618,14 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(funct
             aria-haspopup="listbox"
             aria-expanded={isExpanded}
             aria-controls={listboxId}
-            aria-activedescendant={isExpanded ? `${listboxId}-option-${activeIndex}` : undefined}
-            onClick={(event) => { onClick?.(event); setExpanded(!isExpanded); }}
+            aria-activedescendant={isExpanded && activeIndex >= 0 ? `${listboxId}-option-${activeIndex}` : undefined}
+            onClick={(event) => {
+              onClick?.(event);
+              const nextExpanded = !isExpanded;
+              setListboxMotion(nextExpanded);
+              if (nextExpanded) setActiveIndex(-1);
+              setExpanded(nextExpanded);
+            }}
             onKeyDown={(event) => {
               onKeyDown?.(event);
               if (event.defaultPrevented) return;
@@ -518,8 +634,11 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(funct
                 setExpanded(false);
               } else if (event.key === 'ArrowDown' || event.key === 'ArrowUp') {
                 event.preventDefault();
-                if (!isExpanded) setExpanded(true);
-                else moveActive(event.key === 'ArrowDown' ? 1 : -1);
+                if (!isExpanded) {
+                  setListboxMotion(false);
+                  setExpanded(true);
+                }
+                moveActive(event.key === 'ArrowDown' ? 1 : -1);
               } else if ((event.key === 'Enter' || event.key === ' ') && isExpanded) {
                 event.preventDefault();
                 const option = options[activeIndex];
@@ -528,8 +647,8 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(funct
             }}
             className="cometal-field__multi-select-trigger"
           />
-          <span className={selectedValues.length ? 'cometal-field__tags' : 'cometal-field__placeholder'}>
-            {displayValues.length ? displayValues.slice(0, 2).map((item, index) => (
+          <span ref={selectedValues.length ? tagsRef : undefined} className={selectedValues.length ? 'cometal-field__tags' : 'cometal-field__placeholder'}>
+            {displayValues.length ? displayValues.slice(0, visibleTagCount).map((item, index) => (
               <span className="cometal-field__tag" key={selectedValues[index]}>
                 <span className="cometal-field__tag-label">{item}</span>
                 <button
@@ -543,9 +662,23 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(funct
                 </button>
               </span>
             )) : placeholder}
-            {selectedValues.length > 2 ? <span className="cometal-field__tag">+{selectedValues.length - 2}</span> : null}
+            {hiddenTagCount ? <span className="cometal-field__tag cometal-field__tag--counter">+{hiddenTagCount}</span> : null}
           </span>
-          {selectedValues.length ? null : <span className="cometal-field__asset" aria-hidden="true"><ChevronDownIcon /></span>}
+          {selectedValues.length ? (
+            <span ref={tagsMeasureRef} className="cometal-field__tags-measure" aria-hidden="true">
+              {displayValues.map((item, index) => (
+                <span className="cometal-field__tag" data-measure-tag key={`measure-${selectedValues[index]}`}>
+                  <span className="cometal-field__tag-label">{item}</span>
+                  <span className="cometal-field__tag-remove"><RemoveValueIcon /></span>
+                </span>
+              ))}
+              {displayValues.map((_, index) => {
+                const hiddenCount = index + 1;
+                return <span className="cometal-field__tag cometal-field__tag--counter" data-measure-counter={hiddenCount} key={`counter-${hiddenCount}`}>+{hiddenCount}</span>;
+              })}
+            </span>
+          ) : null}
+          <span className="cometal-field__asset" aria-hidden="true"><ChevronDownIcon /></span>
         </span>
         {isExpanded && options.length ? (
           <FieldListbox
@@ -555,6 +688,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(funct
             selectedValues={selectedValues}
             size={size}
             multiple
+            motion={listboxMotion}
             activeIndex={activeIndex}
             onActiveChange={setActiveIndex}
             onSelect={toggleValue}

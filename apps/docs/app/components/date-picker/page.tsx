@@ -14,8 +14,8 @@ export default function DatePickerPage() {
   return (
     <main className="content-page component-detail">
       <header className="component-title">
-        <div><div className="component-title__meta"><span className="eyebrow">КОМПОНЕНТ · WEB</span></div><h1>Date Picker</h1><p>Ручной ввод и календарный выбор одной даты в едином публичном компоненте.</p></div>
-        <div className="component-title__toolbar"><div className="component-title__links"><ActionLink href={component.links.figma} target="_blank" rel="noreferrer" variant="secondary">Figma ↗</ActionLink><ActionLink href="/storybook/?path=/story/components-date-picker--overview" variant="secondary">Открыть Playground ↗</ActionLink></div><span className="status component-title__status" data-status={component.status}>{statusLabels[component.status]}</span></div>
+        <div><span className="eyebrow">КОМПОНЕНТ · WEB</span><h1>Date Picker</h1><p>Ручной ввод и календарный выбор одной даты в едином публичном компоненте.</p></div>
+        <div className="component-title__toolbar"><span className="status component-title__status" data-status={component.status}>{statusLabels[component.status]}</span><div className="component-title__links"><ActionLink href={component.links.figma} target="_blank" rel="noreferrer" variant="secondary">Figma ↗</ActionLink><ActionLink href="/storybook/?path=/story/components-date-picker--playground" variant="secondary">Playground ↗</ActionLink></div></div>
       </header>
 
       <section className="content-section"><SectionHeading title="Использование" description="Используйте для одного календарного значения. Интервал и дата со временем являются отдельными компонентами." /><div className="field-family-board"><article><header><code>input.date-picker</code><h3>Edit</h3></header><div className="field-family-board__examples"><DatePicker label="Дата поставки" defaultValue="2026-07-15" helperText="Выберите дату" /><DatePicker label="Дата поставки" value="2026-07-15" mode="read" /></div></article></div></section>

@@ -22,14 +22,25 @@ form-value и совместимость с HTML-формами.
 - `expanded/defaultExpanded/onExpandedChange` управляют раскрытием.
 - `value/defaultValue/onValueChange` управляют выбранным значением.
 - Active содержит связанный Listbox с default, selected и disabled options.
+- Listbox растёт по количеству вариантов до максимальной высоты: до пяти options
+  помещаются без пустого пространства, более длинный список прокручивается внутри.
+- Pointer-раскрытие не предвыбирает active option: hover-заливка появляется только после реального наведения. Keyboard active появляется после Arrow Up/Down.
 
 ## Accessibility
 
 - Trigger имеет `role="combobox"`, `aria-haspopup`, `aria-expanded`,
   `aria-controls` и `aria-activedescendant`.
 - Arrow Up/Down перемещают active option, Enter выбирает, Escape закрывает.
+- Тап или клик за пределами trigger и Listbox закрывает раскрытый список.
 - Label и supporting text программно связаны с trigger.
 - Скрытый native select исключён из tab-order и accessibility tree.
+
+## Motion
+
+- При pointer-раскрытии Listbox появляется от верхней границы trigger через opacity и смещение 4px.
+- Длительности и easing поступают из code-owned motion tokens; геометрия и цвет не анимируются.
+- Клавиатурное раскрытие остаётся мгновенным.
+- При `prefers-reduced-motion: reduce` смещение отключается, остаётся только короткое появление через opacity.
 
 ## Acceptance criteria
 

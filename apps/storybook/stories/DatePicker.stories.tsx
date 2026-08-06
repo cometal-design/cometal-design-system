@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, userEvent, within } from 'storybook/test';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 import { DatePicker } from '@cometal/react';
 import { ComponentCodeExample } from './ComponentCodeExample';
 
@@ -125,7 +125,7 @@ export const OpenCalendar: Story = {
   args: { open: true },
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await expect(canvas.getByRole('dialog', { name: 'Июль 2026' })).toBeVisible();
+    await waitFor(() => expect(canvas.getByRole('dialog', { name: 'Июль 2026' })).toBeVisible());
     await expect(canvas.getAllByRole('gridcell')).toHaveLength(35);
     await expect(canvas.getByRole('gridcell', { name: /среда, 15 июля 2026/ })).toHaveAttribute('aria-selected', 'true');
     const viewportWidth = canvasElement.ownerDocument.defaultView?.innerWidth ?? 364;
@@ -142,6 +142,22 @@ export const OpenCalendar: Story = {
       await expect(canvasElement.querySelector<HTMLElement>('.cometal-date-picker__month-header')?.getBoundingClientRect().height).toBe(32);
       await expect(canvasElement.querySelector<HTMLElement>('.cometal-date-picker__weekdays')?.getBoundingClientRect().height).toBe(18);
     }
+  },
+};
+
+export const PointerMotion: Story = {
+  name: 'Motion',
+  parameters: { controls: { disable: true } },
+  render: () => <DatePicker label="Дата поставки" defaultValue="2026-07-15" today="2026-07-31" />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', { name: 'Открыть календарь' }));
+    const panel = canvas.getByRole('dialog', { name: 'Июль 2026' });
+    const motion = getComputedStyle(panel);
+    await expect(motion.transitionProperty).toContain('opacity');
+    await expect(motion.transitionProperty).toContain('transform');
+    await expect(motion.transitionDuration).toContain('0.16s');
+    await expect(motion.transitionDuration).toContain('0.18s');
   },
 };
 

@@ -33,7 +33,7 @@
         "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1102-8230",
         "specification": "specifications/components/text-field.md",
         "source": "packages/react/src/Field/Field.tsx",
-        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--overview",
+        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--text-field-playground",
         "knowledge": "knowledge-base/02 Components/Text Field.md"
       },
       "checks": { "visualMatch": false, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
@@ -63,7 +63,7 @@
         "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1102-8399",
         "specification": "specifications/components/text-area.md",
         "source": "packages/react/src/Field/Field.tsx",
-        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--overview",
+        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--text-area-playground",
         "knowledge": "knowledge-base/02 Components/Text Area.md"
       },
       "checks": { "visualMatch": false, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
@@ -78,7 +78,7 @@
         "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1103-535",
         "specification": "specifications/components/select.md",
         "source": "packages/react/src/Field/Field.tsx",
-        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--overview",
+        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--select-playground",
         "knowledge": "knowledge-base/02 Components/Select.md"
       },
       "checks": { "visualMatch": false, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
@@ -93,7 +93,7 @@
         "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1104-661",
         "specification": "specifications/components/combobox.md",
         "source": "packages/react/src/Field/Field.tsx",
-        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--overview",
+        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--combobox-playground",
         "knowledge": "knowledge-base/02 Components/Combobox.md"
       },
       "checks": { "visualMatch": false, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
@@ -108,7 +108,7 @@
         "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1106-1005",
         "specification": "specifications/components/multi-select.md",
         "source": "packages/react/src/Field/Field.tsx",
-        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--overview",
+        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--multi-select-playground",
         "knowledge": "knowledge-base/02 Components/Multi Select.md"
       },
       "checks": { "visualMatch": false, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }

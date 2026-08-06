@@ -215,6 +215,8 @@ export function DatePicker({
   const [inputValue, setInputValue] = useState(() => formatDisplayDate(selectedValue));
   const [inputError, setInputError] = useState<string>();
   const [focusTarget, setFocusTarget] = useState<string>();
+  const [panelMotion, setPanelMotion] = useState(false);
+  const [monthMotionDirection, setMonthMotionDirection] = useState<-1 | 0 | 1>(0);
   const todayDate = parseIsoDate(today) ?? new Date();
   const selectedDate = parseIsoDate(selectedValue);
   const minDate = parseIsoDate(min);
@@ -250,6 +252,12 @@ export function DatePicker({
     });
   }, [focusTarget, isOpen]);
 
+  useEffect(() => {
+    if (!monthMotionDirection) return undefined;
+    const frame = requestAnimationFrame(() => setMonthMotionDirection(0));
+    return () => cancelAnimationFrame(frame);
+  }, [visibleMonth, monthMotionDirection]);
+
   const days = useMemo(() => {
     const firstDay = startOfMonth(visibleMonth);
     const mondayOffset = (firstDay.getDay() + 6) % 7;
@@ -265,6 +273,7 @@ export function DatePicker({
   };
 
   const closeAndRestoreFocus = () => {
+    setPanelMotion(false);
     setIsOpen(false);
     requestAnimationFrame(() => triggerRef.current?.focus());
   };
@@ -297,13 +306,19 @@ export function DatePicker({
     return true;
   };
 
-  const openCalendar = (moveFocusToCalendar = false) => {
+  const openCalendar = (moveFocusToCalendar = false, animate = false) => {
     if (disabled || mode === 'read') return;
     const target = selectedValue ?? toIsoDate(todayDate);
     const date = parseIsoDate(target) ?? todayDate;
     setVisibleMonth(startOfMonth(date));
     if (moveFocusToCalendar) setFocusTarget(target);
+    setPanelMotion(animate);
     setIsOpen(true);
+  };
+
+  const changeVisibleMonth = (amount: -1 | 1, animate: boolean) => {
+    setMonthMotionDirection(animate ? amount : 0);
+    setVisibleMonth((month) => addMonths(month, amount));
   };
 
   const moveFocus = (current: Date, amount: number) => {
@@ -415,7 +430,7 @@ export function DatePicker({
             aria-haspopup="dialog"
             aria-expanded={isOpen}
             aria-controls={dialogId}
-            onClick={() => (isOpen ? closeAndRestoreFocus() : openCalendar(false))}
+            onClick={(event) => (isOpen ? closeAndRestoreFocus() : openCalendar(false, event.detail !== 0))}
           >
             <CalendarIcon />
           </button>
@@ -431,21 +446,22 @@ export function DatePicker({
           role="dialog"
           aria-modal="false"
           aria-labelledby={headingId}
+          data-motion={panelMotion ? 'enter' : undefined}
           onKeyDown={onCalendarKeyDown}
         >
           <div className="cometal-date-picker__month-header">
-            <h2 id={headingId} aria-live="polite">{monthLabel(visibleMonth, locale)}</h2>
+            <h2 data-month-motion={monthMotionDirection || undefined} id={headingId} aria-live="polite">{monthLabel(visibleMonth, locale)}</h2>
             <div className="cometal-date-picker__month-actions">
-              <button type="button" className="cometal-date-picker__month-control" aria-label="Предыдущий месяц" onClick={() => setVisibleMonth((month) => addMonths(month, -1))}>
+              <button type="button" className="cometal-date-picker__month-control" aria-label="Предыдущий месяц" onClick={(event) => changeVisibleMonth(-1, event.detail !== 0)}>
                 <ChevronIcon direction="left" />
               </button>
-              <button type="button" className="cometal-date-picker__month-control" aria-label="Следующий месяц" onClick={() => setVisibleMonth((month) => addMonths(month, 1))}>
+              <button type="button" className="cometal-date-picker__month-control" aria-label="Следующий месяц" onClick={(event) => changeVisibleMonth(1, event.detail !== 0)}>
                 <ChevronIcon direction="right" />
               </button>
             </div>
           </div>
 
-          <div className="cometal-date-picker__calendar" role="grid" aria-labelledby={headingId}>
+          <div data-month-motion={monthMotionDirection || undefined} className="cometal-date-picker__calendar" role="grid" aria-labelledby={headingId}>
             <div className="cometal-date-picker__weekdays" role="row">
               {WEEKDAYS.map((weekday) => <span key={weekday} role="columnheader" aria-label={weekday}>{weekday}</span>)}
             </div>

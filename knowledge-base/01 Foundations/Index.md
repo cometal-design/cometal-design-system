@@ -12,6 +12,7 @@ Foundation — общий визуальный и технический язы�
 | Radius | `4:32` | Primitive и semantic tokens | Шкала значений | Синхронизировано |
 | Grid | `1026:3600` | 4 responsive presets | Визуализация пресетов | Синхронизировано как документация |
 | Icons | `381:25439` | Инвентарь 2 810 компонентов | Статус библиотек и карты замены | Частично: SVG и React API ещё не заведены |
+| Motion | Статическая документационная борда ожидает решения; variables не создаём | 5 duration + 3 easing tokens | Button, Fields, Checkbox, Radio Button, Switch, Inline Link и Date Picker используют общий source; Storybook и портал показывают все 8 токенов | Частично: Git, React, tests, Storybook и портал синхронизированы локально |
 | Shadows | `4:31` | Нет значений | Показан явный empty state | Не заведено в Figma |
 
 ## Правила
@@ -21,7 +22,10 @@ Foundation — общий визуальный и технический язы�
 - Storybook не создаёт значения, которых нет в Figma. Пробел показывается открыто.
 - Grid сейчас существует как документированная сетка, но не как локальные Figma Grid Styles.
 - Иконки пока синхронизированы на уровне реестра. Их нельзя считать готовым React-пакетом до экспорта SVG, утверждения API и визуального ревью карты замены.
-- Любое изменение Foundation проходит через Figma → Git → Storybook → эту базу знаний.
+- Motion принадлежит code-owned слою: Git хранит значения и React-поведение, Storybook показывает и проверяет, портал объясняет, Obsidian фиксирует контекст. В Figma не создаём ложные motion variables; допустима отдельная статическая документационная борда.
+- Локальные значения длительности и easing внутри React-компонентов запрещены: state, popover и loader-motion обращаются к `--cometal-motion-*`.
+- Pointer-сценарии могут использовать короткое движение, частые keyboard-сценарии остаются мгновенными, `prefers-reduced-motion` убирает пространственный сдвиг.
+- Визуальные Foundation-решения проходят через Figma → Git → Storybook → эту базу знаний. Поведенческие Motion-решения проходят Git → Storybook/tests → эту базу знаний.
 
 ## Машиночитаемые источники
 
@@ -30,3 +34,4 @@ Foundation — общий визуальный и технический язы�
 - `packages/tokens/src/typography.styles.json`
 - `packages/tokens/src/grid.presets.json`
 - `packages/tokens/src/icons.inventory.json`
+- `packages/tokens/src/motion.tokens.json`

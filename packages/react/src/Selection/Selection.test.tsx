@@ -9,8 +9,7 @@ describe('Selection controls', () => {
     expect(html).toContain('data-cometal-component="checkbox"');
     expect(html).toContain('type="checkbox"');
     expect(html).toContain('data-indeterminate="true"');
-    expect(html).toContain('viewBox="0 0 20 20"');
-    expect(html).toContain('stroke-width="1.6"');
+    expect(html).not.toContain('<svg');
     expect(html).toContain('Выбрать всё');
   });
 

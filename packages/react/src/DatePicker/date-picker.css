@@ -66,6 +66,22 @@
   background: var(--cometal-semantic-color-surface-raised);
   box-shadow: inset 0 0 0 1px var(--cometal-semantic-color-border-default);
   color: var(--cometal-semantic-color-text-primary);
+  opacity: 1;
+  transform: translateY(0);
+}
+
+.cometal-date-picker__panel[data-motion='enter'] {
+  transform-origin: top center;
+  transition:
+    opacity var(--cometal-motion-duration-fast) var(--cometal-motion-easing-enter),
+    transform var(--cometal-motion-duration-popover) var(--cometal-motion-easing-enter);
+}
+
+@starting-style {
+  .cometal-date-picker__panel[data-motion='enter'] {
+    opacity: 0;
+    transform: translateY(calc(var(--cometal-primitive-spacing-25) * -1));
+  }
 }
 
 .cometal-date-picker__month-header {
@@ -84,6 +100,27 @@
   line-height: var(--cometal-typography-heading-xs-line-height);
   letter-spacing: var(--cometal-typography-heading-xs-letter-spacing);
   text-align: left;
+}
+
+.cometal-date-picker__month-header h2,
+.cometal-date-picker__calendar {
+  opacity: 1;
+  transform: translateX(0);
+  transition:
+    opacity var(--cometal-motion-duration-fast) var(--cometal-motion-easing-enter),
+    transform var(--cometal-motion-duration-fast) var(--cometal-motion-easing-enter);
+}
+
+.cometal-date-picker [data-month-motion='-1'] {
+  opacity: 0.72;
+  transform: translateX(calc(var(--cometal-primitive-spacing-50) * -1));
+  transition: none;
+}
+
+.cometal-date-picker [data-month-motion='1'] {
+  opacity: 0.72;
+  transform: translateX(var(--cometal-primitive-spacing-50));
+  transition: none;
 }
 
 .cometal-date-picker__month-actions {
@@ -218,5 +255,27 @@
 }
 
 @media (prefers-reduced-motion: reduce) {
-  .cometal-date-picker__panel { scroll-behavior: auto; }
+  .cometal-date-picker__panel {
+    scroll-behavior: auto;
+    transform: none;
+  }
+
+  .cometal-date-picker__panel[data-motion='enter'] {
+    transition-duration: var(--cometal-motion-duration-fast);
+  }
+
+  .cometal-date-picker__month-header h2,
+  .cometal-date-picker__calendar,
+  .cometal-date-picker [data-month-motion] {
+    opacity: 1;
+    transform: none;
+    transition: none;
+  }
+
+  @starting-style {
+    .cometal-date-picker__panel[data-motion='enter'] {
+      opacity: 0;
+      transform: none;
+    }
+  }
 }

@@ -7,4 +7,4 @@ function OverviewPage(){return <main className="ds-component-page"><header class
 const meta={title:'Components/Switch',component:Switch,args:{label:'Получать уведомления',description:'Изменение применяется сразу',size:'l'},argTypes:{size:{control:'inline-radio',options:selectionSizes}}} satisfies Meta<typeof Switch>;
 export default meta;type Story=StoryObj<typeof meta>;
 export const Overview:Story={name:'Обзор',parameters:{layout:'fullscreen',controls:{disable:true}},render:()=> <OverviewPage/>,play:async({canvasElement})=>{await expect(canvasElement.querySelector('[data-code-example="selection.switch"] pre')).toHaveTextContent('<Switch');}};
-export const Playground:Story={name:'Песочница',play:async({canvasElement})=>{await expect(within(canvasElement).getByRole('switch',{name:/Получать/})).toBeEnabled();}};
+export const Playground:Story={name:'Песочница',play:async({canvasElement})=>{await expect(within(canvasElement).getByRole('switch',{name:/Получать/})).toBeEnabled();const thumb=canvasElement.querySelector<HTMLElement>('.cometal-selection__thumb');await expect(getComputedStyle(thumb!).transitionDuration).toContain('0.12s');}};

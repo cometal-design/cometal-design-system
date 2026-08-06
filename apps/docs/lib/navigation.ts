@@ -29,6 +29,7 @@ export const sectionNavigation: Record<string, NavItem[]> = {
     { label: 'Размеры и сетки', href: '/foundation/layout/spacing/', activePrefix: '/foundation/layout/' },
     { label: 'Темы', href: '/foundation/themes/default/', activePrefix: '/foundation/themes/' },
     { label: 'Иконки', href: '/foundation/icons/catalog/', activePrefix: '/foundation/icons/' },
+    { label: 'Motion', href: '/foundation/motion/' },
   ],
   components: [
     { label: 'Обзор', href: '/components/' },

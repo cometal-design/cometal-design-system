@@ -35,18 +35,29 @@ describe('Fields', () => {
     expect(combobox).toContain('aria-controls="contractors"');
     expect(multi).toContain('role="combobox"');
     expect(multi).toContain('aria-haspopup="listbox"');
-    expect(multi).toContain('+1');
+    expect(multi).toContain('cometal-field__tags-measure');
   });
 
   it('keeps listbox options out of the Tab sequence', () => {
     const select = renderToStaticMarkup(<Select label="Статус" expanded options={[{ value: 'active', label: 'Активный' }]} />);
-    const combobox = renderToStaticMarkup(<Combobox label="Контрагент" expanded options={[{ value: 'north', label: 'Северсталь' }]} />);
+    const combobox = renderToStaticMarkup(<Combobox label="Контрагент" defaultValue="north" expanded options={[{ value: 'north', label: 'Северсталь' }]} />);
     expect(select).toContain('role="option"');
     expect(combobox).toContain('role="option"');
     expect(select).toContain('tabindex="-1"');
     expect(combobox).toContain('tabindex="-1"');
     expect(select).toContain('aria-hidden="true"');
     expect((select.match(/role="combobox"/g) ?? [])).toHaveLength(1);
+  });
+
+  it('does not preactivate listbox options before pointer or keyboard input', () => {
+    const options = [{ value: 'severstal', label: 'Северсталь' }];
+    const select = renderToStaticMarkup(<Select label="Статус" expanded options={options} />);
+    const combobox = renderToStaticMarkup(<Combobox label="Контрагент" defaultValue="сталь" expanded options={options} />);
+    const multiSelect = renderToStaticMarkup(<MultiSelect label="Контрагенты" expanded options={options} />);
+
+    expect(select).not.toContain('data-active');
+    expect(combobox).not.toContain('data-active');
+    expect(multiSelect).not.toContain('data-active');
   });
 
   it('keeps Multi Select labels visual and active state free of non-Figma glyphs', () => {

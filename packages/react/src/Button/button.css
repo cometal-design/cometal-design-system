@@ -36,7 +36,9 @@
   cursor: pointer;
   appearance: none;
   -webkit-tap-highlight-color: transparent;
-  transition: background-color 120ms ease, color 120ms ease;
+  transition:
+    background-color var(--cometal-motion-duration-state) var(--cometal-motion-easing-standard),
+    color var(--cometal-motion-duration-state) var(--cometal-motion-easing-standard);
 }
 
 .cometal-button:hover:not(:disabled) {
@@ -111,7 +113,7 @@
   align-items: center;
   justify-content: center;
   transform: translate(-50%, -50%);
-  animation: cometal-button-spin 700ms linear infinite;
+  animation: cometal-button-spin var(--cometal-motion-duration-spin) var(--cometal-motion-easing-linear) infinite;
 }
 
 .cometal-button__loader > svg {
@@ -212,7 +214,8 @@
   --cometal-button-container-hover: var(--cometal-semantic-color-button-inverse-ghost-container-hover);
   --cometal-button-container-pressed: var(--cometal-semantic-color-button-inverse-ghost-container-pressed);
   --cometal-button-container-disabled: var(--cometal-semantic-color-button-inverse-ghost-container-disabled);
-  --cometal-button-content: var(--cometal-primitive-color-primitive-palette-neutral-800-100);
+  --cometal-button-content: var(--cometal-semantic-color-text-inverse);
+  --cometal-button-content-disabled: var(--cometal-primitive-color-primitive-palette-neutral-0-40);
 }
 
 .cometal-button[data-loading='true'] {
@@ -227,5 +230,5 @@
 
 @media (prefers-reduced-motion: reduce) {
   .cometal-button { transition: none; }
-  .cometal-button__loader { animation-duration: 1400ms; }
+  .cometal-button__loader { animation-duration: var(--cometal-motion-duration-spin-reduced); }
 }

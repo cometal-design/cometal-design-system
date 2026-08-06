@@ -60,7 +60,7 @@ export const Checkbox = forwardRef<HTMLInputElement, CheckboxProps>(function Che
         defaultChecked={defaultChecked}
         aria-checked={indeterminate ? 'mixed' : inputProps['aria-checked']}
       />
-      <span className="cometal-selection__control" aria-hidden="true"><CheckboxMark size={size} /></span>
+      <span className="cometal-selection__control" aria-hidden="true">{indeterminate ? null : <CheckboxMark size={size} />}</span>
       <span className="cometal-selection__content"><span className="cometal-selection__label">{label}</span>{description ? <span className="cometal-selection__description">{description}</span> : null}</span>
     </label>
   );

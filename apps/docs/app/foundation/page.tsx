@@ -6,11 +6,13 @@ import inventory from '../../../../packages/tokens/src/foundation.inventory.json
 import typography from '../../../../packages/tokens/src/typography.styles.json';
 import grid from '../../../../packages/tokens/src/grid.presets.json';
 import icons from '../../../../packages/tokens/src/icons.inventory.json';
+import motion from '../../../../packages/tokens/src/motion.tokens.json';
 import { primitiveTokens, semanticTokens } from '../../lib/foundation-data';
 
 const primitiveColors = primitiveTokens.filter((token) => token.type === 'color');
 const semanticColors = semanticTokens.filter((token) => token.type === 'color');
 const dimensionTokens = [...primitiveTokens, ...semanticTokens].filter((token) => token.type === 'dimension');
+const motionTokenCount = Object.keys(motion.Motion.Duration).length + Object.keys(motion.Motion.Easing).length;
 
 export const metadata: Metadata = {
   title: 'Foundation',
@@ -52,6 +54,13 @@ const categories = [
     count: `${icons.totalComponents.toLocaleString('ru-RU')} компонентов`,
     description: 'Инвентарь и карта замены. SVG/React API не считаются готовыми до отдельного утверждения.',
     href: '/foundation/icons/catalog/',
+  },
+  {
+    number: '06',
+    title: 'Motion',
+    count: `${motionTokenCount} токена`,
+    description: 'Длительности, easing, правила появления слоёв и обязательный reduced-motion режим.',
+    href: '/foundation/motion/',
   },
 ];
 

@@ -1,6 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { useState } from 'react';
+import { Button, Switch } from '@cometal/react';
 import primitiveSource from '../../../packages/tokens/src/primitive.tokens.json';
 import semanticSource from '../../../packages/tokens/src/semantic.tokens.json';
+import motionSource from '../../../packages/tokens/src/motion.tokens.json';
 import typographyData from '../../../packages/tokens/src/typography.styles.json';
 import gridData from '../../../packages/tokens/src/grid.presets.json';
 import iconData from '../../../packages/tokens/src/icons.inventory.json';
@@ -78,7 +81,8 @@ function aliasName(value: TokenValue): string {
     : '—';
 }
 
-function PageHeader({ eyebrow, title, description, nodeId }: { eyebrow: string; title: string; description: string; nodeId: string }) {
+function PageHeader({ eyebrow, title, description, nodeId, sourceHref, sourceLabel = 'Открыть источник в Figma' }: { eyebrow: string; title: string; description: string; nodeId?: string; sourceHref?: string; sourceLabel?: string }) {
+  const href = sourceHref ?? (nodeId ? `${figmaBase}${nodeId.replace(':', '-')}` : undefined);
   return (
     <header className="ds-header">
       <div>
@@ -86,7 +90,7 @@ function PageHeader({ eyebrow, title, description, nodeId }: { eyebrow: string; 
         <h1>{title}</h1>
         <p className="ds-lead">{description}</p>
       </div>
-      <a className="ds-source" href={`${figmaBase}${nodeId.replace(':', '-')}`} target="_blank" rel="noreferrer">Открыть источник в Figma</a>
+      {href ? <a className="ds-source" href={href} target="_blank" rel="noreferrer">{sourceLabel}</a> : null}
     </header>
   );
 }
@@ -184,6 +188,134 @@ function IconsPage() {
   return <main className="ds-page"><PageHeader eyebrow="FOUNDATION / ICONS" title="Иконки" description="Полный инвентарь Figma и честный статус инженерной готовности. SVG и React API пока не утверждены, поэтому каталог не подменяет их самодельными иконками." nodeId="381:25439" /><div className="ds-status-grid">{iconData.libraries.map((library)=><article key={library.name}><strong>{library.components}</strong><span>{library.name}</span><small>{library.categories} категорий</small></article>)}</div><section className="ds-section"><h2>Карта замены</h2><div className="ds-review-grid"><article className="ok"><strong>{iconData.replacementMap.highConfidence}</strong><span>высокая уверенность</span></article><article className="warn"><strong>{iconData.replacementMap.needsVisualReview}</strong><span>визуальное ревью</span></article><article className="stop"><strong>{iconData.replacementMap.notFound}</strong><span>не найдено</span></article></div><p className="ds-note">{iconData.replacementMap.policy}</p></section></main>;
 }
 
+const motionState = motionSource.Motion.Duration.State.$value;
+const motionFast = motionSource.Motion.Duration.Fast.$value;
+const motionPopover = motionSource.Motion.Duration.Popover.$value;
+const motionSpin = motionSource.Motion.Duration.Spin.$value;
+const motionSpinReduced = motionSource.Motion.Duration['Spin Reduced'].$value;
+const motionStandard = `cubic-bezier(${motionSource.Motion.Easing.Standard.$value.join(', ')})`;
+const motionEnter = `cubic-bezier(${motionSource.Motion.Easing.Enter.$value.join(', ')})`;
+const motionLinear = `cubic-bezier(${motionSource.Motion.Easing.Linear.$value.join(', ')})`;
+
+function MotionCurve() {
+  return (
+    <svg className="ds-motion-curve" viewBox="0 0 320 176" role="img" aria-label={`Enter easing: ${motionEnter}`}>
+      <line x1="24" y1="152" x2="296" y2="152" />
+      <line x1="24" y1="152" x2="24" y2="24" />
+      <path d="M 24 152 C 68 24, 106 24, 296 24" />
+      <circle cx="24" cy="152" r="5" />
+      <circle cx="296" cy="24" r="5" />
+      <text x="24" y="170">0</text>
+      <text x="270" y="170">100%</text>
+    </svg>
+  );
+}
+
+function MotionPlayground() {
+  const [run, setRun] = useState(0);
+  const [reduced, setReduced] = useState(false);
+
+  return (
+    <div className="ds-motion-playground" data-reduced={reduced || undefined}>
+      <div className="ds-motion-playground__toolbar">
+        <div>
+          <strong>Popover enter</strong>
+          <span>Opacity + 4px по оси Y</span>
+        </div>
+        <div className="ds-motion-playground__actions">
+          <Switch size="s" checked={reduced} onChange={(event) => setReduced(event.currentTarget.checked)} label="Reduced motion" />
+          <Button size="m" variant="secondary" onClick={() => setRun((value) => value + 1)}>Повторить</Button>
+        </div>
+      </div>
+      <div className="ds-motion-stage">
+        <div className="ds-motion-trigger" aria-hidden="true">Выберите значение <span>⌄</span></div>
+        <div className="ds-motion-popover" key={`${run}-${reduced}`} aria-hidden="true">
+          <span>Активный</span>
+          <span>На согласовании</span>
+          <span>Завершён</span>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+function MotionPage() {
+  const tokens = [
+    { name: 'motion.duration.state', css: '--cometal-motion-duration-state', value: motionState, usage: 'Hover, pressed и изменение цвета' },
+    { name: 'motion.duration.fast', css: '--cometal-motion-duration-fast', value: motionFast, usage: 'Fade и reduced-motion переход' },
+    { name: 'motion.duration.popover', css: '--cometal-motion-duration-popover', value: motionPopover, usage: 'Select, Multi Select, Date Picker' },
+    { name: 'motion.duration.spin', css: '--cometal-motion-duration-spin', value: motionSpin, usage: 'Один оборот loader' },
+    { name: 'motion.duration.spin-reduced', css: '--cometal-motion-duration-spin-reduced', value: motionSpinReduced, usage: 'Loader при reduced motion' },
+    { name: 'motion.easing.standard', css: '--cometal-motion-easing-standard', value: motionStandard, usage: 'Изменение состояния control' },
+    { name: 'motion.easing.enter', css: '--cometal-motion-easing-enter', value: motionEnter, usage: 'Появление элемента рядом с trigger' },
+    { name: 'motion.easing.linear', css: '--cometal-motion-easing-linear', value: motionLinear, usage: 'Непрерывное вращение loader' },
+  ];
+
+  return (
+    <main className="ds-page ds-motion-page">
+      <PageHeader
+        eyebrow="FOUNDATION / MOTION"
+        title="Motion"
+        description="Единый язык движения для React‑компонентов Cometal. Motion объясняет изменение состояния, не замедляя работу."
+        sourceHref="https://github.com/cometal-design/cometal-design-system/blob/main/packages/tokens/src/motion.tokens.json"
+        sourceLabel="Открыть token source в Git"
+      />
+
+      <section className="ds-section">
+        <div className="ds-motion-principle">
+          <span>01</span>
+          <div>
+            <h2>Не украшать. Объяснять.</h2>
+            <p>Анимация показывает, откуда появился новый слой, что изменилось и какое действие сработало. Если без движения смысл не теряется, оно не нужно.</p>
+          </div>
+        </div>
+        <div className="ds-motion-anatomy">
+          <article><code>Duration</code><strong>Как долго</strong><p>Коротко для частых действ, чуть дольше для появления слоя.</p></article>
+          <article><code>Easing</code><strong>Как движется</strong><p>Enter начинается быстро и мягко замедляется к финалу.</p></article>
+          <article><code>Property</code><strong>Что меняется</strong><p>Для UI используем opacity и transform, не анимируем layout.</p></article>
+        </div>
+      </section>
+
+      <section className="ds-section">
+        <h2>Токены <span>{tokens.length}</span></h2>
+        <div className="ds-motion-token-grid">
+          {tokens.map((token) => (
+            <article key={token.name}>
+              <code>{token.name}</code>
+              <strong>{token.value}</strong>
+              <span>{token.usage}</span>
+              <small>{token.css}</small>
+            </article>
+          ))}
+        </div>
+      </section>
+
+      <section className="ds-section ds-motion-behavior">
+        <div>
+          <h2>Кривая enter</h2>
+          <p>Сильный ease-out сразу отвечает на действие и затем мягко останавливает элемент.</p>
+          <code>{motionEnter}</code>
+        </div>
+        <MotionCurve />
+      </section>
+
+      <section className="ds-section">
+        <h2>Живой пример</h2>
+        <MotionPlayground />
+      </section>
+
+      <section className="ds-section">
+        <h2>Правила применения</h2>
+        <div className="ds-motion-rules">
+          <article><code>Pointer</code><strong>Движение допустимо</strong><p>Клик по Select или Date Picker может мягко показать связь trigger и popover.</p></article>
+          <article><code>Keyboard</code><strong>Мгновенно</strong><p>Частые клавиатурные действия не анимируем: система не должна казаться медленной.</p></article>
+          <article><code>Reduced motion</code><strong>Без пространственного сдвига</strong><p>Уважаем prefers-reduced-motion: убираем translate, оставляем мгновенное или короткое opacity.</p></article>
+        </div>
+      </section>
+    </main>
+  );
+}
+
 function EngineeringPage() {
   return <main className="ds-page"><PageHeader eyebrow="FOUNDATION / ENGINEERING" title="Инженерный паспорт" description="Проверяем не только витрину: коллекции, modes, aliases, scopes, code syntax и опубликованные стили." nodeId="4:28" /><div className="ds-engineering-grid">{inventory.figma.collections.map((collection)=><article key={collection.name}><code>{collection.name}</code><strong>{collection.variables}</strong><span>variables · {collection.modes} mode(s)</span></article>)}</div><section className="ds-section"><h2>Контрольные показатели</h2><div className="ds-alias-table"><article><code>Aliases</code><span>Семантика и component collections</span><strong>{inventory.figma.variables.withAliases}</strong></article><article><code>Scopes</code><span>Заданы у всех переменных</span><strong>{inventory.figma.variables.withScopes}</strong></article><article><code>Code syntax</code><span>WEB syntax в Figma</span><strong>{inventory.figma.variables.withCodeSyntax}</strong></article><article><code>Local styles</code><span>Text / Paint / Grid / Effect</span><strong>{inventory.figma.styles.text} / 0 / 0 / 0</strong></article></div></section><section className="ds-section"><h2>Source conflicts <span>{inventory.sourceConflicts.length}</span></h2><div className="ds-conflict-list">{inventory.sourceConflicts.map((conflict)=><article key={conflict.area}><code>{conflict.severity.toUpperCase()} · {conflict.area}</code><strong>Утверждённая страница и Variables расходятся</strong><p>Только на странице: {conflict.pageOnlyTokens.join(', ')}.</p><span>{conflict.decision}</span></article>)}</div></section><section className="ds-section"><h2>Осознанные границы</h2><div className="ds-empty"><strong>Ничего не выдумываем</strong><p>Grid остаётся documentation-only, icons — inventory-only, shadows отсутствуют. Новые значения появляются только после решения в Figma и синхронизации token source.</p></div></section></main>;
 }
@@ -202,4 +334,5 @@ export const Radius: Story = { name: 'Радиусы', render: () => <MetricPage
 export const Stroke: Story = { name: 'Толщины линий', render: () => <MetricPage kind="Stroke" title="Толщины линий" nodeId="4:28" /> };
 export const Grid: Story = { name: 'Сетка', render: () => <GridPage /> };
 export const Icons: Story = { name: 'Иконки', render: () => <IconsPage /> };
+export const Motion: Story = { name: 'Motion', render: () => <MotionPage /> };
 export const Engineering: Story = { name: 'Инженерный паспорт', render: () => <EngineeringPage /> };

@@ -27,8 +27,8 @@ export default function ButtonPage() {
   return (
     <main className="content-page component-detail">
       <header className="component-title">
-        <div><div className="component-title__meta"><span className="eyebrow">КОМПОНЕНТ · WEB</span></div><h1>Button</h1><p>Запускает одно понятное действие пользователя: сохранить, продолжить, создать, подтвердить или удалить.</p></div>
-        <div className="component-title__toolbar"><div className="component-title__links"><ActionLink href={component.links.figma} target="_blank" rel="noreferrer" variant="secondary">Figma ↗</ActionLink><ActionLink href="/storybook/?path=/story/components-button--playground" variant="secondary">Открыть Playground ↗</ActionLink></div><span className="status component-title__status" data-status={component.status}>{statusLabels[component.status]}</span></div>
+        <div><span className="eyebrow">КОМПОНЕНТ · WEB</span><h1>Button</h1><p>Запускает одно понятное действие пользователя: сохранить, продолжить, создать, подтвердить или удалить.</p></div>
+        <div className="component-title__toolbar"><span className="status component-title__status" data-status={component.status}>{statusLabels[component.status]}</span><div className="component-title__links"><ActionLink href={component.links.figma} target="_blank" rel="noreferrer" variant="secondary">Figma ↗</ActionLink><ActionLink href="/storybook/?path=/story/components-button--playground" variant="secondary">Playground ↗</ActionLink></div></div>
       </header>
 
       <section className="content-section" id="usage">

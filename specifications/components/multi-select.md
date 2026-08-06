@@ -20,6 +20,10 @@ figma: "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1106-1005"
 - Active включает Listbox с `aria-multiselectable`.
 - `options`, `selectedValues` и `onSelectedValuesChange` образуют controlled API.
 - Каждый Value Tag имеет отдельную доступную кнопку удаления.
+- Chevron остаётся видимым при выбранных значениях. Компонент показывает все tags,
+  которые помещаются в доступную ширину; только реально не поместившиеся значения
+  сворачиваются в счётчик `+N`.
+- Pointer-раскрытие не задаёт active option до реального наведения; keyboard active задаётся Arrow Up/Down. `aria-selected` при этом продолжает честно отражать уже выбранные значения.
 
 ## Accessibility
 
@@ -27,6 +31,12 @@ figma: "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1106-1005"
 - Arrow Down открывает Listbox, Escape закрывает.
 - Options используют `role="option"` и `aria-selected`.
 - Кнопка удаления имеет имя `Удалить {label}`.
+
+## Motion
+
+- При pointer-раскрытии Multi-select Listbox появляется от верхней границы trigger через opacity и смещение 4px; клавиатурное раскрытие остаётся мгновенным.
+- Добавление и удаление values не задерживает обновление controlled state.
+- При `prefers-reduced-motion: reduce` смещение отключается.
 
 ## Acceptance criteria
 

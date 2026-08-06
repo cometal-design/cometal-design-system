@@ -11,7 +11,9 @@
   text-decoration-color: transparent;
   text-decoration-thickness: var(--cometal-primitive-stroke-200);
   text-underline-offset: var(--cometal-primitive-spacing-25);
-  transition: color 120ms ease, text-decoration-color 120ms ease;
+  transition:
+    color var(--cometal-motion-duration-state) var(--cometal-motion-easing-standard),
+    text-decoration-color var(--cometal-motion-duration-state) var(--cometal-motion-easing-standard);
 }
 
 .cometal-inline-link[data-touch-target='true'] {

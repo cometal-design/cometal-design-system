@@ -42,6 +42,13 @@ figma: "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1764-10502"
 - `read` выводит форматированное значение обычным текстом без input, button и tab-stop.
 - Disabled блокирует ручной ввод, раскрытие и выбор.
 
+## Motion
+
+- При pointer-раскрытии Calendar Panel появляется от trigger через opacity и смещение 4px за системную popover-длительность; клавиатурное раскрытие остаётся мгновенным.
+- При pointer-переходе предыдущий месяц входит слева, следующий — справа; сдвиг равен spacing-token 8px и затрагивает только opacity/transform.
+- Клавиатурные `Page Up/Down` меняют месяц без перехода, чтобы не замедлять навигацию.
+- При `prefers-reduced-motion: reduce` пространственное движение отключается.
+
 ## Accessibility
 
 - Visible label связан с input через `htmlFor` / `id`.

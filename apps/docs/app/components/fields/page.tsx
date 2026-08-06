@@ -1,6 +1,9 @@
 import type { Metadata } from 'next';
-import { ActionLink, Combobox, MultiSelect, Select, TextArea, TextField } from '@cometal/react';
+import { ActionLink, TextArea, TextField } from '@cometal/react';
 import { CodeExample } from '../../../components/code-example';
+import { ComboboxModeDemo } from '../../../components/combobox-mode-demo';
+import { MultiSelectModeDemo } from '../../../components/multi-select-mode-demo';
+import { SelectModeDemo } from '../../../components/select-mode-demo';
 import { SectionHeading } from '../../../components/section-heading';
 import { components, statusLabels } from '../../../lib/registry';
 import { usageExamples } from '../../../lib/usage-examples';
@@ -12,14 +15,12 @@ const fieldComponents = components.filter((item) => fieldComponentIds.has(item.i
 const firstField = fieldComponents[0]!;
 const fieldsUsage = usageExamples['input.fields'];
 const sourceHref = `https://github.com/cometal-design/cometal-design-system/blob/main/${firstField.links.source}`;
-const options = [{ value: 'active', label: 'Активный' }, { value: 'draft', label: 'Черновик' }];
-
 export default function FieldsPage() {
   return (
     <main className="content-page component-detail">
       <header className="component-title">
-        <div><div className="component-title__meta"><span className="eyebrow">ГРУППА КОМПОНЕНТОВ · WEB</span></div><h1>Fields</h1><p>Пять публичных полей с общей визуальной основой и разной семантикой: ввод текста, многострочный ввод, выбор, поиск и множественный выбор.</p></div>
-        <div className="component-title__toolbar"><div className="component-title__links"><ActionLink href="https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1096-42" target="_blank" rel="noreferrer" variant="secondary">Figma ↗</ActionLink><ActionLink href="/storybook/?path=/story/components-fields--overview" variant="secondary">Открыть Playground ↗</ActionLink></div><span className="status component-title__status" data-status={firstField.status}>{statusLabels[firstField.status]}</span></div>
+        <div><span className="eyebrow">ГРУППА КОМПОНЕНТОВ · WEB</span><h1>Fields</h1><p>Пять публичных полей с общей визуальной основой и разной семантикой: ввод текста, многострочный ввод, выбор, поиск и множественный выбор.</p></div>
+        <div className="component-title__toolbar"><span className="status component-title__status" data-status={firstField.status}>{statusLabels[firstField.status]}</span><div className="component-title__links"><ActionLink href="https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1096-42" target="_blank" rel="noreferrer" variant="secondary">Figma ↗</ActionLink><ActionLink href="/storybook/?path=/story/components-fields--fields-playground" variant="secondary">Playground ↗</ActionLink></div></div>
       </header>
 
       <section className="content-section" id="family">
@@ -27,9 +28,9 @@ export default function FieldsPage() {
         <div className="field-family-board">
           <article id="text-field"><header><code>input.text-field</code><h3>Text Field</h3></header><div className="field-family-board__examples"><TextField label="Название поля" placeholder="Введите значение" helperText="Подсказка или описание" /><TextField label="Название поля" mode="read" readValue="ООО Северсталь" /></div></article>
           <article id="text-area"><header><code>input.text-area</code><h3>Text Area</h3></header><div className="field-family-board__examples"><TextArea label="Комментарий" placeholder="Введите комментарий" helperText="До 500 символов" rows={4} /><TextArea label="Комментарий" mode="read" readValue="Условия поставки и порядок согласования изменений." /></div></article>
-          <article id="select"><header><code>input.select</code><h3>Select</h3></header><div className="field-family-board__examples"><Select label="Статус" options={options} helperText="Можно выбрать одно значение" defaultValue="" /><Select label="Статус" options={options} mode="read" readValue="Активный" /></div></article>
-          <article id="combobox"><header><code>input.combobox</code><h3>Combobox</h3></header><div className="field-family-board__examples"><Combobox label="Контрагент" placeholder="Найдите значение" helperText="Введите название или ИНН" /><Combobox label="Контрагент" mode="read" readValue="ООО Северсталь" /></div></article>
-          <article id="multi-select"><header><code>input.multi-select</code><h3>Multi Select</h3></header><div className="field-family-board__examples"><MultiSelect label="Контрагенты" selectedValues={['Северсталь', 'НЛМК', 'ММК']} helperText="Выбрано 3" /><MultiSelect label="Контрагенты" selectedValues={['ООО Северсталь', 'ПАО НЛМК', 'ПАО ММК']} mode="read" /></div></article>
+          <article id="select"><header><code>input.select</code><h3>Select</h3></header><SelectModeDemo /></article>
+          <article id="combobox"><header><code>input.combobox</code><h3>Combobox</h3></header><ComboboxModeDemo /></article>
+          <article id="multi-select"><header><code>input.multi-select</code><h3>Multi Select</h3></header><MultiSelectModeDemo /></article>
         </div>
       </section>
 

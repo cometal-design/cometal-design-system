@@ -1,0 +1,56 @@
+{
+  "Motion": {
+    "$description": "Interaction motion tokens owned by the React implementation. Motion describes behavior and is not sourced from Figma variables.",
+    "Duration": {
+      "State": {
+        "$type": "string",
+        "$value": "120ms"
+      },
+      "Fast": {
+        "$type": "string",
+        "$value": "160ms"
+      },
+      "Popover": {
+        "$type": "string",
+        "$value": "180ms"
+      },
+      "Spin": {
+        "$type": "string",
+        "$value": "700ms"
+      },
+      "Spin Reduced": {
+        "$type": "string",
+        "$value": "1400ms"
+      }
+    },
+    "Easing": {
+      "Standard": {
+        "$type": "cubicBezier",
+        "$value": [
+          0.25,
+          0.1,
+          0.25,
+          1
+        ]
+      },
+      "Enter": {
+        "$type": "cubicBezier",
+        "$value": [
+          0.16,
+          1,
+          0.3,
+          1
+        ]
+      },
+      "Linear": {
+        "$type": "cubicBezier",
+        "$value": [
+          0,
+          0,
+          1,
+          1
+        ]
+      }
+    }
+  }
+}

@@ -1,17 +1,24 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent, within } from 'storybook/test';
-import { Combobox, MultiSelect, Select, TextArea, TextField, fieldSizes } from '@cometal/react';
+import { Button, Combobox, MultiSelect, Select, TextArea, TextField, fieldSizes } from '@cometal/react';
 import { ComponentCodeExample } from './ComponentCodeExample';
 
 const FIGMA_URL = 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1096-42';
 const SOURCE_URL = 'https://github.com/cometal-design/cometal-design-system/blob/main/packages/react/src/Field/Field.tsx';
 const options = [
+  { value: 'new', label: 'Новый' },
+  { value: 'active', label: 'Активный' },
   { value: 'draft', label: 'Черновик' },
   { value: 'approval', label: 'На согласовании' },
-  { value: 'active', label: 'Активный' },
+  { value: 'waiting', label: 'Ожидает данных' },
+  { value: 'processing', label: 'В работе' },
+  { value: 'paused', label: 'Приостановлен' },
   { value: 'completed', label: 'Завершён' },
-  { value: 'archive', label: 'Архив', disabled: true },
+  { value: 'rejected', label: 'Отклонён' },
+  { value: 'cancelled', label: 'Отменён' },
+  { value: 'expired', label: 'Просрочен' },
+  { value: 'archived', label: 'Архивный', disabled: true },
 ];
 const contractorOptions = [
   { value: 'severstal', label: 'Северсталь' },
@@ -20,11 +27,15 @@ const contractorOptions = [
   { value: 'evraz', label: 'Евраз' },
   { value: 'nornickel', label: 'Норникель', disabled: true },
 ];
+const longOptions = Array.from({ length: 16 }, (_, index) => ({
+  value: `status-${index + 1}`,
+  label: `Статус ${index + 1}`,
+}));
 
 function SelectInteractionExample() {
   const [value, setValue] = useState('');
   return (
-    <div style={{ width: '100%', maxWidth: 480 }}>
+    <div className="ds-field-story-shell">
       <Select label="Статус" options={options} value={value} onValueChange={setValue} />
       <output aria-live="polite">Выбрано: {value || '—'}</output>
     </div>
@@ -34,9 +45,27 @@ function SelectInteractionExample() {
 function MultiSelectInteractionExample() {
   const [values, setValues] = useState<string[]>([]);
   return (
-    <div style={{ width: '100%', maxWidth: 480 }}>
+    <div className="ds-field-story-shell">
       <MultiSelect label="Контрагенты" selectedValues={values} options={contractorOptions} onSelectedValuesChange={setValues} />
       <output aria-live="polite">Выбрано: {values.join(', ') || '—'}</output>
+    </div>
+  );
+}
+
+function MultiSelectResponsiveExample() {
+  const [narrow, setNarrow] = useState(false);
+  return (
+    <div className="ds-field-responsive-demo">
+      <Button variant="secondary" size="s" onClick={() => setNarrow((current) => !current)}>
+        Сузить поле
+      </Button>
+      <div className={`ds-field-story-shell${narrow ? ' ds-field-story-shell--narrow' : ''}`}>
+        <MultiSelect
+          label="Контрагенты"
+          selectedValues={['severstal', 'nlmk', 'mmk', 'evraz']}
+          options={contractorOptions}
+        />
+      </div>
     </div>
   );
 }
@@ -44,7 +73,7 @@ function MultiSelectInteractionExample() {
 function ComboboxInteractionExample() {
   const [value, setValue] = useState('');
   return (
-    <div style={{ width: '100%', maxWidth: 480 }}>
+    <div className="ds-field-story-shell">
       <Combobox label="Контрагент" placeholder="Найдите значение" options={contractorOptions} onOptionSelect={setValue} />
       <output aria-live="polite">Выбрано: {value || '—'}</output>
     </div>
@@ -70,6 +99,25 @@ function FieldsDocumentation() {
   );
 }
 
+function FieldsPlaygroundExample() {
+  const [status, setStatus] = useState('');
+  const [contractor, setContractor] = useState('');
+  const [selectedContractors, setSelectedContractors] = useState<string[]>([]);
+
+  return (
+    <div className="ds-fields-playground">
+      <TextField label="Название поля" placeholder="Введите значение" helperText="Подсказка или описание" />
+      <TextArea label="Комментарий" placeholder="Введите комментарий" rows={4} />
+      <Select label="Статус" options={options} value={status} onValueChange={setStatus} />
+      <Combobox label="Контрагент" placeholder="Найдите значение" options={contractorOptions} onOptionSelect={setContractor} />
+      <MultiSelect label="Контрагенты" selectedValues={selectedContractors} options={contractorOptions} onSelectedValuesChange={setSelectedContractors} />
+      <output aria-live="polite">
+        Статус: {status || '—'} · Контрагент: {contractor || '—'} · Выбрано: {selectedContractors.length}
+      </output>
+    </div>
+  );
+}
+
 const meta = {
   title: 'Components/Fields',
   component: TextField,
@@ -85,6 +133,17 @@ export default meta;
 type Story = StoryObj<typeof meta>;
 
 export const Overview: Story = { name: 'Обзор', parameters: { layout: 'fullscreen', controls: { disable: true } }, render: () => <FieldsDocumentation />, play: async ({ canvasElement }) => { await expect(canvasElement.querySelector('[data-code-example="input.fields"] pre')).toHaveTextContent('<TextField'); } };
+export const FieldsPlayground: Story = {
+  name: 'Playground',
+  parameters: { controls: { disable: true } },
+  render: () => <FieldsPlaygroundExample />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByRole('textbox', { name: 'Название поля' })).toBeEnabled();
+    await expect(canvas.getByRole('combobox', { name: 'Статус' })).toHaveAttribute('aria-haspopup', 'listbox');
+    await expect(canvas.getByRole('combobox', { name: 'Контрагенты' })).toHaveAttribute('aria-haspopup', 'listbox');
+  },
+};
 export const TextFieldPlayground: Story = { name: 'Text Field', play: async ({ canvasElement }) => { const canvas = within(canvasElement); await expect(canvas.getByRole('textbox', { name: 'Название поля' })).toBeEnabled(); } };
 export const TextAreaPlayground: Story = { name: 'Text Area', render: () => <TextArea label="Комментарий" placeholder="Введите комментарий" rows={4} />, play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('textbox', { name: 'Комментарий' })).toBeInTheDocument(); } };
 export const SelectPlayground: Story = { name: 'Select', render: () => <Select label="Статус" options={options} defaultValue="" />, play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('combobox', { name: 'Статус' })).toHaveAttribute('aria-haspopup', 'listbox'); } };
@@ -93,19 +152,40 @@ export const MultiSelectPlayground: Story = { name: 'Multi Select', render: () =
 export const SelectActive: Story = {
   name: 'Select · Active Listbox',
   parameters: { controls: { disable: true } },
-  render: () => <div style={{ width: '100%', maxWidth: 480 }}><Select label="Статус" options={options} defaultValue="active" expanded /></div>,
-  play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('listbox')).toBeInTheDocument(); },
+  render: () => <div className="ds-field-story-shell"><Select label="Статус" options={options} defaultValue="active" expanded /></div>,
+  play: async ({ canvasElement }) => {
+    const listbox = within(canvasElement).getByRole('listbox');
+    await expect(listbox).toBeInTheDocument();
+    await expect(within(listbox).getAllByRole('option')).toHaveLength(12);
+    await expect(listbox.scrollHeight).toBeGreaterThan(listbox.clientHeight);
+  },
+};
+export const SelectLongList: Story = {
+  name: 'Select · Long List',
+  parameters: { controls: { disable: true } },
+  render: () => <div className="ds-field-story-shell"><Select label="Статус" options={longOptions} expanded /></div>,
+  play: async ({ canvasElement }) => {
+    const listbox = within(canvasElement).getByRole('listbox');
+    const listboxOptions = within(listbox).getAllByRole('option');
+    await expect(listboxOptions).toHaveLength(16);
+    await expect(listbox.scrollHeight).toBeGreaterThan(listbox.clientHeight);
+    await expect(listboxOptions[0]).not.toHaveAttribute('data-active');
+    await userEvent.hover(listboxOptions[0] as HTMLElement);
+    await expect(listboxOptions[0]).toHaveAttribute('data-active');
+    await userEvent.unhover(listboxOptions[0] as HTMLElement);
+    await expect(listboxOptions[0]).not.toHaveAttribute('data-active');
+  },
 };
 export const ComboboxActive: Story = {
   name: 'Combobox · Active Listbox',
   parameters: { controls: { disable: true } },
-  render: () => <div style={{ width: '100%', maxWidth: 480 }}><Combobox label="Контрагент" placeholder="Найдите значение" options={contractorOptions} defaultValue="НЛМК" expanded /></div>,
+  render: () => <div className="ds-field-story-shell"><Combobox label="Контрагент" placeholder="Найдите значение" options={contractorOptions} defaultValue="НЛМК" expanded /></div>,
   play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('listbox')).toBeInTheDocument(); },
 };
 export const MultiSelectActive: Story = {
   name: 'Multi Select · Active Listbox',
   parameters: { controls: { disable: true } },
-  render: () => <div style={{ width: '100%', maxWidth: 480 }}><MultiSelect label="Контрагенты" selectedValues={['severstal', 'mmk']} options={contractorOptions} expanded /></div>,
+  render: () => <div className="ds-field-story-shell"><MultiSelect label="Контрагенты" selectedValues={['severstal', 'mmk']} options={contractorOptions} expanded /></div>,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await expect(canvas.getByRole('listbox')).toHaveAttribute('aria-multiselectable', 'true');
@@ -121,8 +201,17 @@ export const SelectInteraction: Story = {
     const canvas = within(canvasElement);
     const trigger = canvas.getByRole('combobox', { name: 'Статус' });
     trigger.focus();
-    await userEvent.keyboard('{ArrowDown}{ArrowDown}{Enter}');
+    await userEvent.keyboard('{ArrowDown}{ArrowDown}{ArrowDown}{ArrowDown}{Enter}');
     await expect(canvas.getByText('Выбрано: approval')).toBeInTheDocument();
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    await userEvent.click(trigger);
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    const motion = getComputedStyle(canvas.getByRole('listbox'));
+    await expect(motion.transitionProperty).toContain('opacity');
+    await expect(motion.transitionProperty).toContain('transform');
+    await expect(motion.transitionDuration).toContain('0.16s');
+    await expect(motion.transitionDuration).toContain('0.18s');
+    await userEvent.click(canvas.getByText('Выбрано: approval'));
     await expect(trigger).toHaveAttribute('aria-expanded', 'false');
   },
 };
@@ -133,9 +222,25 @@ export const ComboboxInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const input = canvas.getByRole('combobox', { name: 'Контрагент' });
-    input.focus();
-    await userEvent.keyboard('{ArrowDown}{Enter}');
-    await expect(canvas.getByText('Выбрано: nlmk')).toBeInTheDocument();
+    await userEvent.click(input);
+    await expect(input).toHaveAttribute('aria-expanded', 'false');
+    await userEvent.type(input, 'zzz');
+    await expect(input).toHaveAttribute('aria-expanded', 'false');
+    await userEvent.clear(input);
+    await userEvent.type(input, 'сталь');
+    const listbox = canvas.getByRole('listbox');
+    await expect(within(listbox).getAllByRole('option')).toHaveLength(1);
+    const severstalOption = within(listbox).getByRole('option', { name: 'Северсталь' });
+    await expect(severstalOption).not.toHaveAttribute('data-active');
+    await userEvent.hover(severstalOption);
+    await expect(severstalOption).toHaveAttribute('data-active');
+    await userEvent.unhover(severstalOption);
+    await expect(severstalOption).not.toHaveAttribute('data-active');
+    await userEvent.keyboard('{ArrowDown}');
+    await expect(severstalOption).toHaveAttribute('data-active');
+    await userEvent.keyboard('{Enter}');
+    await expect(canvas.getByText('Выбрано: severstal')).toBeInTheDocument();
+    await expect(input).toHaveValue('Северсталь');
     await expect(input).toHaveAttribute('aria-expanded', 'false');
   },
 };
@@ -150,5 +255,19 @@ export const MultiSelectInteraction: Story = {
     await userEvent.keyboard('{ArrowDown}{Enter}{ArrowDown}{Enter}');
     await expect(canvas.getByText('Выбрано: severstal, nlmk')).toBeInTheDocument();
     await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    await expect(canvasElement.querySelector('.cometal-field__asset svg')).toBeInTheDocument();
+  },
+};
+export const MultiSelectResponsiveTags: Story = {
+  name: 'Multi Select · responsive tags',
+  parameters: { controls: { disable: true } },
+  render: () => <MultiSelectResponsiveExample />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    await expect(canvasElement.querySelector('.cometal-field__tags > .cometal-field__tag--counter')).not.toBeInTheDocument();
+    await userEvent.click(canvas.getByRole('button', { name: 'Сузить поле' }));
+    await new Promise((resolve) => setTimeout(resolve, 100));
+    await expect(canvasElement.querySelector('.cometal-field__tags > .cometal-field__tag--counter')).toBeInTheDocument();
   },
 };

@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Button, Checkbox, Combobox, DatePicker, MultiSelect, RadioButton, Select, Switch, TextArea, TextField } from '@cometal/react';
+import { ComponentCatalogPreview } from '../../components/component-catalog-preview';
 import { checksComplete, components, statusLabels } from '../../lib/registry';
 
 export const metadata: Metadata = { title: 'Компоненты' };
@@ -18,19 +18,6 @@ const catalogContent: Record<string, { href: string; description: string }> = {
   'selection.switch': { href: '/components/switch/', description: 'Мгновенно включает или выключает настройку.' },
 };
 
-function ComponentPreview({ id }: { id: string }) {
-  if (id === 'input.text-field') return <TextField label="Название поля" placeholder="Введите значение" />;
-  if (id === 'input.date-picker') return <DatePicker label="Дата поставки" defaultValue="2026-07-15" />;
-  if (id === 'input.text-area') return <TextArea label="Комментарий" placeholder="Введите комментарий" rows={3} />;
-  if (id === 'input.select') return <Select label="Статус" options={[{ value: 'active', label: 'Активный' }]} defaultValue="" />;
-  if (id === 'input.combobox') return <Combobox label="Контрагент" placeholder="Найдите значение" />;
-  if (id === 'input.multi-select') return <MultiSelect label="Контрагенты" selectedValues={['Северсталь', 'НЛМК']} />;
-  if (id === 'selection.checkbox') return <Checkbox label="Согласен с условиями" defaultChecked />;
-  if (id === 'selection.radio-button') return <RadioButton label="Выбрать вариант" name="catalog-radio" defaultChecked />;
-  if (id === 'selection.switch') return <Switch label="Получать уведомления" defaultChecked />;
-  return <Button>Продолжить</Button>;
-}
-
 export default function ComponentsPage() {
   return (
     <main className="content-page components-page">
@@ -45,8 +32,8 @@ export default function ComponentsPage() {
 
       <section className="component-catalog" aria-label="Каталог компонентов">
         {components.map((component) => (
-          <article className="component-card" key={component.id}>
-            <div className="component-card__preview"><div className="component-card__demo"><ComponentPreview id={component.id} /></div></div>
+          <article className="component-card" data-component-id={component.id} key={component.id}>
+            <div className="component-card__preview"><div className="component-card__demo"><ComponentCatalogPreview id={component.id} /></div></div>
             <div className="component-card__body">
               <div><code>{component.id}</code><span className="status" data-status={component.status}>{statusLabels[component.status] ?? component.status}</span></div>
               <h2><Link href={catalogContent[component.id]?.href ?? '/components/'}>{component.name}</Link></h2>
