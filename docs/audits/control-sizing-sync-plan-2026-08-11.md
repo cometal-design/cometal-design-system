@@ -2,7 +2,7 @@
 
 Date: 2026-08-11
 Source handoff: `/Users/vadim/Documents/Cometal/docs/handoffs/2026-08-11-control-sizing-table-density.md`
-Status: implementation and local QA complete; Git/Vercel publication pending
+Status: implementation, local QA, Git branch and Vercel preview complete; production merge pending
 
 ## Approved source contract
 
@@ -106,3 +106,6 @@ Completed on 2026-08-11.
 - Builds: tokens, React, Storybook and docs passed; docs produced 31 routes.
 - Source registry and secret validation passed.
 - Table remains documentation-only in this pass; no React component or public density API was introduced.
+- Git: commit `2537d42` on `agent/control-sizing-sync`; draft PR `#1`.
+- Vercel preview: deployment `dpl_HrdnaPCSYGYvKzgKYBhUeNmdeAE5` reached `READY` for the exact commit.
+- Preview browser verification: portal home, Foundation Sizes, Button sizing canvas and Fields sizing canvas load without visible errors; deployed geometry matches the local measurements.
