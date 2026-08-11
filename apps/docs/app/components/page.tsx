@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { ComponentCatalogPreview } from '../../components/component-catalog-preview';
+import { MetadataStrip } from '../../components/metadata-strip';
+import { PageHeader } from '../../components/page-header';
 import { checksComplete, components, statusLabels } from '../../lib/registry';
 
 export const metadata: Metadata = { title: 'Компоненты' };
@@ -21,14 +23,22 @@ const catalogContent: Record<string, { href: string; description: string }> = {
 export default function ComponentsPage() {
   return (
     <main className="content-page components-page">
-      <header className="page-header page-header--with-stat">
-        <div><span className="eyebrow">КОМПОНЕНТЫ</span><h1>Каталог компонентов</h1><p>Единый каталог реализованных компонентов. Карточка появляется здесь из реестра Git, а не добавляется вручную.</p></div>
-        <div className="page-stat"><strong>{components.length}</strong><span>компонентов в реестре</span></div>
-      </header>
+      <PageHeader
+        eyebrow="КОМПОНЕНТЫ"
+        title="Каталог компонентов"
+        description="Единый каталог реализованных компонентов. Карточка появляется здесь из реестра Git, а не добавляется вручную."
+        stat={{ value: components.length, label: 'компонентов в реестре' }}
+      />
 
-      <section className="catalog-toolbar" aria-label="Сводка каталога">
-        <span>Web · React</span><span>{components.filter((component) => component.status === 'ready').length} Ready</span><span>{components.filter((component) => component.status === 'in-review').length} In review</span>
-      </section>
+      <MetadataStrip
+        ariaLabel="Сводка каталога"
+        bottomDivider
+        items={[
+          'Web · React',
+          `${components.filter((component) => component.status === 'ready').length} Ready`,
+          `${components.filter((component) => component.status === 'in-review').length} In review`,
+        ]}
+      />
 
       <section className="component-catalog" aria-label="Каталог компонентов">
         {components.map((component) => (

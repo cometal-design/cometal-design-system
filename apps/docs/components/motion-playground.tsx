@@ -1,7 +1,13 @@
 'use client';
 
-import { Button, Switch } from '@cometal/react';
+import { Button, Select, Switch } from '@cometal/react';
 import { useState } from 'react';
+
+const exampleOptions = [
+  { value: 'active', label: 'Активный' },
+  { value: 'approval', label: 'На согласовании' },
+  { value: 'completed', label: 'Завершён' },
+];
 
 export function MotionPlayground() {
   const [run, setRun] = useState(0);
@@ -27,13 +33,8 @@ export function MotionPlayground() {
         </div>
       </div>
       <div className="portal-motion-playground__stage">
-        <div className="portal-motion-playground__trigger" aria-hidden="true">
-          Выберите значение <span>⌄</span>
-        </div>
-        <div className="portal-motion-playground__popover" key={`${run}-${reduced}`} aria-hidden="true">
-          <span>Активный</span>
-          <span>На согласовании</span>
-          <span>Завершён</span>
+        <div className="portal-motion-playground__example" key={`${run}-${reduced}`}>
+          <Select label="Статус" options={exampleOptions} size="m" defaultExpanded />
         </div>
       </div>
     </div>

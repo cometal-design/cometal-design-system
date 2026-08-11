@@ -17,7 +17,7 @@ Listbox с результатами.
 ## Спецификация компонента
 
 - Нативный input получает `role="combobox"`, `aria-expanded` и связь с listbox.
-- Размеры: `l` и `m`; режимы: `edit` и `read`.
+- Размеры используют общую шкалу controls: `l` = 48px, `m` = 40px, `s` = 32px; режимы: `edit` и `read`.
 - Search icon является частью композиции, но декоративен для screen reader.
 - `options`, `expanded/defaultExpanded/onExpandedChange` и `onOptionSelect`
   образуют публичный interaction API.

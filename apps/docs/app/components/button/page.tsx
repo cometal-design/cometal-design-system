@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
-import { ActionLink, Button } from '@cometal/react';
+import { Button } from '@cometal/react';
 import type { ButtonVariant } from '@cometal/react';
 import { CodeExample } from '../../../components/code-example';
+import { ComponentPageHeader } from '../../../components/component-page-header';
 import { components, statusLabels } from '../../../lib/registry';
 import { SectionHeading } from '../../../components/section-heading';
 import { usageExamples } from '../../../lib/usage-examples';
@@ -26,10 +27,14 @@ function ArrowIcon() {
 export default function ButtonPage() {
   return (
     <main className="content-page component-detail">
-      <header className="component-title">
-        <div><span className="eyebrow">КОМПОНЕНТ · WEB</span><h1>Button</h1><p>Запускает одно понятное действие пользователя: сохранить, продолжить, создать, подтвердить или удалить.</p></div>
-        <div className="component-title__toolbar"><span className="status component-title__status" data-status={component.status}>{statusLabels[component.status]}</span><div className="component-title__links"><ActionLink href={component.links.figma} target="_blank" rel="noreferrer" variant="secondary">Figma ↗</ActionLink><ActionLink href="/storybook/?path=/story/components-button--playground" variant="secondary">Playground ↗</ActionLink></div></div>
-      </header>
+      <ComponentPageHeader
+        title="Button"
+        summary="Запускает одно понятное действие пользователя: сохранить, продолжить, создать, подтвердить или удалить."
+        status={component.status}
+        statusLabel={statusLabels[component.status]}
+        figmaHref={component.links.figma}
+        playgroundHref="/storybook/?path=/story/components-button--playground"
+      />
 
       <section className="content-section" id="usage">
         <SectionHeading title="Использование" description="Кнопка выполняет действие. Для обычного перехода используйте ссылку, для переключения режима — Toggle." />
@@ -53,7 +58,7 @@ export default function ButtonPage() {
         <div className="size-list size-list--compositions">
           {buttonSizes.map((size) => (
             <article key={size}>
-              <div className="size-list__size"><strong>{size.toUpperCase()}</strong><span>{size === 'l' ? 44 : size === 'm' ? 36 : 28}px</span></div>
+              <div className="size-list__size"><strong>{size.toUpperCase()}</strong><span>{size === 'l' ? 48 : size === 'm' ? 40 : 32}px</span></div>
               <div className="size-list__examples">
                 <div className="size-list__example"><span>Текст</span><Button size={size}>Продолжить</Button></div>
                 <div className="size-list__example"><span>Иконка слева</span><Button size={size} startIcon={<ArrowIcon />}>Продолжить</Button></div>

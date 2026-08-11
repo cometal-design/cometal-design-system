@@ -17,7 +17,7 @@ form-value и совместимость с HTML-формами.
 
 ## Спецификация компонента
 
-- Размеры: `l` и `m`; режимы: `edit` и `read`.
+- Размеры используют общую шкалу controls: `l` = 48px, `m` = 40px, `s` = 32px; режимы: `edit` и `read`.
 - Состояния: default, hover, filled, error, disabled, focus-visible и active.
 - `expanded/defaultExpanded/onExpandedChange` управляют раскрытием.
 - `value/defaultValue/onValueChange` управляют выбранным значением.

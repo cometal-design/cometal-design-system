@@ -7501,6 +7501,20 @@
             "name": "Size/44"
           }
         }
+      },
+      "48": {
+        "$type": "dimension",
+        "$value": {
+          "value": 48,
+          "unit": "px"
+        },
+        "$extensions": {
+          "com.cometal.figma": {
+            "id": "VariableID:1977:2",
+            "key": "fc69ed5adcb2cf2f9fcf9bf30562637979037cff",
+            "name": "Size/48"
+          }
+        }
       }
     },
     "Stroke": {

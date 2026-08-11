@@ -38,7 +38,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 ## Variants and sizes
 
 - Варианты: `primary`, `secondary`, `ghost`, `link`, `danger`, `success`, `warning`, `inverse`, `inverse-ghost`.
-- Размеры: `l` = 44px, `m` = 36px, `s` = 28px.
+- Размеры используют общую шкалу controls: `l` = 48px, `m` = 40px, `s` = 32px.
 - Композиции: текст; иконка слева + текст; текст + иконка справа; только иконка.
 - В одной локальной области рекомендуется один `primary`.
 - `ghost`, `inverse` и `inverse-ghost` используются только на поверхности, для которой рассчитан их контраст.
@@ -115,6 +115,7 @@ interface ButtonProps extends ButtonHTMLAttributes<HTMLButtonElement> {
 
 - `Semantic.Color.Button.*`
 - `Semantic.Size.Button.*`
+- `Semantic.Size.Control.*`
 - `Semantic.Size.Icon.Button.*`
 - `Semantic.Spacing.Button.*`
 - `Semantic.Radius.Button`

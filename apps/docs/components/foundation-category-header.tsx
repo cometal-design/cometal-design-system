@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useEffect, useRef } from 'react';
 import type { FoundationTab } from '../lib/navigation';
+import { PageHeader } from './page-header';
 
 export function FoundationCategoryHeader({
   title,
@@ -31,11 +32,7 @@ export function FoundationCategoryHeader({
 
   return (
     <>
-      <header className="page-header foundation-category-header" data-has-tabs={hasTabs || undefined}>
-        <span className="eyebrow">FOUNDATION</span>
-        <h1>{title}</h1>
-        <p>{description}</p>
-      </header>
+      <PageHeader eyebrow="FOUNDATION" title={title} description={description} className="foundation-category-header" hasTabs={hasTabs} />
 
       {hasTabs ? (
         <nav className="foundation-tabs" ref={tabsRef} aria-label={`Разделы категории «${title}»`}>

@@ -1,4 +1,5 @@
 import type { Metadata } from 'next';
+import { PageHeader } from '../../components/page-header';
 import { SectionHeading } from '../../components/section-heading';
 
 export const metadata: Metadata = { title: 'Документация' };
@@ -14,11 +15,11 @@ const sources = [
 export default function DocumentationPage() {
   return (
     <main className="content-page">
-      <header className="page-header">
-        <span className="eyebrow">ДОКУМЕНТАЦИЯ</span>
-        <h1>Как устроена дизайн-система</h1>
-        <p>Cometal Design System — не отдельный Figma-файл и не библиотека React. Это согласованный процесс от визуального решения до проверенного компонента в продукте.</p>
-      </header>
+      <PageHeader
+        eyebrow="ДОКУМЕНТАЦИЯ"
+        title="Как устроена дизайн-система"
+        description="Cometal Design System — не отдельный Figma-файл и не библиотека React. Это согласованный процесс от визуального решения до проверенного компонента в продукте."
+      />
 
       <section className="content-section" id="sources">
         <SectionHeading title="Источники истины" description="Каждый источник отвечает только за свою часть. Портал показывает их состояние, но не заменяет их." />

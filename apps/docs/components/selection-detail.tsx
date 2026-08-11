@@ -1,8 +1,9 @@
-import { ActionLink, Checkbox, RadioButton, Switch } from '@cometal/react';
+import { Checkbox, RadioButton, Switch } from '@cometal/react';
 import type { ReactNode } from 'react';
 import { components, statusLabels } from '../lib/registry';
 import { usageExamples } from '../lib/usage-examples';
 import { CodeExample } from './code-example';
+import { ComponentPageHeader } from './component-page-header';
 import { SectionHeading } from './section-heading';
 
 type Kind = 'checkbox' | 'radio-button' | 'switch';
@@ -34,7 +35,14 @@ export function SelectionDetail({ kind }: { kind: Kind }) {
   const extraValue: ReactNode = kind === 'checkbox' ? <article><code>Mixed</code><Example kind={kind} state="mixed" /></article> : null;
   return (
     <main className="content-page component-detail">
-      <header className="component-title"><div><span className="eyebrow">КОМПОНЕНТ · WEB</span><h1>{copy.title}</h1><p>{copy.summary}</p></div><div className="component-title__toolbar"><span className="status component-title__status" data-status={component.status}>{statusLabels[component.status]}</span><div className="component-title__links"><ActionLink href={`https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=${copy.figma}`} target="_blank" rel="noreferrer" variant="secondary">Figma ↗</ActionLink><ActionLink href={`/storybook/?path=/story/${copy.story}`} variant="secondary">Playground ↗</ActionLink></div></div></header>
+      <ComponentPageHeader
+        title={copy.title}
+        summary={copy.summary}
+        status={component.status}
+        statusLabel={statusLabels[component.status]}
+        figmaHref={`https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=${copy.figma}`}
+        playgroundHref={`/storybook/?path=/story/${copy.story}`}
+      />
       <section className="content-section" id="usage"><SectionHeading title="Использование" description="Label является частью компонента и увеличивает кликабельную область нативного control." /><div className="guidance"><article data-tone="positive"><strong>Используйте</strong><p>{copy.use}</p></article><article data-tone="negative"><strong>Не используйте</strong><p>{copy.avoid}</p></article></div></section>
       <section className="content-section" id="code"><SectionHeading title="Код" description="Скопируйте установку, импорт или минимальный рабочий пример, соответствующий нативной семантике компонента." /><CodeExample componentName={component.name} sourceHref={sourceHref} usage={usage} /></section>
       <section className="content-section" id="values"><SectionHeading title="Значения и состояния" description="Hover, pressed и focus проверяются реальным взаимодействием; disabled передаётся приложением." /><div className="selection-value-board"><article><code>{kind === 'switch' ? 'Off' : kind === 'radio-button' ? 'Not selected' : 'Unchecked'}</code><Example kind={kind} state="off" /></article><article><code>{kind === 'switch' ? 'On' : kind === 'radio-button' ? 'Selected' : 'Checked'}</code><Example kind={kind} state="on" /></article>{extraValue}<article><code>Disabled</code><Example kind={kind} state="disabled" /></article></div></section>

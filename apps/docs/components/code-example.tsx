@@ -1,7 +1,7 @@
 'use client';
 
 import { useState } from 'react';
-import { Button } from '@cometal/react';
+import { Button, InlineLink } from '@cometal/react';
 import type { UsageExample } from '../lib/usage-examples';
 
 type CodeTab = 'install' | 'import' | 'example';
@@ -34,7 +34,7 @@ export function CodeExample({ componentName, sourceHref, usage }: { componentNam
           <span>REACT · {usage.packageName}</span>
           <strong>{componentName}</strong>
         </div>
-        <a href={sourceHref} target="_blank" rel="noreferrer">Исходник ↗</a>
+        <InlineLink href={sourceHref} target="_blank" rel="noreferrer">Исходник ↗</InlineLink>
       </div>
       <div className="component-code-example__toolbar">
         <div role="tablist" aria-label={`Код подключения ${componentName}`}>

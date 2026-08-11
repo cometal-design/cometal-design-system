@@ -16,6 +16,13 @@ function currentSection(pathname: string) {
   return section;
 }
 
+function isPrimaryItemActive(pathname: string, item: (typeof primaryNavigation)[number]) {
+  if (item.external) return false;
+  const section = currentSection(pathname);
+  if (item.activeSections) return item.activeSections.includes(section);
+  return pathname.startsWith(item.href);
+}
+
 function MenuIcon({ open }: { open: boolean }) {
   return (
     <span className="menu-icon" data-open={open || undefined} aria-hidden="true">
@@ -51,7 +58,7 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
         <div className="topbar__group">
           <nav className="primary-nav" aria-label="Основные разделы">
             {primaryNavigation.map((item) => {
-              const active = item.external ? false : pathname.startsWith(item.href);
+              const active = isPrimaryItemActive(pathname, item);
               return item.external ? (
                 <a key={item.href} href={item.href} className="primary-nav__link primary-nav__link--playground">
                   {item.label}<span aria-hidden="true">↗</span>
@@ -82,7 +89,7 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
 
         <nav className="mobile-navigation" id="mobile-navigation" hidden={!menuOpen} aria-label="Основные разделы">
           {primaryNavigation.map((item) => {
-            const active = item.external ? false : pathname.startsWith(item.href);
+            const active = isPrimaryItemActive(pathname, item);
             return item.external ? (
               <a key={item.href} href={item.href}>{item.label}<span aria-hidden="true">↗</span></a>
             ) : (

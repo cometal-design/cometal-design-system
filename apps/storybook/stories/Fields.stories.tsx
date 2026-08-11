@@ -91,9 +91,12 @@ function FieldsDocumentation() {
         <article><header><code>Combobox</code><span>input + listbox pattern</span></header><div><Combobox label="Контрагент" placeholder="Найдите значение" /><Combobox label="Контрагент" mode="read" readValue="ООО Северсталь" /></div></article>
         <article><header><code>MultiSelect</code><span>button + listbox pattern</span></header><div><MultiSelect label="Контрагенты" selectedValues={['Северсталь', 'НЛМК', 'ММК']} /><MultiSelect label="Контрагенты" selectedValues={['Северсталь', 'НЛМК', 'ММК']} mode="read" /></div></article>
       </div></section>
-      <section className="ds-component-section"><div className="ds-component-section__intro"><span>02</span><div><h2>Состояния Text Field</h2><p>Focus остаётся независимым от filled/error и появляется от клавиатуры.</p></div></div><div className="ds-field-states"><article><code>Default</code><TextField label="Название поля" placeholder="Введите значение" /></article><article><code>Filled</code><TextField label="Название поля" defaultValue="Договор поставки" /></article><article><code>Error</code><TextField label="Название поля" defaultValue="123" error="Проверьте значение" /></article><article><code>Disabled</code><TextField label="Название поля" disabled placeholder="Недоступно" /></article></div></section>
-      <section className="ds-component-section"><div className="ds-component-section__intro"><span>03</span><div><h2>API и границы</h2><p>Active Select, Combobox и Multi Select включают тот же Listbox/Option слой, который утверждён внутри Figma component sets.</p></div></div><div className="ds-rule-list"><article><code>mode</code><p><b>edit</b> использует интерактивный control; <b>read</b> выводит обычный текст.</p></article><article><code>error</code><p>Меняет border/supporting text и выставляет <b>aria-invalid</b>.</p></article><article><code>form semantics</code><p>Text controls нативны; Select сохраняет скрытый native select для form-value, а видимый trigger/Listbox обеспечивает точный визуал и keyboard behavior.</p></article></div></section>
-      <section className="ds-component-section"><div className="ds-component-section__intro"><span>04</span><div><h2>Код</h2><p>Установка, импорт и один базовый пример показывают все пять публичных компонентов family.</p></div></div><ComponentCodeExample componentId="input.fields" componentName="Fields" sourceHref={SOURCE_URL} /></section>
+      <section className="ds-component-section"><div className="ds-component-section__intro"><span>02</span><div><h2>Размеры однострочных controls</h2><p>Text Field, Select и Combobox используют общую шкалу S 32px, M 40px и L 48px. Text Area и Multi Select остаются в M/L.</p></div></div><div className="ds-field-size-grid">
+        {fieldSizes.map((size) => <article key={size}><code>{size.toUpperCase()} · {size === 'l' ? '48' : size === 'm' ? '40' : '32'}px</code><TextField label="Название поля" placeholder="Введите значение" size={size} /><Select label="Статус" options={options} size={size} /><Combobox label="Контрагент" placeholder="Найдите значение" size={size} options={contractorOptions} /></article>)}
+      </div></section>
+      <section className="ds-component-section"><div className="ds-component-section__intro"><span>03</span><div><h2>Состояния Text Field</h2><p>Focus остаётся независимым от filled/error и появляется от клавиатуры.</p></div></div><div className="ds-field-states"><article><code>Default</code><TextField label="Название поля" placeholder="Введите значение" /></article><article><code>Filled</code><TextField label="Название поля" defaultValue="Договор поставки" /></article><article><code>Error</code><TextField label="Название поля" defaultValue="123" error="Проверьте значение" /></article><article><code>Disabled</code><TextField label="Название поля" disabled placeholder="Недоступно" /></article></div></section>
+      <section className="ds-component-section"><div className="ds-component-section__intro"><span>04</span><div><h2>API и границы</h2><p>Active Select, Combobox и Multi Select включают тот же Listbox/Option слой, который утверждён внутри Figma component sets.</p></div></div><div className="ds-rule-list"><article><code>size</code><p><b>TextField, Select, Combobox:</b> l / m / s. <b>TextArea, MultiSelect:</b> l / m.</p></article><article><code>mode</code><p><b>edit</b> использует интерактивный control; <b>read</b> выводит обычный текст.</p></article><article><code>error</code><p>Меняет border/supporting text и выставляет <b>aria-invalid</b>.</p></article><article><code>form semantics</code><p>Text controls нативны; Select сохраняет скрытый native select для form-value, а видимый trigger/Listbox обеспечивает точный визуал и keyboard behavior.</p></article></div></section>
+      <section className="ds-component-section"><div className="ds-component-section__intro"><span>05</span><div><h2>Код</h2><p>Установка, импорт и один базовый пример показывают все пять публичных компонентов family.</p></div></div><ComponentCodeExample componentId="input.fields" componentName="Fields" sourceHref={SOURCE_URL} /></section>
       <aside className="ds-review-note"><strong>Статус: In review</strong><p>Визуал, API, Active Listbox и автоматические проверки готовы. Продуктовый пилот остаётся отдельным quality gate.</p></aside>
     </main>
   );
@@ -142,6 +145,19 @@ export const FieldsPlayground: Story = {
     await expect(canvas.getByRole('textbox', { name: 'Название поля' })).toBeEnabled();
     await expect(canvas.getByRole('combobox', { name: 'Статус' })).toHaveAttribute('aria-haspopup', 'listbox');
     await expect(canvas.getByRole('combobox', { name: 'Контрагенты' })).toHaveAttribute('aria-haspopup', 'listbox');
+  },
+};
+export const SizingContract: Story = {
+  name: 'Размеры · single-line 32 / 40 / 48',
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="ds-control-sizing-story">
+      {fieldSizes.map((size) => <TextField key={size} label={`${size.toUpperCase()} · ${size === 'l' ? '48' : size === 'm' ? '40' : '32'}px`} size={size} placeholder="Введите значение" />)}
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const controls = Array.from(canvasElement.querySelectorAll<HTMLElement>('.cometal-field__control'));
+    await expect(controls.map((control) => control.getBoundingClientRect().height)).toEqual([48, 40, 32]);
   },
 };
 export const TextFieldPlayground: Story = { name: 'Text Field', play: async ({ canvasElement }) => { const canvas = within(canvasElement); await expect(canvas.getByRole('textbox', { name: 'Название поля' })).toBeEnabled(); } };

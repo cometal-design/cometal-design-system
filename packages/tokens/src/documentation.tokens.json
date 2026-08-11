@@ -1,0 +1,71 @@
+{
+  "Documentation": {
+    "$description": "Code-owned presentation tokens shared by the documentation portal and Storybook. These roles describe technical content rather than product UI or Figma text styles.",
+    "Typography": {
+      "Technical": {
+        "Font Family": {
+          "$type": "string",
+          "$value": "ui-monospace, SFMono-Regular, Menlo, monospace"
+        }
+      }
+    },
+    "Layout": {
+      "Width": {
+        "Sidebar": { "$type": "dimension", "$value": { "value": 260, "unit": "px" } },
+        "Mobile Navigation": { "$type": "dimension", "$value": { "value": 360, "unit": "px" } },
+        "Content": { "$type": "dimension", "$value": { "value": 1240, "unit": "px" } },
+        "Hero": { "$type": "dimension", "$value": { "value": 1040, "unit": "px" } },
+        "Hero Logo": { "$type": "dimension", "$value": { "value": 528, "unit": "px" } },
+        "Hero Logo Mobile": { "$type": "dimension", "$value": { "value": 360, "unit": "px" } },
+        "Page Header": { "$type": "dimension", "$value": { "value": 860, "unit": "px" } },
+        "Copy Large": { "$type": "dimension", "$value": { "value": 820, "unit": "px" } },
+        "Copy Medium": { "$type": "dimension", "$value": { "value": 760, "unit": "px" } },
+        "Copy Section": { "$type": "dimension", "$value": { "value": 680, "unit": "px" } },
+        "Copy Small": { "$type": "dimension", "$value": { "value": 620, "unit": "px" } },
+        "Copy Guidance": { "$type": "dimension", "$value": { "value": 480, "unit": "px" } },
+        "Copy Theme": { "$type": "dimension", "$value": { "value": 420, "unit": "px" } },
+        "Copy Catalog": { "$type": "dimension", "$value": { "value": 720, "unit": "px" } },
+        "Definition Title": { "$type": "dimension", "$value": { "value": 220, "unit": "px" } },
+        "Definition Index": { "$type": "dimension", "$value": { "value": 36, "unit": "px" } },
+        "Type Label Mobile": { "$type": "dimension", "$value": { "value": 160, "unit": "px" } },
+        "Type Specimen Minimum": { "$type": "dimension", "$value": { "value": 260, "unit": "px" } },
+        "Metric Label Minimum": { "$type": "dimension", "$value": { "value": 140, "unit": "px" } },
+        "Metric Value": { "$type": "dimension", "$value": { "value": 64, "unit": "px" } },
+        "Table Minimum": { "$type": "dimension", "$value": { "value": 920, "unit": "px" } },
+        "Swatch Minimum": { "$type": "dimension", "$value": { "value": 144, "unit": "px" } }
+      },
+      "Height": {
+        "Definition Row": { "$type": "dimension", "$value": { "value": 92, "unit": "px" } },
+        "Process Stage": { "$type": "dimension", "$value": { "value": 216, "unit": "px" } },
+        "Color Ramp": { "$type": "dimension", "$value": { "value": 220, "unit": "px" } },
+        "Color Ramp Mobile": { "$type": "dimension", "$value": { "value": 360, "unit": "px" } },
+        "Foundation Link": { "$type": "dimension", "$value": { "value": 150, "unit": "px" } },
+        "Catalog Row": { "$type": "dimension", "$value": { "value": 112, "unit": "px" } },
+        "Theme Preview": { "$type": "dimension", "$value": { "value": 240, "unit": "px" } },
+        "Swatch": { "$type": "dimension", "$value": { "value": 88, "unit": "px" } },
+        "Data Row": { "$type": "dimension", "$value": { "value": 58, "unit": "px" } },
+        "Data Head": { "$type": "dimension", "$value": { "value": 42, "unit": "px" } },
+        "Type Row": { "$type": "dimension", "$value": { "value": 132, "unit": "px" } },
+        "Metric Track": { "$type": "dimension", "$value": { "value": 18, "unit": "px" } },
+        "Metric Bar": { "$type": "dimension", "$value": { "value": 14, "unit": "px" } },
+        "Theme Sample": { "$type": "dimension", "$value": { "value": 320, "unit": "px" } },
+        "Theme Role": { "$type": "dimension", "$value": { "value": 60, "unit": "px" } },
+        "Icon Card": { "$type": "dimension", "$value": { "value": 190, "unit": "px" } },
+        "Icon Card Mobile": { "$type": "dimension", "$value": { "value": 160, "unit": "px" } },
+        "Metadata": { "$type": "dimension", "$value": { "value": 52, "unit": "px" } },
+        "Component Preview": { "$type": "dimension", "$value": { "value": 250, "unit": "px" } },
+        "Guidance": { "$type": "dimension", "$value": { "value": 170, "unit": "px" } },
+        "Variant": { "$type": "dimension", "$value": { "value": 164, "unit": "px" } },
+        "State": { "$type": "dimension", "$value": { "value": 176, "unit": "px" } },
+        "Code": { "$type": "dimension", "$value": { "value": 232, "unit": "px" } },
+        "Code Toolbar": { "$type": "dimension", "$value": { "value": 56, "unit": "px" } },
+        "Code Mobile": { "$type": "dimension", "$value": { "value": 280, "unit": "px" } },
+        "Field Row": { "$type": "dimension", "$value": { "value": 260, "unit": "px" } },
+        "Field State": { "$type": "dimension", "$value": { "value": 190, "unit": "px" } },
+        "Selection": { "$type": "dimension", "$value": { "value": 160, "unit": "px" } },
+        "Empty State": { "$type": "dimension", "$value": { "value": 420, "unit": "px" } },
+        "Empty State Mobile": { "$type": "dimension", "$value": { "value": 360, "unit": "px" } }
+      }
+    }
+  }
+}

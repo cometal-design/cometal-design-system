@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
-import { ActionLink, TextArea, TextField } from '@cometal/react';
+import { Combobox, Select, TextArea, TextField } from '@cometal/react';
 import { CodeExample } from '../../../components/code-example';
+import { ComponentPageHeader } from '../../../components/component-page-header';
 import { ComboboxModeDemo } from '../../../components/combobox-mode-demo';
 import { MultiSelectModeDemo } from '../../../components/multi-select-mode-demo';
 import { SelectModeDemo } from '../../../components/select-mode-demo';
@@ -15,13 +16,23 @@ const fieldComponents = components.filter((item) => fieldComponentIds.has(item.i
 const firstField = fieldComponents[0]!;
 const fieldsUsage = usageExamples['input.fields'];
 const sourceHref = `https://github.com/cometal-design/cometal-design-system/blob/main/${firstField.links.source}`;
+const documentedFieldSizes = ['l', 'm', 's'] as const;
+const fieldSizeOptions = [
+  { value: 'draft', label: 'Черновик' },
+  { value: 'active', label: 'Активный' },
+];
 export default function FieldsPage() {
   return (
     <main className="content-page component-detail">
-      <header className="component-title">
-        <div><span className="eyebrow">ГРУППА КОМПОНЕНТОВ · WEB</span><h1>Fields</h1><p>Пять публичных полей с общей визуальной основой и разной семантикой: ввод текста, многострочный ввод, выбор, поиск и множественный выбор.</p></div>
-        <div className="component-title__toolbar"><span className="status component-title__status" data-status={firstField.status}>{statusLabels[firstField.status]}</span><div className="component-title__links"><ActionLink href="https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1096-42" target="_blank" rel="noreferrer" variant="secondary">Figma ↗</ActionLink><ActionLink href="/storybook/?path=/story/components-fields--fields-playground" variant="secondary">Playground ↗</ActionLink></div></div>
-      </header>
+      <ComponentPageHeader
+        eyebrow="ГРУППА КОМПОНЕНТОВ · WEB"
+        title="Fields"
+        summary="Пять публичных полей с общей визуальной основой и разной семантикой: ввод текста, многострочный ввод, выбор, поиск и множественный выбор."
+        status={firstField.status}
+        statusLabel={statusLabels[firstField.status]}
+        figmaHref="https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1096-42"
+        playgroundHref="/storybook/?path=/story/components-fields--fields-playground"
+      />
 
       <section className="content-section" id="family">
         <SectionHeading title="Пять компонентов" description="Mode=Read не копирует disabled-поле: рамка и интерактивность полностью исчезают." />
@@ -31,6 +42,20 @@ export default function FieldsPage() {
           <article id="select"><header><code>input.select</code><h3>Select</h3></header><SelectModeDemo /></article>
           <article id="combobox"><header><code>input.combobox</code><h3>Combobox</h3></header><ComboboxModeDemo /></article>
           <article id="multi-select"><header><code>input.multi-select</code><h3>Multi Select</h3></header><MultiSelectModeDemo /></article>
+        </div>
+      </section>
+
+      <section className="content-section" id="sizes">
+        <SectionHeading title="Размеры однострочных controls" description="Text Field, Select и Combobox используют общую шкалу S 32px, M 40px и L 48px. Text Area и Multi Select остаются в M/L." />
+        <div className="field-size-board">
+          {documentedFieldSizes.map((size) => (
+            <article key={size}>
+              <code>{size.toUpperCase()} · {size === 'l' ? '48' : size === 'm' ? '40' : '32'}px</code>
+              <TextField label="Название поля" placeholder="Введите значение" size={size} />
+              <Select label="Статус" options={fieldSizeOptions} size={size} />
+              <Combobox label="Контрагент" placeholder="Найдите значение" options={fieldSizeOptions} size={size} />
+            </article>
+          ))}
         </div>
       </section>
 
@@ -57,7 +82,7 @@ export default function FieldsPage() {
 
       <section className="content-section" id="api">
         <SectionHeading title="Общий React API" description="Каждый компонент расширяет нативные props своего HTML-элемента." />
-        <div className="api-table"><div className="api-table__head"><span>Prop</span><span>Тип</span><span>Default</span></div>{[['label','string','required'],['size',"'l' | 'm'","'l'"],['mode',"'edit' | 'read'","'edit'"],['helperText','string','—'],['optional','boolean','false'],['error','string','—'],['readValue','ReactNode','—']].map(([name,type,value])=><div key={name}><code>{name}</code><span>{type}</span><span>{value}</span></div>)}</div>
+        <div className="api-table"><div className="api-table__head"><span>Prop</span><span>Тип</span><span>Default</span></div>{[['label','string','required'],['size · single-line',"'l' | 'm' | 's'","'l'"],['size · TextArea / MultiSelect',"'l' | 'm'","'l'"],['mode',"'edit' | 'read'","'edit'"],['helperText','string','—'],['optional','boolean','false'],['error','string','—'],['readValue','ReactNode','—']].map(([name,type,value])=><div key={name}><code>{name}</code><span>{type}</span><span>{value}</span></div>)}</div>
       </section>
     </main>
   );

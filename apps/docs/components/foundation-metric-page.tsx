@@ -39,6 +39,12 @@ const metricContent = {
 
 export type MetricKind = keyof typeof metricContent;
 
+const controlScale = [
+  { size: 'S', value: '32px', usage: 'Компактные Button, Text Field, Select и Combobox.' },
+  { size: 'M', value: '40px', usage: 'Стандартные рабочие controls и compact table cells.' },
+  { size: 'L', value: '48px', usage: 'Комфортные формы, Button, Fields и table cells.' },
+] as const;
+
 export function FoundationMetricPage({ kind }: { kind: MetricKind }) {
   const content = metricContent[kind];
   const primitive = primitiveTokens.filter((token) => token.name.startsWith(`${kind}/`));
@@ -58,6 +64,23 @@ export function FoundationMetricPage({ kind }: { kind: MetricKind }) {
           title={content.title}
           description={<>{content.description} Опубликовано {primitive.length} primitive-значений и {semantic.length} semantic-ролей.</>}
         />
+        {kind === 'Size' ? (
+          <div className="control-scale">
+            <div className="control-scale__intro">
+              <h3>Шкала высот controls</h3>
+              <p>Одна семантическая шкала синхронизирует Button и однострочные Fields. Table пока зафиксирован только как атомарная модель Figma: публичный React API отложен.</p>
+            </div>
+            <div className="control-scale__items">
+              {controlScale.map((item) => (
+                <article key={item.size}>
+                  <code>{item.size}</code>
+                  <strong>{item.value}</strong>
+                  <p>{item.usage}</p>
+                </article>
+              ))}
+            </div>
+          </div>
+        ) : null}
         <div className="foundation-metric-columns">
           <div>
             <h3>Primitive</h3>

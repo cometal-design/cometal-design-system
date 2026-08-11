@@ -10,8 +10,10 @@ import type {
 } from 'react';
 import './field.css';
 
-export const fieldSizes = ['l', 'm'] as const;
+export const fieldSizes = ['l', 'm', 's'] as const;
 export type FieldSize = (typeof fieldSizes)[number];
+export const multilineFieldSizes = ['l', 'm'] as const;
+export type MultilineFieldSize = (typeof multilineFieldSizes)[number];
 export type FieldMode = 'edit' | 'read';
 
 export type FieldChromeProps = {
@@ -135,7 +137,7 @@ export interface TextAreaProps extends TextareaHTMLAttributes<HTMLTextAreaElemen
   helperText?: string;
   optional?: boolean;
   error?: string;
-  size?: FieldSize;
+  size?: MultilineFieldSize;
   mode?: FieldMode;
   readValue?: ReactNode;
   showCounter?: boolean;
@@ -509,7 +511,7 @@ export interface MultiSelectProps extends Omit<ButtonHTMLAttributes<HTMLButtonEl
   helperText?: string;
   optional?: boolean;
   error?: string;
-  size?: FieldSize;
+  size?: MultilineFieldSize;
   mode?: FieldMode;
   expanded?: boolean;
   defaultExpanded?: boolean;

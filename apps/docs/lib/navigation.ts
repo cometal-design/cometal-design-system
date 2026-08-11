@@ -4,12 +4,13 @@ export type NavItem = {
   description?: string;
   external?: boolean;
   activePrefix?: string;
+  activeSections?: string[];
 };
 
 export type FoundationTab = Pick<NavItem, 'label' | 'href'>;
 
 export const primaryNavigation: NavItem[] = [
-  { label: 'Документация', href: '/documentation/' },
+  { label: 'Документация', href: '/documentation/', activeSections: ['documentation', 'releases'] },
   { label: 'Foundation', href: '/foundation/' },
   { label: 'Компоненты', href: '/components/' },
   { label: 'Паттерны', href: '/patterns/' },

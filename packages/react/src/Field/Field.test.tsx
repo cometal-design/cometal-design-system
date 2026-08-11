@@ -19,6 +19,26 @@ describe('Fields', () => {
     expect(html).toContain('ООО Северсталь');
   });
 
+  it('exposes the shared S control size for single-line fields', () => {
+    const textField = renderToStaticMarkup(<TextField label="ИНН" size="s" />);
+    const select = renderToStaticMarkup(<Select label="Статус" size="s" options={[]} />);
+    const combobox = renderToStaticMarkup(<Combobox label="Контрагент" size="s" />);
+
+    expect(textField).toContain('data-size="s"');
+    expect(select).toContain('data-size="s"');
+    expect(combobox).toContain('data-size="s"');
+  });
+
+  it('keeps S outside the multiline and multi-value public contracts', () => {
+    // @ts-expect-error TextArea intentionally supports only L and M.
+    const textArea = <TextArea label="Комментарий" size="s" />;
+    // @ts-expect-error MultiSelect intentionally supports only L and M.
+    const multiSelect = <MultiSelect label="Контрагенты" size="s" />;
+
+    expect(textArea.props.size).toBe('s');
+    expect(multiSelect.props.size).toBe('s');
+  });
+
   it('keeps native textarea and select semantics', () => {
     const textarea = renderToStaticMarkup(<TextArea label="Комментарий" maxLength={500} showCounter defaultValue="Текст" />);
     const select = renderToStaticMarkup(<Select label="Статус" defaultValue="active" options={[{ value: 'active', label: 'Активный' }]} />);

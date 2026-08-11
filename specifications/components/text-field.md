@@ -15,7 +15,7 @@ figma: "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1102-8230"
 
 ## Contract
 
-- Размеры: `l` = 48px, `m` = 40px.
+- Размеры используют общую шкалу controls: `l` = 48px, `m` = 40px, `s` = 32px.
 - Состояния: default, hover, filled, error, disabled и независимый focus-visible.
 - Label обязателен в API; helper и optional-marker опциональны.
 - В режиме `read` значение остаётся текстом и не попадает в tab-порядок.

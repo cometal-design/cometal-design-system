@@ -1,6 +1,8 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
 import { InlineLink } from '@cometal/react';
+import { MetadataStrip } from '../../components/metadata-strip';
+import { PageHeader } from '../../components/page-header';
 import { SectionHeading } from '../../components/section-heading';
 import inventory from '../../../../packages/tokens/src/foundation.inventory.json';
 import typography from '../../../../packages/tokens/src/typography.styles.json';
@@ -65,26 +67,24 @@ const categories = [
 ];
 
 export default function FoundationPage() {
-  const figures = [
-    [inventory.figma.variables.total, 'переменных Figma'],
-    [inventory.figma.variables.foundation, 'токенов Foundation'],
-    [inventory.figma.variables.withAliases, 'alias-связей'],
-    [inventory.figma.variables.withCodeSyntax, 'с именами для кода'],
+  const metadata = [
+    `${inventory.figma.variables.total} переменных Figma`,
+    `${inventory.figma.variables.foundation} токенов Foundation`,
+    `${inventory.figma.variables.withAliases} alias-связей`,
+    `${inventory.figma.variables.withCodeSyntax} с именами для кода`,
   ];
 
   return (
     <main className="content-page">
-      <header className="page-header">
-        <span className="eyebrow">FOUNDATION</span>
-        <h1>Основа системы</h1>
-        <p>Портал объясняет назначение. Storybook показывает инженерный каталог, итоговые значения и Playground. Значения поступают из источника токенов, синхронизированного с Figma.</p>
-      </header>
+      <PageHeader
+        eyebrow="FOUNDATION"
+        title="Основа системы"
+        description="Портал объясняет назначение. Storybook показывает инженерный каталог, итоговые значения и Playground. Значения поступают из источника токенов, синхронизированного с Figma."
+      />
 
-      <section className="foundation-stats" aria-label="Инвентарь Foundation">
-        {figures.map(([value, label]) => <article key={label}><strong>{value}</strong><span>{label}</span></article>)}
-      </section>
+      <MetadataStrip ariaLabel="Инвентарь Foundation" items={metadata} />
 
-      <section className="content-section">
+      <section className="content-section content-section--continuation">
         <SectionHeading title="Каталог" description="Каждая строка открывает категорию Foundation. Связанные слои и платформы переключаются табами внутри выбранной страницы." />
         <div className="foundation-catalog">
           {categories.map((category) => (
@@ -99,7 +99,7 @@ export default function FoundationPage() {
 
       <section className="content-section">
         <SectionHeading title="Путь значения" description="Компоненты и продукт не должны обращаться к базовым значениям напрямую." />
-        <ol className="process-line">
+        <ol className="process-line process-line--open-end">
           <li><span>01</span><strong>Primitive</strong><p>Хранит значение.</p></li>
           <li><span>02</span><strong>Semantic</strong><p>Назначает роль.</p></li>
           <li><span>03</span><strong>Component</strong><p>Собирает состояния.</p></li>
@@ -107,7 +107,7 @@ export default function FoundationPage() {
         </ol>
       </section>
 
-      <section className="content-section">
+      <section className="content-section content-section--continuation">
         <SectionHeading title="Границы готовности" description="Пробелы фиксируются явно и не заполняются придуманными решениями." />
         <div className="guidance">
           <article data-tone="positive"><strong>Готово</strong><p>Цвет, типографика и адаптивная сетка читаются из проверенных источников.</p></article>

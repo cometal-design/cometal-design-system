@@ -23,7 +23,7 @@ export interface ButtonProps
   extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'color' | 'size'> {
   /** Визуальная роль кнопки. Не заменяет смысловое имя действия. */
   variant?: ButtonVariant;
-  /** L = 44px, M = 36px, S = 28px. */
+  /** Shared control scale: L = 48px, M = 40px, S = 32px. */
   size?: ButtonSize;
   /** Блокирует повторное действие, сохраняет ширину и показывает индикатор. */
   loading?: boolean;
@@ -38,7 +38,7 @@ export interface ActionLinkProps
   href: string;
   /** Визуальная роль ссылки. Семантика остаётся ссылкой и требует href. */
   variant?: ButtonVariant;
-  /** L = 44px, M = 36px, S = 28px. */
+  /** Shared control scale: L = 48px, M = 40px, S = 32px. */
   size?: ButtonSize;
   /** Декоративная иконка перед подписью. */
   startIcon?: ReactNode;

@@ -1623,10 +1623,45 @@
       }
     },
     "Size": {
+      "Control": {
+        "L": {
+          "$type": "dimension",
+          "$value": "{Primitive.Size.48}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1977:5",
+              "key": "655127e1cec7ed782a1c1f658aa1c936c919dbb1",
+              "name": "Size/Control/L"
+            }
+          }
+        },
+        "M": {
+          "$type": "dimension",
+          "$value": "{Primitive.Size.40}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1977:4",
+              "key": "49e2dc9b64e9ff734da503b4bd7448c8a9dc8531",
+              "name": "Size/Control/M"
+            }
+          }
+        },
+        "S": {
+          "$type": "dimension",
+          "$value": "{Primitive.Size.32}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1977:3",
+              "key": "c37b0709b067640a9feb86fa04de05abc44e9d0c",
+              "name": "Size/Control/S"
+            }
+          }
+        }
+      },
       "Button": {
         "L": {
           "$type": "dimension",
-          "$value": "{Primitive.Size.44}",
+          "$value": "{Semantic.Size.Control.L}",
           "$extensions": {
             "com.cometal.figma": {
               "id": "VariableID:768:1237",
@@ -1637,7 +1672,7 @@
         },
         "M": {
           "$type": "dimension",
-          "$value": "{Primitive.Size.36}",
+          "$value": "{Semantic.Size.Control.M}",
           "$extensions": {
             "com.cometal.figma": {
               "id": "VariableID:768:1238",
@@ -1648,7 +1683,7 @@
         },
         "S": {
           "$type": "dimension",
-          "$value": "{Primitive.Size.28}",
+          "$value": "{Semantic.Size.Control.S}",
           "$extensions": {
             "com.cometal.figma": {
               "id": "VariableID:768:1239",

@@ -85,11 +85,11 @@ function ButtonDocumentation() {
       </section>
 
       <section className="ds-component-section">
-        <div className="ds-component-section__intro"><span>04</span><div><h2>Размеры и композиция</h2><p>L = 44px, M = 36px, S = 28px. Поддерживаются текст, иконка слева, иконка справа и icon-only.</p></div></div>
+        <div className="ds-component-section__intro"><span>04</span><div><h2>Размеры и композиция</h2><p>L = 48px, M = 40px, S = 32px. Это общая шкала высот однострочных controls.</p></div></div>
         <div className="ds-button-size-table">
           {buttonSizes.map((size) => (
             <article key={size}>
-              <div><strong>{size.toUpperCase()}</strong><small>{size === 'l' ? '44' : size === 'm' ? '36' : '28'}px</small></div>
+              <div><strong>{size.toUpperCase()}</strong><small>{size === 'l' ? '48' : size === 'm' ? '40' : '32'}px</small></div>
               <Button size={size}>Продолжить</Button>
               <Button size={size} startIcon={<Arrow />}>Продолжить</Button>
               <Button size={size} endIcon={<Arrow />}>Продолжить</Button>
@@ -171,7 +171,7 @@ const meta = {
   },
   argTypes: {
     variant: { control: 'select', options: buttonVariants, description: 'Визуальная роль действия.' },
-    size: { control: 'inline-radio', options: buttonSizes, description: 'Размер: L 44px, M 36px, S 28px.' },
+    size: { control: 'inline-radio', options: buttonSizes, description: 'Общая шкала controls: L 48px, M 40px, S 32px.' },
     loading: { control: 'boolean', description: 'Ожидание завершения действия.' },
     disabled: { control: 'boolean', description: 'Действие недоступно.' },
     startIcon: { control: false },
@@ -205,6 +205,38 @@ export const Playground: Story = {
     const duration = getComputedStyle(button).transitionDuration;
     if (matchMedia('(prefers-reduced-motion: reduce)').matches) await expect(duration).toBe('0s');
     else await expect(duration).toContain('0.12s');
+  },
+};
+
+export const SizingContract: Story = {
+  name: 'Размеры · 32 / 40 / 48',
+  parameters: { controls: { disable: true } },
+  render: () => (
+    <div className="ds-control-sizing-story">
+      {buttonSizes.map((size) => (
+        <div key={size} data-sizing-row={size}>
+          <Button size={size}>{size.toUpperCase()} · {size === 'l' ? '48' : size === 'm' ? '40' : '32'}px</Button>
+          <Button size={size} startIcon={<Arrow />}>Продолжить</Button>
+          <Button size={size} endIcon={<Arrow />}>Продолжить</Button>
+          <Button size={size} startIcon={<Arrow />} aria-label={`${size.toUpperCase()} icon-only`} />
+        </div>
+      ))}
+    </div>
+  ),
+  play: async ({ canvasElement }) => {
+    const expectedHeights = { l: 48, m: 40, s: 32 } as const;
+    const expectedIconSizes = { l: 20, m: 16, s: 14 } as const;
+
+    for (const size of buttonSizes) {
+      const row = canvasElement.querySelector<HTMLElement>(`[data-sizing-row="${size}"]`);
+      const buttons = Array.from(row?.querySelectorAll<HTMLButtonElement>('.cometal-button') ?? []);
+      const icons = Array.from(row?.querySelectorAll<HTMLElement>('.cometal-button__icon') ?? []);
+
+      await expect(buttons).toHaveLength(4);
+      await expect(buttons.map((button) => button.getBoundingClientRect().height)).toEqual(Array(4).fill(expectedHeights[size]));
+      await expect(icons.map((icon) => icon.getBoundingClientRect().width)).toEqual(Array(3).fill(expectedIconSizes[size]));
+      await expect(buttons.at(-1)?.getBoundingClientRect().width).toBe(expectedHeights[size]);
+    }
   },
 };
 
