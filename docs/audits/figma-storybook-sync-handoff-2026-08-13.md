@@ -3,11 +3,11 @@
 Date: 2026-08-13  
 Figma: `KKNGucImxFAtQLBhPy8tLs`  
 Branch: `agent/figma-storybook-sync-2026-08-13`  
-Scope: local synchronization and QA; no push, package publication or deployment.
+Scope: production synchronization and QA; npm package publication remains deferred.
 
 ## Result
 
-The approved Foundation and the 11 registry components now have one local contract across Figma, DTCG tokens, React, Storybook, specifications, registry and Obsidian. The components remain `in-review`: visual match is confirmed, while Frontend Lead review and product pilots remain separate gates.
+The approved Foundation and the 11 registry components now have one published contract across Figma, DTCG tokens, React, Storybook, specifications, registry and Obsidian. The components remain `in-review`: visual match is confirmed, while Frontend Lead review and product pilots remain separate gates.
 
 The earlier audit documents remain immutable baseline evidence. This handoff records the post-remediation state.
 
@@ -52,6 +52,7 @@ Collections: Primitive 402, Semantic 155, Button 1, Input 7, Option 3, Badge 18,
 - Corrected the stable Combobox ID to `input.combobox` in the Obsidian index.
 - Corrected the release snapshot: Tabs is a Figma draft and is not a public React or registry component.
 - Set `visualMatch=true` for all 11 registry entries after direct Figma and Storybook comparison.
+- Added the published `v0.3.0` release to Figma and the generated Storybook release snapshot.
 
 ## QA evidence
 
@@ -69,18 +70,25 @@ Collections: Primitive 402, Semantic 155, Button 1, Input 7, Option 3, Badge 18,
 - Select, Combobox and Multi Select listbox gap: `6px`; no clipping.
 - Badge height: `24px`; icon: `12px`; icon-only: `24x24` with `role=img`.
 - Minimum measured Badge text contrast: `4.90:1`; dark yellow: `6.44:1`.
+- Public production QA passed on `https://cometal-design-system-storybook.vercel.app` with zero visible error overlays, console errors or horizontal overflow in the checked desktop and mobile stories.
+
+## Production publication
+
+- GitHub `main`: published release branch; base synchronization commit `ce2ec57e486b1b8c5f835602275287b4dca669aa`.
+- Initial production validation deployment: `dpl_AmVhSJZVDQAyXZnqxi1QNbbzks1n`.
+- Production Storybook and portal: `https://cometal-design-system-storybook.vercel.app`.
+- Vercel Git integration keeps production deployments tied to the exact published `main` SHA.
 
 ## Publication decision
 
 ### Publish
 
 - Badge is the only new public component in this change set.
-- The synchronized branch can be pushed and deployed only after review approval.
+- The synchronized commit is published to GitHub `main` and Vercel production.
 
 ### Update
 
-- `@cometal/tokens`, `@cometal/react`, Storybook, portal, registry, specifications and Obsidian must move together from this exact branch state.
-- Production currently remains on an older commit and does not contain this synchronization.
+- `@cometal/tokens`, `@cometal/react`, Storybook, portal, registry, specifications and Obsidian moved together from the same commit state.
 
 ### Delete
 
@@ -98,5 +106,4 @@ Collections: Primitive 402, Semantic 155, Button 1, Input 7, Option 3, Badge 18,
 
 - The original dirty worktree was not modified or reset.
 - Work was isolated in `/Users/vadim/Documents/Cometal/cometal-design-system-sync-2026-08-13`.
-- No Git push, Vercel deployment or npm/package publication was performed.
-
+- GitHub and Vercel were updated; npm/package publication was not performed because packages remain private `0.0.0` and no release registry contract is approved.
