@@ -38,7 +38,7 @@ function Arrow() {
       <path
         d="M13.3333 19L20 12L13.3333 5M20 12H4"
         stroke="currentColor"
-        strokeWidth="var(--cometal-primitive-stroke-140)"
+        strokeWidth="var(--cometal-primitive-stroke-140, 1.4)"
         strokeLinecap="round"
         strokeLinejoin="round"
         vectorEffect="non-scaling-stroke"

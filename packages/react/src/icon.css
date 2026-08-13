@@ -1,5 +1,5 @@
 :where([data-cometal-component]) svg[stroke]:not([stroke='none']),
 :where([data-cometal-component]) svg [stroke]:not([stroke='none']) {
-  stroke-width: var(--cometal-primitive-stroke-140);
+  stroke-width: var(--cometal-primitive-stroke-140, 1.4px);
   vector-effect: non-scaling-stroke;
 }

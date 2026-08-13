@@ -26,7 +26,7 @@ function CheckboxMark({ size }: { size: SelectionSize }) {
       <path
         d={geometry.path}
         stroke="currentColor"
-        strokeWidth="var(--cometal-primitive-stroke-140)"
+        strokeWidth="var(--cometal-primitive-stroke-140, 1.4)"
         strokeLinecap="round"
         strokeLinejoin="round"
         vectorEffect="non-scaling-stroke"

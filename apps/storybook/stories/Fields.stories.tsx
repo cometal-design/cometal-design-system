@@ -177,7 +177,22 @@ export const TextFieldPlayground: Story = { name: 'Text Field', play: async ({ c
 export const TextAreaPlayground: Story = { name: 'Text Area', render: () => <TextArea label="Комментарий" placeholder="Введите комментарий" rows={4} />, play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('textbox', { name: 'Комментарий' })).toBeInTheDocument(); } };
 export const SelectPlayground: Story = { name: 'Select', render: () => <Select label="Статус" options={options} defaultValue="" />, play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('combobox', { name: 'Статус' })).toHaveAttribute('aria-haspopup', 'listbox'); } };
 export const ComboboxPlayground: Story = { name: 'Combobox', render: () => <Combobox label="Контрагент" placeholder="Найдите значение" />, play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('combobox', { name: 'Контрагент' })).toHaveAttribute('aria-expanded', 'false'); } };
-export const MultiSelectPlayground: Story = { name: 'Multi Select', render: () => <MultiSelect label="Контрагенты" selectedValues={['Северсталь','НЛМК','ММК']} />, play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('combobox', { name: /Контрагенты/ })).toHaveAttribute('aria-haspopup', 'listbox'); } };
+export const MultiSelectPlayground: Story = {
+  name: 'Multi Select',
+  render: () => <MultiSelect label="Контрагенты" selectedValues={['Северсталь','НЛМК','ММК']} />,
+  play: async ({ canvasElement }) => {
+    await expect(within(canvasElement).getByRole('combobox', { name: /Контрагенты/ })).toHaveAttribute('aria-haspopup', 'listbox');
+
+    const root = canvasElement.ownerDocument.documentElement;
+    const removeIconPath = canvasElement.querySelector<SVGElement>('.cometal-field__tag-remove path');
+    await expect(removeIconPath).not.toBeNull();
+    await expect(getComputedStyle(removeIconPath!).strokeWidth).toBe('1.4px');
+
+    root.style.setProperty('--cometal-primitive-stroke-140', 'initial', 'important');
+    await expect(getComputedStyle(removeIconPath!).strokeWidth).toBe('1.4px');
+    root.style.removeProperty('--cometal-primitive-stroke-140');
+  },
+};
 export const SelectActive: Story = {
   name: 'Select · Active Listbox',
   parameters: { controls: { disable: true } },
