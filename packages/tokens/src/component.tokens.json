@@ -1672,36 +1672,6 @@
                   }
                 }
               }
-            },
-            "Error": {
-              "Comfortable": {
-                "$type": "color",
-                "$value": "{Semantic.Color.Border.Danger}",
-                "$extensions": {
-                  "com.cometal.figma": {
-                    "id": "VariableID:2374:5591",
-                    "key": "1d11aafdaeec6b12913d43eb2e197b29d65614b6",
-                    "name": "Color/Cell/Border/Error",
-                    "mode": "Comfortable",
-                    "description": "[Deprecated] Table error border is not used by the approved cell treatment; error is expressed through surface and text. Retained until Storybook consumer audit.",
-                    "hiddenFromPublishing": true
-                  }
-                }
-              },
-              "Compact": {
-                "$type": "color",
-                "$value": "{Semantic.Color.Border.Danger}",
-                "$extensions": {
-                  "com.cometal.figma": {
-                    "id": "VariableID:2374:5591",
-                    "key": "1d11aafdaeec6b12913d43eb2e197b29d65614b6",
-                    "name": "Color/Cell/Border/Error",
-                    "mode": "Compact",
-                    "description": "[Deprecated] Table error border is not used by the approved cell treatment; error is expressed through surface and text. Retained until Storybook consumer audit.",
-                    "hiddenFromPublishing": true
-                  }
-                }
-              }
             }
           }
         },
@@ -2100,36 +2070,6 @@
                   "mode": "Compact",
                   "description": "Secondary and file icon.",
                   "hiddenFromPublishing": false
-                }
-              }
-            }
-          },
-          "Muted": {
-            "Comfortable": {
-              "$type": "color",
-              "$value": "{Semantic.Color.Icon.Secondary}",
-              "$extensions": {
-                "com.cometal.figma": {
-                  "id": "VariableID:2374:5601",
-                  "key": "9dbefedee2cc39ad28702388a166935411865cda",
-                  "name": "Color/Icon/Muted",
-                  "mode": "Comfortable",
-                  "description": "[Deprecated] Table muted icon role duplicates Color/Icon/Secondary in the approved component. Retained until Storybook consumer audit.",
-                  "hiddenFromPublishing": true
-                }
-              }
-            },
-            "Compact": {
-              "$type": "color",
-              "$value": "{Semantic.Color.Icon.Secondary}",
-              "$extensions": {
-                "com.cometal.figma": {
-                  "id": "VariableID:2374:5601",
-                  "key": "9dbefedee2cc39ad28702388a166935411865cda",
-                  "name": "Color/Icon/Muted",
-                  "mode": "Compact",
-                  "description": "[Deprecated] Table muted icon role duplicates Color/Icon/Secondary in the approved component. Retained until Storybook consumer audit.",
-                  "hiddenFromPublishing": true
                 }
               }
             }

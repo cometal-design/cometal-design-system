@@ -1407,17 +1407,6 @@
                 }
               }
             }
-          },
-          "Gap": {
-            "$type": "dimension",
-            "$value": "{Primitive.Spacing.50}",
-            "$extensions": {
-              "com.cometal.figma": {
-                "id": "VariableID:780:1327",
-                "key": "02663f3df08445df8c7e37cbee8c1bad95c3a371",
-                "name": "Spacing/Button/L/Gap"
-              }
-            }
           }
         },
         "M": {
@@ -1444,17 +1433,6 @@
                 }
               }
             }
-          },
-          "Gap": {
-            "$type": "dimension",
-            "$value": "{Primitive.Spacing.50}",
-            "$extensions": {
-              "com.cometal.figma": {
-                "id": "VariableID:780:1330",
-                "key": "1e5e31e24265aaac714df4242b19fd907544f217",
-                "name": "Spacing/Button/M/Gap"
-              }
-            }
           }
         },
         "S": {
@@ -1479,17 +1457,6 @@
                   "key": "c5cc1ae4a95a70aa619718907031c06f30ed5370",
                   "name": "Spacing/Button/S/Inset/Icon"
                 }
-              }
-            }
-          },
-          "Gap": {
-            "$type": "dimension",
-            "$value": "{Primitive.Spacing.25}",
-            "$extensions": {
-              "com.cometal.figma": {
-                "id": "VariableID:780:1333",
-                "key": "c1de846a54b6a43ce43c70216c899e95febd790c",
-                "name": "Spacing/Button/S/Gap"
               }
             }
           }
@@ -1733,19 +1700,6 @@
           }
         },
         "Inset": {
-          "Horizontal": {
-            "$type": "dimension",
-            "$value": "{Primitive.Spacing.25}",
-            "$extensions": {
-              "com.cometal.figma": {
-                "id": "VariableID:2017:2",
-                "key": "306bbb016374e2a2e2a5777e4d1282b09533c931",
-                "name": "Spacing/Badge/Inset/Horizontal",
-                "hiddenFromPublishing": true,
-                "description": "[Deprecated] Retained until downstream Badge consumers finish migrating."
-              }
-            }
-          },
           "Vertical": {
             "$type": "dimension",
             "$value": "{Primitive.Spacing.25}",
