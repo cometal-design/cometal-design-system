@@ -9,6 +9,7 @@ export const metadata: Metadata = { title: 'Компоненты' };
 
 const catalogContent: Record<string, { href: string; description: string }> = {
   'action.button': { href: '/components/button/', description: 'Запускает одно понятное действие пользователя.' },
+  'status.badge': { href: '/components/badge/', description: 'Компактно показывает статус или атрибут сущности.' },
   'input.text-field': { href: '/components/fields/#text-field', description: 'Однострочный ввод в режимах Edit и Read.' },
   'input.date-picker': { href: '/components/date-picker/', description: 'Ручной ввод и календарный выбор одной даты.' },
   'input.text-area': { href: '/components/fields/#text-area', description: 'Многострочный ввод с helper и counter.' },

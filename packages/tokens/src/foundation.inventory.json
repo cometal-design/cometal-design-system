@@ -4,16 +4,16 @@
   "figma": {
     "fileKey": "KKNGucImxFAtQLBhPy8tLs",
     "variables": {
-      "total": 636,
-      "foundation": 564,
+      "total": 630,
+      "foundation": 560,
       "primitive": 402,
-      "semantic": 162,
-      "component": 72,
-      "color": 531,
-      "dimension": 105,
-      "withAliases": 234,
-      "withCodeSyntax": 636,
-      "withScopes": 636
+      "semantic": 158,
+      "component": 70,
+      "color": 529,
+      "dimension": 101,
+      "withAliases": 228,
+      "withCodeSyntax": 630,
+      "withScopes": 630
     },
     "collections": [
       {
@@ -23,7 +23,7 @@
       },
       {
         "name": "Semantic",
-        "variables": 162,
+        "variables": 158,
         "modes": 1
       },
       {
@@ -53,7 +53,7 @@
       },
       {
         "name": "Component / Table",
-        "variables": 42,
+        "variables": 40,
         "modes": 2
       }
     ],
@@ -66,17 +66,18 @@
   },
   "repository": {
     "primitiveTokens": 402,
-    "semanticTokens": 162,
+    "semanticTokens": 158,
     "typographyStyles": 18,
     "gridPresets": 4,
     "iconComponents": 2810,
-    "componentTokens": 72
+    "componentTokens": 70
   },
   "notes": [
     "Approved Spacing and Radius documentation pages contain wider legacy scales than the published Figma variables. Runtime tokens follow variables; the page conflict requires a Design System Lead decision.",
     "Grid presets are documented values; Figma has no published local Grid Styles.",
     "Icons are an inventory only; approved SVG assets and React API do not exist yet.",
-    "Shadows are not defined in Figma and must not be invented in code."
+    "Shadows are not defined in Figma and must not be invented in code.",
+    "Six unused deprecated variables were removed after downstream migration; three unresolved Button Insets remain hidden until a replacement role is approved."
   ],
   "sourceConflicts": [
     {

@@ -27,5 +27,5 @@ figma: "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1571-9673"
 ## Acceptance criteria
 
 - [x] 3 размера, on/off и состояния считаны из DS Core.
-- [ ] React API, stories и browser-проверки реализованы.
+- [x] React API, stories и browser-проверки реализованы.
 - [ ] Frontend Lead подтвердил API.

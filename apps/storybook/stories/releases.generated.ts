@@ -117,7 +117,7 @@ export const releases: DesignSystemRelease[] = [
       ] },
       { title: 'Buttons', changes: [
         'Собрана продуктовая библиотека кнопок в девяти стилистиках.',
-        'Стили: Primary, Secondary, Host, Link, Danger, Success, Warning, Inverse, Inverse Host.',
+        'Стили: Primary, Secondary, Ghost, Link, Danger, Success, Warning, Inverse, Inverse Ghost.',
         'Размеры: L, M и S; State: Default, Hover, Pressed, Disabled, Loading; Focus visible — отдельный Boolean.',
         'Композиции: Text, L Icon, R Icon, Icon Only.',
         'Реализовано 135 публичных вариантов кнопок и 12 вариантов Sources/Button Content.',

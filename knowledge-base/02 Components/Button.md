@@ -10,7 +10,7 @@
 - Figma: [DS Core / Button](https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=835-3693)
 - Спецификация: [[../../specifications/components/button]]
 - Реализация: `packages/react/src/Button/`
-- Storybook: https://cometal-design-system-storybook.vercel.app/?path=/story/components-button--overview
+- Storybook: https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-button--overview
 
 ## Контекст
 

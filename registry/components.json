@@ -24,6 +24,27 @@
       }
     },
     {
+      "id": "status.badge",
+      "name": "Badge",
+      "status": "in-review",
+      "platform": "web",
+      "version": "0.1.0-beta.1",
+      "links": {
+        "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2097-438",
+        "specification": "specifications/components/badge.md",
+        "source": "packages/react/src/Badge/Badge.tsx",
+        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-badge--overview",
+        "knowledge": "knowledge-base/02 Components/Badge.md"
+      },
+      "checks": {
+        "visualMatch": false,
+        "specificationMatch": true,
+        "testsPassed": true,
+        "accessibilityPassed": true,
+        "knowledgeUpdated": true
+      }
+    },
+    {
       "id": "input.text-field",
       "name": "Text Field",
       "status": "in-review",

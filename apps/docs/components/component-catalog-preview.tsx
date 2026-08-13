@@ -2,6 +2,7 @@
 
 import { useState } from 'react';
 import {
+  Badge,
   Button,
   Checkbox,
   Combobox,
@@ -36,5 +37,6 @@ export function ComponentCatalogPreview({ id }: { id: string }) {
   if (id === 'selection.checkbox') return <Checkbox label="Согласен с условиями" defaultChecked />;
   if (id === 'selection.radio-button') return <RadioButton label="Выбрать вариант" name="catalog-radio" defaultChecked />;
   if (id === 'selection.switch') return <Switch label="Получать уведомления" defaultChecked />;
+  if (id === 'status.badge') return <Badge surface="dark" tone="green">Согласовано</Badge>;
   return <Button>Продолжить</Button>;
 }

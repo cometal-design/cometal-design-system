@@ -6,6 +6,13 @@
     "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport { Button } from '@cometal/react';",
     "example": "<Button variant=\"primary\" size=\"l\">\n  Сохранить\n</Button>"
   },
+  "status.badge": {
+    "packageName": "@cometal/react",
+    "availability": "beta-target",
+    "install": "pnpm add @cometal/react @cometal/tokens",
+    "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport { Badge } from '@cometal/react';",
+    "example": "<Badge surface=\"light\" tone=\"green\">\n  Согласовано\n</Badge>"
+  },
   "input.fields": {
     "packageName": "@cometal/react",
     "availability": "beta-target",

@@ -1,0 +1,82 @@
+.cometal-badge {
+  --cometal-badge-surface: var(--cometal-component-badge-light-surface-neutral);
+  --cometal-badge-content: var(--cometal-component-badge-light-content);
+  --cometal-badge-icon-content: var(--cometal-component-icon-content-badge-light);
+
+  box-sizing: border-box;
+  display: inline-flex;
+  min-width: var(--cometal-semantic-size-badge);
+  height: var(--cometal-semantic-size-badge);
+  padding:
+    var(--cometal-semantic-spacing-badge-inset-vertical)
+    calc(
+      var(--cometal-semantic-spacing-badge-inset-vertical)
+      + var(--cometal-semantic-spacing-badge-optical-text-horizontal)
+    );
+  align-items: center;
+  justify-content: center;
+  gap: var(--cometal-semantic-spacing-badge-gap);
+  border-radius: var(--cometal-semantic-radius-badge);
+  background: var(--cometal-badge-surface);
+  color: var(--cometal-badge-content);
+  font-family: var(--cometal-typography-control-s-font-family);
+  font-size: var(--cometal-typography-control-s-font-size);
+  font-weight: var(--cometal-typography-control-s-font-weight);
+  line-height: var(--cometal-typography-control-s-line-height);
+  letter-spacing: var(--cometal-typography-control-s-letter-spacing);
+  vertical-align: middle;
+  white-space: nowrap;
+}
+
+.cometal-badge__label {
+  display: inline-flex;
+  min-width: 0;
+  padding: 0 var(--cometal-semantic-spacing-badge-optical-text-horizontal) var(--cometal-semantic-spacing-badge-optical-text-bottom);
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+.cometal-badge__icon {
+  display: inline-flex;
+  width: var(--cometal-semantic-size-icon-badge);
+  height: var(--cometal-semantic-size-icon-badge);
+  flex: 0 0 var(--cometal-semantic-size-icon-badge);
+  align-items: center;
+  justify-content: center;
+  color: var(--cometal-badge-icon-content);
+}
+
+.cometal-badge__icon > svg,
+.cometal-badge__icon > img {
+  display: block;
+  width: var(--cometal-primitive-size-12);
+  height: var(--cometal-primitive-size-12);
+}
+
+.cometal-badge[data-icon-only='true'] {
+  width: var(--cometal-semantic-size-badge);
+  padding: 0;
+}
+
+.cometal-badge[data-surface='dark'] {
+  --cometal-badge-content: var(--cometal-component-badge-dark-content);
+  --cometal-badge-icon-content: var(--cometal-component-icon-content-badge-dark);
+}
+
+.cometal-badge[data-surface='light'][data-tone='neutral'] { --cometal-badge-surface: var(--cometal-component-badge-light-surface-neutral); }
+.cometal-badge[data-surface='light'][data-tone='blue'] { --cometal-badge-surface: var(--cometal-component-badge-light-surface-blue); }
+.cometal-badge[data-surface='light'][data-tone='cyan'] { --cometal-badge-surface: var(--cometal-component-badge-light-surface-cyan); }
+.cometal-badge[data-surface='light'][data-tone='green'] { --cometal-badge-surface: var(--cometal-component-badge-light-surface-green); }
+.cometal-badge[data-surface='light'][data-tone='purple'] { --cometal-badge-surface: var(--cometal-component-badge-light-surface-purple); }
+.cometal-badge[data-surface='light'][data-tone='red'] { --cometal-badge-surface: var(--cometal-component-badge-light-surface-red); }
+.cometal-badge[data-surface='light'][data-tone='violet'] { --cometal-badge-surface: var(--cometal-component-badge-light-surface-violet); }
+.cometal-badge[data-surface='light'][data-tone='yellow'] { --cometal-badge-surface: var(--cometal-component-badge-light-surface-yellow); }
+.cometal-badge[data-surface='dark'][data-tone='neutral'] { --cometal-badge-surface: var(--cometal-component-badge-dark-surface-neutral); }
+.cometal-badge[data-surface='dark'][data-tone='blue'] { --cometal-badge-surface: var(--cometal-component-badge-dark-surface-blue); }
+.cometal-badge[data-surface='dark'][data-tone='cyan'] { --cometal-badge-surface: var(--cometal-component-badge-dark-surface-cyan); }
+.cometal-badge[data-surface='dark'][data-tone='green'] { --cometal-badge-surface: var(--cometal-component-badge-dark-surface-green); }
+.cometal-badge[data-surface='dark'][data-tone='purple'] { --cometal-badge-surface: var(--cometal-component-badge-dark-surface-purple); }
+.cometal-badge[data-surface='dark'][data-tone='red'] { --cometal-badge-surface: var(--cometal-component-badge-dark-surface-red); }
+.cometal-badge[data-surface='dark'][data-tone='violet'] { --cometal-badge-surface: var(--cometal-component-badge-dark-surface-violet); }
+.cometal-badge[data-surface='dark'][data-tone='yellow'] { --cometal-badge-surface: var(--cometal-component-badge-dark-surface-yellow); }

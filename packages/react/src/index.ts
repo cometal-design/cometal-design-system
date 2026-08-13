@@ -2,6 +2,8 @@
 
 export { ActionLink, Button, IconButton, buttonSizes, buttonVariants } from './Button/Button';
 export type { ActionLinkProps, ButtonProps, ButtonSize, ButtonVariant, IconButtonProps } from './Button/Button';
+export { Badge, badgeSurfaces, badgeTones } from './Badge/Badge';
+export type { BadgeProps, BadgeSurface, BadgeTone } from './Badge/Badge';
 export { Combobox, MultiSelect, Select, TextArea, TextField, fieldSizes, multilineFieldSizes } from './Field/Field';
 export type { ComboboxProps, FieldMode, FieldSize, MultiSelectProps, MultilineFieldSize, SelectOption, SelectProps, TextAreaProps, TextFieldProps } from './Field/Field';
 export { DatePicker, formatDisplayDate, parseDisplayDate, parseIsoDate } from './DatePicker/DatePicker';

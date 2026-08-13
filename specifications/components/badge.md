@@ -1,0 +1,47 @@
+---
+id: status.badge
+name: Badge
+status: in-review
+platform: web
+framework: react
+figma: "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2097-438"
+---
+
+# Badge
+
+## Назначение
+
+Компактный неинтерактивный маркер статуса или атрибута. Badge не запускает действие и не заменяет Button, Link, Checkbox или фильтр.
+
+## Визуальная модель
+
+- Высота всегда 24px; отдельной размерной шкалы нет.
+- `surface`: `light`, `dark`.
+- `tone`: `neutral`, `blue`, `cyan`, `green`, `purple`, `red`, `violet`, `yellow`.
+- Состав: Text; L Icon + Text; Text + R Icon; L Icon + Text + R Icon; одна иконка без текста.
+- Icon-only всегда 24×24 и требует доступное имя.
+- Иконки внутри Badge должны быть filled и занимают 12px внутри слота 16px.
+- Все цвета, размеры, spacing и radius используют Foundation и Component/Badge tokens.
+
+## React API
+
+- `surface` и `tone` отвечают только за визуальную роль.
+- `children` передаёт текст; `startIcon` и `endIcon` независимо включают иконки.
+- Если текста нет, используется одна доступная иконка: сначала `startIcon`, затем `endIcon`.
+- Нативные `HTMLAttributes<HTMLSpanElement>` сохраняются.
+- Компонент не имеет click/pressed/selected состояний.
+
+## Accessibility
+
+- Цвет не должен быть единственным носителем смысла: текстовый Badge содержит понятную подпись.
+- Icon-only требует `aria-label`.
+- Декоративные иконки скрыты через `aria-hidden`.
+- Badge не получает tab-stop и не эмулирует интерактивный control.
+
+## Acceptance criteria
+
+- [x] Figma set `2097:438` и 16 Surface×Tone вариантов сопоставлены с React API.
+- [x] 18 Component/Badge variables импортированы в token source.
+- [x] Text, L/R Icon и icon-only compositions реализованы одним компонентом.
+- [x] Unit и Storybook interaction checks добавлены.
+- [ ] Visual QA и Frontend Lead acceptance подтверждены.

@@ -818,6 +818,9 @@ code, pre, kbd, samp {
 .selection-size-row article { min-height: var(--cometal-documentation-layout-height-selection); padding: var(--cometal-primitive-spacing-200); border-right: var(--portal-hairline) solid var(--portal-line-soft); }.selection-size-row article:last-child { border-right: 0; }
 .selection-value-board .cometal-selection,
 .selection-size-row .cometal-selection { justify-self: start; align-self: start; }
+.badge-tone-board { display: grid; gap: var(--cometal-primitive-spacing-200); }
+.badge-tone-board article { display: grid; grid-template-columns: 80px minmax(0, 1fr); gap: var(--cometal-primitive-spacing-150); }
+.badge-tone-board article > div, .badge-composition-row { display: flex; flex-wrap: wrap; align-items: center; gap: var(--cometal-primitive-spacing-100); }
 
 .empty-state { display: flex; min-height: var(--cometal-documentation-layout-height-empty-state); padding: var(--cometal-primitive-spacing-400); align-items: center; justify-content: center; flex-direction: column; border: var(--portal-hairline) solid var(--portal-line); border-radius: var(--portal-radius-l); background: var(--portal-canvas); text-align: center; }
 .empty-state--after-metadata { margin-top: var(--portal-space-group); }
