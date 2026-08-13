@@ -5,6 +5,7 @@ status: in-review
 platform: web
 framework: react
 figma: "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2097-438"
+storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-badge--overview"
 ---
 
 # Badge
@@ -44,4 +45,5 @@ figma: "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2097-438"
 - [x] 18 Component/Badge variables импортированы в token source.
 - [x] Text, L/R Icon и icon-only compositions реализованы одним компонентом.
 - [x] Unit и Storybook interaction checks добавлены.
-- [ ] Visual QA и Frontend Lead acceptance подтверждены.
+- [x] Visual QA при viewport 1440×900 и 390×844 подтверждён.
+- [ ] Frontend Lead acceptance подтверждён.

@@ -9,14 +9,14 @@
       "platform": "web",
       "version": "0.1.0-beta.1",
       "links": {
-        "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=835-3693",
+        "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=808-4393",
         "specification": "specifications/components/button.md",
         "source": "packages/react/src/Button/Button.tsx",
         "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-button--overview",
         "knowledge": "knowledge-base/02 Components/Button.md"
       },
       "checks": {
-        "visualMatch": false,
+        "visualMatch": true,
         "specificationMatch": true,
         "testsPassed": true,
         "accessibilityPassed": true,
@@ -37,7 +37,7 @@
         "knowledge": "knowledge-base/02 Components/Badge.md"
       },
       "checks": {
-        "visualMatch": false,
+        "visualMatch": true,
         "specificationMatch": true,
         "testsPassed": true,
         "accessibilityPassed": true,
@@ -57,7 +57,7 @@
         "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--text-field-playground",
         "knowledge": "knowledge-base/02 Components/Text Field.md"
       },
-      "checks": { "visualMatch": false, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
+      "checks": { "visualMatch": true, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
     },
     {
       "id": "input.date-picker",
@@ -87,7 +87,7 @@
         "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--text-area-playground",
         "knowledge": "knowledge-base/02 Components/Text Area.md"
       },
-      "checks": { "visualMatch": false, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
+      "checks": { "visualMatch": true, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
     },
     {
       "id": "input.select",
@@ -102,7 +102,7 @@
         "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--select-playground",
         "knowledge": "knowledge-base/02 Components/Select.md"
       },
-      "checks": { "visualMatch": false, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
+      "checks": { "visualMatch": true, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
     },
     {
       "id": "input.combobox",
@@ -117,7 +117,7 @@
         "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--combobox-playground",
         "knowledge": "knowledge-base/02 Components/Combobox.md"
       },
-      "checks": { "visualMatch": false, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
+      "checks": { "visualMatch": true, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
     },
     {
       "id": "input.multi-select",
@@ -132,7 +132,7 @@
         "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--multi-select-playground",
         "knowledge": "knowledge-base/02 Components/Multi Select.md"
       },
-      "checks": { "visualMatch": false, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
+      "checks": { "visualMatch": true, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
     },
     {
       "id": "selection.checkbox",
@@ -147,7 +147,7 @@
         "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-checkbox--overview",
         "knowledge": "knowledge-base/02 Components/Checkbox.md"
       },
-      "checks": { "visualMatch": false, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
+      "checks": { "visualMatch": true, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
     },
     {
       "id": "selection.radio-button",
@@ -162,7 +162,7 @@
         "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-radio-button--overview",
         "knowledge": "knowledge-base/02 Components/Radio Button.md"
       },
-      "checks": { "visualMatch": false, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
+      "checks": { "visualMatch": true, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
     },
     {
       "id": "selection.switch",
@@ -177,7 +177,7 @@
         "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-switch--overview",
         "knowledge": "knowledge-base/02 Components/Switch.md"
       },
-      "checks": { "visualMatch": false, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
+      "checks": { "visualMatch": true, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
     }
   ]
 }

@@ -4,16 +4,16 @@
   "figma": {
     "fileKey": "KKNGucImxFAtQLBhPy8tLs",
     "variables": {
-      "total": 630,
-      "foundation": 560,
+      "total": 627,
+      "foundation": 557,
       "primitive": 402,
-      "semantic": 158,
+      "semantic": 155,
       "component": 70,
       "color": 529,
-      "dimension": 101,
-      "withAliases": 228,
-      "withCodeSyntax": 630,
-      "withScopes": 630
+      "dimension": 98,
+      "withAliases": 225,
+      "withCodeSyntax": 627,
+      "withScopes": 627
     },
     "collections": [
       {
@@ -23,7 +23,7 @@
       },
       {
         "name": "Semantic",
-        "variables": 158,
+        "variables": 155,
         "modes": 1
       },
       {
@@ -66,7 +66,7 @@
   },
   "repository": {
     "primitiveTokens": 402,
-    "semanticTokens": 158,
+    "semanticTokens": 155,
     "typographyStyles": 18,
     "gridPresets": 4,
     "iconComponents": 2810,
@@ -77,7 +77,7 @@
     "Grid presets are documented values; Figma has no published local Grid Styles.",
     "Icons are an inventory only; approved SVG assets and React API do not exist yet.",
     "Shadows are not defined in Figma and must not be invented in code.",
-    "Six unused deprecated variables were removed after downstream migration; three unresolved Button Insets remain hidden until a replacement role is approved."
+    "All nine unused deprecated variables were removed after Figma and repository consumer audits."
   ],
   "sourceConflicts": [
     {

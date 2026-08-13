@@ -5,6 +5,14 @@ Listbox повторяют Active-композицию DS Core; скрытый n
 значение формы. Поддерживаются controlled/uncontrolled value и раскрытие,
 Arrow Up/Down, Enter и Escape.
 
+## Источники
+
+- Figma: [Component Set `1103:535`](https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1103-535)
+- Спецификация: [[../../specifications/components/select]]
+- React: `packages/react/src/Field/Field.tsx`
+- Storybook: https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--select-playground
+- Реестр: `input.select`, статус `in-review`
+
 Listbox использует высоту по содержимому до пяти строк. Если вариантов больше,
 высота ограничивается, а дальнейшие options доступны через внутренний скролл.
 

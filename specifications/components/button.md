@@ -4,7 +4,7 @@ name: Button
 status: in-review
 platform: web
 framework: react
-figma: "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=835-3693"
+figma: "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=808-4393"
 storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-button--overview"
 ---
 
@@ -42,6 +42,18 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - Композиции: текст; иконка слева + текст; текст + иконка справа; только иконка.
 - В одной локальной области рекомендуется один `primary`.
 - `ghost`, `inverse` и `inverse-ghost` используются только на поверхности, для которой рассчитан их контраст.
+
+## Figma component sets
+
+- `primary` — `808:4393`.
+- `secondary` — `854:522`.
+- `ghost` — `854:721`.
+- `link` — `855:774`.
+- `danger` — `855:973`.
+- `success` — `856:1026`.
+- `warning` — `856:1225`.
+- `inverse` — `857:1278`.
+- `inverse-ghost` — `857:1477`.
 
 ## States
 

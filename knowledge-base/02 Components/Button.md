@@ -7,7 +7,7 @@
 - Статус: `in-review`
 - Владелец решения: Design System Lead
 - Техническое review: Frontend Lead
-- Figma: [DS Core / Button](https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=835-3693)
+- Figma: [Primary component set `808:4393`](https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=808-4393)
 - Спецификация: [[../../specifications/components/button]]
 - Реализация: `packages/react/src/Button/`
 - Storybook: https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-button--overview
@@ -32,6 +32,7 @@ Button — первый эталон полного распространени
 - `type="button"` — безопасное значение по умолчанию.
 - `loading` блокирует повторное действие, сохраняет ширину и доступное имя.
 - Имена вариантов `Host` и `Inverse Host` в Figma исправлены на `Ghost` и `Inverse Ghost`, чтобы Figma, спецификация и API использовали один словарь.
+- Публичный Button состоит из девяти component sets: `primary` `808:4393`, `secondary` `854:522`, `ghost` `854:721`, `link` `855:774`, `danger` `855:973`, `success` `856:1026`, `warning` `856:1225`, `inverse` `857:1278`, `inverse-ghost` `857:1477`.
 - В spacing-токенах `Inset Icon` хранится отдельным соседним токеном: это исключает конфликт DTCG «токен одновременно является группой» и гарантирует экспорт отступов в CSS.
 - Статус не поднимается до `beta`, пока Frontend Lead не подтвердит API и интеграцию.
 

@@ -4,6 +4,14 @@
 текстовым списком в Read. Active включает multi-select Listbox; выбранные
 options отмечены через `aria-selected`, каждый tag имеет доступное удаление.
 
+## Источники
+
+- Figma: [Component Set `1106:1005`](https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1106-1005)
+- Спецификация: [[../../specifications/components/multi-select]]
+- React: `packages/react/src/Field/Field.tsx`
+- Storybook: https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--multi-select-playground
+- Реестр: `input.multi-select`, статус `in-review`
+
 Trigger открывает Listbox и при наличии tags; Chevron остаётся видимым. Tags
 заполняют доступную ширину поля, а `+N` появляется только для значений, которые
 перестали помещаться после пересчёта текущей ширины. Read показывает полный список.

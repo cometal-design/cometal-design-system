@@ -5,6 +5,7 @@ status: in-review
 platform: web
 framework: react
 figma: "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1571-8954"
+storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-radio-button--overview"
 ---
 
 # Radio Button

@@ -5,7 +5,7 @@ import { Button, buttonSizes, buttonVariants } from '@cometal/react';
 import type { ButtonProps, ButtonVariant } from '@cometal/react';
 import { ComponentCodeExample } from './ComponentCodeExample';
 
-const FIGMA_URL = 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=835-3693';
+const FIGMA_URL = 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=808-4393';
 const SOURCE_URL = 'https://github.com/cometal-design/cometal-design-system/blob/main/packages/react/src/Button/Button.tsx';
 
 const variantLabels: Record<ButtonVariant, string> = {

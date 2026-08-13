@@ -4,5 +4,10 @@
 Figma properties: start/end icon, независимый counter и scrollbar. Helper и
 counter занимают разные края одной supporting-строки.
 
-Визуальный источник: Figma DS Core `1102:8399`.
-Поведение и API: `packages/react/src/Field/Field.tsx`.
+## Источники
+
+- Figma: [Component Set `1102:8399`](https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1102-8399)
+- Спецификация: [[../../specifications/components/text-area]]
+- React: `packages/react/src/Field/Field.tsx`
+- Storybook: https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--text-area-playground
+- Реестр: `input.text-area`, статус `in-review`

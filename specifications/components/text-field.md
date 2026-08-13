@@ -5,6 +5,7 @@ status: in-review
 platform: web
 framework: react
 figma: "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1102-8230"
+storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--text-field-playground"
 ---
 
 # Text Field

@@ -4,6 +4,14 @@
 focus и pointer click не открывают его сами по себе, Escape закрывает,
 `onOptionSelect` возвращает выбранное значение.
 
+## Источники
+
+- Figma: [Component Set `1104:661`](https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1104-661)
+- Спецификация: [[../../specifications/components/combobox]]
+- React: `packages/react/src/Field/Field.tsx`
+- Storybook: https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--combobox-playground
+- Реестр: `input.combobox`, статус `in-review`
+
 Ввод фильтрует options без учёта регистра. Listbox появляется только для непустого
 запроса с совпадениями. Выбор результата подставляет label в поле, синхронизирует
 Read-демонстрацию и закрывает Listbox.
