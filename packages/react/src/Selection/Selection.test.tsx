@@ -19,6 +19,7 @@ describe('Selection controls', () => {
 
     expect(medium).toContain('viewBox="0 0 16 16"');
     expect(medium).toContain('M4.5 7.88L6.74 10.12L11.5 5.08');
+    expect(medium).toContain('stroke-width="var(--cometal-primitive-stroke-140)"');
     expect(small).toContain('viewBox="0 0 14 14"');
     expect(small).toContain('M4 6.84L5.92 8.76L10 4.44');
   });

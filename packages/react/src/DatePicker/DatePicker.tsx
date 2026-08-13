@@ -107,7 +107,7 @@ function fullDateLabel(date: Date, locale: string) {
 function CalendarIcon() {
   return (
     <svg viewBox="0 0 16 18" fill="none" focusable="false" aria-hidden="true">
-      <path d="M4.5 13.25v-.07M8.25 13.25v-.07M8.25 9.75v-.07M11.58 9.75v-.07M2 6.32h11.67M3.5 1.4v1.29M12 1.4v1.29M12 2.69H3.67A2.53 2.53 0 0 0 1.17 5.26v8.57a2.53 2.53 0 0 0 2.5 2.57H12a2.53 2.53 0 0 0 2.5-2.57V5.26A2.53 2.53 0 0 0 12 2.69Z" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+      <path d="M4.5 13.25v-.07M8.25 13.25v-.07M8.25 9.75v-.07M11.58 9.75v-.07M2 6.32h11.67M3.5 1.4v1.29M12 1.4v1.29M12 2.69H3.67A2.53 2.53 0 0 0 1.17 5.26v8.57a2.53 2.53 0 0 0 2.5 2.57H12a2.53 2.53 0 0 0 2.5-2.57V5.26A2.53 2.53 0 0 0 12 2.69Z" stroke="currentColor" strokeWidth="var(--cometal-primitive-stroke-140)" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
     </svg>
   );
 }
@@ -115,7 +115,7 @@ function CalendarIcon() {
 function ChevronIcon({ direction }: { direction: 'left' | 'right' }) {
   return (
     <svg viewBox="0 0 20 20" fill="none" focusable="false" aria-hidden="true" data-direction={direction}>
-      <path d="M7.7 4.8 12.9 10l-5.2 5.2" stroke="currentColor" strokeWidth="1.6" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+      <path d="M7.7 4.8 12.9 10l-5.2 5.2" stroke="currentColor" strokeWidth="var(--cometal-primitive-stroke-140)" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
     </svg>
   );
 }

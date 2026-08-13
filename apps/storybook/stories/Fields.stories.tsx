@@ -152,12 +152,25 @@ export const SizingContract: Story = {
   parameters: { controls: { disable: true } },
   render: () => (
     <div className="ds-control-sizing-story">
-      {fieldSizes.map((size) => <TextField key={size} label={`${size.toUpperCase()} · ${size === 'l' ? '48' : size === 'm' ? '40' : '32'}px`} size={size} placeholder="Введите значение" />)}
+      {fieldSizes.map((size) => (
+        <div key={size} data-sizing-row={size}>
+          <TextField label={`${size.toUpperCase()} · ${size === 'l' ? '48' : size === 'm' ? '40' : '32'}px`} size={size} placeholder="Введите значение" />
+          <Select label="Статус" options={options} size={size} />
+          <Combobox label="Контрагент" placeholder="Найдите значение" options={contractorOptions} size={size} />
+        </div>
+      ))}
     </div>
   ),
   play: async ({ canvasElement }) => {
-    const controls = Array.from(canvasElement.querySelectorAll<HTMLElement>('.cometal-field__control'));
-    await expect(controls.map((control) => control.getBoundingClientRect().height)).toEqual([48, 40, 32]);
+    const expectedHeights = { l: 48, m: 40, s: 32 } as const;
+    for (const size of fieldSizes) {
+      const row = canvasElement.querySelector<HTMLElement>(`[data-sizing-row="${size}"]`);
+      const controls = Array.from(row?.querySelectorAll<HTMLElement>('.cometal-field__control') ?? []);
+      const strokeNodes = Array.from(row?.querySelectorAll<SVGElement>('svg [stroke]:not([stroke="none"])') ?? []);
+      await expect(controls.map((control) => control.getBoundingClientRect().height)).toEqual(Array(3).fill(expectedHeights[size]));
+      await expect(strokeNodes).toHaveLength(2);
+      await expect(strokeNodes.map((node) => getComputedStyle(node).strokeWidth)).toEqual(Array(2).fill('1.4px'));
+    }
   },
 };
 export const TextFieldPlayground: Story = { name: 'Text Field', play: async ({ canvasElement }) => { const canvas = within(canvasElement); await expect(canvas.getByRole('textbox', { name: 'Название поля' })).toBeEnabled(); } };

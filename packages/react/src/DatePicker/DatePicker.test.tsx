@@ -19,6 +19,7 @@ describe('DatePicker date model', () => {
     expect(html).toContain('aria-haspopup="dialog"');
     expect(html).toContain('name="deliveryDate"');
     expect(html).toContain('value="2026-07-15"');
+    expect(html).toContain('stroke-width="var(--cometal-primitive-stroke-140)"');
   });
 
   it('renders the open calendar as a labelled grid with the complete visible weeks', () => {

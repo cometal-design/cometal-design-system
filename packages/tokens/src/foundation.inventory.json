@@ -4,21 +4,21 @@
   "figma": {
     "fileKey": "KKNGucImxFAtQLBhPy8tLs",
     "variables": {
-      "total": 627,
-      "foundation": 557,
-      "primitive": 402,
+      "total": 628,
+      "foundation": 558,
+      "primitive": 403,
       "semantic": 155,
       "component": 70,
       "color": 529,
-      "dimension": 98,
+      "dimension": 99,
       "withAliases": 225,
-      "withCodeSyntax": 627,
-      "withScopes": 627
+      "withCodeSyntax": 628,
+      "withScopes": 628
     },
     "collections": [
       {
         "name": "Primitive",
-        "variables": 402,
+        "variables": 403,
         "modes": 1
       },
       {

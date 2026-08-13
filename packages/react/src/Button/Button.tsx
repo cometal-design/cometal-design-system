@@ -86,7 +86,7 @@ function ButtonLoader() {
         <path
           d="M7.5 3.42857V0M7.5 15V11.5714M11.5714 7.5H15M0 7.5H3.42857M10.3792 4.62121L12.8036 2.19685M2.19617 12.8034L4.62054 10.379M10.3792 10.3788L12.8036 12.8032M2.19617 2.19659L4.62054 4.62095"
           stroke="currentColor"
-          strokeWidth="1.6"
+          strokeWidth="var(--cometal-primitive-stroke-140)"
           strokeLinecap="round"
           strokeLinejoin="round"
           vectorEffect="non-scaling-stroke"

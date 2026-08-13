@@ -137,6 +137,9 @@ export const OpenCalendar: Story = {
     await expect(panel?.getBoundingClientRect().width).toBe(expectedPanelWidth);
     await expect(firstCell?.getBoundingClientRect().width).toBe(44);
     await expect(selectedDay?.getBoundingClientRect().width).toBe(40);
+    const strokeNodes = Array.from(canvasElement.querySelectorAll<SVGElement>('[data-cometal-component="date-picker"] svg [stroke]:not([stroke="none"])'));
+    await expect(strokeNodes.length).toBeGreaterThanOrEqual(3);
+    await expect(strokeNodes.every((node) => getComputedStyle(node).strokeWidth === '1.4px')).toBe(true);
     if (viewportWidth > 360) {
       await expect(panel?.getBoundingClientRect().height).toBe(350);
       await expect(canvasElement.querySelector<HTMLElement>('.cometal-date-picker__month-header')?.getBoundingClientRect().height).toBe(32);

@@ -46,6 +46,7 @@ describe('Fields', () => {
     expect(textarea).toContain('5 / 500');
     expect(select).toContain('<select');
     expect(select).toContain('Активный');
+    expect(select).toContain('stroke-width="var(--cometal-primitive-stroke-140)"');
   });
 
   it('exposes combobox and multi-select popup semantics', () => {

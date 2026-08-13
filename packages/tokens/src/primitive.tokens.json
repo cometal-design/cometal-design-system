@@ -7546,6 +7546,21 @@
           }
         }
       },
+      "140": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1.4,
+          "unit": "px"
+        },
+        "$description": "Canonical stroke width for all Cometal outline icons. The icon frame may scale, but the rendered line remains 1.4 px.",
+        "$extensions": {
+          "com.cometal.figma": {
+            "id": "VariableID:2448:189",
+            "key": "b3d90386ec762f1395d0e2b375a5507e65cb4e2b",
+            "name": "Stroke/140"
+          }
+        }
+      },
       "200": {
         "$type": "dimension",
         "$value": {

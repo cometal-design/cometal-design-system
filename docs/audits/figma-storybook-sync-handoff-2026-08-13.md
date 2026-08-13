@@ -15,11 +15,11 @@ The earlier audit documents remain immutable baseline evidence. This handoff rec
 
 | Metric | Result |
 | --- | ---: |
-| Variables | 627 |
-| Primitive | 402 |
+| Variables | 628 |
+| Primitive | 403 |
 | Semantic | 155 |
 | Component | 70 |
-| Color / Float | 529 / 98 |
+| Color / Float | 529 / 99 |
 | Broken aliases | 0 |
 | Alias cycles | 0 |
 | Missing mode values | 0 |
@@ -28,7 +28,7 @@ The earlier audit documents remain immutable baseline evidence. This handoff rec
 | Missing descriptions | 0 |
 | Deprecated variables | 0 |
 
-Collections: Primitive 402, Semantic 155, Button 1, Input 7, Option 3, Badge 18, Icon 1, Table 40.
+Collections: Primitive 403, Semantic 155, Button 1, Input 7, Option 3, Badge 18, Icon 1, Table 40.
 
 ### Figma corrections
 
@@ -36,6 +36,7 @@ Collections: Primitive 402, Semantic 155, Button 1, Input 7, Option 3, Badge 18,
 - `Dark/Surface/Yellow` (`VariableID:2126:1334`) now aliases `Color Primitive Palette/Yellow/700/100` (`VariableID:305:19465`).
 - The Colors semantic map was updated to show the same Supporting alias and hex value.
 - Button component-set names and descriptions use `Ghost` and `Inverse Ghost` consistently.
+- `Stroke/140` (`VariableID:2448:189`) defines the global `1.4px` outline-icon contract and is bound to all 875 Outline icon masters plus 12 local Checkbox marks.
 - All 9 unused deprecated variables were removed after Figma and repository consumer audits:
   - `VariableID:780:1325`, `VariableID:780:1327`, `VariableID:780:1328`;
   - `VariableID:780:1330`, `VariableID:780:1331`, `VariableID:780:1333`;
@@ -43,9 +44,9 @@ Collections: Primitive 402, Semantic 155, Button 1, Input 7, Option 3, Badge 18,
 
 ## Downstream synchronization
 
-- Imported the complete 627-variable Figma snapshot into DTCG sources.
+- Imported the complete 628-variable Figma snapshot into DTCG sources.
 - Bound Button and Fields runtime CSS to existing component token roles.
-- Preserved the approved sizing contract: controls `32 / 40 / 48`, icons `14 / 16 / 20`, outline stroke `1.6px`.
+- Preserved the approved sizing contract: controls `32 / 40 / 48`, icons `14 / 16 / 20`, outline stroke `1.4px` at every rendered icon size.
 - Added Badge to tokens, React, Storybook, portal, registry, specification and Obsidian.
 - Normalized Button links to the exact Primary component set and documented all 9 public Figma sets.
 - Added exact Storybook links to every component specification and Obsidian passport.
@@ -65,6 +66,7 @@ Collections: Primitive 402, Semantic 155, Button 1, Input 7, Option 3, Badge 18,
 - Direct canvas QA used Chromium at `1440x900`, DPR 1, and `390x844`.
 - No horizontal overflow on Button, Badge, Fields, Date Picker, Checkbox, Radio Button or Switch overviews.
 - Button heights and icons: `48/20`, `40/16`, `32/14`.
+- Computed SVG path stroke: `1.4px` in Button, Fields, Checkbox and Date Picker stories; vector scaling cannot reduce it.
 - Field heights: `48`, `40`, `32`.
 - Focus ring: `2px` with `2px` offset; the control border remains present.
 - Select, Combobox and Multi Select listbox gap: `6px`; no clipping.

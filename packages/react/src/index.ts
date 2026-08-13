@@ -1,5 +1,7 @@
 "use client";
 
+import './icon.css';
+
 export { ActionLink, Button, IconButton, buttonSizes, buttonVariants } from './Button/Button';
 export type { ActionLinkProps, ButtonProps, ButtonSize, ButtonVariant, IconButtonProps } from './Button/Button';
 export { Badge, badgeSurfaces, badgeTones } from './Badge/Badge';

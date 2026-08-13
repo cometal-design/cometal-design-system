@@ -38,7 +38,7 @@ function Arrow() {
       <path
         d="M13.3333 19L20 12L13.3333 5M20 12H4"
         stroke="currentColor"
-        strokeWidth="1.6"
+        strokeWidth="var(--cometal-primitive-stroke-140)"
         strokeLinecap="round"
         strokeLinejoin="round"
         vectorEffect="non-scaling-stroke"
@@ -235,6 +235,9 @@ export const SizingContract: Story = {
       await expect(buttons).toHaveLength(4);
       await expect(buttons.map((button) => button.getBoundingClientRect().height)).toEqual(Array(4).fill(expectedHeights[size]));
       await expect(icons.map((icon) => icon.getBoundingClientRect().width)).toEqual(Array(3).fill(expectedIconSizes[size]));
+      const strokeNodes = Array.from(row?.querySelectorAll<SVGElement>('svg [stroke]:not([stroke="none"])') ?? []);
+      await expect(strokeNodes).toHaveLength(3);
+      await expect(strokeNodes.map((node) => getComputedStyle(node).strokeWidth)).toEqual(Array(3).fill('1.4px'));
       await expect(buttons.at(-1)?.getBoundingClientRect().width).toBe(expectedHeights[size]);
     }
   },
