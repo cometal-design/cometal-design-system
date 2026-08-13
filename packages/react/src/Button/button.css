@@ -6,7 +6,7 @@
   --cometal-button-content: var(--cometal-semantic-color-text-primary);
   --cometal-button-content-hover: var(--cometal-button-content);
   --cometal-button-content-pressed: var(--cometal-button-content);
-  --cometal-button-content-disabled: var(--cometal-primitive-color-primitive-palette-neutral-500-100);
+  --cometal-button-content-disabled: var(--cometal-component-button-content-disabled);
   --cometal-button-height: var(--cometal-semantic-size-button-l);
   --cometal-button-icon-size: var(--cometal-semantic-size-icon-button-l);
   --cometal-button-inset: var(--cometal-semantic-spacing-button-l-inset-icon);
@@ -151,14 +151,14 @@
   --cometal-button-container: var(--cometal-semantic-color-button-primary-container-default);
   --cometal-button-container-hover: var(--cometal-semantic-color-button-primary-container-hover);
   --cometal-button-container-pressed: var(--cometal-semantic-color-button-primary-container-pressed);
-  --cometal-button-content: var(--cometal-semantic-color-text-inverse);
+  --cometal-button-content: var(--cometal-component-button-content-on-color);
 }
 
 .cometal-button[data-variant='secondary'] {
   --cometal-button-container: var(--cometal-semantic-color-button-secondary-container-default);
   --cometal-button-container-hover: var(--cometal-semantic-color-button-secondary-container-hover);
   --cometal-button-container-pressed: var(--cometal-semantic-color-button-secondary-container-pressed);
-  --cometal-button-content: var(--cometal-primitive-color-primitive-palette-neutral-800-100);
+  --cometal-button-content: var(--cometal-component-button-content-neutral);
 }
 
 .cometal-button[data-variant='ghost'] {
@@ -166,8 +166,8 @@
   --cometal-button-container-hover: var(--cometal-semantic-color-button-ghost-container-hover);
   --cometal-button-container-pressed: var(--cometal-semantic-color-button-ghost-container-pressed);
   --cometal-button-container-disabled: var(--cometal-semantic-color-button-ghost-container-disabled);
-  --cometal-button-content: var(--cometal-semantic-color-text-inverse);
-  --cometal-button-content-disabled: var(--cometal-primitive-color-primitive-palette-neutral-0-40);
+  --cometal-button-content: var(--cometal-component-button-content-on-color);
+  --cometal-button-content-disabled: var(--cometal-component-button-content-on-color-disabled);
 }
 
 .cometal-button[data-variant='link'] {
@@ -175,38 +175,38 @@
   --cometal-button-container-hover: var(--cometal-semantic-color-button-link-container-hover);
   --cometal-button-container-pressed: var(--cometal-semantic-color-button-link-container-pressed);
   --cometal-button-container-disabled: var(--cometal-semantic-color-button-link-container-disabled);
-  --cometal-button-content: var(--cometal-semantic-color-action-brand-default);
-  --cometal-button-content-hover: var(--cometal-semantic-color-action-brand-hover);
-  --cometal-button-content-pressed: var(--cometal-semantic-color-text-link-pressed);
-  --cometal-button-content-disabled: var(--cometal-semantic-color-text-link-disabled);
+  --cometal-button-content: var(--cometal-component-button-content-link);
+  --cometal-button-content-hover: var(--cometal-component-button-content-link-hover);
+  --cometal-button-content-pressed: var(--cometal-component-button-content-link-pressed);
+  --cometal-button-content-disabled: var(--cometal-component-button-content-on-color-disabled);
 }
 
 .cometal-button[data-variant='danger'] {
   --cometal-button-container: var(--cometal-semantic-color-button-danger-container-default);
   --cometal-button-container-hover: var(--cometal-semantic-color-button-danger-container-hover);
   --cometal-button-container-pressed: var(--cometal-semantic-color-button-danger-container-pressed);
-  --cometal-button-content: var(--cometal-semantic-color-text-inverse);
+  --cometal-button-content: var(--cometal-component-button-content-on-color);
 }
 
 .cometal-button[data-variant='success'] {
   --cometal-button-container: var(--cometal-semantic-color-button-success-container-default);
   --cometal-button-container-hover: var(--cometal-semantic-color-button-success-container-hover);
   --cometal-button-container-pressed: var(--cometal-semantic-color-button-success-container-pressed);
-  --cometal-button-content: var(--cometal-semantic-color-text-inverse);
+  --cometal-button-content: var(--cometal-component-button-content-on-color);
 }
 
 .cometal-button[data-variant='warning'] {
   --cometal-button-container: var(--cometal-semantic-color-button-warning-container-default);
   --cometal-button-container-hover: var(--cometal-semantic-color-button-warning-container-hover);
   --cometal-button-container-pressed: var(--cometal-semantic-color-button-warning-container-pressed);
-  --cometal-button-content: var(--cometal-semantic-color-text-inverse);
+  --cometal-button-content: var(--cometal-component-button-content-on-color);
 }
 
 .cometal-button[data-variant='inverse'] {
   --cometal-button-container: var(--cometal-semantic-color-button-inverse-container-default);
   --cometal-button-container-hover: var(--cometal-semantic-color-button-inverse-container-hover);
   --cometal-button-container-pressed: var(--cometal-semantic-color-button-inverse-container-pressed);
-  --cometal-button-content: var(--cometal-primitive-color-primitive-palette-neutral-800-100);
+  --cometal-button-content: var(--cometal-component-button-content-neutral);
 }
 
 .cometal-button[data-variant='inverse-ghost'] {
@@ -214,8 +214,8 @@
   --cometal-button-container-hover: var(--cometal-semantic-color-button-inverse-ghost-container-hover);
   --cometal-button-container-pressed: var(--cometal-semantic-color-button-inverse-ghost-container-pressed);
   --cometal-button-container-disabled: var(--cometal-semantic-color-button-inverse-ghost-container-disabled);
-  --cometal-button-content: var(--cometal-semantic-color-text-inverse);
-  --cometal-button-content-disabled: var(--cometal-primitive-color-primitive-palette-neutral-0-40);
+  --cometal-button-content: var(--cometal-component-button-content-on-color);
+  --cometal-button-content-disabled: var(--cometal-component-button-content-on-color-disabled);
 }
 
 .cometal-button[data-loading='true'] {
