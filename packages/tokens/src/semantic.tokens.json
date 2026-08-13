@@ -757,7 +757,7 @@
         },
         "Supporting": {
           "$type": "color",
-          "$value": "{Primitive.Color Primitive Palette.Neutral.500.100}",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.600.100}",
           "$extensions": {
             "com.cometal.figma": {
               "id": "VariableID:2406:5",

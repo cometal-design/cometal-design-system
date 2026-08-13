@@ -1142,7 +1142,7 @@
           },
           "Yellow": {
             "$type": "color",
-            "$value": "{Primitive.Color Primitive Palette.Yellow.600.100}",
+            "$value": "{Primitive.Color Primitive Palette.Yellow.700.100}",
             "$extensions": {
               "com.cometal.figma": {
                 "id": "VariableID:2126:1334",
