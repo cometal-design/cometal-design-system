@@ -154,10 +154,15 @@ export const PointerMotion: Story = {
     await userEvent.click(canvas.getByRole('button', { name: 'Открыть календарь' }));
     const panel = canvas.getByRole('dialog', { name: 'Июль 2026' });
     const motion = getComputedStyle(panel);
-    await expect(motion.transitionProperty).toContain('opacity');
-    await expect(motion.transitionProperty).toContain('transform');
-    await expect(motion.transitionDuration).toContain('0.16s');
-    await expect(motion.transitionDuration).toContain('0.18s');
+    const reducedMotion = canvasElement.ownerDocument.defaultView?.matchMedia('(prefers-reduced-motion: reduce)').matches;
+    if (reducedMotion) {
+      await expect(motion.transitionProperty).toBe('none');
+    } else {
+      await expect(motion.transitionProperty).toContain('opacity');
+      await expect(motion.transitionProperty).toContain('transform');
+      await expect(motion.transitionDuration).toContain('0.16s');
+      await expect(motion.transitionDuration).toContain('0.18s');
+    }
   },
 };
 
