@@ -1,0 +1,2609 @@
+{
+  "Component": {
+    "$description": "Component-level design tokens synchronized from Figma DS Core.",
+    "Button": {
+      "$description": "Mode-aware Button roles from Figma component collection.",
+      "$extensions": {
+        "com.cometal.figma": {
+          "fileKey": "KKNGucImxFAtQLBhPy8tLs",
+          "collectionId": "VariableCollectionId:799:1567",
+          "collectionKey": "c1e7397d50d80abc858d84cb22014fde0bc3ff52",
+          "modes": [
+            {
+              "name": "On Color",
+              "modeId": "799:0"
+            },
+            {
+              "name": "Disabled",
+              "modeId": "799:1"
+            },
+            {
+              "name": "Neutral",
+              "modeId": "847:0"
+            },
+            {
+              "name": "Link",
+              "modeId": "847:1"
+            },
+            {
+              "name": "Link Hover",
+              "modeId": "847:2"
+            },
+            {
+              "name": "Link Pressed",
+              "modeId": "847:3"
+            },
+            {
+              "name": "On Color Disabled",
+              "modeId": "847:4"
+            }
+          ]
+        }
+      },
+      "Content": {
+        "On Color": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Inverse}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:799:1568",
+              "key": "c82654d2cd1d0918b3164e79e19a947779a4cef4",
+              "name": "Content",
+              "mode": "On Color",
+              "description": "Primary button content color. Mode is inherited from the parent button state."
+            }
+          }
+        },
+        "Disabled": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Disabled Strong}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:799:1568",
+              "key": "c82654d2cd1d0918b3164e79e19a947779a4cef4",
+              "name": "Content",
+              "mode": "Disabled",
+              "description": "Primary button content color. Mode is inherited from the parent button state."
+            }
+          }
+        },
+        "Neutral": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Label}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:799:1568",
+              "key": "c82654d2cd1d0918b3164e79e19a947779a4cef4",
+              "name": "Content",
+              "mode": "Neutral",
+              "description": "Primary button content color. Mode is inherited from the parent button state."
+            }
+          }
+        },
+        "Link": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Link.Default}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:799:1568",
+              "key": "c82654d2cd1d0918b3164e79e19a947779a4cef4",
+              "name": "Content",
+              "mode": "Link",
+              "description": "Primary button content color. Mode is inherited from the parent button state."
+            }
+          }
+        },
+        "Link Hover": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Link.Hover}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:799:1568",
+              "key": "c82654d2cd1d0918b3164e79e19a947779a4cef4",
+              "name": "Content",
+              "mode": "Link Hover",
+              "description": "Primary button content color. Mode is inherited from the parent button state."
+            }
+          }
+        },
+        "Link Pressed": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Link.Pressed}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:799:1568",
+              "key": "c82654d2cd1d0918b3164e79e19a947779a4cef4",
+              "name": "Content",
+              "mode": "Link Pressed",
+              "description": "Primary button content color. Mode is inherited from the parent button state."
+            }
+          }
+        },
+        "On Color Disabled": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Inverse Disabled}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:799:1568",
+              "key": "c82654d2cd1d0918b3164e79e19a947779a4cef4",
+              "name": "Content",
+              "mode": "On Color Disabled",
+              "description": "Primary button content color. Mode is inherited from the parent button state."
+            }
+          }
+        }
+      }
+    },
+    "Input": {
+      "$description": "Mode-aware Input roles from Figma component collection.",
+      "$extensions": {
+        "com.cometal.figma": {
+          "fileKey": "KKNGucImxFAtQLBhPy8tLs",
+          "collectionId": "VariableCollectionId:981:2472",
+          "collectionKey": "0fcc488ad11f2aa0f574c3a9bafae5c46e2f0083",
+          "modes": [
+            {
+              "name": "Default",
+              "modeId": "981:0"
+            },
+            {
+              "name": "Hover",
+              "modeId": "981:1"
+            },
+            {
+              "name": "Focus",
+              "modeId": "981:2"
+            },
+            {
+              "name": "Error",
+              "modeId": "981:3"
+            },
+            {
+              "name": "Disabled",
+              "modeId": "981:4"
+            },
+            {
+              "name": "Success",
+              "modeId": "1006:0"
+            }
+          ]
+        }
+      },
+      "Surface": {
+        "Default": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Surface.Canvas}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2473",
+              "key": "fb14c91af1b81bbf42ede30fa11dbf321f9a2059",
+              "name": "Surface",
+              "mode": "Default",
+              "description": "Component-level Input surface token. Value changes by input state mode."
+            }
+          }
+        },
+        "Hover": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Surface.Canvas}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2473",
+              "key": "fb14c91af1b81bbf42ede30fa11dbf321f9a2059",
+              "name": "Surface",
+              "mode": "Hover",
+              "description": "Component-level Input surface token. Value changes by input state mode."
+            }
+          }
+        },
+        "Focus": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Surface.Canvas}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2473",
+              "key": "fb14c91af1b81bbf42ede30fa11dbf321f9a2059",
+              "name": "Surface",
+              "mode": "Focus",
+              "description": "Component-level Input surface token. Value changes by input state mode."
+            }
+          }
+        },
+        "Error": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Surface.Canvas}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2473",
+              "key": "fb14c91af1b81bbf42ede30fa11dbf321f9a2059",
+              "name": "Surface",
+              "mode": "Error",
+              "description": "Component-level Input surface token. Value changes by input state mode."
+            }
+          }
+        },
+        "Disabled": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Surface.Subtle}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2473",
+              "key": "fb14c91af1b81bbf42ede30fa11dbf321f9a2059",
+              "name": "Surface",
+              "mode": "Disabled",
+              "description": "Component-level Input surface token. Value changes by input state mode."
+            }
+          }
+        },
+        "Success": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Surface.Canvas}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2473",
+              "key": "fb14c91af1b81bbf42ede30fa11dbf321f9a2059",
+              "name": "Surface",
+              "mode": "Success",
+              "description": "Component-level Input surface token. Value changes by input state mode."
+            }
+          }
+        }
+      },
+      "Border": {
+        "Default": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Border.Default}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2474",
+              "key": "d7ad89911a4d02c29048173410bcfcfb86535aae",
+              "name": "Border",
+              "mode": "Default",
+              "description": "Component-level Input border token. Value changes by input state mode."
+            }
+          }
+        },
+        "Hover": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Border.Hover}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2474",
+              "key": "d7ad89911a4d02c29048173410bcfcfb86535aae",
+              "name": "Border",
+              "mode": "Hover",
+              "description": "Component-level Input border token. Value changes by input state mode."
+            }
+          }
+        },
+        "Focus": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Border.Brand}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2474",
+              "key": "d7ad89911a4d02c29048173410bcfcfb86535aae",
+              "name": "Border",
+              "mode": "Focus",
+              "description": "Component-level Input border token. Value changes by input state mode."
+            }
+          }
+        },
+        "Error": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Border.Danger}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2474",
+              "key": "d7ad89911a4d02c29048173410bcfcfb86535aae",
+              "name": "Border",
+              "mode": "Error",
+              "description": "Component-level Input border token. Value changes by input state mode."
+            }
+          }
+        },
+        "Disabled": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Border.Disabled}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2474",
+              "key": "d7ad89911a4d02c29048173410bcfcfb86535aae",
+              "name": "Border",
+              "mode": "Disabled",
+              "description": "Component-level Input border token. Value changes by input state mode."
+            }
+          }
+        },
+        "Success": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Border.Success}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2474",
+              "key": "d7ad89911a4d02c29048173410bcfcfb86535aae",
+              "name": "Border",
+              "mode": "Success",
+              "description": "Component-level Input border token. Value changes by input state mode."
+            }
+          }
+        }
+      },
+      "Content": {
+        "Default": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Primary}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2475",
+              "key": "c373bce1a604a484c4cbd2b7e6121b31d307d9e7",
+              "name": "Content",
+              "mode": "Default",
+              "description": "Component-level Input content token. Value changes by input state mode."
+            }
+          }
+        },
+        "Hover": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Primary}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2475",
+              "key": "c373bce1a604a484c4cbd2b7e6121b31d307d9e7",
+              "name": "Content",
+              "mode": "Hover",
+              "description": "Component-level Input content token. Value changes by input state mode."
+            }
+          }
+        },
+        "Focus": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Primary}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2475",
+              "key": "c373bce1a604a484c4cbd2b7e6121b31d307d9e7",
+              "name": "Content",
+              "mode": "Focus",
+              "description": "Component-level Input content token. Value changes by input state mode."
+            }
+          }
+        },
+        "Error": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Primary}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2475",
+              "key": "c373bce1a604a484c4cbd2b7e6121b31d307d9e7",
+              "name": "Content",
+              "mode": "Error",
+              "description": "Component-level Input content token. Value changes by input state mode."
+            }
+          }
+        },
+        "Disabled": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Disabled}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2475",
+              "key": "c373bce1a604a484c4cbd2b7e6121b31d307d9e7",
+              "name": "Content",
+              "mode": "Disabled",
+              "description": "Component-level Input content token. Value changes by input state mode."
+            }
+          }
+        },
+        "Success": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Primary}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2475",
+              "key": "c373bce1a604a484c4cbd2b7e6121b31d307d9e7",
+              "name": "Content",
+              "mode": "Success",
+              "description": "Component-level Input content token. Value changes by input state mode."
+            }
+          }
+        }
+      },
+      "Placeholder": {
+        "Default": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Placeholder}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2476",
+              "key": "45dcedb9a1ca55ae5bd73b44b43586b18a424b2a",
+              "name": "Placeholder",
+              "mode": "Default",
+              "description": "Component-level Input placeholder token. Value changes by input state mode."
+            }
+          }
+        },
+        "Hover": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Muted}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2476",
+              "key": "45dcedb9a1ca55ae5bd73b44b43586b18a424b2a",
+              "name": "Placeholder",
+              "mode": "Hover",
+              "description": "Component-level Input placeholder token. Value changes by input state mode."
+            }
+          }
+        },
+        "Focus": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Placeholder}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2476",
+              "key": "45dcedb9a1ca55ae5bd73b44b43586b18a424b2a",
+              "name": "Placeholder",
+              "mode": "Focus",
+              "description": "Component-level Input placeholder token. Value changes by input state mode."
+            }
+          }
+        },
+        "Error": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Placeholder}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2476",
+              "key": "45dcedb9a1ca55ae5bd73b44b43586b18a424b2a",
+              "name": "Placeholder",
+              "mode": "Error",
+              "description": "Component-level Input placeholder token. Value changes by input state mode."
+            }
+          }
+        },
+        "Disabled": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Disabled}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2476",
+              "key": "45dcedb9a1ca55ae5bd73b44b43586b18a424b2a",
+              "name": "Placeholder",
+              "mode": "Disabled",
+              "description": "Component-level Input placeholder token. Value changes by input state mode."
+            }
+          }
+        },
+        "Success": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Placeholder}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2476",
+              "key": "45dcedb9a1ca55ae5bd73b44b43586b18a424b2a",
+              "name": "Placeholder",
+              "mode": "Success",
+              "description": "Component-level Input placeholder token. Value changes by input state mode."
+            }
+          }
+        }
+      },
+      "Label": {
+        "Default": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Label}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2477",
+              "key": "b7390318248ce2f3b941551320fd2ff3e3862d4c",
+              "name": "Label",
+              "mode": "Default",
+              "description": "Component-level Input label token. Value changes by input state mode."
+            }
+          }
+        },
+        "Hover": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Primary}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2477",
+              "key": "b7390318248ce2f3b941551320fd2ff3e3862d4c",
+              "name": "Label",
+              "mode": "Hover",
+              "description": "Component-level Input label token. Value changes by input state mode."
+            }
+          }
+        },
+        "Focus": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Primary}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2477",
+              "key": "b7390318248ce2f3b941551320fd2ff3e3862d4c",
+              "name": "Label",
+              "mode": "Focus",
+              "description": "Component-level Input label token. Value changes by input state mode."
+            }
+          }
+        },
+        "Error": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Danger}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2477",
+              "key": "b7390318248ce2f3b941551320fd2ff3e3862d4c",
+              "name": "Label",
+              "mode": "Error",
+              "description": "Component-level Input label token. Value changes by input state mode."
+            }
+          }
+        },
+        "Disabled": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Disabled}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2477",
+              "key": "b7390318248ce2f3b941551320fd2ff3e3862d4c",
+              "name": "Label",
+              "mode": "Disabled",
+              "description": "Component-level Input label token. Value changes by input state mode."
+            }
+          }
+        },
+        "Success": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Success}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2477",
+              "key": "b7390318248ce2f3b941551320fd2ff3e3862d4c",
+              "name": "Label",
+              "mode": "Success",
+              "description": "Component-level Input label token. Value changes by input state mode."
+            }
+          }
+        }
+      },
+      "Helper": {
+        "Default": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Supporting}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2478",
+              "key": "cbe3613a202b135ba9bdd0b9c707958ba361c715",
+              "name": "Helper",
+              "mode": "Default",
+              "description": "Component-level Input helper token. Value changes by input state mode."
+            }
+          }
+        },
+        "Hover": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Supporting}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2478",
+              "key": "cbe3613a202b135ba9bdd0b9c707958ba361c715",
+              "name": "Helper",
+              "mode": "Hover",
+              "description": "Component-level Input helper token. Value changes by input state mode."
+            }
+          }
+        },
+        "Focus": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Supporting}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2478",
+              "key": "cbe3613a202b135ba9bdd0b9c707958ba361c715",
+              "name": "Helper",
+              "mode": "Focus",
+              "description": "Component-level Input helper token. Value changes by input state mode."
+            }
+          }
+        },
+        "Error": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Danger}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2478",
+              "key": "cbe3613a202b135ba9bdd0b9c707958ba361c715",
+              "name": "Helper",
+              "mode": "Error",
+              "description": "Component-level Input helper token. Value changes by input state mode."
+            }
+          }
+        },
+        "Disabled": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Disabled}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2478",
+              "key": "cbe3613a202b135ba9bdd0b9c707958ba361c715",
+              "name": "Helper",
+              "mode": "Disabled",
+              "description": "Component-level Input helper token. Value changes by input state mode."
+            }
+          }
+        },
+        "Success": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Success}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2478",
+              "key": "cbe3613a202b135ba9bdd0b9c707958ba361c715",
+              "name": "Helper",
+              "mode": "Success",
+              "description": "Component-level Input helper token. Value changes by input state mode."
+            }
+          }
+        }
+      },
+      "Icon": {
+        "Default": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Icon.Secondary}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2479",
+              "key": "35af601b2b9f763e8325bffef5f8fabb662d5010",
+              "name": "Icon",
+              "mode": "Default",
+              "description": "Component-level Input icon token. Value changes by input state mode."
+            }
+          }
+        },
+        "Hover": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Icon.Primary}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2479",
+              "key": "35af601b2b9f763e8325bffef5f8fabb662d5010",
+              "name": "Icon",
+              "mode": "Hover",
+              "description": "Component-level Input icon token. Value changes by input state mode."
+            }
+          }
+        },
+        "Focus": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Icon.Brand}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2479",
+              "key": "35af601b2b9f763e8325bffef5f8fabb662d5010",
+              "name": "Icon",
+              "mode": "Focus",
+              "description": "Component-level Input icon token. Value changes by input state mode."
+            }
+          }
+        },
+        "Error": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Icon.Danger}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2479",
+              "key": "35af601b2b9f763e8325bffef5f8fabb662d5010",
+              "name": "Icon",
+              "mode": "Error",
+              "description": "Component-level Input icon token. Value changes by input state mode."
+            }
+          }
+        },
+        "Disabled": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Icon.Disabled}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2479",
+              "key": "35af601b2b9f763e8325bffef5f8fabb662d5010",
+              "name": "Icon",
+              "mode": "Disabled",
+              "description": "Component-level Input icon token. Value changes by input state mode."
+            }
+          }
+        },
+        "Success": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Icon.Success}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:981:2479",
+              "key": "35af601b2b9f763e8325bffef5f8fabb662d5010",
+              "name": "Icon",
+              "mode": "Success",
+              "description": "Component-level Input icon token. Value changes by input state mode."
+            }
+          }
+        }
+      }
+    },
+    "Option": {
+      "$description": "Mode-aware Option roles from Figma component collection.",
+      "$extensions": {
+        "com.cometal.figma": {
+          "fileKey": "KKNGucImxFAtQLBhPy8tLs",
+          "collectionId": "VariableCollectionId:1077:5077",
+          "collectionKey": "e6d3bfd8c7b0e913fbebdc950d1b1e71ffe945be",
+          "modes": [
+            {
+              "name": "Default",
+              "modeId": "1077:0"
+            },
+            {
+              "name": "Hover",
+              "modeId": "1077:1"
+            },
+            {
+              "name": "Focus",
+              "modeId": "1077:2"
+            },
+            {
+              "name": "Selected",
+              "modeId": "1077:3"
+            },
+            {
+              "name": "Disabled",
+              "modeId": "1077:4"
+            }
+          ]
+        }
+      },
+      "Surface": {
+        "Default": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Surface.Canvas}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1077:5078",
+              "key": "5583dc79d0cb1fe0be7a1838c8e8d888d2950f8f",
+              "name": "Surface",
+              "mode": "Default",
+              "description": "Component-level Option surface token. Value changes by option state mode."
+            }
+          }
+        },
+        "Hover": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Action.Neutral.Hover}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1077:5078",
+              "key": "5583dc79d0cb1fe0be7a1838c8e8d888d2950f8f",
+              "name": "Surface",
+              "mode": "Hover",
+              "description": "Component-level Option surface token. Value changes by option state mode."
+            }
+          }
+        },
+        "Focus": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Surface.Canvas}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1077:5078",
+              "key": "5583dc79d0cb1fe0be7a1838c8e8d888d2950f8f",
+              "name": "Surface",
+              "mode": "Focus",
+              "description": "Component-level Option surface token. Value changes by option state mode."
+            }
+          }
+        },
+        "Selected": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Surface.Selected}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1077:5078",
+              "key": "5583dc79d0cb1fe0be7a1838c8e8d888d2950f8f",
+              "name": "Surface",
+              "mode": "Selected",
+              "description": "Component-level Option surface token. Value changes by option state mode."
+            }
+          }
+        },
+        "Disabled": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Surface.Canvas}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1077:5078",
+              "key": "5583dc79d0cb1fe0be7a1838c8e8d888d2950f8f",
+              "name": "Surface",
+              "mode": "Disabled",
+              "description": "Component-level Option surface token. Value changes by option state mode."
+            }
+          }
+        }
+      },
+      "Content": {
+        "Default": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Primary}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1077:5079",
+              "key": "10989493963b5bdf23dcfb6d07d0a25e1888574f",
+              "name": "Content",
+              "mode": "Default",
+              "description": "Component-level Option content token. Value changes by option state mode."
+            }
+          }
+        },
+        "Hover": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Primary}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1077:5079",
+              "key": "10989493963b5bdf23dcfb6d07d0a25e1888574f",
+              "name": "Content",
+              "mode": "Hover",
+              "description": "Component-level Option content token. Value changes by option state mode."
+            }
+          }
+        },
+        "Focus": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Primary}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1077:5079",
+              "key": "10989493963b5bdf23dcfb6d07d0a25e1888574f",
+              "name": "Content",
+              "mode": "Focus",
+              "description": "Component-level Option content token. Value changes by option state mode."
+            }
+          }
+        },
+        "Selected": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Selected}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1077:5079",
+              "key": "10989493963b5bdf23dcfb6d07d0a25e1888574f",
+              "name": "Content",
+              "mode": "Selected",
+              "description": "Component-level Option content token. Value changes by option state mode."
+            }
+          }
+        },
+        "Disabled": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Disabled}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1077:5079",
+              "key": "10989493963b5bdf23dcfb6d07d0a25e1888574f",
+              "name": "Content",
+              "mode": "Disabled",
+              "description": "Component-level Option content token. Value changes by option state mode."
+            }
+          }
+        }
+      },
+      "Indicator": {
+        "Default": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Border.Control}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1077:5080",
+              "key": "66ee6143e0ebf6212dac26dc8376fa81ea7c6ed2",
+              "name": "Indicator",
+              "mode": "Default",
+              "description": "Component-level Option indicator token. Value changes by option state mode."
+            }
+          }
+        },
+        "Hover": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Border.Control}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1077:5080",
+              "key": "66ee6143e0ebf6212dac26dc8376fa81ea7c6ed2",
+              "name": "Indicator",
+              "mode": "Hover",
+              "description": "Component-level Option indicator token. Value changes by option state mode."
+            }
+          }
+        },
+        "Focus": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Icon.Brand}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1077:5080",
+              "key": "66ee6143e0ebf6212dac26dc8376fa81ea7c6ed2",
+              "name": "Indicator",
+              "mode": "Focus",
+              "description": "Component-level Option indicator token. Value changes by option state mode."
+            }
+          }
+        },
+        "Selected": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Icon.Brand}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1077:5080",
+              "key": "66ee6143e0ebf6212dac26dc8376fa81ea7c6ed2",
+              "name": "Indicator",
+              "mode": "Selected",
+              "description": "Component-level Option indicator token. Value changes by option state mode."
+            }
+          }
+        },
+        "Disabled": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Border.Disabled}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:1077:5080",
+              "key": "66ee6143e0ebf6212dac26dc8376fa81ea7c6ed2",
+              "name": "Indicator",
+              "mode": "Disabled",
+              "description": "Component-level Option indicator token. Value changes by option state mode."
+            }
+          }
+        }
+      }
+    },
+    "Badge": {
+      "$description": "Badge component roles from approved Figma set.",
+      "$extensions": {
+        "com.cometal.figma": {
+          "fileKey": "KKNGucImxFAtQLBhPy8tLs",
+          "collectionId": "VariableCollectionId:2033:3735",
+          "collectionKey": "477c82fb6f08b818f9dcce86f0c3432cca91cff9",
+          "modes": [
+            {
+              "name": "Default",
+              "modeId": "2033:10"
+            }
+          ]
+        }
+      },
+      "Light": {
+        "Surface": {
+          "Neutral": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Neutral.200.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2033:3736",
+                "key": "138cbb604a33f040c1535c6457f515ceee9daf4b",
+                "name": "Light/Surface/Neutral",
+                "description": "Badge component color role for Light/Surface/Neutral."
+              }
+            }
+          },
+          "Blue": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Blue.200.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2033:3738",
+                "key": "0e56afd5a7c60c9028db47d32da926d6a2b7cf48",
+                "name": "Light/Surface/Blue",
+                "description": "Badge component color role for Light/Surface/Blue."
+              }
+            }
+          },
+          "Cyan": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Cyan.200.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2033:3740",
+                "key": "80e65068efb334f6f779e92b972d532dfdf77891",
+                "name": "Light/Surface/Cyan",
+                "description": "Badge component color role for Light/Surface/Cyan."
+              }
+            }
+          },
+          "Green": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Green.200.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2033:3742",
+                "key": "bccae5b7d3ed1ce385bc4c5e7bcf3629fa66718e",
+                "name": "Light/Surface/Green",
+                "description": "Badge component color role for Light/Surface/Green."
+              }
+            }
+          },
+          "Yellow": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Yellow.200.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2033:3744",
+                "key": "1a2c03c454b575e00d570f3650093162b4e194f7",
+                "name": "Light/Surface/Yellow",
+                "description": "Badge component color role for Light/Surface/Yellow."
+              }
+            }
+          },
+          "Red": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Red.200.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2033:3745",
+                "key": "ed893ea5aae30fe60fdacda9dad4e8fb06fcbb58",
+                "name": "Light/Surface/Red",
+                "description": "Badge component color role for Light/Surface/Red."
+              }
+            }
+          },
+          "Violet": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Violet.200.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2033:3747",
+                "key": "6e8a4a521fb4e81695ec103589d249446fa1385d",
+                "name": "Light/Surface/Violet",
+                "description": "Badge component color role for Light/Surface/Violet."
+              }
+            }
+          },
+          "Purple": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Purple.200.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2033:3749",
+                "key": "5370c67f9a063e21918048257ee69b3270f04bb7",
+                "name": "Light/Surface/Purple",
+                "description": "Badge component color role for Light/Surface/Purple."
+              }
+            }
+          }
+        },
+        "Content": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Primary}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:2070:412",
+              "key": "c567221626ba30cc76d33b87b3709c8da41aade8",
+              "name": "Light/Content",
+              "description": "Dark Badge content used on light surfaces."
+            }
+          }
+        }
+      },
+      "Dark": {
+        "Surface": {
+          "Neutral": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Neutral.700.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2033:3737",
+                "key": "57fca1f8599714cfcf2f095e633331539b0de78f",
+                "name": "Dark/Surface/Neutral",
+                "description": "Badge component color role for Dark/Surface/Neutral."
+              }
+            }
+          },
+          "Blue": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Blue.500.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2033:3739",
+                "key": "8706e268a25282e74ef88cea46cd4c8006735317",
+                "name": "Dark/Surface/Blue",
+                "description": "Badge component color role for Dark/Surface/Blue."
+              }
+            }
+          },
+          "Cyan": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Cyan.600.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2033:3741",
+                "key": "7533a2bf99fe15471f9c3603a581eece5396c8b4",
+                "name": "Dark/Surface/Cyan",
+                "description": "Badge component color role for Dark/Surface/Cyan."
+              }
+            }
+          },
+          "Green": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Green.600.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2033:3743",
+                "key": "50f868f487f7fe8fa972b25d5bc501dc34fa8bc8",
+                "name": "Dark/Surface/Green",
+                "description": "Badge component color role for Dark/Surface/Green."
+              }
+            }
+          },
+          "Yellow": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Yellow.600.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2126:1334",
+                "key": "ac66ab9caf105a6a4a27acde0b2ce2d3dae5f099",
+                "name": "Dark/Surface/Yellow",
+                "description": "Badge component color role for Dark/Surface/Yellow."
+              }
+            }
+          },
+          "Red": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Red.700.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2033:3746",
+                "key": "1f581ccab0119b191df96674c40491f3ac27f3a1",
+                "name": "Dark/Surface/Red",
+                "description": "Badge component color role for Dark/Surface/Red."
+              }
+            }
+          },
+          "Violet": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Violet.500.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2033:3748",
+                "key": "3811ddf23a9a3c769f4119fdec313811994d9306",
+                "name": "Dark/Surface/Violet",
+                "description": "Badge component color role for Dark/Surface/Violet."
+              }
+            }
+          },
+          "Purple": {
+            "$type": "color",
+            "$value": "{Primitive.Color Primitive Palette.Purple.500.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2033:3750",
+                "key": "598a2d7e275c8a543c1fffaaeb94730211a04e15",
+                "name": "Dark/Surface/Purple",
+                "description": "Badge component color role for Dark/Surface/Purple."
+              }
+            }
+          }
+        },
+        "Content": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Text.Inverse}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:2033:3751",
+              "key": "daf932b86b4b10ed0f0fdfe4f02b1fdd13b77727",
+              "name": "Dark/Content",
+              "description": "Light Badge content used on Strong surfaces."
+            }
+          }
+        }
+      }
+    },
+    "Icon": {
+      "$description": "Mode-aware Icon role from Figma component collection.",
+      "$extensions": {
+        "com.cometal.figma": {
+          "fileKey": "KKNGucImxFAtQLBhPy8tLs",
+          "collectionId": "VariableCollectionId:2045:382",
+          "collectionKey": "d2edabacc6651f17be06572a9e31a8d4dcee57d0",
+          "modes": [
+            {
+              "name": "Default",
+              "modeId": "2045:0"
+            },
+            {
+              "name": "Inverse",
+              "modeId": "2045:1"
+            },
+            {
+              "name": "Badge Light",
+              "modeId": "2126:0"
+            },
+            {
+              "name": "Badge Dark",
+              "modeId": "2126:1"
+            }
+          ]
+        }
+      },
+      "Content": {
+        "Default": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Icon.Primary}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:2045:383",
+              "key": "068cbaa1824ee34a45a434085b67d63e80ebfa77",
+              "name": "Content",
+              "mode": "Default",
+              "description": "Mode-aware icon color. Default resolves to Color/Icon/Primary; Inverse resolves to Color/Icon/Inverse."
+            }
+          }
+        },
+        "Inverse": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Icon.Inverse}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:2045:383",
+              "key": "068cbaa1824ee34a45a434085b67d63e80ebfa77",
+              "name": "Content",
+              "mode": "Inverse",
+              "description": "Mode-aware icon color. Default resolves to Color/Icon/Primary; Inverse resolves to Color/Icon/Inverse."
+            }
+          }
+        },
+        "Badge Light": {
+          "$type": "color",
+          "$value": "{Component.Table.Color.Icon.Primary.Comfortable}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:2045:383",
+              "key": "068cbaa1824ee34a45a434085b67d63e80ebfa77",
+              "name": "Content",
+              "mode": "Badge Light",
+              "description": "Mode-aware icon color. Default resolves to Color/Icon/Primary; Inverse resolves to Color/Icon/Inverse."
+            }
+          }
+        },
+        "Badge Dark": {
+          "$type": "color",
+          "$value": "{Semantic.Color.Icon.Inverse}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:2045:383",
+              "key": "068cbaa1824ee34a45a434085b67d63e80ebfa77",
+              "name": "Content",
+              "mode": "Badge Dark",
+              "description": "Mode-aware icon color. Default resolves to Color/Icon/Primary; Inverse resolves to Color/Icon/Inverse."
+            }
+          }
+        }
+      }
+    },
+    "Table": {
+      "$description": "Density-aware Table roles from Figma component collection.",
+      "$extensions": {
+        "com.cometal.figma": {
+          "fileKey": "KKNGucImxFAtQLBhPy8tLs",
+          "collectionId": "VariableCollectionId:2247:2670",
+          "collectionKey": "41c2d9beb15ed3bcd118e79c3f4485ce52ba035d",
+          "modes": [
+            {
+              "name": "Comfortable",
+              "modeId": "2247:0"
+            },
+            {
+              "name": "Compact",
+              "modeId": "2247:1"
+            }
+          ]
+        }
+      },
+      "Cell": {
+        "Height": {
+          "Comfortable": {
+            "$type": "dimension",
+            "$value": "{Primitive.Size.48}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2247:2671",
+                "key": "e38e0b27e16506b9ec6171ce4a4a40b992ff116c",
+                "name": "Cell/Height",
+                "mode": "Comfortable",
+                "description": "Table cell height for Comfortable and Compact density modes.",
+                "hiddenFromPublishing": false
+              }
+            }
+          },
+          "Compact": {
+            "$type": "dimension",
+            "$value": "{Primitive.Size.40}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2247:2671",
+                "key": "e38e0b27e16506b9ec6171ce4a4a40b992ff116c",
+                "name": "Cell/Height",
+                "mode": "Compact",
+                "description": "Table cell height for Comfortable and Compact density modes.",
+                "hiddenFromPublishing": false
+              }
+            }
+          }
+        },
+        "Inset": {
+          "Horizontal": {
+            "Comfortable": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2381:5580",
+                  "key": "00a1dfe0018bbf855a034c55897b134f206da922",
+                  "name": "Cell/Inset/Horizontal",
+                  "mode": "Comfortable",
+                  "description": "Horizontal inset inside table cells.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            },
+            "Compact": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2381:5580",
+                  "key": "00a1dfe0018bbf855a034c55897b134f206da922",
+                  "name": "Cell/Inset/Horizontal",
+                  "mode": "Compact",
+                  "description": "Horizontal inset inside table cells.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            }
+          },
+          "Vertical": {
+            "Comfortable": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.75}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2381:5581",
+                  "key": "5f5bfdeba59c81f0c198128baf1449918db0f79d",
+                  "name": "Cell/Inset/Vertical",
+                  "mode": "Comfortable",
+                  "description": "Vertical inset inside editable cells; density-aware.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            },
+            "Compact": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.50}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2381:5581",
+                  "key": "5f5bfdeba59c81f0c198128baf1449918db0f79d",
+                  "name": "Cell/Inset/Vertical",
+                  "mode": "Compact",
+                  "description": "Vertical inset inside editable cells; density-aware.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            }
+          }
+        },
+        "Gap": {
+          "Comfortable": {
+            "$type": "dimension",
+            "$value": "{Primitive.Spacing.50}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2381:5582",
+                "key": "cc61af1f1e9c04191b5b18c3d95e81f0137b1093",
+                "name": "Cell/Gap",
+                "mode": "Comfortable",
+                "description": "Gap between table cell content elements.",
+                "hiddenFromPublishing": false
+              }
+            }
+          },
+          "Compact": {
+            "$type": "dimension",
+            "$value": "{Primitive.Spacing.50}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2381:5582",
+                "key": "cc61af1f1e9c04191b5b18c3d95e81f0137b1093",
+                "name": "Cell/Gap",
+                "mode": "Compact",
+                "description": "Gap between table cell content elements.",
+                "hiddenFromPublishing": false
+              }
+            }
+          }
+        }
+      },
+      "Color": {
+        "Cell": {
+          "Surface": {
+            "Default": {
+              "Comfortable": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Surface.Canvas}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5579",
+                    "key": "26a6069708f191cfaf7b01d7efbb9e499a2af566",
+                    "name": "Color/Cell/Surface/Default",
+                    "mode": "Comfortable",
+                    "description": "Default table cell surface.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              },
+              "Compact": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Surface.Canvas}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5579",
+                    "key": "26a6069708f191cfaf7b01d7efbb9e499a2af566",
+                    "name": "Color/Cell/Surface/Default",
+                    "mode": "Compact",
+                    "description": "Default table cell surface.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              }
+            },
+            "Hover": {
+              "Comfortable": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Action.Neutral.Hover}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5580",
+                    "key": "f2104a358da46e7de5c035d79f150768567ab508",
+                    "name": "Color/Cell/Surface/Hover",
+                    "mode": "Comfortable",
+                    "description": "Hovered table cell surface.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              },
+              "Compact": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Action.Neutral.Hover}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5580",
+                    "key": "f2104a358da46e7de5c035d79f150768567ab508",
+                    "name": "Color/Cell/Surface/Hover",
+                    "mode": "Compact",
+                    "description": "Hovered table cell surface.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              }
+            },
+            "Active": {
+              "Comfortable": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Surface.Active}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5581",
+                    "key": "403f6971b974e4cd65d0bc816fc5d3cbfdaac735",
+                    "name": "Color/Cell/Surface/Active",
+                    "mode": "Comfortable",
+                    "description": "Surface for a row selected by checkbox.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              },
+              "Compact": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Surface.Active}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5581",
+                    "key": "403f6971b974e4cd65d0bc816fc5d3cbfdaac735",
+                    "name": "Color/Cell/Surface/Active",
+                    "mode": "Compact",
+                    "description": "Surface for a row selected by checkbox.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              }
+            },
+            "Selected": {
+              "Comfortable": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Action.Neutral.Pressed}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5582",
+                    "key": "3d2100aba020b875493e066b2107e7e6fec55691",
+                    "name": "Color/Cell/Surface/Selected",
+                    "mode": "Comfortable",
+                    "description": "Current cell selected for keyboard navigation.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              },
+              "Compact": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Action.Neutral.Pressed}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5582",
+                    "key": "3d2100aba020b875493e066b2107e7e6fec55691",
+                    "name": "Color/Cell/Surface/Selected",
+                    "mode": "Compact",
+                    "description": "Current cell selected for keyboard navigation.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              }
+            },
+            "Error": {
+              "Comfortable": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Status.Danger.Surface}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5583",
+                    "key": "0b9192cff39f091b515e79d5dec535e32b9cd063",
+                    "name": "Color/Cell/Surface/Error",
+                    "mode": "Comfortable",
+                    "description": "Cell validation error surface.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              },
+              "Compact": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Status.Danger.Surface}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5583",
+                    "key": "0b9192cff39f091b515e79d5dec535e32b9cd063",
+                    "name": "Color/Cell/Surface/Error",
+                    "mode": "Compact",
+                    "description": "Cell validation error surface.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              }
+            },
+            "Disabled": {
+              "Comfortable": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Action.Neutral.Disabled}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5584",
+                    "key": "130f5951e3614b78251192d3b47110ab6d785f89",
+                    "name": "Color/Cell/Surface/Disabled",
+                    "mode": "Comfortable",
+                    "description": "Disabled table cell surface.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              },
+              "Compact": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Action.Neutral.Disabled}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5584",
+                    "key": "130f5951e3614b78251192d3b47110ab6d785f89",
+                    "name": "Color/Cell/Surface/Disabled",
+                    "mode": "Compact",
+                    "description": "Disabled table cell surface.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              }
+            }
+          },
+          "Border": {
+            "Divider": {
+              "Comfortable": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Border.Divider}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5589",
+                    "key": "6cbc2ae7349f85ddb5f92c4a16ceccbcbebde4d4",
+                    "name": "Color/Cell/Border/Divider",
+                    "mode": "Comfortable",
+                    "description": "One-pixel table divider blended over cell surfaces.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              },
+              "Compact": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Border.Divider}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5589",
+                    "key": "6cbc2ae7349f85ddb5f92c4a16ceccbcbebde4d4",
+                    "name": "Color/Cell/Border/Divider",
+                    "mode": "Compact",
+                    "description": "One-pixel table divider blended over cell surfaces.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              }
+            },
+            "Selected": {
+              "Comfortable": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Border.Brand}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5590",
+                    "key": "f5701b6db6b6fd7065e23354c01e6937d8270c9b",
+                    "name": "Color/Cell/Border/Selected",
+                    "mode": "Comfortable",
+                    "description": "Selected or editing cell border.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              },
+              "Compact": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Border.Brand}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5590",
+                    "key": "f5701b6db6b6fd7065e23354c01e6937d8270c9b",
+                    "name": "Color/Cell/Border/Selected",
+                    "mode": "Compact",
+                    "description": "Selected or editing cell border.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              }
+            },
+            "Error": {
+              "Comfortable": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Border.Danger}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5591",
+                    "key": "1d11aafdaeec6b12913d43eb2e197b29d65614b6",
+                    "name": "Color/Cell/Border/Error",
+                    "mode": "Comfortable",
+                    "description": "[Deprecated] Table error border is not used by the approved cell treatment; error is expressed through surface and text. Retained until Storybook consumer audit.",
+                    "hiddenFromPublishing": true
+                  }
+                }
+              },
+              "Compact": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Border.Danger}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5591",
+                    "key": "1d11aafdaeec6b12913d43eb2e197b29d65614b6",
+                    "name": "Color/Cell/Border/Error",
+                    "mode": "Compact",
+                    "description": "[Deprecated] Table error border is not used by the approved cell treatment; error is expressed through surface and text. Retained until Storybook consumer audit.",
+                    "hiddenFromPublishing": true
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Header": {
+          "Surface": {
+            "Default": {
+              "Comfortable": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Surface.Subtle}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5585",
+                    "key": "a71c4c58c015204b913b416fb364f61fc2529a4b",
+                    "name": "Color/Header/Surface/Default",
+                    "mode": "Comfortable",
+                    "description": "Default table header surface.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              },
+              "Compact": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Surface.Subtle}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5585",
+                    "key": "a71c4c58c015204b913b416fb364f61fc2529a4b",
+                    "name": "Color/Header/Surface/Default",
+                    "mode": "Compact",
+                    "description": "Default table header surface.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              }
+            },
+            "Hover": {
+              "Comfortable": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Action.Neutral.Hover}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5586",
+                    "key": "d81577b6123b677284141bac0b16f531c3f53668",
+                    "name": "Color/Header/Surface/Hover",
+                    "mode": "Comfortable",
+                    "description": "Hovered table header surface.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              },
+              "Compact": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Action.Neutral.Hover}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5586",
+                    "key": "d81577b6123b677284141bac0b16f531c3f53668",
+                    "name": "Color/Header/Surface/Hover",
+                    "mode": "Compact",
+                    "description": "Hovered table header surface.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              }
+            },
+            "Selected": {
+              "Comfortable": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Action.Neutral.Pressed}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5587",
+                    "key": "fc7480e935ef552bf8e7ad93669e841f56d29acb",
+                    "name": "Color/Header/Surface/Selected",
+                    "mode": "Comfortable",
+                    "description": "Sorted or selected table header surface.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              },
+              "Compact": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Action.Neutral.Pressed}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5587",
+                    "key": "fc7480e935ef552bf8e7ad93669e841f56d29acb",
+                    "name": "Color/Header/Surface/Selected",
+                    "mode": "Compact",
+                    "description": "Sorted or selected table header surface.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              }
+            },
+            "Error": {
+              "Comfortable": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Status.Danger.Surface}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5588",
+                    "key": "b4c7e90a048ea9f6b506c7ba2f9d2a1c0d127835",
+                    "name": "Color/Header/Surface/Error",
+                    "mode": "Comfortable",
+                    "description": "Header validation error surface.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              },
+              "Compact": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Status.Danger.Surface}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5588",
+                    "key": "b4c7e90a048ea9f6b506c7ba2f9d2a1c0d127835",
+                    "name": "Color/Header/Surface/Error",
+                    "mode": "Compact",
+                    "description": "Header validation error surface.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              }
+            }
+          },
+          "Border": {
+            "Default": {
+              "Comfortable": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Border.Default}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5592",
+                    "key": "01327fb263da8081a6621525564cffcc3b02906f",
+                    "name": "Color/Header/Border/Default",
+                    "mode": "Comfortable",
+                    "description": "Default header divider and boundary.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              },
+              "Compact": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Border.Default}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5592",
+                    "key": "01327fb263da8081a6621525564cffcc3b02906f",
+                    "name": "Color/Header/Border/Default",
+                    "mode": "Compact",
+                    "description": "Default header divider and boundary.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              }
+            },
+            "Error": {
+              "Comfortable": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Border.Danger}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5593",
+                    "key": "2a20afab15c69a149bec6bd65b624dec75f9bc58",
+                    "name": "Color/Header/Border/Error",
+                    "mode": "Comfortable",
+                    "description": "Error header border.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              },
+              "Compact": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Border.Danger}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5593",
+                    "key": "2a20afab15c69a149bec6bd65b624dec75f9bc58",
+                    "name": "Color/Header/Border/Error",
+                    "mode": "Compact",
+                    "description": "Error header border.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              }
+            }
+          }
+        },
+        "Text": {
+          "Primary": {
+            "Comfortable": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Text.Primary}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5594",
+                  "key": "9f2d1b9e301a0acac891425d08749d62c4080766",
+                  "name": "Color/Text/Primary",
+                  "mode": "Comfortable",
+                  "description": "Primary table value and index text.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            },
+            "Compact": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Text.Primary}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5594",
+                  "key": "9f2d1b9e301a0acac891425d08749d62c4080766",
+                  "name": "Color/Text/Primary",
+                  "mode": "Compact",
+                  "description": "Primary table value and index text.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            }
+          },
+          "Secondary": {
+            "Comfortable": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Text.Secondary}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5595",
+                  "key": "481c585590dea7dfeb5e56e089293ed5c40426db",
+                  "name": "Color/Text/Secondary",
+                  "mode": "Comfortable",
+                  "description": "Secondary table and header text.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            },
+            "Compact": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Text.Secondary}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5595",
+                  "key": "481c585590dea7dfeb5e56e089293ed5c40426db",
+                  "name": "Color/Text/Secondary",
+                  "mode": "Compact",
+                  "description": "Secondary table and header text.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            }
+          },
+          "Selected": {
+            "Comfortable": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Text.Selected}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5596",
+                  "key": "85c2cd731898719ee8a6d6a6324c860bd82c4693",
+                  "name": "Color/Text/Selected",
+                  "mode": "Comfortable",
+                  "description": "Text in the current selected cell.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            },
+            "Compact": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Text.Selected}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5596",
+                  "key": "85c2cd731898719ee8a6d6a6324c860bd82c4693",
+                  "name": "Color/Text/Selected",
+                  "mode": "Compact",
+                  "description": "Text in the current selected cell.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            }
+          },
+          "Error": {
+            "Comfortable": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Text.Danger}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5597",
+                  "key": "1c0bb4fca66fe141752430907ff5b99e9aa50033",
+                  "name": "Color/Text/Error",
+                  "mode": "Comfortable",
+                  "description": "Invalid table value text.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            },
+            "Compact": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Text.Danger}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5597",
+                  "key": "1c0bb4fca66fe141752430907ff5b99e9aa50033",
+                  "name": "Color/Text/Error",
+                  "mode": "Compact",
+                  "description": "Invalid table value text.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            }
+          },
+          "Disabled": {
+            "Comfortable": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Text.Disabled}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5598",
+                  "key": "9b0950d5268047ced40001f80c9723cffed0fcac",
+                  "name": "Color/Text/Disabled",
+                  "mode": "Comfortable",
+                  "description": "Disabled table value text.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            },
+            "Compact": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Text.Disabled}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5598",
+                  "key": "9b0950d5268047ced40001f80c9723cffed0fcac",
+                  "name": "Color/Text/Disabled",
+                  "mode": "Compact",
+                  "description": "Disabled table value text.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            }
+          }
+        },
+        "Icon": {
+          "Primary": {
+            "Comfortable": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Icon.Primary}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5599",
+                  "key": "87c73d1ff4cbb0ee7994f93f03895fa14e5b52b9",
+                  "name": "Color/Icon/Primary",
+                  "mode": "Comfortable",
+                  "description": "Primary table icon.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            },
+            "Compact": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Icon.Primary}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5599",
+                  "key": "87c73d1ff4cbb0ee7994f93f03895fa14e5b52b9",
+                  "name": "Color/Icon/Primary",
+                  "mode": "Compact",
+                  "description": "Primary table icon.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            }
+          },
+          "Secondary": {
+            "Comfortable": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Icon.Secondary}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5600",
+                  "key": "911dfbed6910f07ce154de2c61d777afd15bafcc",
+                  "name": "Color/Icon/Secondary",
+                  "mode": "Comfortable",
+                  "description": "Secondary and file icon.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            },
+            "Compact": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Icon.Secondary}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5600",
+                  "key": "911dfbed6910f07ce154de2c61d777afd15bafcc",
+                  "name": "Color/Icon/Secondary",
+                  "mode": "Compact",
+                  "description": "Secondary and file icon.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            }
+          },
+          "Muted": {
+            "Comfortable": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Icon.Secondary}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5601",
+                  "key": "9dbefedee2cc39ad28702388a166935411865cda",
+                  "name": "Color/Icon/Muted",
+                  "mode": "Comfortable",
+                  "description": "[Deprecated] Table muted icon role duplicates Color/Icon/Secondary in the approved component. Retained until Storybook consumer audit.",
+                  "hiddenFromPublishing": true
+                }
+              }
+            },
+            "Compact": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Icon.Secondary}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5601",
+                  "key": "9dbefedee2cc39ad28702388a166935411865cda",
+                  "name": "Color/Icon/Muted",
+                  "mode": "Compact",
+                  "description": "[Deprecated] Table muted icon role duplicates Color/Icon/Secondary in the approved component. Retained until Storybook consumer audit.",
+                  "hiddenFromPublishing": true
+                }
+              }
+            }
+          },
+          "Disabled": {
+            "Comfortable": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Icon.Disabled}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5602",
+                  "key": "628f6cf0ef9990ae7cae1ff6ec75a6d4fa92be42",
+                  "name": "Color/Icon/Disabled",
+                  "mode": "Comfortable",
+                  "description": "Disabled table icon.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            },
+            "Compact": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Icon.Disabled}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5602",
+                  "key": "628f6cf0ef9990ae7cae1ff6ec75a6d4fa92be42",
+                  "name": "Color/Icon/Disabled",
+                  "mode": "Compact",
+                  "description": "Disabled table icon.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            }
+          },
+          "Error": {
+            "Comfortable": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Icon.Danger}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5603",
+                  "key": "4acd26ab50b2c57766fd7b38edca07069a2b7078",
+                  "name": "Color/Icon/Error",
+                  "mode": "Comfortable",
+                  "description": "Error table icon.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            },
+            "Compact": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Icon.Danger}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5603",
+                  "key": "4acd26ab50b2c57766fd7b38edca07069a2b7078",
+                  "name": "Color/Icon/Error",
+                  "mode": "Compact",
+                  "description": "Error table icon.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            }
+          },
+          "Selected": {
+            "Comfortable": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Icon.Brand}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2381:5590",
+                  "key": "6412ab10fb936968056e2ea4b13e7bef2abc5074",
+                  "name": "Color/Icon/Selected",
+                  "mode": "Comfortable",
+                  "description": "Selected/accent icon color inside table content.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            },
+            "Compact": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Icon.Brand}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2381:5590",
+                  "key": "6412ab10fb936968056e2ea4b13e7bef2abc5074",
+                  "name": "Color/Icon/Selected",
+                  "mode": "Compact",
+                  "description": "Selected/accent icon color inside table content.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            }
+          }
+        },
+        "Control": {
+          "Border": {
+            "Comfortable": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Border.Strong}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5604",
+                  "key": "84389685b4264e6c60e227a826b3a8af6b884942",
+                  "name": "Color/Control/Border",
+                  "mode": "Comfortable",
+                  "description": "Embedded checkbox control border.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            },
+            "Compact": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Border.Strong}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5604",
+                  "key": "84389685b4264e6c60e227a826b3a8af6b884942",
+                  "name": "Color/Control/Border",
+                  "mode": "Compact",
+                  "description": "Embedded checkbox control border.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            }
+          },
+          "Disabled": {
+            "Comfortable": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Icon.Disabled}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5605",
+                  "key": "ab73ccf8503762235b5b80dcf2aa54141476d174",
+                  "name": "Color/Control/Disabled",
+                  "mode": "Comfortable",
+                  "description": "Disabled embedded control.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            },
+            "Compact": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Icon.Disabled}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5605",
+                  "key": "ab73ccf8503762235b5b80dcf2aa54141476d174",
+                  "name": "Color/Control/Disabled",
+                  "mode": "Compact",
+                  "description": "Disabled embedded control.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            }
+          }
+        },
+        "Status": {
+          "Success": {
+            "Comfortable": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Icon.Success}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5606",
+                  "key": "5f5382b17d1b48dd43c5bc622ebb7ad9479d7b88",
+                  "name": "Color/Status/Success",
+                  "mode": "Comfortable",
+                  "description": "Success signal used in the table stand.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            },
+            "Compact": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Icon.Success}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5606",
+                  "key": "5f5382b17d1b48dd43c5bc622ebb7ad9479d7b88",
+                  "name": "Color/Status/Success",
+                  "mode": "Compact",
+                  "description": "Success signal used in the table stand.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            }
+          },
+          "Error": {
+            "Comfortable": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Icon.Danger}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5607",
+                  "key": "3e68f808c554c234dcab97630fa751946510bffe",
+                  "name": "Color/Status/Error",
+                  "mode": "Comfortable",
+                  "description": "Error signal used in the table stand.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            },
+            "Compact": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Icon.Danger}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2374:5607",
+                  "key": "3e68f808c554c234dcab97630fa751946510bffe",
+                  "name": "Color/Status/Error",
+                  "mode": "Compact",
+                  "description": "Error signal used in the table stand.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            }
+          }
+        },
+        "Surface": {
+          "Selected": {
+            "Subtle": {
+              "Comfortable": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Surface.Selected}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5608",
+                    "key": "1edf1822dd351482a44ab70cdba6fbd51cba691b",
+                    "name": "Color/Surface/Selected/Subtle",
+                    "mode": "Comfortable",
+                    "description": "Subtle selected surface used by a nested table state.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              },
+              "Compact": {
+                "$type": "color",
+                "$value": "{Semantic.Color.Surface.Selected}",
+                "$extensions": {
+                  "com.cometal.figma": {
+                    "id": "VariableID:2374:5608",
+                    "key": "1edf1822dd351482a44ab70cdba6fbd51cba691b",
+                    "name": "Color/Surface/Selected/Subtle",
+                    "mode": "Compact",
+                    "description": "Subtle selected surface used by a nested table state.",
+                    "hiddenFromPublishing": false
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "Header": {
+        "Height": {
+          "Comfortable": {
+            "$type": "dimension",
+            "$value": "{Primitive.Size.48}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2381:5583",
+                "key": "a52cac314bef304b29f284c65f4f2a4bf3ae1693",
+                "name": "Header/Height",
+                "mode": "Comfortable",
+                "description": "Fixed table column header height.",
+                "hiddenFromPublishing": false
+              }
+            }
+          },
+          "Compact": {
+            "$type": "dimension",
+            "$value": "{Primitive.Size.48}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2381:5583",
+                "key": "a52cac314bef304b29f284c65f4f2a4bf3ae1693",
+                "name": "Header/Height",
+                "mode": "Compact",
+                "description": "Fixed table column header height.",
+                "hiddenFromPublishing": false
+              }
+            }
+          }
+        },
+        "Inset": {
+          "Start": {
+            "Comfortable": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2381:5584",
+                  "key": "49800fddb0b928905ef1308973a5c76aacdbd771",
+                  "name": "Header/Inset/Start",
+                  "mode": "Comfortable",
+                  "description": "Start inset inside table column headers.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            },
+            "Compact": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.100}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2381:5584",
+                  "key": "49800fddb0b928905ef1308973a5c76aacdbd771",
+                  "name": "Header/Inset/Start",
+                  "mode": "Compact",
+                  "description": "Start inset inside table column headers.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            }
+          },
+          "End": {
+            "Comfortable": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.50}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2381:5585",
+                  "key": "939817f3aa8df94b7094e576f651e89b9e6f35c2",
+                  "name": "Header/Inset/End",
+                  "mode": "Comfortable",
+                  "description": "End inset inside table column headers.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            },
+            "Compact": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.50}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2381:5585",
+                  "key": "939817f3aa8df94b7094e576f651e89b9e6f35c2",
+                  "name": "Header/Inset/End",
+                  "mode": "Compact",
+                  "description": "End inset inside table column headers.",
+                  "hiddenFromPublishing": false
+                }
+              }
+            }
+          }
+        },
+        "Gap": {
+          "Comfortable": {
+            "$type": "dimension",
+            "$value": "{Primitive.Spacing.25}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2381:5586",
+                "key": "09225d893415ec7c85f3b5ebd2c8589fd35d6523",
+                "name": "Header/Gap",
+                "mode": "Comfortable",
+                "description": "Gap between header label and actions.",
+                "hiddenFromPublishing": false
+              }
+            }
+          },
+          "Compact": {
+            "$type": "dimension",
+            "$value": "{Primitive.Spacing.25}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2381:5586",
+                "key": "09225d893415ec7c85f3b5ebd2c8589fd35d6523",
+                "name": "Header/Gap",
+                "mode": "Compact",
+                "description": "Gap between header label and actions.",
+                "hiddenFromPublishing": false
+              }
+            }
+          }
+        }
+      },
+      "Icon": {
+        "Size": {
+          "Comfortable": {
+            "$type": "dimension",
+            "$value": "{Primitive.Size.16}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2381:5587",
+                "key": "beab0ff091fdd4782a1582a289a8faaff38ca188",
+                "name": "Icon/Size",
+                "mode": "Comfortable",
+                "description": "Standard icon size inside table cells and headers.",
+                "hiddenFromPublishing": false
+              }
+            }
+          },
+          "Compact": {
+            "$type": "dimension",
+            "$value": "{Primitive.Size.16}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2381:5587",
+                "key": "beab0ff091fdd4782a1582a289a8faaff38ca188",
+                "name": "Icon/Size",
+                "mode": "Compact",
+                "description": "Standard icon size inside table cells and headers.",
+                "hiddenFromPublishing": false
+              }
+            }
+          }
+        }
+      },
+      "File": {
+        "Size": {
+          "Comfortable": {
+            "$type": "dimension",
+            "$value": "{Primitive.Size.24}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2381:5588",
+                "key": "fb3efca252b3d1f52c3b1215c7cb9e088bcbfff0",
+                "name": "File/Size",
+                "mode": "Comfortable",
+                "description": "File icon slot size inside table cells.",
+                "hiddenFromPublishing": false
+              }
+            }
+          },
+          "Compact": {
+            "$type": "dimension",
+            "$value": "{Primitive.Size.24}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2381:5588",
+                "key": "fb3efca252b3d1f52c3b1215c7cb9e088bcbfff0",
+                "name": "File/Size",
+                "mode": "Compact",
+                "description": "File icon slot size inside table cells.",
+                "hiddenFromPublishing": false
+              }
+            }
+          }
+        }
+      },
+      "Border": {
+        "Width": {
+          "Comfortable": {
+            "$type": "dimension",
+            "$value": "{Primitive.Stroke.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2381:5589",
+                "key": "707626c3fae8888aaa4c83c5f6dd57c32e2a7274",
+                "name": "Border/Width",
+                "mode": "Comfortable",
+                "description": "Shared one-pixel divider width for table sources.",
+                "hiddenFromPublishing": false
+              }
+            }
+          },
+          "Compact": {
+            "$type": "dimension",
+            "$value": "{Primitive.Stroke.100}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2381:5589",
+                "key": "707626c3fae8888aaa4c83c5f6dd57c32e2a7274",
+                "name": "Border/Width",
+                "mode": "Compact",
+                "description": "Shared one-pixel divider width for table sources.",
+                "hiddenFromPublishing": false
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

@@ -1,26 +1,61 @@
 {
   "$description": "Verified engineering inventory of Foundation in Figma DS Core.",
-  "verifiedAt": "2026-08-04",
+  "verifiedAt": "2026-08-13",
   "figma": {
     "fileKey": "KKNGucImxFAtQLBhPy8tLs",
     "variables": {
-      "total": 553,
-      "foundation": 542,
-      "primitive": 399,
-      "semantic": 143,
-      "component": 11,
-      "color": 473,
-      "dimension": 80,
-      "withAliases": 154,
-      "withCodeSyntax": 540,
-      "withScopes": 553
+      "total": 636,
+      "foundation": 564,
+      "primitive": 402,
+      "semantic": 162,
+      "component": 72,
+      "color": 531,
+      "dimension": 105,
+      "withAliases": 234,
+      "withCodeSyntax": 636,
+      "withScopes": 636
     },
     "collections": [
-      { "name": "Primitive", "variables": 399, "modes": 1 },
-      { "name": "Semantic", "variables": 143, "modes": 1 },
-      { "name": "Component / Button", "variables": 1, "modes": 7 },
-      { "name": "Component / Input", "variables": 7, "modes": 6 },
-      { "name": "Component / Option", "variables": 3, "modes": 5 }
+      {
+        "name": "Primitive",
+        "variables": 402,
+        "modes": 1
+      },
+      {
+        "name": "Semantic",
+        "variables": 162,
+        "modes": 1
+      },
+      {
+        "name": "Component / Button",
+        "variables": 1,
+        "modes": 7
+      },
+      {
+        "name": "Component / Input",
+        "variables": 7,
+        "modes": 6
+      },
+      {
+        "name": "Component / Option",
+        "variables": 3,
+        "modes": 5
+      },
+      {
+        "name": "Component / Badge",
+        "variables": 18,
+        "modes": 1
+      },
+      {
+        "name": "Component / Icon",
+        "variables": 1,
+        "modes": 4
+      },
+      {
+        "name": "Component / Table",
+        "variables": 42,
+        "modes": 2
+      }
     ],
     "styles": {
       "text": 18,
@@ -30,11 +65,12 @@
     }
   },
   "repository": {
-    "primitiveTokens": 399,
-    "semanticTokens": 143,
+    "primitiveTokens": 402,
+    "semanticTokens": 162,
     "typographyStyles": 18,
     "gridPresets": 4,
-    "iconComponents": 2810
+    "iconComponents": 2810,
+    "componentTokens": 72
   },
   "notes": [
     "Approved Spacing and Radius documentation pages contain wider legacy scales than the published Figma variables. Runtime tokens follow variables; the page conflict requires a Design System Lead decision.",

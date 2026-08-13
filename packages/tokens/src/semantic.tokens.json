@@ -552,6 +552,17 @@
               "name": "Color/Surface/Inverse"
             }
           }
+        },
+        "Active": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Yellow.100.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:2186:1382",
+              "key": "44161a6d06afc43800505afe28440d70a7342616",
+              "name": "Color/Surface/Active"
+            }
+          }
         }
       },
       "Text": {
@@ -599,6 +610,17 @@
             }
           }
         },
+        "Disabled Strong": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.500.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:2406:6",
+              "key": "d3b8f4f350a7adf3fbd733339df14d30eada926a",
+              "name": "Color/Text/Disabled/Strong"
+            }
+          }
+        },
         "Selected": {
           "$type": "color",
           "$value": "{Primitive.Color Primitive Palette.Blue.700.100}",
@@ -629,6 +651,17 @@
               "id": "VariableID:1338:1863",
               "key": "e8409d6e517485c82966612da4b36d124ad71361",
               "name": "Color/Text/Inverse"
+            }
+          }
+        },
+        "Inverse Disabled": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.0.40}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:2406:7",
+              "key": "b54045db06c015adf8c69b02b48f3863ed283510",
+              "name": "Color/Text/Inverse/Disabled"
             }
           }
         },
@@ -708,6 +741,28 @@
               "id": "VariableID:1338:1868",
               "key": "6385ee3fad9bd6a237178bcd6a3b66ec65dfb159",
               "name": "Color/Text/Warning"
+            }
+          }
+        },
+        "Label": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.800.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:2406:4",
+              "key": "977a63b354b773f693e364fa9cf9f8dfc1120df5",
+              "name": "Color/Text/Label"
+            }
+          }
+        },
+        "Supporting": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.500.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:2406:5",
+              "key": "d16304276fdca39254f112f7ff2b99c190f9d437",
+              "name": "Color/Text/Supporting"
             }
           }
         }
@@ -877,6 +932,39 @@
               "id": "VariableID:1338:1883",
               "key": "cf66d2a55fa2d25f9438614d70a3837f9c79682d",
               "name": "Color/Border/Warning"
+            }
+          }
+        },
+        "Control": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.400.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:2406:3",
+              "key": "167ebad89dbe1293846cf1ea1d8d3cc243ea70bf",
+              "name": "Color/Border/Control"
+            }
+          }
+        },
+        "Divider": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.500.24}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:2192:3877",
+              "key": "c6f73dc677e8cd70e8ad231fc288d8c64b8652cc",
+              "name": "Color/Border/Divider"
+            }
+          }
+        },
+        "Hover": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.500.100}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:2406:2",
+              "key": "ebdb7048bcf60f373eda5a153bff91333b87f878",
+              "name": "Color/Border/Hover"
             }
           }
         }
@@ -1232,6 +1320,17 @@
             }
           }
         }
+      },
+      "Badge": {
+        "$type": "dimension",
+        "$value": "{Primitive.Radius.150}",
+        "$extensions": {
+          "com.cometal.figma": {
+            "id": "VariableID:2017:5",
+            "key": "51d0486cbfbb00660aea2fe261d4c4fbf80be212",
+            "name": "Radius/Badge"
+          }
+        }
       }
     },
     "Spacing": {
@@ -1361,26 +1460,26 @@
         "S": {
           "Inset": {
             "$root": {
-            "$type": "dimension",
-            "$value": "{Primitive.Spacing.50}",
-            "$extensions": {
-              "com.cometal.figma": {
-                "id": "VariableID:780:1331",
-                "key": "8d545f7eb77bbbad7b2250b7f5174e1314935570",
-                "name": "Spacing/Button/S/Inset"
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.50}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:780:1331",
+                  "key": "8d545f7eb77bbbad7b2250b7f5174e1314935570",
+                  "name": "Spacing/Button/S/Inset"
+                }
               }
-            }
             },
             "Icon": {
-            "$type": "dimension",
-            "$value": "{Primitive.Spacing.25}",
-            "$extensions": {
-              "com.cometal.figma": {
-                "id": "VariableID:780:1332",
-                "key": "c5cc1ae4a95a70aa619718907031c06f30ed5370",
-                "name": "Spacing/Button/S/Inset/Icon"
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.25}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:780:1332",
+                  "key": "c5cc1ae4a95a70aa619718907031c06f30ed5370",
+                  "name": "Spacing/Button/S/Inset/Icon"
+                }
               }
-            }
             }
           },
           "Gap": {
@@ -1620,6 +1719,71 @@
             }
           }
         }
+      },
+      "Badge": {
+        "Gap": {
+          "$type": "dimension",
+          "$value": "{Primitive.Spacing.12}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:2017:4",
+              "key": "12786cade28f70db23fbf6f3ebaa70c8df3bd1b5",
+              "name": "Spacing/Badge/Gap"
+            }
+          }
+        },
+        "Inset": {
+          "Horizontal": {
+            "$type": "dimension",
+            "$value": "{Primitive.Spacing.25}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2017:2",
+                "key": "306bbb016374e2a2e2a5777e4d1282b09533c931",
+                "name": "Spacing/Badge/Inset/Horizontal",
+                "hiddenFromPublishing": true,
+                "description": "[Deprecated] Retained until downstream Badge consumers finish migrating."
+              }
+            }
+          },
+          "Vertical": {
+            "$type": "dimension",
+            "$value": "{Primitive.Spacing.25}",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2017:3",
+                "key": "efbf0995001ce05f4a86e5d31003c5e7dbef4274",
+                "name": "Spacing/Badge/Inset/Vertical"
+              }
+            }
+          }
+        },
+        "Optical": {
+          "Text": {
+            "Bottom": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.12}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2042:271",
+                  "key": "5ad8b19902b8a5b141bc31da1d7c94171c6564e3",
+                  "name": "Spacing/Badge/Optical/Text/Bottom"
+                }
+              }
+            },
+            "Horizontal": {
+              "$type": "dimension",
+              "$value": "{Primitive.Spacing.12}",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2065:385",
+                  "key": "85c3cd968a70570280cb1d28645006d83dbcdc82",
+                  "name": "Spacing/Badge/Optical/Text/Horizontal"
+                }
+              }
+            }
+          }
+        }
       }
     },
     "Size": {
@@ -1728,6 +1892,17 @@
               }
             }
           }
+        },
+        "Badge": {
+          "$type": "dimension",
+          "$value": "{Primitive.Size.12}",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:2018:3",
+              "key": "d6c5e9e87f0713bb81fa115f4ace849d3be758b6",
+              "name": "Size/Icon/Badge"
+            }
+          }
         }
       },
       "Field": {
@@ -1753,6 +1928,17 @@
                 "name": "Size/Field/Value Tag/M"
               }
             }
+          }
+        }
+      },
+      "Badge": {
+        "$type": "dimension",
+        "$value": "{Primitive.Size.24}",
+        "$extensions": {
+          "com.cometal.figma": {
+            "id": "VariableID:2018:2",
+            "key": "5c6d2a24ba13bb9a1a693e78aa42109234be8432",
+            "name": "Size/Badge"
           }
         }
       }

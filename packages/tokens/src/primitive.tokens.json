@@ -7362,6 +7362,20 @@
           }
         }
       },
+      "12": {
+        "$type": "dimension",
+        "$value": {
+          "value": 12,
+          "unit": "px"
+        },
+        "$extensions": {
+          "com.cometal.figma": {
+            "id": "VariableID:2042:270",
+            "key": "16756d26a74dce52c7a3056202f9c00debe8f0cc",
+            "name": "Size/12"
+          }
+        }
+      },
       "14": {
         "$type": "dimension",
         "$value": {
@@ -7518,6 +7532,20 @@
       }
     },
     "Stroke": {
+      "100": {
+        "$type": "dimension",
+        "$value": {
+          "value": 1,
+          "unit": "px"
+        },
+        "$extensions": {
+          "com.cometal.figma": {
+            "id": "VariableID:2381:5579",
+            "key": "2655167e2a2cde8c13d97cb647a2d04dcd5f7db1",
+            "name": "Stroke/100"
+          }
+        }
+      },
       "200": {
         "$type": "dimension",
         "$value": {
