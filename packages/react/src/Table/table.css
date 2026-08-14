@@ -1,0 +1,292 @@
+.cometal-table-scroll {
+  max-width: 100%;
+  overflow: auto;
+}
+
+.cometal-table {
+  --cometal-table-cell-height: var(--cometal-component-table-cell-height-comfortable);
+  --cometal-table-cell-inset-x: var(--cometal-component-table-cell-inset-horizontal-comfortable);
+  --cometal-table-cell-inset-y: var(--cometal-component-table-cell-inset-vertical-comfortable);
+  --cometal-table-cell-gap: var(--cometal-component-table-cell-gap-comfortable);
+  --cometal-table-divider: var(--cometal-component-table-color-cell-border-divider-comfortable);
+  --cometal-table-border-width: var(--cometal-component-table-border-width-comfortable);
+  --cometal-table-surface: var(--cometal-component-table-color-cell-surface-default-comfortable);
+  --cometal-table-text: var(--cometal-component-table-color-text-primary-comfortable);
+  --cometal-table-active: var(--cometal-component-table-color-cell-surface-active-comfortable);
+  --cometal-table-selected: var(--cometal-component-table-color-cell-surface-selected-comfortable);
+  --cometal-table-selected-text: var(--cometal-component-table-color-text-selected-comfortable);
+  --cometal-table-error: var(--cometal-component-table-color-cell-surface-error-comfortable);
+  --cometal-table-error-text: var(--cometal-component-table-color-text-error-comfortable);
+  --cometal-table-disabled: var(--cometal-component-table-color-cell-surface-disabled-comfortable);
+  --cometal-table-disabled-text: var(--cometal-component-table-color-text-disabled-comfortable);
+  --cometal-table-header-surface: var(--cometal-component-table-color-header-surface-default-comfortable);
+  --cometal-table-selected-icon: var(--cometal-component-table-color-icon-selected-comfortable);
+  --cometal-table-file-metadata: var(--cometal-component-table-color-file-metadata-comfortable);
+  --cometal-table-file-size: var(--cometal-component-table-file-size-comfortable);
+  --cometal-table-icon-size: var(--cometal-component-table-icon-size-comfortable);
+
+  width: max-content;
+  min-width: 100%;
+  border-collapse: separate;
+  border-spacing: 0;
+  background: var(--cometal-table-surface);
+  color: var(--cometal-table-text);
+  font-family: var(--cometal-typography-body-l-default-font-family);
+  font-size: var(--cometal-typography-body-l-default-font-size);
+  font-weight: var(--cometal-typography-body-l-default-font-weight);
+  line-height: var(--cometal-typography-body-l-default-line-height);
+  letter-spacing: var(--cometal-typography-body-l-default-letter-spacing);
+  table-layout: fixed;
+}
+
+.cometal-table[data-density='compact'] {
+  --cometal-table-cell-height: var(--cometal-component-table-cell-height-compact);
+  --cometal-table-cell-inset-x: var(--cometal-component-table-cell-inset-horizontal-compact);
+  --cometal-table-cell-inset-y: var(--cometal-component-table-cell-inset-vertical-compact);
+  --cometal-table-cell-gap: var(--cometal-component-table-cell-gap-compact);
+  --cometal-table-divider: var(--cometal-component-table-color-cell-border-divider-compact);
+  --cometal-table-border-width: var(--cometal-component-table-border-width-compact);
+  --cometal-table-surface: var(--cometal-component-table-color-cell-surface-default-compact);
+  --cometal-table-text: var(--cometal-component-table-color-text-primary-compact);
+  --cometal-table-active: var(--cometal-component-table-color-cell-surface-active-compact);
+  --cometal-table-selected: var(--cometal-component-table-color-cell-surface-selected-compact);
+  --cometal-table-selected-text: var(--cometal-component-table-color-text-selected-compact);
+  --cometal-table-error: var(--cometal-component-table-color-cell-surface-error-compact);
+  --cometal-table-error-text: var(--cometal-component-table-color-text-error-compact);
+  --cometal-table-disabled: var(--cometal-component-table-color-cell-surface-disabled-compact);
+  --cometal-table-disabled-text: var(--cometal-component-table-color-text-disabled-compact);
+  --cometal-table-header-surface: var(--cometal-component-table-color-header-surface-default-compact);
+  --cometal-table-selected-icon: var(--cometal-component-table-color-icon-selected-compact);
+  --cometal-table-file-metadata: var(--cometal-component-table-color-file-metadata-compact);
+  --cometal-table-file-size: var(--cometal-component-table-file-size-compact);
+  --cometal-table-icon-size: var(--cometal-component-table-icon-size-compact);
+}
+
+.cometal-table__header-cell,
+.cometal-table__cell {
+  box-sizing: border-box;
+  min-width: var(--cometal-primitive-size-48);
+  padding: 0;
+  border: 0;
+  border-right: var(--cometal-table-border-width) solid var(--cometal-table-divider);
+  border-bottom: var(--cometal-table-border-width) solid var(--cometal-table-divider);
+  background: var(--cometal-table-surface);
+  color: var(--cometal-table-text);
+  text-align: left;
+  vertical-align: middle;
+}
+
+.cometal-table__header-cell:first-child,
+.cometal-table__cell:first-child {
+  border-left: var(--cometal-table-border-width) solid var(--cometal-table-divider);
+}
+
+.cometal-table__head:first-child .cometal-table__header-cell {
+  border-top: var(--cometal-table-border-width) solid var(--cometal-table-divider);
+}
+
+.cometal-table__header-cell {
+  height: var(--cometal-component-table-header-height-comfortable);
+  background: var(--cometal-table-header-surface);
+  color: var(--cometal-component-table-color-text-primary-comfortable);
+  font-family: var(--cometal-typography-body-m-accent-font-family);
+  font-size: var(--cometal-typography-body-m-accent-font-size);
+  font-weight: var(--cometal-typography-body-m-accent-font-weight);
+  line-height: var(--cometal-typography-body-m-accent-line-height);
+  letter-spacing: var(--cometal-typography-body-m-accent-letter-spacing);
+}
+
+.cometal-table__header-cell[data-kind='index'],
+.cometal-table__header-cell[data-kind='selection'],
+.cometal-table__cell[data-align='center'] {
+  width: var(--cometal-table-cell-height);
+  min-width: var(--cometal-table-cell-height);
+  max-width: var(--cometal-table-cell-height);
+  text-align: center;
+}
+
+.cometal-table__header-main,
+.cometal-table__cell-content {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+}
+
+.cometal-table__header-main {
+  min-height: calc(
+    var(--cometal-component-table-header-height-comfortable)
+    - (var(--cometal-table-border-width) * 2)
+  );
+  padding-inline: var(--cometal-component-table-header-inset-start-comfortable) var(--cometal-component-table-header-inset-end-comfortable);
+  gap: var(--cometal-component-table-header-gap-comfortable);
+}
+
+.cometal-table__header-label,
+.cometal-table__cell-value,
+.cometal-table__file-name {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cometal-table__header-label,
+.cometal-table__cell-value {
+  flex: 1 1 auto;
+}
+
+.cometal-table__sort-icon {
+  width: var(--cometal-table-icon-size);
+  height: var(--cometal-table-icon-size);
+  flex: 0 0 var(--cometal-table-icon-size);
+  color: var(--cometal-table-selected-icon);
+}
+
+.cometal-table__sort-icon path,
+.cometal-table__file-icon svg [stroke] {
+  stroke-width: var(--cometal-primitive-stroke-140);
+  vector-effect: non-scaling-stroke;
+}
+
+.cometal-table__header-action {
+  display: inline-flex;
+  width: var(--cometal-primitive-size-24);
+  height: var(--cometal-primitive-size-24);
+  flex: 0 0 var(--cometal-primitive-size-24);
+  align-items: center;
+  justify-content: center;
+}
+
+.cometal-table__header-filter {
+  padding: 0 var(--cometal-component-table-header-inset-end-comfortable) var(--cometal-primitive-spacing-100) var(--cometal-component-table-header-inset-start-comfortable);
+}
+
+.cometal-table__header-cell:has(.cometal-table__header-filter) {
+  height: auto;
+}
+
+.cometal-table__cell {
+  height: var(--cometal-table-cell-height);
+}
+
+.cometal-table__cell-content {
+  min-height: calc(var(--cometal-table-cell-height) - var(--cometal-table-border-width));
+  padding:
+    calc(var(--cometal-table-cell-inset-y) - var(--cometal-table-border-width))
+    var(--cometal-table-cell-inset-x)
+    var(--cometal-table-cell-inset-y);
+  gap: var(--cometal-table-cell-gap);
+}
+
+.cometal-table__cell[data-align='end'] .cometal-table__cell-value {
+  text-align: right;
+  font-variant-numeric: tabular-nums;
+}
+
+.cometal-table__cell-leading,
+.cometal-table__cell-trailing {
+  display: inline-flex;
+  flex: 0 0 auto;
+  align-items: center;
+  justify-content: center;
+}
+
+.cometal-table__cell-trailing {
+  margin-left: auto;
+}
+
+.cometal-table__cell-value:has(> .cometal-badge),
+.cometal-table__cell-value:has(> .cometal-selection) {
+  display: flex;
+  align-items: center;
+  line-height: 0;
+}
+
+.cometal-table__row[data-row-selected] > .cometal-table__cell,
+.cometal-table__cell[data-state='active'] {
+  background: var(--cometal-table-active);
+}
+
+.cometal-table__cell[data-state='selected'],
+.cometal-table__cell[data-state='editing'] {
+  background: var(--cometal-table-selected);
+  color: var(--cometal-table-selected-text);
+}
+
+.cometal-table__cell[data-state='error'] {
+  background: var(--cometal-table-error);
+  color: var(--cometal-table-error-text);
+}
+
+.cometal-table__cell[data-state='disabled'] {
+  background: var(--cometal-table-disabled);
+  color: var(--cometal-table-disabled-text);
+}
+
+.cometal-table__file-cell .cometal-table__cell-value {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: var(--cometal-table-cell-gap);
+}
+
+.cometal-table__file-cell .cometal-table__cell-content {
+  padding-block: var(--cometal-primitive-spacing-25);
+}
+
+.cometal-table__file-icon {
+  display: inline-flex;
+  width: var(--cometal-table-file-size);
+  height: var(--cometal-table-file-size);
+  flex: 0 0 var(--cometal-table-file-size);
+  align-items: center;
+  justify-content: center;
+  color: var(--cometal-semantic-color-icon-tertiary);
+}
+
+.cometal-table__file-icon svg,
+.cometal-table__file-icon img {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cometal-table__file-copy {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.cometal-table__file-name {
+  font-family: var(--cometal-typography-caption-label-label-font-family);
+  font-size: var(--cometal-typography-caption-label-label-font-size);
+  font-weight: var(--cometal-typography-caption-label-label-font-weight);
+  line-height: var(--cometal-typography-caption-label-label-line-height);
+  letter-spacing: var(--cometal-typography-caption-label-label-letter-spacing);
+}
+
+.cometal-table__file-size {
+  overflow: hidden;
+  color: var(--cometal-table-file-metadata);
+  font-family: var(--cometal-typography-technical-s-default-font-family);
+  font-size: var(--cometal-typography-technical-s-default-font-size);
+  font-weight: var(--cometal-typography-technical-s-default-font-weight);
+  line-height: var(--cometal-typography-technical-s-default-line-height);
+  letter-spacing: var(--cometal-typography-technical-s-default-letter-spacing);
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cometal-table[data-density='compact'] .cometal-table__file-size {
+  display: none;
+}
+
+@media (forced-colors: active) {
+  .cometal-table__header-cell,
+  .cometal-table__cell {
+    border-color: CanvasText;
+  }
+}

@@ -13,6 +13,13 @@
     "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport { Badge } from '@cometal/react';",
     "example": "<Badge surface=\"light\" tone=\"green\">\n  Согласовано\n</Badge>"
   },
+  "data-display.table": {
+    "packageName": "@cometal/react",
+    "availability": "beta-target",
+    "install": "pnpm add @cometal/react @cometal/tokens",
+    "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport {\n  Table, TableBody, TableCell, TableHeaderCell, TableHead, TableRow,\n} from '@cometal/react';",
+    "example": "<Table density=\"comfortable\" aria-label=\"Позиции\">\n  <TableHead>\n    <TableRow>\n      <TableHeaderCell sort=\"ascending\">Позиция</TableHeaderCell>\n    </TableRow>\n  </TableHead>\n  <TableBody>\n    <TableRow>\n      <TableCell>POS-00127</TableCell>\n    </TableRow>\n  </TableBody>\n</Table>"
+  },
   "input.fields": {
     "packageName": "@cometal/react",
     "availability": "beta-target",

@@ -1,5 +1,7 @@
 @font-face { font-family: 'Grtsk Peta'; src: url('/fonts/GrtskPeta-Regular.ttf') format('truetype'); font-weight: 400; font-display: swap; }
 @font-face { font-family: 'Grtsk Peta'; src: url('/fonts/GrtskPeta-Medium.ttf') format('truetype'); font-weight: 500; font-display: swap; }
+@font-face { font-family: 'IBM Plex Mono'; src: url('/fonts/IBMPlexMono-Regular.ttf') format('truetype'); font-weight: 400; font-style: normal; font-display: swap; }
+@font-face { font-family: 'IBM Plex Mono'; src: url('/fonts/IBMPlexMono-Medium.ttf') format('truetype'); font-weight: 500; font-style: normal; font-display: swap; }
 
 :root {
   --ds-surface-canvas: var(--cometal-semantic-color-surface-canvas);
@@ -251,6 +253,18 @@ code, pre, kbd, samp {
 .ds-badge-tones { display: grid; gap: var(--cometal-primitive-spacing-150); }
 .ds-badge-tones article { display: grid; grid-template-columns: 80px minmax(0, 1fr); align-items: start; gap: var(--cometal-primitive-spacing-150); }
 .ds-badge-tones article > div, .ds-badge-compositions { display: flex; flex-wrap: wrap; align-items: center; gap: var(--cometal-primitive-spacing-100); }
+.ds-table-demo { width: 100%; overflow: hidden; background: var(--ds-surface-canvas); }
+.ds-table-working { min-width: 1128px; }
+.ds-table-context-action { display: inline-flex; width: var(--cometal-primitive-size-24); height: var(--cometal-primitive-size-24); padding: 0; border: 0; border-radius: var(--cometal-primitive-radius-75); align-items: center; justify-content: center; background: color-mix(in srgb, var(--cometal-primitive-color-primitive-palette-neutral-900-100) 4%, transparent); color: var(--cometal-component-table-color-icon-secondary-comfortable); cursor: pointer; }
+.ds-table-context-action:hover { background: color-mix(in srgb, var(--cometal-primitive-color-primitive-palette-neutral-900-100) 8%, transparent); }
+.ds-table-context-action:focus-visible { outline: var(--cometal-semantic-stroke-state-focus) solid var(--cometal-semantic-color-state-focus-ring); outline-offset: var(--cometal-primitive-spacing-12); }
+.ds-table-context-action svg { display: block; width: var(--cometal-primitive-size-16); height: var(--cometal-primitive-size-16); }
+.ds-table-checkbox { display: inline-flex; width: var(--cometal-primitive-size-20); height: var(--cometal-primitive-size-20); padding: 0; }
+.ds-table-checkbox .cometal-selection__control { margin-top: 0; }
+.ds-table-checkbox .cometal-selection__content { position: absolute; overflow: hidden; width: 1px; height: 1px; clip: rect(0 0 0 0); white-space: nowrap; }
+.ds-table-filter { width: 100%; }
+.ds-table-filter .cometal-field__label-row, .ds-table-filter .cometal-field__support-slot { display: none; }
+.ds-table-filter .cometal-field__control { width: 100%; }
 .ds-fields-playground output { color: var(--cometal-semantic-color-text-secondary); font-family: var(--cometal-typography-caption-label-label-font-family); font-size: var(--cometal-typography-caption-label-label-font-size); font-weight: var(--cometal-typography-caption-label-label-font-weight); line-height: var(--cometal-typography-caption-label-label-line-height); letter-spacing: var(--cometal-typography-caption-label-label-letter-spacing); }
 
 .ds-date-picker-variants { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--cometal-primitive-spacing-200); }

@@ -65,7 +65,7 @@ function buildTypographyCss(styles) {
   const variables = styles.flatMap((style) => {
     const prefix = `--cometal-typography-${toKebab(style.name)}`;
     return [
-      `  ${prefix}-font-family: '${style.family}', Arial, sans-serif;`,
+      `  ${prefix}-font-family: '${style.family}', ${style.fallback ?? 'Arial, sans-serif'};`,
       `  ${prefix}-font-weight: ${style.weight};`,
       `  ${prefix}-font-size: ${style.size}px;`,
       `  ${prefix}-line-height: ${style.lineHeight}px;`,

@@ -790,6 +790,19 @@
             }
           }
         },
+        "Tertiary": {
+          "$type": "color",
+          "$value": "{Primitive.Color Primitive Palette.Neutral.500.100}",
+          "$description": "Low-emphasis neutral icon used for supporting assets such as file types.",
+          "$extensions": {
+            "com.cometal.figma": {
+              "id": "VariableID:2491:5516",
+              "key": "5d266f71ca4d071754cd2b061e1a93399779254c",
+              "name": "Color/Icon/Tertiary",
+              "codeSyntax": "var(--color-icon-tertiary)"
+            }
+          }
+        },
         "Disabled": {
           "$type": "color",
           "$value": "{Primitive.Color Primitive Palette.Neutral.400.100}",

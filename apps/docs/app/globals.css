@@ -7,6 +7,22 @@
 }
 
 @font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('/fonts/IBMPlexMono-Regular.ttf') format('truetype');
+  font-weight: 400;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
+  font-family: 'IBM Plex Mono';
+  src: url('/fonts/IBMPlexMono-Medium.ttf') format('truetype');
+  font-weight: 500;
+  font-style: normal;
+  font-display: swap;
+}
+
+@font-face {
   font-family: 'Grtsk Peta';
   src: url('/fonts/GrtskPeta-Medium.ttf') format('truetype');
   font-weight: 500;
@@ -42,10 +58,10 @@
   --portal-negative-surface: var(--cometal-primitive-color-primitive-palette-red-100-100);
   --portal-negative-text: var(--cometal-semantic-color-text-danger);
   --portal-font-code: var(--cometal-documentation-typography-technical-font-family);
-  /* Technical labels are documentation-only roles; product copy uses Foundation typography below. */
-  --portal-code-xs-size: var(--cometal-typography-caption-label-caption-font-size);
-  --portal-code-s-size: var(--cometal-typography-caption-label-label-font-size);
-  --portal-code-line-height: var(--cometal-typography-body-s-default-line-height);
+  /* Portal code uses the same technical family as product metadata. */
+  --portal-code-xs-size: var(--cometal-typography-technical-s-default-font-size);
+  --portal-code-s-size: var(--cometal-typography-technical-m-default-font-size);
+  --portal-code-line-height: var(--cometal-typography-technical-m-default-line-height);
   --portal-radius-s: var(--cometal-primitive-radius-50);
   --portal-radius-m: var(--cometal-primitive-radius-100);
   --portal-radius-l: var(--cometal-primitive-radius-150);
@@ -100,6 +116,9 @@ code, pre, kbd, samp {
   font-family: var(--portal-font-code);
   font-variant-numeric: tabular-nums;
 }
+.pattern-table-preview, .pattern-table-detail { width: 100%; overflow: hidden; }
+.pattern-table-preview .cometal-table { min-width: 420px; font-size: var(--cometal-typography-body-s-default-font-size); }
+.pattern-table-detail .cometal-table { min-width: 760px; }
 ::selection { background: var(--portal-selection); color: var(--portal-blue-strong); }
 
 .topbar {

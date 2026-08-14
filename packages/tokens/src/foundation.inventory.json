@@ -1,19 +1,19 @@
 {
   "$description": "Verified engineering inventory of Foundation in Figma DS Core.",
-  "verifiedAt": "2026-08-13",
+  "verifiedAt": "2026-08-14",
   "figma": {
     "fileKey": "KKNGucImxFAtQLBhPy8tLs",
     "variables": {
-      "total": 628,
-      "foundation": 558,
+      "total": 631,
+      "foundation": 559,
       "primitive": 403,
-      "semantic": 155,
-      "component": 70,
-      "color": 529,
+      "semantic": 156,
+      "component": 72,
+      "color": 531,
       "dimension": 99,
-      "withAliases": 225,
-      "withCodeSyntax": 628,
-      "withScopes": 628
+      "withAliases": 227,
+      "withCodeSyntax": 631,
+      "withScopes": 631
     },
     "collections": [
       {
@@ -23,7 +23,7 @@
       },
       {
         "name": "Semantic",
-        "variables": 155,
+        "variables": 156,
         "modes": 1
       },
       {
@@ -53,12 +53,12 @@
       },
       {
         "name": "Component / Table",
-        "variables": 40,
+        "variables": 42,
         "modes": 2
       }
     ],
     "styles": {
-      "text": 18,
+      "text": 22,
       "paint": 0,
       "grid": 0,
       "effect": 0
@@ -66,18 +66,19 @@
   },
   "repository": {
     "primitiveTokens": 402,
-    "semanticTokens": 155,
-    "typographyStyles": 18,
+    "semanticTokens": 156,
+    "typographyStyles": 22,
     "gridPresets": 4,
     "iconComponents": 2810,
-    "componentTokens": 70
+    "componentTokens": 72
   },
   "notes": [
     "Approved Spacing and Radius documentation pages contain wider legacy scales than the published Figma variables. Runtime tokens follow variables; the page conflict requires a Design System Lead decision.",
     "Grid presets are documented values; Figma has no published local Grid Styles.",
     "Icons are an inventory only; approved SVG assets and React API do not exist yet.",
     "Shadows are not defined in Figma and must not be invented in code.",
-    "All nine unused deprecated variables were removed after Figma and repository consumer audits."
+    "All nine unused deprecated variables were removed after Figma and repository consumer audits.",
+    "Technical typography adds four IBM Plex Mono text styles; Table adds file metadata visibility/color and Icon/Tertiary semantic roles."
   ],
   "sourceConflicts": [
     {

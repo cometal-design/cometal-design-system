@@ -162,7 +162,7 @@ function TypographyPage() {
   const sections = groupBy(typographyData.styles, (style) => style.name.split('/')[0]);
   return (
     <main className="ds-page">
-      <PageHeader eyebrow="FOUNDATION / TYPOGRAPHY" title="Типографика" description="18 локальных стилей Grtsk Peta. В примере применяются реальные family, weight, size, line-height, letter-spacing и text case." nodeId="668:14643" />
+      <PageHeader eyebrow="FOUNDATION / TYPOGRAPHY" title="Типографика" description={`${typographyData.styles.length} локальных стиля: основной Grtsk Peta и технический IBM Plex Mono. В примере применяются реальные family, weight, size, line-height, letter-spacing и text case.`} nodeId="668:14643" />
       {[...sections].map(([section, styles]) => <section className="ds-section" key={section}><h2>{section} <span>{styles.length}</span></h2><div className="ds-type-list">{styles.map((style) => <article key={style.name}><div><strong>{style.name}</strong><code>{style.size}/{style.lineHeight}px · {style.weight} · {style.letterSpacingPercent}%</code></div><p style={{fontFamily: style.family, fontWeight: style.weight, fontSize: style.size, lineHeight: `${style.lineHeight}px`, letterSpacing: `${style.letterSpacingPercent / 100}em`, textTransform: style.textCase === 'upper' ? 'uppercase' : 'none'}}>Система управления закупками</p><span>{style.description}</span></article>)}</div></section>)}
     </main>
   );

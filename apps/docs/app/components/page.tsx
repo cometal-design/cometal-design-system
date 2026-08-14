@@ -21,6 +21,8 @@ const catalogContent: Record<string, { href: string; description: string }> = {
   'selection.switch': { href: '/components/switch/', description: 'Мгновенно включает или выключает настройку.' },
 };
 
+const componentCatalog = components.filter((component) => !component.id.startsWith('data-display.'));
+
 export default function ComponentsPage() {
   return (
     <main className="content-page components-page">
@@ -28,7 +30,7 @@ export default function ComponentsPage() {
         eyebrow="КОМПОНЕНТЫ"
         title="Каталог компонентов"
         description="Единый каталог реализованных компонентов. Карточка появляется здесь из реестра Git, а не добавляется вручную."
-        stat={{ value: components.length, label: 'компонентов в реестре' }}
+        stat={{ value: componentCatalog.length, label: 'компонентов в каталоге' }}
       />
 
       <MetadataStrip
@@ -36,13 +38,13 @@ export default function ComponentsPage() {
         bottomDivider
         items={[
           'Web · React',
-          `${components.filter((component) => component.status === 'ready').length} Ready`,
-          `${components.filter((component) => component.status === 'in-review').length} In review`,
+          `${componentCatalog.filter((component) => component.status === 'ready').length} Ready`,
+          `${componentCatalog.filter((component) => component.status === 'in-review').length} In review`,
         ]}
       />
 
       <section className="component-catalog" aria-label="Каталог компонентов">
-        {components.map((component) => (
+        {componentCatalog.map((component) => (
           <article className="component-card" data-component-id={component.id} key={component.id}>
             <div className="component-card__preview"><div className="component-card__demo"><ComponentCatalogPreview id={component.id} /></div></div>
             <div className="component-card__body">

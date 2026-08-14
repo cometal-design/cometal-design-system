@@ -7,7 +7,7 @@ import { groupBy } from '../../../../lib/foundation-data';
 
 export const metadata: Metadata = {
   title: 'Web-типографика — Foundation',
-  description: 'Полная шкала Web-текстовых стилей Grtsk Peta в Cometal.',
+  description: 'Полная шкала Web-текстовых стилей Grtsk Peta и IBM Plex Mono в Cometal.',
 };
 
 const groups = groupBy(typography.styles, (style) => style.name.split('/')[0]);
@@ -23,7 +23,7 @@ export default function FoundationWebTypographyPage() {
       <section className="content-section">
         <SectionHeading
           title="Web"
-          description={`${typography.styles.length} текстовых стилей воспроизводят family, weight, size, line-height, letter-spacing и text case из Figma.`}
+          description={`${typography.styles.length} текстовых стиля воспроизводят основной интерфейсный и технический наборы из Figma. IBM Plex Mono используется только для плотных метаданных, идентификаторов и размеров.`}
         />
         <div className="foundation-type-catalog">
           {[...groups].map(([group, styles]) => (

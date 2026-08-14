@@ -5,7 +5,7 @@
       "Technical": {
         "Font Family": {
           "$type": "string",
-          "$value": "ui-monospace, SFMono-Regular, Menlo, monospace"
+          "$value": "'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, monospace"
         }
       }
     },

@@ -2165,6 +2165,38 @@
             }
           }
         },
+        "File": {
+          "Metadata": {
+            "Comfortable": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Text.Supporting}",
+              "$description": "Supporting file metadata in comfortable table rows.",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2570:6322",
+                  "key": "1104cc0813bcd5a228388bbf68fa55533381af88",
+                  "name": "Color/File/Metadata",
+                  "mode": "Comfortable",
+                  "hiddenFromPublishing": false
+                }
+              }
+            },
+            "Compact": {
+              "$type": "color",
+              "$value": "{Semantic.Color.Text.Supporting}",
+              "$description": "Supporting file metadata in compact table rows when metadata is exposed independently.",
+              "$extensions": {
+                "com.cometal.figma": {
+                  "id": "VariableID:2570:6322",
+                  "key": "1104cc0813bcd5a228388bbf68fa55533381af88",
+                  "name": "Color/File/Metadata",
+                  "mode": "Compact",
+                  "hiddenFromPublishing": false
+                }
+              }
+            }
+          }
+        },
         "Control": {
           "Border": {
             "Comfortable": {
@@ -2506,6 +2538,36 @@
                 "name": "File/Size",
                 "mode": "Compact",
                 "description": "File icon slot size inside table cells.",
+                "hiddenFromPublishing": false
+              }
+            }
+          }
+        },
+        "Show Metadata": {
+          "Comfortable": {
+            "$type": "boolean",
+            "$value": true,
+            "$description": "Comfortable rows expose the secondary file-size line.",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2570:6321",
+                "key": "f1a2c53f43d01f14c4f49d4379e774fb14d651a6",
+                "name": "File/Show Metadata",
+                "mode": "Comfortable",
+                "hiddenFromPublishing": false
+              }
+            }
+          },
+          "Compact": {
+            "$type": "boolean",
+            "$value": false,
+            "$description": "Compact rows hide the secondary file-size line without deleting its value.",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "VariableID:2570:6321",
+                "key": "f1a2c53f43d01f14c4f49d4379e774fb14d651a6",
+                "name": "File/Show Metadata",
+                "mode": "Compact",
                 "hiddenFromPublishing": false
               }
             }

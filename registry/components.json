@@ -45,6 +45,27 @@
       }
     },
     {
+      "id": "data-display.table",
+      "name": "Table",
+      "status": "in-review",
+      "platform": "web",
+      "version": "0.1.0-beta.1",
+      "links": {
+        "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-10833",
+        "specification": "specifications/components/table.md",
+        "source": "packages/react/src/Table/Table.tsx",
+        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/patterns-table--overview",
+        "knowledge": "knowledge-base/02 Components/Table.md"
+      },
+      "checks": {
+        "visualMatch": true,
+        "specificationMatch": true,
+        "testsPassed": true,
+        "accessibilityPassed": true,
+        "knowledgeUpdated": true
+      }
+    },
+    {
       "id": "input.text-field",
       "name": "Text Field",
       "status": "in-review",

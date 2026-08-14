@@ -11,6 +11,7 @@
 - [[Radio Button]] — `selection.radio-button`, взаимоисключающий выбор внутри группы, статус `in-review`.
 - [[Select]] — `input.select`, одиночный выбор из listbox, статус `in-review`.
 - [[Switch]] — `selection.switch`, мгновенное включение настройки, статус `in-review`.
+- [[Table]] — `data-display.table`, составной data-display паттерн с Comfortable/Compact плотностью, статус `in-review`.
 - [[Text Area]] — `input.text-area`, многострочный ввод текста, статус `in-review`.
 - [[Text Field]] — `input.text-field`, однострочный ввод значения, статус `in-review`.
 
@@ -18,4 +19,3 @@
 
 - Icons — Figma-библиотека готова, но канонический SVG source/API для React ещё не утверждён.
 - Tabs — Figma draft готов, но публичный slot/count-контракт ещё не утверждён.
-- Tables — Figma source и review готовы, но публичный Table API и component set ещё не утверждены.
