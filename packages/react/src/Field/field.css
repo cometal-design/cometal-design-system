@@ -96,7 +96,11 @@
 .cometal-field[data-invalid] .cometal-field__supporting { color: var(--cometal-component-input-helper-error); }
 .cometal-field[data-disabled] .cometal-field__supporting-row { color: var(--cometal-component-input-helper-disabled); }
 .cometal-field__icon, .cometal-field__asset { display: inline-flex; width: var(--cometal-field-icon-size); height: var(--cometal-field-icon-size); flex: 0 0 var(--cometal-field-icon-size); align-items: center; justify-content: center; color: var(--cometal-component-input-icon-default); }
-.cometal-field__icon { display: inline-flex; align-items: center; justify-content: center; color: var(--cometal-component-input-icon-default); }
+.cometal-field__icon { --cometal-icon-source-stroke: 1.68px; display: inline-flex; align-items: center; justify-content: center; color: var(--cometal-component-input-icon-default); }
+.cometal-field[data-size='m'] .cometal-field__icon { --cometal-icon-source-stroke: 2.1px; }
+.cometal-field[data-size='s'] .cometal-field__icon { --cometal-icon-source-stroke: 2.4px; }
+.cometal-field[data-size='m'] .cometal-field__asset { --cometal-icon-source-stroke: 1.75px; }
+.cometal-field[data-size='s'] .cometal-field__asset { --cometal-icon-source-stroke: 2px; }
 .cometal-field__icon > svg, .cometal-field__icon > img, .cometal-field__asset > svg { display: block; width: 100%; height: 100%; }
 .cometal-field:hover .cometal-field__icon,
 .cometal-field:hover .cometal-field__asset { color: var(--cometal-component-input-icon-hover); }
@@ -196,6 +200,7 @@
 .cometal-field__tag-remove > svg { display: block; width: 100%; height: 100%; }
 .cometal-field[data-size='m'] .cometal-field__tag { height: var(--cometal-semantic-size-field-value-tag-m); }
 .cometal-field[data-size='m'] .cometal-field__tag-remove { width: 12px; height: 12px; flex-basis: 12px; }
+.cometal-field[data-size='m'] .cometal-field__tag-remove { --cometal-icon-source-stroke: 1.6333px; }
 .cometal-field-read__label { color: var(--cometal-primitive-color-primitive-palette-neutral-800-100); font-size: var(--cometal-typography-caption-label-label-font-size); font-weight: var(--cometal-typography-caption-label-label-font-weight); line-height: var(--cometal-typography-caption-label-label-line-height); letter-spacing: var(--cometal-typography-caption-label-label-letter-spacing); }
 .cometal-field-read__value { min-height: 24px; color: var(--cometal-semantic-color-text-primary); font-size: var(--cometal-typography-body-m-default-font-size); font-weight: var(--cometal-typography-body-m-default-font-weight); line-height: var(--cometal-typography-body-m-default-line-height); letter-spacing: var(--cometal-typography-body-m-default-letter-spacing); white-space: nowrap; }
 .cometal-field-read { height: 80px; min-height: 80px; gap: var(--cometal-semantic-spacing-input-label-gap); }

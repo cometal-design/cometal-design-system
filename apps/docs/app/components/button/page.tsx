@@ -19,7 +19,7 @@ const documentedVariants: ButtonVariant[] = ['primary', 'secondary', 'link', 'da
 function ArrowIcon() {
   return (
     <svg viewBox="0 0 24 24" fill="none" focusable="false">
-      <path d="M13.333 19 20 12l-6.667-7M20 12H4" stroke="currentColor" strokeWidth="var(--cometal-primitive-stroke-140, 1.4)" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+      <path d="M13.333 19 20 12l-6.667-7M20 12H4" stroke="currentColor" strokeWidth="var(--cometal-primitive-stroke-140, 1.4)" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }

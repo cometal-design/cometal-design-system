@@ -34,7 +34,7 @@ describe('Button', () => {
     expect(html).toContain('cometal-button__loader');
     expect(html).toContain('viewBox="0 0 15 15"');
     expect(html).toContain('stroke-width="var(--cometal-primitive-stroke-140, 1.4)"');
-    expect(html).toContain('vector-effect="non-scaling-stroke"');
+    expect(html).not.toContain('vector-effect="non-scaling-stroke"');
     expect(html).toContain('Сохранить');
   });
 

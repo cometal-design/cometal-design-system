@@ -41,7 +41,6 @@ function Arrow() {
         strokeWidth="var(--cometal-primitive-stroke-140, 1.4)"
         strokeLinecap="round"
         strokeLinejoin="round"
-        vectorEffect="non-scaling-stroke"
       />
     </svg>
   );
@@ -237,7 +236,14 @@ export const SizingContract: Story = {
       await expect(icons.map((icon) => icon.getBoundingClientRect().width)).toEqual(Array(3).fill(expectedIconSizes[size]));
       const strokeNodes = Array.from(row?.querySelectorAll<SVGElement>('svg [stroke]:not([stroke="none"])') ?? []);
       await expect(strokeNodes).toHaveLength(3);
-      await expect(strokeNodes.map((node) => getComputedStyle(node).strokeWidth)).toEqual(Array(3).fill('1.4px'));
+      const renderedStrokeWidths = strokeNodes.map((node) => {
+        const svg = node.ownerSVGElement!;
+        return Number.parseFloat(getComputedStyle(node).strokeWidth)
+          * svg.getBoundingClientRect().width
+          / svg.viewBox.baseVal.width;
+      });
+      await expect(renderedStrokeWidths.every((width) => Math.abs(width - 1.4) < 0.01)).toBe(true);
+      await expect(strokeNodes.every((node) => getComputedStyle(node).vectorEffect === 'none')).toBe(true);
       await expect(buttons.at(-1)?.getBoundingClientRect().width).toBe(expectedHeights[size]);
     }
   },

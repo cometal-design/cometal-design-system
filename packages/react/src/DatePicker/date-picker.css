@@ -130,6 +130,7 @@
 }
 
 .cometal-date-picker__month-control {
+  --cometal-icon-source-stroke: 1.1667px;
   width: var(--cometal-primitive-size-32);
   height: var(--cometal-primitive-size-32);
   border-radius: var(--cometal-primitive-radius-50);

@@ -36,7 +36,7 @@ export type FieldChromeProps = {
 function ChevronDownIcon() {
   return (
     <svg viewBox="0 0 20 20" fill="none" focusable="false">
-      <path d="M5.833 7.917 10 12.083l4.167-4.166" stroke="currentColor" strokeWidth="var(--cometal-primitive-stroke-140, 1.4)" strokeLinecap="round" strokeLinejoin="round" vectorEffect="non-scaling-stroke" />
+      <path d="M5.833 7.917 10 12.083l4.167-4.166" stroke="currentColor" strokeWidth="var(--cometal-primitive-stroke-140, 1.4)" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -44,7 +44,7 @@ function ChevronDownIcon() {
 function SearchIcon() {
   return (
     <svg viewBox="0 0 20 20" fill="none" focusable="false">
-      <path d="m14.038 14.133 2.929 2.834M16.022 9.411a6.611 6.611 0 1 1-13.222 0 6.611 6.611 0 0 1 13.222 0Z" stroke="currentColor" strokeWidth="var(--cometal-primitive-stroke-140, 1.4)" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+      <path d="m14.038 14.133 2.929 2.834M16.022 9.411a6.611 6.611 0 1 1-13.222 0 6.611 6.611 0 0 1 13.222 0Z" stroke="currentColor" strokeWidth="var(--cometal-primitive-stroke-140, 1.4)" strokeLinecap="round" />
     </svg>
   );
 }
@@ -52,7 +52,7 @@ function SearchIcon() {
 function RemoveValueIcon() {
   return (
     <svg viewBox="0 0 14 14" fill="none" focusable="false">
-      <path d="m3.5 3.5 7 7m0-7-7 7" stroke="currentColor" strokeWidth="var(--cometal-primitive-stroke-140, 1.4)" strokeLinecap="round" vectorEffect="non-scaling-stroke" />
+      <path d="m3.5 3.5 7 7m0-7-7 7" stroke="currentColor" strokeWidth="var(--cometal-primitive-stroke-140, 1.4)" strokeLinecap="round" />
     </svg>
   );
 }

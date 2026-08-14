@@ -75,6 +75,7 @@
 }
 
 .cometal-button__icon {
+  --cometal-icon-source-stroke: 1.68px;
   display: inline-flex;
   width: var(--cometal-button-icon-size);
   height: var(--cometal-button-icon-size);
@@ -82,6 +83,9 @@
   align-items: center;
   justify-content: center;
 }
+
+.cometal-button[data-size='m'] .cometal-button__icon { --cometal-icon-source-stroke: 2.1px; }
+.cometal-button[data-size='s'] .cometal-button__icon { --cometal-icon-source-stroke: 2.4px; }
 
 .cometal-button__icon > svg,
 .cometal-button__icon > img {
@@ -104,6 +108,7 @@
 }
 
 .cometal-button__loader {
+  --cometal-icon-source-stroke: 1.4px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -115,6 +120,9 @@
   transform: translate(-50%, -50%);
   animation: cometal-button-spin var(--cometal-motion-duration-spin) var(--cometal-motion-easing-linear) infinite;
 }
+
+.cometal-button[data-size='m'] .cometal-button__loader { --cometal-icon-source-stroke: 1.75px; }
+.cometal-button[data-size='s'] .cometal-button__loader { --cometal-icon-source-stroke: 2px; }
 
 .cometal-button__loader > svg {
   display: block;

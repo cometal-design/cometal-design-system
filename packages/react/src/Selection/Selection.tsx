@@ -29,7 +29,6 @@ function CheckboxMark({ size }: { size: SelectionSize }) {
         strokeWidth="var(--cometal-primitive-stroke-140, 1.4)"
         strokeLinecap="round"
         strokeLinejoin="round"
-        vectorEffect="non-scaling-stroke"
       />
     </svg>
   );
