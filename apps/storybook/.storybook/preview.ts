@@ -15,7 +15,7 @@ const preview: Preview = {
     },
     options: {
       storySort: {
-        order: ['Обзор', 'Foundation', 'Components', 'Patterns', '*'],
+        order: ['Обзор', 'Foundation', 'Components', 'Patterns', 'Templates', '*'],
       },
     },
     docs: {

@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent, waitFor, within } from 'storybook/test';
-import { DatePicker } from '@cometal/react';
+import { DatePicker, DateRangePicker } from '@cometal/react';
 import { ComponentCodeExample } from './ComponentCodeExample';
 
 const figmaUrl = 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1764-10502';
@@ -14,13 +14,13 @@ function OverviewPage() {
   return (
     <main className="ds-component-page ds-date-picker-page">
       <header className="ds-component-hero">
-        <div><span className="ds-eyebrow">COMPONENT · WEB · IN REVIEW</span><h1>Date Picker</h1><p>Один публичный компонент для ручного ввода и календарного выбора одной даты. Поле, панель и день остаются внутренней инженерией.</p></div>
+        <div><span className="ds-eyebrow">COMPONENT · WEB · IN REVIEW</span><h1>Date Picker</h1><p>Семейство для одного значения и периода. Date Picker и Date Range Picker переиспользуют один календарный contract, но не размножают внутренние части в публичный API.</p></div>
         <a href={figmaUrl} target="_blank" rel="noreferrer">Открыть в Figma ↗</a>
       </header>
 
       <section className="ds-component-section">
-        <SectionIntro number="01" title="Когда использовать">Date Picker нужен, когда дата является одним значением процесса и пользователю полезны оба способа: ввод с клавиатуры и календарь.</SectionIntro>
-        <div className="ds-guidance-grid"><article className="ok"><strong>Используйте</strong><ul><li>Для даты поставки, срока или события.</li><li>Когда известен единый формат ДД.ММ.ГГГГ.</li><li>Когда календарь ускоряет выбор близкой даты.</li></ul></article><article className="stop"><strong>Не используйте</strong><ul><li>Для интервала — нужен отдельный Date Range.</li><li>Для даты и времени — нужен отдельный составной паттерн.</li><li>Для свободного текстового описания периода.</li></ul></article></div>
+        <SectionIntro number="01" title="Когда использовать">Одиночная дата решает точечное событие. Период используйте для диапазона, фильтра отчёта и выбора интервала без отдельного локального контракта.</SectionIntro>
+        <div className="ds-guidance-grid"><article className="ok"><strong>Используйте</strong><ul><li>Для даты поставки, срока или события.</li><li>Для периода отчёта, действия договора и фильтров таблиц.</li><li>Когда известен единый формат ДД.ММ.ГГГГ.</li></ul></article><article className="stop"><strong>Не используйте</strong><ul><li>Для даты и времени — нужен отдельный составной паттерн.</li><li>Для свободного текстового описания периода.</li><li>Для бизнес-логики, которая должна жить в продукте, а не в календаре.</li></ul></article></div>
       </section>
 
       <section className="ds-component-section">
@@ -41,24 +41,38 @@ function OverviewPage() {
       </section>
 
       <section className="ds-component-section">
-        <SectionIntro number="04" title="Внутренняя архитектура">Композиция публична целиком; внутренние части не экспортируются и не создают дополнительные продуктовые контракты.</SectionIntro>
-        <div className="ds-rule-list"><article><code>Date Field Trigger</code><p>Label, форматированный input, helper/error и кнопка раскрытия. Повторно использует общий Field Chrome.</p></article><article><code>Calendar Panel</code><p>Абсолютный overlay шириной 364px, отступ 8px, заголовок месяца, навигация и Monday-first grid.</p></article><article><code>Calendar Day</code><p>44×44px; default, hover, selected, today, outside, disabled и независимый focus-visible.</p></article></div>
+        <SectionIntro number="04" title="Date Range">Period picker публикует тот же календарный язык, но хранит диапазон как объект start/end и использует canonical states range start, range middle и range end.</SectionIntro>
+        <div className="ds-date-picker-variants">
+          <article><code>Range · L · Closed</code><DateRangePicker label="Период поставки" helperText="Выберите период" defaultValue={{ start: new Date(2026, 6, 15), end: new Date(2026, 6, 23) }} /></article>
+          <article className="ds-date-picker-variants__open"><code>Range · L · Open</code><DateRangePicker label="Период поставки" helperText="Выберите период" defaultValue={{ start: new Date(2026, 6, 15), end: new Date(2026, 6, 23) }} today={new Date(2026, 6, 31)} open /></article>
+          <article><code>Range · M · Read</code><DateRangePicker label="Период поставки" size="m" defaultValue={{ start: new Date(2026, 6, 15), end: new Date(2026, 6, 23) }} mode="read" /></article>
+        </div>
       </section>
 
       <section className="ds-component-section">
-        <SectionIntro number="05" title="Клавиатура и доступность">Input остаётся нативным. Календарь реализует grid navigation и возвращает фокус после выбора или закрытия.</SectionIntro>
+        <SectionIntro number="05" title="Внутренняя архитектура">Композиция публична целиком; внутренние части не экспортируются и не создают дополнительные продуктовые контракты.</SectionIntro>
+        <div className="ds-rule-list"><article><code>Date Field Trigger</code><p>Label, форматированный input, helper/error и кнопка раскрытия. Повторно использует общий Field Chrome.</p></article><article><code>Calendar Panel</code><p>Абсолютный overlay шириной 364px, отступ 8px, заголовок месяца, навигация и Monday-first grid.</p></article><article><code>Calendar Day</code><p>44×44px; default, hover, selected, today, outside, disabled и независимый focus-visible.</p></article><article><code>Range semantics</code><p>Начало, середина и конец периода рендерятся отдельными canonical classes без выноса календарных частей в публичные props.</p></article></div>
+      </section>
+
+      <section className="ds-component-section">
+        <SectionIntro number="06" title="Клавиатура и доступность">Input остаётся нативным. Календарь реализует grid navigation и возвращает фокус после выбора или закрытия.</SectionIntro>
         <div className="ds-rule-list"><article><code>Alt + ↓</code><p>Открывает календарь из поля.</p></article><article><code>← → ↑ ↓</code><p>Перемещает фокус на день или неделю.</p></article><article><code>Home / End</code><p>Переходит к началу или концу недели.</p></article><article><code>Page Up / Down</code><p>Меняет месяц; с Shift — год.</p></article><article><code>Enter / Space / Esc</code><p>Выбирает дату или закрывает календарь с восстановлением фокуса.</p></article></div>
       </section>
 
       <section className="ds-component-section">
-        <SectionIntro number="06" title="React API">Значение хранится в ISO, а локализованная строка является только представлением. Визуальные настройки не выносятся в props.</SectionIntro>
+        <SectionIntro number="07" title="React API">Single-date хранит ISO, а period picker — объект start/end. Визуальные настройки не выносятся в props.</SectionIntro>
         <div className="ds-api-table">{[
           ['label', 'string', 'required'], ['value / defaultValue', 'string | null (YYYY-MM-DD)', 'null'], ['onValueChange', '(value) => void', '—'], ['size', "'l' | 'm'", "'l'"], ['mode', "'edit' | 'read'", "'edit'"], ['open / defaultOpen', 'boolean', 'false'], ['onOpenChange', '(open) => void', '—'], ['min / max', 'string (YYYY-MM-DD)', '—'], ['name', 'string', '—'], ['today', 'string (YYYY-MM-DD)', 'system date'],
+        ].map(([name, type, initial]) => <article key={name}><code>{name}</code><span>{type}</span><span>{initial}</span></article>)}</div>
+        <div className="ds-api-table" style={{ marginTop: 'var(--cometal-primitive-spacing-150)' }}>{[
+          ['range.value / defaultValue', '{ start: Date | null, end: Date | null }', '{ start: null, end: null }'],
+          ['range.onChange', '(value) => void', '—'],
+          ['range.min / max', 'Date | null', '—'],
         ].map(([name, type, initial]) => <article key={name}><code>{name}</code><span>{type}</span><span>{initial}</span></article>)}</div>
       </section>
 
       <section className="ds-component-section">
-        <SectionIntro number="07" title="Код">Установка, импорт и минимальный рабочий пример собраны из одного источника и соответствуют публичному React API.</SectionIntro>
+        <SectionIntro number="08" title="Код">Установка, импорт и минимальный рабочий пример собраны из одного источника и соответствуют публичному React API.</SectionIntro>
         <ComponentCodeExample componentId="input.date-picker" componentName="Date Picker" sourceHref={sourceUrl} />
       </section>
     </main>
@@ -152,6 +166,30 @@ export const OpenCalendar: Story = {
       await expect(canvasElement.querySelector<HTMLElement>('.cometal-date-picker__month-header')?.getBoundingClientRect().height).toBe(32);
       await expect(canvasElement.querySelector<HTMLElement>('.cometal-date-picker__weekdays')?.getBoundingClientRect().height).toBe(18);
     }
+  },
+};
+
+export const DateRangeOpen: Story = {
+  name: 'Date Range',
+  render: () => (
+    <DateRangePicker
+      label="Период поставки"
+      helperText="Выберите период"
+      defaultValue={{ start: new Date(2026, 6, 15), end: new Date(2026, 6, 23) }}
+      today={new Date(2026, 6, 31)}
+      open
+    />
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await waitFor(() => expect(canvas.getByRole('dialog', { name: 'Июль 2026' })).toBeVisible());
+    await expect(canvas.getByRole('textbox', { name: 'Период поставки' })).toHaveValue('15.07.2026 — 23.07.2026');
+    await expect(canvas.getByRole('button', { name: /среда, 15 июля 2026/ })).toHaveAttribute('data-range-start', 'true');
+    await expect(canvas.getByRole('button', { name: /четверг, 23 июля 2026/ })).toHaveAttribute('data-range-end', 'true');
+    const middleDays = canvasElement.querySelectorAll('[data-range-middle="true"]');
+    await expect(middleDays.length).toBeGreaterThan(0);
+    const panel = canvasElement.querySelector<HTMLElement>('.cometal-date-picker__panel');
+    await expect(getComputedStyle(panel!).boxShadow).not.toBe('none');
   },
 };
 

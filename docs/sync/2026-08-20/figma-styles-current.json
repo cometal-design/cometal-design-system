@@ -1,0 +1,627 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-08-20",
+  "figmaFileKey": "KKNGucImxFAtQLBhPy8tLs",
+  "textStyles": [
+    {
+      "id": "S:aa7f00991ce99b6ef1b3fc96f7c38d92c1575248,",
+      "key": "aa7f00991ce99b6ef1b3fc96f7c38d92c1575248",
+      "name": "Display/L",
+      "description": "Large display style for prominent metrics and exceptional high-emphasis content.",
+      "fontName": {
+        "family": "Grtsk Peta",
+        "style": "Medium"
+      },
+      "fontSize": 72,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 80
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": -3
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    {
+      "id": "S:b1756588395669e08187fcaab34d99812e70e3ff,",
+      "key": "b1756588395669e08187fcaab34d99812e70e3ff",
+      "name": "Display/M",
+      "description": "Medium display style for prominent metrics and high-emphasis content.",
+      "fontName": {
+        "family": "Grtsk Peta",
+        "style": "Medium"
+      },
+      "fontSize": 56,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 64
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": -3
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    {
+      "id": "S:f59194a2180f77f3e3cbcf08513e062cf019735e,",
+      "key": "f59194a2180f77f3e3cbcf08513e062cf019735e",
+      "name": "Display/S",
+      "description": "Small display style for compact metrics and high-emphasis content.",
+      "fontName": {
+        "family": "Grtsk Peta",
+        "style": "Medium"
+      },
+      "fontSize": 40,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 48
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": -3
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    {
+      "id": "S:7fd5bd8b238a7c6e3a120cd227cc83f1f8e74f65,",
+      "key": "7fd5bd8b238a7c6e3a120cd227cc83f1f8e74f65",
+      "name": "Heading/L",
+      "description": "Large heading for page titles and primary content sections.",
+      "fontName": {
+        "family": "Grtsk Peta",
+        "style": "Medium"
+      },
+      "fontSize": 24,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 28
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": -1
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    {
+      "id": "S:80bcb5ae7fc07ebb45d66edd38d3a6b22f4338ea,",
+      "key": "80bcb5ae7fc07ebb45d66edd38d3a6b22f4338ea",
+      "name": "Heading/M",
+      "description": "Medium heading for section titles and major content groups.",
+      "fontName": {
+        "family": "Grtsk Peta",
+        "style": "Medium"
+      },
+      "fontSize": 20,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 24
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": -0.5
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    {
+      "id": "S:245c2294ad9b4e15bfc9c46746f6cdc27e61c03a,",
+      "key": "245c2294ad9b4e15bfc9c46746f6cdc27e61c03a",
+      "name": "Heading/S",
+      "description": "Small heading for subsections and compact content groups.",
+      "fontName": {
+        "family": "Grtsk Peta",
+        "style": "Medium"
+      },
+      "fontSize": 18,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 24
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": -0.25
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    {
+      "id": "S:e5924e401fabf0bdb0f715c654de073ca7884fba,",
+      "key": "e5924e401fabf0bdb0f715c654de073ca7884fba",
+      "name": "Heading/XS",
+      "description": "Extra-small heading for dense panels and nested groups.",
+      "fontName": {
+        "family": "Grtsk Peta",
+        "style": "Medium"
+      },
+      "fontSize": 16,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 20
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    {
+      "id": "S:a493d9d46d2d55008f518393c8b1dfa9c1f2ae71,",
+      "key": "a493d9d46d2d55008f518393c8b1dfa9c1f2ae71",
+      "name": "Body/L/Accent",
+      "description": "Large body text with accent emphasis for important supporting content.",
+      "fontName": {
+        "family": "Grtsk Peta",
+        "style": "Medium"
+      },
+      "fontSize": 16,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 24
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    {
+      "id": "S:d5a41e6436677c3bdb3d08a53fd9640324b88a70,",
+      "key": "d5a41e6436677c3bdb3d08a53fd9640324b88a70",
+      "name": "Body/L/Default",
+      "description": "Large body text for readable supporting content.",
+      "fontName": {
+        "family": "Grtsk Peta",
+        "style": "Regular"
+      },
+      "fontSize": 16,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 24
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    {
+      "id": "S:2973299cefb305baba614c3790b073e435a8c50c,",
+      "key": "2973299cefb305baba614c3790b073e435a8c50c",
+      "name": "Body/M/Accent",
+      "description": "Medium body text with accent emphasis for key interface copy.",
+      "fontName": {
+        "family": "Grtsk Peta",
+        "style": "Medium"
+      },
+      "fontSize": 14,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 20
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0.25
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    {
+      "id": "S:e032ec0594ad72e3c644dba305b5bbf7a09f1535,",
+      "key": "e032ec0594ad72e3c644dba305b5bbf7a09f1535",
+      "name": "Body/M/Default",
+      "description": "Medium body text for standard interface copy.",
+      "fontName": {
+        "family": "Grtsk Peta",
+        "style": "Regular"
+      },
+      "fontSize": 14,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 20
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0.25
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    {
+      "id": "S:20611fb8b1e4d35962ab500c34a29f9f9243b120,",
+      "key": "20611fb8b1e4d35962ab500c34a29f9f9243b120",
+      "name": "Body/S/Default",
+      "description": "Small body text for dense interface copy and secondary information.",
+      "fontName": {
+        "family": "Grtsk Peta",
+        "style": "Regular"
+      },
+      "fontSize": 13,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 20
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0.5
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    {
+      "id": "S:890155fd1e22ec63dc22f44df6055c9b0d24aa55,",
+      "key": "890155fd1e22ec63dc22f44df6055c9b0d24aa55",
+      "name": "Body/S/Accent",
+      "description": "Small body text with accent emphasis for dense interface copy.",
+      "fontName": {
+        "family": "Grtsk Peta",
+        "style": "Medium"
+      },
+      "fontSize": 13,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 20
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0.5
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    {
+      "id": "S:5d40d993a72861eb4932f767a7a5d73c719338c4,",
+      "key": "5d40d993a72861eb4932f767a7a5d73c719338c4",
+      "name": "Control/M",
+      "description": "Medium controls, regular emphasis",
+      "fontName": {
+        "family": "Grtsk Peta",
+        "style": "Regular"
+      },
+      "fontSize": 14,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 16
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0.25
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    {
+      "id": "S:a5a6e1db55947160a463955c972a149a407ccac4,",
+      "key": "a5a6e1db55947160a463955c972a149a407ccac4",
+      "name": "Control/S",
+      "description": "Small controls, regular emphasis",
+      "fontName": {
+        "family": "Grtsk Peta",
+        "style": "Regular"
+      },
+      "fontSize": 12,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 16
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0.5
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    {
+      "id": "S:a661902c4af047f249934eb32fd774308d90f322,",
+      "key": "a661902c4af047f249934eb32fd774308d90f322",
+      "name": "Caption & Label/Label",
+      "description": "Regular mixed-case label for field labels and compact interface metadata.",
+      "fontName": {
+        "family": "Grtsk Peta",
+        "style": "Regular"
+      },
+      "fontSize": 12,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 18
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0.5
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    {
+      "id": "S:5c69547895b22c0b89efa53bdb23896e941612ee,",
+      "key": "5c69547895b22c0b89efa53bdb23896e941612ee",
+      "name": "Caption & Label/Caption",
+      "description": "Bold uppercase caption for compact categories and table metadata.",
+      "fontName": {
+        "family": "Grtsk Peta",
+        "style": "Medium"
+      },
+      "fontSize": 12,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 16
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0.5
+      },
+      "textCase": "UPPER",
+      "textDecoration": "NONE"
+    },
+    {
+      "id": "S:b4a337f0f5602bc4d5416326a569114964c2e53b,",
+      "key": "b4a337f0f5602bc4d5416326a569114964c2e53b",
+      "name": "Control/L",
+      "description": "Large controls, regular emphasis",
+      "fontName": {
+        "family": "Grtsk Peta",
+        "style": "Regular"
+      },
+      "fontSize": 16,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 20
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    {
+      "id": "S:c87e9ba66376aeb3435d6892e7ae41908fe73ec9,",
+      "key": "c87e9ba66376aeb3435d6892e7ae41908fe73ec9",
+      "name": "Technical/L/Default",
+      "description": "Primary technical values: document numbers, SKU, IDs and machine-readable values in tables and forms.",
+      "fontName": {
+        "family": "IBM Plex Mono",
+        "style": "Regular"
+      },
+      "fontSize": 14,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 20
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    {
+      "id": "S:1d7ad6bc24a51073fdaafd8fcc45dfb79c06a177,",
+      "key": "1d7ad6bc24a51073fdaafd8fcc45dfb79c06a177",
+      "name": "Technical/M/Default",
+      "description": "Standard technical metadata: dimensions, dates, versions, units and parameters.",
+      "fontName": {
+        "family": "IBM Plex Mono",
+        "style": "Regular"
+      },
+      "fontSize": 12,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 16
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    {
+      "id": "S:0f34bc7f7d7ed10492d119ed066b80e0eedd1367,",
+      "key": "0f34bc7f7d7ed10492d119ed066b80e0eedd1367",
+      "name": "Technical/M/Accent",
+      "description": "Emphasized technical prefixes, compact markers and high-priority machine-readable metadata.",
+      "fontName": {
+        "family": "IBM Plex Mono",
+        "style": "Medium"
+      },
+      "fontSize": 12,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 16
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    {
+      "id": "S:eeae1512fc368b772c95683320ab785baa42ade8,",
+      "key": "eeae1512fc368b772c95683320ab785baa42ade8",
+      "name": "Technical/S/Default",
+      "description": "Compact secondary metadata: file sizes, hashes, timestamps and service labels.",
+      "fontName": {
+        "family": "IBM Plex Mono",
+        "style": "Regular"
+      },
+      "fontSize": 11,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 14
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    },
+    {
+      "id": "S:94b14b4c3346791eb2073a02c0353cdeb5473d7b,",
+      "key": "94b14b4c3346791eb2073a02c0353cdeb5473d7b",
+      "name": "Brand/Cover/Wordmark",
+      "description": "Decorative 200 px wordmark style used only on DS Core cover boards.",
+      "fontName": {
+        "family": "Grtsk Peta",
+        "style": "Semibold"
+      },
+      "fontSize": 200,
+      "lineHeight": {
+        "unit": "AUTO"
+      },
+      "letterSpacing": {
+        "unit": "PIXELS",
+        "value": 1
+      },
+      "textCase": "ORIGINAL",
+      "textDecoration": "NONE"
+    }
+  ],
+  "effectStyles": [
+    {
+      "id": "S:7185d5dfd5569d32298edffa50ab44fd6fa10368,",
+      "key": "7185d5dfd5569d32298edffa50ab44fd6fa10368",
+      "name": "Effects/Elevation/Floating/Soft",
+      "description": "Default elevation for Calendar Panel, Date Range Panel, Listbox, Multi Listbox, Select and Combobox overlays.",
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "visible": true,
+          "radius": 4,
+          "boundVariables": {
+            "color": {
+              "type": "VARIABLE_ALIAS",
+              "id": "VariableID:3004:160"
+            }
+          },
+          "color": {
+            "r": 0.06666667014360428,
+            "g": 0.06666667014360428,
+            "b": 0.06666667014360428,
+            "a": 0.03999999910593033
+          },
+          "offset": {
+            "x": 0,
+            "y": 2
+          },
+          "spread": -1,
+          "blendMode": "NORMAL",
+          "showShadowBehindNode": true
+        },
+        {
+          "type": "DROP_SHADOW",
+          "visible": true,
+          "radius": 13,
+          "boundVariables": {
+            "color": {
+              "type": "VARIABLE_ALIAS",
+              "id": "VariableID:3004:161"
+            }
+          },
+          "color": {
+            "r": 0.06666667014360428,
+            "g": 0.06666667014360428,
+            "b": 0.06666667014360428,
+            "a": 0.07999999821186066
+          },
+          "offset": {
+            "x": 0,
+            "y": 5
+          },
+          "spread": -5,
+          "blendMode": "NORMAL",
+          "showShadowBehindNode": true
+        }
+      ]
+    },
+    {
+      "id": "S:5bcf9a21d6dc54ce4fb570e3f57d329745e60368,",
+      "key": "5bcf9a21d6dc54ce4fb570e3f57d329745e60368",
+      "name": "Effects/Elevation/Floating/Hard",
+      "description": "Compact elevation for Dropdown Menu, context menu and other small action surfaces.",
+      "effects": [
+        {
+          "type": "DROP_SHADOW",
+          "visible": true,
+          "radius": 0,
+          "boundVariables": {
+            "color": {
+              "type": "VARIABLE_ALIAS",
+              "id": "VariableID:3004:160"
+            }
+          },
+          "color": {
+            "r": 0.06666667014360428,
+            "g": 0.06666667014360428,
+            "b": 0.06666667014360428,
+            "a": 0.03999999910593033
+          },
+          "offset": {
+            "x": 0,
+            "y": 0
+          },
+          "spread": 1,
+          "blendMode": "NORMAL",
+          "showShadowBehindNode": true
+        },
+        {
+          "type": "DROP_SHADOW",
+          "visible": true,
+          "radius": 7,
+          "boundVariables": {
+            "color": {
+              "type": "VARIABLE_ALIAS",
+              "id": "VariableID:3004:160"
+            }
+          },
+          "color": {
+            "r": 0.06666667014360428,
+            "g": 0.06666667014360428,
+            "b": 0.06666667014360428,
+            "a": 0.03999999910593033
+          },
+          "offset": {
+            "x": 0,
+            "y": 2
+          },
+          "spread": 0,
+          "blendMode": "NORMAL",
+          "showShadowBehindNode": true
+        },
+        {
+          "type": "DROP_SHADOW",
+          "visible": true,
+          "radius": 5,
+          "boundVariables": {
+            "color": {
+              "type": "VARIABLE_ALIAS",
+              "id": "VariableID:3004:161"
+            }
+          },
+          "color": {
+            "r": 0.06666667014360428,
+            "g": 0.06666667014360428,
+            "b": 0.06666667014360428,
+            "a": 0.07999999821186066
+          },
+          "offset": {
+            "x": 0,
+            "y": 2
+          },
+          "spread": -2,
+          "blendMode": "NORMAL",
+          "showShadowBehindNode": true
+        }
+      ]
+    }
+  ]
+}

@@ -85,6 +85,24 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - `loading` сообщает `aria-busy` и сохраняет доступное имя исходного действия.
 - Все варианты проходят автоматическую accessibility-проверку Storybook; контраст дополнительно проверяется на целевой поверхности.
 
+## Token and effect contract
+
+- Размеры опираются на shared control scale: `Semantic.Size.Control.*` и `Semantic.Size.Icon.Button.*`.
+- Цвет и контраст приходят из `Semantic.Color.Button.*` и `Semantic.Color.State.Focus Ring`.
+- Outline-иконки в runtime обязаны давать визуальную толщину stroke ровно `1.4px`; для этого в code layer используется size-aware source compensation, а не отдельные SVG assets на каждый размер.
+- Loader использует тот же stroke contract `1.4px`.
+- Motion не берётся из Figma как variant-property: button использует code-owned state motion token `--cometal-motion-duration-state = 120ms`; при `prefers-reduced-motion: reduce` transition отключается.
+
+## Storybook stories
+
+- `components-button--overview`
+- `components-button--playground`
+- `components-button--sizing-contract`
+- `components-button--interaction`
+- `components-button--disabled`
+- `components-button--loading`
+- `components-button--icon-only`
+
 ## React API
 
 ```ts

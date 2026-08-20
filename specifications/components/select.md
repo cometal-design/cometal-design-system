@@ -43,6 +43,22 @@ form-value и совместимость с HTML-формами.
 - Клавиатурное раскрытие остаётся мгновенным.
 - При `prefers-reduced-motion: reduce` смещение отключается, остаётся только короткое появление через opacity.
 
+## Token and effect contract
+
+- Trigger использует shared field semantic tokens для surface, border, value, placeholder, disabled и error.
+- Chevron как built-in asset визуально рендерится со stroke `1.4px`; source stroke компенсируется по size slot, чтобы итоговая линия совпадала с Figma.
+- Active Listbox использует current Soft effect token и не держит фиксированную пустую высоту: до пяти options растёт по контенту, дальше включает внутренний scroll.
+
+## Storybook stories
+
+- `components-fields--overview`
+- `components-fields--fields-playground`
+- `components-fields--sizing-contract`
+- `components-fields--select-playground`
+- `components-fields--select-active`
+- `components-fields--select-long-list`
+- `components-fields--select-interaction`
+
 ## Acceptance criteria
 
 - [x] Визуальная модель и состояния считаны из DS Core.

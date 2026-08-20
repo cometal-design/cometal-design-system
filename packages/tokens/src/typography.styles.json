@@ -1,34 +1,267 @@
 {
-  "$description": "Local text styles synchronized from Figma DS Core.",
+  "$description": "Typography styles synchronized from Figma DS Core snapshot 2026-08-20.",
   "$extensions": {
     "com.cometal.figma": {
-      "fileKey": "KKNGucImxFAtQLBhPy8tLs",
-      "pageId": "4:30",
-      "frameId": "668:14643"
+      "capturedAt": "2026-08-20"
     }
   },
   "styles": [
-    { "name": "Display/L", "description": "Large display style for prominent metrics and exceptional high-emphasis content.", "family": "Grtsk Peta", "weight": 500, "size": 72, "lineHeight": 80, "letterSpacingPercent": -3, "textCase": "original", "figmaKey": "aa7f00991ce99b6ef1b3fc96f7c38d92c1575248" },
-    { "name": "Display/M", "description": "Medium display style for prominent metrics and high-emphasis content.", "family": "Grtsk Peta", "weight": 500, "size": 56, "lineHeight": 64, "letterSpacingPercent": -3, "textCase": "original", "figmaKey": "b1756588395669e08187fcaab34d99812e70e3ff" },
-    { "name": "Display/S", "description": "Small display style for compact metrics and high-emphasis content.", "family": "Grtsk Peta", "weight": 500, "size": 40, "lineHeight": 48, "letterSpacingPercent": -3, "textCase": "original", "figmaKey": "f59194a2180f77f3e3cbcf08513e062cf019735e" },
-    { "name": "Heading/L", "description": "Large heading for page titles and primary content sections.", "family": "Grtsk Peta", "weight": 500, "size": 24, "lineHeight": 28, "letterSpacingPercent": -1, "textCase": "original", "figmaKey": "7fd5bd8b238a7c6e3a120cd227cc83f1f8e74f65" },
-    { "name": "Heading/M", "description": "Medium heading for section titles and major content groups.", "family": "Grtsk Peta", "weight": 500, "size": 20, "lineHeight": 24, "letterSpacingPercent": -0.5, "textCase": "original", "figmaKey": "80bcb5ae7fc07ebb45d66edd38d3a6b22f4338ea" },
-    { "name": "Heading/S", "description": "Small heading for subsections and compact content groups.", "family": "Grtsk Peta", "weight": 500, "size": 18, "lineHeight": 24, "letterSpacingPercent": -0.25, "textCase": "original", "figmaKey": "245c2294ad9b4e15bfc9c46746f6cdc27e61c03a" },
-    { "name": "Heading/XS", "description": "Extra-small heading for dense panels and nested groups.", "family": "Grtsk Peta", "weight": 500, "size": 16, "lineHeight": 20, "letterSpacingPercent": 0, "textCase": "original", "figmaKey": "e5924e401fabf0bdb0f715c654de073ca7884fba" },
-    { "name": "Body/L/Accent", "description": "Large body text with accent emphasis for important supporting content.", "family": "Grtsk Peta", "weight": 500, "size": 16, "lineHeight": 24, "letterSpacingPercent": 0, "textCase": "original", "figmaKey": "a493d9d46d2d55008f518393c8b1dfa9c1f2ae71" },
-    { "name": "Body/L/Default", "description": "Large body text for readable supporting content.", "family": "Grtsk Peta", "weight": 400, "size": 16, "lineHeight": 24, "letterSpacingPercent": 0, "textCase": "original", "figmaKey": "d5a41e6436677c3bdb3d08a53fd9640324b88a70" },
-    { "name": "Body/M/Accent", "description": "Medium body text with accent emphasis for key interface copy.", "family": "Grtsk Peta", "weight": 500, "size": 14, "lineHeight": 20, "letterSpacingPercent": 0.25, "textCase": "original", "figmaKey": "2973299cefb305baba614c3790b073e435a8c50c" },
-    { "name": "Body/M/Default", "description": "Medium body text for standard interface copy.", "family": "Grtsk Peta", "weight": 400, "size": 14, "lineHeight": 20, "letterSpacingPercent": 0.25, "textCase": "original", "figmaKey": "e032ec0594ad72e3c644dba305b5bbf7a09f1535" },
-    { "name": "Body/S/Default", "description": "Small body text for dense interface copy and secondary information.", "family": "Grtsk Peta", "weight": 400, "size": 13, "lineHeight": 20, "letterSpacingPercent": 0.5, "textCase": "original", "figmaKey": "20611fb8b1e4d35962ab500c34a29f9f9243b120" },
-    { "name": "Body/S/Accent", "description": "Small body text with accent emphasis for dense interface copy.", "family": "Grtsk Peta", "weight": 500, "size": 13, "lineHeight": 20, "letterSpacingPercent": 0.5, "textCase": "original", "figmaKey": "890155fd1e22ec63dc22f44df6055c9b0d24aa55" },
-    { "name": "Control/L", "description": "Large controls, regular emphasis", "family": "Grtsk Peta", "weight": 400, "size": 16, "lineHeight": 20, "letterSpacingPercent": 0, "textCase": "original", "figmaKey": "b4a337f0f5602bc4d5416326a569114964c2e53b" },
-    { "name": "Control/M", "description": "Medium controls, regular emphasis", "family": "Grtsk Peta", "weight": 400, "size": 14, "lineHeight": 16, "letterSpacingPercent": 0.25, "textCase": "original", "figmaKey": "5d40d993a72861eb4932f767a7a5d73c719338c4" },
-    { "name": "Control/S", "description": "Small controls, regular emphasis", "family": "Grtsk Peta", "weight": 400, "size": 12, "lineHeight": 16, "letterSpacingPercent": 0.5, "textCase": "original", "figmaKey": "a5a6e1db55947160a463955c972a149a407ccac4" },
-    { "name": "Caption & Label/Label", "description": "Regular mixed-case label for field labels and compact interface metadata.", "family": "Grtsk Peta", "weight": 400, "size": 12, "lineHeight": 18, "letterSpacingPercent": 0.5, "textCase": "original", "figmaKey": "a661902c4af047f249934eb32fd774308d90f322" },
-    { "name": "Caption & Label/Caption", "description": "Bold uppercase caption for compact categories and table metadata.", "family": "Grtsk Peta", "weight": 500, "size": 12, "lineHeight": 16, "letterSpacingPercent": 0.5, "textCase": "upper", "figmaKey": "5c69547895b22c0b89efa53bdb23896e941612ee" },
-    { "name": "Technical/L/Default", "description": "Large technical metadata for readable identifiers and values. Not for general interface copy.", "family": "IBM Plex Mono", "fallback": "ui-monospace, SFMono-Regular, Menlo, monospace", "weight": 400, "size": 14, "lineHeight": 20, "letterSpacingPercent": 0, "textCase": "original", "figmaKey": "c87e9ba66376aeb3435d6892e7ae41908fe73ec9" },
-    { "name": "Technical/M/Default", "description": "Default technical metadata for timestamps, service labels and compact values.", "family": "IBM Plex Mono", "fallback": "ui-monospace, SFMono-Regular, Menlo, monospace", "weight": 400, "size": 12, "lineHeight": 16, "letterSpacingPercent": 0, "textCase": "original", "figmaKey": "1d7ad6bc24a51073fdaafd8fcc45dfb79c06a177" },
-    { "name": "Technical/M/Accent", "description": "Emphasized technical metadata without increasing its size.", "family": "IBM Plex Mono", "fallback": "ui-monospace, SFMono-Regular, Menlo, monospace", "weight": 500, "size": 12, "lineHeight": 16, "letterSpacingPercent": 0, "textCase": "original", "figmaKey": "0f34bc7f7d7ed10492d119ed066b80e0eedd1367" },
-    { "name": "Technical/S/Default", "description": "Small technical metadata for file sizes and dense secondary values.", "family": "IBM Plex Mono", "fallback": "ui-monospace, SFMono-Regular, Menlo, monospace", "weight": 400, "size": 11, "lineHeight": 14, "letterSpacingPercent": 0, "textCase": "original", "figmaKey": "eeae1512fc368b772c95683320ab785baa42ade8" }
+    {
+      "name": "Body/L/Accent",
+      "description": "Large body text with accent emphasis for important supporting content.",
+      "family": "Grtsk Peta",
+      "weight": 500,
+      "size": 16,
+      "lineHeight": 24,
+      "letterSpacingPercent": 0,
+      "textCase": "original",
+      "figmaKey": "a493d9d46d2d55008f518393c8b1dfa9c1f2ae71"
+    },
+    {
+      "name": "Body/L/Default",
+      "description": "Large body text for readable supporting content.",
+      "family": "Grtsk Peta",
+      "weight": 400,
+      "size": 16,
+      "lineHeight": 24,
+      "letterSpacingPercent": 0,
+      "textCase": "original",
+      "figmaKey": "d5a41e6436677c3bdb3d08a53fd9640324b88a70"
+    },
+    {
+      "name": "Body/M/Accent",
+      "description": "Medium body text with accent emphasis for key interface copy.",
+      "family": "Grtsk Peta",
+      "weight": 500,
+      "size": 14,
+      "lineHeight": 20,
+      "letterSpacingPercent": 0.25,
+      "textCase": "original",
+      "figmaKey": "2973299cefb305baba614c3790b073e435a8c50c"
+    },
+    {
+      "name": "Body/M/Default",
+      "description": "Medium body text for standard interface copy.",
+      "family": "Grtsk Peta",
+      "weight": 400,
+      "size": 14,
+      "lineHeight": 20,
+      "letterSpacingPercent": 0.25,
+      "textCase": "original",
+      "figmaKey": "e032ec0594ad72e3c644dba305b5bbf7a09f1535"
+    },
+    {
+      "name": "Body/S/Accent",
+      "description": "Small body text with accent emphasis for dense interface copy.",
+      "family": "Grtsk Peta",
+      "weight": 500,
+      "size": 13,
+      "lineHeight": 20,
+      "letterSpacingPercent": 0.5,
+      "textCase": "original",
+      "figmaKey": "890155fd1e22ec63dc22f44df6055c9b0d24aa55"
+    },
+    {
+      "name": "Body/S/Default",
+      "description": "Small body text for dense interface copy and secondary information.",
+      "family": "Grtsk Peta",
+      "weight": 400,
+      "size": 13,
+      "lineHeight": 20,
+      "letterSpacingPercent": 0.5,
+      "textCase": "original",
+      "figmaKey": "20611fb8b1e4d35962ab500c34a29f9f9243b120"
+    },
+    {
+      "name": "Brand/Cover/Wordmark",
+      "description": "Decorative 200 px wordmark style used only on DS Core cover boards.",
+      "family": "Grtsk Peta",
+      "weight": 500,
+      "size": 200,
+      "lineHeight": 200,
+      "letterSpacingPercent": 0.5,
+      "textCase": "original",
+      "figmaKey": "94b14b4c3346791eb2073a02c0353cdeb5473d7b"
+    },
+    {
+      "name": "Caption & Label/Caption",
+      "description": "Bold uppercase caption for compact categories and table metadata.",
+      "family": "Grtsk Peta",
+      "weight": 500,
+      "size": 12,
+      "lineHeight": 16,
+      "letterSpacingPercent": 0.5,
+      "textCase": "upper",
+      "figmaKey": "5c69547895b22c0b89efa53bdb23896e941612ee"
+    },
+    {
+      "name": "Caption & Label/Label",
+      "description": "Regular mixed-case label for field labels and compact interface metadata.",
+      "family": "Grtsk Peta",
+      "weight": 400,
+      "size": 12,
+      "lineHeight": 18,
+      "letterSpacingPercent": 0.5,
+      "textCase": "original",
+      "figmaKey": "a661902c4af047f249934eb32fd774308d90f322"
+    },
+    {
+      "name": "Control/L",
+      "description": "Large controls, regular emphasis",
+      "family": "Grtsk Peta",
+      "weight": 400,
+      "size": 16,
+      "lineHeight": 20,
+      "letterSpacingPercent": 0,
+      "textCase": "original",
+      "figmaKey": "b4a337f0f5602bc4d5416326a569114964c2e53b"
+    },
+    {
+      "name": "Control/M",
+      "description": "Medium controls, regular emphasis",
+      "family": "Grtsk Peta",
+      "weight": 400,
+      "size": 14,
+      "lineHeight": 16,
+      "letterSpacingPercent": 0.25,
+      "textCase": "original",
+      "figmaKey": "5d40d993a72861eb4932f767a7a5d73c719338c4"
+    },
+    {
+      "name": "Control/S",
+      "description": "Small controls, regular emphasis",
+      "family": "Grtsk Peta",
+      "weight": 400,
+      "size": 12,
+      "lineHeight": 16,
+      "letterSpacingPercent": 0.5,
+      "textCase": "original",
+      "figmaKey": "a5a6e1db55947160a463955c972a149a407ccac4"
+    },
+    {
+      "name": "Display/L",
+      "description": "Large display style for prominent metrics and exceptional high-emphasis content.",
+      "family": "Grtsk Peta",
+      "weight": 500,
+      "size": 72,
+      "lineHeight": 80,
+      "letterSpacingPercent": -3,
+      "textCase": "original",
+      "figmaKey": "aa7f00991ce99b6ef1b3fc96f7c38d92c1575248"
+    },
+    {
+      "name": "Display/M",
+      "description": "Medium display style for prominent metrics and high-emphasis content.",
+      "family": "Grtsk Peta",
+      "weight": 500,
+      "size": 56,
+      "lineHeight": 64,
+      "letterSpacingPercent": -3,
+      "textCase": "original",
+      "figmaKey": "b1756588395669e08187fcaab34d99812e70e3ff"
+    },
+    {
+      "name": "Display/S",
+      "description": "Small display style for compact metrics and high-emphasis content.",
+      "family": "Grtsk Peta",
+      "weight": 500,
+      "size": 40,
+      "lineHeight": 48,
+      "letterSpacingPercent": -3,
+      "textCase": "original",
+      "figmaKey": "f59194a2180f77f3e3cbcf08513e062cf019735e"
+    },
+    {
+      "name": "Heading/L",
+      "description": "Large heading for page titles and primary content sections.",
+      "family": "Grtsk Peta",
+      "weight": 500,
+      "size": 24,
+      "lineHeight": 28,
+      "letterSpacingPercent": -1,
+      "textCase": "original",
+      "figmaKey": "7fd5bd8b238a7c6e3a120cd227cc83f1f8e74f65"
+    },
+    {
+      "name": "Heading/M",
+      "description": "Medium heading for section titles and major content groups.",
+      "family": "Grtsk Peta",
+      "weight": 500,
+      "size": 20,
+      "lineHeight": 24,
+      "letterSpacingPercent": -0.5,
+      "textCase": "original",
+      "figmaKey": "80bcb5ae7fc07ebb45d66edd38d3a6b22f4338ea"
+    },
+    {
+      "name": "Heading/S",
+      "description": "Small heading for subsections and compact content groups.",
+      "family": "Grtsk Peta",
+      "weight": 500,
+      "size": 18,
+      "lineHeight": 24,
+      "letterSpacingPercent": -0.25,
+      "textCase": "original",
+      "figmaKey": "245c2294ad9b4e15bfc9c46746f6cdc27e61c03a"
+    },
+    {
+      "name": "Heading/XS",
+      "description": "Extra-small heading for dense panels and nested groups.",
+      "family": "Grtsk Peta",
+      "weight": 500,
+      "size": 16,
+      "lineHeight": 20,
+      "letterSpacingPercent": 0,
+      "textCase": "original",
+      "figmaKey": "e5924e401fabf0bdb0f715c654de073ca7884fba"
+    },
+    {
+      "name": "Technical/L/Default",
+      "description": "Primary technical values: document numbers, SKU, IDs and machine-readable values in tables and forms.",
+      "family": "IBM Plex Mono",
+      "fallback": "ui-monospace, SFMono-Regular, Menlo, monospace",
+      "weight": 400,
+      "size": 14,
+      "lineHeight": 20,
+      "letterSpacingPercent": 0,
+      "textCase": "original",
+      "figmaKey": "c87e9ba66376aeb3435d6892e7ae41908fe73ec9"
+    },
+    {
+      "name": "Technical/M/Accent",
+      "description": "Emphasized technical prefixes, compact markers and high-priority machine-readable metadata.",
+      "family": "IBM Plex Mono",
+      "fallback": "ui-monospace, SFMono-Regular, Menlo, monospace",
+      "weight": 500,
+      "size": 12,
+      "lineHeight": 16,
+      "letterSpacingPercent": 0,
+      "textCase": "original",
+      "figmaKey": "0f34bc7f7d7ed10492d119ed066b80e0eedd1367"
+    },
+    {
+      "name": "Technical/M/Default",
+      "description": "Standard technical metadata: dimensions, dates, versions, units and parameters.",
+      "family": "IBM Plex Mono",
+      "fallback": "ui-monospace, SFMono-Regular, Menlo, monospace",
+      "weight": 400,
+      "size": 12,
+      "lineHeight": 16,
+      "letterSpacingPercent": 0,
+      "textCase": "original",
+      "figmaKey": "1d7ad6bc24a51073fdaafd8fcc45dfb79c06a177"
+    },
+    {
+      "name": "Technical/S/Default",
+      "description": "Compact secondary metadata: file sizes, hashes, timestamps and service labels.",
+      "family": "IBM Plex Mono",
+      "fallback": "ui-monospace, SFMono-Regular, Menlo, monospace",
+      "weight": 400,
+      "size": 11,
+      "lineHeight": 14,
+      "letterSpacingPercent": 0,
+      "textCase": "original",
+      "figmaKey": "eeae1512fc368b772c95683320ab785baa42ade8"
+    }
   ]
 }

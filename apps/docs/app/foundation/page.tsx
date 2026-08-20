@@ -9,12 +9,14 @@ import typography from '../../../../packages/tokens/src/typography.styles.json';
 import grid from '../../../../packages/tokens/src/grid.presets.json';
 import icons from '../../../../packages/tokens/src/icons.inventory.json';
 import motion from '../../../../packages/tokens/src/motion.tokens.json';
+import effects from '../../../../packages/tokens/src/effects.tokens.json';
 import { primitiveTokens, semanticTokens } from '../../lib/foundation-data';
 
 const primitiveColors = primitiveTokens.filter((token) => token.type === 'color');
 const semanticColors = semanticTokens.filter((token) => token.type === 'color');
 const dimensionTokens = [...primitiveTokens, ...semanticTokens].filter((token) => token.type === 'dimension');
 const motionTokenCount = Object.keys(motion.Motion.Duration).length + Object.keys(motion.Motion.Easing).length;
+const effectTokens = Object.values(effects.Effects.Effects.Elevation.Floating);
 
 export const metadata: Metadata = {
   title: 'Foundation',
@@ -45,20 +47,27 @@ const categories = [
   },
   {
     number: '04',
+    title: 'Тени',
+    count: `${effectTokens.length} стиля`,
+    description: 'Soft и Hard elevation для календарей, listbox, tooltip и context menu с точным shadow contract.',
+    href: '/foundation/shadow/',
+  },
+  {
+    number: '05',
     title: 'Темы',
     count: '1 режим',
     description: 'Основная тема Default, семантические роли и границы будущей тёмной темы.',
     href: '/foundation/themes/default/',
   },
   {
-    number: '05',
+    number: '06',
     title: 'Иконки',
     count: `${icons.totalComponents.toLocaleString('ru-RU')} компонентов`,
     description: 'Инвентарь и карта замены. SVG/React API не считаются готовыми до отдельного утверждения.',
     href: '/foundation/icons/catalog/',
   },
   {
-    number: '06',
+    number: '07',
     title: 'Motion',
     count: `${motionTokenCount} токена`,
     description: 'Длительности, easing, правила появления слоёв и обязательный reduced-motion режим.',
@@ -111,7 +120,7 @@ export default function FoundationPage() {
         <SectionHeading title="Границы готовности" description="Пробелы фиксируются явно и не заполняются придуманными решениями." />
         <div className="guidance">
           <article data-tone="positive"><strong>Готово</strong><p>Цвет, типографика и адаптивная сетка читаются из проверенных источников.</p></article>
-          <article data-tone="negative"><strong>Требуется решение</strong><p>Страницы отступов и радиусов расходятся с переменными Figma. Иконки доступны только как инвентарь; тени отсутствуют.</p></article>
+          <article data-tone="negative"><strong>Требуется решение</strong><p>Иконки остаются inventory-only до отдельного утверждения SVG/API. Tabs остаются Figma-only до продуктового API decision.</p></article>
         </div>
         <aside className="review-banner">
           <div><span>Последняя сверка</span><strong>{inventory.verifiedAt}</strong></div>

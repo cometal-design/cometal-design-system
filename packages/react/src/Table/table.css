@@ -4,26 +4,27 @@
 }
 
 .cometal-table {
-  --cometal-table-cell-height: var(--cometal-component-table-cell-height-comfortable);
-  --cometal-table-cell-inset-x: var(--cometal-component-table-cell-inset-horizontal-comfortable);
-  --cometal-table-cell-inset-y: var(--cometal-component-table-cell-inset-vertical-comfortable);
-  --cometal-table-cell-gap: var(--cometal-component-table-cell-gap-comfortable);
-  --cometal-table-divider: var(--cometal-component-table-color-cell-border-divider-comfortable);
-  --cometal-table-border-width: var(--cometal-component-table-border-width-comfortable);
-  --cometal-table-surface: var(--cometal-component-table-color-cell-surface-default-comfortable);
-  --cometal-table-text: var(--cometal-component-table-color-text-primary-comfortable);
-  --cometal-table-active: var(--cometal-component-table-color-cell-surface-active-comfortable);
-  --cometal-table-selected: var(--cometal-component-table-color-cell-surface-selected-comfortable);
-  --cometal-table-selected-text: var(--cometal-component-table-color-text-selected-comfortable);
-  --cometal-table-error: var(--cometal-component-table-color-cell-surface-error-comfortable);
-  --cometal-table-error-text: var(--cometal-component-table-color-text-error-comfortable);
-  --cometal-table-disabled: var(--cometal-component-table-color-cell-surface-disabled-comfortable);
-  --cometal-table-disabled-text: var(--cometal-component-table-color-text-disabled-comfortable);
-  --cometal-table-header-surface: var(--cometal-component-table-color-header-surface-default-comfortable);
-  --cometal-table-selected-icon: var(--cometal-component-table-color-icon-selected-comfortable);
-  --cometal-table-file-metadata: var(--cometal-component-table-color-file-metadata-comfortable);
-  --cometal-table-file-size: var(--cometal-component-table-file-size-comfortable);
-  --cometal-table-icon-size: var(--cometal-component-table-icon-size-comfortable);
+  --cometal-table-cell-height: var(--cometal-component-table-cell-height-density-comfortable);
+  --cometal-table-cell-inset-x: var(--cometal-component-table-cell-inset-horizontal);
+  --cometal-table-cell-inset-y: var(--cometal-component-table-cell-inset-vertical-density-comfortable);
+  --cometal-table-cell-gap: var(--cometal-component-table-cell-gap);
+  --cometal-table-divider: var(--cometal-component-table-cell-border-divider);
+  --cometal-table-border-width: var(--cometal-component-table-border-width);
+  --cometal-table-surface: var(--cometal-component-table-cell-surface-default);
+  --cometal-table-text: var(--cometal-component-table-text-primary);
+  --cometal-table-active: var(--cometal-component-table-cell-surface-active);
+  --cometal-table-selected: var(--cometal-component-table-cell-surface-selected);
+  --cometal-table-selected-text: var(--cometal-component-table-text-selected);
+  --cometal-table-error: var(--cometal-component-table-cell-surface-error);
+  --cometal-table-error-text: var(--cometal-component-table-text-error);
+  --cometal-table-disabled: var(--cometal-component-table-cell-surface-disabled);
+  --cometal-table-disabled-text: var(--cometal-component-table-text-disabled);
+  --cometal-table-header-surface: var(--cometal-component-table-header-surface-default);
+  --cometal-table-header-text: var(--cometal-component-table-text-secondary);
+  --cometal-table-selected-icon: var(--cometal-component-table-icon-selected);
+  --cometal-table-file-metadata: var(--cometal-component-table-file-metadata);
+  --cometal-table-icon-size: var(--cometal-component-table-icon-size);
+  --cometal-table-file-icon-size: var(--cometal-primitive-size-24);
 
   width: max-content;
   min-width: 100%;
@@ -40,26 +41,8 @@
 }
 
 .cometal-table[data-density='compact'] {
-  --cometal-table-cell-height: var(--cometal-component-table-cell-height-compact);
-  --cometal-table-cell-inset-x: var(--cometal-component-table-cell-inset-horizontal-compact);
-  --cometal-table-cell-inset-y: var(--cometal-component-table-cell-inset-vertical-compact);
-  --cometal-table-cell-gap: var(--cometal-component-table-cell-gap-compact);
-  --cometal-table-divider: var(--cometal-component-table-color-cell-border-divider-compact);
-  --cometal-table-border-width: var(--cometal-component-table-border-width-compact);
-  --cometal-table-surface: var(--cometal-component-table-color-cell-surface-default-compact);
-  --cometal-table-text: var(--cometal-component-table-color-text-primary-compact);
-  --cometal-table-active: var(--cometal-component-table-color-cell-surface-active-compact);
-  --cometal-table-selected: var(--cometal-component-table-color-cell-surface-selected-compact);
-  --cometal-table-selected-text: var(--cometal-component-table-color-text-selected-compact);
-  --cometal-table-error: var(--cometal-component-table-color-cell-surface-error-compact);
-  --cometal-table-error-text: var(--cometal-component-table-color-text-error-compact);
-  --cometal-table-disabled: var(--cometal-component-table-color-cell-surface-disabled-compact);
-  --cometal-table-disabled-text: var(--cometal-component-table-color-text-disabled-compact);
-  --cometal-table-header-surface: var(--cometal-component-table-color-header-surface-default-compact);
-  --cometal-table-selected-icon: var(--cometal-component-table-color-icon-selected-compact);
-  --cometal-table-file-metadata: var(--cometal-component-table-color-file-metadata-compact);
-  --cometal-table-file-size: var(--cometal-component-table-file-size-compact);
-  --cometal-table-icon-size: var(--cometal-component-table-icon-size-compact);
+  --cometal-table-cell-height: var(--cometal-component-table-cell-height-density-compact);
+  --cometal-table-cell-inset-y: var(--cometal-component-table-cell-inset-vertical-density-compact);
 }
 
 .cometal-table__header-cell,
@@ -86,9 +69,9 @@
 }
 
 .cometal-table__header-cell {
-  height: var(--cometal-component-table-header-height-comfortable);
+  height: var(--cometal-component-table-header-height);
   background: var(--cometal-table-header-surface);
-  color: var(--cometal-component-table-color-text-primary-comfortable);
+  color: var(--cometal-table-header-text);
   font-family: var(--cometal-typography-body-m-accent-font-family);
   font-size: var(--cometal-typography-body-m-accent-font-size);
   font-weight: var(--cometal-typography-body-m-accent-font-weight);
@@ -114,11 +97,11 @@
 
 .cometal-table__header-main {
   min-height: calc(
-    var(--cometal-component-table-header-height-comfortable)
+    var(--cometal-component-table-header-height)
     - (var(--cometal-table-border-width) * 2)
   );
-  padding-inline: var(--cometal-component-table-header-inset-start-comfortable) var(--cometal-component-table-header-inset-end-comfortable);
-  gap: var(--cometal-component-table-header-gap-comfortable);
+  padding-inline: var(--cometal-component-table-header-inset-start) var(--cometal-component-table-header-inset-end);
+  gap: var(--cometal-component-table-header-gap);
 }
 
 .cometal-table__header-label,
@@ -158,7 +141,7 @@
 }
 
 .cometal-table__header-filter {
-  padding: 0 var(--cometal-component-table-header-inset-end-comfortable) var(--cometal-primitive-spacing-100) var(--cometal-component-table-header-inset-start-comfortable);
+  padding: 0 var(--cometal-component-table-header-inset-end) var(--cometal-primitive-spacing-100) var(--cometal-component-table-header-inset-start);
 }
 
 .cometal-table__header-cell:has(.cometal-table__header-filter) {
@@ -237,12 +220,12 @@
 
 .cometal-table__file-icon {
   display: inline-flex;
-  width: var(--cometal-table-file-size);
-  height: var(--cometal-table-file-size);
-  flex: 0 0 var(--cometal-table-file-size);
+  width: var(--cometal-table-file-icon-size);
+  height: var(--cometal-table-file-icon-size);
+  flex: 0 0 var(--cometal-table-file-icon-size);
   align-items: center;
   justify-content: center;
-  color: var(--cometal-semantic-color-icon-tertiary);
+  color: var(--cometal-component-table-icon-secondary);
 }
 
 .cometal-table__file-icon svg,

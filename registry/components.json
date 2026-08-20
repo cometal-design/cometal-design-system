@@ -171,6 +171,48 @@
       "checks": { "visualMatch": true, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
     },
     {
+      "id": "overlay.tooltip",
+      "name": "Tooltip",
+      "status": "in-review",
+      "platform": "web",
+      "version": "0.1.0-beta.1",
+      "links": {
+        "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2866-2",
+        "specification": "specifications/components/tooltip.md",
+        "source": "packages/react/src/Tooltip/Tooltip.tsx",
+        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-tooltip--overview",
+        "knowledge": "knowledge-base/02 Components/Tooltip.md"
+      },
+      "checks": {
+        "visualMatch": false,
+        "specificationMatch": true,
+        "testsPassed": false,
+        "accessibilityPassed": false,
+        "knowledgeUpdated": true
+      }
+    },
+    {
+      "id": "overlay.context-menu",
+      "name": "Context Menu",
+      "status": "in-review",
+      "platform": "web",
+      "version": "0.1.0-beta.1",
+      "links": {
+        "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2663-77",
+        "specification": "specifications/components/context-menu.md",
+        "source": "packages/react/src/ContextMenu/ContextMenu.tsx",
+        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/patterns-context-menu--overview",
+        "knowledge": "knowledge-base/03 Patterns/Context Menu.md"
+      },
+      "checks": {
+        "visualMatch": false,
+        "specificationMatch": true,
+        "testsPassed": false,
+        "accessibilityPassed": false,
+        "knowledgeUpdated": true
+      }
+    },
+    {
       "id": "selection.radio-button",
       "name": "Radio Button",
       "status": "in-review",
@@ -199,6 +241,27 @@
         "knowledge": "knowledge-base/02 Components/Switch.md"
       },
       "checks": { "visualMatch": true, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
+    },
+    {
+      "id": "template.widget",
+      "name": "Widget",
+      "status": "in-review",
+      "platform": "web",
+      "version": "0.1.0-beta.1",
+      "links": {
+        "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2702-2238",
+        "specification": "specifications/components/widget.md",
+        "source": "packages/react/src/Widget/Widget.tsx",
+        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/templates-widget--overview",
+        "knowledge": "knowledge-base/04 Templates/Widget.md"
+      },
+      "checks": {
+        "visualMatch": false,
+        "specificationMatch": true,
+        "testsPassed": false,
+        "accessibilityPassed": false,
+        "knowledgeUpdated": true
+      }
     }
   ]
 }

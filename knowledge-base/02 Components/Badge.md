@@ -21,3 +21,16 @@
 ## Ownership
 
 Figma владеет визуальной моделью и composition. Tokens владеют значениями. React владеет API и доступной семантикой. Storybook подтверждает размеры, поверхности, тоны и icon-only поведение.
+
+## Что зафиксировано
+
+- Public API: `surface`, `tone`, `startIcon`, `endIcon`, `children` + native span attributes.
+- Badge остаётся неинтерактивным: без hover/pressed/selected/focus contract.
+- Высота всегда `24px`, радиус `12px`, icon-only — круг `24×24`.
+- Для Badge используются только filled icons; outline icon stroke contract сюда не переносится.
+
+## Storybook stories
+
+- `components-badge--overview`
+- `components-badge--playground`
+- `components-badge--icon-only`

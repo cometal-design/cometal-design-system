@@ -9,3 +9,17 @@
 - React: `packages/react/src/Field/Field.tsx`
 - Storybook: https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-fields--text-field-playground
 - Реестр: `input.text-field`, статус `in-review`
+
+## Что зафиксировано
+
+- Public API: `label`, `helperText`, `optional`, `error`, `size`, `mode`, `readValue`, `startIcon`, `endIcon` + native input attributes.
+- Размеры: `l / m / s` = `48 / 40 / 32`.
+- Edit и Read — разные visual contracts, а не disabled-режим одного и того же input.
+- Сам Text Field не имеет popup/elevation effect.
+
+## Storybook stories
+
+- `components-fields--overview`
+- `components-fields--fields-playground`
+- `components-fields--sizing-contract`
+- `components-fields--text-field-playground`

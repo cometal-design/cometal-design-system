@@ -1,0 +1,133 @@
+.cometal-context-menu {
+  display: inline-flex;
+}
+
+.cometal-context-menu__trigger {
+  display: inline-flex;
+}
+
+.cometal-context-menu__surface {
+  position: fixed;
+  z-index: 90;
+  display: flex;
+  min-width: 220px;
+  flex-direction: column;
+  padding: var(--cometal-primitive-spacing-50);
+  border-radius: var(--cometal-primitive-radius-100);
+  background: var(--cometal-primitive-color-neutral-0);
+  box-shadow: var(--cometal-effects-effects-elevation-floating-hard);
+}
+
+.cometal-context-menu__surface[data-size='m'] {
+  min-width: 200px;
+}
+
+.cometal-context-menu__surface[data-size='s'] {
+  min-width: 184px;
+}
+
+.cometal-context-menu__item {
+  display: flex;
+  min-width: 0;
+  align-items: center;
+  justify-content: space-between;
+  gap: var(--cometal-primitive-spacing-100);
+  border: 0;
+  border-radius: var(--cometal-primitive-radius-75);
+  background: transparent;
+  color: var(--cometal-component-table-text-primary);
+  cursor: pointer;
+  text-align: left;
+  transition:
+    background-color var(--cometal-motion-duration-state) var(--cometal-motion-easing-standard),
+    color var(--cometal-motion-duration-state) var(--cometal-motion-easing-standard);
+}
+
+.cometal-context-menu__item[data-size='l'] {
+  min-height: var(--cometal-primitive-size-48);
+  padding: var(--cometal-primitive-spacing-100) var(--cometal-primitive-spacing-150);
+  font-family: var(--cometal-typography-body-l-default-font-family);
+  font-size: var(--cometal-typography-body-l-default-font-size);
+  font-weight: var(--cometal-typography-body-l-default-font-weight);
+  line-height: var(--cometal-typography-body-l-default-line-height);
+  letter-spacing: var(--cometal-typography-body-l-default-letter-spacing);
+}
+
+.cometal-context-menu__item[data-size='m'] {
+  min-height: var(--cometal-primitive-size-40);
+  padding: var(--cometal-primitive-spacing-100) var(--cometal-primitive-spacing-150);
+  font-family: var(--cometal-typography-body-m-default-font-family);
+  font-size: var(--cometal-typography-body-m-default-font-size);
+  font-weight: var(--cometal-typography-body-m-default-font-weight);
+  line-height: var(--cometal-typography-body-m-default-line-height);
+  letter-spacing: var(--cometal-typography-body-m-default-letter-spacing);
+}
+
+.cometal-context-menu__item[data-size='s'] {
+  min-height: var(--cometal-primitive-size-32);
+  padding: var(--cometal-primitive-spacing-75) var(--cometal-primitive-spacing-125);
+  font-family: var(--cometal-typography-body-s-default-font-family);
+  font-size: var(--cometal-typography-body-s-default-font-size);
+  font-weight: var(--cometal-typography-body-s-default-font-weight);
+  line-height: var(--cometal-typography-body-s-default-line-height);
+  letter-spacing: var(--cometal-typography-body-s-default-letter-spacing);
+}
+
+.cometal-context-menu__item:hover,
+.cometal-context-menu__item:focus-visible {
+  background: var(--cometal-component-table-header-surface-context-action-hover);
+  outline: none;
+}
+
+.cometal-context-menu__item[data-selected] {
+  background: var(--cometal-component-table-header-surface-context-action-open);
+}
+
+.cometal-context-menu__item[data-tone='danger'] {
+  color: var(--cometal-semantic-color-global-text-danger);
+}
+
+.cometal-context-menu__item[data-disabled] {
+  color: var(--cometal-component-table-text-disabled);
+  cursor: default;
+}
+
+.cometal-context-menu__item-main,
+.cometal-context-menu__item-end {
+  display: inline-flex;
+  min-width: 0;
+  align-items: center;
+  gap: var(--cometal-primitive-spacing-75);
+}
+
+.cometal-context-menu__item-main {
+  flex: 1 1 auto;
+}
+
+.cometal-context-menu__label {
+  min-width: 0;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
+.cometal-context-menu__icon {
+  display: inline-flex;
+  width: var(--cometal-primitive-size-16);
+  height: var(--cometal-primitive-size-16);
+  flex: 0 0 var(--cometal-primitive-size-16);
+  align-items: center;
+  justify-content: center;
+}
+
+.cometal-context-menu__icon svg {
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.cometal-context-menu__divider {
+  height: 1px;
+  margin: var(--cometal-primitive-spacing-50) var(--cometal-primitive-spacing-100);
+  background: var(--cometal-component-table-cell-border-divider);
+}

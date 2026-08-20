@@ -17,13 +17,23 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 ## Contract
 
 - Размеры control: `l` = 20px, `m` = 16px, `s` = 14px.
-- Label обязателен; description опционален.
-- Hover, pressed и focus-visible формируются взаимодействием; disabled передаёт приложение.
+- `label` обязателен; `description` опционален и располагается второй строкой.
+- Значения: `unchecked`, `checked`, `mixed`.
+- Hover, pressed и focus-visible формируются взаимодействием; disabled и indeterminate задаёт приложение.
+- React API не моделирует визуальные состояния отдельными props: публичный контракт — `checked/defaultChecked`, `indeterminate`, `disabled`, `required`, `name`, `value`.
 
 ## Accessibility
 
 - Корень — нативный `input type="checkbox"` внутри кликабельного label.
 - Mixed передаётся через `aria-checked="mixed"` и визуальный indeterminate marker.
+- Клавиатурное поведение остаётся нативным: `Space` переключает значение без пользовательского JavaScript.
+
+## Engineering notes
+
+- Visual mark использует size-specific SVG geometry, чтобы итоговая толщина outline/stroke оставалась ровно `1.4px`.
+- `indeterminate` не рендерит check-mark параллельно с mixed state: состояние задаётся только браузерным `HTMLInputElement.indeterminate`.
+- Component source: `packages/react/src/Selection/Selection.tsx`
+- Styles: `packages/react/src/Selection/selection.css`
 
 ## Acceptance criteria
 

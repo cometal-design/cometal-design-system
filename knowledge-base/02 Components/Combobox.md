@@ -21,3 +21,19 @@ Input-driven Listbox обновляется без анимации, чтобы 
 Визуальный источник: Figma DS Core `1104:661`.
 Поведение и API: `packages/react/src/Field/Field.tsx`.
 Живая проверка: `Components/Fields/Combobox · Active Listbox`.
+
+## Что зафиксировано
+
+- Public API: `options`, `defaultValue`, `expanded/defaultExpanded`, `onExpandedChange`, `onOptionSelect`, `placeholder`, `mode`, `size`.
+- Раскрытие driven by input query: фокус и pointer click сами по себе не открывают listbox.
+- Search icon использует runtime outline stroke contract `1.4px`.
+- Overlay результатов использует current Soft effect, но без spatial pointer animation при вводе.
+
+## Storybook stories
+
+- `components-fields--overview`
+- `components-fields--fields-playground`
+- `components-fields--sizing-contract`
+- `components-fields--combobox-playground`
+- `components-fields--combobox-active`
+- `components-fields--combobox-interaction`

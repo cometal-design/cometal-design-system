@@ -14,6 +14,7 @@
 - [[Table]] — `data-display.table`, составной data-display паттерн с Comfortable/Compact плотностью, статус `in-review`.
 - [[Text Area]] — `input.text-area`, многострочный ввод текста, статус `in-review`.
 - [[Text Field]] — `input.text-field`, однострочный ввод значения, статус `in-review`.
+- [[Tooltip]] — `overlay.tooltip`, bounded overlay для коротких пояснений, статус `in-review`.
 
 ## Заблокированные направления
 

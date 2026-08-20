@@ -1,17 +1,19 @@
 .cometal-button {
-  --cometal-button-container: transparent;
-  --cometal-button-container-hover: transparent;
-  --cometal-button-container-pressed: transparent;
-  --cometal-button-container-disabled: var(--cometal-semantic-color-button-primary-container-disabled);
-  --cometal-button-content: var(--cometal-semantic-color-text-primary);
-  --cometal-button-content-hover: var(--cometal-button-content);
-  --cometal-button-content-pressed: var(--cometal-button-content);
-  --cometal-button-content-disabled: var(--cometal-component-button-content-disabled);
-  --cometal-button-height: var(--cometal-semantic-size-button-l);
-  --cometal-button-icon-size: var(--cometal-semantic-size-icon-button-l);
-  --cometal-button-inset: var(--cometal-semantic-spacing-button-l-inset-icon);
-  --cometal-button-icon-inset: var(--cometal-semantic-spacing-button-l-inset-icon);
-  --cometal-button-gap: var(--cometal-semantic-spacing-button-content-l-gap);
+  --cometal-button-container: var(--cometal-component-button-primary-surface-default);
+  --cometal-button-container-hover: var(--cometal-component-button-primary-surface-hover);
+  --cometal-button-container-pressed: var(--cometal-component-button-primary-surface-pressed);
+  --cometal-button-container-disabled: var(--cometal-component-button-primary-surface-disabled);
+  --cometal-button-container-loading: var(--cometal-component-button-primary-surface-loading);
+  --cometal-button-content: var(--cometal-component-button-primary-content-default);
+  --cometal-button-content-hover: var(--cometal-component-button-primary-content-hover);
+  --cometal-button-content-pressed: var(--cometal-component-button-primary-content-pressed);
+  --cometal-button-content-disabled: var(--cometal-component-button-primary-content-disabled);
+  --cometal-button-content-loading: var(--cometal-component-button-primary-content-loading);
+  --cometal-button-height: var(--cometal-semantic-size-global-button-l);
+  --cometal-button-icon-size: var(--cometal-semantic-size-global-icon-button-l);
+  --cometal-button-inset: var(--cometal-semantic-spacing-global-button-l-inset-icon);
+  --cometal-button-icon-inset: var(--cometal-semantic-spacing-global-button-l-inset-icon);
+  --cometal-button-gap: var(--cometal-semantic-spacing-global-button-content-l-gap);
 
   position: relative;
   display: inline-flex;
@@ -22,7 +24,7 @@
   align-items: center;
   justify-content: center;
   border: 0;
-  border-radius: var(--cometal-semantic-radius-button);
+  border-radius: var(--cometal-semantic-radius-global-button);
   background: var(--cometal-button-container);
   color: var(--cometal-button-content);
   font-family: var(--cometal-typography-control-l-font-family);
@@ -52,7 +54,7 @@
 }
 
 .cometal-button:focus-visible {
-  outline: var(--cometal-semantic-stroke-state-focus) solid var(--cometal-semantic-color-state-focus-ring);
+  outline: var(--cometal-semantic-stroke-global-state-focus) solid var(--cometal-semantic-color-global-state-focus-ring);
   outline-offset: 2px;
 }
 
@@ -70,12 +72,11 @@
 }
 
 .cometal-button__label {
-  padding-inline: var(--cometal-semantic-spacing-button-content-label-inset);
-  padding-bottom: var(--cometal-semantic-spacing-button-optical-label);
+  padding-inline: var(--cometal-semantic-spacing-global-button-content-label-inset);
+  padding-bottom: var(--cometal-semantic-spacing-global-button-optical-label);
 }
 
 .cometal-button__icon {
-  --cometal-icon-source-stroke: 1.68px;
   display: inline-flex;
   width: var(--cometal-button-icon-size);
   height: var(--cometal-button-icon-size);
@@ -84,14 +85,15 @@
   justify-content: center;
 }
 
-.cometal-button[data-size='m'] .cometal-button__icon { --cometal-icon-source-stroke: 2.1px; }
-.cometal-button[data-size='s'] .cometal-button__icon { --cometal-icon-source-stroke: 2.4px; }
-
 .cometal-button__icon > svg,
 .cometal-button__icon > img {
   display: block;
   width: 100%;
   height: 100%;
+}
+
+.cometal-button__icon > svg {
+  --cometal-icon-source-stroke: calc(var(--cometal-primitive-stroke-140, 1.4px) * 1.2);
 }
 
 .cometal-button:not(:has(.cometal-button__label)) {
@@ -108,7 +110,6 @@
 }
 
 .cometal-button__loader {
-  --cometal-icon-source-stroke: 1.4px;
   position: absolute;
   top: 50%;
   left: 50%;
@@ -121,10 +122,8 @@
   animation: cometal-button-spin var(--cometal-motion-duration-spin) var(--cometal-motion-easing-linear) infinite;
 }
 
-.cometal-button[data-size='m'] .cometal-button__loader { --cometal-icon-source-stroke: 1.75px; }
-.cometal-button[data-size='s'] .cometal-button__loader { --cometal-icon-source-stroke: 2px; }
-
 .cometal-button__loader > svg {
+  --cometal-icon-source-stroke: var(--cometal-primitive-stroke-140, 1.4px);
   display: block;
   width: 75%;
   height: 75%;
@@ -132,103 +131,165 @@
 }
 
 .cometal-button[data-size='m'] {
-  --cometal-button-height: var(--cometal-semantic-size-button-m);
-  --cometal-button-icon-size: var(--cometal-semantic-size-icon-button-m);
-  --cometal-button-inset: var(--cometal-semantic-spacing-button-m-inset-icon);
-  --cometal-button-icon-inset: var(--cometal-semantic-spacing-button-m-inset-icon);
-  --cometal-button-gap: var(--cometal-semantic-spacing-button-content-m-gap);
+  --cometal-button-height: var(--cometal-semantic-size-global-button-m);
+  --cometal-button-icon-size: var(--cometal-semantic-size-global-icon-button-m);
+  --cometal-button-inset: var(--cometal-semantic-spacing-global-button-m-inset-icon);
+  --cometal-button-icon-inset: var(--cometal-semantic-spacing-global-button-m-inset-icon);
+  --cometal-button-gap: var(--cometal-semantic-spacing-global-button-content-m-gap);
   font-size: var(--cometal-typography-control-m-font-size);
   font-weight: var(--cometal-typography-control-m-font-weight);
   line-height: var(--cometal-typography-control-m-line-height);
   letter-spacing: var(--cometal-typography-control-m-letter-spacing);
 }
 
+.cometal-button[data-size='m'] .cometal-button__icon > svg {
+  --cometal-icon-source-stroke: calc(var(--cometal-primitive-stroke-140, 1.4px) * 1.5);
+}
+
+.cometal-button[data-size='m'] .cometal-button__loader > svg {
+  --cometal-icon-source-stroke: calc(var(--cometal-primitive-stroke-140, 1.4px) * 1.25);
+}
+
 .cometal-button[data-size='s'] {
-  --cometal-button-height: var(--cometal-semantic-size-button-s);
-  --cometal-button-icon-size: var(--cometal-semantic-size-icon-button-s);
-  --cometal-button-inset: var(--cometal-semantic-spacing-button-s-inset-icon);
-  --cometal-button-icon-inset: var(--cometal-semantic-spacing-button-s-inset-icon);
-  --cometal-button-gap: var(--cometal-semantic-spacing-button-content-s-gap);
+  --cometal-button-height: var(--cometal-semantic-size-global-button-s);
+  --cometal-button-icon-size: var(--cometal-semantic-size-global-icon-button-s);
+  --cometal-button-inset: var(--cometal-semantic-spacing-global-button-s-inset-icon);
+  --cometal-button-icon-inset: var(--cometal-semantic-spacing-global-button-s-inset-icon);
+  --cometal-button-gap: var(--cometal-semantic-spacing-global-button-content-s-gap);
   font-size: var(--cometal-typography-control-s-font-size);
   font-weight: var(--cometal-typography-control-s-font-weight);
   line-height: var(--cometal-typography-control-s-line-height);
   letter-spacing: var(--cometal-typography-control-s-letter-spacing);
 }
 
+.cometal-button[data-size='s'] .cometal-button__icon > svg {
+  --cometal-icon-source-stroke: calc(var(--cometal-primitive-stroke-140, 1.4px) * 1.7142857143);
+}
+
+.cometal-button[data-size='s'] .cometal-button__loader > svg {
+  --cometal-icon-source-stroke: calc(var(--cometal-primitive-stroke-140, 1.4px) * 1.4285714286);
+}
+
 .cometal-button[data-variant='primary'] {
-  --cometal-button-container: var(--cometal-semantic-color-button-primary-container-default);
-  --cometal-button-container-hover: var(--cometal-semantic-color-button-primary-container-hover);
-  --cometal-button-container-pressed: var(--cometal-semantic-color-button-primary-container-pressed);
-  --cometal-button-content: var(--cometal-component-button-content-on-color);
+  --cometal-button-container: var(--cometal-component-button-primary-surface-default);
+  --cometal-button-container-hover: var(--cometal-component-button-primary-surface-hover);
+  --cometal-button-container-pressed: var(--cometal-component-button-primary-surface-pressed);
+  --cometal-button-container-disabled: var(--cometal-component-button-primary-surface-disabled);
+  --cometal-button-container-loading: var(--cometal-component-button-primary-surface-loading);
+  --cometal-button-content: var(--cometal-component-button-primary-content-default);
+  --cometal-button-content-hover: var(--cometal-component-button-primary-content-hover);
+  --cometal-button-content-pressed: var(--cometal-component-button-primary-content-pressed);
+  --cometal-button-content-disabled: var(--cometal-component-button-primary-content-disabled);
+  --cometal-button-content-loading: var(--cometal-component-button-primary-content-loading);
 }
 
 .cometal-button[data-variant='secondary'] {
-  --cometal-button-container: var(--cometal-semantic-color-button-secondary-container-default);
-  --cometal-button-container-hover: var(--cometal-semantic-color-button-secondary-container-hover);
-  --cometal-button-container-pressed: var(--cometal-semantic-color-button-secondary-container-pressed);
-  --cometal-button-content: var(--cometal-component-button-content-neutral);
+  --cometal-button-container: var(--cometal-component-button-secondary-surface-default);
+  --cometal-button-container-hover: var(--cometal-component-button-secondary-surface-hover);
+  --cometal-button-container-pressed: var(--cometal-component-button-secondary-surface-pressed);
+  --cometal-button-container-disabled: var(--cometal-component-button-secondary-surface-disabled);
+  --cometal-button-container-loading: var(--cometal-component-button-secondary-surface-loading);
+  --cometal-button-content: var(--cometal-component-button-secondary-content-default);
+  --cometal-button-content-hover: var(--cometal-component-button-secondary-content-hover);
+  --cometal-button-content-pressed: var(--cometal-component-button-secondary-content-pressed);
+  --cometal-button-content-disabled: var(--cometal-component-button-secondary-content-disabled);
+  --cometal-button-content-loading: var(--cometal-component-button-secondary-content-loading);
 }
 
 .cometal-button[data-variant='ghost'] {
-  --cometal-button-container: var(--cometal-semantic-color-button-ghost-container-default);
-  --cometal-button-container-hover: var(--cometal-semantic-color-button-ghost-container-hover);
-  --cometal-button-container-pressed: var(--cometal-semantic-color-button-ghost-container-pressed);
-  --cometal-button-container-disabled: var(--cometal-semantic-color-button-ghost-container-disabled);
-  --cometal-button-content: var(--cometal-component-button-content-on-color);
-  --cometal-button-content-disabled: var(--cometal-component-button-content-on-color-disabled);
+  --cometal-button-container: var(--cometal-component-button-ghost-surface-default);
+  --cometal-button-container-hover: var(--cometal-component-button-ghost-surface-hover);
+  --cometal-button-container-pressed: var(--cometal-component-button-ghost-surface-pressed);
+  --cometal-button-container-disabled: var(--cometal-component-button-ghost-surface-disabled);
+  --cometal-button-container-loading: var(--cometal-component-button-ghost-surface-loading);
+  --cometal-button-content: var(--cometal-component-button-ghost-content-default);
+  --cometal-button-content-hover: var(--cometal-component-button-ghost-content-hover);
+  --cometal-button-content-pressed: var(--cometal-component-button-ghost-content-pressed);
+  --cometal-button-content-disabled: var(--cometal-component-button-ghost-content-disabled);
+  --cometal-button-content-loading: var(--cometal-component-button-ghost-content-loading);
 }
 
 .cometal-button[data-variant='link'] {
-  --cometal-button-container: var(--cometal-semantic-color-button-link-container-default);
-  --cometal-button-container-hover: var(--cometal-semantic-color-button-link-container-hover);
-  --cometal-button-container-pressed: var(--cometal-semantic-color-button-link-container-pressed);
-  --cometal-button-container-disabled: var(--cometal-semantic-color-button-link-container-disabled);
-  --cometal-button-content: var(--cometal-component-button-content-link);
-  --cometal-button-content-hover: var(--cometal-component-button-content-link-hover);
-  --cometal-button-content-pressed: var(--cometal-component-button-content-link-pressed);
-  --cometal-button-content-disabled: var(--cometal-component-button-content-on-color-disabled);
+  --cometal-button-container: var(--cometal-component-button-link-surface-default);
+  --cometal-button-container-hover: var(--cometal-component-button-link-surface-hover);
+  --cometal-button-container-pressed: var(--cometal-component-button-link-surface-pressed);
+  --cometal-button-container-disabled: var(--cometal-component-button-link-surface-disabled);
+  --cometal-button-container-loading: var(--cometal-component-button-link-surface-loading);
+  --cometal-button-content: var(--cometal-component-button-link-content-default);
+  --cometal-button-content-hover: var(--cometal-component-button-link-content-hover);
+  --cometal-button-content-pressed: var(--cometal-component-button-link-content-pressed);
+  --cometal-button-content-disabled: var(--cometal-component-button-link-content-disabled);
+  --cometal-button-content-loading: var(--cometal-component-button-link-content-loading);
 }
 
 .cometal-button[data-variant='danger'] {
-  --cometal-button-container: var(--cometal-semantic-color-button-danger-container-default);
-  --cometal-button-container-hover: var(--cometal-semantic-color-button-danger-container-hover);
-  --cometal-button-container-pressed: var(--cometal-semantic-color-button-danger-container-pressed);
-  --cometal-button-content: var(--cometal-component-button-content-on-color);
+  --cometal-button-container: var(--cometal-component-button-danger-surface-default);
+  --cometal-button-container-hover: var(--cometal-component-button-danger-surface-hover);
+  --cometal-button-container-pressed: var(--cometal-component-button-danger-surface-pressed);
+  --cometal-button-container-disabled: var(--cometal-component-button-danger-surface-disabled);
+  --cometal-button-container-loading: var(--cometal-component-button-danger-surface-loading);
+  --cometal-button-content: var(--cometal-component-button-danger-content-default);
+  --cometal-button-content-hover: var(--cometal-component-button-danger-content-hover);
+  --cometal-button-content-pressed: var(--cometal-component-button-danger-content-pressed);
+  --cometal-button-content-disabled: var(--cometal-component-button-danger-content-disabled);
+  --cometal-button-content-loading: var(--cometal-component-button-danger-content-loading);
 }
 
 .cometal-button[data-variant='success'] {
-  --cometal-button-container: var(--cometal-semantic-color-button-success-container-default);
-  --cometal-button-container-hover: var(--cometal-semantic-color-button-success-container-hover);
-  --cometal-button-container-pressed: var(--cometal-semantic-color-button-success-container-pressed);
-  --cometal-button-content: var(--cometal-component-button-content-on-color);
+  --cometal-button-container: var(--cometal-component-button-success-surface-default);
+  --cometal-button-container-hover: var(--cometal-component-button-success-surface-hover);
+  --cometal-button-container-pressed: var(--cometal-component-button-success-surface-pressed);
+  --cometal-button-container-disabled: var(--cometal-component-button-success-surface-disabled);
+  --cometal-button-container-loading: var(--cometal-component-button-success-surface-loading);
+  --cometal-button-content: var(--cometal-component-button-success-content-default);
+  --cometal-button-content-hover: var(--cometal-component-button-success-content-hover);
+  --cometal-button-content-pressed: var(--cometal-component-button-success-content-pressed);
+  --cometal-button-content-disabled: var(--cometal-component-button-success-content-disabled);
+  --cometal-button-content-loading: var(--cometal-component-button-success-content-loading);
 }
 
 .cometal-button[data-variant='warning'] {
-  --cometal-button-container: var(--cometal-semantic-color-button-warning-container-default);
-  --cometal-button-container-hover: var(--cometal-semantic-color-button-warning-container-hover);
-  --cometal-button-container-pressed: var(--cometal-semantic-color-button-warning-container-pressed);
-  --cometal-button-content: var(--cometal-component-button-content-on-color);
+  --cometal-button-container: var(--cometal-component-button-warning-surface-default);
+  --cometal-button-container-hover: var(--cometal-component-button-warning-surface-hover);
+  --cometal-button-container-pressed: var(--cometal-component-button-warning-surface-pressed);
+  --cometal-button-container-disabled: var(--cometal-component-button-warning-surface-disabled);
+  --cometal-button-container-loading: var(--cometal-component-button-warning-surface-loading);
+  --cometal-button-content: var(--cometal-component-button-warning-content-default);
+  --cometal-button-content-hover: var(--cometal-component-button-warning-content-hover);
+  --cometal-button-content-pressed: var(--cometal-component-button-warning-content-pressed);
+  --cometal-button-content-disabled: var(--cometal-component-button-warning-content-disabled);
+  --cometal-button-content-loading: var(--cometal-component-button-warning-content-loading);
 }
 
 .cometal-button[data-variant='inverse'] {
-  --cometal-button-container: var(--cometal-semantic-color-button-inverse-container-default);
-  --cometal-button-container-hover: var(--cometal-semantic-color-button-inverse-container-hover);
-  --cometal-button-container-pressed: var(--cometal-semantic-color-button-inverse-container-pressed);
-  --cometal-button-content: var(--cometal-component-button-content-neutral);
+  --cometal-button-container: var(--cometal-component-button-inverse-surface-default);
+  --cometal-button-container-hover: var(--cometal-component-button-inverse-surface-hover);
+  --cometal-button-container-pressed: var(--cometal-component-button-inverse-surface-pressed);
+  --cometal-button-container-disabled: var(--cometal-component-button-inverse-surface-disabled);
+  --cometal-button-container-loading: var(--cometal-component-button-inverse-surface-loading);
+  --cometal-button-content: var(--cometal-component-button-inverse-content-default);
+  --cometal-button-content-hover: var(--cometal-component-button-inverse-content-hover);
+  --cometal-button-content-pressed: var(--cometal-component-button-inverse-content-pressed);
+  --cometal-button-content-disabled: var(--cometal-component-button-inverse-content-disabled);
+  --cometal-button-content-loading: var(--cometal-component-button-inverse-content-loading);
 }
 
 .cometal-button[data-variant='inverse-ghost'] {
-  --cometal-button-container: var(--cometal-semantic-color-button-inverse-ghost-container-default);
-  --cometal-button-container-hover: var(--cometal-semantic-color-button-inverse-ghost-container-hover);
-  --cometal-button-container-pressed: var(--cometal-semantic-color-button-inverse-ghost-container-pressed);
-  --cometal-button-container-disabled: var(--cometal-semantic-color-button-inverse-ghost-container-disabled);
-  --cometal-button-content: var(--cometal-component-button-content-on-color);
-  --cometal-button-content-disabled: var(--cometal-component-button-content-on-color-disabled);
+  --cometal-button-container: var(--cometal-component-button-inverse-ghost-surface-default);
+  --cometal-button-container-hover: var(--cometal-component-button-inverse-ghost-surface-hover);
+  --cometal-button-container-pressed: var(--cometal-component-button-inverse-ghost-surface-pressed);
+  --cometal-button-container-disabled: var(--cometal-component-button-inverse-ghost-surface-disabled);
+  --cometal-button-container-loading: var(--cometal-component-button-inverse-ghost-surface-loading);
+  --cometal-button-content: var(--cometal-component-button-inverse-ghost-content-default);
+  --cometal-button-content-hover: var(--cometal-component-button-inverse-ghost-content-hover);
+  --cometal-button-content-pressed: var(--cometal-component-button-inverse-ghost-content-pressed);
+  --cometal-button-content-disabled: var(--cometal-component-button-inverse-ghost-content-disabled);
+  --cometal-button-content-loading: var(--cometal-component-button-inverse-ghost-content-loading);
 }
 
 .cometal-button[data-loading='true'] {
-  background: var(--cometal-button-container);
-  color: var(--cometal-button-content);
+  background: var(--cometal-button-container-loading);
+  color: var(--cometal-button-content-loading);
   cursor: wait;
 }
 

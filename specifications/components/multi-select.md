@@ -44,3 +44,19 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - [x] Визуальная модель и состояния считаны из DS Core.
 - [x] React API, Active/interaction stories и browser-проверки реализованы.
 - [ ] Скрытые form-values должны быть добавлены при интеграции с конкретной формой.
+
+## Token and effect contract
+
+- Trigger и tags используют shared field semantic tokens, плюс current tag tokens для selected values и `+N` counter.
+- Chevron остаётся видимым и использует built-in outline icon contract `1.4px`.
+- Popup listbox использует current Soft effect token и тот же option-state слой, что и Select.
+- `+N` появляется только после реального overflow пересчёта ширины tags, а не по фиксированному числу выбранных элементов.
+
+## Storybook stories
+
+- `components-fields--overview`
+- `components-fields--fields-playground`
+- `components-fields--multi-select-playground`
+- `components-fields--multi-select-active`
+- `components-fields--multi-select-interaction`
+- `components-fields--multi-select-responsive-tags`

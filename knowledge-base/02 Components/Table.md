@@ -18,6 +18,8 @@
 - Строка может быть selected; отдельная ячейка может быть active, selected/editing, error или disabled.
 - File metadata используют IBM Plex Mono через `Technical/S/Default` и скрываются только визуально в Compact.
 - Все outline icons используют глобальный `Stroke/140 = 1.4px`.
+- Усечённый контент переиспользует `Tooltip`; header actions переиспользуют `ContextMenu`; периодный фильтр строится на `DateRangePicker`.
+- Summary row, paginator и reorder handle собираются композиционно вокруг таблицы и не экспортируют Figma row counts как props.
 
 ## Ownership
 

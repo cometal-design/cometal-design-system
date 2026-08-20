@@ -21,6 +21,9 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - `TableHeaderCell` поддерживает сортировку, context action и единый второй этаж фильтра.
 - `TableCell` поддерживает состояния `default`, `active`, `selected`, `editing`, `error`, `disabled`.
 - `TableFileCell` хранит имя и размер файла в одном источнике; Compact скрывает только вторичную строку размера.
+- Tooltip применяется поверх усечённого контента и не дублирует собственный overlay внутри таблицы.
+- Header actions переиспользуют `ContextMenu`; Table не владеет отдельным menu API.
+- Date range filter переиспользует `DateRangePicker`; paginator, summary row и reorder handle собираются как composition primitives вокруг таблицы.
 - Selection относится к строке, selected/editing/error относятся к конкретной ячейке.
 
 ## Плотность
@@ -37,6 +40,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - File icon имеет нейтральный tertiary color и Stroke/140; размер иконки 24px.
 - File name использует Caption & Label/Label, file size использует Technical/S/Default.
 - Все column actions должны иметь доступное имя; icon-only action использует hit area 24×24.
+- Состав Figma по количеству строк и карточек не копируется в React props; код публикует reusable behavioral contract, а не статический layout snapshot.
 
 ## Accessibility
 
@@ -45,6 +49,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - Таблица без видимого caption получает `aria-label`.
 - Error cells публикуют `aria-invalid`; disabled cells публикуют `aria-disabled`.
 - Встроенные Checkbox сохраняют нативную input-семантику и видимое либо скрытое доступное имя.
+- Reorder handle, paginator и header menu остаются клавиатурно достижимыми и не ломают табличный фокус-порядок.
 
 ## Acceptance criteria
 
@@ -53,6 +58,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - [x] File metadata отображаются только в Comfortable и сохраняются в Compact.
 - [x] Все outline SVG используют Stroke/140 = 1.4px.
 - [x] Component/Table и Semantic color variables опубликованы в token source.
+- [x] Tooltip, Context Menu, Date Range filter, summary row, paginator и reorder handle переиспользуют общие primitives.
 - [x] Unit и Storybook interaction checks добавлены.
 - [x] Registry, specification, Storybook и Obsidian связаны стабильным ID.
 - [ ] Frontend Lead acceptance подтверждён.

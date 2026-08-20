@@ -28,6 +28,7 @@ export const sectionNavigation: Record<string, NavItem[]> = {
     { label: 'Цвет', href: '/foundation/color/primitives/', activePrefix: '/foundation/color/' },
     { label: 'Типографика', href: '/foundation/typography/web/', activePrefix: '/foundation/typography/' },
     { label: 'Размеры и сетки', href: '/foundation/layout/spacing/', activePrefix: '/foundation/layout/' },
+    { label: 'Тени', href: '/foundation/shadow/' },
     { label: 'Темы', href: '/foundation/themes/default/', activePrefix: '/foundation/themes/' },
     { label: 'Иконки', href: '/foundation/icons/catalog/', activePrefix: '/foundation/icons/' },
     { label: 'Motion', href: '/foundation/motion/' },

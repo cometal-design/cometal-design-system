@@ -22,3 +22,19 @@ Pointer-открытие Listbox использует системный popover
 Поведение и API: `packages/react/src/Field/Field.tsx`.
 Живые проверки: `Components/Fields/Multi Select · Active Listbox` и
 `Multi Select · multiple selection`.
+
+## Что зафиксировано
+
+- Public API: `options`, `selectedValues/defaultSelectedValues`, `onSelectedValuesChange`, `expanded/defaultExpanded`, `onExpandedChange`, `placeholder`, `mode`, `size`.
+- `+N` counter появляется только когда tags реально перестают помещаться по ширине.
+- Read mode показывает полный textual list, не tags.
+- Popup listbox использует current Soft effect и shared option-state contract.
+
+## Storybook stories
+
+- `components-fields--overview`
+- `components-fields--fields-playground`
+- `components-fields--multi-select-playground`
+- `components-fields--multi-select-active`
+- `components-fields--multi-select-interaction`
+- `components-fields--multi-select-responsive-tags`

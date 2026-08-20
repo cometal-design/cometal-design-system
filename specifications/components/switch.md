@@ -17,13 +17,22 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 ## Contract
 
 - Размеры track: `l` = 44×24px, `m` = 36×20px, `s` = 32×16px.
-- Label обязателен; description опционален.
-- On/off управляется checked-state приложения.
+- `label` обязателен; `description` опционален.
+- Значения: `off` и `on`.
+- Немедленное переключение задаётся `checked/defaultChecked`; Switch не вводит промежуточный apply-step и не заменяет Checkbox в формах подтверждения.
 
 ## Accessibility
 
 - Нативный checkbox получает `role="switch"` и остаётся доступен с клавиатуры.
 - Состояние сообщается через checked semantics; focus-visible отображается вокруг track.
+- `Space` переключает состояние нативно; дополнительный JS нужен только для интеграции с продуктовым state.
+
+## Engineering notes
+
+- Track и thumb используют component tokens, но не требуют отдельного imperative API: публичный контракт остаётся `checked`, `defaultChecked`, `disabled`, `required`, `name`, `value`.
+- Размерный контракт совпадает с DS Core и проверяется через Storybook/browser tests для `l/m/s`.
+- Component source: `packages/react/src/Selection/Selection.tsx`
+- Styles: `packages/react/src/Selection/selection.css`
 
 ## Acceptance criteria
 

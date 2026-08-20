@@ -17,11 +17,17 @@ const catalogContent: Record<string, { href: string; description: string }> = {
   'input.combobox': { href: '/components/fields/#combobox', description: 'Поиск и выбор одного значения.' },
   'input.multi-select': { href: '/components/fields/#multi-select', description: 'Множественный выбор с tags в trigger.' },
   'selection.checkbox': { href: '/components/checkbox/', description: 'Независимый выбор: unchecked, checked и mixed.' },
+  'overlay.tooltip': { href: '/components/tooltip/', description: 'Bounded overlay для коротких пояснений, иконок и служебных подсказок.' },
   'selection.radio-button': { href: '/components/radio-button/', description: 'Один вариант из взаимоисключающей группы.' },
   'selection.switch': { href: '/components/switch/', description: 'Мгновенно включает или выключает настройку.' },
 };
 
-const componentCatalog = components.filter((component) => !component.id.startsWith('data-display.'));
+const componentCatalog = components.filter(
+  (component) =>
+    !component.id.startsWith('data-display.') &&
+    component.id !== 'overlay.context-menu' &&
+    component.id !== 'template.widget',
+);
 
 export default function ComponentsPage() {
   return (

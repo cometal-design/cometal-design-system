@@ -17,8 +17,8 @@
     "packageName": "@cometal/react",
     "availability": "beta-target",
     "install": "pnpm add @cometal/react @cometal/tokens",
-    "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport {\n  Table, TableBody, TableCell, TableHeaderCell, TableHead, TableRow,\n} from '@cometal/react';",
-    "example": "<Table density=\"comfortable\" aria-label=\"Позиции\">\n  <TableHead>\n    <TableRow>\n      <TableHeaderCell sort=\"ascending\">Позиция</TableHeaderCell>\n    </TableRow>\n  </TableHead>\n  <TableBody>\n    <TableRow>\n      <TableCell>POS-00127</TableCell>\n    </TableRow>\n  </TableBody>\n</Table>"
+    "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport {\n  ContextMenu,\n  ContextMenuItem,\n  DateRangePicker,\n  Table,\n  TableBody,\n  TableCell,\n  TableFileCell,\n  TableHeaderCell,\n  TableHead,\n  TableRow,\n  Tooltip,\n} from '@cometal/react';",
+    "example": "<Table density=\"comfortable\" aria-label=\"Позиции закупки\">\n  <TableHead>\n    <TableRow>\n      <TableHeaderCell filter={<DateRangePicker label=\"Период\" size=\"m\" />}>\n        Период\n      </TableHeaderCell>\n      <TableHeaderCell action={(\n        <ContextMenu trigger={<button aria-label=\"Действия колонки\">⋯</button>}>\n          <ContextMenuItem>Закрепить</ContextMenuItem>\n        </ContextMenu>\n      )}>\n        Наименование\n      </TableHeaderCell>\n    </TableRow>\n  </TableHead>\n  <TableBody>\n    <TableRow>\n      <TableCell>\n        <Tooltip content=\"Лист оцинкованный 1,0 мм\">\n          <span data-cometal-tooltip-trigger>Лист оцинкованный 1,0 мм</span>\n        </Tooltip>\n      </TableCell>\n      <TableFileCell fileName=\"specification.pdf\" fileSize=\"130 KB\" />\n    </TableRow>\n  </TableBody>\n</Table>"
   },
   "input.fields": {
     "packageName": "@cometal/react",
@@ -31,8 +31,8 @@
     "packageName": "@cometal/react",
     "availability": "beta-target",
     "install": "pnpm add @cometal/react @cometal/tokens",
-    "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport { DatePicker } from '@cometal/react';",
-    "example": "<DatePicker\n  label=\"Дата поставки\"\n  name=\"deliveryDate\"\n  defaultValue=\"2026-07-15\"\n  min=\"2026-07-01\"\n  helperText=\"Выберите дату\"\n/>"
+    "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport { DatePicker, DateRangePicker } from '@cometal/react';",
+    "example": "<>\n  <DatePicker\n    label=\"Дата поставки\"\n    name=\"deliveryDate\"\n    defaultValue=\"2026-07-15\"\n    min=\"2026-07-01\"\n    helperText=\"Выберите дату\"\n  />\n  <DateRangePicker\n    label=\"Период поставки\"\n    defaultValue={{ start: new Date(2026, 6, 15), end: new Date(2026, 6, 23) }}\n  />\n</>"
   },
   "selection.checkbox": {
     "packageName": "@cometal/react",
@@ -40,6 +40,20 @@
     "install": "pnpm add @cometal/react @cometal/tokens",
     "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport { Checkbox } from '@cometal/react';",
     "example": "<Checkbox\n  label=\"Согласен с условиями\"\n  description=\"Подтвердите согласие перед отправкой\"\n  defaultChecked\n/>"
+  },
+  "overlay.tooltip": {
+    "packageName": "@cometal/react",
+    "availability": "beta-target",
+    "install": "pnpm add @cometal/react @cometal/tokens",
+    "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport { Tooltip } from '@cometal/react';",
+    "example": "<Tooltip content=\"Подсказка\" placement=\"top-center\">\n  <button>Действие</button>\n</Tooltip>"
+  },
+  "overlay.context-menu": {
+    "packageName": "@cometal/react",
+    "availability": "beta-target",
+    "install": "pnpm add @cometal/react @cometal/tokens",
+    "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport { ContextMenu, ContextMenuDivider, ContextMenuItem } from '@cometal/react';",
+    "example": "<ContextMenu trigger={<button>Открыть</button>}>\n  <ContextMenuItem>Открыть</ContextMenuItem>\n  <ContextMenuItem>Переименовать</ContextMenuItem>\n  <ContextMenuDivider />\n  <ContextMenuItem tone=\"danger\">Удалить</ContextMenuItem>\n</ContextMenu>"
   },
   "selection.radio-button": {
     "packageName": "@cometal/react",
@@ -54,5 +68,12 @@
     "install": "pnpm add @cometal/react @cometal/tokens",
     "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport { Switch } from '@cometal/react';",
     "example": "<Switch\n  label=\"Получать уведомления\"\n  description=\"Изменение применяется сразу\"\n  defaultChecked\n/>"
+  },
+  "template.widget": {
+    "packageName": "@cometal/react",
+    "availability": "beta-target",
+    "install": "pnpm add @cometal/react @cometal/tokens",
+    "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport { Widget } from '@cometal/react';",
+    "example": "<Widget title=\"Сводка\" description=\"Структурирует заголовок, actions и content slot\">\n  <div>Content slot</div>\n</Widget>"
   }
 }

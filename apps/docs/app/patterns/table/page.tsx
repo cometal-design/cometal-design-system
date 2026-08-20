@@ -36,8 +36,19 @@ export default function TablePage() {
         </div>
       </section>
 
+      <section className="content-section">
+        <SectionHeading title="Композиция поведения" description="Table собирает готовые primitives и не клонирует их в отдельный продуктовый API." />
+        <div className="definition-list">
+          <article><span>01</span><strong>Tooltip для truncate</strong><p>Подсказка появляется только для реально усечённого контента и использует общий overlay-контракт.</p></article>
+          <article><span>02</span><strong>Context Menu для header actions</strong><p>Действия колонок переиспользуют общий menu overlay с Hard elevation и корректной danger semantic.</p></article>
+          <article><span>03</span><strong>Date Range filter</strong><p>Фильтр периода собирается поверх Date Range Picker и не создаёт отдельный private dropdown.</p></article>
+          <article><span>04</span><strong>Summary + paginator</strong><p>Нижний summary и пагинация живут рядом с таблицей и не меняют нативную table-семантику.</p></article>
+          <article><span>05</span><strong>Reorder handle</strong><p>Ручка перестановки остаётся composable affordance внутри ячейки и не превращается в prop-count из Figma.</p></article>
+        </div>
+      </section>
+
       <section className="content-section"><SectionHeading title="Код" description="Публичный API сохраняет нативную table-семантику и разделяет ответственность Table, Header Cell, Row и Cell." /><CodeExample componentName={component.name} sourceHref={sourceHref} usage={usage} /></section>
-      <section className="content-section"><SectionHeading title="Технический контракт" description="Полная матрица состояний, плотностей, file metadata и computed-style проверки находятся в Storybook." /></section>
+      <section className="content-section"><SectionHeading title="Технический контракт" description="Storybook фиксирует плотности, file metadata, tooltip/context menu reuse, range filter, summary row, paginator и reorder handle. Полная матрица состояний и computed-style проверки находятся там." /></section>
     </main>
   );
 }

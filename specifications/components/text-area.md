@@ -27,6 +27,25 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - Label, helper, error и counter программно связаны с textarea.
 - Ограничение длины передаётся нативным `maxLength`.
 
+## React API
+
+- Базовый runtime: `TextArea` из `packages/react/src/Field/Field.tsx`.
+- Публичные props: `label`, `helperText`, `optional`, `error`, `size`, `mode`, `readValue`, `showCounter`, `showScrollbar`, `startIcon`, `endIcon` + native `textarea` attributes.
+- Size contract: только `l | m`.
+- `supportingEnd` используется внутри chrome для counter и не выносится в отдельный публичный API.
+
+## Token and effect contract
+
+- Высота и внутренние отступы опираются на current multiline field semantic tokens.
+- Helper/error/counter используют shared supporting-text semantic contract.
+- Text Area не имеет popup или elevation effect; scrollbar indicator остаётся частью visual composition, а не отдельным behavior layer.
+
+## Storybook stories
+
+- `components-fields--overview`
+- `components-fields--fields-playground`
+- `components-fields--text-area-playground`
+
 ## Acceptance criteria
 
 - [x] Визуальная модель и состояния считаны из DS Core.

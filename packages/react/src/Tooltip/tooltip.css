@@ -1,0 +1,84 @@
+.cometal-tooltip {
+  display: inline-flex;
+}
+
+.cometal-tooltip__trigger {
+  display: inline-flex;
+  min-width: 0;
+}
+
+.cometal-tooltip__panel {
+  position: fixed;
+  z-index: 80;
+  display: inline-flex;
+  max-width: min(320px, calc(100vw - 16px));
+  padding: var(--cometal-primitive-spacing-100) var(--cometal-primitive-spacing-150);
+  border-radius: var(--cometal-primitive-radius-100);
+  background: var(--cometal-primitive-color-neutral-900);
+  box-shadow: var(--cometal-effects-effects-elevation-floating-soft);
+  color: var(--cometal-primitive-color-neutral-0);
+  pointer-events: none;
+}
+
+.cometal-tooltip__panel[data-size='wide'] {
+  max-width: min(420px, calc(100vw - 16px));
+  min-width: min(240px, calc(100vw - 16px));
+}
+
+.cometal-tooltip__content {
+  display: inline-flex;
+  font-family: var(--cometal-typography-body-s-default-font-family);
+  font-size: var(--cometal-typography-body-s-default-font-size);
+  font-weight: var(--cometal-typography-body-s-default-font-weight);
+  line-height: var(--cometal-typography-body-s-default-line-height);
+  letter-spacing: var(--cometal-typography-body-s-default-letter-spacing);
+}
+
+.cometal-tooltip__panel[data-size='wide'] .cometal-tooltip__content {
+  font-family: var(--cometal-typography-body-m-default-font-family);
+  font-size: var(--cometal-typography-body-m-default-font-size);
+  font-weight: var(--cometal-typography-body-m-default-font-weight);
+  line-height: var(--cometal-typography-body-m-default-line-height);
+  letter-spacing: var(--cometal-typography-body-m-default-letter-spacing);
+}
+
+.cometal-tooltip__arrow {
+  position: absolute;
+  width: var(--cometal-primitive-size-12);
+  height: var(--cometal-primitive-size-12);
+  background: inherit;
+  border-radius: var(--cometal-primitive-radius-25);
+  transform: rotate(45deg);
+}
+
+.cometal-tooltip__panel[data-placement^='top'] .cometal-tooltip__arrow {
+  bottom: -5px;
+}
+
+.cometal-tooltip__panel[data-placement^='bottom'] .cometal-tooltip__arrow {
+  top: -5px;
+}
+
+.cometal-tooltip__panel[data-placement='left'] .cometal-tooltip__arrow {
+  right: -5px;
+  top: calc(50% - 6px);
+}
+
+.cometal-tooltip__panel[data-placement='right'] .cometal-tooltip__arrow {
+  left: -5px;
+  top: calc(50% - 6px);
+}
+
+.cometal-tooltip__panel[data-placement$='start'] .cometal-tooltip__arrow {
+  left: var(--cometal-primitive-spacing-150);
+}
+
+.cometal-tooltip__panel[data-placement$='center'] .cometal-tooltip__arrow,
+.cometal-tooltip__panel[data-placement='left'] .cometal-tooltip__arrow,
+.cometal-tooltip__panel[data-placement='right'] .cometal-tooltip__arrow {
+  left: calc(50% - 6px);
+}
+
+.cometal-tooltip__panel[data-placement$='end'] .cometal-tooltip__arrow {
+  left: calc(100% - var(--cometal-primitive-spacing-150) - 12px);
+}

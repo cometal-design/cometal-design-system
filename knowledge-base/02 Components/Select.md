@@ -26,3 +26,20 @@ Pointer-открытие использует системный motion: кор�
 Поведение и API: `packages/react/src/Field/Field.tsx`.
 Живые проверки: `Components/Fields/Select`, `Select · Active Listbox`,
 `Select · Long List`, `Select · Keyboard & selection`.
+
+## Что зафиксировано
+
+- Public API: `options`, `value/defaultValue`, `onValueChange`, `expanded/defaultExpanded`, `onExpandedChange`, `placeholder`, `mode`, `size`.
+- Hidden native `select` сохраняет form value; видимый trigger/listbox отвечает за Figma-совпадение и keyboard behavior.
+- До пяти options listbox растёт по контенту; дальше включает внутренний scroll.
+- Pointer open использует current popover motion + Soft effect; keyboard open остаётся мгновенным.
+
+## Storybook stories
+
+- `components-fields--overview`
+- `components-fields--fields-playground`
+- `components-fields--sizing-contract`
+- `components-fields--select-playground`
+- `components-fields--select-active`
+- `components-fields--select-long-list`
+- `components-fields--select-interaction`

@@ -1,0 +1,37 @@
+{
+  "Effects": {
+    "$description": "Effect styles synchronized from Figma DS Core snapshot 2026-08-20.",
+    "Effects": {
+      "Elevation": {
+        "Floating": {
+          "Hard": {
+            "$type": "string",
+            "$value": "0px 0px 0px 1px {Semantic.Color.Global.Effect.Shadow.Subtle}, 0px 2px 7px 0px {Semantic.Color.Global.Effect.Shadow.Subtle}, 0px 2px 5px -2px {Semantic.Color.Global.Effect.Shadow.Default}",
+            "$description": "Compact elevation for Dropdown Menu, context menu and other small action surfaces.",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "S:5bcf9a21d6dc54ce4fb570e3f57d329745e60368,",
+                "key": "5bcf9a21d6dc54ce4fb570e3f57d329745e60368",
+                "layers": 3,
+                "name": "Effects/Elevation/Floating/Hard"
+              }
+            }
+          },
+          "Soft": {
+            "$type": "string",
+            "$value": "0px 2px 4px -1px {Semantic.Color.Global.Effect.Shadow.Subtle}, 0px 5px 13px -5px {Semantic.Color.Global.Effect.Shadow.Default}",
+            "$description": "Default elevation for Calendar Panel, Date Range Panel, Listbox, Multi Listbox, Select and Combobox overlays.",
+            "$extensions": {
+              "com.cometal.figma": {
+                "id": "S:7185d5dfd5569d32298edffa50ab44fd6fa10368,",
+                "key": "7185d5dfd5569d32298edffa50ab44fd6fa10368",
+                "layers": 2,
+                "name": "Effects/Elevation/Floating/Soft"
+              }
+            }
+          }
+        }
+      }
+    }
+  }
+}

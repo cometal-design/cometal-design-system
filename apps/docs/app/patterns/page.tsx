@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Table, TableBody, TableCell, TableHeaderCell, TableHead, TableRow } from '@cometal/react';
+import { Button, ContextMenu, ContextMenuDivider, ContextMenuItem, Table, TableBody, TableCell, TableHeaderCell, TableHead, TableRow } from '@cometal/react';
 import { MetadataStrip } from '../../components/metadata-strip';
 import { PageHeader } from '../../components/page-header';
 import { components, statusLabels } from '../../lib/registry';
@@ -8,8 +8,11 @@ import { components, statusLabels } from '../../lib/registry';
 export const metadata: Metadata = { title: 'Паттерны' };
 
 export default function PatternsPage() {
-  const patterns = components.filter((component) => component.id.startsWith('data-display.'));
+  const patterns = components.filter(
+    (component) => component.id.startsWith('data-display.') || component.id === 'overlay.context-menu',
+  );
   const table = patterns.find((component) => component.id === 'data-display.table')!;
+  const contextMenu = patterns.find((component) => component.id === 'overlay.context-menu');
   return (
     <main className="content-page components-page">
       <PageHeader eyebrow="ПАТТЕРНЫ" title="Повторяемые решения" description="Паттерн связывает компоненты с конкретной пользовательской задачей и сохраняет общий поведенческий контракт." stat={{ value: patterns.length, label: 'паттерн в реестре' }} />
@@ -31,6 +34,29 @@ export default function PatternsPage() {
             <footer><span>{table.version}</span><span>5/5 источников согласовано</span></footer>
           </div>
         </article>
+        {contextMenu ? (
+          <article className="component-card" data-component-id={contextMenu.id}>
+            <div className="component-card__preview">
+              <div className="component-card__demo">
+                <ContextMenu
+                  defaultOpen
+                  trigger={<Button size="m">Открыть</Button>}
+                >
+                  <ContextMenuItem>Открыть</ContextMenuItem>
+                  <ContextMenuItem>Переименовать</ContextMenuItem>
+                  <ContextMenuDivider />
+                  <ContextMenuItem tone="danger">Удалить</ContextMenuItem>
+                </ContextMenu>
+              </div>
+            </div>
+            <div className="component-card__body">
+              <div><code>{contextMenu.id}</code><span className="status" data-status={contextMenu.status}>{statusLabels[contextMenu.status] ?? contextMenu.status}</span></div>
+              <h2><Link href="/patterns/context-menu/">{contextMenu.name}</Link></h2>
+              <p>Контекстные действия над сущностью в pointer anchor с клавиатурной навигацией и размерными режимами.</p>
+              <footer><span>{contextMenu.version}</span><span>{contextMenu.checks.visualMatch ? '5/5 источников согласовано' : `${Object.values(contextMenu.checks).filter(Boolean).length}/5 источников согласовано`}</span></footer>
+            </div>
+          </article>
+        ) : null}
       </section>
     </main>
   );

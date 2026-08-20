@@ -39,6 +39,22 @@ Listbox с результатами.
 - Listbox результатов обновляется мгновенно вслед за вводом: анимация не задерживает поиск и клавиатурную навигацию.
 - Компонент использует общие motion tokens только для будущих pointer-triggered сценариев, но не применяет spatial motion к текущему input-driven раскрытию.
 
+## Token and effect contract
+
+- Input использует shared field semantic contract для surface, border, placeholder, helper/error и disabled state.
+- Search icon — built-in asset со stroke contract `1.4px` в итоговом рендере.
+- Input-driven listbox не использует pointer popover-motion как Select/Multi Select; геометрия обновляется сразу по мере фильтрации.
+- Overlay результатов использует current Soft effect token и current option state tokens.
+
+## Storybook stories
+
+- `components-fields--overview`
+- `components-fields--fields-playground`
+- `components-fields--sizing-contract`
+- `components-fields--combobox-playground`
+- `components-fields--combobox-active`
+- `components-fields--combobox-interaction`
+
 ## Acceptance criteria
 
 - [x] Визуальная модель и состояния считаны из DS Core.

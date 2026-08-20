@@ -32,6 +32,13 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - Нативные `HTMLAttributes<HTMLSpanElement>` сохраняются.
 - Компонент не имеет click/pressed/selected состояний.
 
+## Token and effect contract
+
+- Badge использует только semantic color, spacing, radius и icon-size tokens из слоя `Component/Badge`.
+- Высота всегда `24px`, радиус `12px`, icon slot `16px`, filled icon `12px`.
+- Outline-иконки не входят в публичный contract Badge: в компоненте используются только filled glyphs.
+- Дополнительные overlay/motion/effect tokens не применяются: Badge остаётся статичным label-компонентом без popup, focus ring и state motion.
+
 ## Accessibility
 
 - Цвет не должен быть единственным носителем смысла: текстовый Badge содержит понятную подпись.
@@ -47,3 +54,9 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - [x] Unit и Storybook interaction checks добавлены.
 - [x] Visual QA при viewport 1440×900 и 390×844 подтверждён.
 - [ ] Frontend Lead acceptance подтверждён.
+
+## Storybook stories
+
+- `components-badge--overview`
+- `components-badge--playground`
+- `components-badge--icon-only`

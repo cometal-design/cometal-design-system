@@ -36,6 +36,23 @@ Button — первый эталон полного распространени
 - В spacing-токенах `Inset Icon` хранится отдельным соседним токеном: это исключает конфликт DTCG «токен одновременно является группой» и гарантирует экспорт отступов в CSS.
 - Статус не поднимается до `beta`, пока Frontend Lead не подтвердит API и интеграцию.
 
+## Текущий runtime contract
+
+- Public API: `variant`, `size`, `loading`, `startIcon`, `endIcon` + native button props.
+- Размеры: `l / m / s` = `48 / 40 / 32`.
+- State motion — code-owned, `120ms`; при reduced motion отключается.
+- Outline icons и loader в runtime обязаны визуально оставаться `1.4px`, даже когда slot меньше исходного viewBox.
+
+## Storybook stories
+
+- `components-button--overview`
+- `components-button--playground`
+- `components-button--sizing-contract`
+- `components-button--interaction`
+- `components-button--disabled`
+- `components-button--loading`
+- `components-button--icon-only`
+
 ## Следующие связи
 
 - Button войдёт в action-группы, формы, модальные окна, таблицы и многошаговые бизнес-процессы.
