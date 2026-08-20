@@ -3,7 +3,7 @@
 **Date:** 2026-08-20
 **Scope:** downstream implementation, initial preview, independent QA remediation and replacement-preview preparation.
 **Baseline SHA:** `0551bb03662397087480a8ae66916b170402f18b`
-**Current state:** two preview QA passes returned `QA_FAILED`; every confirmed defect from both verdicts is remediated and passes local cross-browser verification. A new replacement preview and independent retest are required. Production remains blocked until the exact replacement preview returns `QA_PASSED`.
+**Current state:** two preview QA passes returned `QA_FAILED`; every confirmed defect was remediated. Independent Visual QA returned `QA_PASSED` for SHA `5287ad377a1050284ebb187c37035063981382c0`, deployment `dpl_25TCodVWnskUcRgMaxM4mPFeJPbh`. Production is authorized after final evidence-only equivalence confirmation.
 
 ## Local verification evidence
 
@@ -20,6 +20,7 @@
 - focused Chromium/WebKit verification: **24 route/environment checks**, all HTTP 200, zero page/console errors, zero document overflow and all three required font faces loaded;
 - targeted Table/stroke verification: **10 / 10 PASS** across Chromium/WebKit; selection controls remain 20 x 20 px in Comfortable/Compact and inspected outlines render at 1.4 px;
 - second-verdict remediation verification: **16 / 16 PASS** across Chromium/WebKit, including 288 Semantic Color rows, Widget Table/actions, Tooltip wrapping/Escape, Context Menu focus restoration, Checkbox hover and mobile containment;
+- independent preview verification: **QA_PASSED**, 124 / 124 route/environment checks, all six prior findings closed and exact candidate checkout clean;
 - all 32 removed legacy variable names have zero active repository matches;
 - active UI source scan contains no raw color literals outside the two token-preview RGBA formatters;
 - all workspace packages remain `private: true`, version `0.0.0`; Tabs has no public runtime export.
@@ -49,12 +50,12 @@
 | PAT-003 | LOCAL_REMEDIATED | Widget shell module, story, route, spec and KB added; the story now hosts a real native Table and functional actions. Surface, 32 px radius, 24 px inset and responsive containment are verified. | `packages/react/src/Widget/*`, `Widget.stories.tsx`, computed Chromium/WebKit geometry and mobile containment; replacement-preview retest pending. |
 | DOC-001 | LOCAL_REMEDIATED | Foundation and docs surfaces updated, including dedicated shadow route and current engineering copy. Semantic Color Map now renders all 288 approved Global and Component roles with resolved aliases. | `apps/docs/app/foundation/shadow/page.tsx`, `Foundation.stories.tsx`, exact 288-row assertion and zero document overflow. |
 | REG-001 | LOCAL_PASS | Registry, usage examples, specifications and knowledge passports updated for new entities and current contracts, включая existing Button, Badge и Fields family. | `registry/components.json`, `registry/component-usage.json`, updated specs/KB for Button, Badge, Text Field, Text Area, Select, Combobox, Multi Select, Checkbox, Radio, Switch, Date Picker and Table. |
-| REL-001 | RETEST_PENDING | Preview `dpl_DunwFDQ1kUKnwm6CP7AE6CtwyAK1` for SHA `71826516bc76126996f5018fa05f41937ba602e0` and preview `dpl_AjhxUp1J3Hqhoc1oUp9f4kssyArJ` for SHA `df379874479bcb7387f30c44cb7ab870ec007809` returned `QA_FAILED`. Confirmed defects from both verdicts pass local remediation checks; a new exact-SHA preview and independent QA remain mandatory. | [`QA_REMEDIATION_REPORT.md`](./QA_REMEDIATION_REPORT.md). |
+| REL-001 | QA_PASSED | The first two candidates returned `QA_FAILED`. Exact candidate `5287ad377a1050284ebb187c37035063981382c0`, deployment `dpl_25TCodVWnskUcRgMaxM4mPFeJPbh`, passed independent Visual QA. Final evidence-only equivalence, production deployment and production smoke remain. | [`QA_REMEDIATION_REPORT.md`](./QA_REMEDIATION_REPORT.md). |
 
 ## Remaining blockers
 
-1. `REL-001` remains open until a replacement preview is published and independent Visual QA returns `QA_PASSED`; production is prohibited before that verdict.
-2. Tabs remain out of public scope pending separate API decision; current local implementation does not export or publish Tabs.
+1. `REL-001` remains open only for final evidence-only equivalence, production deployment and production smoke; independent Visual QA has passed.
+2. Tabs remain out of public scope pending separate API decision; current implementation does not export or publish Tabs.
 
 ## Files touched in this phase
 
@@ -66,4 +67,4 @@
 
 ## Handoff status
 
-The checkout is **replacement-preview ready** after the second remediation pass. The next allowed step is to publish the exact committed state to preview and rerun independent Visual QA against that SHA. Production remains blocked until the replacement preview returns `QA_PASSED`.
+The implementation artifact is **QA_PASSED** and production-authorized. The next allowed step is to prove the final evidence-only commit leaves runtime sources unchanged, deploy its exact SHA to production and run the required production smoke check.

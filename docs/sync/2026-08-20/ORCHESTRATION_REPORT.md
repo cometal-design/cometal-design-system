@@ -78,7 +78,7 @@ Supporting execution artifacts:
 
 ## Current Wave Status
 
-`FIGMA VALIDATED -> MANIFEST CREATED -> TRACKER IN PROGRESS -> DOWNSTREAM IMPLEMENTATION LOCAL PASS -> INITIAL PREVIEW QA_FAILED -> FIRST REMEDIATION -> SECOND PREVIEW QA_FAILED -> SECOND REMEDIATION LOCAL PASS -> REPLACEMENT PREVIEW/INDEPENDENT RETEST PENDING`
+`FIGMA VALIDATED -> MANIFEST CREATED -> TRACKER IN PROGRESS -> DOWNSTREAM IMPLEMENTATION LOCAL PASS -> INITIAL PREVIEW QA_FAILED -> FIRST REMEDIATION -> SECOND PREVIEW QA_FAILED -> SECOND REMEDIATION -> THIRD PREVIEW QA_PASSED -> FINAL EVIDENCE/PRODUCTION PENDING`
 
 ## Current implementation checkpoint
 
@@ -90,6 +90,7 @@ Supporting execution artifacts:
 - A subsequent 124-check preview metric scan exposed density-induced Table Checkbox shrink and a mismatched Context Menu check viewBox before handoff; both are corrected and pass a targeted 10-case Chromium/WebKit geometry/stroke test.
 - Second preview `dpl_AjhxUp1J3Hqhoc1oUp9f4kssyArJ` at SHA `df379874479bcb7387f30c44cb7ab870ec007809` returned `QA_FAILED`: Semantic Color coverage, Widget content fidelity, Tooltip wrapping/Escape, Context Menu focus restoration and Checkbox hover required correction.
 - All six second-verdict findings are remediated; the focused Chromium/WebKit matrix passes **16 / 16** locally after the final production build.
-- Remaining release boundary is still `REL-001`: replacement preview, fresh independent Visual QA and only then production publication.
+- Exact candidate `5287ad377a1050284ebb187c37035063981382c0`, deployment `dpl_25TCodVWnskUcRgMaxM4mPFeJPbh`, passed independent Visual QA: 124 / 124 route/environment checks and all six prior findings closed.
+- Remaining release boundary is `REL-001`: final evidence-only equivalence, exact-SHA production publication and production smoke.
 
 Detailed implementation state by Change ID: [`IMPLEMENTATION_REPORT.md`](./IMPLEMENTATION_REPORT.md). Remediation evidence: [`QA_REMEDIATION_REPORT.md`](./QA_REMEDIATION_REPORT.md).

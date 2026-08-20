@@ -18,7 +18,15 @@
 
 **Second independent verdict:** `QA_FAILED`
 
-**Current gate:** replacement preview and independent retest required; production prohibited.
+**QA-passed candidate SHA:** `5287ad377a1050284ebb187c37035063981382c0`
+
+**QA-passed deployment:** `dpl_25TCodVWnskUcRgMaxM4mPFeJPbh`
+
+**QA-passed preview URL:** `https://cometal-design-system-storybook-putz5bkip.vercel.app`
+
+**Latest independent verdict:** `QA_PASSED`
+
+**Current gate:** production is authorized for the QA-passed artifact after the final evidence-only commit is confirmed equivalent.
 
 ## Initial independent QA findings
 
@@ -66,7 +74,8 @@ All invalid references were replaced with existing approved Semantic or Primitiv
 - computed contracts: Tooltip `#111111` / `#ffffff`; Context Menu white raised surface and 4 px item radius; Widget white surface, 32 px radius and 24 px padding.
 - targeted Table/stroke verification: **10 / 10 Chromium/WebKit checks PASS**; Comfortable and Compact selection controls remain 20 x 20 px and all inspected selection, Context Menu and loader outlines resolve to rendered 1.4 px without `non-scaling-stroke`.
 - second-verdict remediation matrix: **16 / 16 PASS** in Chromium and WebKit, covering 288 resolved Semantic Color rows, native Widget Table/actions, Tooltip wrapping and Escape, Context Menu focus restoration, stable Checkbox hover border and mobile Widget containment.
+- independent preview QA: **QA_PASSED** for exact SHA `5287ad377a1050284ebb187c37035063981382c0`; 124 / 124 route/environment checks and all six prior findings passed.
 
 ## Release decision
 
-The fixes are locally verified but do not replace independent preview QA. Publish a new replacement preview from the committed remediation state, collect the complete QA Matrix evidence, and request a fresh independent verdict. Production remains blocked until that exact preview returns `QA_PASSED`.
+Independent Visual QA returned `QA_PASSED` for the exact candidate above. The only remaining release step is to confirm that the final evidence-only commit changes no runtime source, deploy that exact final SHA to production, and run the required production smoke check. The residual test gap is physical-device coverage; automated Chromium and WebKit desktop/mobile viewports passed.
