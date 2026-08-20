@@ -1,9 +1,9 @@
 # COMETAL DS Global Sync - Implementation Report
 
 **Date:** 2026-08-20
-**Scope:** downstream implementation through local verification; preview handoff is the next gate.
+**Scope:** downstream implementation, initial preview, independent QA remediation and replacement-preview preparation.
 **Baseline SHA:** `0551bb03662397087480a8ae66916b170402f18b`
-**Current state:** ready for preview publication; production remains blocked until independent Visual QA returns `QA_PASSED`.
+**Current state:** initial preview QA returned `QA_FAILED`; the confirmed defects are remediated and pass local cross-browser verification. A replacement preview and independent retest are required. Production remains blocked until the exact replacement preview returns `QA_PASSED`.
 
 ## Local verification evidence
 
@@ -11,11 +11,13 @@
 - deterministic generation PASS: a second snapshot sync and token build changed **0 / 13** token source/generated files;
 - full unsandboxed `pnpm validate` PASS;
 - source registry: **5 logical sources, 15 components, 69 exact Storybook routes**;
-- secret scan: **214 tracked files** checked;
+- CSS custom-property contract: **84 source files PASS** with no unresolved `--cometal-*` references;
+- secret scan: **249 tracked files** checked;
 - unit tests: **30 / 30 PASS** across **7 / 7** files;
 - Storybook interaction/a11y tests: **69 / 69 PASS** across **13 / 13** files;
 - `build:tokens`, `build:react`, `build:storybook` and `build:docs` PASS;
 - portal build produced **37 static routes**;
+- focused Chromium/WebKit verification: **24 route/environment checks**, all HTTP 200, zero page/console errors, zero document overflow and all three required font faces loaded;
 - all 32 removed legacy variable names have zero active repository matches;
 - active UI source scan contains no raw color literals outside the two token-preview RGBA formatters;
 - all workspace packages remain `private: true`, version `0.0.0`; Tabs has no public runtime export.
@@ -39,17 +41,17 @@
 | CMP-003 | LOCAL_PASS | Checkbox/Radio/Switch states aligned; checked border removal and 1.4px mark contract preserved; Tabs remain unpublished. | `packages/react/src/Selection/selection.css`, updated selection specs/KB, no Tabs export. |
 | CMP-004 | LOCAL_PASS | Date Picker plus Date Range Picker contract implemented; date-range story and table header filter reuse added; calendar icons fixed to rendered 1.4px. | `DateRangePicker.tsx`, `date-picker.css`, `DatePicker.stories.tsx`, date-picker docs/spec/KB. |
 | CMP-005 | LOCAL_PASS | Badge remained aligned and available for Table/status usage. | Existing badge story/spec/KB plus registry link continuity. |
-| CMP-006 | LOCAL_PASS | Tooltip component, story, portal route, spec and KB added and wired into Table truncation pattern. | `packages/react/src/Tooltip/*`, story/docs/spec/KB, registry entries. |
-| PAT-001 | LOCAL_PASS | Context Menu component, story, route, spec and KB added; danger foreground semantics corrected. | `packages/react/src/ContextMenu/*`, story/docs/spec/KB, registry entries. |
+| CMP-006 | LOCAL_REMEDIATED | Tooltip component, story, portal route, spec and KB added and wired into Table truncation pattern. Initial preview defects in semantic colors, side-arrow positioning and mobile multi-open evidence were corrected. | `packages/react/src/Tooltip/*`, `Tooltip.stories.tsx`, focused Chromium/WebKit screenshots; replacement-preview retest pending. |
+| PAT-001 | LOCAL_REMEDIATED | Context Menu component, story, route, spec and KB added; danger foreground semantics and raised surface corrected. | `packages/react/src/ContextMenu/*`, computed white raised surface and 4 px item radius in both engines; replacement-preview retest pending. |
 | PAT-002 | LOCAL_PASS | Table story now covers Tooltip truncation, Context Menu reuse, Date Range filter, reorder handle and summary/pager composition. | `apps/storybook/stories/Table.stories.tsx`, table portal/spec/KB, usage example update. |
-| PAT-003 | LOCAL_PASS | Widget shell module, story, route, spec and KB added; widget uses shared foundation/tokens. | `packages/react/src/Widget/*`, story/docs/spec/KB, registry entries. |
-| DOC-001 | LOCAL_PASS | Foundation and docs surfaces updated, including dedicated shadow route and current engineering copy. | `apps/docs/app/foundation/shadow/page.tsx`, `Foundation.stories.tsx`, navigation/docs routes. |
+| PAT-003 | LOCAL_REMEDIATED | Widget shell module, story, route, spec and KB added; widget uses shared foundation/tokens. Invalid surface reference and 48 px padding drift were corrected to the approved white surface, 32 px radius and 24 px inset. | `packages/react/src/Widget/*`, computed Chromium/WebKit geometry; replacement-preview retest pending. |
+| DOC-001 | LOCAL_REMEDIATED | Foundation and docs surfaces updated, including dedicated shadow route and current engineering copy. Semantic color-table overflow and an invalid spacing reference in shadow samples were corrected. | `apps/docs/app/foundation/shadow/page.tsx`, `Foundation.stories.tsx`, zero document overflow at desktop/mobile in both engines. |
 | REG-001 | LOCAL_PASS | Registry, usage examples, specifications and knowledge passports updated for new entities and current contracts, включая existing Button, Badge и Fields family. | `registry/components.json`, `registry/component-usage.json`, updated specs/KB for Button, Badge, Text Field, Text Area, Select, Combobox, Multi Select, Checkbox, Radio, Switch, Date Picker and Table. |
-| REL-001 | PREVIEW_PENDING | Local implementation and verification are complete. Preview publication and independent QA are the next gates; production remains blocked. | Exact preview SHA/URL and QA evidence will be supplied in the handoff. |
+| REL-001 | RETEST_PENDING | Preview `dpl_DunwFDQ1kUKnwm6CP7AE6CtwyAK1` for SHA `71826516bc76126996f5018fa05f41937ba602e0` returned `QA_FAILED`. Confirmed defects were fixed and pass local verification; replacement preview plus a fresh independent QA run remain mandatory. | [`QA_REMEDIATION_REPORT.md`](./QA_REMEDIATION_REPORT.md). |
 
 ## Remaining blockers
 
-1. `REL-001` remains open until preview publication and independent Visual QA complete; production is prohibited before `QA_PASSED`.
+1. `REL-001` remains open until a replacement preview is published and independent Visual QA returns `QA_PASSED`; production is prohibited before that verdict.
 2. Tabs remain out of public scope pending separate API decision; current local implementation does not export or publish Tabs.
 
 ## Files touched in this phase
@@ -62,4 +64,4 @@
 
 ## Handoff status
 
-The checkout is **local verification-ready**. The next allowed step is preview publication plus independent Visual QA. Production remains blocked until that independent QA returns `QA_PASSED` for the exact preview SHA.
+The checkout is **replacement-preview ready** after local remediation. The next allowed step is to publish the exact committed state to preview and rerun independent Visual QA against that SHA. Production remains blocked until the replacement preview returns `QA_PASSED`.

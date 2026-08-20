@@ -61,6 +61,7 @@ Supporting execution artifacts:
 
 - [`DOWNSTREAM_FILE_MAP.md`](./DOWNSTREAM_FILE_MAP.md)
 - [`QA_MATRIX.md`](./QA_MATRIX.md)
+- [`QA_REMEDIATION_REPORT.md`](./QA_REMEDIATION_REPORT.md)
 - [`FINAL_MATCH_MATRIX.md`](./FINAL_MATCH_MATRIX.md)
 - [`TRACKER_TASK_MAP.md`](./TRACKER_TASK_MAP.md)
 - [`figma-variables-current.json`](./figma-variables-current.json)
@@ -77,13 +78,15 @@ Supporting execution artifacts:
 
 ## Current Wave Status
 
-`FIGMA VALIDATED -> MANIFEST CREATED -> TRACKER IN PROGRESS -> DOWNSTREAM IMPLEMENTATION LOCAL PASS -> PREVIEW/INDEPENDENT QA PENDING`
+`FIGMA VALIDATED -> MANIFEST CREATED -> TRACKER IN PROGRESS -> DOWNSTREAM IMPLEMENTATION LOCAL PASS -> INITIAL PREVIEW QA_FAILED -> REMEDIATION LOCAL PASS -> REPLACEMENT PREVIEW/INDEPENDENT RETEST PENDING`
 
 ## Current implementation checkpoint
 
 - Local token sync rerun from the canonical 2026-08-20 snapshots.
 - Local builds PASS: tokens, React, Storybook and docs.
 - Unsandboxed Storybook browser verification reported `69 / 69 PASS`.
-- Remaining release boundary is still `REL-001`: preview deployment, independent Visual QA and only then publication.
+- Initial preview `dpl_DunwFDQ1kUKnwm6CP7AE6CtwyAK1` at SHA `71826516bc76126996f5018fa05f41937ba602e0` returned `QA_FAILED` because of incomplete screenshot evidence, Tooltip mobile placement defects and Semantic Color table overflow.
+- Confirmed defects and additional undefined CSS-variable references were remediated; full validation plus a focused 24-case Chromium/WebKit run now pass locally.
+- Remaining release boundary is still `REL-001`: replacement preview, fresh independent Visual QA and only then production publication.
 
-Detailed implementation state by Change ID: [`IMPLEMENTATION_REPORT.md`](./IMPLEMENTATION_REPORT.md).
+Detailed implementation state by Change ID: [`IMPLEMENTATION_REPORT.md`](./IMPLEMENTATION_REPORT.md). Remediation evidence: [`QA_REMEDIATION_REPORT.md`](./QA_REMEDIATION_REPORT.md).

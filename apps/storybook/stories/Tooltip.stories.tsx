@@ -23,16 +23,30 @@ type Story = StoryObj<typeof meta>;
 export const Overview: Story = {};
 
 export const Placements: Story = {
+  parameters: {
+    layout: 'padded',
+  },
   render: (args: NonNullable<Story['render']> extends (a: infer A, ...rest: never[]) => unknown ? A : never) => (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, minmax(160px, 1fr))', gap: 24 }}>
-      {(['top-start', 'top-center', 'top-end', 'left', 'right', 'bottom-start', 'bottom-center', 'bottom-end'] as const).map((placement) => (
-        <div key={placement} style={{ display: 'flex', justifyContent: 'center', padding: '56px 0' }}>
-          <Tooltip {...args} placement={placement} content={placement} defaultOpen>
-            <button style={{ padding: '10px 12px' }}>{placement}</button>
-          </Tooltip>
-        </div>
-      ))}
-    </div>
+    <>
+      <div className="ds-tooltip-placement-grid ds-tooltip-placement-grid--desktop">
+        {(['top-start', 'top-center', 'top-end', 'left', 'right', 'bottom-start', 'bottom-center', 'bottom-end'] as const).map((placement) => (
+          <div key={placement}>
+            <Tooltip {...args} placement={placement} content={placement} defaultOpen>
+              <button style={{ padding: '10px 12px' }}>{placement}</button>
+            </Tooltip>
+          </div>
+        ))}
+      </div>
+      <div className="ds-tooltip-placement-grid ds-tooltip-placement-grid--mobile">
+        {(['top-start', 'top-center', 'top-end', 'left', 'right', 'bottom-start', 'bottom-center', 'bottom-end'] as const).map((placement, index) => (
+          <div key={placement}>
+            <Tooltip {...args} placement={placement} content={placement} defaultOpen={index === 0}>
+              <button style={{ padding: '10px 12px' }}>{placement}</button>
+            </Tooltip>
+          </div>
+        ))}
+      </div>
+    </>
   ),
 };
 

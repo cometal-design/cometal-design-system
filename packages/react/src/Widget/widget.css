@@ -2,10 +2,10 @@
   display: flex;
   flex-direction: column;
   gap: var(--cometal-primitive-spacing-150);
-  padding: var(--cometal-primitive-spacing-300);
+  padding: var(--cometal-primitive-spacing-150);
   border: 1px solid var(--cometal-component-table-cell-border-divider);
   border-radius: var(--cometal-semantic-radius-global-widget);
-  background: var(--cometal-primitive-color-neutral-0);
+  background: var(--cometal-semantic-color-global-surface-canvas);
 }
 
 .cometal-widget__header {

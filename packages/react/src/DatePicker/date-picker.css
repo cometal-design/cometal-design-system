@@ -1,4 +1,5 @@
 .cometal-date-picker {
+  --cometal-calendar-width: 364px;
   position: relative;
   width: 100%;
   min-width: 0;
@@ -56,9 +57,9 @@
   position: absolute;
   z-index: 30;
   top: calc(100% + var(--cometal-primitive-spacing-50));
-  left: min(0px, calc((100% - min(var(--cometal-calendar-width, 364px), calc(100vw - var(--cometal-primitive-spacing-50)))) / 2));
+  left: min(0px, calc((100% - min(var(--cometal-calendar-width), calc(100vw - var(--cometal-primitive-spacing-50)))) / 2));
   display: flex;
-  width: min(var(--cometal-calendar-width, 364px), calc(100vw - var(--cometal-primitive-spacing-50)));
+  width: min(var(--cometal-calendar-width), calc(100vw - var(--cometal-primitive-spacing-50)));
   padding: var(--cometal-primitive-spacing-100);
   flex-direction: column;
   gap: var(--cometal-primitive-spacing-100);

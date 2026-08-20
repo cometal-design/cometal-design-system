@@ -14,7 +14,7 @@
   flex-direction: column;
   padding: var(--cometal-primitive-spacing-50);
   border-radius: var(--cometal-primitive-radius-100);
-  background: var(--cometal-primitive-color-neutral-0);
+  background: var(--cometal-semantic-color-global-surface-raised);
   box-shadow: var(--cometal-effects-effects-elevation-floating-hard);
 }
 
@@ -33,7 +33,7 @@
   justify-content: space-between;
   gap: var(--cometal-primitive-spacing-100);
   border: 0;
-  border-radius: var(--cometal-primitive-radius-75);
+  border-radius: var(--cometal-primitive-radius-50);
   background: transparent;
   color: var(--cometal-component-table-text-primary);
   cursor: pointer;

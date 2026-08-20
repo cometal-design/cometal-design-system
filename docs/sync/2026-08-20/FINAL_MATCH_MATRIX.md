@@ -19,13 +19,13 @@ This matrix is initialized from the canonical manifest and must be updated only 
 | CMP-003 | VALIDATED | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | PENDING | PASS | Checkbox/Radio/Switch docs updated; Tabs remain blocked and unpublished. |
 | CMP-004 | VALIDATED | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | PENDING | PASS | DateRangePicker contract, stories and docs wired; unsandboxed Storybook PASS. |
 | CMP-005 | VALIDATED | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | PENDING | PASS | Badge preserved under current component/token contract. |
-| CMP-006 | VALIDATED | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | PENDING | PASS | Tooltip module/story/route/spec/KB implemented locally. |
-| PAT-001 | VALIDATED | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | PENDING | PASS | Context Menu module/story/route/spec/KB implemented locally. |
+| CMP-006 | VALIDATED | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | RETEST_PENDING | PASS | Initial preview failed mobile placement evidence; remediation passes focused Chromium/WebKit checks. See `QA_REMEDIATION_REPORT.md`. |
+| PAT-001 | VALIDATED | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | RETEST_PENDING | PASS | Undefined raised-surface/radius references corrected; replacement-preview retest pending. |
 | PAT-002 | VALIDATED | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | PENDING | PASS | Table composition contract implemented and locally verified. |
-| PAT-003 | VALIDATED | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | PENDING | PASS | Widget shell/story/route/spec/KB implemented locally. |
-| DOC-001 | VALIDATED | LOCAL_PASS | N/A | LOCAL_PASS | LOCAL_PASS | PENDING | PASS | Foundation/docs boards updated, including shadow coverage. |
+| PAT-003 | VALIDATED | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | RETEST_PENDING | PASS | Widget surface and approved 32 px radius / 24 px inset verified locally; replacement-preview retest pending. |
+| DOC-001 | VALIDATED | LOCAL_PASS | N/A | LOCAL_PASS | LOCAL_PASS | RETEST_PENDING | PASS | Semantic table overflow and shadow-sample variable defects corrected; replacement-preview retest pending. |
 | REG-001 | VALIDATED | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | PENDING | PASS | Registry, component usage, specs and passports updated locally. |
-| REL-001 | VALIDATED | HOLD | HOLD | HOLD | HOLD | PENDING | PENDING | Release boundary intentionally not started in this phase: no preview/deploy. |
+| REL-001 | VALIDATED | HOLD | HOLD | HOLD | HOLD | RETEST_PENDING | PASS | Initial preview QA failed; remediation is locally verified. Replacement preview and independent `QA_PASSED` are required before production. |
 
 ## Completion Rule
 

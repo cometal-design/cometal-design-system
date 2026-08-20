@@ -14,9 +14,9 @@
   max-width: min(320px, calc(100vw - 16px));
   padding: var(--cometal-primitive-spacing-100) var(--cometal-primitive-spacing-150);
   border-radius: var(--cometal-primitive-radius-100);
-  background: var(--cometal-primitive-color-neutral-900);
+  background: var(--cometal-semantic-color-global-surface-inverse);
   box-shadow: var(--cometal-effects-effects-elevation-floating-soft);
-  color: var(--cometal-primitive-color-neutral-0);
+  color: var(--cometal-semantic-color-global-text-inverse);
   pointer-events: none;
 }
 
@@ -73,9 +73,7 @@
   left: var(--cometal-primitive-spacing-150);
 }
 
-.cometal-tooltip__panel[data-placement$='center'] .cometal-tooltip__arrow,
-.cometal-tooltip__panel[data-placement='left'] .cometal-tooltip__arrow,
-.cometal-tooltip__panel[data-placement='right'] .cometal-tooltip__arrow {
+.cometal-tooltip__panel[data-placement$='center'] .cometal-tooltip__arrow {
   left: calc(50% - 6px);
 }
 

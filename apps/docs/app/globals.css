@@ -547,7 +547,7 @@ code, pre, kbd, samp {
 }
 .portal-shadow-swatch > div {
   width: min(100%, calc(var(--cometal-primitive-spacing-1000) * 2));
-  min-height: calc(var(--cometal-primitive-spacing-500) * 1.2);
+  min-height: calc(var(--cometal-primitive-spacing-1000) * .5);
   border-radius: var(--cometal-semantic-radius-global-input);
   background: var(--portal-surface);
 }

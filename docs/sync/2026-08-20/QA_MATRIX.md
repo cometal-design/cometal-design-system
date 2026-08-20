@@ -47,15 +47,16 @@ Every tested route must report page/console errors, document overflow, loaded fo
 ## Engineering QA
 
 1. `pnpm validate:sources`: all five logical sources, stable IDs and exact links resolve.
-2. `pnpm validate:secrets`: no credentials or private tokens in artifacts.
-3. `pnpm typecheck`: every workspace passes.
-4. `pnpm test:unit`: React behavior/API tests pass.
-5. `pnpm test:storybook`: interaction and accessibility tests pass.
-6. `pnpm build`: tokens, React, Storybook and portal build from a clean checkout.
-7. Generated outputs are reproducible: a second token build produces no diff.
-8. Public exports match registry/specification; no undocumented export or removed API remains.
-9. No active component consumes a hardcoded value where a target semantic role exists.
-10. Every deprecation has replacement/migration text; Tabs and npm publication stay out of scope.
+2. `pnpm validate:css-variables`: every authored `--cometal-*` reference resolves to the active token graph or an explicit local definition.
+3. `pnpm validate:secrets`: no credentials or private tokens in artifacts.
+4. `pnpm typecheck`: every workspace passes.
+5. `pnpm test:unit`: React behavior/API tests pass.
+6. `pnpm test:storybook`: interaction and accessibility tests pass.
+7. `pnpm build`: tokens, React, Storybook and portal build from a clean checkout.
+8. Generated outputs are reproducible: a second token build produces no diff.
+9. Public exports match registry/specification; no undocumented export or removed API remains.
+10. No active component consumes a hardcoded value where a target semantic role exists.
+11. Every deprecation has replacement/migration text; Tabs and npm publication stay out of scope.
 
 ## Required Story Evidence
 
