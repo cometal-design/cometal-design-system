@@ -125,6 +125,13 @@ export const ContextMenu = forwardRef<HTMLSpanElement, ContextMenuProps>(functio
 
   const closeMenu = () => setOpen(false);
 
+  const focusTrigger = () => {
+    const trigger = triggerRef.current?.querySelector<HTMLElement>(
+      'button, [href], input, select, textarea, [tabindex]:not([tabindex="-1"])',
+    );
+    trigger?.focus();
+  };
+
   useEffect(() => {
     if (!isOpen) return;
     const handlePointerDown = (event: PointerEvent) => {
@@ -167,7 +174,7 @@ export const ContextMenu = forwardRef<HTMLSpanElement, ContextMenuProps>(functio
     if (event.key === 'Escape') {
       event.preventDefault();
       closeMenu();
-      triggerRef.current?.focus();
+      focusTrigger();
       return;
     }
     if (event.key === 'ArrowDown') {

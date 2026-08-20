@@ -53,7 +53,7 @@
 /* Checkbox: every interaction state mirrors the approved Figma control master. */
 .cometal-selection[data-kind='checkbox']:hover > input:not(:disabled):not(:checked) + .cometal-selection__control,
 .cometal-selection[data-kind='checkbox'][data-indeterminate='false']:hover > input:not(:disabled) + .cometal-selection__control {
-  border-color: var(--cometal-semantic-color-global-border-strong);
+  border-color: var(--cometal-semantic-color-global-border-default);
   background: var(--cometal-semantic-color-global-surface-subtle);
 }
 .cometal-selection[data-kind='checkbox'] > input:checked + .cometal-selection__control,

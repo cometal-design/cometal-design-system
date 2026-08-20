@@ -1,8 +1,10 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
+import { expect } from 'storybook/test';
 import { Button, Switch } from '@cometal/react';
 import primitiveSource from '../../../packages/tokens/src/primitive.tokens.json';
 import semanticSource from '../../../packages/tokens/src/semantic.tokens.json';
+import componentSource from '../../../packages/tokens/src/component.tokens.json';
 import motionSource from '../../../packages/tokens/src/motion.tokens.json';
 import effectsSource from '../../../packages/tokens/src/effects.tokens.json';
 import typographyData from '../../../packages/tokens/src/typography.styles.json';
@@ -53,6 +55,7 @@ function collectTokens(node: unknown, path: string[] = [], result: Token[] = [])
 
 const primitiveTokens = collectTokens(primitiveSource.Primitive);
 const semanticTokens = collectTokens(semanticSource.Semantic);
+const componentTokens = collectTokens(componentSource.Component);
 const shadowTokens = [
   {
     name: 'Effects/Elevation/Floating/Soft',
@@ -68,9 +71,17 @@ const shadowTokens = [
   },
 ] as const;
 const sourceConflicts = inventory.sourceConflicts as SourceConflict[];
-const primitiveByReference = new Map(
-  primitiveTokens.map((token) => [`Primitive.${token.name.replaceAll('/', '.')}`, token]),
-);
+const tokenByReference = new Map<string, Token>();
+for (const token of primitiveTokens) {
+  const path = token.name.replaceAll('/', '.');
+  tokenByReference.set(`Primitive.${path}`, token);
+  if (token.type === 'color') tokenByReference.set(`Primitive.Color.${path}`, token);
+}
+for (const token of semanticTokens.filter((item) => item.type === 'color')) {
+  const reference = `Semantic.Color.${token.name.replaceAll('/', '.')}`;
+  tokenByReference.set(reference, token);
+  tokenByReference.set(`${reference}.$root`, token);
+}
 
 function groupBy<T>(items: T[], key: (item: T) => string): Map<string, T[]> {
   const groups = new Map<string, T[]>();
@@ -81,11 +92,15 @@ function groupBy<T>(items: T[], key: (item: T) => string): Map<string, T[]> {
   return groups;
 }
 
-function cssValue(value: TokenValue): string {
+function cssValue(value: TokenValue, visited = new Set<string>()): string {
   if (typeof value === 'number') return `${value}px`;
   if (typeof value === 'string') {
-    const referenced = primitiveByReference.get(value.replace(/^\{|\}$/g, ''));
-    return referenced ? cssValue(referenced.value) : value;
+    const reference = value.replace(/^\{|\}$/g, '');
+    const referenced = tokenByReference.get(reference);
+    if (!referenced || visited.has(reference)) return value;
+    const nextVisited = new Set(visited);
+    nextVisited.add(reference);
+    return cssValue(referenced.value, nextVisited);
   }
   if ('value' in value) return `${value.value}${value.unit}`;
   const [r, g, b] = value.components.map((part) => Math.round(part * 255));
@@ -163,7 +178,7 @@ function PrimitiveColorsPage() {
 }
 
 function SemanticColorsPage() {
-  const colors = semanticTokens.filter((token) => token.type === 'color');
+  const colors = [...semanticTokens, ...componentTokens].filter((token) => token.type === 'color');
   const groups = groupBy(colors, (token) => token.name.split('/')[1] ?? 'Other');
   return (
     <main className="ds-page">
@@ -173,7 +188,7 @@ function SemanticColorsPage() {
           <h2>{group} <span>{tokens.length}</span></h2>
           <div className="ds-semantic-table" role="table" aria-label={`${group}: семантические цвета`}>
             <div className="ds-table-head" role="row"><span role="columnheader">Роль</span><span role="columnheader">Preview</span><span role="columnheader">Alias</span><span role="columnheader">Resolved</span></div>
-            {tokens.map((token) => <div role="row" key={token.name}><code role="cell">{token.name}</code><i role="cell" aria-label={`Preview: ${cssValue(token.value)}`} style={{ background: cssValue(token.value) }} /><span role="cell">{aliasName(token.value)}</span><strong role="cell">{cssValue(token.value)}</strong></div>)}
+            {tokens.map((token) => <div role="row" data-semantic-token={token.name} key={token.name}><code role="cell">{token.name}</code><i role="cell" aria-label={`Preview: ${cssValue(token.value)}`} style={{ background: cssValue(token.value) }} /><span role="cell">{aliasName(token.value)}</span><strong role="cell">{cssValue(token.value)}</strong></div>)}
           </div>
         </section>
       ))}
@@ -379,7 +394,14 @@ type Story = StoryObj<typeof meta>;
 
 export const Overview: Story = { name: 'Обзор', render: () => <OverviewPage /> };
 export const PrimitiveColors: Story = { name: 'Цвет / Примитивы', render: () => <PrimitiveColorsPage /> };
-export const SemanticColors: Story = { name: 'Цвет / Семантическая карта', render: () => <SemanticColorsPage /> };
+export const SemanticColors: Story = {
+  name: 'Цвет / Семантическая карта',
+  render: () => <SemanticColorsPage />,
+  play: async ({ canvasElement }) => {
+    const rows = canvasElement.querySelectorAll('[data-semantic-token]');
+    await expect(rows).toHaveLength(288);
+  },
+};
 export const Typography: Story = { name: 'Типографика', render: () => <TypographyPage /> };
 export const Spacing: Story = { name: 'Отступы', render: () => <MetricPage kind="Spacing" title="Отступы" nodeId="4:33" /> };
 export const Size: Story = { name: 'Размеры', render: () => <MetricPage kind="Size" title="Размеры" nodeId="4:28" /> };

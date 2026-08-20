@@ -210,6 +210,9 @@ export const Tooltip = forwardRef<HTMLSpanElement, TooltipProps>(function Toolti
 
   useEffect(() => {
     if (!isOpen) return;
+    const handleKeyDown = (event: globalThis.KeyboardEvent) => {
+      if (event.key === 'Escape') setOpen(false);
+    };
     const handleWindowChange = () => {
       if (!triggerRef.current || !panelRef.current) return;
       const triggerRect = triggerRef.current.getBoundingClientRect();
@@ -223,9 +226,11 @@ export const Tooltip = forwardRef<HTMLSpanElement, TooltipProps>(function Toolti
         placement: position.placement,
       });
     };
+    document.addEventListener('keydown', handleKeyDown);
     window.addEventListener('resize', handleWindowChange);
     window.addEventListener('scroll', handleWindowChange, true);
     return () => {
+      document.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('resize', handleWindowChange);
       window.removeEventListener('scroll', handleWindowChange, true);
     };

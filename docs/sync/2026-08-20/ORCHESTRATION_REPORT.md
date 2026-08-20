@@ -78,7 +78,7 @@ Supporting execution artifacts:
 
 ## Current Wave Status
 
-`FIGMA VALIDATED -> MANIFEST CREATED -> TRACKER IN PROGRESS -> DOWNSTREAM IMPLEMENTATION LOCAL PASS -> INITIAL PREVIEW QA_FAILED -> REMEDIATION LOCAL PASS -> REPLACEMENT PREVIEW/INDEPENDENT RETEST PENDING`
+`FIGMA VALIDATED -> MANIFEST CREATED -> TRACKER IN PROGRESS -> DOWNSTREAM IMPLEMENTATION LOCAL PASS -> INITIAL PREVIEW QA_FAILED -> FIRST REMEDIATION -> SECOND PREVIEW QA_FAILED -> SECOND REMEDIATION LOCAL PASS -> REPLACEMENT PREVIEW/INDEPENDENT RETEST PENDING`
 
 ## Current implementation checkpoint
 
@@ -88,6 +88,8 @@ Supporting execution artifacts:
 - Initial preview `dpl_DunwFDQ1kUKnwm6CP7AE6CtwyAK1` at SHA `71826516bc76126996f5018fa05f41937ba602e0` returned `QA_FAILED` because of incomplete screenshot evidence, Tooltip mobile placement defects and Semantic Color table overflow.
 - Confirmed defects and additional undefined CSS-variable references were remediated; full validation plus a focused 24-case Chromium/WebKit run now pass locally.
 - A subsequent 124-check preview metric scan exposed density-induced Table Checkbox shrink and a mismatched Context Menu check viewBox before handoff; both are corrected and pass a targeted 10-case Chromium/WebKit geometry/stroke test.
+- Second preview `dpl_AjhxUp1J3Hqhoc1oUp9f4kssyArJ` at SHA `df379874479bcb7387f30c44cb7ab870ec007809` returned `QA_FAILED`: Semantic Color coverage, Widget content fidelity, Tooltip wrapping/Escape, Context Menu focus restoration and Checkbox hover required correction.
+- All six second-verdict findings are remediated; the focused Chromium/WebKit matrix passes **16 / 16** locally after the final production build.
 - Remaining release boundary is still `REL-001`: replacement preview, fresh independent Visual QA and only then production publication.
 
 Detailed implementation state by Change ID: [`IMPLEMENTATION_REPORT.md`](./IMPLEMENTATION_REPORT.md). Remediation evidence: [`QA_REMEDIATION_REPORT.md`](./QA_REMEDIATION_REPORT.md).

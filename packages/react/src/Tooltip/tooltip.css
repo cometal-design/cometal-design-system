@@ -26,12 +26,16 @@
 }
 
 .cometal-tooltip__content {
-  display: inline-flex;
+  display: block;
+  min-width: 0;
+  max-width: 100%;
+  overflow-wrap: anywhere;
   font-family: var(--cometal-typography-body-s-default-font-family);
   font-size: var(--cometal-typography-body-s-default-font-size);
   font-weight: var(--cometal-typography-body-s-default-font-weight);
   line-height: var(--cometal-typography-body-s-default-line-height);
   letter-spacing: var(--cometal-typography-body-s-default-letter-spacing);
+  white-space: normal;
 }
 
 .cometal-tooltip__panel[data-size='wide'] .cometal-tooltip__content {

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, userEvent, within } from 'storybook/test';
 import { ContextMenu, ContextMenuDivider, ContextMenuItem } from '@cometal/react';
 
 const meta = {
@@ -37,6 +38,14 @@ export const Overview: Story = {
       </ContextMenu>
     </div>
   ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: 'Открыть context menu' });
+    await expect(canvas.getByRole('menu')).toBeVisible();
+    await userEvent.keyboard('{Escape}');
+    await expect(canvas.queryByRole('menu')).not.toBeInTheDocument();
+    await expect(trigger).toHaveFocus();
+  },
 };
 
 export const Sizes: Story = {

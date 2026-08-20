@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, within } from 'storybook/test';
+import { expect, userEvent, within } from 'storybook/test';
 import { Checkbox, selectionSizes } from '@cometal/react';
 import { ComponentCodeExample } from './ComponentCodeExample';
 
@@ -8,5 +8,19 @@ const SOURCE_URL = 'https://github.com/cometal-design/cometal-design-system/blob
 function OverviewPage() { return <main className="ds-component-page"><header className="ds-component-hero"><div><span className="ds-eyebrow">COMPONENT · WEB · IN REVIEW</span><h1>Checkbox</h1><p>Независимый выбор с unchecked, checked и mixed. Label обязателен и входит в кликабельную область.</p></div><a href="https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1571-521" target="_blank" rel="noreferrer">Открыть в Figma ↗</a></header><section className="ds-component-section"><div className="ds-component-section__intro"><span>01</span><div><h2>Значения</h2><p>Mixed используется для родительского выбора с частично выбранными потомками.</p></div></div><div className="ds-selection-values"><article><code>Unchecked</code><Checkbox label="Согласен с условиями" description="Дополнительное пояснение выбора" /></article><article><code>Checked</code><Checkbox label="Согласен с условиями" description="Дополнительное пояснение выбора" defaultChecked /></article><article><code>Mixed</code><Checkbox label="Выбрать все строки" description="Выбрана часть строк" indeterminate /></article><article><code>Disabled</code><Checkbox label="Недоступный выбор" disabled /></article></div></section><section className="ds-component-section"><div className="ds-component-section__intro"><span>02</span><div><h2>Размеры</h2><p>Control: L 20px, M 16px, S 14px.</p></div></div><div className="ds-selection-sizes">{selectionSizes.map(size=><article key={size}><code>{size.toUpperCase()}</code><Checkbox size={size} label="Выбранный пункт" defaultChecked /></article>)}</div></section><section className="ds-component-section"><div className="ds-component-section__intro"><span>03</span><div><h2>Код</h2><p>Установка, импорт и минимальный рабочий пример соответствуют нативному checkbox API.</p></div></div><ComponentCodeExample componentId="selection.checkbox" componentName="Checkbox" sourceHref={SOURCE_URL} /></section></main>; }
 const meta = { title: 'Components/Checkbox', component: Checkbox, args: { label: 'Согласен с условиями', description: 'Дополнительное пояснение выбора', size: 'l' }, argTypes: { size: { control: 'inline-radio', options: selectionSizes }, indeterminate: { control: 'boolean' } } } satisfies Meta<typeof Checkbox>;
 export default meta; type Story = StoryObj<typeof meta>;
-export const Overview: Story = { name: 'Обзор', parameters: { layout: 'fullscreen', controls: { disable: true } }, render: () => <OverviewPage />, play: async ({ canvasElement }) => { await expect(canvasElement.querySelector('[data-code-example="selection.checkbox"] pre')).toHaveTextContent('<Checkbox'); } };
+export const Overview: Story = {
+  name: 'Обзор',
+  parameters: { layout: 'fullscreen', controls: { disable: true } },
+  render: () => <OverviewPage />,
+  play: async ({ canvasElement }) => {
+    const firstCheckbox = within(canvasElement).getAllByRole('checkbox')[0];
+    const root = firstCheckbox.closest<HTMLElement>('.cometal-selection')!;
+    const control = root.querySelector<HTMLElement>('.cometal-selection__control')!;
+    const defaultBorder = getComputedStyle(control).borderColor;
+    await userEvent.hover(root);
+    await new Promise((resolve) => window.setTimeout(resolve, 180));
+    await expect(getComputedStyle(control).borderColor).toBe(defaultBorder);
+    await expect(canvasElement.querySelector('[data-code-example="selection.checkbox"] pre')).toHaveTextContent('<Checkbox');
+  },
+};
 export const Playground: Story = { name: 'Песочница', args: { defaultChecked: true }, play: async ({ canvasElement }) => { const checkbox=within(canvasElement).getByRole('checkbox',{name:/Согласен/}); await expect(checkbox).toBeEnabled(); const control=canvasElement.querySelector<HTMLElement>('.cometal-selection__control'); const check=canvasElement.querySelector<SVGElement>('.cometal-selection__control svg [stroke]'); const svg=check?.closest('svg'); const viewBoxWidth=Number(svg?.getAttribute('viewBox')?.trim().split(/\s+/)[2]); const renderedStroke=Number.parseFloat(getComputedStyle(check!).strokeWidth)*(svg?.getBoundingClientRect().width ?? 0)/viewBoxWidth; await expect(getComputedStyle(control!).transitionDuration).toContain('0.12s'); await expect(Math.abs(renderedStroke-1.4)).toBeLessThan(0.01); await expect(getComputedStyle(check!).vectorEffect).toBe('none'); } };

@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, userEvent, within } from 'storybook/test';
 import { Tooltip } from '@cometal/react';
 
 const meta = {
@@ -20,7 +21,14 @@ export default meta;
 
 type Story = StoryObj<typeof meta>;
 
-export const Overview: Story = {};
+export const Overview: Story = {
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByRole('tooltip')).toBeVisible();
+    await userEvent.keyboard('{Escape}');
+    await expect(canvas.queryByRole('tooltip')).not.toBeInTheDocument();
+  },
+};
 
 export const Placements: Story = {
   parameters: {
@@ -55,5 +63,9 @@ export const Wide: Story = {
     size: 'wide',
     content:
       'Wide variant uses the same behavioral contract, but gives enough width for multi-line guidance and decision-critical explanations.',
+  },
+  play: async ({ canvasElement }) => {
+    const tooltip = within(canvasElement).getByRole('tooltip');
+    await expect(tooltip.scrollWidth).toBeLessThanOrEqual(tooltip.clientWidth);
   },
 };

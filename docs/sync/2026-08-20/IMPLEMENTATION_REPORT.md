@@ -3,7 +3,7 @@
 **Date:** 2026-08-20
 **Scope:** downstream implementation, initial preview, independent QA remediation and replacement-preview preparation.
 **Baseline SHA:** `0551bb03662397087480a8ae66916b170402f18b`
-**Current state:** initial preview QA returned `QA_FAILED`; the confirmed defects are remediated and pass local cross-browser verification. A replacement preview and independent retest are required. Production remains blocked until the exact replacement preview returns `QA_PASSED`.
+**Current state:** two preview QA passes returned `QA_FAILED`; every confirmed defect from both verdicts is remediated and passes local cross-browser verification. A new replacement preview and independent retest are required. Production remains blocked until the exact replacement preview returns `QA_PASSED`.
 
 ## Local verification evidence
 
@@ -19,6 +19,7 @@
 - portal build produced **37 static routes**;
 - focused Chromium/WebKit verification: **24 route/environment checks**, all HTTP 200, zero page/console errors, zero document overflow and all three required font faces loaded;
 - targeted Table/stroke verification: **10 / 10 PASS** across Chromium/WebKit; selection controls remain 20 x 20 px in Comfortable/Compact and inspected outlines render at 1.4 px;
+- second-verdict remediation verification: **16 / 16 PASS** across Chromium/WebKit, including 288 Semantic Color rows, Widget Table/actions, Tooltip wrapping/Escape, Context Menu focus restoration, Checkbox hover and mobile containment;
 - all 32 removed legacy variable names have zero active repository matches;
 - active UI source scan contains no raw color literals outside the two token-preview RGBA formatters;
 - all workspace packages remain `private: true`, version `0.0.0`; Tabs has no public runtime export.
@@ -39,16 +40,16 @@
 | EFX-001 | LOCAL_PASS | Soft/Hard effect tokens emitted and applied to overlays and floating panels. | `effects.tokens.json`, field/date-picker/context-menu/storybook foundation shadow coverage. |
 | CMP-001 | LOCAL_PASS | Button variants/sizes/states aligned; inverse-ghost showcase fixed; icon stroke compensation fixed for rendered 1.4px. | `Button.stories.tsx`, `packages/react/src/Button/button.css`, unsandboxed Storybook PASS. |
 | CMP-002 | LOCAL_PASS | Fields family aligned; built-in chevron/search icons use size-aware stroke compensation; listbox behavior/shadow maintained. | `packages/react/src/Field/field.css`, `Fields.stories.tsx`, existing docs/spec alignment. |
-| CMP-003 | LOCAL_REMEDIATED | Checkbox/Radio/Switch states aligned; checked border removal and 1.4px mark contract preserved; Table no longer flex-shrinks Checkbox under density changes; Tabs remain unpublished. | `packages/react/src/Selection/selection.css`, Table density geometry assertions, targeted 10-case browser PASS, no Tabs export. |
+| CMP-003 | LOCAL_REMEDIATED | Checkbox/Radio/Switch states aligned; checked border removal and 1.4px mark contract preserved; Table no longer flex-shrinks Checkbox under density changes; unchecked hover preserves the default border; Tabs remain unpublished. | `packages/react/src/Selection/selection.css`, Checkbox hover assertion, Table density geometry assertions, targeted browser PASS, no Tabs export. |
 | CMP-004 | LOCAL_PASS | Date Picker plus Date Range Picker contract implemented; date-range story and table header filter reuse added; calendar icons fixed to rendered 1.4px. | `DateRangePicker.tsx`, `date-picker.css`, `DatePicker.stories.tsx`, date-picker docs/spec/KB. |
 | CMP-005 | LOCAL_PASS | Badge remained aligned and available for Table/status usage. | Existing badge story/spec/KB plus registry link continuity. |
-| CMP-006 | LOCAL_REMEDIATED | Tooltip component, story, portal route, spec and KB added and wired into Table truncation pattern. Initial preview defects in semantic colors, side-arrow positioning and mobile multi-open evidence were corrected. | `packages/react/src/Tooltip/*`, `Tooltip.stories.tsx`, focused Chromium/WebKit screenshots; replacement-preview retest pending. |
-| PAT-001 | LOCAL_REMEDIATED | Context Menu component, story, route, spec and KB added; danger foreground semantics and raised surface corrected. | `packages/react/src/ContextMenu/*`, computed white raised surface and 4 px item radius in both engines; replacement-preview retest pending. |
-| PAT-002 | LOCAL_REMEDIATED | Table story covers Tooltip truncation, Context Menu reuse, Date Range filter, reorder handle and summary/pager composition. Selection-cell padding/flex geometry now preserves the 20 px Checkbox across 48/40 density changes. | `packages/react/src/Table/table.css`, `apps/storybook/stories/Table.stories.tsx`, targeted Chromium/WebKit geometry PASS. |
-| PAT-003 | LOCAL_REMEDIATED | Widget shell module, story, route, spec and KB added; widget uses shared foundation/tokens. Invalid surface reference and 48 px padding drift were corrected to the approved white surface, 32 px radius and 24 px inset. | `packages/react/src/Widget/*`, computed Chromium/WebKit geometry; replacement-preview retest pending. |
-| DOC-001 | LOCAL_REMEDIATED | Foundation and docs surfaces updated, including dedicated shadow route and current engineering copy. Semantic color-table overflow and an invalid spacing reference in shadow samples were corrected. | `apps/docs/app/foundation/shadow/page.tsx`, `Foundation.stories.tsx`, zero document overflow at desktop/mobile in both engines. |
+| CMP-006 | LOCAL_REMEDIATED | Tooltip component, story, portal route, spec and KB added and wired into Table truncation pattern. Placement, mobile evidence, long-content wrapping and Escape dismissal defects are corrected. | `packages/react/src/Tooltip/*`, `Tooltip.stories.tsx`, focused Chromium/WebKit screenshots and interaction assertions; replacement-preview retest pending. |
+| PAT-001 | LOCAL_REMEDIATED | Context Menu component, story, route, spec and KB added; danger foreground, raised surface and Escape focus restoration are corrected. | `packages/react/src/ContextMenu/*`, computed surface/radius checks plus close/focus assertion; replacement-preview retest pending. |
+| PAT-002 | LOCAL_REMEDIATED | Table story covers Tooltip truncation, Context Menu reuse, Date Range filter, reorder handle and summary/pager composition. Selection geometry and long Tooltip content remain contained across densities. | `packages/react/src/Table/table.css`, `apps/storybook/stories/Table.stories.tsx`, targeted Chromium/WebKit geometry/wrapping PASS. |
+| PAT-003 | LOCAL_REMEDIATED | Widget shell module, story, route, spec and KB added; the story now hosts a real native Table and functional actions. Surface, 32 px radius, 24 px inset and responsive containment are verified. | `packages/react/src/Widget/*`, `Widget.stories.tsx`, computed Chromium/WebKit geometry and mobile containment; replacement-preview retest pending. |
+| DOC-001 | LOCAL_REMEDIATED | Foundation and docs surfaces updated, including dedicated shadow route and current engineering copy. Semantic Color Map now renders all 288 approved Global and Component roles with resolved aliases. | `apps/docs/app/foundation/shadow/page.tsx`, `Foundation.stories.tsx`, exact 288-row assertion and zero document overflow. |
 | REG-001 | LOCAL_PASS | Registry, usage examples, specifications and knowledge passports updated for new entities and current contracts, включая existing Button, Badge и Fields family. | `registry/components.json`, `registry/component-usage.json`, updated specs/KB for Button, Badge, Text Field, Text Area, Select, Combobox, Multi Select, Checkbox, Radio, Switch, Date Picker and Table. |
-| REL-001 | RETEST_PENDING | Preview `dpl_DunwFDQ1kUKnwm6CP7AE6CtwyAK1` for SHA `71826516bc76126996f5018fa05f41937ba602e0` returned `QA_FAILED`. Confirmed defects were fixed and pass local verification; replacement preview plus a fresh independent QA run remain mandatory. | [`QA_REMEDIATION_REPORT.md`](./QA_REMEDIATION_REPORT.md). |
+| REL-001 | RETEST_PENDING | Preview `dpl_DunwFDQ1kUKnwm6CP7AE6CtwyAK1` for SHA `71826516bc76126996f5018fa05f41937ba602e0` and preview `dpl_AjhxUp1J3Hqhoc1oUp9f4kssyArJ` for SHA `df379874479bcb7387f30c44cb7ab870ec007809` returned `QA_FAILED`. Confirmed defects from both verdicts pass local remediation checks; a new exact-SHA preview and independent QA remain mandatory. | [`QA_REMEDIATION_REPORT.md`](./QA_REMEDIATION_REPORT.md). |
 
 ## Remaining blockers
 
@@ -65,4 +66,4 @@
 
 ## Handoff status
 
-The checkout is **replacement-preview ready** after local remediation. The next allowed step is to publish the exact committed state to preview and rerun independent Visual QA against that SHA. Production remains blocked until the replacement preview returns `QA_PASSED`.
+The checkout is **replacement-preview ready** after the second remediation pass. The next allowed step is to publish the exact committed state to preview and rerun independent Visual QA against that SHA. Production remains blocked until the replacement preview returns `QA_PASSED`.
