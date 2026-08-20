@@ -40,8 +40,8 @@ function useContextMenuContext() {
 
 function CheckIcon() {
   return (
-    <svg viewBox="0 0 14 14" fill="none" focusable="false" aria-hidden="true">
-      <path d="M3.5 7.2 5.8 9.5 10.5 4.8" stroke="currentColor" strokeWidth="var(--cometal-primitive-stroke-140, 1.4)" strokeLinecap="round" strokeLinejoin="round" />
+    <svg viewBox="0 0 16 16" fill="none" focusable="false" aria-hidden="true">
+      <path d="M4.5 8.2 6.8 10.5 11.5 5.8" stroke="currentColor" strokeWidth="var(--cometal-primitive-stroke-140, 1.4)" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }

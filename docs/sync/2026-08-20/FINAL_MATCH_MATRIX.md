@@ -16,12 +16,12 @@ This matrix is initialized from the canonical manifest and must be updated only 
 | EFX-001 | VALIDATED | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | PENDING | PASS | Soft/Hard effect tokens and overlay usage verified locally. |
 | CMP-001 | VALIDATED | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | PENDING | PASS | Button showcase/stroke contract fixed; unsandboxed Storybook PASS. |
 | CMP-002 | VALIDATED | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | PENDING | PASS | Fields family and overlay behavior fixed; unsandboxed Storybook PASS. |
-| CMP-003 | VALIDATED | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | PENDING | PASS | Checkbox/Radio/Switch docs updated; Tabs remain blocked and unpublished. |
+| CMP-003 | VALIDATED | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | RETEST_PENDING | PASS | Table density no longer shrinks Checkbox; 20 x 20 geometry and rendered 1.4 px mark pass targeted Chromium/WebKit checks. Tabs remain blocked and unpublished. |
 | CMP-004 | VALIDATED | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | PENDING | PASS | DateRangePicker contract, stories and docs wired; unsandboxed Storybook PASS. |
 | CMP-005 | VALIDATED | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | PENDING | PASS | Badge preserved under current component/token contract. |
 | CMP-006 | VALIDATED | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | RETEST_PENDING | PASS | Initial preview failed mobile placement evidence; remediation passes focused Chromium/WebKit checks. See `QA_REMEDIATION_REPORT.md`. |
 | PAT-001 | VALIDATED | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | RETEST_PENDING | PASS | Undefined raised-surface/radius references corrected; replacement-preview retest pending. |
-| PAT-002 | VALIDATED | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | PENDING | PASS | Table composition contract implemented and locally verified. |
+| PAT-002 | VALIDATED | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | RETEST_PENDING | PASS | Table selection geometry corrected after preview metric audit; replacement-preview retest pending. |
 | PAT-003 | VALIDATED | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | RETEST_PENDING | PASS | Widget surface and approved 32 px radius / 24 px inset verified locally; replacement-preview retest pending. |
 | DOC-001 | VALIDATED | LOCAL_PASS | N/A | LOCAL_PASS | LOCAL_PASS | RETEST_PENDING | PASS | Semantic table overflow and shadow-sample variable defects corrected; replacement-preview retest pending. |
 | REG-001 | VALIDATED | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | LOCAL_PASS | PENDING | PASS | Registry, component usage, specs and passports updated locally. |

@@ -28,8 +28,10 @@
 - Storybook and portal shadow samples referenced an undefined spacing token.
 - Widget used 48 px padding instead of the approved 24 px inset.
 - Date Picker relied on an undeclared optional local width variable.
+- The first replacement-preview evidence run completed 124 / 124 checks without loader, font, overflow or runtime failures, but its metric audit exposed a Table defect: selection controls shrank from 20 px to 15 px in Comfortable and 7 px in Compact because cell insets consumed the square column width.
+- The built-in Context Menu check used a 14-unit viewBox inside a 16 px slot, producing a rendered stroke above the 1.4 px contract.
 
-All invalid references were replaced with existing approved Semantic or Primitive roles. A repository validation script now fails when an authored `var(--cometal-*)` reference has no definition in the active token/source graph.
+All invalid references were replaced with existing approved Semantic or Primitive roles. Table selection cells now remove horizontal insets, center their content and prevent Checkbox flex shrink at both densities. The Context Menu check uses a matching 16-unit viewBox. A repository validation script now fails when an authored `var(--cometal-*)` reference has no definition in the active token/source graph.
 
 ## Local verification after fixes
 
@@ -43,6 +45,7 @@ All invalid references were replaced with existing approved Semantic or Primitiv
 - focused browser verification: **24 / 24 route/environment checks PASS** across Chromium and WebKit at 1440 x 900 and 390 x 844.
 - focused browser evidence reported HTTP 200, zero page/console errors, zero document overflow and successful loading of Grtsk Peta plus IBM Plex Mono Regular/Medium in every check.
 - computed contracts: Tooltip `#111111` / `#ffffff`; Context Menu white raised surface and 4 px item radius; Widget white surface, 32 px radius and 24 px padding.
+- targeted Table/stroke verification: **10 / 10 Chromium/WebKit checks PASS**; Comfortable and Compact selection controls remain 20 x 20 px and all inspected selection, Context Menu and loader outlines resolve to rendered 1.4 px without `non-scaling-stroke`.
 
 ## Release decision
 

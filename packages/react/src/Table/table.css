@@ -148,6 +148,21 @@
   height: auto;
 }
 
+.cometal-table__header-cell[data-kind='selection'] .cometal-table__header-main,
+.cometal-table__cell[data-align='center'] .cometal-table__cell-content:has(.cometal-selection[data-kind='checkbox']) {
+  padding-inline: 0;
+  justify-content: center;
+}
+
+.cometal-table__header-cell[data-kind='selection'] .cometal-selection[data-kind='checkbox'],
+.cometal-table__cell[data-align='center'] .cometal-selection[data-kind='checkbox'] {
+  flex: 0 0 var(--cometal-selection-control);
+}
+
+.cometal-table__cell[data-align='center'] .cometal-table__cell-value:has(> .cometal-selection[data-kind='checkbox']) {
+  justify-content: center;
+}
+
 .cometal-table__cell {
   height: var(--cometal-table-cell-height);
 }

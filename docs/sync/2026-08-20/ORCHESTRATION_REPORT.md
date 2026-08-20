@@ -87,6 +87,7 @@ Supporting execution artifacts:
 - Unsandboxed Storybook browser verification reported `69 / 69 PASS`.
 - Initial preview `dpl_DunwFDQ1kUKnwm6CP7AE6CtwyAK1` at SHA `71826516bc76126996f5018fa05f41937ba602e0` returned `QA_FAILED` because of incomplete screenshot evidence, Tooltip mobile placement defects and Semantic Color table overflow.
 - Confirmed defects and additional undefined CSS-variable references were remediated; full validation plus a focused 24-case Chromium/WebKit run now pass locally.
+- A subsequent 124-check preview metric scan exposed density-induced Table Checkbox shrink and a mismatched Context Menu check viewBox before handoff; both are corrected and pass a targeted 10-case Chromium/WebKit geometry/stroke test.
 - Remaining release boundary is still `REL-001`: replacement preview, fresh independent Visual QA and only then production publication.
 
 Detailed implementation state by Change ID: [`IMPLEMENTATION_REPORT.md`](./IMPLEMENTATION_REPORT.md). Remediation evidence: [`QA_REMEDIATION_REPORT.md`](./QA_REMEDIATION_REPORT.md).

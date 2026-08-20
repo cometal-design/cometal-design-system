@@ -199,11 +199,14 @@ export const Overview: Story = {
     const canvas = within(canvasElement);
     const tables = canvas.getAllByRole('table');
     const firstRow = tables[0].querySelector<HTMLTableCellElement>('tbody td');
+    const selectionControl = tables[0].querySelector<HTMLElement>('tbody .ds-table-checkbox .cometal-selection__control');
     const fileIconPath = tables[0].querySelector<SVGPathElement>('.cometal-table__file-icon path');
     const fileSize = canvas.getAllByText('130 KB')[0];
     const pager = canvas.getByRole('navigation', { name: 'Пагинация таблицы' });
     await expect(tables[0]).toHaveAttribute('data-density', 'comfortable');
     await expect(getComputedStyle(firstRow!).height).toBe('48px');
+    await expect(getComputedStyle(selectionControl!).width).toBe('20px');
+    await expect(getComputedStyle(selectionControl!).height).toBe('20px');
     await expect(getComputedStyle(fileSize).display).not.toBe('none');
     await expect(getComputedStyle(fileIconPath!).strokeWidth).toBe('1.4px');
     await expect(pager).toBeVisible();
@@ -216,9 +219,15 @@ export const Compact: Story = {
     const canvas = within(canvasElement);
     const tables = canvas.getAllByRole('table');
     const firstRow = tables[0].querySelector<HTMLTableCellElement>('tbody td');
+    const selectionControl = tables[0].querySelector<HTMLElement>('tbody .ds-table-checkbox .cometal-selection__control');
+    const selectionMark = tables[0].querySelector<SVGPathElement>('tbody .ds-table-checkbox .cometal-selection__control path');
     const fileSize = canvas.getAllByText('130 KB')[0];
     await expect(tables[0]).toHaveAttribute('data-density', 'compact');
     await expect(getComputedStyle(firstRow!).height).toBe('40px');
+    await expect(getComputedStyle(selectionControl!).width).toBe('20px');
+    await expect(getComputedStyle(selectionControl!).height).toBe('20px');
+    await expect(getComputedStyle(selectionMark!).strokeWidth).toBe('1.4px');
+    await expect(getComputedStyle(selectionMark!).vectorEffect).toBe('none');
     await expect(getComputedStyle(fileSize).display).toBe('none');
     await expect(fileSize).toHaveTextContent('130 KB');
   },
