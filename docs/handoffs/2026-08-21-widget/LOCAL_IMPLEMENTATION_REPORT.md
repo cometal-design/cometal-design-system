@@ -32,4 +32,6 @@ Publication: none
 - Local browser regression: 75/75 route, responsive and interaction checks PASS at 1440, 1024, 768, 390 and 360px; document overflow 0 and console/page errors 0.
 - Context Menu is portalled, named from its trigger and remains visible during contained Table scrolling.
 - Full `pnpm validate`: PASS after final responsive and overlay fixes.
-- Independent Figma-vs-local Visual QA: pending final gate.
+- Independent Figma-vs-local Visual QA: `PASS` on implementation SHA `19c4ab75f31728d7763693759b87ca4c53f5c0fe`.
+- Widget geometry `32/24/16/8`, Raised surface, `overflow: visible`, generic slots and Widget + Table pattern all passed without regression.
+- Direct Storybook Table/Widget/Pattern iframe sweep: `85/85 PASS`; console/page errors and document overflow: `0`.

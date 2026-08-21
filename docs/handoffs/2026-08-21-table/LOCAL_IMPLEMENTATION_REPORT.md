@@ -36,7 +36,7 @@ The first independent audit correctly returned `FAIL` and identified four docume
 - Widget + Table mobile contract: 32px shell radius, 24px inset, 8px content radius, 13 table rows, filter floor present and Context Menu operable.
 - Full `pnpm validate`: PASS after final responsive and overlay fixes.
 - First independent Figma-vs-local Visual QA: `FAIL`; all four findings remediated locally.
-- Repeat independent Figma-vs-local Visual QA: pending final gate on the remediation commit.
+- Repeat independent Figma-vs-local Visual QA: `PASS` on implementation SHA `19c4ab75f31728d7763693759b87ca4c53f5c0fe`.
 
 ## Portal parity remediation
 
@@ -47,6 +47,15 @@ The repeat audit passed Storybook but returned `FAIL` for portal parity. The can
 - `/components/table/columns/` now renders all five column families in both densities plus explicit row-count evidence.
 - `/components/table/paginator/` now renders the interactive control and first/middle/last compositions.
 - Wide matrices remain inside labelled `.cometal-table-scroll` regions with `contain: inline-size paint`; document overflow is `0` at 1440, 1024, 768, 390 and 360px.
+
+## Final independent verdict
+
+- Portal Table routes: `20/20 PASS` across five viewports.
+- Direct Storybook iframe sweep: `17 stories × 5 viewports = 85/85 PASS`.
+- Complete coverage: 180 Cell examples, 15 Header tables / 51 header cells, five Column families in both densities and four executable Paginator compositions.
+- Native `table/thead/tbody/th`, keyboard scroll, sort cycle, Context Menu + Escape and page-size behavior: `PASS`.
+- Console/page errors: `0`; document horizontal overflow: `0`.
+- Remaining blockers: none. Publication was not performed.
 
 ## Not asserted yet
 
