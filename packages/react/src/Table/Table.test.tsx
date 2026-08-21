@@ -1,19 +1,34 @@
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
-import { Table, TableBody, TableFileCell, TableHeaderCell, TableHead, TableRow } from './Table';
+import {
+  Table,
+  TableBody,
+  TableCell,
+  TableDragCell,
+  TableDragHandle,
+  TableFileCell,
+  TableFilterCell,
+  TableFilterRow,
+  TableHeaderCell,
+  TableHead,
+  TableIndexCell,
+  TablePaginator,
+  TableRow,
+  TableSelectionCell,
+  TableSelectionHeader,
+  TableSummaryCell,
+  getNextTableSortDirection,
+} from './Table';
 
 describe('Table', () => {
-  it('keeps file metadata in the DOM across density variants', () => {
-    const comfortable = renderToStaticMarkup(
-      <Table density="comfortable" aria-label="Документы">
-        <TableBody><TableRow><TableFileCell fileName="specification.pdf" fileSize="130 KB" /></TableRow></TableBody>
+  it('keeps file content and the exact icon swap in the DOM across densities', () => {
+    const renderFile = (density: 'comfortable' | 'compact') => renderToStaticMarkup(
+      <Table density={density} aria-label="Документы">
+        <TableBody><TableRow><TableFileCell fileName="specification.pdf" fileSize="130 KB" fileType="pdf" /></TableRow></TableBody>
       </Table>,
     );
-    const compact = renderToStaticMarkup(
-      <Table density="compact" aria-label="Документы">
-        <TableBody><TableRow><TableFileCell fileName="specification.pdf" fileSize="130 KB" /></TableRow></TableBody>
-      </Table>,
-    );
+    const comfortable = renderFile('comfortable');
+    const compact = renderFile('compact');
 
     expect(comfortable).toContain('data-density="comfortable"');
     expect(compact).toContain('data-density="compact"');
@@ -21,19 +36,71 @@ describe('Table', () => {
     expect(compact).toContain('specification.pdf');
     expect(comfortable).toContain('130 KB');
     expect(compact).toContain('130 KB');
+    expect(comfortable).toContain('data-file-type="pdf"');
   });
 
-  it('uses native table semantics and exposes sorting', () => {
+  it('uses two native header rows for labels and the synchronized filter floor', () => {
     const html = renderToStaticMarkup(
       <Table aria-label="Позиции">
-        <TableHead><TableRow><TableHeaderCell sort="ascending">Позиция</TableHeaderCell></TableRow></TableHead>
-        <TableBody><TableRow><TableFileCell fileName="offer.pdf" /></TableRow></TableBody>
+        <TableHead>
+          <TableRow><TableHeaderCell sort="ascending">Позиция</TableHeaderCell></TableRow>
+          <TableFilterRow><TableFilterCell><input aria-label="Фильтр позиции" /></TableFilterCell></TableFilterRow>
+        </TableHead>
+        <TableBody><TableRow><TableCell>POS-001</TableCell></TableRow></TableBody>
       </Table>,
     );
 
     expect(html).toContain('<table');
     expect(html).toContain('<th scope="col" aria-sort="ascending"');
-    expect(html).toContain('<td');
-    expect(html).toContain('stroke-width="var(--cometal-primitive-stroke-140, 1.4)"');
+    expect(html).toContain('cometal-table__filter-row');
+    expect(html).toContain('Фильтр позиции');
+    expect(html).not.toContain('cometal-table__header-filter');
+  });
+
+  it('keeps source utility families semantic and density-owned', () => {
+    const html = renderToStaticMarkup(
+      <Table density="compact" aria-label="Выбор позиций">
+        <TableHead>
+          <TableRow>
+            <TableHeaderCell kind="index">№</TableHeaderCell>
+            <TableSelectionHeader selectedCount={1} totalCount={3} onSelectionChange={() => undefined} />
+            <TableHeaderCell kind="drag">Порядок</TableHeaderCell>
+          </TableRow>
+        </TableHead>
+        <TableBody>
+          <TableRow selected>
+            <TableIndexCell>1</TableIndexCell>
+            <TableSelectionCell label="Выбрать строку 1" checked onCheckedChange={() => undefined} />
+            <TableDragCell><TableDragHandle rowLabel="1" /></TableDragCell>
+          </TableRow>
+          <TableRow>
+            <TableSummaryCell kind="label">Итого</TableSummaryCell>
+            <TableSummaryCell kind="empty" />
+            <TableSummaryCell kind="value">1</TableSummaryCell>
+          </TableRow>
+        </TableBody>
+      </Table>,
+    );
+
+    expect(html).toContain('aria-checked="mixed"');
+    expect(html).toContain('data-row-selected="true"');
+    expect(html).toContain('Переместить строку 1');
+    expect(html).toContain('data-summary-kind="empty"');
+  });
+
+  it('cycles sorting in the approved order', () => {
+    expect(getNextTableSortDirection('none')).toBe('ascending');
+    expect(getNextTableSortDirection('ascending')).toBe('descending');
+    expect(getNextTableSortDirection('descending')).toBe('none');
+  });
+
+  it('exposes accessible paginator states without turning row counts into Table variants', () => {
+    const html = renderToStaticMarkup(
+      <TablePaginator page={2} pageCount={9} pageSize={15} onPageChange={() => undefined} onPageSizeChange={() => undefined} />,
+    );
+    expect(html).toContain('aria-label="Пагинация таблицы"');
+    expect(html).toContain('aria-current="page"');
+    expect(html).toContain('aria-label="Предыдущая страница"');
+    expect(html).toContain('aria-label="Строк на странице"');
   });
 });

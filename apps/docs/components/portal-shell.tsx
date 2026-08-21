@@ -34,7 +34,8 @@ function MenuIcon({ open }: { open: boolean }) {
 
 export function PortalShell({ children }: { children: React.ReactNode }) {
   const pathname = usePathname();
-  const section = currentSection(pathname);
+  const currentPathname = pathname ?? '/';
+  const section = currentSection(currentPathname);
   const items = sectionNavigation[section] ?? [];
   const [menuOpen, setMenuOpen] = useState(false);
 
@@ -58,7 +59,7 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
         <div className="topbar__group">
           <nav className="primary-nav" aria-label="Основные разделы">
             {primaryNavigation.map((item) => {
-              const active = isPrimaryItemActive(pathname, item);
+              const active = isPrimaryItemActive(currentPathname, item);
               return item.external ? (
                 <a key={item.href} href={item.href} className="primary-nav__link primary-nav__link--playground">
                   {item.label}<span aria-hidden="true">↗</span>
@@ -89,7 +90,7 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
 
         <nav className="mobile-navigation" id="mobile-navigation" hidden={!menuOpen} aria-label="Основные разделы">
           {primaryNavigation.map((item) => {
-            const active = isPrimaryItemActive(pathname, item);
+            const active = isPrimaryItemActive(currentPathname, item);
             return item.external ? (
               <a key={item.href} href={item.href}>{item.label}<span aria-hidden="true">↗</span></a>
             ) : (
@@ -107,7 +108,7 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
             <nav className="section-nav" aria-label="Навигация раздела">
               {items.map((item) => {
                 const itemPath = normalizePath(item.href);
-                const currentPath = normalizePath(pathname);
+                const currentPath = normalizePath(currentPathname);
                 const activePrefix = item.activePrefix ? normalizePath(item.activePrefix) : null;
                 const active = currentPath === itemPath || Boolean(activePrefix && currentPath.startsWith(`${activePrefix}/`));
                 return <Link key={item.href} href={item.href} data-active={active || undefined} aria-current={active ? 'page' : undefined}>{item.label}</Link>;

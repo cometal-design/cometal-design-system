@@ -14,15 +14,36 @@ import {
   RadioButton,
   Select,
   Switch,
+  Table,
+  TableBody,
+  TableCell,
+  TableHeaderCell,
+  TableHead,
+  TableRow,
   TextArea,
   TextField,
   Tooltip,
+  Widget,
 } from '@cometal/react';
 import { contractorOptions, statusOptions } from '../lib/demo-options';
 
 export function ComponentCatalogPreview({ id }: { id: string }) {
   const [selectedContractors, setSelectedContractors] = useState<string[]>([]);
 
+  if (id === 'input.fields') return <TextField label="Название поля" placeholder="Введите значение" />;
+  if (id === 'data-display.table') {
+    return (
+      <Table density="compact" aria-label="Пример Table">
+        <TableHead>
+          <TableRow><TableHeaderCell>Позиция</TableHeaderCell><TableHeaderCell>Статус</TableHeaderCell></TableRow>
+        </TableHead>
+        <TableBody>
+          <TableRow><TableCell>POS-00127</TableCell><TableCell><Badge tone="green">Согласовано</Badge></TableCell></TableRow>
+        </TableBody>
+      </Table>
+    );
+  }
+  if (id === 'template.widget') return <Widget title="Спецификация" description="20 строк"><div className="component-preview-widget-slot">Content slot</div></Widget>;
   if (id === 'input.text-field') return <TextField label="Название поля" placeholder="Введите значение" />;
   if (id === 'input.date-picker') return <DatePicker label="Дата поставки" defaultValue="2026-07-15" />;
   if (id === 'input.text-area') return <TextArea label="Комментарий" placeholder="Введите комментарий" rows={3} />;

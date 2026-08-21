@@ -1,0 +1,1361 @@
+{
+  "set": {
+    "id": "2353:9656",
+    "key": "df19e28cfe8d24f5823b6e5abec4d3019e6c4889",
+    "name": "Edit Cell",
+    "description": "Ячейки таблицы в режиме Edit. Для Type=Text свойства R Icon и Icon Choice добавляют опциональную иконку у правого inset во всех состояниях, включая Editing и Error.\n\nSizing and overflow: values are one line with ending ellipsis. Base minimum width is 96 px via Component / Table token. Editing behavior may horizontally scroll in product while the resting visual truncates.",
+    "width": 2240,
+    "height": 616,
+    "propertyDefinitions": {
+      "Label#1959:20": {
+        "type": "TEXT",
+        "defaultValue": "Значение"
+      },
+      "R Icon#2336:82": {
+        "type": "BOOLEAN",
+        "defaultValue": false
+      },
+      "Icon Choice#2336:111": {
+        "type": "INSTANCE_SWAP",
+        "defaultValue": "700:14528",
+        "preferredValues": []
+      },
+      "File name#3086:0": {
+        "type": "TEXT",
+        "defaultValue": "Спецификация.pdf"
+      },
+      "File size#3086:57": {
+        "type": "TEXT",
+        "defaultValue": "130 КБ"
+      },
+      "File icon#3086:114": {
+        "type": "INSTANCE_SWAP",
+        "defaultValue": "700:165",
+        "preferredValues": []
+      },
+      "Type": {
+        "type": "VARIANT",
+        "defaultValue": "Text",
+        "variantOptions": [
+          "Text",
+          "Number",
+          "Dropdown",
+          "File"
+        ]
+      },
+      "State": {
+        "type": "VARIANT",
+        "defaultValue": "Default",
+        "variantOptions": [
+          "Default",
+          "Hover",
+          "Active",
+          "Editing",
+          "Selected",
+          "Error",
+          "Disabled"
+        ]
+      },
+      "Density": {
+        "type": "VARIANT",
+        "defaultValue": "Comfortable",
+        "variantOptions": [
+          "Comfortable",
+          "Compact"
+        ]
+      }
+    },
+    "variantCount": 56
+  },
+  "variants": [
+    {
+      "id": "2353:9657",
+      "key": "d2fcff8d0be439bfdcbdda8d71e59612771866b3",
+      "name": "Type=Text, State=Default, Density=Comfortable",
+      "properties": {
+        "Type": "Text",
+        "State": "Default",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9660",
+      "key": "da41a40e762202be1ea91277bc5951bb852d7b22",
+      "name": "Type=Text, State=Hover, Density=Comfortable",
+      "properties": {
+        "Type": "Text",
+        "State": "Hover",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9663",
+      "key": "3d286a9bc2e378da86e596a45b60f794a9af0242",
+      "name": "Type=Text, State=Active, Density=Comfortable",
+      "properties": {
+        "Type": "Text",
+        "State": "Active",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9666",
+      "key": "a3490ff0fe6149cc86ef9c40103fc73334223815",
+      "name": "Type=Text, State=Editing, Density=Comfortable",
+      "properties": {
+        "Type": "Text",
+        "State": "Editing",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9671",
+      "key": "ec8bceb10c9d5988c6577ce2f9415119d3dc1cfc",
+      "name": "Type=Text, State=Selected, Density=Comfortable",
+      "properties": {
+        "Type": "Text",
+        "State": "Selected",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9674",
+      "key": "f3b0cf377e336e3a986500f0bf80268862c47688",
+      "name": "Type=Text, State=Error, Density=Comfortable",
+      "properties": {
+        "Type": "Text",
+        "State": "Error",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9677",
+      "key": "4d4175de67416a2b1d6baa328d8c6e88f81023a4",
+      "name": "Type=Text, State=Disabled, Density=Comfortable",
+      "properties": {
+        "Type": "Text",
+        "State": "Disabled",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9680",
+      "key": "6290e69199ebe270ff562aae95ef3843829d9c70",
+      "name": "Type=Number, State=Default, Density=Comfortable",
+      "properties": {
+        "Type": "Number",
+        "State": "Default",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9682",
+      "key": "8d40348a142f2c50ef03817325c96c4a9c144904",
+      "name": "Type=Number, State=Hover, Density=Comfortable",
+      "properties": {
+        "Type": "Number",
+        "State": "Hover",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9684",
+      "key": "946fd2c9a689ea1b4741f66f1adb562f1b3361a2",
+      "name": "Type=Number, State=Active, Density=Comfortable",
+      "properties": {
+        "Type": "Number",
+        "State": "Active",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9686",
+      "key": "3ce1ea85b46392a9192e190a279fb401a7cdc3ab",
+      "name": "Type=Number, State=Editing, Density=Comfortable",
+      "properties": {
+        "Type": "Number",
+        "State": "Editing",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9690",
+      "key": "4d23f557b1924516cd3aa43b648b7de2f8a0ec0d",
+      "name": "Type=Number, State=Selected, Density=Comfortable",
+      "properties": {
+        "Type": "Number",
+        "State": "Selected",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9692",
+      "key": "8c1b337256cb1168beff96d9bf3a39dd0aa59752",
+      "name": "Type=Number, State=Error, Density=Comfortable",
+      "properties": {
+        "Type": "Number",
+        "State": "Error",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9694",
+      "key": "58395e0b3f9ac7ddceffb976e4f888c64a14a8ec",
+      "name": "Type=Number, State=Disabled, Density=Comfortable",
+      "properties": {
+        "Type": "Number",
+        "State": "Disabled",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9696",
+      "key": "f880f1d67b2ecb8368ec4eda6e679047edd569e7",
+      "name": "Type=Dropdown, State=Default, Density=Comfortable",
+      "properties": {
+        "Type": "Dropdown",
+        "State": "Default",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9699",
+      "key": "95bc23f16e2c667e65f3ed1ba318a03f9f810cfb",
+      "name": "Type=Dropdown, State=Hover, Density=Comfortable",
+      "properties": {
+        "Type": "Dropdown",
+        "State": "Hover",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9702",
+      "key": "13d0110794972c2bf389b4a57396e359b73cdccc",
+      "name": "Type=Dropdown, State=Active, Density=Comfortable",
+      "properties": {
+        "Type": "Dropdown",
+        "State": "Active",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9705",
+      "key": "154332563411e1a1c7f6f76bb448f32d16d24011",
+      "name": "Type=Dropdown, State=Selected, Density=Comfortable",
+      "properties": {
+        "Type": "Dropdown",
+        "State": "Selected",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9708",
+      "key": "50352f3afe8e2400fb6ab3ad2d6676b4f3e308a9",
+      "name": "Type=Dropdown, State=Error, Density=Comfortable",
+      "properties": {
+        "Type": "Dropdown",
+        "State": "Error",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9711",
+      "key": "997810269b9fd6363de701493d6765e7a964fa10",
+      "name": "Type=Dropdown, State=Disabled, Density=Comfortable",
+      "properties": {
+        "Type": "Dropdown",
+        "State": "Disabled",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9714",
+      "key": "86f43c938c972a1fd27d3c759985f7346a51ceff",
+      "name": "Type=Dropdown, State=Editing, Density=Comfortable",
+      "properties": {
+        "Type": "Dropdown",
+        "State": "Editing",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9717",
+      "key": "2c0a1cbc878dc839b478e6b0b5fc2cd90ba1ad4e",
+      "name": "Type=File, State=Default, Density=Comfortable",
+      "properties": {
+        "Type": "File",
+        "State": "Default",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9719",
+      "key": "dec4e575fe3ddd7ea228e309c523035d9520b7cc",
+      "name": "Type=File, State=Hover, Density=Comfortable",
+      "properties": {
+        "Type": "File",
+        "State": "Hover",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9721",
+      "key": "6a4dcf5ffd66f8b23fbfd13a0cf1a3d63dbf8721",
+      "name": "Type=File, State=Active, Density=Comfortable",
+      "properties": {
+        "Type": "File",
+        "State": "Active",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9723",
+      "key": "2fecccd42cb761d18db995f8fae8acc00fbd8998",
+      "name": "Type=File, State=Editing, Density=Comfortable",
+      "properties": {
+        "Type": "File",
+        "State": "Editing",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9725",
+      "key": "5c06c23c6325a807815ef04cb8e8e22d68b3b922",
+      "name": "Type=File, State=Selected, Density=Comfortable",
+      "properties": {
+        "Type": "File",
+        "State": "Selected",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9727",
+      "key": "154545a4a5494f2f14c0ff1314b5b1ba8f3de04b",
+      "name": "Type=File, State=Error, Density=Comfortable",
+      "properties": {
+        "Type": "File",
+        "State": "Error",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9729",
+      "key": "365cbf23525a8ec3424144f5e51178d45d746383",
+      "name": "Type=File, State=Disabled, Density=Comfortable",
+      "properties": {
+        "Type": "File",
+        "State": "Disabled",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28555",
+      "key": "c2ea950f2b37e9367b8000619de0db30471fc936",
+      "name": "Type=Text, State=Default, Density=Compact",
+      "properties": {
+        "Type": "Text",
+        "State": "Default",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28558",
+      "key": "0f5bca5c3cf88d510716a0c8171f6c63ca2ff58f",
+      "name": "Type=Text, State=Hover, Density=Compact",
+      "properties": {
+        "Type": "Text",
+        "State": "Hover",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28561",
+      "key": "e218393ccff55054178e7326065e76f500aba6c1",
+      "name": "Type=Text, State=Active, Density=Compact",
+      "properties": {
+        "Type": "Text",
+        "State": "Active",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28564",
+      "key": "ad006f0b667edccfe281f91ae4070f800076b23e",
+      "name": "Type=Text, State=Editing, Density=Compact",
+      "properties": {
+        "Type": "Text",
+        "State": "Editing",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28569",
+      "key": "ee60b11063372639bb766dba29e59d369e2d6e13",
+      "name": "Type=Text, State=Selected, Density=Compact",
+      "properties": {
+        "Type": "Text",
+        "State": "Selected",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28572",
+      "key": "231d793bedeb55c0377db836dc1aa43231187ac0",
+      "name": "Type=Text, State=Error, Density=Compact",
+      "properties": {
+        "Type": "Text",
+        "State": "Error",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28575",
+      "key": "b4592839b7bee37f3c26482757b20d0365c011c8",
+      "name": "Type=Text, State=Disabled, Density=Compact",
+      "properties": {
+        "Type": "Text",
+        "State": "Disabled",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28578",
+      "key": "02da36357bbf4f218f4e2d6460ddb7166d6230b4",
+      "name": "Type=Number, State=Default, Density=Compact",
+      "properties": {
+        "Type": "Number",
+        "State": "Default",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28580",
+      "key": "1946efde695afe5e56a4e7c6ebc5569dfa903072",
+      "name": "Type=Number, State=Hover, Density=Compact",
+      "properties": {
+        "Type": "Number",
+        "State": "Hover",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28582",
+      "key": "d4feb2b62f709f7f2427864895cdb04c2e4fbe09",
+      "name": "Type=Number, State=Active, Density=Compact",
+      "properties": {
+        "Type": "Number",
+        "State": "Active",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28584",
+      "key": "b55817aec573b3cc60b669c284b73ce039581dc3",
+      "name": "Type=Number, State=Editing, Density=Compact",
+      "properties": {
+        "Type": "Number",
+        "State": "Editing",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28588",
+      "key": "703deb2c2d2ec73184abf28f948f4771a10adcdd",
+      "name": "Type=Number, State=Selected, Density=Compact",
+      "properties": {
+        "Type": "Number",
+        "State": "Selected",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28590",
+      "key": "c87ac63fbc61e85a3d73f13019f75414ee85d553",
+      "name": "Type=Number, State=Error, Density=Compact",
+      "properties": {
+        "Type": "Number",
+        "State": "Error",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28592",
+      "key": "df58d75346c3075c01219f6c8bc3a204151541c1",
+      "name": "Type=Number, State=Disabled, Density=Compact",
+      "properties": {
+        "Type": "Number",
+        "State": "Disabled",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28594",
+      "key": "b24ac127922fb819ca937cdea9bb4f887c2640b7",
+      "name": "Type=Dropdown, State=Default, Density=Compact",
+      "properties": {
+        "Type": "Dropdown",
+        "State": "Default",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28597",
+      "key": "eb4c86cae8e1840ad0e0e06ae6f5de133e6c01c3",
+      "name": "Type=Dropdown, State=Hover, Density=Compact",
+      "properties": {
+        "Type": "Dropdown",
+        "State": "Hover",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28600",
+      "key": "e6a2a820a68f2dc3b9e465545d441b840d940acf",
+      "name": "Type=Dropdown, State=Active, Density=Compact",
+      "properties": {
+        "Type": "Dropdown",
+        "State": "Active",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28603",
+      "key": "8c3391ec65fc81d91cebe8af2d2a82581a0c8a05",
+      "name": "Type=Dropdown, State=Selected, Density=Compact",
+      "properties": {
+        "Type": "Dropdown",
+        "State": "Selected",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28606",
+      "key": "9f9bc3f55004b5e326091751630a5cf30a6cf3a1",
+      "name": "Type=Dropdown, State=Error, Density=Compact",
+      "properties": {
+        "Type": "Dropdown",
+        "State": "Error",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28609",
+      "key": "43703f062081d699796418003aadb4da092c5bba",
+      "name": "Type=Dropdown, State=Disabled, Density=Compact",
+      "properties": {
+        "Type": "Dropdown",
+        "State": "Disabled",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28612",
+      "key": "c5c21d2e36fed6ea240fcf6043bd03a6591f4feb",
+      "name": "Type=Dropdown, State=Editing, Density=Compact",
+      "properties": {
+        "Type": "Dropdown",
+        "State": "Editing",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        12,
+        16,
+        12,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28615",
+      "key": "dc2415e25f7b66dbd6ed23c17fe2708377ed1320",
+      "name": "Type=File, State=Default, Density=Compact",
+      "properties": {
+        "Type": "File",
+        "State": "Default",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28623",
+      "key": "3d034f606b5aa22ba77b33c20fadbfdae77283b0",
+      "name": "Type=File, State=Hover, Density=Compact",
+      "properties": {
+        "Type": "File",
+        "State": "Hover",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28631",
+      "key": "7818ee27607dee4ffeaa7803db83d871cff8f25b",
+      "name": "Type=File, State=Active, Density=Compact",
+      "properties": {
+        "Type": "File",
+        "State": "Active",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28639",
+      "key": "a9fbfaa6f61f75990f44829dda5f1119a49a35be",
+      "name": "Type=File, State=Editing, Density=Compact",
+      "properties": {
+        "Type": "File",
+        "State": "Editing",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28647",
+      "key": "f786fc9223d48fc4964be147709567c7d9a63457",
+      "name": "Type=File, State=Selected, Density=Compact",
+      "properties": {
+        "Type": "File",
+        "State": "Selected",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28655",
+      "key": "14954ffeeb8a1c60b5d6029aeb9139910596d94a",
+      "name": "Type=File, State=Error, Density=Compact",
+      "properties": {
+        "Type": "File",
+        "State": "Error",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "3064:28663",
+      "key": "966f157c950a0dae0209e8798b64ad4ac6c06223",
+      "name": "Type=File, State=Disabled, Density=Compact",
+      "properties": {
+        "Type": "File",
+        "State": "Disabled",
+        "Density": "Compact"
+      },
+      "width": 240,
+      "height": 40,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    }
+  ]
+}
+

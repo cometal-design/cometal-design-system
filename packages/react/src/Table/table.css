@@ -1,6 +1,16 @@
 .cometal-table-scroll {
+  width: 100%;
   max-width: 100%;
-  overflow: auto;
+  contain: inline-size paint;
+  overflow-x: auto;
+  overflow-y: visible;
+  overscroll-behavior-inline: contain;
+  scrollbar-gutter: stable;
+}
+
+.cometal-table-scroll:focus-visible {
+  outline: var(--cometal-primitive-stroke-200) solid var(--cometal-semantic-color-global-state-focus-ring);
+  outline-offset: var(--cometal-primitive-spacing-25);
 }
 
 .cometal-table {
@@ -12,6 +22,7 @@
   --cometal-table-border-width: var(--cometal-component-table-border-width);
   --cometal-table-surface: var(--cometal-component-table-cell-surface-default);
   --cometal-table-text: var(--cometal-component-table-text-primary);
+  --cometal-table-hover: var(--cometal-component-table-cell-surface-hover);
   --cometal-table-active: var(--cometal-component-table-cell-surface-active);
   --cometal-table-selected: var(--cometal-component-table-cell-surface-selected);
   --cometal-table-selected-text: var(--cometal-component-table-text-selected);
@@ -20,6 +31,7 @@
   --cometal-table-disabled: var(--cometal-component-table-cell-surface-disabled);
   --cometal-table-disabled-text: var(--cometal-component-table-text-disabled);
   --cometal-table-header-surface: var(--cometal-component-table-header-surface-default);
+  --cometal-table-header-hover: var(--cometal-component-table-header-surface-hover);
   --cometal-table-header-text: var(--cometal-component-table-text-secondary);
   --cometal-table-selected-icon: var(--cometal-component-table-icon-selected);
   --cometal-table-file-metadata: var(--cometal-component-table-file-metadata);
@@ -40,15 +52,28 @@
   table-layout: fixed;
 }
 
+.cometal-table__visually-hidden {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  padding: 0;
+  margin: -1px;
+  overflow: hidden;
+  clip: rect(0, 0, 0, 0);
+  white-space: nowrap;
+  border: 0;
+}
+
 .cometal-table[data-density='compact'] {
   --cometal-table-cell-height: var(--cometal-component-table-cell-height-density-compact);
   --cometal-table-cell-inset-y: var(--cometal-component-table-cell-inset-vertical-density-compact);
 }
 
 .cometal-table__header-cell,
+.cometal-table__filter-cell,
 .cometal-table__cell {
   box-sizing: border-box;
-  min-width: var(--cometal-primitive-size-48);
+  min-width: var(--cometal-component-table-cell-min-width-base);
   padding: 0;
   border: 0;
   border-right: var(--cometal-table-border-width) solid var(--cometal-table-divider);
@@ -60,15 +85,17 @@
 }
 
 .cometal-table__header-cell:first-child,
+.cometal-table__filter-cell:first-child,
 .cometal-table__cell:first-child {
   border-left: var(--cometal-table-border-width) solid var(--cometal-table-divider);
 }
 
-.cometal-table__head:first-child .cometal-table__header-cell {
+.cometal-table__head:first-child .cometal-table__row:first-child .cometal-table__header-cell {
   border-top: var(--cometal-table-border-width) solid var(--cometal-table-divider);
 }
 
-.cometal-table__header-cell {
+.cometal-table__header-cell,
+.cometal-table__filter-cell {
   height: var(--cometal-component-table-header-height);
   background: var(--cometal-table-header-surface);
   color: var(--cometal-table-header-text);
@@ -81,7 +108,13 @@
 
 .cometal-table__header-cell[data-kind='index'],
 .cometal-table__header-cell[data-kind='selection'],
-.cometal-table__cell[data-align='center'] {
+.cometal-table__header-cell[data-kind='drag'],
+.cometal-table__filter-cell[data-kind='index'],
+.cometal-table__filter-cell[data-kind='selection'],
+.cometal-table__filter-cell[data-kind='drag'],
+.cometal-table__index-cell,
+.cometal-table__drag-cell,
+.cometal-table__cell[data-align='center']:has(.cometal-table__checkbox) {
   width: var(--cometal-table-cell-height);
   min-width: var(--cometal-table-cell-height);
   max-width: var(--cometal-table-cell-height);
@@ -96,12 +129,16 @@
 }
 
 .cometal-table__header-main {
-  min-height: calc(
-    var(--cometal-component-table-header-height)
-    - (var(--cometal-table-border-width) * 2)
-  );
+  min-height: calc(var(--cometal-component-table-header-height) - (var(--cometal-table-border-width) * 2));
   padding-inline: var(--cometal-component-table-header-inset-start) var(--cometal-component-table-header-inset-end);
   gap: var(--cometal-component-table-header-gap);
+}
+
+.cometal-table__header-cell[data-kind='index'] .cometal-table__header-main,
+.cometal-table__header-cell[data-kind='selection'] .cometal-table__header-main,
+.cometal-table__header-cell[data-kind='drag'] .cometal-table__header-main {
+  padding-inline: 0;
+  justify-content: center;
 }
 
 .cometal-table__header-label,
@@ -118,17 +155,43 @@
   flex: 1 1 auto;
 }
 
-.cometal-table__sort-icon {
+.cometal-table__sort-button {
+  display: flex;
+  min-width: 0;
+  flex: 1 1 auto;
+  align-items: center;
+  gap: var(--cometal-component-table-header-gap);
+  padding: 0;
+  border: 0;
+  background: transparent;
+  color: inherit;
+  font: inherit;
+  text-align: left;
+  cursor: pointer;
+}
+
+.cometal-table__sort-button:focus-visible,
+.cometal-table__context-action:focus-visible,
+.cometal-table__drag-handle:focus-visible,
+.cometal-table__page-control:focus-visible,
+.cometal-table__page-size select:focus-visible {
+  outline: var(--cometal-primitive-stroke-200) solid var(--cometal-semantic-color-global-state-focus-ring);
+  outline-offset: var(--cometal-primitive-spacing-25);
+}
+
+.cometal-table__asset-icon {
+  display: inline-block;
   width: var(--cometal-table-icon-size);
   height: var(--cometal-table-icon-size);
   flex: 0 0 var(--cometal-table-icon-size);
-  color: var(--cometal-table-selected-icon);
+  background: currentColor;
+  mask-position: center;
+  mask-size: contain;
+  mask-repeat: no-repeat;
 }
 
-.cometal-table__sort-icon path,
-.cometal-table__file-icon svg [stroke] {
-  stroke-width: var(--cometal-primitive-stroke-140);
-  vector-effect: non-scaling-stroke;
+.cometal-table__sort-icon {
+  color: var(--cometal-table-selected-icon);
 }
 
 .cometal-table__header-action {
@@ -140,27 +203,48 @@
   justify-content: center;
 }
 
-.cometal-table__header-filter {
-  padding: 0 var(--cometal-component-table-header-inset-end) var(--cometal-primitive-spacing-100) var(--cometal-component-table-header-inset-start);
-}
-
-.cometal-table__header-cell:has(.cometal-table__header-filter) {
-  height: auto;
-}
-
-.cometal-table__header-cell[data-kind='selection'] .cometal-table__header-main,
-.cometal-table__cell[data-align='center'] .cometal-table__cell-content:has(.cometal-selection[data-kind='checkbox']) {
-  padding-inline: 0;
+.cometal-table__context-action,
+.cometal-table__drag-handle {
+  display: inline-flex;
+  width: var(--cometal-primitive-size-24);
+  height: var(--cometal-primitive-size-24);
+  align-items: center;
   justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--cometal-primitive-radius-100);
+  background: transparent;
+  color: var(--cometal-component-table-header-icon-context-action);
+  cursor: pointer;
 }
 
-.cometal-table__header-cell[data-kind='selection'] .cometal-selection[data-kind='checkbox'],
-.cometal-table__cell[data-align='center'] .cometal-selection[data-kind='checkbox'] {
-  flex: 0 0 var(--cometal-selection-control);
+.cometal-table__context-action:hover {
+  background: var(--cometal-component-table-header-surface-context-action-hover);
 }
 
-.cometal-table__cell[data-align='center'] .cometal-table__cell-value:has(> .cometal-selection[data-kind='checkbox']) {
-  justify-content: center;
+.cometal-table__context-action[aria-expanded='true'] {
+  background: var(--cometal-component-table-header-surface-context-action-open);
+}
+
+.cometal-table__drag-handle {
+  color: var(--cometal-component-table-icon-secondary);
+}
+
+.cometal-table__filter-cell {
+  border-top: 0;
+}
+
+.cometal-table__filter-control {
+  display: flex;
+  min-width: 0;
+  min-height: calc(var(--cometal-component-table-header-height) - var(--cometal-table-border-width));
+  align-items: center;
+  padding-inline: var(--cometal-component-table-header-inset-start) var(--cometal-component-table-header-inset-end);
+}
+
+.cometal-table__filter-control > * {
+  width: 100%;
+  min-width: 0;
 }
 
 .cometal-table__cell {
@@ -169,11 +253,15 @@
 
 .cometal-table__cell-content {
   min-height: calc(var(--cometal-table-cell-height) - var(--cometal-table-border-width));
-  padding:
-    calc(var(--cometal-table-cell-inset-y) - var(--cometal-table-border-width))
-    var(--cometal-table-cell-inset-x)
-    var(--cometal-table-cell-inset-y);
+  padding: calc(var(--cometal-table-cell-inset-y) - var(--cometal-table-border-width)) var(--cometal-table-cell-inset-x) var(--cometal-table-cell-inset-y);
   gap: var(--cometal-table-cell-gap);
+}
+
+.cometal-table__index-cell .cometal-table__cell-content,
+.cometal-table__drag-cell .cometal-table__cell-content,
+.cometal-table__cell[data-align='center']:has(.cometal-table__checkbox) .cometal-table__cell-content {
+  padding-inline: 0;
+  justify-content: center;
 }
 
 .cometal-table__cell[data-align='end'] .cometal-table__cell-value {
@@ -200,9 +288,23 @@
   line-height: 0;
 }
 
+.cometal-table__checkbox .cometal-selection__content {
+  position: absolute;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
 .cometal-table__row[data-row-selected] > .cometal-table__cell,
 .cometal-table__cell[data-state='active'] {
   background: var(--cometal-table-active);
+}
+
+.cometal-table__cell:not([data-state='disabled']):hover {
+  background: var(--cometal-table-hover);
 }
 
 .cometal-table__cell[data-state='selected'],
@@ -240,14 +342,13 @@
   flex: 0 0 var(--cometal-table-file-icon-size);
   align-items: center;
   justify-content: center;
-  color: var(--cometal-component-table-icon-secondary);
 }
 
-.cometal-table__file-icon svg,
-.cometal-table__file-icon img {
+.cometal-table__file-asset {
   display: block;
   width: 100%;
   height: 100%;
+  object-fit: contain;
 }
 
 .cometal-table__file-copy {
@@ -282,8 +383,111 @@
   display: none;
 }
 
+.cometal-table__summary-cell {
+  border-top-color: var(--cometal-component-table-summary-border-divider);
+  background: var(--cometal-component-table-summary-surface-default);
+  color: var(--cometal-component-table-summary-text-primary);
+  font-weight: var(--cometal-typography-body-l-accent-font-weight);
+}
+
+.cometal-table__paginator {
+  display: grid;
+  min-height: var(--cometal-primitive-size-48);
+  grid-template-columns: minmax(0, 1fr) auto minmax(0, 1fr);
+  align-items: center;
+  gap: var(--cometal-primitive-spacing-100);
+  padding-block: var(--cometal-primitive-spacing-100);
+  color: var(--cometal-component-table-text-primary);
+  font-family: var(--cometal-typography-body-m-default-font-family);
+  font-size: var(--cometal-typography-body-m-default-font-size);
+  line-height: var(--cometal-typography-body-m-default-line-height);
+}
+
+.cometal-table__paginator-controls,
+.cometal-table__page-size {
+  display: flex;
+  align-items: center;
+  gap: var(--cometal-primitive-spacing-50);
+}
+
+.cometal-table__page-control {
+  display: inline-flex;
+  min-width: var(--cometal-primitive-size-32);
+  height: var(--cometal-primitive-size-32);
+  align-items: center;
+  justify-content: center;
+  padding-inline: var(--cometal-primitive-spacing-50);
+  border: 0;
+  border-radius: var(--cometal-primitive-radius-100);
+  background: transparent;
+  color: var(--cometal-component-table-text-primary);
+  font: inherit;
+  cursor: pointer;
+}
+
+.cometal-table__page-control:hover:not(:disabled),
+.cometal-table__page-control[data-current] {
+  background: var(--cometal-component-table-header-surface-hover);
+}
+
+.cometal-table__page-control[data-current] {
+  color: var(--cometal-component-table-icon-selected);
+}
+
+.cometal-table__page-control:disabled {
+  color: var(--cometal-component-table-icon-disabled);
+  cursor: not-allowed;
+}
+
+.cometal-table__page-ellipsis {
+  display: inline-flex;
+  min-width: var(--cometal-primitive-size-24);
+  justify-content: center;
+  color: var(--cometal-component-table-text-secondary);
+}
+
+.cometal-table__page-size {
+  justify-self: end;
+  color: var(--cometal-component-table-text-secondary);
+}
+
+.cometal-table__page-size select {
+  min-width: calc(var(--cometal-primitive-size-32) * 2);
+  height: var(--cometal-primitive-size-32);
+  border: var(--cometal-primitive-stroke-100) solid var(--cometal-semantic-color-global-border-default);
+  border-radius: var(--cometal-primitive-radius-100);
+  background: var(--cometal-semantic-color-global-surface-canvas);
+  color: var(--cometal-component-table-text-primary);
+  font: inherit;
+}
+
+@media (max-width: 47.99rem) {
+  .cometal-table__paginator {
+    grid-template-columns: 1fr;
+    justify-items: center;
+  }
+
+  .cometal-table__paginator-spacer {
+    display: none;
+  }
+
+  .cometal-table__page-size {
+    justify-self: center;
+  }
+
+  .cometal-table__paginator-controls {
+    width: 100%;
+    max-width: 100%;
+    justify-content: flex-start;
+    overflow-x: auto;
+    overscroll-behavior-inline: contain;
+    scrollbar-width: thin;
+  }
+}
+
 @media (forced-colors: active) {
   .cometal-table__header-cell,
+  .cometal-table__filter-cell,
   .cometal-table__cell {
     border-color: CanvasText;
   }

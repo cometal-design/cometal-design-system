@@ -1,0 +1,1224 @@
+{
+  "sets": [
+    {
+      "id": "2353:9766",
+      "key": "6d4abb394d1eeba32afdaf13ee79f87231cb6253",
+      "name": "Selection Cell",
+      "description": "Квадратная ячейка выбора строки таблицы. Value=Checked используется вместе с песочной подсветкой строки; State=Error продолжает красную подсветку ошибочной строки. Checkbox всегда Size=L (20 px).",
+      "width": 528,
+      "height": 304,
+      "propertyDefinitions": {
+        "State": {
+          "type": "VARIANT",
+          "defaultValue": "Default",
+          "variantOptions": [
+            "Default",
+            "Hover",
+            "Disabled",
+            "Error"
+          ]
+        },
+        "Value": {
+          "type": "VARIANT",
+          "defaultValue": "Unchecked",
+          "variantOptions": [
+            "Unchecked",
+            "Checked"
+          ]
+        },
+        "Density": {
+          "type": "VARIANT",
+          "defaultValue": "Comfortable",
+          "variantOptions": [
+            "Comfortable",
+            "Compact"
+          ]
+        }
+      },
+      "variantCount": 16,
+      "variants": [
+        {
+          "id": "2353:9767",
+          "key": "99fdd3541a394b504d935e486284ee7409a3f21e",
+          "name": "State=Default, Value=Unchecked, Density=Comfortable",
+          "properties": {
+            "State": "Default",
+            "Value": "Unchecked",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2353:9769",
+          "key": "90dc9a945303ef9cf78f960e258b619f19e9aab2",
+          "name": "State=Hover, Value=Unchecked, Density=Comfortable",
+          "properties": {
+            "State": "Hover",
+            "Value": "Unchecked",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2353:9771",
+          "key": "b43020c4275c5c502fc06408382d0dc26474041c",
+          "name": "State=Disabled, Value=Unchecked, Density=Comfortable",
+          "properties": {
+            "State": "Disabled",
+            "Value": "Unchecked",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2353:9773",
+          "key": "683833544ae487e14c2a70d2124f8ace805a347e",
+          "name": "State=Default, Value=Checked, Density=Comfortable",
+          "properties": {
+            "State": "Default",
+            "Value": "Checked",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2353:9775",
+          "key": "17e18dca0f57020e79130bde9459aecff07a1e12",
+          "name": "State=Hover, Value=Checked, Density=Comfortable",
+          "properties": {
+            "State": "Hover",
+            "Value": "Checked",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2353:9777",
+          "key": "52dcf7facc01ad473a4edac98b3eefd07d2a0e5e",
+          "name": "State=Disabled, Value=Checked, Density=Comfortable",
+          "properties": {
+            "State": "Disabled",
+            "Value": "Checked",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2353:9779",
+          "key": "613f1c961950a194826ad74200fa95847ac344ee",
+          "name": "State=Error, Value=Unchecked, Density=Comfortable",
+          "properties": {
+            "State": "Error",
+            "Value": "Unchecked",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2353:9781",
+          "key": "330248029151d3d9b24512388403b01101a11407",
+          "name": "State=Error, Value=Checked, Density=Comfortable",
+          "properties": {
+            "State": "Error",
+            "Value": "Checked",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28678",
+          "key": "d17851a6819a459dbeb30d74b3217ffe4d2a4bdb",
+          "name": "State=Default, Value=Unchecked, Density=Compact",
+          "properties": {
+            "State": "Default",
+            "Value": "Unchecked",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 40,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28680",
+          "key": "12388659b2e20dd0a4b64f88d1f42a42d197093c",
+          "name": "State=Hover, Value=Unchecked, Density=Compact",
+          "properties": {
+            "State": "Hover",
+            "Value": "Unchecked",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 40,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28682",
+          "key": "52250f2b9dc41e948c4e721fd03e791644be70f2",
+          "name": "State=Disabled, Value=Unchecked, Density=Compact",
+          "properties": {
+            "State": "Disabled",
+            "Value": "Unchecked",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 40,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28684",
+          "key": "06130a3e1d679f4577737a1b26e74379796ceb26",
+          "name": "State=Default, Value=Checked, Density=Compact",
+          "properties": {
+            "State": "Default",
+            "Value": "Checked",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 40,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28686",
+          "key": "2d715b21a94d5f3bfb68dbf90eb444f75bcf4986",
+          "name": "State=Hover, Value=Checked, Density=Compact",
+          "properties": {
+            "State": "Hover",
+            "Value": "Checked",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 40,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28688",
+          "key": "7c3908dfefa74468116560a224570b1d21b24593",
+          "name": "State=Disabled, Value=Checked, Density=Compact",
+          "properties": {
+            "State": "Disabled",
+            "Value": "Checked",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 40,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28690",
+          "key": "7bed5c63cbf8286427261f459fb6bfb47f4be6a4",
+          "name": "State=Error, Value=Unchecked, Density=Compact",
+          "properties": {
+            "State": "Error",
+            "Value": "Unchecked",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 40,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28692",
+          "key": "fdb089cbc4cd88ffb818f8a11c713828df10e177",
+          "name": "State=Error, Value=Checked, Density=Compact",
+          "properties": {
+            "State": "Error",
+            "Value": "Checked",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 40,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        }
+      ]
+    },
+    {
+      "id": "2353:9799",
+      "key": "87f7de80b4382ae52980808cba10c55e5ba4e0c4",
+      "name": "Index Cell",
+      "description": "Квадратная ячейка номера строки. Номер центрируется; состояния синхронизируются с состоянием строки. Плотность задаётся на уровне Column.",
+      "width": 848,
+      "height": 160,
+      "propertyDefinitions": {
+        "Number#2321:0": {
+          "type": "TEXT",
+          "defaultValue": "1"
+        },
+        "State": {
+          "type": "VARIANT",
+          "defaultValue": "Default",
+          "variantOptions": [
+            "Default",
+            "Hover",
+            "Active",
+            "Selected",
+            "Error",
+            "Disabled"
+          ]
+        },
+        "Density": {
+          "type": "VARIANT",
+          "defaultValue": "Comfortable",
+          "variantOptions": [
+            "Comfortable",
+            "Compact"
+          ]
+        }
+      },
+      "variantCount": 12,
+      "variants": [
+        {
+          "id": "2353:9800",
+          "key": "06cb3fa1ad9c6158b9b4634f97250c58457320b3",
+          "name": "State=Default, Density=Comfortable",
+          "properties": {
+            "State": "Default",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2353:9802",
+          "key": "538a70f265c91ef74820a309b9cc7c71f9f8711f",
+          "name": "State=Hover, Density=Comfortable",
+          "properties": {
+            "State": "Hover",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2353:9804",
+          "key": "7a7fd58b06bf75d00dd4f866cf46a038666e9c69",
+          "name": "State=Active, Density=Comfortable",
+          "properties": {
+            "State": "Active",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2353:9806",
+          "key": "2b0de7a7235dfc550f29aebc6de1a41d429b876c",
+          "name": "State=Selected, Density=Comfortable",
+          "properties": {
+            "State": "Selected",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2353:9808",
+          "key": "9ffd6b77b6cb93e55f0862bab09a4dcd1889e5d4",
+          "name": "State=Error, Density=Comfortable",
+          "properties": {
+            "State": "Error",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2353:9810",
+          "key": "624e91ac7d7043c9fd11838fb54127ce87a2bfd6",
+          "name": "State=Disabled, Density=Comfortable",
+          "properties": {
+            "State": "Disabled",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28714",
+          "key": "100dbc8359ce1f74ba618127046cf718211f279e",
+          "name": "State=Default, Density=Compact",
+          "properties": {
+            "State": "Default",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 40,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28716",
+          "key": "595929e935d2a42f7e111f59e13dc0c110c9cbf7",
+          "name": "State=Hover, Density=Compact",
+          "properties": {
+            "State": "Hover",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 40,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28718",
+          "key": "8eac4766d5ec7a0641df600b762872ba5802e4f1",
+          "name": "State=Active, Density=Compact",
+          "properties": {
+            "State": "Active",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 40,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28720",
+          "key": "92d1507461f0f547b95958cd5d6578429c8c6c49",
+          "name": "State=Selected, Density=Compact",
+          "properties": {
+            "State": "Selected",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 40,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28722",
+          "key": "45ceb9d0b9a5e6a1617dd5a5a93eb2f847d4917e",
+          "name": "State=Error, Density=Compact",
+          "properties": {
+            "State": "Error",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 40,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28724",
+          "key": "4cb28cc936ecfe8c98978ef48255c4f9fda221d4",
+          "name": "State=Disabled, Density=Compact",
+          "properties": {
+            "State": "Disabled",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 40,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        }
+      ]
+    },
+    {
+      "id": "2778:8307",
+      "key": "f5006bfc592f060f1f9a47d4dca494ebcde38a34",
+      "name": "Drag Handle Cell",
+      "description": "Service table cell for row reordering. States: Default, Hover, Dragging, Disabled. Density is controlled by the Table variable mode.",
+      "width": 688,
+      "height": 160,
+      "propertyDefinitions": {
+        "State": {
+          "type": "VARIANT",
+          "defaultValue": "Default",
+          "variantOptions": [
+            "Default",
+            "Hover",
+            "Dragging",
+            "Disabled",
+            "Active"
+          ]
+        },
+        "Density": {
+          "type": "VARIANT",
+          "defaultValue": "Comfortable",
+          "variantOptions": [
+            "Comfortable",
+            "Compact"
+          ]
+        }
+      },
+      "variantCount": 10,
+      "variants": [
+        {
+          "id": "2778:8291",
+          "key": "8d95d0299e0980b49655ec895dadfbe0e837f857",
+          "name": "State=Default, Density=Comfortable",
+          "properties": {
+            "State": "Default",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2778:8295",
+          "key": "377b2342337c65958f6f4f56b091358855573e65",
+          "name": "State=Hover, Density=Comfortable",
+          "properties": {
+            "State": "Hover",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2778:8299",
+          "key": "112572addbac2e7be821a4d8afc3e095ecc78609",
+          "name": "State=Dragging, Density=Comfortable",
+          "properties": {
+            "State": "Dragging",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2778:8303",
+          "key": "427e0e6c24cdda83e3671de05d46e4c766519b4a",
+          "name": "State=Disabled, Density=Comfortable",
+          "properties": {
+            "State": "Disabled",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2781:9164",
+          "key": "eae9b7ab521742c58360ff86f16eca0c942f46f5",
+          "name": "State=Active, Density=Comfortable",
+          "properties": {
+            "State": "Active",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28726",
+          "key": "83504cc625cce88bc00804d835e98d2fbec07875",
+          "name": "State=Default, Density=Compact",
+          "properties": {
+            "State": "Default",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 40,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28728",
+          "key": "f62a60d8d8bbb401876f61dcb44219a70261b7fd",
+          "name": "State=Hover, Density=Compact",
+          "properties": {
+            "State": "Hover",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 40,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28730",
+          "key": "f6e29f329adb3cd591a755c509f7b67120d69ea5",
+          "name": "State=Dragging, Density=Compact",
+          "properties": {
+            "State": "Dragging",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 40,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28732",
+          "key": "c8c916db1adfdada5fd0555de71b516b14d5e416",
+          "name": "State=Disabled, Density=Compact",
+          "properties": {
+            "State": "Disabled",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 40,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28734",
+          "key": "fce05f39ffdfd6641d0db2b0434445ea779e606f",
+          "name": "State=Active, Density=Compact",
+          "properties": {
+            "State": "Active",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 40,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        }
+      ]
+    },
+    {
+      "id": "2760:8131",
+      "key": "19ca2b1be9ccd8da0ff2e41b7803f601cc956808",
+      "name": "Summary Cell",
+      "description": "Итоговая строка таблицы. Type=Empty сохраняет выравнивание служебных и неагрегируемых колонок; Label показывает подпись; Value — сумму. Плотность управляется режимом Component / Table, а не вариантами.",
+      "width": 800,
+      "height": 160,
+      "propertyDefinitions": {
+        "Value#2760:0": {
+          "type": "TEXT",
+          "defaultValue": "Значение"
+        },
+        "Type": {
+          "type": "VARIANT",
+          "defaultValue": "Empty",
+          "variantOptions": [
+            "Empty",
+            "Label",
+            "Value"
+          ]
+        },
+        "Density": {
+          "type": "VARIANT",
+          "defaultValue": "Comfortable",
+          "variantOptions": [
+            "Comfortable",
+            "Compact"
+          ]
+        }
+      },
+      "variantCount": 6,
+      "variants": [
+        {
+          "id": "2760:8124",
+          "key": "27c553648f6777a83187de68041eaaa99d3e6a91",
+          "name": "Type=Empty, Density=Comfortable",
+          "properties": {
+            "Type": "Empty",
+            "Density": "Comfortable"
+          },
+          "width": 240,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 8,
+          "padding": [
+            0,
+            16,
+            0,
+            16
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2760:8126",
+          "key": "6dc00d4846a6f6c34f755d38105b17b0d3c90f1c",
+          "name": "Type=Label, Density=Comfortable",
+          "properties": {
+            "Type": "Label",
+            "Density": "Comfortable"
+          },
+          "width": 240,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 8,
+          "padding": [
+            0,
+            16,
+            0,
+            16
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2760:8128",
+          "key": "4b3cecb5c312f04151cd9c8242eeb6290527586a",
+          "name": "Type=Value, Density=Comfortable",
+          "properties": {
+            "Type": "Value",
+            "Density": "Comfortable"
+          },
+          "width": 240,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 8,
+          "padding": [
+            0,
+            16,
+            0,
+            16
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28746",
+          "key": "c218bf10a54c28516b67be127127c04c80404998",
+          "name": "Type=Empty, Density=Compact",
+          "properties": {
+            "Type": "Empty",
+            "Density": "Compact"
+          },
+          "width": 240,
+          "height": 40,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 8,
+          "padding": [
+            0,
+            16,
+            0,
+            16
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28748",
+          "key": "910aba2c0417910391904bc5632e37a1fb4744b1",
+          "name": "Type=Label, Density=Compact",
+          "properties": {
+            "Type": "Label",
+            "Density": "Compact"
+          },
+          "width": 240,
+          "height": 40,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 8,
+          "padding": [
+            0,
+            16,
+            0,
+            16
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28750",
+          "key": "0e08c276c838037f2528138a8cdacf7c54206e0d",
+          "name": "Type=Value, Density=Compact",
+          "properties": {
+            "Type": "Value",
+            "Density": "Compact"
+          },
+          "width": 240,
+          "height": 40,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 8,
+          "padding": [
+            0,
+            16,
+            0,
+            16
+          ],
+          "clipsContent": false
+        }
+      ]
+    }
+  ],
+  "standalone": [
+    {
+      "id": "2371:29513",
+      "key": "c609d7586038012764b937ba7cb814ea8f6d938f",
+      "name": "File Content",
+      "description": "Внутренний source File-ячейки: нейтральная иконка файла и однострочное имя с расширением. Имя редактируется через nested property.",
+      "width": 208,
+      "height": 32,
+      "propertyDefinitions": {
+        "File Icon Choice#2300:0": {
+          "type": "INSTANCE_SWAP",
+          "defaultValue": "700:165",
+          "preferredValues": [
+            {
+              "type": "COMPONENT",
+              "key": "d41512de861cb0ac57e9c8bb84d14f9c379577ba"
+            },
+            {
+              "type": "COMPONENT",
+              "key": "331c04258a851f355a10168400b6724e816ad673"
+            },
+            {
+              "type": "COMPONENT",
+              "key": "35be05e4126acb90e4d7b30313663c6151db44a3"
+            },
+            {
+              "type": "COMPONENT",
+              "key": "2dedc07b0111ba409454db8af2e3c70403a500b5"
+            },
+            {
+              "type": "COMPONENT",
+              "key": "1273bd54c95fdd18ba24634276cddfb679737d96"
+            },
+            {
+              "type": "COMPONENT",
+              "key": "ad243fa91976548a874df1113a30e30e50d4375e"
+            },
+            {
+              "type": "COMPONENT",
+              "key": "0c53b46650190812f3651b39de50a74b47336a15"
+            },
+            {
+              "type": "COMPONENT",
+              "key": "b88e10bd39b2db5d66e6485db895c146ced938b9"
+            },
+            {
+              "type": "COMPONENT",
+              "key": "1de73e1e9409f2a28ad1a85d9c139ce74584db74"
+            }
+          ]
+        },
+        "File name#2551:0": {
+          "type": "TEXT",
+          "defaultValue": "Спецификация.pdf"
+        },
+        "File size#2564:0": {
+          "type": "TEXT",
+          "defaultValue": "130 КБ"
+        }
+      },
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2778:8288",
+      "key": "ceebef025061b7d9c32a97eb79324b9d43d32b19",
+      "name": "Drag Handle Icon",
+      "description": "Two-line row reorder handle. Stroke is bound to the global 1.4 px icon token.",
+      "width": 24,
+      "height": 24,
+      "propertyDefinitions": {},
+      "layoutMode": "NONE",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 0,
+      "padding": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "clipsContent": false
+    }
+  ]
+}
+

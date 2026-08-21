@@ -1,0 +1,1004 @@
+{
+  "set": {
+    "id": "2353:9506",
+    "key": "702f5213d4c9cadb9a415eb09cafdaef4878788c",
+    "name": "Read Cell",
+    "description": "Ячейки таблицы в режиме Read. Для Type=Text свойства R Icon и Icon Choice добавляют опциональную иконку у правого inset; текст занимает доступную ширину и не сдвигает иконку.\n\nSizing and overflow: values are one line with ending ellipsis. Minimums are Base 96 px, Badge 112 px, Composite 144 px via Component / Table tokens. Nested Badge content keeps its own component behavior.",
+    "width": 1600,
+    "height": 1192,
+    "propertyDefinitions": {
+      "Label#1956:0": {
+        "type": "TEXT",
+        "defaultValue": "Значение"
+      },
+      "R Icon#2336:0": {
+        "type": "BOOLEAN",
+        "defaultValue": false
+      },
+      "Icon Choice#2336:41": {
+        "type": "INSTANCE_SWAP",
+        "defaultValue": "700:14528",
+        "preferredValues": []
+      },
+      "File name#3086:171": {
+        "type": "TEXT",
+        "defaultValue": "Спецификация.pdf"
+      },
+      "File size#3086:252": {
+        "type": "TEXT",
+        "defaultValue": "130 КБ"
+      },
+      "File icon#3086:333": {
+        "type": "INSTANCE_SWAP",
+        "defaultValue": "700:165",
+        "preferredValues": []
+      },
+      "Badge content#3091:82": {
+        "type": "SLOT",
+        "description": null,
+        "preferredValues": []
+      },
+      "Type": {
+        "type": "VARIANT",
+        "defaultValue": "Text",
+        "variantOptions": [
+          "Text",
+          "Number",
+          "Link",
+          "Badge",
+          "Text + Badge",
+          "Number + Badge",
+          "Badge + Text",
+          "File"
+        ]
+      },
+      "State": {
+        "type": "VARIANT",
+        "defaultValue": "Default",
+        "variantOptions": [
+          "Default",
+          "Hover",
+          "Active",
+          "Selected",
+          "Disabled"
+        ]
+      },
+      "Density": {
+        "type": "VARIANT",
+        "defaultValue": "Comfortable",
+        "variantOptions": [
+          "Comfortable",
+          "Compact"
+        ]
+      }
+    },
+    "variantCount": 80
+  },
+  "batch": {
+    "start": 0,
+    "end": 40
+  },
+  "variants": [
+    {
+      "id": "2353:9507",
+      "key": "82afa5fa2ec3d75b61328a1f0833433a0083f218",
+      "name": "Type=Text, State=Default, Density=Comfortable",
+      "properties": {
+        "Type": "Text",
+        "State": "Default",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9510",
+      "key": "8d25aec33a180cda747439bc6e068344d72415ea",
+      "name": "Type=Text, State=Hover, Density=Comfortable",
+      "properties": {
+        "Type": "Text",
+        "State": "Hover",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9513",
+      "key": "e9b6ecffb29395523408b6fffb4ebdfc341e09aa",
+      "name": "Type=Text, State=Active, Density=Comfortable",
+      "properties": {
+        "Type": "Text",
+        "State": "Active",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9516",
+      "key": "a6ab4c04d5bc7248ba41e66ab9ef1672050f0fc3",
+      "name": "Type=Text, State=Selected, Density=Comfortable",
+      "properties": {
+        "Type": "Text",
+        "State": "Selected",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9519",
+      "key": "c56d233c20d10cd9ca4e14ce5d318141e36e5f08",
+      "name": "Type=Text, State=Disabled, Density=Comfortable",
+      "properties": {
+        "Type": "Text",
+        "State": "Disabled",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9522",
+      "key": "d5c594d8250e503258a2b9c783cf3c913e42d932",
+      "name": "Type=Number, State=Default, Density=Comfortable",
+      "properties": {
+        "Type": "Number",
+        "State": "Default",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9524",
+      "key": "a8c1a51a66ba6dc4bbf6e956f649374aa1179e51",
+      "name": "Type=Number, State=Hover, Density=Comfortable",
+      "properties": {
+        "Type": "Number",
+        "State": "Hover",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9526",
+      "key": "e97a2592a1bb5810fd4159aee1d60c45aa5a5dc2",
+      "name": "Type=Number, State=Active, Density=Comfortable",
+      "properties": {
+        "Type": "Number",
+        "State": "Active",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9528",
+      "key": "baba5c744a1bf70b8e76a2d4b3141c5ee020c013",
+      "name": "Type=Number, State=Selected, Density=Comfortable",
+      "properties": {
+        "Type": "Number",
+        "State": "Selected",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9530",
+      "key": "afe5f522e1c1c4bebdd6b585bdf9e340ab702cf2",
+      "name": "Type=Number, State=Disabled, Density=Comfortable",
+      "properties": {
+        "Type": "Number",
+        "State": "Disabled",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9532",
+      "key": "3df60c0eb977596b430b5823b33541efdbe1233a",
+      "name": "Type=Link, State=Default, Density=Comfortable",
+      "properties": {
+        "Type": "Link",
+        "State": "Default",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9534",
+      "key": "562a7a70cac146102babbcc1841d71e160e7ad41",
+      "name": "Type=Link, State=Hover, Density=Comfortable",
+      "properties": {
+        "Type": "Link",
+        "State": "Hover",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9536",
+      "key": "4c087fefd16bbf9d44e5f8d5964ed25eb5f41424",
+      "name": "Type=Link, State=Active, Density=Comfortable",
+      "properties": {
+        "Type": "Link",
+        "State": "Active",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9538",
+      "key": "5c7ee3f4312f354e9314f7bd96553a969d2dabd5",
+      "name": "Type=Link, State=Selected, Density=Comfortable",
+      "properties": {
+        "Type": "Link",
+        "State": "Selected",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9540",
+      "key": "39f1d98b407d20c972fc2fa2967c2385e0085a48",
+      "name": "Type=Link, State=Disabled, Density=Comfortable",
+      "properties": {
+        "Type": "Link",
+        "State": "Disabled",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9542",
+      "key": "d508e6966ec190bfa35d015066ac6c7904c7c735",
+      "name": "Type=Badge, State=Default, Density=Comfortable",
+      "properties": {
+        "Type": "Badge",
+        "State": "Default",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9544",
+      "key": "20100eac92dfaef6b56efb74b612270afbdd171c",
+      "name": "Type=Badge, State=Hover, Density=Comfortable",
+      "properties": {
+        "Type": "Badge",
+        "State": "Hover",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9546",
+      "key": "24d4549afaae2ce922a54dfb9f6b13753c21a4a2",
+      "name": "Type=Badge, State=Active, Density=Comfortable",
+      "properties": {
+        "Type": "Badge",
+        "State": "Active",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9548",
+      "key": "d5f35c3bed2e50d8e71bcca115f92182be851b92",
+      "name": "Type=Badge, State=Selected, Density=Comfortable",
+      "properties": {
+        "Type": "Badge",
+        "State": "Selected",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9550",
+      "key": "2acadcd31ab8117464b16ea8dcfa5c8475d10b0a",
+      "name": "Type=Badge, State=Disabled, Density=Comfortable",
+      "properties": {
+        "Type": "Badge",
+        "State": "Disabled",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9552",
+      "key": "a116462dfd79dd925153a3fca1420aab09a6498f",
+      "name": "Type=Text + Badge, State=Default, Density=Comfortable",
+      "properties": {
+        "Type": "Text + Badge",
+        "State": "Default",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9555",
+      "key": "76bfaf5bc47cfcb65e056ba07c476d32ac8af5a3",
+      "name": "Type=Text + Badge, State=Hover, Density=Comfortable",
+      "properties": {
+        "Type": "Text + Badge",
+        "State": "Hover",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9558",
+      "key": "5cce93ed404cc0c1e186d19425147eac3e2bf260",
+      "name": "Type=Text + Badge, State=Active, Density=Comfortable",
+      "properties": {
+        "Type": "Text + Badge",
+        "State": "Active",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9561",
+      "key": "9636891d700765becc56d5152b3aa988d7362138",
+      "name": "Type=Text + Badge, State=Selected, Density=Comfortable",
+      "properties": {
+        "Type": "Text + Badge",
+        "State": "Selected",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9564",
+      "key": "71a8884cf8fb88f880e19eba0d65dd20507027d9",
+      "name": "Type=Text + Badge, State=Disabled, Density=Comfortable",
+      "properties": {
+        "Type": "Text + Badge",
+        "State": "Disabled",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9567",
+      "key": "b52ec8c702ac9127a158a1f8f053fec0ce32f638",
+      "name": "Type=Badge + Text, State=Default, Density=Comfortable",
+      "properties": {
+        "Type": "Badge + Text",
+        "State": "Default",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9570",
+      "key": "0b47f6b3a90c4216d3d58aeaab0bd63b89edc106",
+      "name": "Type=Badge + Text, State=Hover, Density=Comfortable",
+      "properties": {
+        "Type": "Badge + Text",
+        "State": "Hover",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9573",
+      "key": "b29b67d4d3509ffd63786b9cd57b549949f96386",
+      "name": "Type=Badge + Text, State=Active, Density=Comfortable",
+      "properties": {
+        "Type": "Badge + Text",
+        "State": "Active",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9576",
+      "key": "5ea9dab6fdb2c5847e4ecb902bfd374aa32c8212",
+      "name": "Type=Badge + Text, State=Selected, Density=Comfortable",
+      "properties": {
+        "Type": "Badge + Text",
+        "State": "Selected",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9579",
+      "key": "6d810e428c0663f728a062ff7dad16c8ae20906d",
+      "name": "Type=Badge + Text, State=Disabled, Density=Comfortable",
+      "properties": {
+        "Type": "Badge + Text",
+        "State": "Disabled",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9582",
+      "key": "aef578c3055b720c8afd75c43a4f5ea4b0009e03",
+      "name": "Type=Number + Badge, State=Default, Density=Comfortable",
+      "properties": {
+        "Type": "Number + Badge",
+        "State": "Default",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9585",
+      "key": "f9136db8567a500e8414c3f91f5d811436db62f5",
+      "name": "Type=Number + Badge, State=Hover, Density=Comfortable",
+      "properties": {
+        "Type": "Number + Badge",
+        "State": "Hover",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9588",
+      "key": "d7275e3e0f57d7200f79e4d8d02c609d2718475f",
+      "name": "Type=Number + Badge, State=Active, Density=Comfortable",
+      "properties": {
+        "Type": "Number + Badge",
+        "State": "Active",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9591",
+      "key": "d7b0a0a19966e3a8c7a48457cf44be72388bde17",
+      "name": "Type=Number + Badge, State=Selected, Density=Comfortable",
+      "properties": {
+        "Type": "Number + Badge",
+        "State": "Selected",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9594",
+      "key": "1ced3986e13e0d70165faca33627d2bc5b6c63df",
+      "name": "Type=Number + Badge, State=Disabled, Density=Comfortable",
+      "properties": {
+        "Type": "Number + Badge",
+        "State": "Disabled",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9597",
+      "key": "1352c707394bc3f9bad5886f0f8956b46a6bc018",
+      "name": "Type=File, State=Default, Density=Comfortable",
+      "properties": {
+        "Type": "File",
+        "State": "Default",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9599",
+      "key": "5216d464e550e46cad90e6202fbdd752b8189674",
+      "name": "Type=File, State=Hover, Density=Comfortable",
+      "properties": {
+        "Type": "File",
+        "State": "Hover",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9601",
+      "key": "2ef2c4c65d9c252bdc3989993c14f13668673179",
+      "name": "Type=File, State=Active, Density=Comfortable",
+      "properties": {
+        "Type": "File",
+        "State": "Active",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9603",
+      "key": "8f8d00818e0502126da6116e9fa5c01a37ba3a24",
+      "name": "Type=File, State=Selected, Density=Comfortable",
+      "properties": {
+        "Type": "File",
+        "State": "Selected",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2353:9605",
+      "key": "03fb16f04ab3ea70a1f0089784fb1254508d5ff8",
+      "name": "Type=File, State=Disabled, Density=Comfortable",
+      "properties": {
+        "Type": "File",
+        "State": "Disabled",
+        "Density": "Comfortable"
+      },
+      "width": 240,
+      "height": 48,
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 8,
+      "padding": [
+        0,
+        16,
+        0,
+        16
+      ],
+      "clipsContent": false
+    }
+  ]
+}
+

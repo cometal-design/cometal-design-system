@@ -1,0 +1,914 @@
+{
+  "sets": [
+    {
+      "id": "2804:9393",
+      "key": "ae0499886504f2aed8c00f8c6d76172f159146cf",
+      "name": "Index Column",
+      "description": "Служебная колонка нумерации. Публичный main-компонент для сборки таблицы; Rows управляет количеством строк, Density — плотностью.",
+      "width": 2240,
+      "height": 1488,
+      "propertyDefinitions": {
+        "Filter row#2804:0": {
+          "type": "BOOLEAN",
+          "defaultValue": false
+        },
+        "Summary row#2804:1": {
+          "type": "BOOLEAN",
+          "defaultValue": false
+        },
+        "Rows": {
+          "type": "VARIANT",
+          "defaultValue": "10",
+          "variantOptions": [
+            "10",
+            "15",
+            "20",
+            "30"
+          ]
+        },
+        "Density": {
+          "type": "VARIANT",
+          "defaultValue": "Comfortable",
+          "variantOptions": [
+            "Comfortable",
+            "Compact"
+          ]
+        }
+      },
+      "variantCount": 8,
+      "variants": [
+        {
+          "id": "2353:9997",
+          "key": "3fb8cdf3c9e0365870b5b55f5da333a72ac3b28e",
+          "name": "Rows=10, Density=Comfortable",
+          "properties": {
+            "Rows": "10",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 528,
+          "layoutMode": "VERTICAL",
+          "hSizing": "FIXED",
+          "vSizing": "HUG",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false,
+          "directChildCount": 13,
+          "firstChild": {
+            "name": "Header",
+            "width": 48,
+            "height": 48
+          },
+          "lastChild": {
+            "name": "Summary Row",
+            "width": 48,
+            "height": 48
+          }
+        },
+        {
+          "id": "2353:10009",
+          "key": "4ff34f40e4e227fb8df1266acce20bdb3cf18f00",
+          "name": "Rows=15, Density=Comfortable",
+          "properties": {
+            "Rows": "15",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 768,
+          "layoutMode": "VERTICAL",
+          "hSizing": "FIXED",
+          "vSizing": "HUG",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false,
+          "directChildCount": 18,
+          "firstChild": {
+            "name": "Header",
+            "width": 48,
+            "height": 48
+          },
+          "lastChild": {
+            "name": "Summary Row",
+            "width": 48,
+            "height": 48
+          }
+        },
+        {
+          "id": "2353:10026",
+          "key": "bf3273e08ef45439651f29b88fff34fe8a68205a",
+          "name": "Rows=20, Density=Comfortable",
+          "properties": {
+            "Rows": "20",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 1008,
+          "layoutMode": "VERTICAL",
+          "hSizing": "FIXED",
+          "vSizing": "HUG",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false,
+          "directChildCount": 23,
+          "firstChild": {
+            "name": "Header",
+            "width": 48,
+            "height": 48
+          },
+          "lastChild": {
+            "name": "Summary Row",
+            "width": 48,
+            "height": 48
+          }
+        },
+        {
+          "id": "2353:10048",
+          "key": "5f764a59f2a662249036e8b26f7686a46b2276cf",
+          "name": "Rows=30, Density=Comfortable",
+          "properties": {
+            "Rows": "30",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 1488,
+          "layoutMode": "VERTICAL",
+          "hSizing": "FIXED",
+          "vSizing": "HUG",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false,
+          "directChildCount": 33,
+          "firstChild": {
+            "name": "Header",
+            "width": 48,
+            "height": 48
+          },
+          "lastChild": {
+            "name": "Summary Row",
+            "width": 48,
+            "height": 48
+          }
+        },
+        {
+          "id": "2353:10584",
+          "key": "8b9a42d8ff20692d9600d7f774e14d624ad2113a",
+          "name": "Rows=10, Density=Compact",
+          "properties": {
+            "Rows": "10",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 448,
+          "layoutMode": "VERTICAL",
+          "hSizing": "FIXED",
+          "vSizing": "HUG",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false,
+          "directChildCount": 13,
+          "firstChild": {
+            "name": "Header",
+            "width": 40,
+            "height": 48
+          },
+          "lastChild": {
+            "name": "Summary Row",
+            "width": 40,
+            "height": 40
+          }
+        },
+        {
+          "id": "2353:10596",
+          "key": "073ae7fa5ceac8e2746665f70e6cc1f27027abe6",
+          "name": "Rows=15, Density=Compact",
+          "properties": {
+            "Rows": "15",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 648,
+          "layoutMode": "VERTICAL",
+          "hSizing": "FIXED",
+          "vSizing": "HUG",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false,
+          "directChildCount": 18,
+          "firstChild": {
+            "name": "Header",
+            "width": 40,
+            "height": 48
+          },
+          "lastChild": {
+            "name": "Summary Row",
+            "width": 40,
+            "height": 40
+          }
+        },
+        {
+          "id": "2353:10613",
+          "key": "e27aec59bb67fa14b9e6e18069ef370c231fa0db",
+          "name": "Rows=20, Density=Compact",
+          "properties": {
+            "Rows": "20",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 848,
+          "layoutMode": "VERTICAL",
+          "hSizing": "FIXED",
+          "vSizing": "HUG",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false,
+          "directChildCount": 23,
+          "firstChild": {
+            "name": "Header",
+            "width": 40,
+            "height": 48
+          },
+          "lastChild": {
+            "name": "Summary Row",
+            "width": 40,
+            "height": 40
+          }
+        },
+        {
+          "id": "2353:10635",
+          "key": "12cee325b173f854d04acebdc3d4e5fbec8cff66",
+          "name": "Rows=30, Density=Compact",
+          "properties": {
+            "Rows": "30",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 1248,
+          "layoutMode": "VERTICAL",
+          "hSizing": "FIXED",
+          "vSizing": "HUG",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false,
+          "directChildCount": 33,
+          "firstChild": {
+            "name": "Header",
+            "width": 40,
+            "height": 48
+          },
+          "lastChild": {
+            "name": "Summary Row",
+            "width": 40,
+            "height": 40
+          }
+        }
+      ]
+    },
+    {
+      "id": "2804:27877",
+      "key": "44c694ecff082e819138e09bccceab797e7dd068",
+      "name": "Selection Column",
+      "description": "Служебная колонка выбора строк. Публичный main-компонент для сборки таблицы; Rows управляет количеством строк, Density — плотностью.",
+      "width": 2240,
+      "height": 1488,
+      "propertyDefinitions": {
+        "Filter row#2804:2": {
+          "type": "BOOLEAN",
+          "defaultValue": false
+        },
+        "Summary row#2804:3": {
+          "type": "BOOLEAN",
+          "defaultValue": false
+        },
+        "Rows": {
+          "type": "VARIANT",
+          "defaultValue": "10",
+          "variantOptions": [
+            "10",
+            "15",
+            "20",
+            "30"
+          ]
+        },
+        "Density": {
+          "type": "VARIANT",
+          "defaultValue": "Comfortable",
+          "variantOptions": [
+            "Comfortable",
+            "Compact"
+          ]
+        }
+      },
+      "variantCount": 8,
+      "variants": [
+        {
+          "id": "2353:10163",
+          "key": "32df479c1f5042ba5eb7736c2580e504e797894a",
+          "name": "Rows=10, Density=Comfortable",
+          "properties": {
+            "Rows": "10",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 528,
+          "layoutMode": "VERTICAL",
+          "hSizing": "FIXED",
+          "vSizing": "HUG",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false,
+          "directChildCount": 13,
+          "firstChild": {
+            "name": "Header",
+            "width": 48,
+            "height": 48
+          },
+          "lastChild": {
+            "name": "Summary Row",
+            "width": 48,
+            "height": 48
+          }
+        },
+        {
+          "id": "2353:10175",
+          "key": "932a185837cdb71fcc1fc951b1de922c49d9c2ea",
+          "name": "Rows=15, Density=Comfortable",
+          "properties": {
+            "Rows": "15",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 768,
+          "layoutMode": "VERTICAL",
+          "hSizing": "FIXED",
+          "vSizing": "HUG",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false,
+          "directChildCount": 18,
+          "firstChild": {
+            "name": "Header",
+            "width": 48,
+            "height": 48
+          },
+          "lastChild": {
+            "name": "Summary Row",
+            "width": 48,
+            "height": 48
+          }
+        },
+        {
+          "id": "2353:10192",
+          "key": "c72b0521911393412bb02c302c63f61ceaa6a382",
+          "name": "Rows=20, Density=Comfortable",
+          "properties": {
+            "Rows": "20",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 1008,
+          "layoutMode": "VERTICAL",
+          "hSizing": "FIXED",
+          "vSizing": "HUG",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false,
+          "directChildCount": 23,
+          "firstChild": {
+            "name": "Header",
+            "width": 48,
+            "height": 48
+          },
+          "lastChild": {
+            "name": "Summary Row",
+            "width": 48,
+            "height": 48
+          }
+        },
+        {
+          "id": "2353:10214",
+          "key": "4d8a0ec3b3b23f7417efc4a199d60657eea153c4",
+          "name": "Rows=30, Density=Comfortable",
+          "properties": {
+            "Rows": "30",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 1488,
+          "layoutMode": "VERTICAL",
+          "hSizing": "FIXED",
+          "vSizing": "HUG",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false,
+          "directChildCount": 33,
+          "firstChild": {
+            "name": "Header",
+            "width": 48,
+            "height": 48
+          },
+          "lastChild": {
+            "name": "Summary Row",
+            "width": 48,
+            "height": 48
+          }
+        },
+        {
+          "id": "2353:10750",
+          "key": "5a2035c2bd0bf1d03ae7817000b9a055ecb3ba43",
+          "name": "Rows=10, Density=Compact",
+          "properties": {
+            "Rows": "10",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 448,
+          "layoutMode": "VERTICAL",
+          "hSizing": "FIXED",
+          "vSizing": "HUG",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false,
+          "directChildCount": 13,
+          "firstChild": {
+            "name": "Header",
+            "width": 40,
+            "height": 48
+          },
+          "lastChild": {
+            "name": "Summary Row",
+            "width": 40,
+            "height": 40
+          }
+        },
+        {
+          "id": "2353:10762",
+          "key": "da8b4fa5eaf38854fd8f1ae75065a5404b560e38",
+          "name": "Rows=15, Density=Compact",
+          "properties": {
+            "Rows": "15",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 648,
+          "layoutMode": "VERTICAL",
+          "hSizing": "FIXED",
+          "vSizing": "HUG",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false,
+          "directChildCount": 18,
+          "firstChild": {
+            "name": "Header",
+            "width": 40,
+            "height": 48
+          },
+          "lastChild": {
+            "name": "Summary Row",
+            "width": 40,
+            "height": 40
+          }
+        },
+        {
+          "id": "2353:10779",
+          "key": "3580931ed9c5eb962b3c7e9689d2cd3751d33f12",
+          "name": "Rows=20, Density=Compact",
+          "properties": {
+            "Rows": "20",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 848,
+          "layoutMode": "VERTICAL",
+          "hSizing": "FIXED",
+          "vSizing": "HUG",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false,
+          "directChildCount": 23,
+          "firstChild": {
+            "name": "Header",
+            "width": 40,
+            "height": 48
+          },
+          "lastChild": {
+            "name": "Summary Row",
+            "width": 40,
+            "height": 40
+          }
+        },
+        {
+          "id": "2353:10801",
+          "key": "4afb54aa9d3dfb6dc81cf9e6bb409c8c98fe6ad9",
+          "name": "Rows=30, Density=Compact",
+          "properties": {
+            "Rows": "30",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 1248,
+          "layoutMode": "VERTICAL",
+          "hSizing": "FIXED",
+          "vSizing": "HUG",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false,
+          "directChildCount": 33,
+          "firstChild": {
+            "name": "Header",
+            "width": 40,
+            "height": 48
+          },
+          "lastChild": {
+            "name": "Summary Row",
+            "width": 40,
+            "height": 40
+          }
+        }
+      ]
+    },
+    {
+      "id": "2804:27879",
+      "key": "a3263b880f17e79a2a7b5b3bffb22587962d6b4a",
+      "name": "Drag Handle Column",
+      "description": "Служебная колонка перемещения строк. Публичный main-компонент для сборки таблицы; Rows управляет количеством строк, Density — плотностью.",
+      "width": 2240,
+      "height": 1488,
+      "propertyDefinitions": {
+        "Filter row#2804:4": {
+          "type": "BOOLEAN",
+          "defaultValue": false
+        },
+        "Summary row#2804:5": {
+          "type": "BOOLEAN",
+          "defaultValue": false
+        },
+        "Rows": {
+          "type": "VARIANT",
+          "defaultValue": "10",
+          "variantOptions": [
+            "10",
+            "15",
+            "20",
+            "30"
+          ]
+        },
+        "Density": {
+          "type": "VARIANT",
+          "defaultValue": "Comfortable",
+          "variantOptions": [
+            "Comfortable",
+            "Compact"
+          ]
+        }
+      },
+      "variantCount": 8,
+      "variants": [
+        {
+          "id": "2779:8264",
+          "key": "760a2375b855d7380f673cbdd7f49393e8e3c911",
+          "name": "Rows=10, Density=Comfortable",
+          "properties": {
+            "Rows": "10",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 528,
+          "layoutMode": "VERTICAL",
+          "hSizing": "FIXED",
+          "vSizing": "HUG",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false,
+          "directChildCount": 13,
+          "firstChild": {
+            "name": "Header",
+            "width": 48,
+            "height": 48
+          },
+          "lastChild": {
+            "name": "Summary Row",
+            "width": 48,
+            "height": 48
+          }
+        },
+        {
+          "id": "2779:8341",
+          "key": "d0ebd45cba4f2902d8ee46f73e246d1e60256e02",
+          "name": "Rows=15, Density=Comfortable",
+          "properties": {
+            "Rows": "15",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 768,
+          "layoutMode": "VERTICAL",
+          "hSizing": "FIXED",
+          "vSizing": "HUG",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false,
+          "directChildCount": 18,
+          "firstChild": {
+            "name": "Header",
+            "width": 48,
+            "height": 48
+          },
+          "lastChild": {
+            "name": "Summary Row",
+            "width": 48,
+            "height": 48
+          }
+        },
+        {
+          "id": "2779:8453",
+          "key": "d79a9b1b33decb515f80ef58e05e6e010a54a9fa",
+          "name": "Rows=20, Density=Comfortable",
+          "properties": {
+            "Rows": "20",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 1008,
+          "layoutMode": "VERTICAL",
+          "hSizing": "FIXED",
+          "vSizing": "HUG",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false,
+          "directChildCount": 23,
+          "firstChild": {
+            "name": "Header",
+            "width": 48,
+            "height": 48
+          },
+          "lastChild": {
+            "name": "Summary Row",
+            "width": 48,
+            "height": 48
+          }
+        },
+        {
+          "id": "2779:8600",
+          "key": "f0946f2ac6fac2dbdd6178d9f16d4de41132631f",
+          "name": "Rows=30, Density=Comfortable",
+          "properties": {
+            "Rows": "30",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 1488,
+          "layoutMode": "VERTICAL",
+          "hSizing": "FIXED",
+          "vSizing": "HUG",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false,
+          "directChildCount": 33,
+          "firstChild": {
+            "name": "Header",
+            "width": 48,
+            "height": 48
+          },
+          "lastChild": {
+            "name": "Summary Row",
+            "width": 48,
+            "height": 48
+          }
+        },
+        {
+          "id": "2779:9923",
+          "key": "9c69cdb83799a3d3ac421e9707137ca299a50f23",
+          "name": "Rows=10, Density=Compact",
+          "properties": {
+            "Rows": "10",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 448,
+          "layoutMode": "VERTICAL",
+          "hSizing": "FIXED",
+          "vSizing": "HUG",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false,
+          "directChildCount": 13,
+          "firstChild": {
+            "name": "Header",
+            "width": 40,
+            "height": 48
+          },
+          "lastChild": {
+            "name": "Summary Row",
+            "width": 40,
+            "height": 40
+          }
+        },
+        {
+          "id": "2779:10000",
+          "key": "135f1d67ef410564e3c3e470c707f2f675e84ce0",
+          "name": "Rows=15, Density=Compact",
+          "properties": {
+            "Rows": "15",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 648,
+          "layoutMode": "VERTICAL",
+          "hSizing": "FIXED",
+          "vSizing": "HUG",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false,
+          "directChildCount": 18,
+          "firstChild": {
+            "name": "Header",
+            "width": 40,
+            "height": 48
+          },
+          "lastChild": {
+            "name": "Summary Row",
+            "width": 40,
+            "height": 40
+          }
+        },
+        {
+          "id": "2779:10112",
+          "key": "7a0937d3fd869ca9d2944f4bc643cfae47e4b802",
+          "name": "Rows=20, Density=Compact",
+          "properties": {
+            "Rows": "20",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 848,
+          "layoutMode": "VERTICAL",
+          "hSizing": "FIXED",
+          "vSizing": "HUG",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false,
+          "directChildCount": 23,
+          "firstChild": {
+            "name": "Header",
+            "width": 40,
+            "height": 48
+          },
+          "lastChild": {
+            "name": "Summary Row",
+            "width": 40,
+            "height": 40
+          }
+        },
+        {
+          "id": "2779:10259",
+          "key": "3f7f0c26e76fd3048fd381cfe3ef21890473ddd9",
+          "name": "Rows=30, Density=Compact",
+          "properties": {
+            "Rows": "30",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 1248,
+          "layoutMode": "VERTICAL",
+          "hSizing": "FIXED",
+          "vSizing": "HUG",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false,
+          "directChildCount": 33,
+          "firstChild": {
+            "name": "Header",
+            "width": 40,
+            "height": 48
+          },
+          "lastChild": {
+            "name": "Summary Row",
+            "width": 40,
+            "height": 40
+          }
+        }
+      ]
+    }
+  ]
+}
+

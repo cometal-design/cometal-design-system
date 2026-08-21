@@ -1,25 +1,31 @@
 # Table
 
-`data-display.table` — составной data-display паттерн для больших бизнес-наборов данных.
+`data-display.table` — большое семейство компонентов для больших бизнес-наборов данных.
 
 ## Источники
 
-- Figma: [Table Review `2353:10833`](https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-10833)
+- Figma Sources: [Table / Sources `2814:8351`](https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2814-8351)
+- Cells: [Table / Source / Cells `2353:9497`](https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-9497)
+- Headers: [Table / Source / Header `2353:10891`](https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-10891)
+- Columns: [Table / Source / Main Components `2353:9824`](https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-9824)
+- Paginator: [Table / Source / Paginator `2353:10882`](https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-10882)
 - Спецификация: [[../../specifications/components/table]]
 - React: `packages/react/src/Table/Table.tsx`
-- Storybook: https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/patterns-table--overview
+- Storybook: https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-table--overview
 - Реестр: `data-display.table`, статус `in-review`
 
 ## Контракт
 
-- Нативная table-семантика с независимыми Header Cell, Row, Cell и File Cell.
+- Нативная table-семантика с независимыми Cells, Headers, Columns и Paginator.
+- Первый header row содержит названия колонок; второй отдельный Filter Row содержит поля и контролы фильтрации.
 - Comfortable 48px и Compact 40px; Header всегда 48px.
 - Плотность не должна сбрасывать значения, badge settings или file metadata.
 - Строка может быть selected; отдельная ячейка может быть active, selected/editing, error или disabled.
 - File metadata используют IBM Plex Mono через `Technical/S/Default` и скрываются только визуально в Compact.
 - Все outline icons используют глобальный `Stroke/140 = 1.4px`.
 - Усечённый контент переиспользует `Tooltip`; header actions переиспользуют `ContextMenu`; периодный фильтр строится на `DateRangePicker`.
-- Summary row, paginator и reorder handle собираются композиционно вокруг таблицы и не экспортируют Figma row counts как props.
+- 16 source families и все их утверждённые states/densities документируются внутри одной Table family, а не разбрасываются по верхнему каталогу.
+- Summary row, paginator и reorder handle собираются композиционно и не экспортируют Figma row counts как props.
 
 ## Ownership
 

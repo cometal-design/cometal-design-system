@@ -11,10 +11,12 @@
 - [[Radio Button]] — `selection.radio-button`, взаимоисключающий выбор внутри группы, статус `in-review`.
 - [[Select]] — `input.select`, одиночный выбор из listbox, статус `in-review`.
 - [[Switch]] — `selection.switch`, мгновенное включение настройки, статус `in-review`.
-- [[Table]] — `data-display.table`, составной data-display паттерн с Comfortable/Compact плотностью, статус `in-review`.
+- [[Table]] — `data-display.table`, семейство Cells, Headers, Columns и Paginator с Comfortable/Compact плотностью, статус `in-review`.
 - [[Text Area]] — `input.text-area`, многострочный ввод текста, статус `in-review`.
 - [[Text Field]] — `input.text-field`, однострочный ввод значения, статус `in-review`.
 - [[Tooltip]] — `overlay.tooltip`, bounded overlay для коротких пояснений, статус `in-review`.
+- [[Widget]] — `template.widget`, generic title/toolbar/content shell в слое Components; ID сохранён для совместимости, статус `in-review`.
+- [[Context Menu]] — `overlay.context-menu`, самостоятельный overlay component; статус `in-review`.
 
 ## Заблокированные направления
 

@@ -1,0 +1,350 @@
+{
+  "schemaVersion": 1,
+  "capturedAt": "2026-08-21",
+  "captureMode": "live-read-only",
+  "approval": {
+    "approvedForDevelopment": true,
+    "approvedBy": "Vadim",
+    "replacementRequired": true,
+    "replacementNote": "Remove the rejected legacy Widget-specific implementation and rebuild from this package without deleting shared dependencies."
+  },
+  "figma": {
+    "fileKey": "KKNGucImxFAtQLBhPy8tLs",
+    "pageId": "2702:2",
+    "pageName": "Widgets"
+  },
+  "counts": {
+    "canonicalArtboards": 2,
+    "evidenceFrames": 2,
+    "componentSets": 0,
+    "standaloneComponents": 4,
+    "variants": 0,
+    "widgetExposedProperties": 6,
+    "toolbarExposedProperties": 4,
+    "directlyObservedVariableBindings": 22,
+    "exactWidgetToolbarIcons": 4
+  },
+  "canonicalArtboards": [
+    {
+      "id": "2702:2190",
+      "name": "Widget / Source",
+      "width": 2400,
+      "height": 2508,
+      "role": "Canonical sources"
+    },
+    {
+      "id": "2702:2238",
+      "name": "Widget / Main Component",
+      "width": 2400,
+      "height": 1104,
+      "role": "Canonical main component"
+    }
+  ],
+  "evidenceFrames": [
+    {
+      "id": "2702:2265",
+      "name": "Widget / Review / Table",
+      "width": 2400,
+      "height": 1960,
+      "role": "Desktop Widget with Table payload"
+    },
+    {
+      "id": "3116:25403",
+      "name": "Widget / Table / Filters On",
+      "width": 2240,
+      "height": 1168,
+      "role": "Compact working evidence"
+    }
+  ],
+  "components": [
+    {
+      "id": "2702:3",
+      "key": "ab7a14d67ca9cc1442a84e8e605139cf82402934",
+      "name": "Widget/Source/Toolbar/Actions",
+      "description": "Configurable Widget functional panel with three Secondary actions and one Primary action. Boolean visibility and Button instance content are exposed.",
+      "layout": {
+        "width": 313,
+        "height": 40,
+        "direction": "HORIZONTAL",
+        "primarySizing": "HUG",
+        "counterSizing": "HUG",
+        "align": "CENTER",
+        "gap": 8,
+        "padding": [0, 0, 0, 0]
+      },
+      "componentProperties": [
+        { "name": "Show Secondary 01", "internalName": "Show Secondary 01#2722:0", "type": "BOOLEAN", "defaultValue": true },
+        { "name": "Show Secondary 02", "internalName": "Show Secondary 02#2722:1", "type": "BOOLEAN", "defaultValue": true },
+        { "name": "Show Secondary 03", "internalName": "Show Secondary 03#2722:2", "type": "BOOLEAN", "defaultValue": true },
+        { "name": "Show Primary", "internalName": "Show Primary#2722:3", "type": "BOOLEAN", "defaultValue": true }
+      ],
+      "nestedButtons": [
+        {
+          "role": "Secondary 01",
+          "sourceId": "854:547",
+          "size": "M",
+          "variant": "Secondary",
+          "composition": "Icon only",
+          "label": "Filters",
+          "icon": { "id": "700:14705", "name": "Outline/general/filter" }
+        },
+        {
+          "role": "Secondary 02",
+          "sourceId": "854:547",
+          "size": "M",
+          "variant": "Secondary",
+          "composition": "Icon only",
+          "label": "Refresh",
+          "icon": { "id": "700:14276", "name": "Outline/arrows/arrow-refresh-01" }
+        },
+        {
+          "role": "Secondary 03",
+          "sourceId": "854:547",
+          "size": "M",
+          "variant": "Secondary",
+          "composition": "Icon only",
+          "label": "Export",
+          "icon": { "id": "700:14813", "name": "Outline/general/download-01" }
+        },
+        {
+          "role": "Primary",
+          "sourceId": "808:4201",
+          "contentSourceId": "1479:2964",
+          "size": "M",
+          "variant": "Primary",
+          "composition": "Text + left icon",
+          "label": "Добавить запись",
+          "icon": { "id": "700:14531", "name": "Outline/general/plus-01" }
+        }
+      ],
+      "prototypeReactions": []
+    },
+    {
+      "id": "2702:21",
+      "key": "943b63beadd6ab3bdd35a3a5aaf752ce978349c9",
+      "name": "Widget/Source/Content Slot",
+      "description": "Replaceable Widget content slot. Any approved content component can replace the placeholder instance.",
+      "layout": {
+        "width": 2192,
+        "height": 320,
+        "direction": "HORIZONTAL",
+        "primarySizing": "FIXED",
+        "counterSizing": "HUG",
+        "align": "CENTER",
+        "cornerRadius": 8,
+        "strokeWidth": 1,
+        "strokeAlignment": "INSIDE",
+        "clipsContent": false
+      },
+      "componentProperties": [],
+      "placeholder": {
+        "textNodeId": "2702:22",
+        "value": "Content slot",
+        "fontFamily": "Grtsk Peta",
+        "fontStyle": "Regular",
+        "fontSize": 14,
+        "lineHeight": 20,
+        "textStyleKey": "S:e032ec0594ad72e3c644dba305b5bbf7a09f1535,"
+      },
+      "bindings": {
+        "cornerRadius": "VariableID:3003:376",
+        "fill": "VariableID:3004:71",
+        "stroke": "VariableID:3004:95",
+        "text": "VariableID:3004:78"
+      },
+      "prototypeReactions": []
+    },
+    {
+      "id": "2702:23",
+      "key": "043672338941d2ab19440c87d75b13a6d940b7b9",
+      "name": "Widget/Source/Content/Table",
+      "description": "Approved Table payload for Widget. The Table surface and paginator fill width; Name is the elastic example column; the outer rounded perimeter belongs to the Table surface.",
+      "layout": {
+        "width": 2192,
+        "height": 1176,
+        "direction": "VERTICAL",
+        "primarySizing": "FIXED",
+        "counterSizing": "HUG",
+        "gap": 32,
+        "cornerRadius": 8,
+        "clipsContent": false
+      },
+      "componentProperties": [],
+      "bindings": {
+        "gap": "VariableID:3003:372",
+        "cornerRadius": "VariableID:3003:376",
+        "fill": "VariableID:3004:73"
+      },
+      "tableSurface": {
+        "id": "2707:3934",
+        "width": 2192,
+        "height": 1104,
+        "direction": "HORIZONTAL",
+        "widthSizing": "FILL",
+        "heightSizing": "HUG",
+        "cornerRadius": 8,
+        "strokeWidth": 1,
+        "strokeAlignment": "INSIDE",
+        "clipsContent": true,
+        "fillBinding": "VariableID:3004:73",
+        "strokeBinding": "VariableID:3004:95"
+      },
+      "tableContentId": "2702:24",
+      "tableContract": {
+        "rows": 20,
+        "density": "Comfortable",
+        "filterRow": true,
+        "summaryRow": true,
+        "canonicalDependency": "../2026-08-21-table/"
+      },
+      "columns": [
+        { "id": "2702:25", "name": "Drag Handle", "sourceVariantId": "2779:8453", "width": 48, "sizing": "FIXED" },
+        { "id": "2796:29373", "name": "Index", "sourceVariantId": "2353:10026", "width": 48, "sizing": "FIXED" },
+        { "id": "2702:26", "name": "Selection", "sourceVariantId": "2353:10192", "width": 48, "sizing": "FIXED" },
+        { "id": "2702:27", "name": "Position", "sourceVariantId": "2353:9860", "width": 120, "sizing": "FIXED" },
+        { "id": "2702:28", "name": "Name", "sourceVariantId": "2353:9860", "designWidth": 144, "sizing": "FILL" },
+        { "id": "2702:29", "name": "Grade", "sourceVariantId": "2353:9860", "width": 160, "sizing": "FIXED" },
+        { "id": "2702:30", "name": "Quantity", "sourceVariantId": "2353:9860", "width": 120, "sizing": "FIXED" },
+        { "id": "2702:31", "name": "Unit", "sourceVariantId": "2353:9860", "width": 96, "sizing": "FIXED" },
+        { "id": "2702:32", "name": "Price", "sourceVariantId": "2353:9860", "width": 160, "sizing": "FIXED" },
+        { "id": "2702:33", "name": "Total", "sourceVariantId": "2353:9860", "width": 180, "sizing": "FIXED" },
+        { "id": "2702:34", "name": "Delivery Date", "sourceVariantId": "2353:9860", "width": 160, "sizing": "FIXED" },
+        { "id": "2702:35", "name": "Document", "sourceVariantId": "2353:9860", "width": 180, "sizing": "FIXED" },
+        { "id": "2702:36", "name": "File", "sourceVariantId": "2353:9860", "width": 160, "sizing": "FIXED" },
+        { "id": "2702:37", "name": "Status", "sourceVariantId": "2353:9860", "width": 200, "sizing": "FIXED" },
+        { "id": "2702:38", "name": "Control", "sourceVariantId": "2353:9860", "width": 200, "sizing": "FIXED" },
+        { "id": "2702:39", "name": "Supplier", "sourceVariantId": "2353:9860", "width": 168, "sizing": "FIXED" }
+      ],
+      "paginator": {
+        "instanceId": "2702:1955",
+        "sourceId": "2371:29654",
+        "width": 2192,
+        "height": 40,
+        "widthSizing": "FILL",
+        "layout": "SPACE_BETWEEN"
+      },
+      "prototypeReactions": []
+    },
+    {
+      "id": "2702:2173",
+      "key": "df0de3cb631205cb6fda0422338d6c427a8a9b97",
+      "name": "Widget",
+      "description": "Organism-level container with title, optional description, configurable toolbar and swappable content. Outer radius 32, content inset 24 and nested content radius 8.",
+      "layout": {
+        "width": 2240,
+        "height": 480,
+        "direction": "VERTICAL",
+        "primarySizing": "FIXED",
+        "counterSizing": "HUG",
+        "gap": 24,
+        "padding": [24, 24, 24, 24],
+        "cornerRadius": 32,
+        "strokeWidth": 1,
+        "strokeAlignment": "INSIDE",
+        "clipsContent": false
+      },
+      "componentProperties": [
+        { "name": "Title", "internalName": "Title#2702:0", "type": "TEXT", "defaultValue": "Спецификация позиций" },
+        { "name": "Description", "internalName": "Description#2702:1", "type": "TEXT", "defaultValue": "20 строк · данные обновлены сегодня" },
+        { "name": "Show description", "internalName": "Show description#2702:2", "type": "BOOLEAN", "defaultValue": true },
+        { "name": "Toolbar", "internalName": "Toolbar#2702:3", "type": "INSTANCE_SWAP", "defaultValue": "2702:3" },
+        { "name": "Show toolbar", "internalName": "Show toolbar#2702:4", "type": "BOOLEAN", "defaultValue": true },
+        { "name": "Content", "internalName": "Content#2702:5", "type": "INSTANCE_SWAP", "defaultValue": "2702:21" }
+      ],
+      "bindings": {
+        "gap": "VariableID:3003:371",
+        "paddingTop": "VariableID:3003:371",
+        "paddingRight": "VariableID:3003:371",
+        "paddingBottom": "VariableID:3003:371",
+        "paddingLeft": "VariableID:3003:371",
+        "cornerRadius": "VariableID:3004:162",
+        "fill": "VariableID:3004:73",
+        "stroke": "VariableID:3004:95"
+      },
+      "header": {
+        "id": "2702:2174",
+        "widthSizing": "FILL",
+        "heightSizing": "HUG",
+        "designHeight": 88,
+        "direction": "HORIZONTAL",
+        "mainAxis": "SPACE_BETWEEN",
+        "crossAxis": "CENTER",
+        "gap": 16,
+        "paddingTop": 16,
+        "paddingBottom": 16,
+        "spacingBinding": "VariableID:3003:369"
+      },
+      "copy": {
+        "id": "2702:2175",
+        "widthSizing": "FILL",
+        "heightSizing": "HUG",
+        "direction": "VERTICAL",
+        "gap": 8,
+        "gapBinding": "VariableID:3003:366"
+      },
+      "title": {
+        "id": "2702:2176",
+        "fontFamily": "Grtsk Peta",
+        "fontStyle": "Medium",
+        "fontSize": 24,
+        "lineHeight": 28,
+        "textStyleKey": "S:7fd5bd8b238a7c6e3a120cd227cc83f1f8e74f65,",
+        "colorBinding": "VariableID:3004:77"
+      },
+      "descriptionText": {
+        "id": "2702:2177",
+        "fontFamily": "Grtsk Peta",
+        "fontStyle": "Regular",
+        "fontSize": 13,
+        "lineHeight": 20,
+        "textStyleKey": "S:20611fb8b1e4d35962ab500c34a29f9f9243b120,",
+        "colorBinding": "VariableID:3004:78"
+      },
+      "toolbarInstance": { "id": "2702:2178", "sourceId": "2702:3" },
+      "contentInstance": { "id": "2702:2188", "sourceId": "2702:21", "widthSizing": "FILL", "heightSizing": "HUG" },
+      "prototypeReactions": []
+    }
+  ],
+  "directlyObservedVariables": [
+    { "collection": "Spacing · Primitive", "id": "VariableID:3003:366", "key": "2c5d272ae1e1abde56cd312999ab47e64ae8722e", "name": "50", "type": "FLOAT", "webCodeSyntax": "var(--spacing-50)", "value": 8 },
+    { "collection": "Size · Semantic", "id": "VariableID:3004:9", "key": "0ce6bbe6554d5c1a7b913a36ab204adb3e32105d", "name": "Global/Button/M", "type": "FLOAT", "webCodeSyntax": "var(--size-global-button-m)", "alias": "Global/Control/M" },
+    { "collection": "Radius · Semantic", "id": "VariableID:3004:2", "key": "f79265b0397fa8f556d2460bef3218df41da9027", "name": "Global/Button", "type": "FLOAT", "webCodeSyntax": "var(--radius-global-button)", "alias": "Radius/100" },
+    { "collection": "Color · Semantic", "id": "VariableID:3005:89", "key": "ef10df6ab52bbf4c23faf966f3ab7db590864131", "name": "Component/Button/Secondary/Surface/Default", "type": "COLOR", "webCodeSyntax": "var(--color-component-button-secondary-surface-default)", "alias": "Global/Button/Secondary/Container/Default" },
+    { "collection": "Spacing · Semantic", "id": "VariableID:3004:120", "key": "fe888cac24dabc7ab6f86fb648d8efd99f1cba0f", "name": "Global/Button/Content/M/Gap", "type": "FLOAT", "webCodeSyntax": "var(--spacing-global-button-content-m-gap)", "alias": "Spacing/25" },
+    { "collection": "Spacing · Semantic", "id": "VariableID:3004:15", "key": "b6cf0db9fa96d750d3542e45bf5187279a29649b", "name": "Global/Button/M/Inset/Icon", "type": "FLOAT", "webCodeSyntax": "var(--spacing-global-button-m-inset-icon)", "alias": "Spacing/50" },
+    { "collection": "Color · Semantic", "id": "VariableID:3005:93", "key": "b40cc5b6a729a5595fe0eddcc8930b3b7931a166", "name": "Component/Button/Secondary/Content/Default", "type": "COLOR", "webCodeSyntax": "var(--color-component-button-secondary-content-default)", "alias": "Global/Text/Label" },
+    { "collection": "Stroke · Primitive", "id": "VariableID:3003:404", "key": "37e6be8ce0f68fa3d459b85613fab6bc97ba1190", "name": "140", "type": "FLOAT", "webCodeSyntax": "var(--stroke-140)", "value": 1.4 },
+    { "collection": "Color · Semantic", "id": "VariableID:3005:81", "key": "45f20bc540020674587273703e8767bd18cb557e", "name": "Component/Button/Primary/Surface/Default", "type": "COLOR", "webCodeSyntax": "var(--color-component-button-primary-surface-default)", "alias": "Global/Button/Primary/Container/Default" },
+    { "collection": "Color · Semantic", "id": "VariableID:3005:85", "key": "558ea3f55e90a661b4da729fea235538df0b88f5", "name": "Component/Button/Primary/Content/Default", "type": "COLOR", "webCodeSyntax": "var(--color-component-button-primary-content-default)", "alias": "Global/Text/Inverse" },
+    { "collection": "Spacing · Semantic", "id": "VariableID:3004:118", "key": "e24fb13791a6aef4c54ccaccb552afb9953dd362", "name": "Global/Button/Content/Label/Inset", "type": "FLOAT", "webCodeSyntax": "var(--spacing-global-button-content-label-inset)", "alias": "Spacing/25" },
+    { "collection": "Spacing · Semantic", "id": "VariableID:3004:22", "key": "daa78d9d78593888c81f4c2ad776d3d0375d8555", "name": "Global/Button/Optical/Label", "type": "FLOAT", "webCodeSyntax": "var(--spacing-global-button-optical-label)", "alias": "Spacing/12" },
+    { "collection": "Radius · Primitive", "id": "VariableID:3003:376", "key": "34f78d0e88f737136af57a3a7ab046322b3329b3", "name": "100", "type": "FLOAT", "webCodeSyntax": "var(--radius-100)", "value": 8 },
+    { "collection": "Color · Semantic", "id": "VariableID:3004:71", "key": "6fa8cc6c395ec0193e9c412c3f29191982dacd30", "name": "Global/Surface/Subtle", "type": "COLOR", "webCodeSyntax": "var(--color-global-surface-subtle)", "alias": "Neutral/100/100" },
+    { "collection": "Color · Semantic", "id": "VariableID:3004:95", "key": "6d983ff7cc913743d910a2c6a13ea6f622692e2e", "name": "Global/Border/Default", "type": "COLOR", "webCodeSyntax": "var(--color-global-border-default)", "alias": "Neutral/300/100" },
+    { "collection": "Color · Semantic", "id": "VariableID:3004:78", "key": "cec10483ee81227c2e6c2a6cc961000efdcaa84e", "name": "Global/Text/Secondary", "type": "COLOR", "webCodeSyntax": "var(--color-global-text-secondary)", "alias": "Neutral/700/100" },
+    { "collection": "Spacing · Primitive", "id": "VariableID:3003:372", "key": "4ccafef719e7fe732c9b7b9c426a008ef44ae0a6", "name": "200", "type": "FLOAT", "webCodeSyntax": "var(--spacing-200)", "value": 32 },
+    { "collection": "Color · Semantic", "id": "VariableID:3004:73", "key": "f1e87fdd13aa2a275679d2e653c59f03c0324bc6", "name": "Global/Surface/Raised", "type": "COLOR", "webCodeSyntax": "var(--color-global-surface-raised)", "alias": "Neutral/0/100" },
+    { "collection": "Spacing · Primitive", "id": "VariableID:3003:371", "key": "169f71924807f3f379abb7ec356f23029fb5e683", "name": "150", "type": "FLOAT", "webCodeSyntax": "var(--spacing-150)", "value": 24 },
+    { "collection": "Radius · Semantic", "id": "VariableID:3004:162", "key": "fbf065276ecf2e4c5ff19f6f5ee113928f451dc0", "name": "Global/Widget", "type": "FLOAT", "webCodeSyntax": "var(--radius-global-widget)", "alias": "Radius/400", "resolvedValue": 32 },
+    { "collection": "Spacing · Primitive", "id": "VariableID:3003:369", "key": "51bba89a4c0ce2aa6152d7a92327041ae94e41f0", "name": "100", "type": "FLOAT", "webCodeSyntax": "var(--spacing-100)", "value": 16 },
+    { "collection": "Color · Semantic", "id": "VariableID:3004:77", "key": "6217fb7ad6fde9982dda4adccdbc9cf015bf9a76", "name": "Global/Text/Primary", "type": "COLOR", "webCodeSyntax": "var(--color-global-text-primary)", "alias": "Neutral/900/100" }
+  ],
+  "styles": [
+    { "role": "Title", "styleKey": "S:7fd5bd8b238a7c6e3a120cd227cc83f1f8e74f65,", "font": "Grtsk Peta Medium", "fontSize": 24, "lineHeight": 28 },
+    { "role": "Description", "styleKey": "S:20611fb8b1e4d35962ab500c34a29f9f9243b120,", "font": "Grtsk Peta Regular", "fontSize": 13, "lineHeight": 20 },
+    { "role": "Content slot placeholder", "styleKey": "S:e032ec0594ad72e3c644dba305b5bbf7a09f1535,", "font": "Grtsk Peta Regular", "fontSize": 14, "lineHeight": 20 }
+  ],
+  "architecture": {
+    "publicConcept": "Generic Widget shell",
+    "internalSources": ["Widget/Source/Toolbar/Actions", "Widget/Source/Content Slot", "Widget/Source/Content/Table"],
+    "sharedDependencies": ["Button", "Table", "Paginator", "Global tokens", "Outline icons"],
+    "separatePattern": "Widget + Table",
+    "reactMappingRule": "Do not copy Figma Boolean and instance-swap properties one-to-one when a smaller slot-based API expresses the same contract."
+  },
+  "screenshots": [
+    "screenshots/widget-source.png",
+    "screenshots/widget-main-component.png",
+    "screenshots/widget-review-table.png",
+    "screenshots/widget-table-compact-evidence.png"
+  ]
+}

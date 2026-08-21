@@ -51,17 +51,17 @@
       "platform": "web",
       "version": "0.1.0-beta.1",
       "links": {
-        "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-10833",
+        "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2814-8351",
         "specification": "specifications/components/table.md",
         "source": "packages/react/src/Table/Table.tsx",
-        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/patterns-table--overview",
+        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-table--overview",
         "knowledge": "knowledge-base/02 Components/Table.md"
       },
       "checks": {
-        "visualMatch": true,
+        "visualMatch": false,
         "specificationMatch": true,
-        "testsPassed": true,
-        "accessibilityPassed": true,
+        "testsPassed": false,
+        "accessibilityPassed": false,
         "knowledgeUpdated": true
       }
     },
@@ -201,8 +201,8 @@
         "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2663-77",
         "specification": "specifications/components/context-menu.md",
         "source": "packages/react/src/ContextMenu/ContextMenu.tsx",
-        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/patterns-context-menu--overview",
-        "knowledge": "knowledge-base/03 Patterns/Context Menu.md"
+        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-context-menu--overview",
+        "knowledge": "knowledge-base/02 Components/Context Menu.md"
       },
       "checks": {
         "visualMatch": false,
@@ -252,8 +252,8 @@
         "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2702-2238",
         "specification": "specifications/components/widget.md",
         "source": "packages/react/src/Widget/Widget.tsx",
-        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/templates-widget--overview",
-        "knowledge": "knowledge-base/04 Templates/Widget.md"
+        "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-widget--overview",
+        "knowledge": "knowledge-base/02 Components/Widget.md"
       },
       "checks": {
         "visualMatch": false,

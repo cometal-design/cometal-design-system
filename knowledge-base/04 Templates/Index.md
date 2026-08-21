@@ -2,4 +2,4 @@
 
 Шаблоны страниц и бизнес-интерфейсов, собранные из системных паттернов и компонентов.
 
-- [[Widget]] — `template.widget`, reusable shell для dashboard/table surfaces, статус `in-review`.
+- Опубликованных шаблонов пока нет. Widget перенесён в `02 Components`; старый template route оставлен redirect для совместимости.

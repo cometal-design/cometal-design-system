@@ -1,0 +1,1014 @@
+{
+  "sets": [
+    {
+      "id": "2353:10896",
+      "key": "4c1f768e5bfc7f8f7a5671ca8fe4ec8ea9d48c8c",
+      "name": "Column Header",
+      "description": "Заголовок колонки таблицы. State: Default или Hover. Sort: None, Ascending или Descending. Индикатор сортировки располагается сразу после Label и использует активный цвет Label. Context menu — отдельный вложенный source 24 × 24 со значениями Menu: Default, Hover, Open и Boolean Focus.\n\nSizing and overflow: minimum width 96 px via Component / Table token. Label is one line with ending ellipsis; Sort and Context Action remain fixed. Full truncated label is exposed by tooltip in product.",
+      "width": 560,
+      "height": 192,
+      "propertyDefinitions": {
+        "Label#1971:9": {
+          "type": "TEXT",
+          "defaultValue": "Название колонки"
+        },
+        "State": {
+          "type": "VARIANT",
+          "defaultValue": "Default",
+          "variantOptions": [
+            "Default",
+            "Hover"
+          ]
+        },
+        "Sort": {
+          "type": "VARIANT",
+          "defaultValue": "None",
+          "variantOptions": [
+            "None",
+            "Ascending",
+            "Descending"
+          ]
+        }
+      },
+      "variantCount": 6,
+      "variants": [
+        {
+          "id": "2353:10897",
+          "key": "e1457b10ab2886e09b6d3249320dfe4a3e508835",
+          "name": "State=Default, Sort=None",
+          "properties": {
+            "State": "Default",
+            "Sort": "None"
+          },
+          "width": 240,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 4,
+          "padding": [
+            0,
+            8,
+            0,
+            16
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2353:10900",
+          "key": "57f1a5adfa848e12f5e57c70d973bb6665ad9110",
+          "name": "State=Hover, Sort=None",
+          "properties": {
+            "State": "Hover",
+            "Sort": "None"
+          },
+          "width": 240,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 4,
+          "padding": [
+            0,
+            8,
+            0,
+            16
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2353:10906",
+          "key": "ec185be100317915778524b663e425dc894d7b2d",
+          "name": "State=Default, Sort=Ascending",
+          "properties": {
+            "State": "Default",
+            "Sort": "Ascending"
+          },
+          "width": 240,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 4,
+          "padding": [
+            0,
+            8,
+            0,
+            16
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2353:10910",
+          "key": "f93f3030bd4655fe9e5e0a4f8f2557929f2cb03b",
+          "name": "State=Hover, Sort=Ascending",
+          "properties": {
+            "State": "Hover",
+            "Sort": "Ascending"
+          },
+          "width": 240,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 4,
+          "padding": [
+            0,
+            8,
+            0,
+            16
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2353:10918",
+          "key": "82987463d250d4df13aef0722e47a1fe6befd80f",
+          "name": "State=Default, Sort=Descending",
+          "properties": {
+            "State": "Default",
+            "Sort": "Descending"
+          },
+          "width": 240,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 4,
+          "padding": [
+            0,
+            8,
+            0,
+            16
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2353:10922",
+          "key": "8462d4e7abd944cbcab0d0d96485dbd4dac257b2",
+          "name": "State=Hover, Sort=Descending",
+          "properties": {
+            "State": "Hover",
+            "Sort": "Descending"
+          },
+          "width": 240,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 4,
+          "padding": [
+            0,
+            8,
+            0,
+            16
+          ],
+          "clipsContent": false
+        }
+      ]
+    },
+    {
+      "id": "2482:5611",
+      "key": "3bc29a02740377b05662f018255b741b6f960b2f",
+      "name": "Context Action",
+      "description": "Компактное действие контекстного меню для Column Header. Hit area 24 × 24, icon 16 × 16. Menu: Default, Hover, Open. Open сохраняет фон, пока menu-panel открыт. Focus управляется отдельным Boolean.",
+      "width": 480,
+      "height": 24,
+      "propertyDefinitions": {
+        "Focus#2482:1": {
+          "type": "BOOLEAN",
+          "defaultValue": false
+        },
+        "Menu": {
+          "type": "VARIANT",
+          "defaultValue": "Default",
+          "variantOptions": [
+            "Default",
+            "Hover",
+            "Open"
+          ]
+        }
+      },
+      "variantCount": 3,
+      "variants": [
+        {
+          "id": "2482:5601",
+          "key": "fb45600f2edbd0729803dcfb47ab9798ba77ecf5",
+          "name": "Menu=Default",
+          "properties": {
+            "Menu": "Default"
+          },
+          "width": 24,
+          "height": 24,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2482:5605",
+          "key": "9d845e22195d0585b6cea98b133416a14b773445",
+          "name": "Menu=Hover",
+          "properties": {
+            "Menu": "Hover"
+          },
+          "width": 24,
+          "height": 24,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2482:5608",
+          "key": "0d82bd1af295bf1ccc5e8714615cb2d815f1efc2",
+          "name": "Menu=Open",
+          "properties": {
+            "Menu": "Open"
+          },
+          "width": 24,
+          "height": 24,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        }
+      ]
+    },
+    {
+      "id": "2353:10934",
+      "key": "3895d7f181a8ef0e83fa65f249d3df89bbab9243",
+      "name": "Selection Header",
+      "description": "Заголовок selection-колонки. Value=Mixed показывает частичный выбор строк; высота всегда 48 px.",
+      "width": 480,
+      "height": 456,
+      "propertyDefinitions": {
+        "State": {
+          "type": "VARIANT",
+          "defaultValue": "Default",
+          "variantOptions": [
+            "Default",
+            "Hover",
+            "Disabled"
+          ]
+        },
+        "Value": {
+          "type": "VARIANT",
+          "defaultValue": "Unchecked",
+          "variantOptions": [
+            "Unchecked",
+            "Mixed",
+            "Checked"
+          ]
+        },
+        "Density": {
+          "type": "VARIANT",
+          "defaultValue": "Comfortable",
+          "variantOptions": [
+            "Comfortable",
+            "Compact"
+          ]
+        }
+      },
+      "variantCount": 18,
+      "variants": [
+        {
+          "id": "2353:10935",
+          "key": "14048a674e3d214e515e89284f6e8c0e40008665",
+          "name": "State=Default, Value=Unchecked, Density=Comfortable",
+          "properties": {
+            "State": "Default",
+            "Value": "Unchecked",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2353:10937",
+          "key": "c0c7c67d58335d6048746aa483dfbeabb35cdedc",
+          "name": "State=Hover, Value=Unchecked, Density=Comfortable",
+          "properties": {
+            "State": "Hover",
+            "Value": "Unchecked",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2353:10939",
+          "key": "6f117bc21e1ec950992b88b6673d2033f3bf276e",
+          "name": "State=Disabled, Value=Unchecked, Density=Comfortable",
+          "properties": {
+            "State": "Disabled",
+            "Value": "Unchecked",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2353:10941",
+          "key": "3f3bc83767ed0359ec9d3cd65404d55e9f5a473c",
+          "name": "State=Default, Value=Mixed, Density=Comfortable",
+          "properties": {
+            "State": "Default",
+            "Value": "Mixed",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2353:10943",
+          "key": "801fb6097487ebe4d7a1cb15dfad5c2c2252db6f",
+          "name": "State=Hover, Value=Mixed, Density=Comfortable",
+          "properties": {
+            "State": "Hover",
+            "Value": "Mixed",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2353:10945",
+          "key": "3aec29df8d31487fceb31b938b78632af93eae94",
+          "name": "State=Disabled, Value=Mixed, Density=Comfortable",
+          "properties": {
+            "State": "Disabled",
+            "Value": "Mixed",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2353:10947",
+          "key": "5203bf160f6a48eba47ae92b2e7bbb2c15304225",
+          "name": "State=Default, Value=Checked, Density=Comfortable",
+          "properties": {
+            "State": "Default",
+            "Value": "Checked",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2353:10949",
+          "key": "fff20f77465aee45ed5c4737fe1405034519a251",
+          "name": "State=Hover, Value=Checked, Density=Comfortable",
+          "properties": {
+            "State": "Hover",
+            "Value": "Checked",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2353:10951",
+          "key": "fd282875d772fc33555c568aaac16932cb60a2bf",
+          "name": "State=Disabled, Value=Checked, Density=Comfortable",
+          "properties": {
+            "State": "Disabled",
+            "Value": "Checked",
+            "Density": "Comfortable"
+          },
+          "width": 48,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28752",
+          "key": "89aed1393de8a9981a8880cc3db5d5c901847bc7",
+          "name": "State=Default, Value=Unchecked, Density=Compact",
+          "properties": {
+            "State": "Default",
+            "Value": "Unchecked",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28754",
+          "key": "12b51a939a8184ae6767098ed263fab9686e1b70",
+          "name": "State=Hover, Value=Unchecked, Density=Compact",
+          "properties": {
+            "State": "Hover",
+            "Value": "Unchecked",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28756",
+          "key": "21a234aae1fdc441457b2951bc7007107392c1e1",
+          "name": "State=Disabled, Value=Unchecked, Density=Compact",
+          "properties": {
+            "State": "Disabled",
+            "Value": "Unchecked",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28758",
+          "key": "a7db2389b9e6129b807c1c147546d39942d12f5e",
+          "name": "State=Default, Value=Mixed, Density=Compact",
+          "properties": {
+            "State": "Default",
+            "Value": "Mixed",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28760",
+          "key": "8d0795e39e951163ec1324eb157bb58215e326b7",
+          "name": "State=Hover, Value=Mixed, Density=Compact",
+          "properties": {
+            "State": "Hover",
+            "Value": "Mixed",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28762",
+          "key": "70238084d6124bf535ae84f2f24d388f7e223cde",
+          "name": "State=Disabled, Value=Mixed, Density=Compact",
+          "properties": {
+            "State": "Disabled",
+            "Value": "Mixed",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28764",
+          "key": "ff03b28c8be8b62023060a73a8eb3ddaa68db6ff",
+          "name": "State=Default, Value=Checked, Density=Compact",
+          "properties": {
+            "State": "Default",
+            "Value": "Checked",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28766",
+          "key": "91d67c7426386886b3dd3d5174204879285d6b3a",
+          "name": "State=Hover, Value=Checked, Density=Compact",
+          "properties": {
+            "State": "Hover",
+            "Value": "Checked",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "3064:28768",
+          "key": "6724809b4a4491733a5e19746ee6e6e0b095d194",
+          "name": "State=Disabled, Value=Checked, Density=Compact",
+          "properties": {
+            "State": "Disabled",
+            "Value": "Checked",
+            "Density": "Compact"
+          },
+          "width": 40,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            0,
+            0,
+            0,
+            0
+          ],
+          "clipsContent": false
+        }
+      ]
+    },
+    {
+      "id": "2530:5631",
+      "key": "d629e34c388db15becf99b1795d869f49b93fb0e",
+      "name": "Filter Row",
+      "description": "Типизированный второй этаж заголовка таблицы.\nEmpty сохраняет сетку в служебных колонках.\nText: Содержит, Не содержит, Равно, Не равно, Начинается с, Заканчивается на, Пусто, Не пусто, Одно из.\nNumber: Равно, Не равно, Больше, Больше или равно, Меньше, Меньше или равно, Пусто, Не пусто.\nDate: Равно, До, До или в дату, После, После или в дату, Пусто, Не пусто.\nPeriod: Между датами, Вне периода, Пусто, Не пусто.\nSelect: Равно, Не равно, Одно из. Boolean: Да, Нет.\nDate открывает одиночный Date Picker; Period открывает Date Range Picker. Справа расположен operator action для смены функции фильтра. Лупа и общий placeholder Найти не используются.",
+      "width": 1968,
+      "height": 600,
+      "propertyDefinitions": {
+        "Type": {
+          "type": "VARIANT",
+          "defaultValue": "Empty",
+          "variantOptions": [
+            "Empty",
+            "Text",
+            "Number",
+            "Date",
+            "Select",
+            "Boolean",
+            "Period"
+          ]
+        },
+        "State": {
+          "type": "VARIANT",
+          "defaultValue": "Default",
+          "variantOptions": [
+            "Default",
+            "Active"
+          ]
+        }
+      },
+      "variantCount": 10,
+      "variants": [
+        {
+          "id": "2530:5588",
+          "key": "59cd64017cf1e4aebf38ac2339ddce4bc65d56d5",
+          "name": "Type=Empty, State=Default",
+          "properties": {
+            "Type": "Empty",
+            "State": "Default"
+          },
+          "width": 240,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            8,
+            8,
+            8,
+            8
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2530:5589",
+          "key": "51a067565a5fce269cea775bfe681fad4d209d31",
+          "name": "Type=Text, State=Default",
+          "properties": {
+            "Type": "Text",
+            "State": "Default"
+          },
+          "width": 240,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            8,
+            8,
+            8,
+            8
+          ],
+          "clipsContent": true
+        },
+        {
+          "id": "2594:6321",
+          "key": "222b31337ff760f59b616c4db84196fbb999211e",
+          "name": "Type=Number, State=Default",
+          "properties": {
+            "Type": "Number",
+            "State": "Default"
+          },
+          "width": 240,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            8,
+            8,
+            8,
+            8
+          ],
+          "clipsContent": true
+        },
+        {
+          "id": "2594:6324",
+          "key": "d48ff27d26e6d0b994b1911b67c267223254af23",
+          "name": "Type=Date, State=Default",
+          "properties": {
+            "Type": "Date",
+            "State": "Default"
+          },
+          "width": 240,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            8,
+            8,
+            8,
+            8
+          ],
+          "clipsContent": true
+        },
+        {
+          "id": "2616:6404",
+          "key": "c3b82e44e2a8a3fedb3394264af00c4f690527b3",
+          "name": "Type=Period, State=Default",
+          "properties": {
+            "Type": "Period",
+            "State": "Default"
+          },
+          "width": 240,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            8,
+            8,
+            8,
+            8
+          ],
+          "clipsContent": true
+        },
+        {
+          "id": "2594:6327",
+          "key": "f3060637f847b1fa8e1e23a4c4f59db96f0e9f53",
+          "name": "Type=Select, State=Default",
+          "properties": {
+            "Type": "Select",
+            "State": "Default"
+          },
+          "width": 240,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            8,
+            8,
+            8,
+            8
+          ],
+          "clipsContent": true
+        },
+        {
+          "id": "2594:6330",
+          "key": "4b0e0f98368d04d53f353baf9ef7a15cf5589011",
+          "name": "Type=Boolean, State=Default",
+          "properties": {
+            "Type": "Boolean",
+            "State": "Default"
+          },
+          "width": 240,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            8,
+            8,
+            8,
+            8
+          ],
+          "clipsContent": true
+        },
+        {
+          "id": "2654:7344",
+          "key": "096550abc59031d4419a4d56d184756e9987f1d2",
+          "name": "Type=Date, State=Active",
+          "properties": {
+            "Type": "Date",
+            "State": "Active"
+          },
+          "width": 240,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            8,
+            8,
+            8,
+            8
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2654:7347",
+          "key": "d0de6d61e447fab1b931a25a6280944d28912dd1",
+          "name": "Type=Period, State=Active",
+          "properties": {
+            "Type": "Period",
+            "State": "Active"
+          },
+          "width": 240,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            8,
+            8,
+            8,
+            8
+          ],
+          "clipsContent": false
+        },
+        {
+          "id": "2654:7350",
+          "key": "c63f92a9473b74aeb4a7f23912e643d09aef84d3",
+          "name": "Type=Select, State=Active",
+          "properties": {
+            "Type": "Select",
+            "State": "Active"
+          },
+          "width": 240,
+          "height": 48,
+          "layoutMode": "HORIZONTAL",
+          "hSizing": "FIXED",
+          "vSizing": "FIXED",
+          "gap": 0,
+          "padding": [
+            8,
+            8,
+            8,
+            8
+          ],
+          "clipsContent": false
+        }
+      ]
+    }
+  ],
+  "standalone": [
+    {
+      "id": "2371:29825",
+      "key": "f695b9036e3dd55f040af478510e011962c8c937",
+      "name": "Index Header",
+      "description": "Служебный header колонки нумерации строк. Символ № центрируется; сортировка и контекстное меню не применяются.",
+      "width": 48,
+      "height": 48,
+      "propertyDefinitions": {
+        "Label#2323:0": {
+          "type": "TEXT",
+          "defaultValue": "№"
+        }
+      },
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 0,
+      "padding": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "clipsContent": false
+    },
+    {
+      "id": "2778:8324",
+      "key": "26cbc820faab683c27bcb5c405fb6c5cb3bbebf2",
+      "name": "Drag Handle Header",
+      "description": "Empty service header aligned with the drag handle column.",
+      "width": 48,
+      "height": 48,
+      "propertyDefinitions": {},
+      "layoutMode": "HORIZONTAL",
+      "hSizing": "FIXED",
+      "vSizing": "FIXED",
+      "gap": 0,
+      "padding": [
+        0,
+        0,
+        0,
+        0
+      ],
+      "clipsContent": false
+    }
+  ]
+}
+

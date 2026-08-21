@@ -3,11 +3,11 @@
 - ID: `overlay.context-menu`
 - Figma: `2663:77`
 - React source: `packages/react/src/ContextMenu/ContextMenu.tsx`
-- Storybook: `patterns-context-menu--overview`
+- Storybook: `components-context-menu--overview`
 
 ## Scope
 
-Context Menu публикует contextual action surface, включая pointer anchor, keyboard roving focus и size-specific items.
+Context Menu публикует самостоятельный overlay-компонент, включая pointer anchor, keyboard roving focus и size-specific items. Связь меню с бизнес-сущностью принадлежит паттерну или продукту.
 
 ## Contract
 

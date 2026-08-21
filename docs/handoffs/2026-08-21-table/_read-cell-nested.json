@@ -1,0 +1,121 @@
+{
+  "setId": "2353:9506",
+  "nestedComponents": [
+    {
+      "nodeId": "700:14528",
+      "key": "d0a190092ace1840a25bfbc2e94dfdefe081fe91",
+      "name": "Outline/general/information-circle-contained",
+      "count": 10
+    },
+    {
+      "nodeId": "2024:1910",
+      "key": "af614f606d6a54dc56ac219d47904e456bbccc53",
+      "name": "Surface=Light, Tone=Green",
+      "count": 40
+    },
+    {
+      "nodeId": "700:1431",
+      "key": "04be4a2fe01797e0024877bcafe86ffeb4620a83",
+      "name": "Filled/general/check-01-filled",
+      "count": 40
+    },
+    {
+      "nodeId": "700:165",
+      "key": "35be05e4126acb90e4d7b30313663c6151db44a3",
+      "name": "file-icon/File",
+      "count": 10
+    }
+  ],
+  "iconReferences": [
+    {
+      "nodeId": "700:14528",
+      "key": "d0a190092ace1840a25bfbc2e94dfdefe081fe91",
+      "name": "Outline/general/information-circle-contained",
+      "count": 10
+    },
+    {
+      "nodeId": "700:1431",
+      "key": "04be4a2fe01797e0024877bcafe86ffeb4620a83",
+      "name": "Filled/general/check-01-filled",
+      "count": 40
+    },
+    {
+      "nodeId": "700:165",
+      "key": "35be05e4126acb90e4d7b30313663c6151db44a3",
+      "name": "file-icon/File",
+      "count": 10
+    }
+  ],
+  "textStyles": [
+    {
+      "fontName": {
+        "family": "Grtsk Peta",
+        "style": "Regular"
+      },
+      "fontSize": 14,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 20
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0.25
+      },
+      "textStyleId": "S:e032ec0594ad72e3c644dba305b5bbf7a09f1535,",
+      "count": 60
+    },
+    {
+      "fontName": {
+        "family": "Grtsk Peta",
+        "style": "Regular"
+      },
+      "fontSize": 12,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 16
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0.5
+      },
+      "textStyleId": "S:a5a6e1db55947160a463955c972a149a407ccac4,",
+      "count": 40
+    },
+    {
+      "fontName": {
+        "family": "Grtsk Peta",
+        "style": "Regular"
+      },
+      "fontSize": 12,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 18
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0.5
+      },
+      "textStyleId": "S:a661902c4af047f249934eb32fd774308d90f322,",
+      "count": 10
+    },
+    {
+      "fontName": {
+        "family": "IBM Plex Mono",
+        "style": "Regular"
+      },
+      "fontSize": 11,
+      "lineHeight": {
+        "unit": "PIXELS",
+        "value": 14
+      },
+      "letterSpacing": {
+        "unit": "PERCENT",
+        "value": 0
+      },
+      "textStyleId": "S:eeae1512fc368b772c95683320ab785baa42ade8,",
+      "count": 10
+    }
+  ],
+  "reactionNodeCount": 0
+}
+

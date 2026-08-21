@@ -1,41 +1,56 @@
 import { forwardRef } from 'react';
 import type {
+  ButtonHTMLAttributes,
+  CSSProperties,
   HTMLAttributes,
   ReactNode,
   TableHTMLAttributes,
   TdHTMLAttributes,
   ThHTMLAttributes,
 } from 'react';
+import { Checkbox } from '../Selection/Selection';
+import { ContextMenu } from '../ContextMenu/ContextMenu';
+import sortAscendingAsset from './assets/sort-ascending.svg';
+import sortDescendingAsset from './assets/sort-descending.svg';
+import contextActionAsset from './assets/context-action.svg';
+import dragHandleAsset from './assets/drag-handle.svg';
+import previousAsset from './assets/paginator-previous.svg';
+import nextAsset from './assets/paginator-next.svg';
+import wordFileAsset from './assets/file-word.svg';
+import excelFileAsset from './assets/file-excel.svg';
+import genericFileAsset from './assets/file-generic.svg';
+import docFileAsset from './assets/file-doc.svg';
+import sheetsFileAsset from './assets/file-sheets.svg';
+import adobeFileAsset from './assets/file-adobe.svg';
+import zipFileAsset from './assets/file-zip.svg';
+import pdfFileAsset from './assets/file-pdf.svg';
+import imageFileAsset from './assets/file-image.svg';
 import './table.css';
 
 export const tableDensities = ['comfortable', 'compact'] as const;
-export const tableCellStates = [
-  'default',
-  'active',
-  'selected',
-  'editing',
-  'error',
-  'disabled',
-] as const;
+export const tableCellStates = ['default', 'active', 'selected', 'editing', 'error', 'disabled'] as const;
+export const tableFileTypes = ['word', 'excel', 'file', 'doc', 'sheets', 'adobe', 'zip', 'pdf', 'image'] as const;
 
 export type TableDensity = (typeof tableDensities)[number];
 export type TableCellState = (typeof tableCellStates)[number];
+export type TableFileType = (typeof tableFileTypes)[number];
 
 export interface TableProps extends TableHTMLAttributes<HTMLTableElement> {
   density?: TableDensity;
-  /** Accessible label for scrollable table regions without a visible caption. */
-  'aria-label'?: string;
+  /** Accessible label for the internally scrollable table region. */
+  'aria-label': string;
 }
 
 export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
-  { density = 'comfortable', className, ...tableProps },
+  { density = 'comfortable', className, 'aria-label': ariaLabel, ...tableProps },
   ref,
 ) {
   return (
-    <div className="cometal-table-scroll" data-cometal-component="table-scroll">
+    <div className="cometal-table-scroll" data-cometal-component="table-scroll" role="region" aria-label={`Прокрутка: ${ariaLabel}`} tabIndex={0}>
       <table
         {...tableProps}
         ref={ref}
+        aria-label={ariaLabel}
         className={['cometal-table', className].filter(Boolean).join(' ')}
         data-cometal-component="table"
         data-density={density}
@@ -65,48 +80,74 @@ export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(function 
   { selected = false, className, ...props },
   ref,
 ) {
-  return (
-    <tr
-      {...props}
-      ref={ref}
-      className={['cometal-table__row', className].filter(Boolean).join(' ')}
-      data-row-selected={selected || undefined}
-    />
-  );
+  return <tr {...props} ref={ref} className={['cometal-table__row', className].filter(Boolean).join(' ')} data-row-selected={selected || undefined} />;
 });
 
 export type TableSortDirection = 'none' | 'ascending' | 'descending';
 
+export function getNextTableSortDirection(current: TableSortDirection): TableSortDirection {
+  if (current === 'none') return 'ascending';
+  if (current === 'ascending') return 'descending';
+  return 'none';
+}
+
 export interface TableHeaderCellProps extends ThHTMLAttributes<HTMLTableCellElement> {
   sort?: TableSortDirection;
-  /** Compact trailing action, normally the column context menu trigger. */
+  onSortChange?: (sort: TableSortDirection) => void;
+  /** Compact trailing action, normally `TableContextAction`. */
   action?: ReactNode;
-  /** Optional second-floor control. All columns should expose this floor together. */
-  filter?: ReactNode;
-  kind?: 'default' | 'index' | 'selection';
+  kind?: 'default' | 'index' | 'selection' | 'drag';
 }
 
 export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellProps>(
   function TableHeaderCell(
-    { sort = 'none', action, filter, kind = 'default', children, className, scope = 'col', ...props },
+    { sort = 'none', onSortChange, action, kind = 'default', children, className, scope = 'col', ...props },
     ref,
   ) {
+    const label = typeof children === 'string' ? children : 'колонку';
+    const nextSort = getNextTableSortDirection(sort);
+    const content = (
+      <>
+        {sort !== 'none' ? <TableIcon asset={sort === 'ascending' ? sortAscendingAsset : sortDescendingAsset} className="cometal-table__sort-icon" /> : null}
+        <span className="cometal-table__header-label">{children}</span>
+      </>
+    );
+
     return (
-      <th
-        {...props}
-        ref={ref}
-        scope={scope}
-        aria-sort={sort === 'none' ? undefined : sort}
-        className={['cometal-table__header-cell', className].filter(Boolean).join(' ')}
-        data-kind={kind}
-        data-sort={sort}
-      >
+      <th {...props} ref={ref} scope={scope} aria-sort={sort === 'none' ? undefined : sort} className={['cometal-table__header-cell', className].filter(Boolean).join(' ')} data-kind={kind} data-sort={sort}>
         <div className="cometal-table__header-main">
-          {sort !== 'none' ? <SortIcon direction={sort} /> : null}
-          <span className="cometal-table__header-label">{children}</span>
+          {onSortChange ? (
+            <button className="cometal-table__sort-button" type="button" onClick={() => onSortChange(nextSort)} aria-label={`Сортировать ${label}: ${nextSort === 'ascending' ? 'по возрастанию' : nextSort === 'descending' ? 'по убыванию' : 'отключить сортировку'}`}>
+              {content}
+            </button>
+          ) : content}
           {action ? <span className="cometal-table__header-action">{action}</span> : null}
         </div>
-        {filter ? <div className="cometal-table__header-filter">{filter}</div> : null}
+      </th>
+    );
+  },
+);
+
+export const TableFilterRow = forwardRef<HTMLTableRowElement, HTMLAttributes<HTMLTableRowElement>>(
+  function TableFilterRow({ className, ...props }, ref) {
+    return <tr {...props} ref={ref} className={['cometal-table__filter-row', className].filter(Boolean).join(' ')} />;
+  },
+);
+
+export interface TableFilterCellProps extends ThHTMLAttributes<HTMLTableCellElement> {
+  kind?: 'default' | 'index' | 'selection' | 'drag';
+}
+
+export const TableFilterCell = forwardRef<HTMLTableCellElement, TableFilterCellProps>(
+  function TableFilterCell({ kind = 'default', children, className, 'aria-label': ariaLabel, ...props }, ref) {
+    const emptyLabel = kind === 'drag' ? 'Без фильтра перемещения' : kind === 'index' ? 'Без фильтра номера' : kind === 'selection' ? 'Без фильтра выбора' : 'Без фильтра';
+    return (
+      <th {...props} ref={ref} className={['cometal-table__filter-cell', className].filter(Boolean).join(' ')} data-kind={kind}>
+        {children ? (
+          <div className="cometal-table__filter-control">{children}</div>
+        ) : (
+          <span className="cometal-table__visually-hidden">{ariaLabel ?? emptyLabel}</span>
+        )}
       </th>
     );
   },
@@ -120,29 +161,12 @@ export interface TableCellProps extends Omit<TdHTMLAttributes<HTMLTableCellEleme
 }
 
 export const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(function TableCell(
-  {
-    state = 'default',
-    align = 'start',
-    leading,
-    trailing,
-    children,
-    className,
-    'aria-disabled': ariaDisabled,
-    ...props
-  },
+  { state = 'default', align = 'start', leading, trailing, children, className, 'aria-disabled': ariaDisabled, ...props },
   ref,
 ) {
   const disabled = state === 'disabled' || ariaDisabled === true;
   return (
-    <td
-      {...props}
-      ref={ref}
-      aria-disabled={disabled || undefined}
-      aria-invalid={state === 'error' || undefined}
-      className={['cometal-table__cell', className].filter(Boolean).join(' ')}
-      data-state={state}
-      data-align={align}
-    >
+    <td {...props} ref={ref} aria-disabled={disabled || undefined} aria-invalid={state === 'error' || undefined} className={['cometal-table__cell', className].filter(Boolean).join(' ')} data-state={state} data-align={align}>
       <div className="cometal-table__cell-content">
         {leading ? <span className="cometal-table__cell-leading">{leading}</span> : null}
         <span className="cometal-table__cell-value">{children}</span>
@@ -152,40 +176,167 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(functi
   );
 });
 
-export interface TableFileCellProps extends Omit<TableCellProps, 'children' | 'leading'> {
-  fileName: string;
-  fileSize?: string;
-  icon?: ReactNode;
+export interface TableSelectionHeaderProps extends Omit<TableHeaderCellProps, 'children' | 'kind' | 'sort' | 'onSortChange'> {
+  selectedCount: number;
+  totalCount: number;
+  onSelectionChange: (selected: boolean) => void;
+  label?: string;
 }
 
-export const TableFileCell = forwardRef<HTMLTableCellElement, TableFileCellProps>(
-  function TableFileCell({ fileName, fileSize, icon = <FileIcon />, className, ...props }, ref) {
+export const TableSelectionHeader = forwardRef<HTMLTableCellElement, TableSelectionHeaderProps>(
+  function TableSelectionHeader({ selectedCount, totalCount, onSelectionChange, label = 'Выбрать все строки', ...props }, ref) {
+    const checked = totalCount > 0 && selectedCount === totalCount;
+    const indeterminate = selectedCount > 0 && !checked;
     return (
-      <TableCell {...props} ref={ref} className={['cometal-table__file-cell', className].filter(Boolean).join(' ')}>
-        <span className="cometal-table__file-icon" aria-hidden="true">{icon}</span>
-        <span className="cometal-table__file-copy">
-          <span className="cometal-table__file-name" title={fileName}>{fileName}</span>
-          {fileSize ? <span className="cometal-table__file-size">{fileSize}</span> : null}
-        </span>
+      <TableHeaderCell {...props} ref={ref} kind="selection">
+        <Checkbox className="cometal-table__checkbox" label={label} size="l" checked={checked} indeterminate={indeterminate} onChange={(event) => onSelectionChange(event.currentTarget.checked)} />
+      </TableHeaderCell>
+    );
+  },
+);
+
+export interface TableSelectionCellProps extends Omit<TableCellProps, 'children' | 'leading' | 'trailing' | 'align'> {
+  label: string;
+  checked?: boolean;
+  defaultChecked?: boolean;
+  onCheckedChange?: (checked: boolean) => void;
+}
+
+export const TableSelectionCell = forwardRef<HTMLTableCellElement, TableSelectionCellProps>(
+  function TableSelectionCell({ label, checked, defaultChecked, onCheckedChange, ...props }, ref) {
+    return (
+      <TableCell {...props} ref={ref} align="center">
+        <Checkbox className="cometal-table__checkbox" label={label} size="l" checked={checked} defaultChecked={defaultChecked} onChange={(event) => onCheckedChange?.(event.currentTarget.checked)} />
       </TableCell>
     );
   },
 );
 
-export function FileIcon() {
-  return (
-    <svg viewBox="0 0 24 24" focusable="false" aria-hidden="true">
-      <path d="M7 3.5h6.8L18 7.7v12.8H7z" fill="none" stroke="currentColor" strokeWidth="var(--cometal-primitive-stroke-140, 1.4)" strokeLinecap="round" strokeLinejoin="round" />
-      <path d="M13.5 3.8v4.4h4.3" fill="none" stroke="currentColor" strokeWidth="var(--cometal-primitive-stroke-140, 1.4)" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
+export const TableIndexCell = forwardRef<HTMLTableCellElement, Omit<TableCellProps, 'align'>>(
+  function TableIndexCell({ className, ...props }, ref) {
+    return <TableCell {...props} ref={ref} align="center" className={['cometal-table__index-cell', className].filter(Boolean).join(' ')} />;
+  },
+);
+
+export interface TableDragHandleProps extends ButtonHTMLAttributes<HTMLButtonElement> {
+  rowLabel: string;
 }
 
-function SortIcon({ direction }: { direction: Exclude<TableSortDirection, 'none'> }) {
-  const down = direction === 'descending';
+export const TableDragHandle = forwardRef<HTMLButtonElement, TableDragHandleProps>(
+  function TableDragHandle({ rowLabel, className, ...props }, ref) {
+    return <button {...props} ref={ref} type="button" className={['cometal-table__drag-handle', className].filter(Boolean).join(' ')} aria-label={`Переместить строку ${rowLabel}`}><TableIcon asset={dragHandleAsset} /></button>;
+  },
+);
+
+export const TableDragCell = forwardRef<HTMLTableCellElement, Omit<TableCellProps, 'align'>>(
+  function TableDragCell({ className, ...props }, ref) {
+    return <TableCell {...props} ref={ref} align="center" className={['cometal-table__drag-cell', className].filter(Boolean).join(' ')} />;
+  },
+);
+
+export interface TableContextActionProps extends Omit<ButtonHTMLAttributes<HTMLButtonElement>, 'children'> {
+  menu: ReactNode;
+  label?: string;
+  menuLabel?: string;
+}
+
+export const TableContextAction = forwardRef<HTMLButtonElement, TableContextActionProps>(
+  function TableContextAction({ menu, label = 'Открыть действия колонки', menuLabel = 'Действия колонки', className, ...props }, ref) {
+    return (
+      <ContextMenu aria-label={menuLabel} trigger={<button {...props} ref={ref} className={['cometal-table__context-action', className].filter(Boolean).join(' ')} type="button" aria-label={label}><TableIcon asset={contextActionAsset} /></button>}>
+        {menu}
+      </ContextMenu>
+    );
+  },
+);
+
+export interface TableFileIconProps extends HTMLAttributes<HTMLImageElement> {
+  type?: TableFileType;
+}
+
+const fileAssets: Record<TableFileType, string> = { word: wordFileAsset, excel: excelFileAsset, file: genericFileAsset, doc: docFileAsset, sheets: sheetsFileAsset, adobe: adobeFileAsset, zip: zipFileAsset, pdf: pdfFileAsset, image: imageFileAsset };
+
+export const TableFileIcon = forwardRef<HTMLImageElement, TableFileIconProps>(
+  function TableFileIcon({ type = 'file', className, ...props }, ref) {
+    return <img {...props} ref={ref} className={['cometal-table__file-asset', className].filter(Boolean).join(' ')} data-file-type={type} src={fileAssets[type]} alt="" aria-hidden="true" />;
+  },
+);
+
+export interface TableFileCellProps extends Omit<TableCellProps, 'children' | 'leading'> {
+  fileName: string;
+  fileSize?: string;
+  fileType?: TableFileType;
+  icon?: ReactNode;
+}
+
+export const TableFileCell = forwardRef<HTMLTableCellElement, TableFileCellProps>(
+  function TableFileCell({ fileName, fileSize, fileType = 'file', icon, className, ...props }, ref) {
+    return (
+      <TableCell {...props} ref={ref} className={['cometal-table__file-cell', className].filter(Boolean).join(' ')}>
+        <span className="cometal-table__file-icon" aria-hidden="true">{icon ?? <TableFileIcon type={fileType} />}</span>
+        <span className="cometal-table__file-copy"><span className="cometal-table__file-name" title={fileName}>{fileName}</span>{fileSize ? <span className="cometal-table__file-size">{fileSize}</span> : null}</span>
+      </TableCell>
+    );
+  },
+);
+
+/** Compatibility alias. Prefer `TableFileIcon` for exact file type swaps. */
+export function FileIcon() {
+  return <TableFileIcon type="file" />;
+}
+
+export interface TableSummaryCellProps extends TableCellProps {
+  kind?: 'empty' | 'label' | 'value';
+}
+
+export const TableSummaryCell = forwardRef<HTMLTableCellElement, TableSummaryCellProps>(
+  function TableSummaryCell({ kind = 'value', className, children, ...props }, ref) {
+    return <TableCell {...props} ref={ref} className={['cometal-table__summary-cell', className].filter(Boolean).join(' ')} data-summary-kind={kind}>{kind === 'empty' ? null : children}</TableCell>;
+  },
+);
+
+export interface TablePaginatorProps extends HTMLAttributes<HTMLElement> {
+  page: number;
+  pageCount: number;
+  onPageChange: (page: number) => void;
+  pageSize?: number;
+  pageSizeOptions?: readonly number[];
+  onPageSizeChange?: (pageSize: number) => void;
+}
+
+function getPaginatorItems(page: number, pageCount: number): Array<number | 'ellipsis-start' | 'ellipsis-end'> {
+  if (pageCount <= 7) return Array.from({ length: pageCount }, (_, index) => index + 1);
+  const items: Array<number | 'ellipsis-start' | 'ellipsis-end'> = [1];
+  if (page > 4) items.push('ellipsis-start');
+  const start = Math.max(2, Math.min(page - 1, pageCount - 4));
+  const end = Math.min(pageCount - 1, Math.max(page + 1, 5));
+  for (let value = start; value <= end; value += 1) items.push(value);
+  if (page < pageCount - 3) items.push('ellipsis-end');
+  items.push(pageCount);
+  return items;
+}
+
+export const TablePaginator = forwardRef<HTMLElement, TablePaginatorProps>(function TablePaginator(
+  { page, pageCount, onPageChange, pageSize, pageSizeOptions = [10, 15, 20, 30], onPageSizeChange, className, ...props },
+  ref,
+) {
+  const safePageCount = Math.max(1, pageCount);
+  const safePage = Math.min(Math.max(1, page), safePageCount);
   return (
-    <svg className="cometal-table__sort-icon" viewBox="0 0 16 16" focusable="false" aria-hidden="true">
-      <path d={down ? 'M8 3.5v9M4.5 9 8 12.5 11.5 9' : 'M8 12.5v-9M4.5 7 8 3.5 11.5 7'} fill="none" stroke="currentColor" strokeWidth="var(--cometal-primitive-stroke-140, 1.4)" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
+    <nav {...props} ref={ref} className={['cometal-table__paginator', className].filter(Boolean).join(' ')} aria-label="Пагинация таблицы">
+      <div className="cometal-table__paginator-spacer" aria-hidden="true" />
+      <div className="cometal-table__paginator-controls">
+        <button type="button" className="cometal-table__page-control" disabled={safePage === 1} onClick={() => onPageChange(safePage - 1)} aria-label="Предыдущая страница"><TableIcon asset={previousAsset} /></button>
+        {getPaginatorItems(safePage, safePageCount).map((item) => typeof item === 'number' ? (
+          <button key={item} type="button" className="cometal-table__page-control" data-current={item === safePage || undefined} aria-current={item === safePage ? 'page' : undefined} onClick={() => onPageChange(item)} aria-label={`Страница ${item}`}>{item}</button>
+        ) : <span key={item} className="cometal-table__page-ellipsis" aria-hidden="true">…</span>)}
+        <button type="button" className="cometal-table__page-control" disabled={safePage === safePageCount} onClick={() => onPageChange(safePage + 1)} aria-label="Следующая страница"><TableIcon asset={nextAsset} /></button>
+      </div>
+      <label className="cometal-table__page-size"><span>Строк</span><select value={pageSize} onChange={(event) => onPageSizeChange?.(Number(event.currentTarget.value))} disabled={!onPageSizeChange} aria-label="Строк на странице">{pageSizeOptions.map((option) => <option key={option} value={option}>{option}</option>)}</select></label>
+    </nav>
   );
+});
+
+function TableIcon({ asset, className }: { asset: string; className?: string }) {
+  return <span className={['cometal-table__asset-icon', className].filter(Boolean).join(' ')} style={{ maskImage: `url(${asset})` } as CSSProperties} aria-hidden="true" />;
 }

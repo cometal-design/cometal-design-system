@@ -872,9 +872,40 @@ code, pre, kbd, samp {
 .component-code-example pre:focus-visible { outline: var(--cometal-semantic-stroke-global-state-focus) solid var(--cometal-semantic-color-global-state-focus-ring); outline-offset: calc(var(--cometal-primitive-spacing-12) * -1); }.component-code-example pre code { font: var(--portal-code-s-size)/var(--cometal-typography-body-m-default-line-height) var(--portal-font-code); white-space: pre; }
 .component-code-example__notice { max-width: var(--portal-copy-medium-width); margin: var(--cometal-primitive-spacing-75) 0 0; color: var(--portal-muted); font-family: var(--cometal-typography-body-s-default-font-family); font-size: var(--cometal-typography-body-s-default-font-size); line-height: var(--cometal-typography-body-s-default-line-height); }
 .visually-hidden { position: absolute !important; overflow: hidden !important; width: 1px !important; height: 1px !important; margin: -1px !important; padding: 0 !important; border: 0 !important; clip: rect(0 0 0 0) !important; white-space: nowrap !important; }
+.widget-slot-example, .component-preview-widget-slot { display: grid; min-height: 240px; place-items: center; border: var(--cometal-primitive-stroke-100) solid var(--cometal-semantic-color-global-border-default); border-radius: var(--cometal-primitive-radius-100); background: var(--cometal-semantic-color-global-surface-subtle); color: var(--cometal-semantic-color-global-text-secondary); }
+.widget-slot-example--compact { min-height: 160px; }
+.widget-geometry-strip { grid-template-columns: repeat(4, minmax(0, 1fr)); }
+.component-preview-widget-slot { min-height: 112px; }
+.component-card[data-component-id='template.widget'] .cometal-widget { width: min(100%, 520px); }
 .review-banner { display: grid; margin-top: var(--cometal-primitive-spacing-150); padding: var(--cometal-primitive-spacing-150) 0 0; grid-template-columns: var(--cometal-documentation-layout-height-foundation-link) minmax(calc(var(--cometal-primitive-spacing-1000) * 2), 1fr) auto; align-items: start; gap: var(--cometal-primitive-spacing-200); border-top: var(--portal-hairline) solid var(--portal-line); }
 .review-banner div span, .review-banner div strong { display: block; }.review-banner div span { color: var(--portal-muted); font: var(--portal-code-xs-size)/var(--portal-code-line-height) var(--portal-font-code); }.review-banner div strong { margin-top: var(--cometal-primitive-spacing-25); font-family: var(--cometal-typography-body-m-accent-font-family); font-size: var(--cometal-typography-body-m-accent-font-size); font-weight: var(--cometal-typography-body-m-accent-font-weight); line-height: var(--cometal-typography-body-m-accent-line-height); }
 .review-banner p { margin: 0; color: var(--portal-muted); font-family: var(--cometal-typography-body-s-default-font-family); font-size: var(--cometal-typography-body-s-default-font-size); line-height: var(--cometal-typography-body-s-default-line-height); }
+
+.component-family-tabs { display: flex; min-width: 0; overflow-x: auto; scrollbar-width: none; border-bottom: var(--portal-hairline) solid var(--portal-line); }
+.component-family-tabs::-webkit-scrollbar { display: none; }
+.component-family-tabs a { position: relative; display: inline-flex; min-height: var(--cometal-primitive-size-48); padding: 0 var(--cometal-primitive-spacing-100); align-items: center; flex: 0 0 auto; color: var(--portal-text-secondary); text-decoration: none; }
+.component-family-tabs a:first-child { padding-left: 0; }
+.component-family-tabs a:hover, .component-family-tabs a[data-active] { color: var(--portal-blue); }
+.component-family-tabs a[data-active]::after { position: absolute; right: var(--cometal-primitive-spacing-100); bottom: 0; left: var(--cometal-primitive-spacing-100); height: var(--cometal-primitive-stroke-200); background: var(--portal-blue); content: ''; }
+.component-family-tabs a:first-child[data-active]::after { left: 0; }
+.component-family-tabs a:focus-visible { outline: var(--cometal-semantic-stroke-global-state-focus) solid var(--cometal-semantic-color-global-state-focus-ring); outline-offset: calc(var(--cometal-primitive-spacing-12) * -1); }
+.table-family-page .component-family-tabs + .content-section { border-top: 0; }
+.docs-table-source { min-width: 1280px; }
+.docs-table-filter { width: 100%; min-width: 0; }
+.docs-table-filter .cometal-field__label-row, .docs-table-filter .cometal-field__support-slot { position: absolute; overflow: hidden; width: 1px; height: 1px; margin: -1px; padding: 0; border: 0; clip: rect(0 0 0 0); white-space: nowrap; }
+.docs-table-filter .cometal-field__control { width: 100%; }
+.table-source-catalog { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: var(--cometal-primitive-spacing-100); }
+.table-source-catalog article { min-height: 164px; padding: var(--cometal-primitive-spacing-150); border: var(--portal-hairline) solid var(--portal-line); border-radius: var(--portal-radius-l); background: var(--portal-surface-raised); }
+.table-source-catalog code, .table-source-catalog p { color: var(--portal-muted); font: var(--portal-code-s-size)/var(--portal-code-line-height) var(--portal-font-code); }
+.table-source-catalog h3 { margin: var(--cometal-primitive-spacing-200) 0 var(--cometal-primitive-spacing-25); font-family: var(--cometal-typography-body-m-accent-font-family); font-size: var(--cometal-typography-body-m-accent-font-size); font-weight: var(--cometal-typography-body-m-accent-font-weight); line-height: var(--cometal-typography-body-m-accent-line-height); }
+.table-source-catalog p { margin: 0; }.table-source-catalog a { display: inline-block; margin-top: var(--cometal-primitive-spacing-100); color: var(--portal-blue); text-decoration: none; }
+.table-cell-catalog { display: grid; gap: var(--cometal-primitive-spacing-150); }
+.table-cell-catalog article { display: grid; min-width: 0; grid-template-columns: var(--cometal-documentation-layout-width-definition-title) minmax(0, 1fr); align-items: center; gap: var(--cometal-primitive-spacing-150); }
+.table-cell-catalog article > code { color: var(--portal-muted); font: var(--portal-code-s-size)/var(--portal-code-line-height) var(--portal-font-code); }
+.table-cell-catalog .cometal-table { min-width: 900px; }
+.table-file-catalog { display: grid; grid-template-columns: repeat(9, minmax(72px, 1fr)); gap: var(--cometal-primitive-spacing-100); }
+.table-file-catalog article { display: grid; min-height: 112px; place-items: center; gap: var(--cometal-primitive-spacing-50); border: var(--portal-hairline) solid var(--portal-line); border-radius: var(--portal-radius-l); background: var(--portal-surface-raised); }
+.table-file-catalog img { width: var(--cometal-primitive-size-24); height: var(--cometal-primitive-size-24); }.table-file-catalog code { color: var(--portal-muted); font: var(--portal-code-s-size)/var(--portal-code-line-height) var(--portal-font-code); }
 
 .field-family-board { border-top: var(--portal-hairline) solid var(--portal-line); }
 .field-family-board > article { display: grid; min-height: var(--cometal-documentation-layout-height-field-row); padding: var(--cometal-primitive-spacing-250) 0; grid-template-columns: var(--cometal-documentation-layout-width-definition-title) minmax(0, 1fr); gap: var(--cometal-primitive-spacing-300); border-bottom: var(--portal-hairline) solid var(--portal-line); scroll-margin-top: calc(var(--portal-header-height) + var(--cometal-primitive-spacing-450)); }
@@ -917,6 +948,9 @@ code, pre, kbd, samp {
   .topbar__group { position: absolute; right: var(--cometal-primitive-spacing-125); }
   .primary-nav { display: none; }.cometal-button.menu-button { display: inline-flex; }
   .mobile-navigation { right: var(--cometal-primitive-spacing-125); left: auto; transform: none; }
+  .table-source-catalog { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .table-cell-catalog article { grid-template-columns: minmax(0, 1fr); }
+  .table-file-catalog { grid-template-columns: repeat(3, minmax(72px, 1fr)); }
   .home-hero__line-break { display: none; }
   .portal-body[data-has-sidebar] { grid-template-columns: 1fr; }
   .section-sidebar { position: static; contain: inline-size; overflow-x: auto; display: block; width: 100%; height: auto; padding: var(--cometal-primitive-spacing-75) var(--cometal-primitive-spacing-125); border-right: 0; border-bottom: var(--portal-hairline) solid var(--portal-line); }
@@ -1008,4 +1042,21 @@ code, pre, kbd, samp {
     animation-name: portal-motion-popover-fade;
     animation-duration: var(--cometal-motion-duration-fast);
   }
+}
+
+.pattern-catalog { padding-block: var(--portal-space-section); }
+.pattern-catalog__item { display: grid; overflow: hidden; border: var(--portal-hairline) solid var(--portal-line); border-radius: var(--cometal-primitive-radius-200, 16px); }
+.pattern-catalog__preview { max-height: 520px; padding: var(--cometal-primitive-spacing-200); overflow: auto; background: var(--cometal-semantic-color-global-surface-canvas); }
+.pattern-catalog__preview > .cometal-widget { min-width: 1080px; }
+.pattern-catalog__body { display: grid; padding: var(--cometal-primitive-spacing-200); border-top: var(--portal-hairline) solid var(--portal-line); gap: var(--cometal-primitive-spacing-100); }
+.pattern-catalog__body > div { display: flex; align-items: center; justify-content: space-between; gap: var(--cometal-primitive-spacing-100); }
+.pattern-catalog__body h2, .pattern-catalog__body p { margin: 0; }
+.pattern-catalog__body h2 { font-family: var(--cometal-typography-heading-m-font-family); font-size: var(--cometal-typography-heading-m-font-size); font-weight: var(--cometal-typography-heading-m-font-weight); line-height: var(--cometal-typography-heading-m-line-height); letter-spacing: var(--cometal-typography-heading-m-letter-spacing); }
+.pattern-catalog__body p { color: var(--cometal-semantic-color-global-text-secondary); }
+.widget-table-pattern-page .cometal-widget { max-width: 100%; }
+.component-inline-demo { min-height: 320px; display: flex; align-items: flex-start; padding: var(--cometal-primitive-spacing-200); }
+
+@media (max-width: 680px) {
+  .pattern-catalog__preview { padding: var(--cometal-primitive-spacing-100); }
+  .pattern-catalog__body { padding: var(--cometal-primitive-spacing-150); }
 }

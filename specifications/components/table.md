@@ -4,24 +4,36 @@ name: Table
 status: in-review
 platform: web
 framework: react
-figma: "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-10833"
-storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/patterns-table--overview"
+figma: "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2814-8351"
+storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-table--overview"
 ---
 
 # Table
 
 ## Назначение
 
-Составной паттерн для чтения и редактирования структурированных бизнес-данных. Table собирается из независимых header cells, rows и cells, но сохраняет нативную HTML table-семантику.
+Большое семейство компонентов для чтения и редактирования структурированных бизнес-данных. Table собирается из независимых cells, headers, columns и paginator, но сохраняет нативную HTML table-семантику.
+
+## Канонические Figma sources
+
+- Table / Sources: `2814:8351`.
+- Cells: `2353:9497`.
+- Paginator Source: `2353:10882`.
+- Header Source: `2353:10891`.
+- Main Components: `2353:9824`.
+- Review `2353:10833` используется только как презентационное evidence и не определяет реализацию.
 
 ## Архитектура
 
 - `Table` управляет общей плотностью и горизонтальным scroll container.
 - `TableHead`, `TableBody` и `TableRow` сохраняют нативную структуру таблицы.
-- `TableHeaderCell` поддерживает сортировку, context action и единый второй этаж фильтра.
+- Первый ряд `TableHeaderCell` содержит названия колонок, сортировку и context action.
+- Второй независимый `TableFilterRow` содержит `TableFilterCell` с полями и контролами фильтрации; фильтры не передаются пропом в первый ряд.
 - `TableCell` поддерживает состояния `default`, `active`, `selected`, `editing`, `error`, `disabled`.
 - `TableFileCell` хранит имя и размер файла в одном источнике; Compact скрывает только вторичную строку размера.
-- Tooltip применяется поверх усечённого контента и не дублирует собственный overlay внутри таблицы.
+- `TableSelectionHeader` и `TableSelectionCell` используют общий Checkbox.
+- `TableIndexCell`, `TableDragCell`, `TableDragHandle`, `TableContextAction`, `TableSummaryCell` и `TablePaginator` остаются композиционными кирпичиками.
+- `TableFileCell` использует один из девяти утверждённых file assets: word, excel, file, doc, sheets, adobe, zip, pdf, image.
 - Header actions переиспользуют `ContextMenu`; Table не владеет отдельным menu API.
 - Date range filter переиспользует `DateRangePicker`; paginator, summary row и reorder handle собираются как composition primitives вокруг таблицы.
 - Selection относится к строке, selected/editing/error относятся к конкретной ячейке.
@@ -59,6 +71,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - [x] Все outline SVG используют Stroke/140 = 1.4px.
 - [x] Component/Table и Semantic color variables опубликованы в token source.
 - [x] Tooltip, Context Menu, Date Range filter, summary row, paginator и reorder handle переиспользуют общие primitives.
-- [x] Unit и Storybook interaction checks добавлены.
-- [x] Registry, specification, Storybook и Obsidian связаны стабильным ID.
+- [ ] Unit и Storybook interaction checks пройдены на итоговом локальном SHA.
+- [ ] Независимый Visual QA подтвердил полное совпадение с пятью canonical source nodes.
+- [x] Registry, specification, Storybook и knowledge base связаны стабильным ID.
 - [ ] Frontend Lead acceptance подтверждён.

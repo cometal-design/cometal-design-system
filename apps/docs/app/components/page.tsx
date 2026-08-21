@@ -7,27 +7,26 @@ import { checksComplete, components, statusLabels } from '../../lib/registry';
 
 export const metadata: Metadata = { title: 'Компоненты' };
 
-const catalogContent: Record<string, { href: string; description: string }> = {
-  'action.button': { href: '/components/button/', description: 'Запускает одно понятное действие пользователя.' },
-  'status.badge': { href: '/components/badge/', description: 'Компактно показывает статус или атрибут сущности.' },
-  'input.text-field': { href: '/components/fields/#text-field', description: 'Однострочный ввод в режимах Edit и Read.' },
-  'input.date-picker': { href: '/components/date-picker/', description: 'Ручной ввод и календарный выбор одной даты.' },
-  'input.text-area': { href: '/components/fields/#text-area', description: 'Многострочный ввод с helper и counter.' },
-  'input.select': { href: '/components/fields/#select', description: 'Одиночный выбор из известного набора.' },
-  'input.combobox': { href: '/components/fields/#combobox', description: 'Поиск и выбор одного значения.' },
-  'input.multi-select': { href: '/components/fields/#multi-select', description: 'Множественный выбор с tags в trigger.' },
-  'selection.checkbox': { href: '/components/checkbox/', description: 'Независимый выбор: unchecked, checked и mixed.' },
-  'overlay.tooltip': { href: '/components/tooltip/', description: 'Bounded overlay для коротких пояснений, иконок и служебных подсказок.' },
-  'selection.radio-button': { href: '/components/radio-button/', description: 'Один вариант из взаимоисключающей группы.' },
-  'selection.switch': { href: '/components/switch/', description: 'Мгновенно включает или выключает настройку.' },
-};
+const families = [
+  { id: 'action.button', name: 'Button', href: '/components/button/', description: 'Запускает одно понятное действие пользователя.', children: ['action.button'] },
+  { id: 'status.badge', name: 'Badge', href: '/components/badge/', description: 'Компактно показывает статус или атрибут сущности.', children: ['status.badge'] },
+  { id: 'input.fields', name: 'Fields', href: '/components/fields/', description: 'Text Field, Text Area, Select, Combobox и Multi Select в одном семействе.', children: ['input.text-field', 'input.text-area', 'input.select', 'input.combobox', 'input.multi-select'] },
+  { id: 'input.date-picker', name: 'Date Picker', href: '/components/date-picker/', description: 'Ручной ввод и календарный выбор даты или периода.', children: ['input.date-picker'] },
+  { id: 'selection.checkbox', name: 'Checkbox', href: '/components/checkbox/', description: 'Независимый выбор: unchecked, checked и mixed.', children: ['selection.checkbox'] },
+  { id: 'selection.radio-button', name: 'Radio Button', href: '/components/radio-button/', description: 'Один вариант из взаимоисключающей группы.', children: ['selection.radio-button'] },
+  { id: 'selection.switch', name: 'Switch', href: '/components/switch/', description: 'Мгновенно включает или выключает настройку.', children: ['selection.switch'] },
+  { id: 'overlay.tooltip', name: 'Tooltip', href: '/components/tooltip/', description: 'Короткое пояснение для элемента интерфейса.', children: ['overlay.tooltip'] },
+  { id: 'data-display.table', name: 'Table', href: '/components/table/', description: 'Cells, headers, columns и paginator в одном большом семействе.', children: ['data-display.table'] },
+  { id: 'template.widget', name: 'Widget', href: '/components/widget/', description: 'Универсальная оболочка для title, toolbar и любого content slot.', children: ['template.widget'] },
+  { id: 'overlay.context-menu', name: 'Context Menu', href: '/components/context-menu/', description: 'Контекстные действия над сущностью с pointer и keyboard anchor.', children: ['overlay.context-menu'] },
+] as const;
 
-const componentCatalog = components.filter(
-  (component) =>
-    !component.id.startsWith('data-display.') &&
-    component.id !== 'overlay.context-menu' &&
-    component.id !== 'template.widget',
-);
+const componentCatalog = families.map((family) => {
+  const children = family.children.map((id) => components.find((component) => component.id === id)).filter(Boolean);
+  const status = children.every((component) => component?.status === 'ready') ? 'ready' : 'in-review';
+  const checks = children.length ? Math.min(...children.map((component) => checksComplete(component!))) : 0;
+  return { ...family, status, checks, version: children[0]?.version ?? '0.1.0-beta.1' };
+});
 
 export default function ComponentsPage() {
   return (
@@ -50,14 +49,14 @@ export default function ComponentsPage() {
       />
 
       <section className="component-catalog" aria-label="Каталог компонентов">
-        {componentCatalog.map((component) => (
-          <article className="component-card" data-component-id={component.id} key={component.id}>
-            <div className="component-card__preview"><div className="component-card__demo"><ComponentCatalogPreview id={component.id} /></div></div>
+        {componentCatalog.map((family) => (
+          <article className="component-card" data-component-id={family.id} key={family.id}>
+            <div className="component-card__preview"><div className="component-card__demo"><ComponentCatalogPreview id={family.id} /></div></div>
             <div className="component-card__body">
-              <div><code>{component.id}</code><span className="status" data-status={component.status}>{statusLabels[component.status] ?? component.status}</span></div>
-              <h2><Link href={catalogContent[component.id]?.href ?? '/components/'}>{component.name}</Link></h2>
-              <p>{catalogContent[component.id]?.description}</p>
-              <footer><span>{component.version}</span><span>{checksComplete(component)}/5 источников согласовано</span></footer>
+              <div><code>{family.id}</code><span className="status" data-status={family.status}>{statusLabels[family.status] ?? family.status}</span></div>
+              <h2><Link href={family.href}>{family.name}</Link></h2>
+              <p>{family.description}</p>
+              <footer><span>{family.version}</span><span>{family.checks}/5 источников согласовано</span></footer>
             </div>
           </article>
         ))}

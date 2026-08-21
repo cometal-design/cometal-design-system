@@ -25,22 +25,51 @@ export {
   Table,
   TableBody,
   TableCell,
+  TableContextAction,
+  TableDragCell,
+  TableDragHandle,
   TableFileCell,
+  TableFileIcon,
+  TableFilterCell,
+  TableFilterRow,
   TableHead,
   TableHeaderCell,
+  TableIndexCell,
+  TablePaginator,
   TableRow,
+  TableSelectionCell,
+  TableSelectionHeader,
+  TableSummaryCell,
+  getNextTableSortDirection,
   tableCellStates,
   tableDensities,
+  tableFileTypes,
 } from './Table/Table';
 export type {
   TableCellProps,
   TableCellState,
+  TableContextActionProps,
   TableDensity,
+  TableDragHandleProps,
   TableFileCellProps,
+  TableFileIconProps,
+  TableFileType,
+  TableFilterCellProps,
   TableHeaderCellProps,
+  TablePaginatorProps,
   TableProps,
   TableRowProps,
+  TableSelectionCellProps,
+  TableSelectionHeaderProps,
   TableSortDirection,
+  TableSummaryCellProps,
 } from './Table/Table';
-export { Widget, WidgetContent } from './Widget/Widget';
-export type { WidgetProps } from './Widget/Widget';
+export { tableDocumentationSections, tableFigmaSources, tableSourceFamilies } from './Table/table.docs';
+export type { TableDocumentationSectionId } from './Table/table.docs';
+export { Widget, WidgetContent, WidgetToolbar } from './Widget/Widget';
+export type { WidgetContentProps, WidgetElement, WidgetProps, WidgetToolbarProps } from './Widget/Widget';
+export { WidgetToolbarIcon, widgetToolbarIconTypes } from './Widget/WidgetToolbarIcon';
+export type { WidgetToolbarIconProps, WidgetToolbarIconType } from './Widget/WidgetToolbarIcon';
+export { widgetFigmaLinks, widgetGeometry } from './Widget/widget.docs';
+export { WidgetTablePattern, WidgetTableReviewExample } from './Patterns/WidgetTablePattern';
+export type { WidgetTablePatternProps, WidgetTableReviewExampleProps } from './Patterns/WidgetTablePattern';

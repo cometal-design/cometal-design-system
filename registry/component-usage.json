@@ -17,8 +17,8 @@
     "packageName": "@cometal/react",
     "availability": "beta-target",
     "install": "pnpm add @cometal/react @cometal/tokens",
-    "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport {\n  ContextMenu,\n  ContextMenuItem,\n  DateRangePicker,\n  Table,\n  TableBody,\n  TableCell,\n  TableFileCell,\n  TableHeaderCell,\n  TableHead,\n  TableRow,\n  Tooltip,\n} from '@cometal/react';",
-    "example": "<Table density=\"comfortable\" aria-label=\"Позиции закупки\">\n  <TableHead>\n    <TableRow>\n      <TableHeaderCell filter={<DateRangePicker label=\"Период\" size=\"m\" />}>\n        Период\n      </TableHeaderCell>\n      <TableHeaderCell action={(\n        <ContextMenu trigger={<button aria-label=\"Действия колонки\">⋯</button>}>\n          <ContextMenuItem>Закрепить</ContextMenuItem>\n        </ContextMenu>\n      )}>\n        Наименование\n      </TableHeaderCell>\n    </TableRow>\n  </TableHead>\n  <TableBody>\n    <TableRow>\n      <TableCell>\n        <Tooltip content=\"Лист оцинкованный 1,0 мм\">\n          <span data-cometal-tooltip-trigger>Лист оцинкованный 1,0 мм</span>\n        </Tooltip>\n      </TableCell>\n      <TableFileCell fileName=\"specification.pdf\" fileSize=\"130 KB\" />\n    </TableRow>\n  </TableBody>\n</Table>"
+    "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport {\n  DateRangePicker,\n  Table,\n  TableBody,\n  TableCell,\n  TableFileCell,\n  TableFilterCell,\n  TableFilterRow,\n  TableHeaderCell,\n  TableHead,\n  TableRow,\n} from '@cometal/react';",
+    "example": "<Table density=\"comfortable\" aria-label=\"Позиции закупки\">\n  <TableHead>\n    <TableRow>\n      <TableHeaderCell>Период</TableHeaderCell>\n      <TableHeaderCell>Наименование</TableHeaderCell>\n      <TableHeaderCell>Файл</TableHeaderCell>\n    </TableRow>\n    <TableFilterRow aria-label=\"Фильтры таблицы\">\n      <TableFilterCell>\n        <DateRangePicker label=\"Фильтр по периоду\" size=\"m\" />\n      </TableFilterCell>\n      <TableFilterCell />\n      <TableFilterCell />\n    </TableFilterRow>\n  </TableHead>\n  <TableBody>\n    <TableRow>\n      <TableCell>15–23 июля 2026</TableCell>\n      <TableCell>Лист оцинкованный 1,0 мм</TableCell>\n      <TableFileCell fileName=\"specification.pdf\" fileSize=\"130 KB\" fileType=\"pdf\" />\n    </TableRow>\n  </TableBody>\n</Table>"
   },
   "input.fields": {
     "packageName": "@cometal/react",
@@ -74,6 +74,6 @@
     "availability": "beta-target",
     "install": "pnpm add @cometal/react @cometal/tokens",
     "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport { Widget } from '@cometal/react';",
-    "example": "<Widget title=\"Сводка\" description=\"Структурирует заголовок, actions и content slot\">\n  <div>Content slot</div>\n</Widget>"
+    "example": "<Widget\n  title=\"Сводка\"\n  description=\"20 строк · данные обновлены сегодня\"\n  toolbar={<WidgetActions />}\n>\n  <ApprovedContent />\n</Widget>"
   }
 }

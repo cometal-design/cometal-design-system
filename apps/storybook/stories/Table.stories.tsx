@@ -1,247 +1,124 @@
+import { useMemo, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent, within } from 'storybook/test';
 import {
-  Badge,
-  Button,
-  Checkbox,
-  ContextMenu,
-  ContextMenuDivider,
-  ContextMenuItem,
-  DateRangePicker,
-  Table,
-  TableBody,
-  TableCell,
-  TableFileCell,
-  TableHeaderCell,
-  TableHead,
-  TableRow,
-  TextField,
-  Tooltip,
+  Badge, Button, ContextMenuDivider, ContextMenuItem, DatePicker, DateRangePicker, Select,
+  Table, TableBody, TableCell, TableContextAction, TableDragCell, TableDragHandle,
+  TableFileCell, TableFileIcon, TableFilterCell, TableFilterRow, TableHeaderCell, TableHead,
+  TableIndexCell, TablePaginator, TableRow, TableSelectionCell, TableSelectionHeader,
+  TableSummaryCell, TextField, tableDocumentationSections, tableFileTypes,
+  tableFigmaSources, tableSourceFamilies,
 } from '@cometal/react';
-import type { TableDensity } from '@cometal/react';
+import type { TableCellState, TableDensity, TableFileType, TableSortDirection } from '@cometal/react';
 import { ComponentCodeExample } from './ComponentCodeExample';
 
-const FIGMA_URL = 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-10833';
 const SOURCE_URL = 'https://github.com/cometal-design/cometal-design-system/blob/main/packages/react/src/Table/Table.tsx';
-
-function MenuTrigger() {
-  return (
-    <button className="ds-table-context-action" type="button" aria-label="Открыть меню колонки">
-      <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-        <circle cx="3.5" cy="8" r="1.25" fill="currentColor" />
-        <circle cx="8" cy="8" r="1.25" fill="currentColor" />
-        <circle cx="12.5" cy="8" r="1.25" fill="currentColor" />
-      </svg>
-    </button>
-  );
-}
-
-function ContextAction() {
-  return (
-    <ContextMenu trigger={<MenuTrigger />} aria-label="Действия колонки">
-      <ContextMenuItem>Закрепить</ContextMenuItem>
-      <ContextMenuItem>Скрыть</ContextMenuItem>
-      <ContextMenuDivider />
-      <ContextMenuItem tone="danger">Удалить фильтр</ContextMenuItem>
-    </ContextMenu>
-  );
-}
-
-function ReorderHandle() {
-  return (
-    <button className="ds-table-reorder" type="button" aria-label="Переместить строку">
-      <svg viewBox="0 0 16 16" aria-hidden="true" focusable="false">
-        <path d="M5 4.25h6M5 8h6M5 11.75h6" fill="none" stroke="currentColor" strokeWidth="var(--cometal-primitive-stroke-140, 1.4)" strokeLinecap="round" />
-      </svg>
-    </button>
-  );
-}
-
-function StatusBadge({ children, tone }: { children: string; tone: 'green' | 'yellow' | 'red' }) {
-  return <Badge tone={tone}>{children}</Badge>;
-}
-
-const rows = [
-  { id: 1, selected: false, position: 'POS-00127', name: 'Рулон холоднокатаный 0,5 мм', quantity: 120, status: 'Согласовано', tone: 'green' as const, file: 'specification.pdf', size: '130 KB', period: '15.07.2026 — 23.07.2026' },
-  { id: 2, selected: true, position: 'POS-00128', name: 'Лист оцинкованный 1,0 мм для фасадной линии №4 с длинным названием', quantity: 48, status: 'На проверке', tone: 'yellow' as const, file: 'drawing.dwg', size: '2.4 MB', period: '20.07.2026 — 27.07.2026' },
-  { id: 3, selected: false, position: 'POS-00129', name: 'Труба профильная 40 × 20', quantity: 320, status: 'Ошибка', tone: 'red' as const, file: 'requirements.docx', size: '84 KB', period: '01.08.2026 — 10.08.2026' },
-  { id: 4, selected: false, position: 'POS-00130', name: 'Балка двутавровая 20Б1', quantity: 16, status: 'Согласовано', tone: 'green' as const, file: 'certificate.pdf', size: '760 KB', period: '05.08.2026 — 19.08.2026' },
+const statusOptions = [
+  { value: 'all', label: 'Все статусы' }, { value: 'approved', label: 'Согласовано' },
+  { value: 'review', label: 'На проверке' }, { value: 'error', label: 'Ошибка' },
+];
+const sourceRows = [
+  { id: 1, position: 'POS-00127', name: 'Рулон холоднокатаный 0,5 мм', quantity: 120, status: 'Согласовано', tone: 'green' as const, file: 'specification.pdf', size: '130 KB', type: 'pdf' as TableFileType },
+  { id: 2, position: 'POS-00128', name: 'Лист оцинкованный 1,0 мм для фасадной линии №4', quantity: 48, status: 'На проверке', tone: 'yellow' as const, file: 'drawing.dwg', size: '2.4 MB', type: 'file' as TableFileType },
+  { id: 3, position: 'POS-00129', name: 'Труба профильная 40 × 20', quantity: 320, status: 'Ошибка', tone: 'red' as const, file: 'requirements.docx', size: '84 KB', type: 'word' as TableFileType },
+  { id: 4, position: 'POS-00130', name: 'Балка двутавровая 20Б1', quantity: 16, status: 'Согласовано', tone: 'green' as const, file: 'certificate.pdf', size: '760 KB', type: 'pdf' as TableFileType },
 ];
 
-function NameCell({ value }: { value: string }) {
+function ColumnMenu() {
+  return <><ContextMenuItem>Закрепить слева</ContextMenuItem><ContextMenuItem>Скрыть колонку</ContextMenuItem><ContextMenuDivider /><ContextMenuItem tone="danger">Сбросить фильтр</ContextMenuItem></>;
+}
+function HeaderAction({ column }: { column: string }) {
+  return <TableContextAction label={`Действия колонки ${column}`} menuLabel={`Действия колонки ${column}`} menu={<ColumnMenu />} />;
+}
+
+function SourceTable({ density = 'comfortable', filters = true, ariaLabel = 'Позиции закупки' }: { density?: TableDensity; filters?: boolean; ariaLabel?: string }) {
+  const [selected, setSelected] = useState<number[]>([2]);
+  const [sort, setSort] = useState<TableSortDirection>('ascending');
+  const toggleAll = (checked: boolean) => setSelected(checked ? sourceRows.map((row) => row.id) : []);
   return (
-    <Tooltip content={value} placement="top-start">
-      <span data-cometal-tooltip-trigger className="ds-table-truncate">{value}</span>
-    </Tooltip>
+    <Table density={density} aria-label={ariaLabel} className="ds-table-source-example">
+      <TableHead>
+        <TableRow>
+          <TableHeaderCell kind="drag"><span className="sr-only">Перемещение</span></TableHeaderCell>
+          <TableHeaderCell kind="index">№</TableHeaderCell>
+          <TableSelectionHeader selectedCount={selected.length} totalCount={sourceRows.length} onSelectionChange={toggleAll} />
+          <TableHeaderCell style={{ width: 156 }} sort={sort} onSortChange={setSort} action={<HeaderAction column="Позиция" />}>Позиция</TableHeaderCell>
+          <TableHeaderCell style={{ width: 300 }} action={<HeaderAction column="Наименование" />}>Наименование</TableHeaderCell>
+          <TableHeaderCell style={{ width: 136 }} action={<HeaderAction column="Количество" />}>Количество</TableHeaderCell>
+          <TableHeaderCell style={{ width: 160 }} action={<HeaderAction column="Статус" />}>Статус</TableHeaderCell>
+          <TableHeaderCell style={{ width: 220 }} action={<HeaderAction column="Файл" />}>Файл</TableHeaderCell>
+        </TableRow>
+        {filters ? <TableFilterRow aria-label="Фильтры таблицы">
+          <TableFilterCell kind="drag" /><TableFilterCell kind="index" /><TableFilterCell kind="selection" />
+          <TableFilterCell><TextField className="ds-table-filter-field" label="Фильтр по позиции" size="s" placeholder="Найти" /></TableFilterCell>
+          <TableFilterCell><TextField className="ds-table-filter-field" label="Фильтр по наименованию" size="s" placeholder="Найти" /></TableFilterCell>
+          <TableFilterCell><TextField className="ds-table-filter-field" label="Фильтр по количеству" size="s" inputMode="numeric" placeholder="0" /></TableFilterCell>
+          <TableFilterCell><Select className="ds-table-filter-field" label="Фильтр по статусу" size="s" options={statusOptions} defaultValue="all" /></TableFilterCell>
+          <TableFilterCell><TextField className="ds-table-filter-field" label="Фильтр по файлу" size="s" placeholder="Найти" /></TableFilterCell>
+        </TableFilterRow> : null}
+      </TableHead>
+      <TableBody>
+        {sourceRows.map((row) => <TableRow key={row.id} selected={selected.includes(row.id)}>
+          <TableDragCell><TableDragHandle rowLabel={String(row.id)} /></TableDragCell>
+          <TableIndexCell>{row.id}</TableIndexCell>
+          <TableSelectionCell label={`Выбрать строку ${row.id}`} checked={selected.includes(row.id)} onCheckedChange={(checked) => setSelected((current) => checked ? [...current, row.id] : current.filter((id) => id !== row.id))} />
+          <TableCell state={row.id === 2 ? 'selected' : 'default'}>{row.position}</TableCell>
+          <TableCell state={row.id === 3 ? 'error' : 'default'}>{row.name}</TableCell>
+          <TableCell align="end">{row.quantity}</TableCell><TableCell><Badge tone={row.tone}>{row.status}</Badge></TableCell>
+          <TableFileCell fileName={row.file} fileSize={row.size} fileType={row.type} />
+        </TableRow>)}
+        <TableRow><TableSummaryCell kind="empty" colSpan={3} /><TableSummaryCell kind="label" colSpan={2}>Итого</TableSummaryCell><TableSummaryCell kind="value" align="end">504</TableSummaryCell><TableSummaryCell kind="value">4 позиции</TableSummaryCell><TableSummaryCell kind="value">4 файла</TableSummaryCell></TableRow>
+      </TableBody>
+    </Table>
   );
 }
 
-function SummaryFooter() {
-  return (
-    <div className="ds-table-footer">
-      <div className="ds-table-footer__summary">
-        <strong>Итого</strong>
-        <span>4 позиции · 504 ед. · 3 файла согласованы</span>
-      </div>
-      <div className="ds-table-footer__pager" role="navigation" aria-label="Пагинация таблицы">
-        <Button size="s" variant="secondary">Назад</Button>
-        <span>Страница 1 из 3</span>
-        <Button size="s" variant="secondary">Далее</Button>
-      </div>
-    </div>
-  );
+function OverviewPage() {
+  const [page, setPage] = useState(1); const [pageSize, setPageSize] = useState(10);
+  return <main className="ds-component-page ds-table-page">
+    <header className="ds-component-hero"><div><span className="ds-eyebrow">COMPONENT FAMILY · WEB · IN REVIEW</span><h1>Table</h1><p>Семейство таблицы из 16 source families. Figma задаёт визуальный и композиционный контракт, React сохраняет нативную HTML table-семантику и минимальный поведенческий API.</p></div><a href={tableFigmaSources.sources} target="_blank" rel="noreferrer">Открыть Sources в Figma ↗</a></header>
+    <section className="ds-component-section"><div className="ds-component-section__intro"><span>01</span><div><h2>Рабочая композиция</h2><p>Первый ряд header содержит названия и действия колонок. Второй независимый ряд синхронно содержит фильтры. Плотность меняет body, но header остаётся 48px.</p></div></div><div className="ds-table-demo"><SourceTable /></div><TablePaginator page={page} pageCount={8} onPageChange={setPage} pageSize={pageSize} onPageSizeChange={setPageSize} /></section>
+    <section className="ds-component-section"><div className="ds-component-section__intro"><span>02</span><div><h2>Состав источников</h2><p>Каждый Figma source family имеет отдельное документированное место. Variant count — evidence покрытия, а не React props.</p></div></div><div className="ds-table-source-grid">{tableSourceFamilies.map((family) => <article key={family.id}><code>{family.id}</code><h3>{family.label}</h3><p>{family.variants} variants</p><a href={family.source} target="_blank" rel="noreferrer">Figma source ↗</a></article>)}</div></section>
+    <section className="ds-component-section"><div className="ds-component-section__intro"><span>03</span><div><h2>Разделы документации</h2><p>Cells, Headers, Columns и Paginator раскрываются самостоятельными stories; служебные primitives не теряются внутри одного большого стенда.</p></div></div><div className="ds-table-doc-index">{tableDocumentationSections.map((section, index) => <article key={section.id}><span>{String(index + 1).padStart(2, '0')}</span><strong>{section.label}</strong></article>)}</div></section>
+    <section className="ds-component-section"><div className="ds-component-section__intro"><span>04</span><div><h2>Код</h2><p>Публичный API разделяет table, header/filter row, cell families, selection, file content, summary и paginator.</p></div></div><ComponentCodeExample componentId="data-display.table" componentName="Table" sourceHref={SOURCE_URL} /></section>
+  </main>;
 }
 
-function WorkingTable({
-  density,
-  filters = false,
-  showSummary = false,
-}: {
-  density: TableDensity;
-  filters?: boolean;
-  showSummary?: boolean;
-}) {
-  const textFilter = filters ? <TextField className="ds-table-filter" label="Поиск" size="s" placeholder="Найти" /> : undefined;
-  const rangeFilter = filters ? (
-    <DateRangePicker
-      className="ds-table-range-filter"
-      label="Период"
-      size="m"
-      defaultValue={{ start: new Date(2026, 6, 15), end: new Date(2026, 6, 23) }}
-    />
-  ) : undefined;
-  return (
-    <div className="ds-table-pattern">
-      <Table density={density} aria-label={`Позиции закупки, плотность ${density}`} className="ds-table-working">
-        <TableHead>
-          <TableRow>
-            <TableHeaderCell kind="index">№</TableHeaderCell>
-            <TableHeaderCell kind="selection"><Checkbox className="ds-table-checkbox" size="l" label="Выбрать все строки" indeterminate /></TableHeaderCell>
-            <TableHeaderCell style={{ width: 156 }} sort="ascending" action={<ContextAction />} filter={textFilter}>Позиция</TableHeaderCell>
-            <TableHeaderCell style={{ width: 312 }} action={<ContextAction />} filter={textFilter}>Наименование</TableHeaderCell>
-            <TableHeaderCell style={{ width: 188 }} action={<ContextAction />} filter={rangeFilter}>Период</TableHeaderCell>
-            <TableHeaderCell style={{ width: 136 }} action={<ContextAction />} filter={textFilter}>Количество</TableHeaderCell>
-            <TableHeaderCell style={{ width: 152 }} action={<ContextAction />} filter={textFilter}>Статус</TableHeaderCell>
-            <TableHeaderCell style={{ width: 224 }} action={<ContextAction />} filter={textFilter}>Файл</TableHeaderCell>
-          </TableRow>
-        </TableHead>
-        <TableBody>
-          {rows.map((row) => (
-            <TableRow key={row.id} selected={row.selected}>
-              <TableCell align="center" leading={<ReorderHandle />}>{row.id}</TableCell>
-              <TableCell align="center" state={row.id === 3 ? 'error' : 'default'}>
-                <Checkbox className="ds-table-checkbox" size="l" label={`Выбрать строку ${row.id}`} defaultChecked={row.selected} />
-              </TableCell>
-              <TableCell state={row.id === 2 ? 'selected' : 'default'}>{row.position}</TableCell>
-              <TableCell state={row.id === 3 ? 'error' : 'default'}><NameCell value={row.name} /></TableCell>
-              <TableCell>{row.period}</TableCell>
-              <TableCell align="end">{row.quantity}</TableCell>
-              <TableCell><StatusBadge tone={row.tone}>{row.status}</StatusBadge></TableCell>
-              <TableFileCell fileName={row.file} fileSize={row.size} />
-            </TableRow>
-          ))}
-        </TableBody>
-      </Table>
-      {showSummary ? <SummaryFooter /> : null}
-    </div>
-  );
+function CellMatrix() {
+  const states: TableCellState[] = ['default', 'active', 'selected', 'editing', 'error', 'disabled'];
+  return <main className="ds-component-page ds-table-page"><header className="ds-component-hero"><div><span className="ds-eyebrow">TABLE · CELLS</span><h1>Cells</h1><p>Read, Edit, Selection, Index, Drag, Summary и File Content собраны из утверждённых source families.</p></div><a href={tableFigmaSources.cells} target="_blank" rel="noreferrer">Cells в Figma ↗</a></header>
+    <section className="ds-component-section"><div className="ds-component-section__intro"><span>01</span><div><h2>Read states</h2><p>Состояние принадлежит ячейке, а тип контента остаётся независимым.</p></div></div><div className="ds-table-cell-matrix">{states.map((state) => <article key={state}><code>{state}</code><Table density="comfortable" aria-label={`Read cell ${state}`}><TableBody><TableRow><TableCell state={state}>Текстовое значение</TableCell><TableCell state={state} align="end">12 450,00</TableCell><TableCell state={state}><Badge tone="blue">Статус</Badge></TableCell></TableRow></TableBody></Table></article>)}</div></section>
+    <section className="ds-component-section"><div className="ds-component-section__intro"><span>02</span><div><h2>Edit states</h2><p>Поля переиспользуют Fields. Table не создаёт собственные input, select или date control.</p></div></div><div className="ds-table-cell-matrix">{states.map((state) => <article key={state}><code>{state}</code><Table density="comfortable" aria-label={`Edit cell ${state}`}><TableBody><TableRow><TableCell state={state}><TextField className="ds-table-filter-field" label={`Текст ${state}`} size="s" defaultValue="Значение" disabled={state === 'disabled'} error={state === 'error' ? 'Ошибка' : undefined} /></TableCell><TableCell state={state}><Select className="ds-table-filter-field" label={`Статус ${state}`} size="s" options={statusOptions} defaultValue="approved" disabled={state === 'disabled'} /></TableCell><TableCell state={state}><DatePicker className="ds-table-filter-field" label={`Дата ${state}`} size="s" defaultValue="2026-07-15" disabled={state === 'disabled'} /></TableCell></TableRow></TableBody></Table></article>)}</div></section>
+    <section className="ds-component-section"><div className="ds-component-section__intro"><span>03</span><div><h2>File icon swaps</h2><p>Девять нейтральных иконок экспортированы из точных Figma sources; stroke и цвет не галлюцинируются в stories.</p></div></div><div className="ds-table-file-grid">{tableFileTypes.map((type) => <article key={type}><TableFileIcon type={type} /><code>{type}</code></article>)}</div></section>
+  </main>;
 }
 
-function OverviewPage({ density }: { density: TableDensity }) {
-  return (
-    <main className="ds-component-page ds-table-page">
-      <header className="ds-component-hero">
-        <div>
-          <span className="ds-eyebrow">PATTERN · DATA DISPLAY · IN REVIEW</span>
-          <h1>Table</h1>
-          <p>Составная таблица для чтения и редактирования бизнес-данных. Колонки сохраняют контент при смене плотности, а состояния принадлежат ячейкам и строкам.</p>
-        </div>
-        <a href={FIGMA_URL} target="_blank" rel="noreferrer">Открыть в Figma ↗</a>
-      </header>
-
-      <section className="ds-component-section">
-        <div className="ds-component-section__intro"><span>01</span><div><h2>Рабочий стенд</h2><p>Header остаётся 48px. Ячейки меняются между Comfortable 48px и Compact 40px; index и selection колонки меняют ширину синхронно.</p></div></div>
-        <div className="ds-table-demo"><WorkingTable density={density} showSummary /></div>
-      </section>
-
-      <section className="ds-component-section">
-        <div className="ds-component-section__intro"><span>02</span><div><h2>Фильтры и overlays</h2><p>Header reuse: text filters, Date Range Picker, Context Menu и Tooltip живут в одном composable contract без дублирования локальных dropdown решений.</p></div></div>
-        <div className="ds-table-demo"><WorkingTable density={density} filters /></div>
-      </section>
-
-      <section className="ds-component-section">
-        <div className="ds-component-section__intro"><span>03</span><div><h2>Композиция поведения</h2><p>Summary, pager и reorder handle остаются composition primitives поверх нативной таблицы. Публичный API не копирует продуктовые row counts и не выносит их в props.</p></div></div>
-        <div className="ds-rule-list"><article><code>Tooltip</code><p>Только для действительно усечённого контента, не для каждого текста по умолчанию.</p></article><article><code>Context Menu</code><p>Header actions reuse общий overlay с Hard elevation и danger semantics.</p></article><article><code>Summary + Pager</code><p>Собираются рядом с таблицей и не меняют её DOM semantics.</p></article></div>
-      </section>
-
-      <section className="ds-component-section">
-        <div className="ds-component-section__intro"><span>04</span><div><h2>Код</h2><p>Публичный API сохраняет нативную table-семантику и разделяет Table, Row, Header Cell, Cell и File Cell.</p></div></div>
-        <ComponentCodeExample componentId="data-display.table" componentName="Table" sourceHref={SOURCE_URL} />
-      </section>
-    </main>
-  );
+function HeaderMatrix() {
+  const [sort, setSort] = useState<TableSortDirection>('none');
+  return <main className="ds-component-page ds-table-page"><header className="ds-component-hero"><div><span className="ds-eyebrow">TABLE · HEADERS</span><h1>Headers</h1><p>Column Header и Filter Header — два отдельных синхронных уровня. Selection и actions используют общие компоненты.</p></div><a href={tableFigmaSources.headers} target="_blank" rel="noreferrer">Header Source в Figma ↗</a></header>
+    <section className="ds-component-section"><div className="ds-component-section__intro"><span>01</span><div><h2>Sort и context actions</h2><p>Сортировка циклично проходит none → ascending → descending; действия открываются отдельной кнопкой.</p></div></div><div className="ds-table-demo"><Table density="comfortable" aria-label="Состояния заголовка"><TableHead><TableRow><TableHeaderCell sort={sort} onSortChange={setSort} action={<HeaderAction column="Позиция" />}>Позиция</TableHeaderCell><TableHeaderCell sort="ascending">По возрастанию</TableHeaderCell><TableHeaderCell sort="descending">По убыванию</TableHeaderCell></TableRow><TableFilterRow><TableFilterCell><TextField className="ds-table-filter-field" label="Текстовый фильтр" size="s" placeholder="Найти" /></TableFilterCell><TableFilterCell><DatePicker className="ds-table-filter-field" label="Дата" size="s" /></TableFilterCell><TableFilterCell><DateRangePicker className="ds-table-filter-field" label="Период" size="m" /></TableFilterCell></TableFilterRow></TableHead></Table></div></section>
+    <section className="ds-component-section"><div className="ds-component-section__intro"><span>02</span><div><h2>Filter types</h2><p>Empty, Text, Number, Date, Period, Select и Boolean размещаются только во втором ряду.</p></div></div><div className="ds-table-filter-types">{['Empty', 'Text', 'Number', 'Date', 'Period', 'Select', 'Boolean'].map((type) => <article key={type}><code>{type}</code><span>{type === 'Empty' ? 'Без control' : 'Общий DS control'}</span></article>)}</div></section>
+  </main>;
 }
 
-const meta = {
-  title: 'Patterns/Table',
-  component: Table,
-  args: { density: 'comfortable' },
-  argTypes: { density: { control: 'inline-radio', options: ['comfortable', 'compact'] } },
-  parameters: { layout: 'fullscreen' },
-  render: ({ density }) => <OverviewPage density={density} />,
-} satisfies Meta<{ density: TableDensity }>;
+function PaginatorDocumentation() {
+  const [page, setPage] = useState(1); const [pageSize, setPageSize] = useState(10);
+  return <main className="ds-component-page ds-table-page"><header className="ds-component-hero"><div><span className="ds-eyebrow">TABLE · PAGINATOR</span><h1>Paginator</h1><p>Previous, Page, Ellipsis, Next и page-size control — отдельный source contract. Он не превращает Figma row counts в API.</p></div><a href={tableFigmaSources.paginator} target="_blank" rel="noreferrer">Paginator Source в Figma ↗</a></header><section className="ds-component-section"><div className="ds-component-section__intro"><span>01</span><div><h2>Интерактивный пример</h2><p>Disabled края, current page, ellipsis и выбор размера страницы доступны с клавиатуры.</p></div></div><TablePaginator page={page} pageCount={12} onPageChange={setPage} pageSize={pageSize} onPageSizeChange={setPageSize} /></section></main>;
+}
 
+function Playground() {
+  const [density, setDensity] = useState<TableDensity>('comfortable'); const [filters, setFilters] = useState(true);
+  const description = useMemo(() => density === 'comfortable' ? '48px body · metadata visible' : '40px body · metadata retained', [density]);
+  return <main className="ds-component-page ds-table-page"><header className="ds-component-hero"><div><span className="ds-eyebrow">TABLE · PLAYGROUND</span><h1>Table Playground</h1><p>{description}</p></div></header><div className="ds-table-playground-controls"><Button size="s" variant={density === 'comfortable' ? 'primary' : 'secondary'} onClick={() => setDensity('comfortable')}>Comfortable</Button><Button size="s" variant={density === 'compact' ? 'primary' : 'secondary'} onClick={() => setDensity('compact')}>Compact</Button><Button size="s" variant="secondary" onClick={() => setFilters((value) => !value)}>{filters ? 'Скрыть фильтры' : 'Показать фильтры'}</Button></div><div className="ds-table-demo"><SourceTable density={density} filters={filters} /></div></main>;
+}
+
+const meta = { title: 'Components/Table', component: Table, args: { 'aria-label': 'Table example' }, parameters: { layout: 'fullscreen', controls: { disable: true } } } satisfies Meta<typeof Table>;
 export default meta;
 type Story = StoryObj<typeof meta>;
-
-export const Overview: Story = {
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const tables = canvas.getAllByRole('table');
-    const firstRow = tables[0].querySelector<HTMLTableCellElement>('tbody td');
-    const selectionControl = tables[0].querySelector<HTMLElement>('tbody .ds-table-checkbox .cometal-selection__control');
-    const fileIconPath = tables[0].querySelector<SVGPathElement>('.cometal-table__file-icon path');
-    const fileSize = canvas.getAllByText('130 KB')[0];
-    const pager = canvas.getByRole('navigation', { name: 'Пагинация таблицы' });
-    await expect(tables[0]).toHaveAttribute('data-density', 'comfortable');
-    await expect(getComputedStyle(firstRow!).height).toBe('48px');
-    await expect(getComputedStyle(selectionControl!).width).toBe('20px');
-    await expect(getComputedStyle(selectionControl!).height).toBe('20px');
-    await expect(getComputedStyle(fileSize).display).not.toBe('none');
-    await expect(getComputedStyle(fileIconPath!).strokeWidth).toBe('1.4px');
-    await expect(pager).toBeVisible();
-  },
-};
-
-export const Compact: Story = {
-  args: { density: 'compact' },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const tables = canvas.getAllByRole('table');
-    const firstRow = tables[0].querySelector<HTMLTableCellElement>('tbody td');
-    const selectionControl = tables[0].querySelector<HTMLElement>('tbody .ds-table-checkbox .cometal-selection__control');
-    const selectionMark = tables[0].querySelector<SVGPathElement>('tbody .ds-table-checkbox .cometal-selection__control path');
-    const fileSize = canvas.getAllByText('130 KB')[0];
-    await expect(tables[0]).toHaveAttribute('data-density', 'compact');
-    await expect(getComputedStyle(firstRow!).height).toBe('40px');
-    await expect(getComputedStyle(selectionControl!).width).toBe('20px');
-    await expect(getComputedStyle(selectionControl!).height).toBe('20px');
-    await expect(getComputedStyle(selectionMark!).strokeWidth).toBe('1.4px');
-    await expect(getComputedStyle(selectionMark!).vectorEffect).toBe('none');
-    await expect(getComputedStyle(fileSize).display).toBe('none');
-    await expect(fileSize).toHaveTextContent('130 KB');
-  },
-};
-
-export const Overlays: Story = {
-  args: { density: 'comfortable' },
-  play: async ({ canvasElement }) => {
-    const canvas = within(canvasElement);
-    const tables = canvas.getAllByRole('table');
-    const longName = 'Лист оцинкованный 1,0 мм для фасадной линии №4 с длинным названием';
-    const trigger = within(tables[0]!).getByText(longName);
-    await userEvent.hover(trigger);
-    await expect(trigger).toBeVisible();
-    await expect(canvas.getByRole('textbox', { name: 'Период' })).toBeVisible();
-  },
-};
+export const Overview: Story = { name: 'Обзор', render: () => <OverviewPage />, play: async ({ canvasElement }) => { const canvas = within(canvasElement); const table = canvas.getByRole('table', { name: 'Позиции закупки' }); await expect(within(table).getAllByRole('row')).toHaveLength(7); await expect(within(table).getByRole('row', { name: /Фильтры таблицы/i })).toBeVisible(); await expect(canvas.getByRole('navigation', { name: 'Пагинация таблицы' })).toBeVisible(); } };
+export const Cells: Story = { name: 'Кирпичики/Cells', render: () => <CellMatrix /> };
+export const Headers: Story = { name: 'Кирпичики/Headers', render: () => <HeaderMatrix />, play: async ({ canvasElement }) => { const canvas = within(canvasElement); const sortButton = canvas.getByRole('button', { name: /Сортировать Позиция/ }); await userEvent.click(sortButton); await expect(canvas.getByRole('columnheader', { name: /Позиция/ })).toHaveAttribute('aria-sort', 'ascending'); } };
+export const Columns: Story = { name: 'Кирпичики/Columns', render: () => <div className="ds-story-canvas"><SourceTable filters={false} /></div> };
+export const Paginator: Story = { name: 'Кирпичики/Paginator', render: () => <PaginatorDocumentation />, play: async ({ canvasElement }) => { const canvas = within(canvasElement); const next = canvas.getByRole('button', { name: 'Следующая страница' }); await userEvent.click(next); await expect(canvas.getByRole('button', { name: 'Страница 2' })).toHaveAttribute('aria-current', 'page'); } };
+export const Density: Story = { name: 'Плотность', render: () => <div className="ds-story-canvas ds-table-density-pair"><section><h2>Comfortable · 48px</h2><SourceTable density="comfortable" filters={false} ariaLabel="Позиции закупки · Comfortable" /></section><section><h2>Compact · 40px</h2><SourceTable density="compact" filters={false} ariaLabel="Позиции закупки · Compact" /></section></div> };
+export const TablePlayground: Story = { name: 'Playground', render: () => <Playground />, play: async ({ canvasElement }) => { const canvas = within(canvasElement); await userEvent.click(canvas.getByRole('button', { name: 'Compact' })); await expect(canvas.getByRole('table', { name: 'Позиции закупки' })).toHaveAttribute('data-density', 'compact'); } };

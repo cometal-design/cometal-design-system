@@ -1,0 +1,630 @@
+{
+  "sets": [
+    {
+      "id": "2804:9393",
+      "key": "ae0499886504f2aed8c00f8c6d76172f159146cf",
+      "name": "Index Column",
+      "directBindings": [
+        {
+          "id": "VariableID:3007:2",
+          "key": "c55866bb1976494b8d012c41108a4602aa439a43",
+          "name": "Component/Table/Cell/Height/Density/Comfortable",
+          "field": "minWidth",
+          "count": 4
+        },
+        {
+          "id": "VariableID:3007:2",
+          "key": "c55866bb1976494b8d012c41108a4602aa439a43",
+          "name": "Component/Table/Cell/Height/Density/Comfortable",
+          "field": "maxWidth",
+          "count": 4
+        },
+        {
+          "id": "VariableID:3007:36",
+          "key": "3a5385da22d98d4be71d0b3238fbe4712f9f4cc0",
+          "name": "Component/Table/Header/Height",
+          "field": "width",
+          "count": 4
+        },
+        {
+          "id": "VariableID:3007:36",
+          "key": "3a5385da22d98d4be71d0b3238fbe4712f9f4cc0",
+          "name": "Component/Table/Header/Height",
+          "field": "height",
+          "count": 16
+        },
+        {
+          "id": "VariableID:3007:42",
+          "key": "72afca6bd950a71f74cdd28a1a74f69b83533c48",
+          "name": "Component/Table/Border/Width",
+          "field": "strokeBottomWeight",
+          "count": 174
+        },
+        {
+          "id": "VariableID:3007:42",
+          "key": "72afca6bd950a71f74cdd28a1a74f69b83533c48",
+          "name": "Component/Table/Border/Width",
+          "field": "strokeRightWeight",
+          "count": 174
+        },
+        {
+          "id": "VariableID:3007:10",
+          "key": "df3c46d66c7476482731408e8f781bea1af7b017",
+          "name": "Component/Table/Header/Surface/Default",
+          "field": "fills",
+          "count": 16
+        },
+        {
+          "id": "VariableID:3007:16",
+          "key": "f1ecfde11952cf16a6f98c5821da102e013c7cee",
+          "name": "Component/Table/Header/Border/Default",
+          "field": "strokes",
+          "count": 16
+        },
+        {
+          "id": "VariableID:3003:366",
+          "key": "2c5d272ae1e1abde56cd312999ab47e64ae8722e",
+          "name": "50",
+          "field": "paddingLeft",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3003:366",
+          "key": "2c5d272ae1e1abde56cd312999ab47e64ae8722e",
+          "name": "50",
+          "field": "paddingTop",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3003:366",
+          "key": "2c5d272ae1e1abde56cd312999ab47e64ae8722e",
+          "name": "50",
+          "field": "paddingRight",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3003:366",
+          "key": "2c5d272ae1e1abde56cd312999ab47e64ae8722e",
+          "name": "50",
+          "field": "paddingBottom",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3007:2",
+          "key": "c55866bb1976494b8d012c41108a4602aa439a43",
+          "name": "Component/Table/Cell/Height/Density/Comfortable",
+          "field": "width",
+          "count": 75
+        },
+        {
+          "id": "VariableID:3007:2",
+          "key": "c55866bb1976494b8d012c41108a4602aa439a43",
+          "name": "Component/Table/Cell/Height/Density/Comfortable",
+          "field": "height",
+          "count": 79
+        },
+        {
+          "id": "VariableID:3007:4",
+          "key": "dc9dfdb58af6fb979a0de4a73c49464d7d4068f3",
+          "name": "Component/Table/Cell/Surface/Default",
+          "field": "fills",
+          "count": 150
+        },
+        {
+          "id": "VariableID:3007:14",
+          "key": "d04cd9769cbfb6c84dbaf447267bf5bb62eb0aee",
+          "name": "Component/Table/Cell/Border/Divider",
+          "field": "strokes",
+          "count": 150
+        },
+        {
+          "id": "VariableID:3007:35",
+          "key": "6cfcde7eb8287c7a4feee1b24daf6d456801d61a",
+          "name": "Component/Table/Cell/Gap",
+          "field": "itemSpacing",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3007:32",
+          "key": "86e70bba7d69d6d96a911fa35e8bd0f9ab5b96d8",
+          "name": "Component/Table/Cell/Inset/Horizontal",
+          "field": "paddingLeft",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3007:32",
+          "key": "86e70bba7d69d6d96a911fa35e8bd0f9ab5b96d8",
+          "name": "Component/Table/Cell/Inset/Horizontal",
+          "field": "paddingRight",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3007:55",
+          "key": "8d76ed70ccb4cbdbbf1169f97b27e8ade4b41116",
+          "name": "Component/Table/Summary/Surface/Default",
+          "field": "fills",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3007:56",
+          "key": "445afd2870efa2296c5d778b913eede7428cd3fa",
+          "name": "Component/Table/Summary/Border/Divider",
+          "field": "strokes",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3007:3",
+          "key": "ea7dd711c987d9e6d20594493670867e06da5642",
+          "name": "Component/Table/Cell/Height/Density/Compact",
+          "field": "minWidth",
+          "count": 4
+        },
+        {
+          "id": "VariableID:3007:3",
+          "key": "ea7dd711c987d9e6d20594493670867e06da5642",
+          "name": "Component/Table/Cell/Height/Density/Compact",
+          "field": "maxWidth",
+          "count": 4
+        },
+        {
+          "id": "VariableID:3007:3",
+          "key": "ea7dd711c987d9e6d20594493670867e06da5642",
+          "name": "Component/Table/Cell/Height/Density/Compact",
+          "field": "width",
+          "count": 75
+        }
+      ],
+      "nestedSources": [
+        {
+          "id": "2371:29825",
+          "key": "f695b9036e3dd55f040af478510e011962c8c937",
+          "name": "Index Header",
+          "count": 8
+        },
+        {
+          "id": "2530:5631",
+          "key": "d629e34c388db15becf99b1795d869f49b93fb0e",
+          "name": "Filter Row",
+          "count": 8
+        },
+        {
+          "id": "2353:9799",
+          "key": "87f7de80b4382ae52980808cba10c55e5ba4e0c4",
+          "name": "Index Cell",
+          "count": 150
+        },
+        {
+          "id": "2760:8131",
+          "key": "19ca2b1be9ccd8da0ff2e41b7803f601cc956808",
+          "name": "Summary Cell",
+          "count": 8
+        }
+      ],
+      "reactionNodeCount": 0
+    },
+    {
+      "id": "2804:27877",
+      "key": "44c694ecff082e819138e09bccceab797e7dd068",
+      "name": "Selection Column",
+      "directBindings": [
+        {
+          "id": "VariableID:3007:2",
+          "key": "c55866bb1976494b8d012c41108a4602aa439a43",
+          "name": "Component/Table/Cell/Height/Density/Comfortable",
+          "field": "minWidth",
+          "count": 4
+        },
+        {
+          "id": "VariableID:3007:2",
+          "key": "c55866bb1976494b8d012c41108a4602aa439a43",
+          "name": "Component/Table/Cell/Height/Density/Comfortable",
+          "field": "maxWidth",
+          "count": 4
+        },
+        {
+          "id": "VariableID:3007:36",
+          "key": "3a5385da22d98d4be71d0b3238fbe4712f9f4cc0",
+          "name": "Component/Table/Header/Height",
+          "field": "width",
+          "count": 4
+        },
+        {
+          "id": "VariableID:3007:36",
+          "key": "3a5385da22d98d4be71d0b3238fbe4712f9f4cc0",
+          "name": "Component/Table/Header/Height",
+          "field": "height",
+          "count": 15
+        },
+        {
+          "id": "VariableID:3007:42",
+          "key": "72afca6bd950a71f74cdd28a1a74f69b83533c48",
+          "name": "Component/Table/Border/Width",
+          "field": "strokeBottomWeight",
+          "count": 174
+        },
+        {
+          "id": "VariableID:3007:42",
+          "key": "72afca6bd950a71f74cdd28a1a74f69b83533c48",
+          "name": "Component/Table/Border/Width",
+          "field": "strokeRightWeight",
+          "count": 174
+        },
+        {
+          "id": "VariableID:3007:10",
+          "key": "df3c46d66c7476482731408e8f781bea1af7b017",
+          "name": "Component/Table/Header/Surface/Default",
+          "field": "fills",
+          "count": 16
+        },
+        {
+          "id": "VariableID:3007:16",
+          "key": "f1ecfde11952cf16a6f98c5821da102e013c7cee",
+          "name": "Component/Table/Header/Border/Default",
+          "field": "strokes",
+          "count": 16
+        },
+        {
+          "id": "VariableID:3003:366",
+          "key": "2c5d272ae1e1abde56cd312999ab47e64ae8722e",
+          "name": "50",
+          "field": "paddingLeft",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3003:366",
+          "key": "2c5d272ae1e1abde56cd312999ab47e64ae8722e",
+          "name": "50",
+          "field": "paddingTop",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3003:366",
+          "key": "2c5d272ae1e1abde56cd312999ab47e64ae8722e",
+          "name": "50",
+          "field": "paddingRight",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3003:366",
+          "key": "2c5d272ae1e1abde56cd312999ab47e64ae8722e",
+          "name": "50",
+          "field": "paddingBottom",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3007:2",
+          "key": "c55866bb1976494b8d012c41108a4602aa439a43",
+          "name": "Component/Table/Cell/Height/Density/Comfortable",
+          "field": "width",
+          "count": 75
+        },
+        {
+          "id": "VariableID:3007:2",
+          "key": "c55866bb1976494b8d012c41108a4602aa439a43",
+          "name": "Component/Table/Cell/Height/Density/Comfortable",
+          "field": "height",
+          "count": 79
+        },
+        {
+          "id": "VariableID:3007:4",
+          "key": "dc9dfdb58af6fb979a0de4a73c49464d7d4068f3",
+          "name": "Component/Table/Cell/Surface/Default",
+          "field": "fills",
+          "count": 150
+        },
+        {
+          "id": "VariableID:3007:14",
+          "key": "d04cd9769cbfb6c84dbaf447267bf5bb62eb0aee",
+          "name": "Component/Table/Cell/Border/Divider",
+          "field": "strokes",
+          "count": 150
+        },
+        {
+          "id": "VariableID:3007:35",
+          "key": "6cfcde7eb8287c7a4feee1b24daf6d456801d61a",
+          "name": "Component/Table/Cell/Gap",
+          "field": "itemSpacing",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3007:32",
+          "key": "86e70bba7d69d6d96a911fa35e8bd0f9ab5b96d8",
+          "name": "Component/Table/Cell/Inset/Horizontal",
+          "field": "paddingLeft",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3007:32",
+          "key": "86e70bba7d69d6d96a911fa35e8bd0f9ab5b96d8",
+          "name": "Component/Table/Cell/Inset/Horizontal",
+          "field": "paddingRight",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3007:55",
+          "key": "8d76ed70ccb4cbdbbf1169f97b27e8ade4b41116",
+          "name": "Component/Table/Summary/Surface/Default",
+          "field": "fills",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3007:56",
+          "key": "445afd2870efa2296c5d778b913eede7428cd3fa",
+          "name": "Component/Table/Summary/Border/Divider",
+          "field": "strokes",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3007:3",
+          "key": "ea7dd711c987d9e6d20594493670867e06da5642",
+          "name": "Component/Table/Cell/Height/Density/Compact",
+          "field": "minWidth",
+          "count": 4
+        },
+        {
+          "id": "VariableID:3007:3",
+          "key": "ea7dd711c987d9e6d20594493670867e06da5642",
+          "name": "Component/Table/Cell/Height/Density/Compact",
+          "field": "maxWidth",
+          "count": 4
+        },
+        {
+          "id": "VariableID:3007:3",
+          "key": "ea7dd711c987d9e6d20594493670867e06da5642",
+          "name": "Component/Table/Cell/Height/Density/Compact",
+          "field": "width",
+          "count": 75
+        },
+        {
+          "id": "VariableID:3007:3",
+          "key": "ea7dd711c987d9e6d20594493670867e06da5642",
+          "name": "Component/Table/Cell/Height/Density/Compact",
+          "field": "height",
+          "count": 10
+        }
+      ],
+      "nestedSources": [
+        {
+          "id": "2353:10934",
+          "key": "3895d7f181a8ef0e83fa65f249d3df89bbab9243",
+          "name": "Selection Header",
+          "count": 8
+        },
+        {
+          "id": "1571:136",
+          "key": "4fd5b92690d8453d63b73540830d6a8dcec61d0a",
+          "name": "Sources/Checkbox Control",
+          "count": 158
+        },
+        {
+          "id": "2530:5631",
+          "key": "d629e34c388db15becf99b1795d869f49b93fb0e",
+          "name": "Filter Row",
+          "count": 8
+        },
+        {
+          "id": "2353:9766",
+          "key": "6d4abb394d1eeba32afdaf13ee79f87231cb6253",
+          "name": "Selection Cell",
+          "count": 150
+        },
+        {
+          "id": "2760:8131",
+          "key": "19ca2b1be9ccd8da0ff2e41b7803f601cc956808",
+          "name": "Summary Cell",
+          "count": 8
+        }
+      ],
+      "reactionNodeCount": 0
+    },
+    {
+      "id": "2804:27879",
+      "key": "a3263b880f17e79a2a7b5b3bffb22587962d6b4a",
+      "name": "Drag Handle Column",
+      "directBindings": [
+        {
+          "id": "VariableID:3007:2",
+          "key": "c55866bb1976494b8d012c41108a4602aa439a43",
+          "name": "Component/Table/Cell/Height/Density/Comfortable",
+          "field": "minWidth",
+          "count": 4
+        },
+        {
+          "id": "VariableID:3007:2",
+          "key": "c55866bb1976494b8d012c41108a4602aa439a43",
+          "name": "Component/Table/Cell/Height/Density/Comfortable",
+          "field": "maxWidth",
+          "count": 4
+        },
+        {
+          "id": "VariableID:3007:36",
+          "key": "3a5385da22d98d4be71d0b3238fbe4712f9f4cc0",
+          "name": "Component/Table/Header/Height",
+          "field": "width",
+          "count": 4
+        },
+        {
+          "id": "VariableID:3007:36",
+          "key": "3a5385da22d98d4be71d0b3238fbe4712f9f4cc0",
+          "name": "Component/Table/Header/Height",
+          "field": "height",
+          "count": 16
+        },
+        {
+          "id": "VariableID:3007:42",
+          "key": "72afca6bd950a71f74cdd28a1a74f69b83533c48",
+          "name": "Component/Table/Border/Width",
+          "field": "strokeBottomWeight",
+          "count": 166
+        },
+        {
+          "id": "VariableID:3007:42",
+          "key": "72afca6bd950a71f74cdd28a1a74f69b83533c48",
+          "name": "Component/Table/Border/Width",
+          "field": "strokeRightWeight",
+          "count": 174
+        },
+        {
+          "id": "VariableID:3007:10",
+          "key": "df3c46d66c7476482731408e8f781bea1af7b017",
+          "name": "Component/Table/Header/Surface/Default",
+          "field": "fills",
+          "count": 16
+        },
+        {
+          "id": "VariableID:3007:16",
+          "key": "f1ecfde11952cf16a6f98c5821da102e013c7cee",
+          "name": "Component/Table/Header/Border/Default",
+          "field": "strokes",
+          "count": 16
+        },
+        {
+          "id": "VariableID:3003:366",
+          "key": "2c5d272ae1e1abde56cd312999ab47e64ae8722e",
+          "name": "50",
+          "field": "paddingLeft",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3003:366",
+          "key": "2c5d272ae1e1abde56cd312999ab47e64ae8722e",
+          "name": "50",
+          "field": "paddingTop",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3003:366",
+          "key": "2c5d272ae1e1abde56cd312999ab47e64ae8722e",
+          "name": "50",
+          "field": "paddingRight",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3003:366",
+          "key": "2c5d272ae1e1abde56cd312999ab47e64ae8722e",
+          "name": "50",
+          "field": "paddingBottom",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3007:2",
+          "key": "c55866bb1976494b8d012c41108a4602aa439a43",
+          "name": "Component/Table/Cell/Height/Density/Comfortable",
+          "field": "width",
+          "count": 75
+        },
+        {
+          "id": "VariableID:3007:2",
+          "key": "c55866bb1976494b8d012c41108a4602aa439a43",
+          "name": "Component/Table/Cell/Height/Density/Comfortable",
+          "field": "height",
+          "count": 79
+        },
+        {
+          "id": "VariableID:3007:4",
+          "key": "dc9dfdb58af6fb979a0de4a73c49464d7d4068f3",
+          "name": "Component/Table/Cell/Surface/Default",
+          "field": "fills",
+          "count": 150
+        },
+        {
+          "id": "VariableID:3007:14",
+          "key": "d04cd9769cbfb6c84dbaf447267bf5bb62eb0aee",
+          "name": "Component/Table/Cell/Border/Divider",
+          "field": "strokes",
+          "count": 150
+        },
+        {
+          "id": "VariableID:3007:35",
+          "key": "6cfcde7eb8287c7a4feee1b24daf6d456801d61a",
+          "name": "Component/Table/Cell/Gap",
+          "field": "itemSpacing",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3007:32",
+          "key": "86e70bba7d69d6d96a911fa35e8bd0f9ab5b96d8",
+          "name": "Component/Table/Cell/Inset/Horizontal",
+          "field": "paddingLeft",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3007:32",
+          "key": "86e70bba7d69d6d96a911fa35e8bd0f9ab5b96d8",
+          "name": "Component/Table/Cell/Inset/Horizontal",
+          "field": "paddingRight",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3007:55",
+          "key": "8d76ed70ccb4cbdbbf1169f97b27e8ade4b41116",
+          "name": "Component/Table/Summary/Surface/Default",
+          "field": "fills",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3007:56",
+          "key": "445afd2870efa2296c5d778b913eede7428cd3fa",
+          "name": "Component/Table/Summary/Border/Divider",
+          "field": "strokes",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3007:3",
+          "key": "ea7dd711c987d9e6d20594493670867e06da5642",
+          "name": "Component/Table/Cell/Height/Density/Compact",
+          "field": "minWidth",
+          "count": 4
+        },
+        {
+          "id": "VariableID:3007:3",
+          "key": "ea7dd711c987d9e6d20594493670867e06da5642",
+          "name": "Component/Table/Cell/Height/Density/Compact",
+          "field": "maxWidth",
+          "count": 4
+        },
+        {
+          "id": "VariableID:3007:3",
+          "key": "ea7dd711c987d9e6d20594493670867e06da5642",
+          "name": "Component/Table/Cell/Height/Density/Compact",
+          "field": "width",
+          "count": 75
+        }
+      ],
+      "nestedSources": [
+        {
+          "id": "2778:8324",
+          "key": "26cbc820faab683c27bcb5c405fb6c5cb3bbebf2",
+          "name": "Drag Handle Header",
+          "count": 8
+        },
+        {
+          "id": "2530:5631",
+          "key": "d629e34c388db15becf99b1795d869f49b93fb0e",
+          "name": "Filter Row",
+          "count": 8
+        },
+        {
+          "id": "2778:8307",
+          "key": "f5006bfc592f060f1f9a47d4dca494ebcde38a34",
+          "name": "Drag Handle Cell",
+          "count": 150
+        },
+        {
+          "id": "2778:8288",
+          "key": "ceebef025061b7d9c32a97eb79324b9d43d32b19",
+          "name": "Drag Handle Icon",
+          "count": 150
+        },
+        {
+          "id": "2760:8131",
+          "key": "19ca2b1be9ccd8da0ff2e41b7803f601cc956808",
+          "name": "Summary Cell",
+          "count": 8
+        }
+      ],
+      "reactionNodeCount": 0
+    }
+  ]
+}
+

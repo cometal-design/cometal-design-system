@@ -3,7 +3,7 @@ import { expect, userEvent, waitFor, within } from 'storybook/test';
 import { ContextMenu, ContextMenuDivider, ContextMenuItem } from '@cometal/react';
 
 const meta = {
-  title: 'Patterns/Context Menu',
+  title: 'Components/Context Menu',
   component: ContextMenu,
   parameters: {
     layout: 'centered',
@@ -40,10 +40,11 @@ export const Overview: Story = {
   ),
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    const body = within(canvasElement.ownerDocument.body);
     const trigger = canvas.getByRole('button', { name: 'Открыть context menu' });
-    await expect(canvas.getByRole('menu')).toBeVisible();
+    await expect(body.getByRole('menu')).toBeVisible();
     await userEvent.keyboard('{Escape}');
-    await waitFor(() => expect(canvas.queryByRole('menu')).not.toBeInTheDocument());
+    await waitFor(() => expect(body.queryByRole('menu')).not.toBeInTheDocument());
     await expect(trigger).toHaveFocus();
   },
 };

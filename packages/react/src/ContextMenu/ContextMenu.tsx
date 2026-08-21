@@ -18,6 +18,7 @@ import type {
   ReactElement,
   ReactNode,
 } from 'react';
+import { createPortal } from 'react-dom';
 import './context-menu.css';
 
 export const contextMenuSizes = ['l', 'm', 's'] as const;
@@ -109,6 +110,7 @@ export const ContextMenu = forwardRef<HTMLSpanElement, ContextMenuProps>(functio
   ref,
 ) {
   const menuId = useId();
+  const generatedTriggerId = `${menuId}-trigger`;
   const rootRef = useRef<HTMLSpanElement | null>(null);
   const triggerRef = useRef<HTMLSpanElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
@@ -139,25 +141,34 @@ export const ContextMenu = forwardRef<HTMLSpanElement, ContextMenuProps>(functio
       if (!(target instanceof Node)) return;
       if (!rootRef.current?.contains(target) && !menuRef.current?.contains(target)) closeMenu();
     };
-    const handleScrollOrResize = () => closeMenu();
+    const handleScroll = () => {
+      if (!menuRef.current) return;
+      const triggerRect = triggerRef.current?.getBoundingClientRect();
+      setPosition(resolveMenuPosition(anchor, menuRef.current.getBoundingClientRect(), triggerRect, pointerAnchor));
+    };
+    const handleResize = () => closeMenu();
     document.addEventListener('pointerdown', handlePointerDown);
-    window.addEventListener('resize', handleScrollOrResize);
-    window.addEventListener('scroll', handleScrollOrResize, true);
+    window.addEventListener('resize', handleResize);
+    window.addEventListener('scroll', handleScroll, true);
     return () => {
       document.removeEventListener('pointerdown', handlePointerDown);
-      window.removeEventListener('resize', handleScrollOrResize);
-      window.removeEventListener('scroll', handleScrollOrResize, true);
+      window.removeEventListener('resize', handleResize);
+      window.removeEventListener('scroll', handleScroll, true);
     };
-  }, [isOpen]);
+  }, [anchor, isOpen, pointerAnchor]);
 
   useEffect(() => {
     if (!isOpen || !menuRef.current) return;
     const triggerRect = triggerRef.current?.getBoundingClientRect();
     const next = resolveMenuPosition(anchor, menuRef.current.getBoundingClientRect(), triggerRect, pointerAnchor);
     setPosition(next);
+  }, [anchor, isOpen, pointerAnchor]);
+
+  useEffect(() => {
+    if (!isOpen || position.top < 0 || !menuRef.current) return;
     const items = menuRef.current.querySelectorAll<HTMLElement>('[data-cometal-menu-item]:not([data-disabled])');
-    items[Math.max(0, activeIndex)]?.focus();
-  }, [activeIndex, anchor, isOpen, pointerAnchor]);
+    items[Math.max(0, activeIndex)]?.focus({ preventScroll: true });
+  }, [activeIndex, isOpen, position]);
 
   const enabledItems = () =>
     Array.from(menuRef.current?.querySelectorAll<HTMLElement>('[data-cometal-menu-item]:not([data-disabled])') ?? []);
@@ -205,12 +216,37 @@ export const ContextMenu = forwardRef<HTMLSpanElement, ContextMenuProps>(functio
 
   const triggerNode = useMemo(() => {
     if (!isValidElement(trigger)) return trigger;
+    const existingTriggerId = (trigger.props as { id?: unknown }).id;
+    const triggerId = typeof existingTriggerId === 'string' ? existingTriggerId : generatedTriggerId;
     return cloneElement(trigger as ReactElement<Record<string, unknown>>, {
+      id: triggerId,
       'aria-haspopup': 'menu',
       'aria-expanded': isOpen,
       'aria-controls': isOpen ? menuId : undefined,
     });
-  }, [isOpen, menuId, trigger]);
+  }, [generatedTriggerId, isOpen, menuId, trigger]);
+
+  const triggerId = isValidElement(trigger) && typeof (trigger.props as { id?: unknown }).id === 'string'
+    ? (trigger.props as { id: string }).id
+    : generatedTriggerId;
+
+  const menuSurface = isOpen ? (
+    <div
+      ref={menuRef}
+      id={menuId}
+      className="cometal-context-menu__surface"
+      data-size={size}
+      role="menu"
+      aria-labelledby={triggerId}
+      style={{ top: `${position.top}px`, left: `${position.left}px` }}
+      onKeyDown={handleMenuKeyDown}
+    >
+      {Children.map(children, (child) => {
+        if (!isValidElement(child)) return child;
+        return cloneElement(child as ReactElement<{ size?: ContextMenuSize }>, { size });
+      })}
+    </div>
+  ) : null;
 
   return (
     <ContextMenuContext.Provider value={{ size, closeMenu }}>
@@ -241,22 +277,7 @@ export const ContextMenu = forwardRef<HTMLSpanElement, ContextMenuProps>(functio
         >
           {triggerNode}
         </span>
-        {isOpen ? (
-          <div
-            ref={menuRef}
-            id={menuId}
-            className="cometal-context-menu__surface"
-            data-size={size}
-            role="menu"
-            style={{ top: `${position.top}px`, left: `${position.left}px` }}
-            onKeyDown={handleMenuKeyDown}
-          >
-            {Children.map(children, (child) => {
-              if (!isValidElement(child)) return child;
-              return cloneElement(child as ReactElement<{ size?: ContextMenuSize }>, { size });
-            })}
-          </div>
-        ) : null}
+        {menuSurface && typeof document !== 'undefined' ? createPortal(menuSurface, document.body) : null}
       </span>
     </ContextMenuContext.Provider>
   );

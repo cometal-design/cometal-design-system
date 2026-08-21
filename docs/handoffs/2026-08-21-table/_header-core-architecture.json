@@ -1,0 +1,613 @@
+{
+  "sources": [
+    {
+      "id": "2353:10896",
+      "key": "4c1f768e5bfc7f8f7a5671ca8fe4ec8ea9d48c8c",
+      "name": "Column Header",
+      "bindings": [
+        {
+          "id": "VariableID:3007:39",
+          "key": "aa72d46a4a1e61f3742c1ecac0b21d5b804580c7",
+          "name": "Component/Table/Header/Gap",
+          "field": "itemSpacing",
+          "count": 6
+        },
+        {
+          "id": "VariableID:3007:37",
+          "key": "01b8e21bf893508c417ad2a8fa07947482531a5f",
+          "name": "Component/Table/Header/Inset/Start",
+          "field": "paddingLeft",
+          "count": 6
+        },
+        {
+          "id": "VariableID:3007:38",
+          "key": "f8852fdeb7d3680f00eba714326aab2075a20ade",
+          "name": "Component/Table/Header/Inset/End",
+          "field": "paddingRight",
+          "count": 6
+        },
+        {
+          "id": "VariableID:3007:36",
+          "key": "3a5385da22d98d4be71d0b3238fbe4712f9f4cc0",
+          "name": "Component/Table/Header/Height",
+          "field": "height",
+          "count": 6
+        },
+        {
+          "id": "VariableID:3007:42",
+          "key": "72afca6bd950a71f74cdd28a1a74f69b83533c48",
+          "name": "Component/Table/Border/Width",
+          "field": "strokeBottomWeight",
+          "count": 6
+        },
+        {
+          "id": "VariableID:3007:42",
+          "key": "72afca6bd950a71f74cdd28a1a74f69b83533c48",
+          "name": "Component/Table/Border/Width",
+          "field": "strokeRightWeight",
+          "count": 6
+        },
+        {
+          "id": "VariableID:3007:48",
+          "key": "d4c1e62c968052195da76979ddc8b48cb6c50cb3",
+          "name": "Component/Table/Column/Content/Min Width",
+          "field": "minWidth",
+          "count": 6
+        },
+        {
+          "id": "VariableID:3007:10",
+          "key": "df3c46d66c7476482731408e8f781bea1af7b017",
+          "name": "Component/Table/Header/Surface/Default",
+          "field": "fills",
+          "count": 1
+        },
+        {
+          "id": "VariableID:3007:16",
+          "key": "f1ecfde11952cf16a6f98c5821da102e013c7cee",
+          "name": "Component/Table/Header/Border/Default",
+          "field": "strokes",
+          "count": 6
+        },
+        {
+          "id": "VariableID:3003:365",
+          "key": "a160e3e65678e7099ba6e3bcd335722ec7bcf154",
+          "name": "25",
+          "field": "itemSpacing",
+          "count": 6
+        },
+        {
+          "id": "VariableID:3007:18",
+          "key": "d8a4f7c9d9f2b68ce75b679eea3bfc008f510091",
+          "name": "Component/Table/Text/Primary",
+          "field": "fills",
+          "count": 2
+        },
+        {
+          "id": "VariableID:3003:398",
+          "key": "ac31f2137c457d1785df0a2048f07e2b4244f5ae",
+          "name": "24",
+          "field": "width",
+          "count": 6
+        },
+        {
+          "id": "VariableID:3003:398",
+          "key": "ac31f2137c457d1785df0a2048f07e2b4244f5ae",
+          "name": "24",
+          "field": "height",
+          "count": 6
+        },
+        {
+          "id": "VariableID:3003:399",
+          "key": "5b1ebf4a70fdca5ae4fff50f9bebb7376851e628",
+          "name": "50",
+          "field": "topLeftRadius",
+          "count": 6
+        },
+        {
+          "id": "VariableID:3003:399",
+          "key": "5b1ebf4a70fdca5ae4fff50f9bebb7376851e628",
+          "name": "50",
+          "field": "topRightRadius",
+          "count": 6
+        },
+        {
+          "id": "VariableID:3003:399",
+          "key": "5b1ebf4a70fdca5ae4fff50f9bebb7376851e628",
+          "name": "50",
+          "field": "bottomLeftRadius",
+          "count": 6
+        },
+        {
+          "id": "VariableID:3003:399",
+          "key": "5b1ebf4a70fdca5ae4fff50f9bebb7376851e628",
+          "name": "50",
+          "field": "bottomRightRadius",
+          "count": 6
+        },
+        {
+          "id": "VariableID:3003:380",
+          "key": "bc29dfdeb4f325ab06c24320f4bcec8011debe1f",
+          "name": "16",
+          "field": "height",
+          "count": 10
+        },
+        {
+          "id": "VariableID:3007:45",
+          "key": "9608c3c09bf2778320bc8e78b6c46f33a3fe5093",
+          "name": "Component/Table/Header/Icon/Context Action",
+          "field": "fills",
+          "count": 6
+        },
+        {
+          "id": "VariableID:3007:11",
+          "key": "4a8930cb3aae926c63afe173497454fdcc0f8a71",
+          "name": "Component/Table/Header/Surface/Hover",
+          "field": "fills",
+          "count": 1
+        },
+        {
+          "id": "VariableID:3007:12",
+          "key": "ae3c41bf7e84721d1ebfc2e46867ac9edd683b2f",
+          "name": "Component/Table/Header/Surface/Selected",
+          "field": "fills",
+          "count": 4
+        },
+        {
+          "id": "VariableID:3007:24",
+          "key": "3d2f374fb3b923c9c08e888fa0fa873d9567c687",
+          "name": "Component/Table/Icon/Secondary",
+          "field": "fills",
+          "count": 4
+        },
+        {
+          "id": "VariableID:3003:404",
+          "key": "37e6be8ce0f68fa3d459b85613fab6bc97ba1190",
+          "name": "140",
+          "field": "strokeWeight",
+          "count": 4
+        },
+        {
+          "id": "VariableID:3007:44",
+          "key": "3a3cd347ca61aff5da38024bbf372e0e8e97a229",
+          "name": "Component/Table/Header/Icon/Sort/Selected",
+          "field": "strokes",
+          "count": 4
+        },
+        {
+          "id": "VariableID:3007:20",
+          "key": "a0f7599ccf73adca2163522eac0abe08c77bf247",
+          "name": "Component/Table/Text/Selected",
+          "field": "fills",
+          "count": 4
+        }
+      ],
+      "nestedComponents": [
+        {
+          "nodeId": "2482:5601",
+          "key": "fb45600f2edbd0729803dcfb47ab9798ba77ecf5",
+          "name": "Menu=Default",
+          "count": 6
+        },
+        {
+          "nodeId": "700:1652",
+          "key": "037ee08a3ab69ab43fc20e3fa7146c470b17248e",
+          "name": "Filled/general/dot-horizontal-filled",
+          "count": 6
+        },
+        {
+          "nodeId": "700:14369",
+          "key": "05e954893b893253dfe35794616e455084df27b6",
+          "name": "Outline/arrows/arrow-up-sm",
+          "count": 2
+        },
+        {
+          "nodeId": "700:14384",
+          "key": "b318b4d2809534a9c6bccda157526990844045bf",
+          "name": "Outline/arrows/down-arrow-sm",
+          "count": 2
+        }
+      ],
+      "iconReferences": [
+        {
+          "nodeId": "700:14369",
+          "key": "05e954893b893253dfe35794616e455084df27b6",
+          "name": "Outline/arrows/arrow-up-sm",
+          "count": 2
+        },
+        {
+          "nodeId": "700:14384",
+          "key": "b318b4d2809534a9c6bccda157526990844045bf",
+          "name": "Outline/arrows/down-arrow-sm",
+          "count": 2
+        }
+      ],
+      "reactionNodeCount": 0
+    },
+    {
+      "id": "2482:5611",
+      "key": "3bc29a02740377b05662f018255b741b6f960b2f",
+      "name": "Context Action",
+      "bindings": [
+        {
+          "id": "VariableID:3003:398",
+          "key": "ac31f2137c457d1785df0a2048f07e2b4244f5ae",
+          "name": "24",
+          "field": "width",
+          "count": 3
+        },
+        {
+          "id": "VariableID:3003:398",
+          "key": "ac31f2137c457d1785df0a2048f07e2b4244f5ae",
+          "name": "24",
+          "field": "height",
+          "count": 3
+        },
+        {
+          "id": "VariableID:3003:399",
+          "key": "5b1ebf4a70fdca5ae4fff50f9bebb7376851e628",
+          "name": "50",
+          "field": "topLeftRadius",
+          "count": 3
+        },
+        {
+          "id": "VariableID:3003:399",
+          "key": "5b1ebf4a70fdca5ae4fff50f9bebb7376851e628",
+          "name": "50",
+          "field": "topRightRadius",
+          "count": 3
+        },
+        {
+          "id": "VariableID:3003:399",
+          "key": "5b1ebf4a70fdca5ae4fff50f9bebb7376851e628",
+          "name": "50",
+          "field": "bottomLeftRadius",
+          "count": 3
+        },
+        {
+          "id": "VariableID:3003:399",
+          "key": "5b1ebf4a70fdca5ae4fff50f9bebb7376851e628",
+          "name": "50",
+          "field": "bottomRightRadius",
+          "count": 3
+        },
+        {
+          "id": "VariableID:3003:380",
+          "key": "bc29dfdeb4f325ab06c24320f4bcec8011debe1f",
+          "name": "16",
+          "field": "height",
+          "count": 3
+        },
+        {
+          "id": "VariableID:3007:45",
+          "key": "9608c3c09bf2778320bc8e78b6c46f33a3fe5093",
+          "name": "Component/Table/Header/Icon/Context Action",
+          "field": "fills",
+          "count": 3
+        },
+        {
+          "id": "VariableID:3004:68",
+          "key": "90dfb89084299714319cb595755bac794d3e0fb2",
+          "name": "Global/State/Focus",
+          "field": "strokeTopWeight",
+          "count": 3
+        },
+        {
+          "id": "VariableID:3004:68",
+          "key": "90dfb89084299714319cb595755bac794d3e0fb2",
+          "name": "Global/State/Focus",
+          "field": "strokeBottomWeight",
+          "count": 3
+        },
+        {
+          "id": "VariableID:3004:68",
+          "key": "90dfb89084299714319cb595755bac794d3e0fb2",
+          "name": "Global/State/Focus",
+          "field": "strokeLeftWeight",
+          "count": 3
+        },
+        {
+          "id": "VariableID:3004:68",
+          "key": "90dfb89084299714319cb595755bac794d3e0fb2",
+          "name": "Global/State/Focus",
+          "field": "strokeRightWeight",
+          "count": 3
+        },
+        {
+          "id": "VariableID:3004:21",
+          "key": "d7633a414771e03c30c187b0b9389273968f81ba",
+          "name": "Global/State/Focus/Ring",
+          "field": "strokes",
+          "count": 3
+        },
+        {
+          "id": "VariableID:3007:46",
+          "key": "c068a7dab7b4969ec037d3a6d0cb38707a1d43b9",
+          "name": "Component/Table/Header/Surface/Context Action/Hover",
+          "field": "fills",
+          "count": 1
+        },
+        {
+          "id": "VariableID:3007:47",
+          "key": "2b131d97cc6d9440da0fa9849e6da1bd0b9a1afd",
+          "name": "Component/Table/Header/Surface/Context Action/Open",
+          "field": "fills",
+          "count": 1
+        }
+      ],
+      "nestedComponents": [
+        {
+          "nodeId": "700:1652",
+          "key": "037ee08a3ab69ab43fc20e3fa7146c470b17248e",
+          "name": "Filled/general/dot-horizontal-filled",
+          "count": 3
+        }
+      ],
+      "iconReferences": [],
+      "reactionNodeCount": 0
+    },
+    {
+      "id": "2353:10934",
+      "key": "3895d7f181a8ef0e83fa65f249d3df89bbab9243",
+      "name": "Selection Header",
+      "bindings": [
+        {
+          "id": "VariableID:3007:36",
+          "key": "3a5385da22d98d4be71d0b3238fbe4712f9f4cc0",
+          "name": "Component/Table/Header/Height",
+          "field": "width",
+          "count": 9
+        },
+        {
+          "id": "VariableID:3007:36",
+          "key": "3a5385da22d98d4be71d0b3238fbe4712f9f4cc0",
+          "name": "Component/Table/Header/Height",
+          "field": "height",
+          "count": 18
+        },
+        {
+          "id": "VariableID:3007:42",
+          "key": "72afca6bd950a71f74cdd28a1a74f69b83533c48",
+          "name": "Component/Table/Border/Width",
+          "field": "strokeBottomWeight",
+          "count": 18
+        },
+        {
+          "id": "VariableID:3007:42",
+          "key": "72afca6bd950a71f74cdd28a1a74f69b83533c48",
+          "name": "Component/Table/Border/Width",
+          "field": "strokeRightWeight",
+          "count": 18
+        },
+        {
+          "id": "VariableID:3007:10",
+          "key": "df3c46d66c7476482731408e8f781bea1af7b017",
+          "name": "Component/Table/Header/Surface/Default",
+          "field": "fills",
+          "count": 12
+        },
+        {
+          "id": "VariableID:3007:16",
+          "key": "f1ecfde11952cf16a6f98c5821da102e013c7cee",
+          "name": "Component/Table/Header/Border/Default",
+          "field": "strokes",
+          "count": 18
+        },
+        {
+          "id": "VariableID:3003:381",
+          "key": "8aab7a09fca43be506ca8608d0bcac8c7b327ef4",
+          "name": "20",
+          "field": "width",
+          "count": 36
+        },
+        {
+          "id": "VariableID:3003:381",
+          "key": "8aab7a09fca43be506ca8608d0bcac8c7b327ef4",
+          "name": "20",
+          "field": "height",
+          "count": 36
+        },
+        {
+          "id": "VariableID:3004:124",
+          "key": "cdef2ceecdc9772299ea24a5cb716035dc305d28",
+          "name": "Global/Checkbox",
+          "field": "topLeftRadius",
+          "count": 18
+        },
+        {
+          "id": "VariableID:3004:124",
+          "key": "cdef2ceecdc9772299ea24a5cb716035dc305d28",
+          "name": "Global/Checkbox",
+          "field": "topRightRadius",
+          "count": 18
+        },
+        {
+          "id": "VariableID:3004:124",
+          "key": "cdef2ceecdc9772299ea24a5cb716035dc305d28",
+          "name": "Global/Checkbox",
+          "field": "bottomLeftRadius",
+          "count": 18
+        },
+        {
+          "id": "VariableID:3004:124",
+          "key": "cdef2ceecdc9772299ea24a5cb716035dc305d28",
+          "name": "Global/Checkbox",
+          "field": "bottomRightRadius",
+          "count": 18
+        },
+        {
+          "id": "VariableID:3004:70",
+          "key": "bcd3f0573609d4dff45342451bb1599d98c871b5",
+          "name": "Global/Surface/Canvas",
+          "field": "fills",
+          "count": 8
+        },
+        {
+          "id": "VariableID:3004:152",
+          "key": "13e4b49860b415f44bc88d5712f6def5d3abebd8",
+          "name": "Global/Border/Control",
+          "field": "strokes",
+          "count": 4
+        },
+        {
+          "id": "VariableID:3007:11",
+          "key": "4a8930cb3aae926c63afe173497454fdcc0f8a71",
+          "name": "Component/Table/Header/Surface/Hover",
+          "field": "fills",
+          "count": 6
+        },
+        {
+          "id": "VariableID:3004:71",
+          "key": "6fa8cc6c395ec0193e9c412c3f29191982dacd30",
+          "name": "Global/Surface/Subtle",
+          "field": "fills",
+          "count": 2
+        },
+        {
+          "id": "VariableID:3004:72",
+          "key": "9eb6cd0a852fecfa820704633797a728f0ef4f68",
+          "name": "Global/Surface/Muted",
+          "field": "fills",
+          "count": 2
+        },
+        {
+          "id": "VariableID:3004:102",
+          "key": "6f12a29ac6d2e44bc5a4f87d0e6ff655a7749a1f",
+          "name": "Global/Action/Brand/Default",
+          "field": "fills",
+          "count": 4
+        },
+        {
+          "id": "VariableID:3004:102",
+          "key": "6f12a29ac6d2e44bc5a4f87d0e6ff655a7749a1f",
+          "name": "Global/Action/Brand/Default",
+          "field": "strokes",
+          "count": 4
+        },
+        {
+          "id": "VariableID:3004:103",
+          "key": "b59bac480d84da840a18f3586a94a4d3a6b43f18",
+          "name": "Global/Action/Brand/Hover",
+          "field": "fills",
+          "count": 4
+        },
+        {
+          "id": "VariableID:3004:105",
+          "key": "ff93f19dbfc4685b650225a1c41ec039bf2562fc",
+          "name": "Global/Action/Brand/Disabled",
+          "field": "fills",
+          "count": 4
+        },
+        {
+          "id": "VariableID:3003:404",
+          "key": "37e6be8ce0f68fa3d459b85613fab6bc97ba1190",
+          "name": "140",
+          "field": "strokeWeight",
+          "count": 6
+        },
+        {
+          "id": "VariableID:3004:70",
+          "key": "bcd3f0573609d4dff45342451bb1599d98c871b5",
+          "name": "Global/Surface/Canvas",
+          "field": "strokes",
+          "count": 6
+        }
+      ],
+      "nestedComponents": [
+        {
+          "nodeId": "1571:4",
+          "key": "acbb7114ca2c571a6a32eff55979f1e3eb71e8aa",
+          "name": "Size=L, State=Default, Value=Unchecked",
+          "count": 2
+        },
+        {
+          "nodeId": "1571:15",
+          "key": "1971444e40d2e7f01ccd7a6aae6c2eb71fbc2e26",
+          "name": "Size=L, State=Hover, Value=Unchecked",
+          "count": 2
+        },
+        {
+          "nodeId": "1571:37",
+          "key": "fd51787d25b61f15188121ef2bae24d49a0cea1c",
+          "name": "Size=L, State=Disabled, Value=Unchecked",
+          "count": 2
+        },
+        {
+          "nodeId": "1571:11",
+          "key": "d0172433d2a74524d98495a0384fa50a0463f89b",
+          "name": "Size=L, State=Default, Value=Mixed",
+          "count": 2
+        },
+        {
+          "nodeId": "1571:22",
+          "key": "cc2f1c7e878991fd5c0a364c7e03651557bcb9ae",
+          "name": "Size=L, State=Hover, Value=Mixed",
+          "count": 2
+        },
+        {
+          "nodeId": "1571:44",
+          "key": "96358ba7b808803fb3ac9a406fed7c194ab9ef33",
+          "name": "Size=L, State=Disabled, Value=Mixed",
+          "count": 2
+        },
+        {
+          "nodeId": "1571:7",
+          "key": "4236e4a691ddf47474e5700e3dad6e84769f3974",
+          "name": "Size=L, State=Default, Value=Checked",
+          "count": 2
+        },
+        {
+          "nodeId": "1571:18",
+          "key": "bfa19a07070d3d0112bac7c51c557121aeea209c",
+          "name": "Size=L, State=Hover, Value=Checked",
+          "count": 2
+        },
+        {
+          "nodeId": "1571:40",
+          "key": "50b2096d6541106a90e8141f62ae00f108902907",
+          "name": "Size=L, State=Disabled, Value=Checked",
+          "count": 2
+        }
+      ],
+      "iconReferences": [
+        {
+          "nodeId": "1571:4",
+          "key": "acbb7114ca2c571a6a32eff55979f1e3eb71e8aa",
+          "name": "Size=L, State=Default, Value=Unchecked",
+          "count": 2
+        },
+        {
+          "nodeId": "1571:15",
+          "key": "1971444e40d2e7f01ccd7a6aae6c2eb71fbc2e26",
+          "name": "Size=L, State=Hover, Value=Unchecked",
+          "count": 2
+        },
+        {
+          "nodeId": "1571:37",
+          "key": "fd51787d25b61f15188121ef2bae24d49a0cea1c",
+          "name": "Size=L, State=Disabled, Value=Unchecked",
+          "count": 2
+        },
+        {
+          "nodeId": "1571:7",
+          "key": "4236e4a691ddf47474e5700e3dad6e84769f3974",
+          "name": "Size=L, State=Default, Value=Checked",
+          "count": 2
+        },
+        {
+          "nodeId": "1571:18",
+          "key": "bfa19a07070d3d0112bac7c51c557121aeea209c",
+          "name": "Size=L, State=Hover, Value=Checked",
+          "count": 2
+        },
+        {
+          "nodeId": "1571:40",
+          "key": "50b2096d6541106a90e8141f62ae00f108902907",
+          "name": "Size=L, State=Disabled, Value=Checked",
+          "count": 2
+        }
+      ],
+      "reactionNodeCount": 0
+    }
+  ]
+}
+
