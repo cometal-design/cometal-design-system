@@ -28,7 +28,7 @@ import imageFileAsset from './assets/file-image.svg';
 import './table.css';
 
 export const tableDensities = ['comfortable', 'compact'] as const;
-export const tableCellStates = ['default', 'active', 'selected', 'editing', 'error', 'disabled'] as const;
+export const tableCellStates = ['default', 'hover', 'active', 'selected', 'editing', 'error', 'dragging', 'disabled'] as const;
 export const tableFileTypes = ['word', 'excel', 'file', 'doc', 'sheets', 'adobe', 'zip', 'pdf', 'image'] as const;
 
 export type TableDensity = (typeof tableDensities)[number];
@@ -181,15 +181,16 @@ export interface TableSelectionHeaderProps extends Omit<TableHeaderCellProps, 'c
   totalCount: number;
   onSelectionChange: (selected: boolean) => void;
   label?: string;
+  disabled?: boolean;
 }
 
 export const TableSelectionHeader = forwardRef<HTMLTableCellElement, TableSelectionHeaderProps>(
-  function TableSelectionHeader({ selectedCount, totalCount, onSelectionChange, label = 'Выбрать все строки', ...props }, ref) {
+  function TableSelectionHeader({ selectedCount, totalCount, onSelectionChange, label = 'Выбрать все строки', disabled = false, ...props }, ref) {
     const checked = totalCount > 0 && selectedCount === totalCount;
     const indeterminate = selectedCount > 0 && !checked;
     return (
       <TableHeaderCell {...props} ref={ref} kind="selection">
-        <Checkbox className="cometal-table__checkbox" label={label} size="l" checked={checked} indeterminate={indeterminate} onChange={(event) => onSelectionChange(event.currentTarget.checked)} />
+        <Checkbox className="cometal-table__checkbox" label={label} size="l" checked={checked} indeterminate={indeterminate} disabled={disabled} onChange={(event) => onSelectionChange(event.currentTarget.checked)} />
       </TableHeaderCell>
     );
   },
@@ -200,13 +201,14 @@ export interface TableSelectionCellProps extends Omit<TableCellProps, 'children'
   checked?: boolean;
   defaultChecked?: boolean;
   onCheckedChange?: (checked: boolean) => void;
+  disabled?: boolean;
 }
 
 export const TableSelectionCell = forwardRef<HTMLTableCellElement, TableSelectionCellProps>(
-  function TableSelectionCell({ label, checked, defaultChecked, onCheckedChange, ...props }, ref) {
+  function TableSelectionCell({ label, checked, defaultChecked, onCheckedChange, disabled = false, ...props }, ref) {
     return (
       <TableCell {...props} ref={ref} align="center">
-        <Checkbox className="cometal-table__checkbox" label={label} size="l" checked={checked} defaultChecked={defaultChecked} onChange={(event) => onCheckedChange?.(event.currentTarget.checked)} />
+        <Checkbox className="cometal-table__checkbox" label={label} size="l" checked={checked} defaultChecked={defaultChecked} disabled={disabled} onChange={(event) => onCheckedChange?.(event.currentTarget.checked)} />
       </TableCell>
     );
   },
@@ -238,12 +240,14 @@ export interface TableContextActionProps extends Omit<ButtonHTMLAttributes<HTMLB
   menu: ReactNode;
   label?: string;
   menuLabel?: string;
+  /** Documentation and controlled compositions can expose the approved Open state. */
+  defaultOpen?: boolean;
 }
 
 export const TableContextAction = forwardRef<HTMLButtonElement, TableContextActionProps>(
-  function TableContextAction({ menu, label = 'Открыть действия колонки', menuLabel = 'Действия колонки', className, ...props }, ref) {
+  function TableContextAction({ menu, label = 'Открыть действия колонки', menuLabel = 'Действия колонки', defaultOpen = false, className, ...props }, ref) {
     return (
-      <ContextMenu aria-label={menuLabel} trigger={<button {...props} ref={ref} className={['cometal-table__context-action', className].filter(Boolean).join(' ')} type="button" aria-label={label}><TableIcon asset={contextActionAsset} /></button>}>
+      <ContextMenu aria-label={menuLabel} defaultOpen={defaultOpen} trigger={<button {...props} ref={ref} className={['cometal-table__context-action', className].filter(Boolean).join(' ')} type="button" aria-label={label}><TableIcon asset={contextActionAsset} /></button>}>
         {menu}
       </ContextMenu>
     );
@@ -317,13 +321,13 @@ function getPaginatorItems(page: number, pageCount: number): Array<number | 'ell
 }
 
 export const TablePaginator = forwardRef<HTMLElement, TablePaginatorProps>(function TablePaginator(
-  { page, pageCount, onPageChange, pageSize, pageSizeOptions = [10, 15, 20, 30], onPageSizeChange, className, ...props },
+  { page, pageCount, onPageChange, pageSize, pageSizeOptions = [10, 15, 20, 30], onPageSizeChange, className, 'aria-label': ariaLabel = 'Пагинация таблицы', ...props },
   ref,
 ) {
   const safePageCount = Math.max(1, pageCount);
   const safePage = Math.min(Math.max(1, page), safePageCount);
   return (
-    <nav {...props} ref={ref} className={['cometal-table__paginator', className].filter(Boolean).join(' ')} aria-label="Пагинация таблицы">
+    <nav {...props} ref={ref} className={['cometal-table__paginator', className].filter(Boolean).join(' ')} aria-label={ariaLabel}>
       <div className="cometal-table__paginator-spacer" aria-hidden="true" />
       <div className="cometal-table__paginator-controls">
         <button type="button" className="cometal-table__page-control" disabled={safePage === 1} onClick={() => onPageChange(safePage - 1)} aria-label="Предыдущая страница"><TableIcon asset={previousAsset} /></button>

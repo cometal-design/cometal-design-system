@@ -28,16 +28,24 @@ export const tableSourceFamilies = [
   { id: 'index-cell', label: 'Index Cell', variants: 12, source: tableFigmaSources.cells },
   { id: 'drag-handle-cell', label: 'Drag Handle Cell', variants: 10, source: tableFigmaSources.cells },
   { id: 'summary-cell', label: 'Summary Cell', variants: 6, source: tableFigmaSources.cells },
-  { id: 'file-content', label: 'File Content', variants: 1, source: tableFigmaSources.cells },
   { id: 'column-header', label: 'Column Header', variants: 6, source: tableFigmaSources.headers },
   { id: 'context-action', label: 'Context Action', variants: 3, source: tableFigmaSources.headers },
   { id: 'selection-header', label: 'Selection Header', variants: 18, source: tableFigmaSources.headers },
   { id: 'filter-row', label: 'Filter Row', variants: 10, source: tableFigmaSources.headers },
   { id: 'read-column', label: 'Read Column', variants: 8, source: tableFigmaSources.mainComponents },
   { id: 'edit-column', label: 'Edit Column', variants: 8, source: tableFigmaSources.mainComponents },
-  { id: 'utility-columns', label: 'Index / Selection / Drag columns', variants: 24, source: tableFigmaSources.mainComponents },
+  { id: 'index-column', label: 'Index Column', variants: 8, source: tableFigmaSources.mainComponents },
+  { id: 'selection-column', label: 'Selection Column', variants: 8, source: tableFigmaSources.mainComponents },
+  { id: 'drag-handle-column', label: 'Drag Handle Column', variants: 8, source: tableFigmaSources.mainComponents },
   { id: 'paginator-control', label: 'Paginator Control', variants: 14, source: tableFigmaSources.paginator },
-  { id: 'paginator', label: 'Paginator', variants: 1, source: tableFigmaSources.paginator },
+] as const;
+
+export const tableStandaloneSources = [
+  { id: 'file-content', label: 'File Content', source: tableFigmaSources.cells },
+  { id: 'drag-handle-icon', label: 'Drag Handle Icon', source: tableFigmaSources.cells },
+  { id: 'paginator', label: 'Paginator', source: tableFigmaSources.paginator },
+  { id: 'index-header', label: 'Index Header', source: tableFigmaSources.headers },
+  { id: 'drag-handle-header', label: 'Drag Handle Header', source: tableFigmaSources.headers },
 ] as const;
 
 export type TableDocumentationSectionId = (typeof tableDocumentationSections)[number]['id'];

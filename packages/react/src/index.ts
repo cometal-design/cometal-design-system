@@ -64,7 +64,7 @@ export type {
   TableSortDirection,
   TableSummaryCellProps,
 } from './Table/Table';
-export { tableDocumentationSections, tableFigmaSources, tableSourceFamilies } from './Table/table.docs';
+export { tableDocumentationSections, tableFigmaSources, tableSourceFamilies, tableStandaloneSources } from './Table/table.docs';
 export type { TableDocumentationSectionId } from './Table/table.docs';
 export { Widget, WidgetContent, WidgetToolbar } from './Widget/Widget';
 export type { WidgetContentProps, WidgetElement, WidgetProps, WidgetToolbarProps } from './Widget/Widget';

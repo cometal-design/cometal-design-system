@@ -16,6 +16,16 @@ Publication: none
 - Portal family routes: `/components/table/`, `/cells/`, `/headers/`, `/columns/`, `/paginator/`.
 - Registry, specification, knowledge passport and usage updated.
 
+## Independent QA remediation
+
+The first independent audit correctly returned `FAIL` and identified four documentation and geometry gaps. They were fixed without weakening the Figma contract:
+
+- Body-row heights now resolve to exactly 48px Comfortable and 40px Compact; the header remains 48px in both densities.
+- The Cells story now renders the complete approved matrices: Read `8 × 5 × 2`, Edit `4 × 7 × 2`, Selection `4 × 2 × 2`, Index `6 × 2`, Drag `5 × 2` and Summary `3 × 2`, including all nine approved file assets.
+- The source inventory now separates the exact 16 Component Sets from the five standalone sources instead of collapsing utility columns or counting File/Paginator incorrectly.
+- Headers, Columns and Paginator now use executable visual matrices rather than text-only inventories: title/action and filter floors, five column families in both densities, documented row-count evidence, and first/middle/last paginator compositions.
+- Checkbox geometry, forced hover/drag states and paginator landmarks were normalized for computed-style and accessibility verification.
+
 ## Local evidence
 
 - React unit suite: 39/39 PASS (includes Table and Widget).
@@ -25,7 +35,8 @@ Publication: none
 - Local browser regression: 75/75 route, responsive and interaction checks PASS at 1440, 1024, 768, 390 and 360px; document overflow 0 and console/page errors 0.
 - Widget + Table mobile contract: 32px shell radius, 24px inset, 8px content radius, 13 table rows, filter floor present and Context Menu operable.
 - Full `pnpm validate`: PASS after final responsive and overlay fixes.
-- Independent Figma-vs-local Visual QA: pending final gate.
+- First independent Figma-vs-local Visual QA: `FAIL`; all four findings remediated locally.
+- Repeat independent Figma-vs-local Visual QA: pending final gate on the remediation commit.
 
 ## Not asserted yet
 

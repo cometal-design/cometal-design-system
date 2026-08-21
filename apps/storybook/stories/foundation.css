@@ -292,6 +292,38 @@ code, pre, kbd, samp {
 .ds-table-density-pair { display: grid; gap: var(--cometal-primitive-spacing-300); }
 .ds-table-density-pair section { min-width: 0; }
 .ds-table-density-pair h2 { margin: 0 0 var(--cometal-primitive-spacing-100); }
+.ds-table-matrix-stack { display: grid; min-width: 0; gap: var(--cometal-primitive-spacing-200); }
+.ds-table-matrix-stack > h3,
+.ds-table-utility-matrices h3,
+.ds-table-column-contract-grid h3 { margin: 0; color: var(--ds-text-primary); font-family: var(--cometal-typography-body-m-accent-font-family); font-size: var(--cometal-typography-body-m-accent-font-size); font-weight: var(--cometal-typography-body-m-accent-font-weight); line-height: var(--cometal-typography-body-m-accent-line-height); }
+.ds-table-contract-matrix { min-width: 1040px; }
+.ds-table-contract-matrix th,
+.ds-table-contract-matrix td { min-width: 136px; }
+.ds-table-contract-matrix th:first-child,
+.ds-table-contract-matrix td:first-child { min-width: 152px; }
+.ds-table-utility-matrices { display: grid; min-width: 0; gap: var(--cometal-primitive-spacing-250); }
+.ds-table-utility-matrices > article { display: grid; min-width: 0; gap: var(--cometal-primitive-spacing-100); }
+.ds-table-utility-matrices .cometal-table { min-width: 720px; }
+.ds-table-standalone-title { margin: 0; color: var(--ds-text-secondary); font-family: var(--ds-font-code); font-size: var(--cometal-typography-caption-label-label-font-size); font-weight: var(--cometal-typography-caption-label-label-font-weight); line-height: var(--cometal-typography-caption-label-label-line-height); }
+.ds-table-header-force-hover,
+.ds-table-header-force-hover .cometal-checkbox__control { background: var(--cometal-component-table-header-surface-hover); }
+.ds-table-context-force-hover { background: var(--cometal-component-table-header-surface-hover); color: var(--cometal-semantic-color-global-text-primary); }
+.ds-table-context-force-open { background: var(--cometal-semantic-color-global-surface-selected); color: var(--cometal-semantic-color-global-text-primary); }
+.ds-table-filter-contract-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--cometal-primitive-spacing-150); }
+.ds-table-filter-contract-grid article { display: grid; min-width: 0; gap: var(--cometal-primitive-spacing-75); }
+.ds-table-filter-contract-grid article > code { color: var(--ds-text-muted); font-family: var(--ds-font-code); font-size: var(--cometal-typography-caption-label-label-font-size); }
+.ds-table-filter-contract-grid .cometal-table { min-width: 320px; }
+.ds-table-filter-contract-grid [data-visual-state='active'] .cometal-field__control { outline: var(--cometal-semantic-stroke-global-state-focus) solid var(--cometal-semantic-color-global-state-focus-ring); outline-offset: var(--cometal-primitive-spacing-12); }
+.ds-table-column-contract-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--cometal-primitive-spacing-200); }
+.ds-table-column-contract-grid > article { display: grid; min-width: 0; padding: var(--cometal-primitive-spacing-150); gap: var(--cometal-primitive-spacing-150); border: var(--cometal-primitive-stroke-100) solid var(--ds-border-default); border-radius: var(--cometal-primitive-radius-150); }
+.ds-table-column-contract-grid article > div { display: grid; gap: var(--cometal-primitive-spacing-75); }
+.ds-table-column-contract-grid code { color: var(--ds-text-muted); font-family: var(--ds-font-code); font-size: var(--cometal-typography-caption-label-label-font-size); }
+.ds-table-row-counts { display: flex; flex-wrap: wrap; gap: var(--cometal-primitive-spacing-50); }
+.ds-table-row-counts span { padding: var(--cometal-primitive-spacing-25) var(--cometal-primitive-spacing-75); border-radius: var(--cometal-primitive-radius-100); background: var(--cometal-semantic-color-global-surface-subtle); color: var(--ds-text-secondary); font-family: var(--ds-font-code); font-size: var(--cometal-typography-caption-label-label-font-size); }
+.ds-table-paginator-contract { display: grid; gap: var(--cometal-primitive-spacing-200); }
+.ds-table-paginator-contract article { display: grid; min-width: 0; gap: var(--cometal-primitive-spacing-75); }
+.ds-table-paginator-contract article > code { color: var(--ds-text-muted); font-family: var(--ds-font-code); font-size: var(--cometal-typography-caption-label-label-font-size); }
+.ds-table-paginator-contract .cometal-table-paginator { overflow-x: auto; }
 .ds-story-canvas { min-height: 100vh; padding: var(--cometal-primitive-spacing-300); background: var(--ds-surface-subtle); }
 
 @media (max-width: 40rem) {
@@ -361,6 +393,12 @@ code, pre, kbd, samp {
   .ds-table-doc-index, .ds-table-filter-types { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .ds-table-cell-matrix article { grid-template-columns: minmax(0, 1fr); }
   .ds-table-file-grid { grid-template-columns: repeat(3, minmax(72px, 1fr)); }
+  .ds-table-filter-contract-grid,
+  .ds-table-column-contract-grid { grid-template-columns: minmax(0, 1fr); }
+  .ds-table-matrix-stack,
+  .ds-table-utility-matrices,
+  .ds-table-density-pair,
+  .ds-table-paginator-contract { max-width: 100%; overflow-x: auto; }
   .ds-table-playground-controls { margin-right: var(--cometal-primitive-spacing-150); margin-left: var(--cometal-primitive-spacing-150); }
   .ds-tooltip-placement-grid--desktop { display: none; }
   .ds-tooltip-placement-grid--mobile { display: grid; width: 100%; grid-template-columns: minmax(0, 1fr); }

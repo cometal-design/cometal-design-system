@@ -6,7 +6,7 @@ export const tableFigmaSources = {
   mainComponents: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-9824',
 } as const;
 
-export const tableCellStates = ['default', 'active', 'selected', 'editing', 'error', 'disabled'] as const;
+export const tableCellStates = ['default', 'hover', 'active', 'selected', 'editing', 'error', 'dragging', 'disabled'] as const;
 export const tableFileTypes = ['word', 'excel', 'file', 'doc', 'sheets', 'adobe', 'zip', 'pdf', 'image'] as const;
 
 export const tableDocumentationSections = [
@@ -30,14 +30,22 @@ export const tableSourceFamilies = [
   ['index-cell', 'Index Cell', 12, tableFigmaSources.cells],
   ['drag-handle-cell', 'Drag Handle Cell', 10, tableFigmaSources.cells],
   ['summary-cell', 'Summary Cell', 6, tableFigmaSources.cells],
-  ['file-content', 'File Content', 1, tableFigmaSources.cells],
   ['column-header', 'Column Header', 6, tableFigmaSources.headers],
   ['context-action', 'Context Action', 3, tableFigmaSources.headers],
   ['selection-header', 'Selection Header', 18, tableFigmaSources.headers],
   ['filter-row', 'Filter Row', 10, tableFigmaSources.headers],
   ['read-column', 'Read Column', 8, tableFigmaSources.mainComponents],
   ['edit-column', 'Edit Column', 8, tableFigmaSources.mainComponents],
-  ['utility-columns', 'Index / Selection / Drag columns', 24, tableFigmaSources.mainComponents],
+  ['index-column', 'Index Column', 8, tableFigmaSources.mainComponents],
+  ['selection-column', 'Selection Column', 8, tableFigmaSources.mainComponents],
+  ['drag-handle-column', 'Drag Handle Column', 8, tableFigmaSources.mainComponents],
   ['paginator-control', 'Paginator Control', 14, tableFigmaSources.paginator],
-  ['paginator', 'Paginator', 1, tableFigmaSources.paginator],
+] as const;
+
+export const tableStandaloneSources = [
+  ['file-content', 'File Content', tableFigmaSources.cells],
+  ['drag-handle-icon', 'Drag Handle Icon', tableFigmaSources.cells],
+  ['paginator', 'Paginator', tableFigmaSources.paginator],
+  ['index-header', 'Index Header', tableFigmaSources.headers],
+  ['drag-handle-header', 'Drag Handle Header', tableFigmaSources.headers],
 ] as const;

@@ -248,12 +248,14 @@
 }
 
 .cometal-table__cell {
-  height: var(--cometal-table-cell-height);
+  height: calc(var(--cometal-table-cell-height) - (var(--cometal-table-border-width) * 2));
 }
 
 .cometal-table__cell-content {
+  box-sizing: border-box;
+  height: calc(var(--cometal-table-cell-height) - var(--cometal-table-border-width));
   min-height: calc(var(--cometal-table-cell-height) - var(--cometal-table-border-width));
-  padding: calc(var(--cometal-table-cell-inset-y) - var(--cometal-table-border-width)) var(--cometal-table-cell-inset-x) var(--cometal-table-cell-inset-y);
+  padding: 0 var(--cometal-table-cell-inset-x);
   gap: var(--cometal-table-cell-gap);
 }
 
@@ -298,6 +300,15 @@
   white-space: nowrap;
 }
 
+.cometal-table__checkbox {
+  padding: 0;
+}
+
+.cometal-table__checkbox .cometal-selection__control {
+  box-sizing: border-box;
+  margin-top: 0;
+}
+
 .cometal-table__row[data-row-selected] > .cometal-table__cell,
 .cometal-table__cell[data-state='active'] {
   background: var(--cometal-table-active);
@@ -307,8 +318,13 @@
   background: var(--cometal-table-hover);
 }
 
+.cometal-table__cell[data-state='hover'] {
+  background: var(--cometal-table-hover);
+}
+
 .cometal-table__cell[data-state='selected'],
-.cometal-table__cell[data-state='editing'] {
+.cometal-table__cell[data-state='editing'],
+.cometal-table__cell[data-state='dragging'] {
   background: var(--cometal-table-selected);
   color: var(--cometal-table-selected-text);
 }
