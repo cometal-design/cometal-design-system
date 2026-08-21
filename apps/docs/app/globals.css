@@ -906,6 +906,57 @@ code, pre, kbd, samp {
 .table-file-catalog { display: grid; grid-template-columns: repeat(9, minmax(72px, 1fr)); gap: var(--cometal-primitive-spacing-100); }
 .table-file-catalog article { display: grid; min-height: 112px; place-items: center; gap: var(--cometal-primitive-spacing-50); border: var(--portal-hairline) solid var(--portal-line); border-radius: var(--portal-radius-l); background: var(--portal-surface-raised); }
 .table-file-catalog img { width: var(--cometal-primitive-size-24); height: var(--cometal-primitive-size-24); }.table-file-catalog code { color: var(--portal-muted); font: var(--portal-code-s-size)/var(--portal-code-line-height) var(--portal-font-code); }
+.docs-table-contract-stack,
+.docs-table-density-contract,
+.docs-table-matrix-stack,
+.docs-table-utility-matrices,
+.docs-table-density-pair,
+.docs-table-filter-contract-grid,
+.docs-table-column-contract-grid,
+.docs-table-paginator-contract { display: grid; min-width: 0; }
+.docs-table-contract-stack { gap: var(--portal-space-section); }
+.docs-table-density-contract { gap: var(--cometal-primitive-spacing-150); }
+.docs-table-density-contract > h3,
+.docs-table-density-contract > h4,
+.docs-table-matrix-stack > h4,
+.docs-table-utility-matrices h3,
+.docs-table-density-pair h4,
+.docs-table-column-contract-grid h4 { margin: 0; font-family: var(--cometal-typography-body-m-accent-font-family); font-size: var(--cometal-typography-body-m-accent-font-size); font-weight: var(--cometal-typography-body-m-accent-font-weight); line-height: var(--cometal-typography-body-m-accent-line-height); }
+.docs-table-density-contract > p { max-width: var(--portal-copy-medium-width); margin: calc(var(--cometal-primitive-spacing-100) * -1) 0 0; color: var(--portal-muted); font-family: var(--cometal-typography-body-s-default-font-family); font-size: var(--cometal-typography-body-s-default-font-size); line-height: var(--cometal-typography-body-s-default-line-height); }
+.docs-table-matrix-stack { gap: var(--cometal-primitive-spacing-200); }
+.docs-table-contract-stack .cometal-table-scroll { min-width: 0; max-width: 100%; contain: inline-size paint; }
+.docs-table-contract-matrix { min-width: 1040px; }
+.docs-table-contract-matrix th,
+.docs-table-contract-matrix td { min-width: 136px; }
+.docs-table-contract-matrix th:first-child,
+.docs-table-contract-matrix td:first-child { min-width: 152px; }
+.docs-table-matrix-file { display: inline-flex; min-width: 0; align-items: center; gap: var(--cometal-primitive-spacing-50); }
+.docs-table-matrix-file img { width: var(--cometal-primitive-size-24); height: var(--cometal-primitive-size-24); flex: 0 0 auto; }
+.docs-table-matrix-file > span { display: grid; min-width: 0; }
+.docs-table-matrix-file small { color: var(--portal-muted); font: var(--portal-code-xs-size)/var(--portal-code-line-height) var(--portal-font-code); }
+.docs-table-utility-matrices { gap: var(--cometal-primitive-spacing-250); }
+.docs-table-utility-matrices > article { display: grid; min-width: 0; gap: var(--cometal-primitive-spacing-100); }
+.docs-table-utility-matrices .cometal-table { min-width: 720px; }
+.docs-table-density-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--cometal-primitive-spacing-200); }
+.docs-table-density-pair > article { display: grid; min-width: 0; gap: var(--cometal-primitive-spacing-100); }
+.docs-table-header-force-hover,
+.docs-table-header-force-hover .cometal-checkbox__control,
+.docs-table-context-force-hover { background: var(--cometal-component-table-header-surface-hover); }
+.docs-table-context-force-open { background: var(--cometal-semantic-color-global-surface-selected); }
+.docs-table-filter-contract-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--cometal-primitive-spacing-150); }
+.docs-table-filter-contract-grid article { display: grid; min-width: 0; gap: var(--cometal-primitive-spacing-75); }
+.docs-table-filter-contract-grid article > code { color: var(--portal-muted); font: var(--portal-code-xs-size)/var(--portal-code-line-height) var(--portal-font-code); }
+.docs-table-filter-contract-grid .cometal-table { min-width: 320px; }
+.docs-table-filter-contract-grid [data-visual-state='active'] .cometal-field__control { outline: var(--cometal-semantic-stroke-global-state-focus) solid var(--cometal-semantic-color-global-state-focus-ring); outline-offset: var(--cometal-primitive-spacing-12); }
+.docs-table-column-contract-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--cometal-primitive-spacing-200); }
+.docs-table-column-contract-grid > article { display: grid; min-width: 0; padding: var(--cometal-primitive-spacing-150); gap: var(--cometal-primitive-spacing-150); border: var(--portal-hairline) solid var(--portal-line); border-radius: var(--portal-radius-l); }
+.docs-table-column-contract-grid article > div { display: grid; gap: var(--cometal-primitive-spacing-75); }
+.docs-table-column-contract-grid code { color: var(--portal-muted); font: var(--portal-code-xs-size)/var(--portal-code-line-height) var(--portal-font-code); }
+.docs-table-column-contract-grid article > div > div { display: flex; flex-wrap: wrap; gap: var(--cometal-primitive-spacing-50); }
+.docs-table-column-contract-grid span { padding: var(--cometal-primitive-spacing-25) var(--cometal-primitive-spacing-75); border-radius: var(--cometal-primitive-radius-100); background: var(--cometal-semantic-color-global-surface-subtle); color: var(--portal-muted); font: var(--portal-code-xs-size)/var(--portal-code-line-height) var(--portal-font-code); }
+.docs-table-paginator-contract { gap: var(--cometal-primitive-spacing-150); }
+.docs-table-paginator-contract article { display: grid; min-width: 0; padding: var(--cometal-primitive-spacing-150); gap: var(--cometal-primitive-spacing-100); border: var(--portal-hairline) solid var(--portal-line); border-radius: var(--portal-radius-l); }
+.docs-table-paginator-contract code { color: var(--portal-muted); font: var(--portal-code-xs-size)/var(--portal-code-line-height) var(--portal-font-code); }
 
 .field-family-board { border-top: var(--portal-hairline) solid var(--portal-line); }
 .field-family-board > article { display: grid; min-height: var(--cometal-documentation-layout-height-field-row); padding: var(--cometal-primitive-spacing-250) 0; grid-template-columns: var(--cometal-documentation-layout-width-definition-title) minmax(0, 1fr); gap: var(--cometal-primitive-spacing-300); border-bottom: var(--portal-hairline) solid var(--portal-line); scroll-margin-top: calc(var(--portal-header-height) + var(--cometal-primitive-spacing-450)); }
@@ -951,6 +1002,9 @@ code, pre, kbd, samp {
   .table-source-catalog { grid-template-columns: repeat(2, minmax(0, 1fr)); }
   .table-cell-catalog article { grid-template-columns: minmax(0, 1fr); }
   .table-file-catalog { grid-template-columns: repeat(3, minmax(72px, 1fr)); }
+  .docs-table-density-pair,
+  .docs-table-filter-contract-grid,
+  .docs-table-column-contract-grid { grid-template-columns: minmax(0, 1fr); }
   .home-hero__line-break { display: none; }
   .portal-body[data-has-sidebar] { grid-template-columns: 1fr; }
   .section-sidebar { position: static; contain: inline-size; overflow-x: auto; display: block; width: 100%; height: auto; padding: var(--cometal-primitive-spacing-75) var(--cometal-primitive-spacing-125); border-right: 0; border-bottom: var(--portal-hairline) solid var(--portal-line); }

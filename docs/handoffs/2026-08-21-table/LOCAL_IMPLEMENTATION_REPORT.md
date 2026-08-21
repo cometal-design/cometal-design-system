@@ -38,6 +38,16 @@ The first independent audit correctly returned `FAIL` and identified four docume
 - First independent Figma-vs-local Visual QA: `FAIL`; all four findings remediated locally.
 - Repeat independent Figma-vs-local Visual QA: pending final gate on the remediation commit.
 
+## Portal parity remediation
+
+The repeat audit passed Storybook but returned `FAIL` for portal parity. The canonical Table family routes were then expanded instead of hiding the discrepancy:
+
+- `/components/table/cells/` now renders the same complete Read, Edit, Selection, Index, Drag, Summary and File Content evidence in both densities.
+- `/components/table/headers/` now renders executable Sort, Context Action, Selection Header and all ten Filter Row variants.
+- `/components/table/columns/` now renders all five column families in both densities plus explicit row-count evidence.
+- `/components/table/paginator/` now renders the interactive control and first/middle/last compositions.
+- Wide matrices remain inside labelled `.cometal-table-scroll` regions with `contain: inline-size paint`; document overflow is `0` at 1440, 1024, 768, 390 and 360px.
+
 ## Not asserted yet
 
 `visualMatch`, `testsPassed` and `accessibilityPassed` remain false in the registry until the independent local QA gate completes.
