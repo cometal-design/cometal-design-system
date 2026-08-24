@@ -44,16 +44,64 @@ export function IconCatalog({ className }: IconCatalogProps) {
   const [page, setPage] = useState(1);
   const [feedback, setFeedback] = useState('');
   const [copyError, setCopyError] = useState('');
-  const copyController = useRef<ReturnType<typeof createCatalogCopyController>>(undefined);
-  if (!copyController.current) copyController.current = createCatalogCopyController({ setFeedback, setError: setCopyError });
-  useEffect(() => copyController.current?.mount(), []);
-
   const filters = useMemo(() => ({ library, family, category }), [library, family, category]);
   const results = useMemo(() => filterIconRecords(iconManifest, search, filters), [search, filters]);
   const filterOptions = useMemo(() => getIconCatalogFilterOptions(iconManifest, search, filters), [search, filters]);
   const pagination = useMemo(() => paginateIconRecords(results, page), [results, page]);
+  const resultAnnouncement = `Найдено ${results.length.toLocaleString('ru-RU')}. Страница ${pagination.page} из ${pagination.pageCount}.`;
+  const resultAnnouncementRef = useRef(resultAnnouncement);
+  const [announcement, setAnnouncement] = useState(resultAnnouncement);
+  const previousButtonRef = useRef<HTMLButtonElement>(null);
+  const nextButtonRef = useRef<HTMLButtonElement>(null);
+  const pendingBoundaryFocus = useRef<'previous' | 'next' | undefined>(undefined);
+  const copyController = useRef<ReturnType<typeof createCatalogCopyController>>(undefined);
 
-  function resetPage() { setPage(1); }
+  resultAnnouncementRef.current = resultAnnouncement;
+  if (!copyController.current) {
+    copyController.current = createCatalogCopyController({
+      setFeedback(value) {
+        setFeedback(value);
+        setAnnouncement(value || resultAnnouncementRef.current);
+      },
+      setError(value) {
+        setCopyError(value);
+        if (value) setAnnouncement(value);
+      },
+    });
+  }
+
+  useEffect(() => copyController.current?.mount(), []);
+  useEffect(() => setAnnouncement(resultAnnouncement), [resultAnnouncement]);
+  useEffect(() => {
+    if (pendingBoundaryFocus.current === 'previous') previousButtonRef.current?.focus();
+    if (pendingBoundaryFocus.current === 'next') nextButtonRef.current?.focus();
+    pendingBoundaryFocus.current = undefined;
+  }, [pagination.page]);
+
+  function clearCopyMessages() {
+    setFeedback('');
+    setCopyError('');
+    setAnnouncement(resultAnnouncementRef.current);
+  }
+
+  function resetPage() {
+    clearCopyMessages();
+    setPage(1);
+  }
+
+  function goToPreviousPage() {
+    const target = Math.max(1, pagination.page - 1);
+    if (target === 1) pendingBoundaryFocus.current = 'next';
+    clearCopyMessages();
+    setPage(target);
+  }
+
+  function goToNextPage() {
+    const target = Math.min(pagination.pageCount, pagination.page + 1);
+    if (target === pagination.pageCount) pendingBoundaryFocus.current = 'previous';
+    clearCopyMessages();
+    setPage(target);
+  }
 
   async function copy(value: string, label: string) {
     await copyController.current?.copy(value, label, typeof navigator === 'undefined' ? undefined : navigator.clipboard);
@@ -88,12 +136,13 @@ export function IconCatalog({ className }: IconCatalogProps) {
           </select>
         </label>
       </div>
-      <div className="cometal-icon-catalog__result-line" aria-live="polite">
+      <div className="cometal-icon-catalog__result-line" data-page={pagination.page} data-page-count={pagination.pageCount}>
         <span>Найдено: <strong>{results.length.toLocaleString('ru-RU')}</strong></span>
         <span>Страница {pagination.page} из {pagination.pageCount}</span>
       </div>
-      {copyError ? <p className="cometal-icon-catalog__error" role="alert">{copyError}</p> : null}
-      <p className="cometal-icon-catalog__feedback" aria-live="polite">{feedback}</p>
+      {copyError ? <p className="cometal-icon-catalog__error">{copyError}</p> : null}
+      <p className="cometal-icon-catalog__feedback">{feedback}</p>
+      <p className="cometal-icon-catalog__live-status" role="status" aria-live="polite" aria-atomic="true">{announcement}</p>
       {pagination.records.length ? (
         <ul className="cometal-icon-catalog__grid">
           {pagination.records.map((record) => (
@@ -110,9 +159,9 @@ export function IconCatalog({ className }: IconCatalogProps) {
         </ul>
       ) : <p className="cometal-icon-catalog__empty">По текущему запросу и фильтрам иконки не найдены.</p>}
       <nav className="cometal-icon-catalog__pagination" aria-label="Страницы каталога иконок">
-        <Button variant="secondary" size="s" disabled={pagination.page <= 1} onClick={() => setPage((value) => Math.max(1, value - 1))}>Предыдущая</Button>
+        <Button ref={previousButtonRef} variant="secondary" size="s" disabled={pagination.page <= 1} onClick={goToPreviousPage}>Предыдущая</Button>
         <span>{Math.min((pagination.page - 1) * 120 + 1, results.length)}–{Math.min(pagination.page * 120, results.length)} из {results.length}</span>
-        <Button variant="secondary" size="s" disabled={pagination.page >= pagination.pageCount} onClick={() => setPage((value) => Math.min(pagination.pageCount, value + 1))}>Следующая</Button>
+        <Button ref={nextButtonRef} variant="secondary" size="s" disabled={pagination.page >= pagination.pageCount} onClick={goToNextPage}>Следующая</Button>
       </nav>
     </section>
   );

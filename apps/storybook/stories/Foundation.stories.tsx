@@ -422,39 +422,110 @@ export const Icons: Story = {
   render: () => <StrictMode><IconsPage /></StrictMode>,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await expect(canvas.getAllByRole('listitem')).toHaveLength(120);
-    await expect(canvasElement.querySelectorAll('.cometal-icon-catalog__name')).toHaveLength(120);
-    await expect(canvas.queryAllByRole('status')).toHaveLength(0);
-    const firstName = canvasElement.querySelector('.cometal-icon-catalog__name')?.textContent;
-    await expect(firstName).toBeTruthy();
-    const firstCopyName = canvas.getByRole('button', { name: `Копировать имя ${firstName}` });
+    const search = canvas.getByRole('searchbox', { name: 'Поиск по каноническому имени' }) as HTMLInputElement;
+    const selects = canvas.getAllByRole('combobox') as HTMLSelectElement[];
+    const resultLine = canvasElement.querySelector<HTMLElement>('.cometal-icon-catalog__result-line')!;
+    const originalSearch = search.value;
+    const originalFilters = selects.map((select) => select.value);
+    const originalPage = Number(resultLine.dataset.page);
     const clipboardDescriptor = Object.getOwnPropertyDescriptor(navigator, 'clipboard');
     Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async () => undefined } });
+
+    const currentPage = () => Number(resultLine.dataset.page);
+    const moveToPage = async (target: number) => {
+      while (currentPage() < target) {
+        const nextPage = currentPage() + 1;
+        await userEvent.click(canvas.getByRole('button', { name: 'Следующая' }));
+        await waitFor(() => expect(currentPage()).toBe(nextPage));
+      }
+      while (currentPage() > target) {
+        const previousPage = currentPage() - 1;
+        await userEvent.click(canvas.getByRole('button', { name: 'Предыдущая' }));
+        await waitFor(() => expect(currentPage()).toBe(previousPage));
+      }
+    };
+
     try {
+      await expect(canvas.getAllByRole('listitem')).toHaveLength(120);
+      await expect(canvasElement.querySelectorAll('.cometal-icon-catalog__name')).toHaveLength(120);
+      await expect(canvas.queryAllByRole('status')).toHaveLength(1);
+      await expect(canvasElement.querySelectorAll('[aria-live="polite"]')).toHaveLength(1);
+
+      const actionButtons = [...canvasElement.querySelectorAll<HTMLButtonElement>('.cometal-icon-catalog__actions button')];
+      await expect(actionButtons).toHaveLength(240);
+      for (const button of actionButtons) {
+        expect(button.scrollWidth, `${button.textContent} overflows at ${window.innerWidth}px`).toBeLessThanOrEqual(button.clientWidth);
+      }
+
+      const firstName = canvasElement.querySelector('.cometal-icon-catalog__name')?.textContent;
+      await expect(firstName).toBeTruthy();
+      const firstCopyName = canvas.getByRole('button', { name: `Копировать имя ${firstName}` });
       await userEvent.click(firstCopyName);
-      await expect(await canvas.findByText(`Скопировано имя: ${firstName}`)).toBeVisible();
+      await waitFor(() => expect(canvasElement.querySelector('.cometal-icon-catalog__feedback')).toHaveTextContent(`Скопировано имя: ${firstName}`));
+      Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async () => { throw new Error('clipboard denied'); } } });
+      await userEvent.click(canvas.getByRole('button', { name: `Копировать import ${firstName}` }));
+      await waitFor(() => expect(canvasElement.querySelector('.cometal-icon-catalog__error')).toHaveTextContent('clipboard denied'));
+      await expect(canvas.getByRole('status')).toHaveTextContent('clipboard denied');
+      await expect(canvasElement.querySelectorAll('[aria-live="polite"]')).toHaveLength(1);
+      Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async () => undefined } });
+
+      await userEvent.clear(search);
+      await userEvent.type(search, 'Outline/profiles-and-users/user-profile-03-02');
+      await expect(await canvas.findByText('Outline/profiles-and-users/user-profile-03-02')).toBeVisible();
+      await waitFor(() => {
+        const maskPath = canvasElement.querySelector('.cometal-icon-catalog__card path[stroke-width="2.8"]');
+        expect(maskPath).not.toBeNull();
+        expect(Number.parseFloat(getComputedStyle(maskPath!).strokeWidth)).toBe(2.8);
+        expect(maskPath).not.toHaveAttribute('data-cometal-stroke-scale');
+      }, { timeout: 5000 });
+
+      await userEvent.clear(search);
+      await userEvent.type(search, 'payment/lg/Visa');
+      await expect(await canvas.findByText('payment/lg/Visa')).toBeVisible();
+      await expect(canvas.getAllByRole('listitem')).toHaveLength(1);
+      await expect(canvas.getByRole('button', { name: 'Копировать имя payment/lg/Visa' })).toBeVisible();
+      await expect(canvas.getByRole('button', { name: 'Копировать import payment/lg/Visa' })).toBeVisible();
+
+      await userEvent.clear(search);
+      await waitFor(() => expect(canvas.getAllByRole('listitem')).toHaveLength(120));
+      await moveToPage(23);
+      const next = canvas.getByRole('button', { name: 'Следующая' });
+      next.focus();
+      await userEvent.click(next);
+      await waitFor(() => expect(currentPage()).toBe(24));
+      const previousAtEnd = canvas.getByRole('button', { name: 'Предыдущая' });
+      await waitFor(() => expect(canvasElement.ownerDocument.activeElement).toBe(previousAtEnd));
+      await expect(canvas.getByRole('button', { name: 'Следующая' })).toBeDisabled();
+      await expect(canvasElement.ownerDocument.activeElement).not.toBe(canvasElement.ownerDocument.body);
+
+      await userEvent.type(search, ' ');
+      await userEvent.clear(search);
+      await waitFor(() => expect(currentPage()).toBe(1));
+      await moveToPage(2);
+      const previous = canvas.getByRole('button', { name: 'Предыдущая' });
+      previous.focus();
+      await userEvent.click(previous);
+      await waitFor(() => expect(currentPage()).toBe(1));
+      const nextAtStart = canvas.getByRole('button', { name: 'Следующая' });
+      await waitFor(() => expect(canvasElement.ownerDocument.activeElement).toBe(nextAtStart));
+      await expect(canvas.getByRole('button', { name: 'Предыдущая' })).toBeDisabled();
+      await expect(canvasElement.ownerDocument.activeElement).not.toBe(canvasElement.ownerDocument.body);
     } finally {
       if (clipboardDescriptor) Object.defineProperty(navigator, 'clipboard', clipboardDescriptor);
       else Reflect.deleteProperty(navigator, 'clipboard');
+
+      await userEvent.type(search, ' ');
+      await userEvent.clear(search);
+      if (originalSearch) await userEvent.type(search, originalSearch);
+      for (let index = 0; index < selects.length; index += 1) {
+        if (selects[index].value !== originalFilters[index]) await userEvent.selectOptions(selects[index], originalFilters[index]);
+      }
+      await moveToPage(originalPage);
+      await waitFor(() => expect(canvasElement.querySelectorAll('.cometal-icon-catalog__name')).toHaveLength(120));
+      await expect(canvasElement.querySelector('.cometal-icon-catalog__feedback')).toHaveTextContent('');
+      await expect(canvasElement.querySelector('.cometal-icon-catalog__error')).toBeNull();
+      await expect(canvas.getByRole('status')).toHaveTextContent(/Найдено 2\s?810\. Страница 1 из 24\./);
     }
-
-    const search = canvas.getByRole('searchbox', { name: 'Поиск по каноническому имени' });
-    await userEvent.clear(search);
-    await userEvent.type(search, 'Outline/profiles-and-users/user-profile-03-02');
-    await expect(await canvas.findByText('Outline/profiles-and-users/user-profile-03-02')).toBeVisible();
-    await waitFor(() => {
-      const maskPath = canvasElement.querySelector('.cometal-icon-catalog__card path[stroke-width="2.8"]');
-      expect(maskPath).not.toBeNull();
-      expect(Number.parseFloat(getComputedStyle(maskPath!).strokeWidth)).toBe(2.8);
-      expect(maskPath).not.toHaveAttribute('data-cometal-stroke-scale');
-    });
-
-    await userEvent.clear(search);
-    await userEvent.type(search, 'payment/lg/Visa');
-    await expect(await canvas.findByText('payment/lg/Visa')).toBeVisible();
-    await expect(canvas.getAllByRole('listitem')).toHaveLength(1);
-    await expect(canvas.getByRole('button', { name: 'Копировать имя payment/lg/Visa' })).toBeVisible();
-    await expect(canvas.getByRole('button', { name: 'Копировать import payment/lg/Visa' })).toBeVisible();
   },
 };
 export const Motion: Story = { name: 'Motion', render: () => <MotionPage /> };

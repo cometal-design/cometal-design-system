@@ -141,7 +141,33 @@
 
 .cometal-icon-catalog__actions .cometal-button {
   min-width: 0;
+  min-height: var(--cometal-semantic-size-global-button-s);
+  height: auto;
   width: 100%;
+  padding-block: var(--cometal-primitive-spacing-25);
+  white-space: normal;
+}
+
+.cometal-icon-catalog__actions .cometal-button__content,
+.cometal-icon-catalog__actions .cometal-button__label {
+  min-width: 0;
+  max-width: 100%;
+}
+
+.cometal-icon-catalog__actions .cometal-button__label {
+  overflow-wrap: anywhere;
+}
+
+.cometal-icon-catalog__live-status {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  white-space: nowrap;
 }
 
 .cometal-icon-catalog__controls input:focus-visible,

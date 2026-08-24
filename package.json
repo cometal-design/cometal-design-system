@@ -10,23 +10,26 @@
     "node": ">=22"
   },
   "scripts": {
-    "build": "pnpm build:tokens && pnpm build:react && pnpm build:storybook && pnpm build:docs",
+    "build": "pnpm build:tokens && pnpm build:react && pnpm build:storybook && pnpm build:docs && pnpm build:provenance",
     "build:tokens": "pnpm --filter @cometal/tokens build",
     "build:react": "pnpm --filter @cometal/react build",
     "build:storybook": "pnpm --filter @cometal/storybook build",
     "build:docs": "pnpm --filter @cometal/docs build",
-    "build:site": "pnpm validate:icons && pnpm build && node ./scripts/assemble-site.mjs",
+    "build:site": "pnpm validate:icons && pnpm build && node ./scripts/assemble-site.mjs && pnpm validate:provenance",
+    "build:provenance": "node ./scripts/build-provenance.mjs write",
     "generate:icons": "pnpm --filter @cometal/react generate:icons",
     "validate:icons": "pnpm --filter @cometal/react validate:icons",
     "dev": "pnpm build:tokens && pnpm build:react && pnpm --filter @cometal/docs dev",
     "dev:storybook": "pnpm build:tokens && pnpm build:react && pnpm --filter @cometal/storybook dev",
-    "test": "pnpm test:unit && pnpm test:storybook",
+    "test": "pnpm test:unit && pnpm test:provenance && pnpm test:storybook",
+    "test:provenance": "node --test ./scripts/build-provenance.test.mjs",
     "test:unit": "pnpm --filter @cometal/react test",
     "test:storybook": "pnpm --filter @cometal/storybook test",
     "typecheck": "pnpm -r typecheck",
     "validate:sources": "node ./scripts/validate-sources.mjs",
     "validate:css-variables": "node ./scripts/validate-css-variables.mjs",
     "validate:secrets": "node ./scripts/validate-secrets.mjs",
+    "validate:provenance": "node ./scripts/build-provenance.mjs verify",
     "validate": "pnpm validate:icons && pnpm validate:sources && pnpm validate:css-variables && pnpm validate:secrets && pnpm typecheck && pnpm test && pnpm build && pnpm --filter @cometal/react validate:icons:dist"
   }
 }

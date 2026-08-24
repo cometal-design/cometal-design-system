@@ -12,6 +12,8 @@ Baseline: `7acd5547dc56f64aece583260b8ceef7a68c97ee`
 
 Code-change request baseline: `fc7ae93b3fcb8650c5116d216bf75cfe4d52e8d3`
 
+QA remediation baseline: `748e49f1ec06b65e389aaee23336225e769f10e7` (`QA_FAILED`; its prior `CODE_APPROVED` is stale for the new candidate)
+
 Branch: `agent/icons-library-implementation-2026-08-25`
 
 This report records implementation evidence only. It is not `CODE_APPROVED`, `QA_PASSED`, user acceptance, release, or production evidence.
@@ -36,11 +38,25 @@ This report records implementation evidence only. It is not `CODE_APPROVED`, `QA
 - Generator-backed stroke evidence audits all 1,640 explicit source widths. Only the 827 audited Outline elements whose source width is exactly 1.4 receive `data-cometal-stroke-scale`; all 808 nonstandard widths remain source-controlled. The two 2.8 mask strokes in `Outline/profiles-and-users/user-profile-03-02` are explicitly preserved.
 - One client-only `IconCatalog` consumed by both Storybook `foundation--icons` and Portal `/foundation/icons/catalog/`.
 - Search ranking: exact, prefix, then substring using a normalized search key while display/copy preserve exact canonical identity.
-- Manifest-derived library/family/category filters and counts, deterministic 120-item paging, visible wrapping names, contextual exact-name/import copy actions, one feedback live region, clipboard error recovery, and non-live per-card loading placeholders.
+- Manifest-derived library/family/category filters and counts, deterministic 120-item paging, visible wrapping names, contextual exact-name/import copy actions, one aggregate polite live region for results/copy/error status, visible non-live feedback, clipboard error recovery, and non-live per-card loading placeholders.
 - Catalog actions reuse the existing COMETAL `Button`; catalog layout and controls use existing token identities without fallback values that duplicate or contradict token semantics.
+- Catalog Button labels may wrap inside their full accessible hit area; browser coverage asserts all 240 action controls have `scrollWidth <= clientWidth` at 320, 768, and 1440 px.
+- Pagination moves focus from a control that becomes disabled at the 23→24 and 2→1 boundaries to its enabled counterpart; browser coverage rejects `BODY` focus loss.
+- The Storybook play restores its original search, filters, page, and visible copy/error feedback in `finally`, leaving the direct iframe on the default 120-card state.
 - Copy feedback has symmetric Strict Mode setup/cleanup, lifecycle generation guards, timer cancellation, and no post-unmount updates.
 - Read-only icon freshness is a mandatory predecessor of React build, assembled-site build, and the Storybook Vercel build path. An isolated stale-fixture test executes the real React build command and proves it stops before Vite without changing tracked generated output.
+- Storybook, Portal, and assembled outputs expose identical `cometal-build-meta.json` files. Local builds resolve Git HEAD; Vercel-equivalent builds require `VERCEL_GIT_COMMIT_SHA`; unavailable provenance uses a clearly marked deterministic `unknown` fallback that cannot pass release-readiness validation.
 - Generated compatibility projection at `packages/tokens/src/icons.inventory.json`; specification, registry, and knowledge changes remain Role 20 scope.
+
+## QA remediation scope expansion
+
+The QA request explicitly allowed the minimal build paths required for provenance. The expansion is limited to:
+
+- `scripts/build-provenance.mjs` — resolves build-time SHA, writes shared static metadata, and blocks dirty/stale/unknown release-readiness evidence.
+- `scripts/build-provenance.test.mjs` — isolated local/Vercel/fallback/stale provenance contract tests.
+- root `package.json` — connects provenance writing to every root build, verification to `build:site`, and the isolated test to the full test suite.
+
+No Storybook public/config file or Portal layout/helper expansion was necessary: post-build static metadata is written directly into both outputs before assembly.
 
 ## Generated census
 
@@ -75,6 +91,8 @@ This report records implementation evidence only. It is not `CODE_APPROVED`, `QA
 | Isolated stale-fixture React build predecessor test | PASS; validation stops the build before Vite and tracked output hash is unchanged |
 | Direct JS/DTS subpath resolution and bundle boundaries | PASS; 2810 entries checked |
 | Storybook interaction and addon-a11y tests | PASS; 14 files, 81 stories; default 120-item catalog, contextual names, and computed 2.8 mask stroke covered |
+| Catalog responsive/focus/live-status remediation | PASS; Chromium 320/768/1440, 120 cards/240 actions, both pagination boundaries, one polite live region, success/error feedback, and final state restoration |
+| Build provenance contract | PASS; local Git and Vercel env resolution, deterministic unknown fallback, stale/unknown rejection |
 | Storybook static build | PASS; `foundation--icons` present in `index.json` |
 | Docs static export | PASS; `/foundation/icons/catalog/` prerendered |
 | Assembled site build | PASS; portal and Storybook copied into `apps/storybook/site-static` |
