@@ -444,6 +444,28 @@ export const Icons: Story = {
         await waitFor(() => expect(currentPage()).toBe(previousPage));
       }
     };
+    const waitForLoadedPreview = (canonicalName: string) => new Promise<HTMLElement>((resolve, reject) => {
+      let settled = false;
+      const observer = new MutationObserver(() => check());
+      const finish = (callback: () => void) => {
+        if (settled) return;
+        settled = true;
+        observer.disconnect();
+        callback();
+      };
+      const check = () => {
+        const preview = [...canvasElement.querySelectorAll<HTMLElement>('[data-preview-name]')]
+          .find((candidate) => candidate.dataset.previewName === canonicalName);
+        if (!preview) return;
+        if (preview.dataset.previewState === 'error') {
+          finish(() => reject(new Error(`Lazy preview failed to load: ${canonicalName}`)));
+        } else if (preview.dataset.previewState === 'loaded') {
+          finish(() => resolve(preview));
+        }
+      };
+      observer.observe(canvasElement, { subtree: true, childList: true, attributes: true, attributeFilter: ['data-preview-state'] });
+      check();
+    });
 
     try {
       await expect(canvas.getAllByRole('listitem')).toHaveLength(120);
@@ -472,12 +494,12 @@ export const Icons: Story = {
       await userEvent.clear(search);
       await userEvent.type(search, 'Outline/profiles-and-users/user-profile-03-02');
       await expect(await canvas.findByText('Outline/profiles-and-users/user-profile-03-02')).toBeVisible();
-      await waitFor(() => {
-        const maskPath = canvasElement.querySelector('.cometal-icon-catalog__card path[stroke-width="2.8"]');
-        expect(maskPath).not.toBeNull();
-        expect(Number.parseFloat(getComputedStyle(maskPath!).strokeWidth)).toBe(2.8);
-        expect(maskPath).not.toHaveAttribute('data-cometal-stroke-scale');
-      }, { timeout: 5000 });
+      const maskPreview = await waitForLoadedPreview('Outline/profiles-and-users/user-profile-03-02');
+      await expect(maskPreview).toHaveAttribute('data-preview-state', 'loaded');
+      const maskPath = maskPreview.querySelector('path[stroke-width="2.8"]');
+      await expect(maskPath).not.toBeNull();
+      await expect(Number.parseFloat(getComputedStyle(maskPath!).strokeWidth)).toBe(2.8);
+      await expect(maskPath).not.toHaveAttribute('data-cometal-stroke-scale');
 
       await userEvent.clear(search);
       await userEvent.type(search, 'payment/lg/Visa');

@@ -27,9 +27,18 @@ function CatalogPreview({ record }: { record: IconManifestRecord }) {
       .catch(() => { if (active) setFailed(true); });
     return () => { active = false; };
   }, [record.canonicalName]);
-  if (failed) return <span className="cometal-icon-catalog__preview-state">Ошибка загрузки</span>;
-  if (!IconComponent) return <span className="cometal-icon-catalog__preview-state" aria-hidden="true">Иконка загружается</span>;
-  return <IconComponent className="cometal-icon-catalog__icon" />;
+  const state = failed ? 'error' : IconComponent ? 'loaded' : 'loading';
+  return (
+    <span
+      className="cometal-icon-catalog__preview-content"
+      data-preview-name={record.canonicalName}
+      data-preview-state={state}
+    >
+      {failed ? <span className="cometal-icon-catalog__preview-state">Ошибка загрузки</span> : null}
+      {!failed && !IconComponent ? <span className="cometal-icon-catalog__preview-state" aria-hidden="true">Иконка загружается</span> : null}
+      {IconComponent ? <IconComponent className="cometal-icon-catalog__icon" /> : null}
+    </span>
+  );
 }
 
 export interface IconCatalogProps {

@@ -14,6 +14,8 @@ Code-change request baseline: `fc7ae93b3fcb8650c5116d216bf75cfe4d52e8d3`
 
 QA remediation baseline: `748e49f1ec06b65e389aaee23336225e769f10e7` (`QA_FAILED`; its prior `CODE_APPROVED` is stale for the new candidate)
 
+Senior flaky-evidence remediation baseline: `b22df69b316c31d2efa42076d39939b096561344`
+
 Branch: `agent/icons-library-implementation-2026-08-25`
 
 This report records implementation evidence only. It is not `CODE_APPROVED`, `QA_PASSED`, user acceptance, release, or production evidence.
@@ -43,6 +45,7 @@ This report records implementation evidence only. It is not `CODE_APPROVED`, `QA
 - Catalog Button labels may wrap inside their full accessible hit area; browser coverage asserts all 240 action controls have `scrollWidth <= clientWidth` at 320, 768, and 1440 px.
 - Pagination moves focus from a control that becomes disabled at the 23→24 and 2→1 boundaries to its enabled counterpart; browser coverage rejects `BODY` focus loss.
 - The Storybook play restores its original search, filters, page, and visible copy/error feedback in `finally`, leaving the direct iframe on the default 120-card state.
+- Every lazy preview exposes an explicit `loading → loaded|error` lifecycle marker. The mask regression observes that lifecycle event, fails immediately on loader error, and only then verifies the real `stroke-width="2.8"` path and computed 2.8 stroke; it no longer relies on a fixed five-second polling budget.
 - Copy feedback has symmetric Strict Mode setup/cleanup, lifecycle generation guards, timer cancellation, and no post-unmount updates.
 - Read-only icon freshness is a mandatory predecessor of React build, assembled-site build, and the Storybook Vercel build path. An isolated stale-fixture test executes the real React build command and proves it stops before Vite without changing tracked generated output.
 - Storybook, Portal, and assembled outputs expose identical `cometal-build-meta.json` files. Local builds resolve Git HEAD; Vercel-equivalent builds require `VERCEL_GIT_COMMIT_SHA`; unavailable provenance uses a clearly marked deterministic `unknown` fallback that cannot pass release-readiness validation.
@@ -92,6 +95,7 @@ No Storybook public/config file or Portal layout/helper expansion was necessary:
 | Direct JS/DTS subpath resolution and bundle boundaries | PASS; 2810 entries checked |
 | Storybook interaction and addon-a11y tests | PASS; 14 files, 81 stories; default 120-item catalog, contextual names, and computed 2.8 mask stroke covered |
 | Catalog responsive/focus/live-status remediation | PASS; Chromium 320/768/1440, 120 cards/240 actions, both pagination boundaries, one polite live region, success/error feedback, and final state restoration |
+| Parallel lazy-preview stability regression | PASS twice consecutively; full Chromium 320/768/1440 matrix, 42/42 files and 243/243 tests in each run |
 | Build provenance contract | PASS; local Git and Vercel env resolution, deterministic unknown fallback, stale/unknown rejection |
 | Storybook static build | PASS; `foundation--icons` present in `index.json` |
 | Docs static export | PASS; `/foundation/icons/catalog/` prerendered |
