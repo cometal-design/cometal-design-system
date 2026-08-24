@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/editor/cursor-05","library":"outline","family":"editor","categoryPath":["editor"],"nodeId":"691:12508","componentKey":"feb859ddb95a5651b69d417175e300e7b8892d0f","sourcePath":"icons/source/svg/outline/editor/cursor-05.svg","importPath":"@cometal/react/icons/outline/editor/cursor-05","sourceSha256":"b5aea2ac6f5222a204ec8a89c2e37539df9c44f7dbbfd5f2f9b2a61104397738","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M5.73868 12.4319L4.45283 13.6968M4.31847 9.05864H2.5M4.45283 4.42135L5.73868 5.68618M9.16803 2.5V4.28874M13.8824 4.42135L12.5965 5.68618M16.1997 15.9539L20.8297 14.364C21.6976 14.066 21.7312 12.8706 20.881 12.5388L10.288 8.91006C9.49174 8.59922 8.69103 9.36758 8.98702 10.1585L12.4557 20.8685C12.7715 21.7125 13.9862 21.7098 14.3113 20.8644L16.1997 15.9539Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

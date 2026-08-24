@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/time/calendar-04","library":"filled","family":"time","categoryPath":["time"],"nodeId":"721:471","componentKey":"a92802ec2fd45d4485a4d178915119288d8e94de","sourcePath":"icons/source/svg/filled/time/calendar-04.svg","importPath":"@cometal/react/icons/filled/time/calendar-04","sourceSha256":"ada356d04630012be2fc35dc404ec7498a945525b5bde6b71f519952f8502104","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M5 8.91425H19M6.80952 3V4.54304M17 3V4.54285M17 4.54285H7C5.34315 4.54285 4 5.92436 4 7.62855V17.9143C4 19.6185 5.34315 21 7 21H17C18.6569 21 20 19.6185 20 17.9143L20 7.62855C20 5.92436 18.6569 4.54285 17 4.54285ZM20 15.0857H14.5M14.5 15.0857H9.5M14.5 15.0857V20.2285M14.5 15.0857V9.42858M9.5 15.0857H4M9.5 15.0857V20.2285M9.5 15.0857V9.42858\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

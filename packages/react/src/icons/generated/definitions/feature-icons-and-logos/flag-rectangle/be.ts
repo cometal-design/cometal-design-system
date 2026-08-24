@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"flag-rectangle/BE","library":"feature-icons-and-logos","family":"flag-rectangle","categoryPath":["flag-rectangle"],"nodeId":"691:20412","componentKey":"17539bb731154287b81b44221257a5f303202001","sourcePath":"icons/source/svg/feature-icons-and-logos/flag-rectangle/be.svg","importPath":"@cometal/react/icons/feature-icons-and-logos/flag-rectangle/be","sourceSha256":"eba87ffb0b72f5832a23b23cbc666645eedafc3bdaeba8a29f739ab126051c14","viewBox":[0,0,35,24],"intrinsicWidth":35,"intrinsicHeight":24,"paintMode":"intrinsic","body":"<g clip-path=\"url(#__COMETAL_ID__clip0_691_20412)\"><path d=\"M0 0H35V24H0V0Z\" fill=\"#FDDA25\"/><path d=\"M0 0H11.6667V24H0V0Z\" fill=\"black\"/><path d=\"M23.334 0H35.0006V24H23.334V0Z\" fill=\"#EF3340\"/></g><defs><clipPath id=\"__COMETAL_ID__clip0_691_20412\"><rect width=\"35\" height=\"24\" rx=\"4\" fill=\"white\"/></clipPath></defs>","hasReferencedIds":true} as const) satisfies CompiledIconDefinition;
+
+export default definition;

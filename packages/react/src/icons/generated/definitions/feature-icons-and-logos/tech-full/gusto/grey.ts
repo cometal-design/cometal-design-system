@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"tech-full/Gusto/Grey","library":"feature-icons-and-logos","family":"tech-full","categoryPath":["tech-full","Gusto"],"nodeId":"691:23412","componentKey":"d84b2852f7a5f7ccafe9b77047ec25d64c4533da","sourcePath":"icons/source/svg/feature-icons-and-logos/tech-full/gusto/grey.svg","importPath":"@cometal/react/icons/feature-icons-and-logos/tech-full/gusto/grey","sourceSha256":"d7c6da3cfef78bbedf8902b6c2baa298a5a9f98e948978ceb3499c08df85153d","viewBox":[0,0,117,32],"intrinsicWidth":117,"intrinsicHeight":32,"paintMode":"intrinsic","body":"<g>\n<path d=\"M40.335 17.313L39.6553 17.7417C39.9358 17.3527 40.1667 16.9257 40.335 16.4683V17.313ZM40.335 11.9829V12.7993C40.1723 12.3572 39.9514 11.9433 39.6836 11.5649L40.335 11.9829Z\" fill=\"#7F7D83\" stroke=\"#7F7D83\" stroke-width=\"3.56522\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

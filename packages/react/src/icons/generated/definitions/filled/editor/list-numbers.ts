@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/editor/list-numbers","library":"filled","family":"editor","categoryPath":["editor"],"nodeId":"721:601","componentKey":"5dc8f5c87415ef9733cef2bc38ad94303e870591","sourcePath":"icons/source/svg/filled/editor/list-numbers.svg","importPath":"@cometal/react/icons/filled/editor/list-numbers","sourceSha256":"a999b21314bb07370cbde734e2191b95ba77029d1f29a6e8a53d9f5ef82417ce","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M10.6431 5.99998H21.5M10.6431 12.5002H21.5M10.8437 19.0002H21.5M2.5 16C2.5 15.4696 2.71182 14.9609 3.08887 14.5858C3.46592 14.2107 3.97731 14 4.51054 14C5.04377 14 5.55516 14.2107 5.93221 14.5858C6.30926 14.9609 6.52108 15.4696 6.52108 16C6.52108 16.591 6.01845 17 5.51581 17.5L2.5 20H6.52108M4.51054 10V4L2.5 6\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

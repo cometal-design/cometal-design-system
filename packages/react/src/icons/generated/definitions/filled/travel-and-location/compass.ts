@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/travel-and-location/compass","library":"filled","family":"travel-and-location","categoryPath":["travel-and-location"],"nodeId":"700:13111","componentKey":"b3dc229f7fd369a988e91364b0636aceb162960d","sourcePath":"icons/source/svg/filled/travel-and-location/compass.svg","importPath":"@cometal/react/icons/filled/travel-and-location/compass","sourceSha256":"278e4c506a7df4420ecf1a8504fd46adb5eb57c9197fbad143201264589683ba","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<g>\n<path d=\"M12 21.5C17.2467 21.5 21.5 17.2467 21.5 12C21.5 6.7533 17.2467 2.5 12 2.5C6.75329 2.5 2.5 6.7533 2.5 12C2.5 17.2467 6.75329 21.5 12 21.5Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linejoin=\"round\"/>\n<path d=\"M15.4612 8.53948L14.6215 14.1292L9.03179 14.9689L9.87148 9.37917L15.4612 8.53948Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linejoin=\"round\"/>\n</g>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

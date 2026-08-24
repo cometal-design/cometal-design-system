@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/time/clock-plus","library":"filled","family":"time","categoryPath":["time"],"nodeId":"721:489","componentKey":"21939aa2e312efc921551085762107db2e79c266","sourcePath":"icons/source/svg/filled/time/clock-plus.svg","importPath":"@cometal/react/icons/filled/time/clock-plus","sourceSha256":"c4e13b989d54e07db75d885d36f9e7841bae68e684e95d4e759d835d67094efe","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M14.7941 14.25L11.4412 13.125V8.42087M20.3824 12C20.3824 7.02944 16.3793 3 11.4412 3C6.5031 3 2.5 7.02944 2.5 12C2.5 16.9706 6.5031 21 11.4412 21C12.0142 21 12.5746 20.9457 13.1176 20.8421M18.7059 15.375V18.1875M18.7059 18.1875V21M18.7059 18.1875H21.5M18.7059 18.1875H15.9118\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

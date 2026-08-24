@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/editor/image-indent-left","library":"outline","family":"editor","categoryPath":["editor"],"nodeId":"691:12552","componentKey":"08656dd0d4dfb5cedb5a2899611a27cd668f46f9","sourcePath":"icons/source/svg/outline/editor/image-indent-left.svg","importPath":"@cometal/react/icons/outline/editor/image-indent-left","sourceSha256":"041815beecc3e4142b12f5d9713387041098a1ec5f992013b37a2a29a9fcf430","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M2.5 4L21.5 4M13.1875 9.33333L21.5 9.33333M13.1875 14.6667L21.5 14.6667M2.5 20H21.5M3.6875 15.0769H7.25C7.90584 15.0769 8.4375 14.5259 8.4375 13.8462V10.1538C8.4375 9.47411 7.90584 8.92308 7.25 8.92308H3.6875C3.03166 8.92308 2.5 9.47411 2.5 10.1538V13.8462C2.5 14.5259 3.03166 15.0769 3.6875 15.0769Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

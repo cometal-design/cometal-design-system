@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/arrows/arrow-rotate-left-02","library":"outline","family":"arrows","categoryPath":["arrows"],"nodeId":"700:14381","componentKey":"eb73c0893cf119ec714647c4ca730922a30100fe","sourcePath":"icons/source/svg/outline/arrows/arrow-rotate-left-02.svg","importPath":"@cometal/react/icons/outline/arrows/arrow-rotate-left-02","sourceSha256":"6fe32bb0f441a41576569ca37ab0810d2f3423fd6e58cac891d6e983ce905d99","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M4.87115 14.5C5.88914 17.6939 8.80463 20 12.2424 20C16.5268 20 20 16.4183 20 12C20 7.58172 16.5268 4 12.2424 4C9.37103 4 6.86399 5.60879 5.52267 8M4.87115 7.21845L5.93971 8.25008M7.87879 9H4V5L7.87879 9Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/layout/column-horizontal-02","library":"filled","family":"layout","categoryPath":["layout"],"nodeId":"721:181","componentKey":"7aeea6967ccab246da6d4b4df3cc60d8973982f9","sourcePath":"icons/source/svg/filled/layout/column-horizontal-02.svg","importPath":"@cometal/react/icons/filled/layout/column-horizontal-02","sourceSha256":"6fec1d9995d91bacf41b3daf5f203da8e6bb771054faf24183113aaff6c94420","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M3.60056 12.2465H21.1387M18.9192 21H5.08089C4.00823 21 3.13867 20.1168 3.13867 19.0274L3.13867 4.9726C3.13867 3.88316 4.00823 3 5.08089 3L18.9192 3C19.9918 3 20.8614 3.88316 20.8614 4.9726V19.0274C20.8614 20.1168 19.9918 21 18.9192 21Z\" stroke=\"currentColor\" stroke-width=\"2\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

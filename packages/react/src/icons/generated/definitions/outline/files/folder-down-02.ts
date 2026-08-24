@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/files/folder-down-02","library":"outline","family":"files","categoryPath":["files"],"nodeId":"691:11053","componentKey":"872270334ee646c7dceb3db47161ad8e4b3dc73c","sourcePath":"icons/source/svg/outline/files/folder-down-02.svg","importPath":"@cometal/react/icons/outline/files/folder-down-02","sourceSha256":"f6be92d2489722bc31bb0bc98f27f1a8fc456162d3f585c667cfcff7fc29c71e","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M13.9993 19.5509L4.86892 19.5509C3.56088 19.5509 2.50052 18.4987 2.50053 17.2009L2.50062 8.26697C2.50062 7.37212 2.50029 6.09755 2.5 5.17466C2.4998 4.52558 3.03006 4 3.68425 4H9.32717L12.0558 6.89201H20.2626C20.9166 6.89201 21.4468 7.41806 21.4468 8.06697V11.188M16.7632 17.7165L19.078 20L21.5 17.6084M19.078 20V14.1252\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

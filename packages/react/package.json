@@ -14,13 +14,28 @@
       "types": "./dist/index.d.ts",
       "import": "./dist/index.js"
     },
+    "./icons/manifest": {
+      "types": "./dist/icons/manifest.d.ts",
+      "import": "./dist/icons/manifest.js"
+    },
+    "./icons/catalog": {
+      "types": "./dist/icons/catalog.d.ts",
+      "import": "./dist/icons/catalog.js"
+    },
+    "./icons/*": {
+      "types": "./dist/icons/*.d.ts",
+      "import": "./dist/icons/*.js"
+    },
     "./styles.css": "./dist/styles.css"
   },
   "sideEffects": [
     "**/*.css"
   ],
   "scripts": {
-    "build": "vite build",
+    "build": "vite build && node ./scripts/icons/finalize-build.mjs",
+    "generate:icons": "node ./scripts/icons/generate-icons.mjs",
+    "validate:icons": "node ./scripts/icons/validate-icons.mjs",
+    "validate:icons:dist": "node ./scripts/icons/validate-icons.mjs --dist && node ./scripts/icons/validate-bundles.mjs",
     "test": "vitest run --project unit",
     "typecheck": "tsc --noEmit"
   },

@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/charts/chart-breakout-circle","library":"outline","family":"charts","categoryPath":["charts"],"nodeId":"691:11448","componentKey":"5bc4dd243830668d825ada75c1502f8353dd5763","sourcePath":"icons/source/svg/outline/charts/chart-breakout-circle.svg","importPath":"@cometal/react/icons/outline/charts/chart-breakout-circle","sourceSha256":"d330696e7f62b7a13bdaed97e97d111b39bd5092d34101537a88cf01f3ca6c18","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M3.06108 13.7077C7.54968 13.7077 13.7215 14.2688 14.2826 10.3412M14.2826 14.375V10.3412H10.9161M14.206 2.5V4.92148M21.5 9.79398H19.0785M19.2557 4.7443L17.649 6.34837M9.625 2.79929C5.52759 3.85389 2.5 7.57338 2.5 12C2.5 17.2467 6.75329 21.5 12 21.5C16.6379 21.5 20.4995 18.1765 21.3333 13.7812\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

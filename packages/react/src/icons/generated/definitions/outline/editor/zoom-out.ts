@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/editor/zoom-out","library":"outline","family":"editor","categoryPath":["editor"],"nodeId":"691:12736","componentKey":"dcf0e62091d58118be52bf45cb01c8f8ff8f0cce","sourcePath":"icons/source/svg/outline/editor/zoom-out.svg","importPath":"@cometal/react/icons/outline/editor/zoom-out","sourceSha256":"6ad467f29a7328e0c0aab95cb892a8e28c9c161a18a2adfae4584c2d59aefcdc","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M16.9855 17.1L20.5 20.5M8.35714 11.3929H14.4286M19.3667 11.4333C19.3667 15.8148 15.8148 19.3667 11.4333 19.3667C7.05187 19.3667 3.5 15.8148 3.5 11.4333C3.5 7.05187 7.05187 3.5 11.4333 3.5C15.8148 3.5 19.3667 7.05187 19.3667 11.4333Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

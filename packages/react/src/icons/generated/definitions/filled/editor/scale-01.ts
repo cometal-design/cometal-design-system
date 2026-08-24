@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/editor/scale-01","library":"filled","family":"editor","categoryPath":["editor"],"nodeId":"721:627","componentKey":"4edf7c69d8b27c05956423a7ef02c3f5b6ba7986","sourcePath":"icons/source/svg/filled/editor/scale-01.svg","importPath":"@cometal/react/icons/filled/editor/scale-01","sourceSha256":"6e70b94b825dedf37e059cf9035bbdfe321577ab6afb55be0d7bfb8dece9b061","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M5.4321 2.5C3.81275 2.5 2.5 3.81274 2.5 5.4321M14.1111 2.5H9.88889M21.5 5.4321C21.5 3.81275 20.1873 2.5 18.5679 2.5M2.5 9.88889V14.1111M21.5 14.1111V9.88889M2.5 18.5679C2.5 20.1873 3.81275 21.5 5.4321 21.5M18.5679 21.5C20.1873 21.5 21.5 20.1873 21.5 18.5679M9.88889 21.5H14.1111M2.5 12H9.88889C11.0548 12 12 12.9452 12 14.1111V21.5H5.66667C3.91776 21.5 2.5 20.0822 2.5 18.3333V12Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

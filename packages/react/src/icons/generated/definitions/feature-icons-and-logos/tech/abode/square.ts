@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"tech/Abode/Square","library":"feature-icons-and-logos","family":"tech","categoryPath":["tech","Abode"],"nodeId":"691:22238","componentKey":"a52ffb87d3f956b63ec6dff1bee8a88ea5a78cb6","sourcePath":"icons/source/svg/feature-icons-and-logos/tech/abode/square.svg","importPath":"@cometal/react/icons/feature-icons-and-logos/tech/abode/square","sourceSha256":"2d61a80dc33cf7217b7ee4a3d7d4b3f694343967782f59e79591f32c81123e8a","viewBox":[0,0,32,32],"intrinsicWidth":32,"intrinsicHeight":32,"paintMode":"intrinsic","body":"<rect width=\"32\" height=\"32\" rx=\"6\" fill=\"#FB0F01\"/><path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M4.86914 5.91309H13.1331L4.86914 26.0395V5.91309ZM18.7628 5.91309H27.13V25.7809L18.7628 5.91309ZM16.0427 13.6088L20.6052 25.6779H17.7816L15.836 21.856H12.737L16.0427 13.6088Z\" fill=\"white\"/>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

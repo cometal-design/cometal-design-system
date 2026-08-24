@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/finance/bag-01","library":"outline","family":"finance","categoryPath":["finance"],"nodeId":"700:14873","componentKey":"8a73da4b0a6a259d356c4f6c27ef2d842df304c9","sourcePath":"icons/source/svg/outline/finance/bag-01.svg","importPath":"@cometal/react/icons/outline/finance/bag-01","sourceSha256":"c8b25f5c87128fbd7f0fa48e9809278b8d0265b2e5a9c41b6ca60c70d8c39e1f","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M5.46484 9.60256L10.2454 4.28525C11.1867 3.23825 12.8055 3.23825 13.7468 4.28525L18.5273 9.60256M21.1029 10.8943L18.3939 19.7913C18.2657 20.2123 17.8773 20.5 17.4372 20.5H6.62028C6.18235 20.5 5.79537 20.2151 5.66536 19.7969L2.8993 10.8999C2.69919 10.2563 3.18018 9.60304 3.85421 9.60304H20.1463C20.8179 9.60304 21.2985 10.2519 21.1029 10.8943Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

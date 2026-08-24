@@ -16,6 +16,8 @@
     "build:storybook": "pnpm --filter @cometal/storybook build",
     "build:docs": "pnpm --filter @cometal/docs build",
     "build:site": "pnpm build && node ./scripts/assemble-site.mjs",
+    "generate:icons": "pnpm --filter @cometal/react generate:icons",
+    "validate:icons": "pnpm --filter @cometal/react validate:icons",
     "dev": "pnpm build:tokens && pnpm build:react && pnpm --filter @cometal/docs dev",
     "dev:storybook": "pnpm build:tokens && pnpm build:react && pnpm --filter @cometal/storybook dev",
     "test": "pnpm test:unit && pnpm test:storybook",
@@ -25,6 +27,6 @@
     "validate:sources": "node ./scripts/validate-sources.mjs",
     "validate:css-variables": "node ./scripts/validate-css-variables.mjs",
     "validate:secrets": "node ./scripts/validate-secrets.mjs",
-    "validate": "pnpm validate:sources && pnpm validate:css-variables && pnpm validate:secrets && pnpm typecheck && pnpm test && pnpm build"
+    "validate": "pnpm validate:icons && pnpm validate:sources && pnpm validate:css-variables && pnpm validate:secrets && pnpm typecheck && pnpm test && pnpm build && pnpm --filter @cometal/react validate:icons:dist"
   }
 }

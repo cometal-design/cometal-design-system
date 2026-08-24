@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"crypto/Coinbase","library":"feature-icons-and-logos","family":"crypto","categoryPath":["crypto"],"nodeId":"691:21110","componentKey":"ea6a5df9b1312a2c75a792e172b5641d02d1a426","sourcePath":"icons/source/svg/feature-icons-and-logos/crypto/coinbase.svg","importPath":"@cometal/react/icons/feature-icons-and-logos/crypto/coinbase","sourceSha256":"d2e06caf9b5dcc904439f73fe3f4ea0674476247dc4c0fbe9d08a9ac73466d76","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"intrinsic","body":"<circle cx=\"12\" cy=\"12\" r=\"12\" fill=\"#0052FF\"/><path d=\"M12.015 16C9.80089 16 8.00751 14.21 8.00751 12C8.00751 9.79 9.80089 8 12.015 8C13.9988 8 15.6452 9.44333 15.9624 11.3333H20C19.6594 7.22667 16.2162 4 12.015 4C7.59006 4 4 7.58333 4 12C4 16.4167 7.59006 20 12.015 20C16.2162 20 19.6594 16.7733 20 12.6667H15.9591C15.6418 14.5567 13.9988 16 12.015 16Z\" fill=\"white\"/>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

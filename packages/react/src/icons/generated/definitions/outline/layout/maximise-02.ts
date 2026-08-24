@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/layout/maximise-02","library":"outline","family":"layout","categoryPath":["layout"],"nodeId":"691:11880","componentKey":"a2f614cbc6602d861a29672518a1eb997e966261","sourcePath":"icons/source/svg/outline/layout/maximise-02.svg","importPath":"@cometal/react/icons/outline/layout/maximise-02","sourceSha256":"3879e76e5ad9c2ba1cc5a550acd9966088ee03189ad1e8e8b48934ce267fd8a2","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M8.83333 2.5H4.61111C3.44518 2.5 2.5 3.44518 2.5 4.61111V8.83333M8.83333 21.5H4.61111C3.44518 21.5 2.5 20.5548 2.5 19.3889V15.1667M15.1667 2.5H19.3889C20.5548 2.5 21.5 3.44518 21.5 4.61111V8.83333M21.5 15.1667V19.3889C21.5 20.5548 20.5548 21.5 19.3889 21.5H15.1667\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

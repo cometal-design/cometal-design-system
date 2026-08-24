@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/general/check-contained","library":"outline","family":"general","categoryPath":["general"],"nodeId":"700:14672","componentKey":"00659343aa96cbacfcfa1d6451089e9d6c4ce5d5","sourcePath":"icons/source/svg/outline/general/check-contained.svg","importPath":"@cometal/react/icons/outline/general/check-contained","sourceSha256":"e6630cb5f3ce14fd577dd0aa6cea3f0f41144e841bae11d8324fce4e356e7a9f","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M15.142 9.98299L10.875 14.25L9.42049 12.7955M12 3C7.02944 3 3 7.02944 3 12C3 16.9706 7.02944 21 12 21C16.9706 21 21 16.9706 21 12C21 7.02944 16.9706 3 12 3Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

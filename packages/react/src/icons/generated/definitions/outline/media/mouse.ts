@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/media/mouse","library":"outline","family":"media","categoryPath":["media"],"nodeId":"700:15086","componentKey":"e6cd2691ddac22c68a3380bdf4e770047b1fd80c","sourcePath":"icons/source/svg/outline/media/mouse.svg","importPath":"@cometal/react/icons/outline/media/mouse","sourceSha256":"42eb845cbc436ba6a3824304dfc32561da0bc200f854af5ebd48b0880b2fa96e","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M12 7.84375V10.2188M12 2.5C10.4087 2.5 8.88258 3.10053 7.75736 4.16949C6.63214 5.23845 6 6.68827 6 8.2V15.8C6 17.3117 6.63214 18.7616 7.75736 19.8305C8.88258 20.8995 10.4087 21.5 12 21.5C13.5913 21.5 15.1174 20.8995 16.2426 19.8305C17.3679 18.7616 18 17.3117 18 15.8V8.2C18 6.68827 17.3679 5.23845 16.2426 4.16949C15.1174 3.10053 13.5913 2.5 12 2.5Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

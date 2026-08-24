@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/editor/bold-01","library":"filled","family":"editor","categoryPath":["editor"],"nodeId":"721:529","componentKey":"e0ac45a76f89c8a81599c01a07bc3bf23397e332","sourcePath":"icons/source/svg/filled/editor/bold-01.svg","importPath":"@cometal/react/icons/filled/editor/bold-01","sourceSha256":"bfd0738c6a5f246585d4573c93b8ee3f50e3f68b0985489d5dea55bf014bb58c","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M6 12V20H14.1C16.2539 20 18 18.2091 18 16C18 13.7909 16.2539 12 14.1 12H6ZM6 12H12.9C15.0539 12 16.8 10.2091 16.8 8C16.8 5.79086 15.0539 4 12.9 4H6V12Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

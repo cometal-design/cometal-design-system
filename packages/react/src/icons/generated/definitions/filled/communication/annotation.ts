@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/communication/annotation","library":"filled","family":"communication","categoryPath":["communication"],"nodeId":"721:353","componentKey":"cc07b9c245a706f859a86de81938956de9bd9362","sourcePath":"icons/source/svg/filled/communication/annotation.svg","importPath":"@cometal/react/icons/filled/communication/annotation","sourceSha256":"e8cf3b7a64974fe9c844647d4ba4f10913f12ba2cfa261267879037fe17bce88","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M12 21L14.4457 16.3043H19C20.1046 16.3043 21 15.4089 21 14.3043V5C21 3.89543 20.1046 3 19 3H5C3.89543 3 3 3.89543 3 5V14.3043C3 15.4089 3.89543 16.3043 5 16.3043H9.75L12 21Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

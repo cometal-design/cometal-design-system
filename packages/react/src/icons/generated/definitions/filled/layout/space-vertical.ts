@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/layout/space-vertical","library":"filled","family":"layout","categoryPath":["layout"],"nodeId":"721:263","componentKey":"550fffa2305008ca215a5d12364aa70221b69f68","sourcePath":"icons/source/svg/filled/layout/space-vertical.svg","importPath":"@cometal/react/icons/filled/layout/space-vertical","sourceSha256":"cd138273920169cafb89caa0344724dafb76d248c81f7fd2b126e12744c8dc9c","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M21.5 2.5V21.5M2.5 2.5L2.5 21.5M7.84375 4.875L7.84375 19.125C7.84375 20.4367 8.90707 21.5 10.2188 21.5H13.7812C15.0929 21.5 16.1562 20.4367 16.1562 19.125L16.1563 4.875C16.1563 3.56332 15.0929 2.5 13.7813 2.5L10.2188 2.5C8.90707 2.5 7.84375 3.56332 7.84375 4.875Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

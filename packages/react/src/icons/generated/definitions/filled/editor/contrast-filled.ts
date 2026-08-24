@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/editor/contrast-filled","library":"filled","family":"editor","categoryPath":["editor"],"nodeId":"721:539","componentKey":"06a0ec864523855fbf1f67d8fb2175ebba4f4260","sourcePath":"icons/source/svg/filled/editor/contrast-filled.svg","importPath":"@cometal/react/icons/filled/editor/contrast-filled","sourceSha256":"099950ad7de213149333080fd507a5d24182d1bace6c4aa1bf5a9c85f043361a","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M12 21.5C17.2467 21.5 21.5 17.2467 21.5 12C21.5 6.75329 17.2467 2.5 12 2.5C6.75329 2.5 2.5 6.75329 2.5 12C2.5 17.2467 6.75329 21.5 12 21.5ZM11.402 19.1003C11.7305 19.1276 11.9983 18.857 11.9976 18.5274C11.9937 16.8004 12 12.8533 12 12V5.46875C12 5.14083 11.7332 4.87242 11.4064 4.89937C7.74912 5.201 4.875 8.26486 4.875 12C4.875 15.7336 7.7468 18.7965 11.402 19.1003Z\" fill=\"currentColor\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

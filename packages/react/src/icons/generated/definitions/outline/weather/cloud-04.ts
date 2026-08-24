@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/weather/cloud-04","library":"outline","family":"weather","categoryPath":["weather"],"nodeId":"691:11134","componentKey":"5ba4c4fade21fab05267932ecafec6a9be4dbfa2","sourcePath":"icons/source/svg/outline/weather/cloud-04.svg","importPath":"@cometal/react/icons/outline/weather/cloud-04","sourceSha256":"40c3f7507a53d7d958e65c5b063d415c6f7baeadd4c5f2cac7a08f0a29b062dd","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M4.875 17.2363C3.45515 16.3779 2.5 14.7735 2.5 12.936C2.5 10.6841 3.93428 8.78167 5.90107 8.17421C6.92715 5.71719 9.27246 4 12 4C15.3862 4 18.1824 6.64657 18.5962 10.0688C20.2624 10.4901 21.5 12.0585 21.5 13.9289C21.5 15.3088 20.8265 16.5245 19.8043 17.2363M8.4375 20V13.8462M16.75 20V13.8462M12.5938 20V13.8462\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/charts/trend-up-02","library":"outline","family":"charts","categoryPath":["charts"],"nodeId":"691:11537","componentKey":"fd31d169aba239ff57cc1e01a8f8db42ac84af5e","sourcePath":"icons/source/svg/outline/charts/trend-up-02.svg","importPath":"@cometal/react/icons/outline/charts/trend-up-02","sourceSha256":"c03cf5556399d0b042d02965fc40e1d796336ba363ec41cfc33a7dd34e2ee9ea","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M17.5 16.326V6.5L7.53225 6.50014M17.5 6.5L6.5 17.5\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

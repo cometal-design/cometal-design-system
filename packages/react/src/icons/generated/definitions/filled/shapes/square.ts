@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/shapes/square","library":"filled","family":"shapes","categoryPath":["shapes"],"nodeId":"721:714","componentKey":"38be936eca460498b2e31ca9d7d2d638684fe5b3","sourcePath":"icons/source/svg/filled/shapes/square.svg","importPath":"@cometal/react/icons/filled/shapes/square","sourceSha256":"a86670fa77aa689354c0c1aeaf8a9ff27ab2ae2714c62d210baffbf9c9ae8f80","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M17.9375 2.5C19.905 2.5 21.5 4.09498 21.5 6.06248V17.9375C21.5 19.905 19.905 21.5 17.9375 21.5H6.0625C4.09499 21.5 2.5 19.905 2.5 17.9375L2.5 6.06248C2.5 4.09498 4.09499 2.5 6.0625 2.5L17.9375 2.5Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

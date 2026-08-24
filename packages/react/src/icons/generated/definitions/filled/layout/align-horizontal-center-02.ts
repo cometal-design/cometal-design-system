@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/layout/align-horizontal-center-02","library":"filled","family":"layout","categoryPath":["layout"],"nodeId":"721:155","componentKey":"baf3e8c498c374c2ad53b44f102c789a5b8ec8c7","sourcePath":"icons/source/svg/filled/layout/align-horizontal-center-02.svg","importPath":"@cometal/react/icons/filled/layout/align-horizontal-center-02","sourceSha256":"522867ea6ef2ff28038385f4a903c39fa436c9c9cc42775b23db0ca4ae88bbdb","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M12 7.25V2.5M12 21.5V16.1562M4.875 16.1562H19.125C20.4367 16.1562 21.5 15.0929 21.5 13.7812V10.2188C21.5 8.90707 20.4367 7.84375 19.125 7.84375H4.875C3.56332 7.84375 2.5 8.90707 2.5 10.2188V13.7812C2.5 15.0929 3.56332 16.1562 4.875 16.1562Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

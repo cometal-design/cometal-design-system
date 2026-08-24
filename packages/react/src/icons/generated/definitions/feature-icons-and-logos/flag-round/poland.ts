@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"flag-round/poland","library":"feature-icons-and-logos","family":"flag-round","categoryPath":["flag-round"],"nodeId":"691:19265","componentKey":"02811447b1fdf26bf065ce74ef9fa8e2a8be85b6","sourcePath":"icons/source/svg/feature-icons-and-logos/flag-round/poland.svg","importPath":"@cometal/react/icons/feature-icons-and-logos/flag-round/poland","sourceSha256":"4b74a1683484e7d570126f433824e3ca32ef243bb24eebf387aa475e0f415158","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"intrinsic","body":"<g clip-path=\"url(#__COMETAL_ID__clip0_691_19265)\"><path d=\"M12 24C18.6274 24 24 18.6274 24 12C24 5.37258 18.6274 0 12 0C5.37258 0 0 5.37258 0 12C0 18.6274 5.37258 24 12 24Z\" fill=\"#F0F0F0\"/><path d=\"M24 12C24 18.6274 18.6274 24 12 24C5.37262 24 0 18.6274 0 12\" fill=\"#D80027\"/></g><defs><clipPath id=\"__COMETAL_ID__clip0_691_19265\"><rect width=\"24\" height=\"24\" fill=\"white\"/></clipPath></defs>","hasReferencedIds":true} as const) satisfies CompiledIconDefinition;
+
+export default definition;

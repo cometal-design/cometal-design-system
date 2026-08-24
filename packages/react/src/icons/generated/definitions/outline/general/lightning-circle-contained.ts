@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/general/lightning-circle-contained","library":"outline","family":"general","categoryPath":["general"],"nodeId":"700:14573","componentKey":"eefe6b1c54baf8d1e754a7367159d701f1fbee32","sourcePath":"icons/source/svg/outline/general/lightning-circle-contained.svg","importPath":"@cometal/react/icons/outline/general/lightning-circle-contained","sourceSha256":"f988ae29003f0c18884cfc4fb9f353c4beb537b23d5c80ea8ca6641eedd01963","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<g>\n<path d=\"M21 12C21 16.9706 16.9706 21 12 21C7.02944 21 3 16.9706 3 12C3 7.02944 7.02944 3 12 3C16.9706 3 21 7.02944 21 12Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/>\n<path d=\"M7.5 13.5L12.75 6.375V11.25H16.5L11.25 17.625V13.5H7.5Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/>\n</g>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

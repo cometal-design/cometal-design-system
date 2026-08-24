@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/editor/cursor-01","library":"filled","family":"editor","categoryPath":["editor"],"nodeId":"721:545","componentKey":"72e0af66a059772e296de4ea82c52cd3a6cabddc","sourcePath":"icons/source/svg/filled/editor/cursor-01.svg","importPath":"@cometal/react/icons/filled/editor/cursor-01","sourceSha256":"88be0a65a1d6071b44831cfd0bc1c78f9a0476f06fbac5b4bc630ca1d69d1b1d","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M12.2982 18.2392L18.4918 21.2755C19.6527 21.8446 20.8911 20.6541 20.3826 19.4577L13.5369 3.34905C13.0607 2.22843 11.4922 2.20871 10.9884 3.31701L3.63165 19.5009C3.09405 20.6835 4.30114 21.9045 5.47571 21.3662L12.2982 18.2392Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

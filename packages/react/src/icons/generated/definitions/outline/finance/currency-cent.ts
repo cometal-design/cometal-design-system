@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/finance/currency-cent","library":"outline","family":"finance","categoryPath":["finance"],"nodeId":"700:14969","componentKey":"e64c4c3918eb5eaf0de670dba570d4cee5da236f","sourcePath":"icons/source/svg/outline/finance/currency-cent.svg","importPath":"@cometal/react/icons/outline/finance/currency-cent","sourceSha256":"8dcc71ecce951f711cba950e5e8c24738cbd85efa8e98c157ed2daa9ea0a5eb6","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M16.996 16.464C15.8979 17.4547 14.4709 18.0021 12.992 18C9.682 18 7 15.314 7 12C6.99948 11.2126 7.15405 10.4328 7.45489 9.70513C7.75573 8.97746 8.19695 8.31617 8.75336 7.75902C9.30977 7.20186 9.97047 6.75976 10.6977 6.45795C11.425 6.15614 12.2046 6.00053 12.992 6C14.4728 5.99803 15.9015 6.54696 17 7.54M12.992 6L12.993 4M12.992 18L12.993 20\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

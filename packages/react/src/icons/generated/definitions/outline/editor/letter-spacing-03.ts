@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/editor/letter-spacing-03","library":"outline","family":"editor","categoryPath":["editor"],"nodeId":"691:12593","componentKey":"33b494b41304c31802dbcc516556fac315aa9bfb","sourcePath":"icons/source/svg/outline/editor/letter-spacing-03.svg","importPath":"@cometal/react/icons/outline/editor/letter-spacing-03","sourceSha256":"0aafbee2ada5ce6501fdcd72cce34d03d67edcfdfe05ffb6f42d3f48060e67df","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M9.33598 7.42857L5.91799 4L2.5 7.42857M5.91799 4V20M9.33598 16.5714L5.91799 20L2.5 16.5714M14.2619 17.7143H17.2778M17.2778 17.7143H20.2937M17.2778 17.7143V7.42857M17.2778 7.42857H12.754V9.2437M17.2778 7.42857H21.5V9.54622\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

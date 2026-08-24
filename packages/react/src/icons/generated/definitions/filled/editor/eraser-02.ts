@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/editor/eraser-02","library":"filled","family":"editor","categoryPath":["editor"],"nodeId":"721:561","componentKey":"f53e1bdd01bb833c471212557eb07f99522634ae","sourcePath":"icons/source/svg/filled/editor/eraser-02.svg","importPath":"@cometal/react/icons/filled/editor/eraser-02","sourceSha256":"6a8e854c100de550a13cd1a37051d0d412f3becd41f6be91871ea226c26cb39b","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M3 21.5H21M10.9108 18.1059H7.4079L3.29892 14.13C3.10759 13.9438 3.0002 13.6919 3.0002 13.4293C3.0002 13.1667 3.10759 12.9148 3.29892 12.7286L13.5714 2.78903C13.7639 2.60391 14.0242 2.5 14.2956 2.5C14.567 2.5 14.8273 2.60391 15.0198 2.78903L20.156 7.7588C20.3474 7.94503 20.4547 8.19695 20.4547 8.45954C20.4547 8.72213 20.3474 8.97405 20.156 9.16028L10.9108 18.1059Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

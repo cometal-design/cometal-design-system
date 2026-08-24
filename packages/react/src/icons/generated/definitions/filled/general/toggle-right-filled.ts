@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/general/toggle-right-filled","library":"filled","family":"general","categoryPath":["general"],"nodeId":"700:1303","componentKey":"23923df9c20428cc377ae48a364c734d0d8f56ca","sourcePath":"icons/source/svg/filled/general/toggle-right-filled.svg","importPath":"@cometal/react/icons/filled/general/toggle-right-filled","sourceSha256":"6c87de6512da4268826ca2a90f5386245892f426bd0ee8d0322aea757394ac2f","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M7.25 7C4.62665 7 2.5 9.23858 2.5 12C2.5 14.7614 4.62665 17 7.25 17H16.75C19.3734 17 21.5 14.7614 21.5 12C21.5 9.23858 19.3734 7 16.75 7H7.25ZM16.9475 15.1248C18.5871 15.1248 19.9163 13.7257 19.9163 11.9998C19.9163 10.2739 18.5871 8.8748 16.9475 8.8748C15.3079 8.8748 13.9788 10.2739 13.9788 11.9998C13.9788 13.7257 15.3079 15.1248 16.9475 15.1248Z\" fill=\"currentColor\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

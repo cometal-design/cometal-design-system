@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/communication/message-square-x","library":"outline","family":"communication","categoryPath":["communication"],"nodeId":"691:12208","componentKey":"1e3dd2730430ccc59629c603ce2ae206e786ee9b","sourcePath":"icons/source/svg/outline/communication/message-square-x.svg","importPath":"@cometal/react/icons/outline/communication/message-square-x","sourceSha256":"24bd4b44b320903c8db3abcf0c566b50a96aea82657cffc1bfc511790a44ae94","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M14.375 12L12 9.625M12 9.625L9.625 7.25M12 9.625L9.625 12M12 9.625L14.375 7.25M11.6902 16.5435L6.7337 21.5V16.5435H4.875C3.56332 16.5435 2.5 15.4802 2.5 14.1685V4.875C2.5 3.56333 3.56332 2.5 4.875 2.5H19.125C20.4367 2.5 21.5 3.56332 21.5 4.875V14.1685C21.5 15.4802 20.4367 16.5435 19.125 16.5435H11.6902Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

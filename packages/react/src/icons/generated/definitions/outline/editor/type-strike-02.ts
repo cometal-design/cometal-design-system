@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/editor/type-strike-02","library":"outline","family":"editor","categoryPath":["editor"],"nodeId":"691:12720","componentKey":"b34850669bcdba91c4527adcfef9b03ead9194fd","sourcePath":"icons/source/svg/outline/editor/type-strike-02.svg","importPath":"@cometal/react/icons/outline/editor/type-strike-02","sourceSha256":"5f1adece474826308ecae5a850b3514e1e5cf959cfc9ba15eefdf302fda0ea86","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M5.88008 16.5C6.40524 19.0676 8.69211 21 11.4336 21H14.2084C16.712 21 18.7417 18.9853 18.7417 16.5C18.7417 14.0147 16.7125 12 14.2088 12L10.2996 12H3.5M14.2088 12L20.5 12M18.7414 8.625C18.7414 5.5184 16.2043 3 13.0747 3H10.3C7.79631 3 5.76667 5.01472 5.76667 7.5V8.625\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

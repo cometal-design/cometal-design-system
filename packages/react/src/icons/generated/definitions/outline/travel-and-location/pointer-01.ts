@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/travel-and-location/pointer-01","library":"outline","family":"travel-and-location","categoryPath":["travel-and-location"],"nodeId":"691:11342","componentKey":"fc100a9f0248955337e56308c0d10e7222cc163f","sourcePath":"icons/source/svg/outline/travel-and-location/pointer-01.svg","importPath":"@cometal/react/icons/outline/travel-and-location/pointer-01","sourceSha256":"ee677e1c58768a16da68b8d49d7ecc0223a0cd0411e8013cf589f74f1278b4ff","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M10.2813 14.0275L12.4918 20.5609C12.9061 21.7855 14.5863 21.8265 15.0572 20.6234L21.3987 4.42521C21.8398 3.29836 20.764 2.17118 19.6506 2.59374L3.39256 8.76419C2.20448 9.21511 2.20183 10.9314 3.38851 11.3861L10.2813 14.0275Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

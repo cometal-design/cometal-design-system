@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"tech/Zapier/Icon","library":"feature-icons-and-logos","family":"tech","categoryPath":["tech","Zapier"],"nodeId":"691:21960","componentKey":"56a9edb7a410c707d7c459db621b123520b0b28a","sourcePath":"icons/source/svg/feature-icons-and-logos/tech/zapier/icon.svg","importPath":"@cometal/react/icons/feature-icons-and-logos/tech/zapier/icon","sourceSha256":"5aa00d87d38c47c3660eb640a89d6ad7497a7f217b397bcddba6dea2168c0ec8","viewBox":[0,0,32,32],"intrinsicWidth":32,"intrinsicHeight":32,"paintMode":"intrinsic","body":"<rect x=\"6.89808\" y=\"6.89711\" width=\"18.2055\" height=\"18.2055\" fill=\"#FF4F00\" stroke=\"#FF4F00\" stroke-width=\"1.27273\"/><rect x=\"9.55433\" y=\"20.1779\" width=\"12.4506\" height=\"1.82609\" fill=\"white\" stroke=\"white\" stroke-width=\"1.27273\"/>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

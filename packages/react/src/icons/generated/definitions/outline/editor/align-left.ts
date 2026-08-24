@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/editor/align-left","library":"outline","family":"editor","categoryPath":["editor"],"nodeId":"691:12436","componentKey":"9617e10990dd676f4390f10dc9ed8f83f6052e42","sourcePath":"icons/source/svg/outline/editor/align-left.svg","importPath":"@cometal/react/icons/outline/editor/align-left","sourceSha256":"bf669acdd19cda64d58cc8a558c69c6e001df4c05b96582d3716b2976e8d5fff","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M2.5 4L21.5 4M2.5 9.33333L16.477 9.33333M2.5 14.6667L21.5 14.6667M2.5 20L12.6552 20\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

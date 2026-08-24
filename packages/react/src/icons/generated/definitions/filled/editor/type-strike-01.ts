@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/editor/type-strike-01","library":"filled","family":"editor","categoryPath":["editor"],"nodeId":"721:658","componentKey":"27ccd7608399c3190784068c6774b11bdbfd267d","sourcePath":"icons/source/svg/filled/editor/type-strike-01.svg","importPath":"@cometal/react/icons/filled/editor/type-strike-01","sourceSha256":"83c23a73fe71586e5051c5b75c5973c4af05428e01c68073f8861d47e6a39d88","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M7.90741 21.5H11.9074M11.9074 21.5H16.0926M11.9074 21.5V12.3065M4.12963 7.36717V5.56452C4.12963 5.20108 4.29211 4.87459 4.55022 4.65011M11.9074 4.33871H17.9074C18.6029 4.33871 19.1667 4.88752 19.1667 5.56452V7.87192M11.9074 4.33871V6.79032M11.9074 4.33871H9.7963M20.5 21.5L3.5 2.5\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

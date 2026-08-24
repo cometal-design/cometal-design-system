@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/editor/underline-01","library":"filled","family":"editor","categoryPath":["editor"],"nodeId":"721:662","componentKey":"35a84c81a13e4bed4a2725d820e5cc84758e4515","sourcePath":"icons/source/svg/filled/editor/underline-01.svg","importPath":"@cometal/react/icons/filled/editor/underline-01","sourceSha256":"5694c73b85ac0826e7ce37c5d1458916e8e301ea3dc424c0c05103b6f00c458a","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M20 20H4M17.7143 5.14286V10.8571C17.7143 14.0131 15.1559 16.5714 12 16.5714C8.84409 16.5714 6.28571 14.0131 6.28571 10.8571V5.14286M4.57143 4H8M16 4L19.4286 4\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/media/battery-01","library":"outline","family":"media","categoryPath":["media"],"nodeId":"700:15080","componentKey":"2382a287d96ec1c73dbad1cacb9b612591c318b1","sourcePath":"icons/source/svg/outline/media/battery-01.svg","importPath":"@cometal/react/icons/outline/media/battery-01","sourceSha256":"ad2964c0c8d5004b1ae518080a88629d11bfeea06ba2da6e9bb64573b09d10bd","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M22 13.8V10.2M5.52941 13.8V10.2M4.35294 18H16.1176C17.4171 18 18.4706 16.9255 18.4706 15.6V8.4C18.4706 7.07452 17.4171 6 16.1176 6H4.35294C3.05345 6 2 7.07452 2 8.4V15.6C2 16.9255 3.05345 18 4.35294 18Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

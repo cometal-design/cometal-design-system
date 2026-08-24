@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/general/target-03","library":"outline","family":"general","categoryPath":["general"],"nodeId":"700:14855","componentKey":"d6b645b30be7e4478540780727d806010c818ab1","sourcePath":"icons/source/svg/outline/general/target-03.svg","importPath":"@cometal/react/icons/outline/general/target-03","sourceSha256":"ebef6c0926581174038ebce9ad96a9ef8017316c143cd158b64b83820a738773","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M12 5.5V2M12 22V18.5M18.5 12H22M2 12H5.5M20 12C20 16.4183 16.4183 20 12 20C7.58172 20 4 16.4183 4 12C4 7.58172 7.58172 4 12 4C16.4183 4 20 7.58172 20 12Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

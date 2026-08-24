@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/editor/indent-right","library":"filled","family":"editor","categoryPath":["editor"],"nodeId":"721:583","componentKey":"fe88f19f0b2cc24730f75764d7ea2e7ca9833f1b","sourcePath":"icons/source/svg/filled/editor/indent-right.svg","importPath":"@cometal/react/icons/filled/editor/indent-right","sourceSha256":"91e7d3e4cc09a1c22e2c8cfdd0c8e81fac25c43406b9c4e79e2146b584db2805","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M21.4995 20L2.5 20M11.9998 14.6667H2.5M11.9998 9.33333L2.5 9.33333M21.4995 4L2.5 4M21.4995 8.92308L21.5 15.0769L16.7497 12L21.4995 8.92308Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

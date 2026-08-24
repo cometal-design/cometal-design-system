@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/time/calendar-check","library":"filled","family":"time","categoryPath":["time"],"nodeId":"721:473","componentKey":"e578c46c524404fe151cf6983c7a5509f96d6129","sourcePath":"icons/source/svg/filled/time/calendar-check.svg","importPath":"@cometal/react/icons/filled/time/calendar-check","sourceSha256":"14d25cffba59b666daac5b75009e6059de31805a3b553d3fce9e48f537ae744d","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M5 8.91425H19M6.80952 3V4.54304M17 3V4.54285M17 4.54285H7C5.34315 4.54285 4 5.92436 4 7.62855V17.9143C4 19.6185 5.34315 21 7 21H17C18.6569 21 20 19.6185 20 17.9143L20 7.62855C20 5.92436 18.6569 4.54285 17 4.54285ZM9.5 15.0857L11 16.6285L14.5 13.0286\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

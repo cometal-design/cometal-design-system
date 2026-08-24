@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/files/paperclip-02","library":"outline","family":"files","categoryPath":["files"],"nodeId":"691:11114","componentKey":"468e2c6b887a30804c5692909f97d30db8182f08","sourcePath":"icons/source/svg/outline/files/paperclip-02.svg","importPath":"@cometal/react/icons/outline/files/paperclip-02","sourceSha256":"eab4f184688dd3fd893a257012d800bf64157fda9e56c4634539d1a783ad9e17","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M19.4621 11.8098L12.49 18.7819C10.5924 20.6795 7.75266 20.9099 5.82716 18.9844C3.93862 17.0958 4.19126 14.3527 6.12604 12.4179L13.9634 4.58058C15.1629 3.38109 17.0893 3.37646 18.283 4.57019C19.4768 5.76393 19.4721 7.69037 18.2726 8.88986L10.2977 16.8648C9.69984 17.4627 8.73285 17.465 8.13787 16.87C7.54288 16.275 7.5452 15.308 8.14306 14.7102L15.2527 7.60049\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

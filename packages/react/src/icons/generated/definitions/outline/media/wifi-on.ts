@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/media/wifi-on","library":"outline","family":"media","categoryPath":["media"],"nodeId":"700:15212","componentKey":"9f795ad8f19b902cb6c5e2946590b6de4932e1df","sourcePath":"icons/source/svg/outline/media/wifi-on.svg","importPath":"@cometal/react/icons/outline/media/wifi-on","sourceSha256":"5e57b81ca8463744b18534c7858969139c0ddab2f7dbe90a104927a0ebae6d15","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M6.01129 12.1871C9.31912 8.97669 14.6822 8.97669 17.99 12.1871M9.00596 15.0935C10.6599 13.4883 13.3414 13.4883 14.9953 15.0935M12.0006 18L12.0182 17.983M3 9.61811C7.97056 4.79396 16.0294 4.79396 21 9.61811\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

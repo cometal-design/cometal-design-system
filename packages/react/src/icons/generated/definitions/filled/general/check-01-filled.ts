@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/general/check-01-filled","library":"filled","family":"general","categoryPath":["general"],"nodeId":"700:1431","componentKey":"04be4a2fe01797e0024877bcafe86ffeb4620a83","sourcePath":"icons/source/svg/filled/general/check-01-filled.svg","importPath":"@cometal/react/icons/filled/general/check-01-filled","sourceSha256":"6a078a7b2463cac365c6eed517ce8337552f34780570bae01932520420319cab","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M18.0436 7.4278C18.6497 8.00048 18.6525 8.9316 18.0498 9.50752L10.663 16.5663C10.3725 16.8439 9.97754 17 9.56558 17C9.15361 17 8.75865 16.8439 8.46816 16.5663L5.95021 14.1602C5.34753 13.5843 5.35029 12.6531 5.95638 12.0805C6.56246 11.5078 7.54236 11.5104 8.14503 12.0863L9.56558 13.4438L15.855 7.43366C16.4576 6.85774 17.4375 6.85512 18.0436 7.4278Z\" fill=\"currentColor\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

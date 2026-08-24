@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/arrows/arrow-left-square-contained","library":"outline","family":"arrows","categoryPath":["arrows"],"nodeId":"700:14357","componentKey":"15dae0aa174157f87cf8346d99ea828c3614c81f","sourcePath":"icons/source/svg/outline/arrows/arrow-left-square-contained.svg","importPath":"@cometal/react/icons/outline/arrows/arrow-left-square-contained","sourceSha256":"cb666cb0e36c156654f67c9be097cf7e5b081e78359ea6fbd732b21cb12e855c","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M11.376 8.02252L7.49997 12L11.376 15.9775M7.49997 12H16.0164M20.9999 6.37498L20.9999 17.625C20.9999 19.489 19.4889 21 17.6249 21H6.37498C4.51103 21 3 19.489 3 17.625V6.37498C3 4.51103 4.51103 3 6.37498 3H17.6249C19.4889 3 20.9999 4.51103 20.9999 6.37498Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

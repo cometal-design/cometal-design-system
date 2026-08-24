@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/time/clock-forward","library":"outline","family":"time","categoryPath":["time"],"nodeId":"691:12368","componentKey":"4005d508d3bfda8896bb031b769db6f6b3dcc432","sourcePath":"icons/source/svg/outline/time/clock-forward.svg","importPath":"@cometal/react/icons/outline/time/clock-forward","sourceSha256":"27d5cbdb31ccb680cfc6eab68ca4d0f440cac0ba16050ff827185a3afab45733","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M14.3558 14.25L10.986 13.125V8.42087M19.9721 12C19.9721 7.02944 15.9489 3 10.986 3C6.02319 3 2 7.02944 2 12C2 16.9706 6.02319 21 10.986 21C14.3122 21 17.2162 19.1901 18.7699 16.5M17.507 11.0123L19.7535 13.2623L22 11.0123\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

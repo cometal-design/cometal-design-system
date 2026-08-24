@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/security/lock-03","library":"outline","family":"security","categoryPath":["security"],"nodeId":"700:15356","componentKey":"39050a192bbcfb7511bc67b7a15e3c4a119bab1b","sourcePath":"icons/source/svg/outline/security/lock-03.svg","importPath":"@cometal/react/icons/outline/security/lock-03","sourceSha256":"ef1a88e5e85a0d1fcc51283b62442d16278e5deea3f35ecf8cc0ff3a69a42f81","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M6.75 8.83333V7.92857C6.75 4.92132 9.09167 2.5 12 2.5C14.9083 2.5 17.25 4.92132 17.25 7.92857V8.83333M6.75 8.83333C5.7875 8.83333 5 9.64762 5 10.6429V19.6905C5 20.6857 5.7875 21.5 6.75 21.5H17.25C18.2125 21.5 19 20.6857 19 19.6905V10.6429C19 9.64762 18.2125 8.83333 17.25 8.83333M6.75 8.83333H17.25\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/layout/flex-align-top-01","library":"filled","family":"layout","categoryPath":["layout"],"nodeId":"721:203","componentKey":"08a4ced7a3a14ba9db2d86ced39b40d96023adb5","sourcePath":"icons/source/svg/filled/layout/flex-align-top-01.svg","importPath":"@cometal/react/icons/filled/layout/flex-align-top-01","sourceSha256":"144762d8349bb157635e9cdd875a8c0de8bc59b340077f7e6f054211506800a1","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M16.5 7.5L7.5 7.5M16.5 10.875L7.5 10.875M3 6.375L3 17.625C3 19.489 4.51104 21 6.375 21H17.625C19.489 21 21 19.489 21 17.625V6.375C21 4.51104 19.489 3 17.625 3L6.375 3C4.51104 3 3 4.51104 3 6.375Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

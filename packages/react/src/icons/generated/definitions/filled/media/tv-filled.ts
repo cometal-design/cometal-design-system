@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/media/tv-filled","library":"filled","family":"media","categoryPath":["media"],"nodeId":"700:12650","componentKey":"a4c822e929f0a5b507893261fa7c78180b796b3c","sourcePath":"icons/source/svg/filled/media/tv-filled.svg","importPath":"@cometal/react/icons/filled/media/tv-filled","sourceSha256":"f2f2786c603738751d522002946d9ec75f09d975b36e4d0e77a1555d2d5bd2c3","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M4.875 3.5C3.56332 3.5 2.5 4.57452 2.5 5.9V14.3C2.5 15.6255 3.56332 16.7 4.875 16.7H11.0104V18.5H8.4375C7.89097 18.5 7.44792 18.9477 7.44792 19.5C7.44792 20.0523 7.89097 20.5 8.4375 20.5H15.5625C16.109 20.5 16.5521 20.0523 16.5521 19.5C16.5521 18.9477 16.109 18.5 15.5625 18.5H12.9896V16.7H19.125C20.4367 16.7 21.5 15.6255 21.5 14.3V5.9C21.5 4.57452 20.4367 3.5 19.125 3.5H4.875Z\" fill=\"currentColor\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

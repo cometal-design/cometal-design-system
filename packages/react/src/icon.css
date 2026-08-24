@@ -1,5 +1,7 @@
-:where([data-cometal-component]) svg[stroke]:not([stroke='none']),
-:where([data-cometal-component]) svg [stroke]:not([stroke='none']) {
-  /* Component slots compensate their source viewBox so the rendered stroke stays 1.4px. */
+:where([data-cometal-component]) svg:not([data-cometal-icon])[stroke]:not([stroke='none']),
+:where([data-cometal-component]) svg:not([data-cometal-icon]) [stroke]:not([stroke='none']),
+:where(svg[data-cometal-icon-library='outline'][data-cometal-icon-paint='currentColor'])[stroke]:not([stroke='none']),
+:where(svg[data-cometal-icon-library='outline'][data-cometal-icon-paint='currentColor']) [stroke]:not([stroke='none']) {
+  /* Preserve legacy component slots; new library records opt in through explicit Outline markers. */
   stroke-width: var(--cometal-icon-source-stroke, var(--cometal-primitive-stroke-140, 1.4px));
 }

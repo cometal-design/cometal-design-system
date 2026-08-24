@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/media/laptop-01","library":"outline","family":"media","categoryPath":["media"],"nodeId":"700:15128","componentKey":"f696a366ed0d1fcb85db457c2b36828ccbb1e8f8","sourcePath":"icons/source/svg/outline/media/laptop-01.svg","importPath":"@cometal/react/icons/outline/media/laptop-01","sourceSha256":"61b5a8932229f7e91e9d5249634918709648d706c21b55a7e6d3ffc0228e93f7","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M20.3125 15.6923V6.08284C20.3125 4.93252 19.3821 4 18.2344 4H5.76562C4.61791 4 3.6875 4.93252 3.6875 6.08284V15.6923M20.3125 15.6923C20.9683 15.6923 21.5 16.2433 21.5 16.9231V18.7692C21.5 19.449 20.9683 20 20.3125 20H3.6875C3.03166 20 2.5 19.449 2.5 18.7692V16.9231C2.5 16.2433 3.03166 15.6923 3.6875 15.6923M20.3125 15.6923H16.1562L14.375 16.9231H9.92188L7.84375 15.6923H3.6875\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/media/keyboard","library":"outline","family":"media","categoryPath":["media"],"nodeId":"700:15113","componentKey":"3d56da1b5a059c90b0242a785f1f8195f206366e","sourcePath":"icons/source/svg/outline/media/keyboard.svg","importPath":"@cometal/react/icons/outline/media/keyboard","sourceSha256":"0423a8de09358f1ea014b32c1fd045b6c890ebab97cd00eb5e5dba4d6c43a877","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M6.65625 10.2H6.68408M10.2188 10.2H10.2466M17.3159 10.2H17.3438M13.7812 10.2H13.8091M8.4375 13.8H8.46533M12 13.8H12.0278M15.5625 13.8H15.5903M4.875 18H19.125C20.4367 18 21.5 16.9255 21.5 15.6V8.4C21.5 7.07452 20.4367 6 19.125 6H4.875C3.56332 6 2.5 7.07452 2.5 8.4V15.6C2.5 16.9255 3.56332 18 4.875 18Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

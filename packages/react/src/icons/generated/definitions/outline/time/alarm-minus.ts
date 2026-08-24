@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/time/alarm-minus","library":"outline","family":"time","categoryPath":["time"],"nodeId":"691:12312","componentKey":"d7b5b2b8502bcdca179dab9e4a2ced11762d3cfe","sourcePath":"icons/source/svg/outline/time/alarm-minus.svg","importPath":"@cometal/react/icons/outline/time/alarm-minus","sourceSha256":"4d65ecf00ee1869370b961df458c864be8538c4c15c3a5e67fbb9a2efb205b6f","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M2.5 7.06V6.3C2.5 4.20132 4.20132 2.5 6.3 2.5H7.06M16.94 2.5L17.7 2.5C19.7987 2.5 21.5 4.20132 21.5 6.3V7.06M5.92 18.84L3.26 21.5M20.74 21.5L18.08 18.84M14.9688 12.5938H9.03125M20.36 12.76C20.36 17.3771 16.6171 21.12 12 21.12C7.3829 21.12 3.64 17.3771 3.64 12.76C3.64 8.1429 7.3829 4.4 12 4.4C16.6171 4.4 20.36 8.1429 20.36 12.76Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

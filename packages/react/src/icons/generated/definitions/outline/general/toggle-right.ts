@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/general/toggle-right","library":"outline","family":"general","categoryPath":["general"],"nodeId":"700:14504","componentKey":"e2297161978b221f59faafde460eae438742ccab","sourcePath":"icons/source/svg/outline/general/toggle-right.svg","importPath":"@cometal/react/icons/outline/general/toggle-right","sourceSha256":"f9133651c0dd7261e8835cd1ba1bc821e74fd8b9f386a7c8553e53564e0171bd","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M16.25 16.5H7.75C5.40279 16.5 3.5 14.4853 3.5 12C3.5 9.51472 5.40279 7.5 7.75 7.5H16.25M16.25 16.5C18.5972 16.5 20.5 14.4853 20.5 12C20.5 9.51472 18.5972 7.5 16.25 7.5M16.25 16.5C13.9028 16.5 12 14.4853 12 12C12 9.51472 13.9028 7.5 16.25 7.5\" stroke=\"currentColor\" stroke-width=\"1.4\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

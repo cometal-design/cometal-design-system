@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/communication/message-alert-plus","library":"outline","family":"communication","categoryPath":["communication"],"nodeId":"691:12152","componentKey":"2bb6873f9f66612aff958a50d2c6ca6336c7b9d5","sourcePath":"icons/source/svg/outline/communication/message-alert-plus.svg","importPath":"@cometal/react/icons/outline/communication/message-alert-plus","sourceSha256":"472ff155852628541dc7db1951b95dfa5b19e495db9230aab8ea5348c92acc88","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M11.9991 14.25V12M11.9991 12V9.75M11.9991 12H9.74936M11.9991 12H14.2489M20.9983 12C20.9983 13.2938 20.7253 14.5238 20.2338 15.6356L21 20.9991L16.4039 19.85C15.1019 20.5823 13.5993 21 11.9991 21C7.02906 21 3 16.9706 3 12C3 7.02944 7.02906 3 11.9991 3C16.9692 3 20.9983 7.02944 20.9983 12Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

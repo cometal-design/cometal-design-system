@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"tech/Zapier/Square","library":"feature-icons-and-logos","family":"tech","categoryPath":["tech","Zapier"],"nodeId":"691:22354","componentKey":"5559d3981fcce7c48a9e170dbe6eea787df71462","sourcePath":"icons/source/svg/feature-icons-and-logos/tech/zapier/square.svg","importPath":"@cometal/react/icons/feature-icons-and-logos/tech/zapier/square","sourceSha256":"4a1a547682e165af9159588cbb293b3736a52039396abe74dbce6fa9651a8a90","viewBox":[0,0,32,32],"intrinsicWidth":32,"intrinsicHeight":32,"paintMode":"intrinsic","body":"<rect width=\"32\" height=\"32\" rx=\"6\" fill=\"#FF4F00\"/><rect x=\"6.89808\" y=\"6.89711\" width=\"18.2055\" height=\"18.2055\" fill=\"white\" stroke=\"#FF4F00\" stroke-width=\"1.27273\"/><rect x=\"9.55433\" y=\"20.1779\" width=\"12.4506\" height=\"1.82609\" fill=\"#FF4F00\" stroke=\"#FF4F00\" stroke-width=\"1.27273\"/>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

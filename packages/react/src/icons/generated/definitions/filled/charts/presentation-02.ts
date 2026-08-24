@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/charts/presentation-02","library":"filled","family":"charts","categoryPath":["charts"],"nodeId":"700:13213","componentKey":"b3d5248b7e038dec4720e43e367db698b8a0b6e0","sourcePath":"icons/source/svg/filled/charts/presentation-02.svg","importPath":"@cometal/react/icons/filled/charts/presentation-02","sourceSha256":"52c803c298d1e97a3ef71b465a2b12f1135d1575e221e16b1a23be66d3075b9d","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M9.625 16.2L7.84375 21M16.5458 20.9333L14.4465 16.2664M9.625 10.2678L11.9463 12.6L14.375 10.1574M11.9463 12.6V6.6M4.875 16.2C3.56332 16.2 2.5 15.1255 2.5 13.8V5.4C2.5 4.07452 3.56332 3 4.875 3H19.125C20.4367 3 21.5 4.07452 21.5 5.4V13.8C21.5 15.1255 20.4367 16.2 19.125 16.2H4.875Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

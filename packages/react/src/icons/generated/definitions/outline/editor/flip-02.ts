@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/editor/flip-02","library":"outline","family":"editor","categoryPath":["editor"],"nodeId":"691:12540","componentKey":"3d891a2e008ae8c896211f2d86009de0db6bef7f","sourcePath":"icons/source/svg/outline/editor/flip-02.svg","importPath":"@cometal/react/icons/outline/editor/flip-02","sourceSha256":"4a69aff5c0025ae4c8af4afba1c106cd1055e37ac72b15b2eab8b728d502f992","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M12 20V17.5385M12 13.2308V10.7692M12 6.46154V4M2.5007 16.3077L2.5 7.69231H7.84375V16.3077H2.5007ZM21.4993 7.69231L21.5 16.3077H16.1562V7.69231H21.4993Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/files/folder-x-02","library":"outline","family":"files","categoryPath":["files"],"nodeId":"691:11106","componentKey":"69b653e1e634c4cf332a48345e6074f43b112727","sourcePath":"icons/source/svg/outline/files/folder-x-02.svg","importPath":"@cometal/react/icons/outline/files/folder-x-02","sourceSha256":"29c87966ad8c639b3bedf3e9698fbcb48486b81b26931bec754187259a116c0e","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M12.5936 19.5506H4.87558C3.56387 19.5506 2.50052 18.4985 2.50053 17.2007L2.50062 8.2669C2.50062 7.37206 2.50029 6.09751 2.5 5.17464C2.4998 4.52557 3.03155 4 3.68757 4H9.34634L12.0826 6.89196H20.3125C20.9683 6.89196 21.5 7.418 21.5 8.06691V11.1879M21.5 20L19.1249 17.6501M19.1249 17.6501L16.7499 15.3002M19.1249 17.6501L16.7499 20M19.1249 17.6501L21.5 15.3002\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/weather/sun-up","library":"filled","family":"weather","categoryPath":["weather"],"nodeId":"700:13043","componentKey":"018044a30d1db6762f020120522ffd0b019be357","sourcePath":"icons/source/svg/filled/weather/sun-up.svg","importPath":"@cometal/react/icons/filled/weather/sun-up","sourceSha256":"0b5896b8b5782903408ebc35d01b04c49489d3dd22b1d494ab2ff48566078607","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M2.5 21H21.5M2.5 17.2941H5.13889M4.61111 10.4118L6.47709 12.2835M18.6162 10.4118L16.7502 12.2835M18.8611 17.2941H21.5M12 10.4118V3M15.1667 6.17647L12 3L8.83333 6.17647M8.30556 17.2941C8.30556 15.2474 9.95961 13.5882 12 13.5882C14.0404 13.5882 15.6944 15.2474 15.6944 17.2941\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/media/iphone-02","library":"outline","family":"media","categoryPath":["media"],"nodeId":"700:15098","componentKey":"57235e81430add2240a246768901308649eb2b1b","sourcePath":"icons/source/svg/outline/media/iphone-02.svg","importPath":"@cometal/react/icons/outline/media/iphone-02","sourceSha256":"082585d86841b0e19ad37270576af1bafb49d3f104682f0bf8bbab1fec3f9548","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M8.5 3.68752L10.0556 6.06251H13.9444L15.5 3.68752M5 4.875V19.125C5 20.4367 6.04467 21.5 7.33333 21.5H16.6667C17.9553 21.5 19 20.4367 19 19.125V4.87501C19 3.56334 17.9553 2.50002 16.6667 2.50001L7.33334 2.5C6.04467 2.5 5 3.56332 5 4.875Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

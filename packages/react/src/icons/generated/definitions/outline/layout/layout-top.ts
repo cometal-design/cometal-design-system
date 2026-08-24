@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/layout/layout-top","library":"outline","family":"layout","categoryPath":["layout"],"nodeId":"691:11872","componentKey":"e51369877404966f3134cb4d0a9f8f71289d293c","sourcePath":"icons/source/svg/outline/layout/layout-top.svg","importPath":"@cometal/react/icons/outline/layout/layout-top","sourceSha256":"972ee5379e9991fe85bf78393c964c39e04af3fe0273d9b3b09c7df0e1212195","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M3.09375 9.03125H20.9062M6.0625 21.5H17.9375C19.905 21.5 21.5 19.905 21.5 17.9375V6.0625C21.5 4.09499 19.905 2.5 17.9375 2.5H6.0625C4.09499 2.5 2.5 4.09499 2.5 6.0625V17.9375C2.5 19.905 4.09499 21.5 6.0625 21.5Z\" stroke=\"currentColor\" stroke-width=\"1.4\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

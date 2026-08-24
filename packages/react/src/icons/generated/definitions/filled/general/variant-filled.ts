@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/general/variant-filled","library":"filled","family":"general","categoryPath":["general"],"nodeId":"700:1462","componentKey":"678b2f94ccbb85b2636fc6db5c7fa5ec9f1909ff","sourcePath":"icons/source/svg/filled/general/variant-filled.svg","importPath":"@cometal/react/icons/filled/general/variant-filled","sourceSha256":"37023a8326ac8e162591b5f3ea1065850287bb71e47d9e77c4053e5b7b194801","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M11.2929 3.20711C11.6834 2.81658 12.3166 2.81658 12.7071 3.20711L20.7929 11.2929C21.1834 11.6834 21.1834 12.3166 20.7929 12.7071L12.7071 20.7929C12.3166 21.1834 11.6834 21.1834 11.2929 20.7929L3.20711 12.7071C2.81658 12.3166 2.81658 11.6834 3.20711 11.2929L11.2929 3.20711Z\" fill=\"currentColor\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

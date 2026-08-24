@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/editor/feather-01","library":"filled","family":"editor","categoryPath":["editor"],"nodeId":"721:563","componentKey":"9575d7dbfed8897304ff2e26c15738d365437a35","sourcePath":"icons/source/svg/filled/editor/feather-01.svg","importPath":"@cometal/react/icons/filled/editor/feather-01","sourceSha256":"b522a7d297763bea575228f1e09ff8de5cdd62506386b6ebe3616b683a9716d4","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M4.61414 19.3856L14.6904 9.30929M10.6168 13.8725L15.9482 13.9259M13.0742 17.2895L18.1123 12.2514C19.8348 10.5289 19.8065 7.70789 18.0492 5.95054C16.2918 4.19318 13.4708 4.16491 11.7483 5.8874L6.71021 10.9255L6.77334 17.2264L13.0742 17.2895Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

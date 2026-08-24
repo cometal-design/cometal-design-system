@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/layout/align-vertical-center-02","library":"outline","family":"layout","categoryPath":["layout"],"nodeId":"691:11726","componentKey":"3c000a8c48c2c651e1728cf31ab9dee496d35663","sourcePath":"icons/source/svg/outline/layout/align-vertical-center-02.svg","importPath":"@cometal/react/icons/outline/layout/align-vertical-center-02","sourceSha256":"52ccb4ff1193cae78d9293e0c8b787997843b00099919021e85bd703deb5bc11","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M16.75 12H21.5M2.5 12L7.84375 12M7.84375 4.875L7.84375 19.125C7.84375 20.4367 8.90707 21.5 10.2187 21.5H13.7812C15.0929 21.5 16.1562 20.4367 16.1562 19.125V4.875C16.1563 3.56332 15.0929 2.5 13.7812 2.5L10.2188 2.5C8.90707 2.5 7.84375 3.56332 7.84375 4.875Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

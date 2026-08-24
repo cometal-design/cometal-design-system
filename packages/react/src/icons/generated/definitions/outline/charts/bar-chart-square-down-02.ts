@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/charts/bar-chart-square-down-02","library":"outline","family":"charts","categoryPath":["charts"],"nodeId":"691:11424","componentKey":"c08a5acd96813eadaee56411e1e49397b89f2851","sourcePath":"icons/source/svg/outline/charts/bar-chart-square-down-02.svg","importPath":"@cometal/react/icons/outline/charts/bar-chart-square-down-02","sourceSha256":"175ac7f1d22c3cd3bead03e849ee28ef25155bbffeb59550edae07434ec4e5e3","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M3.6875 8.4375L7.49716 11.9999L10.2183 9.45534L16.2049 15.0535M12.132 15.5625H16.75V11.2442M4.875 21.5C3.56332 21.5 2.5 20.4367 2.5 19.125V4.875C2.5 3.56332 3.56332 2.5 4.875 2.5H19.125C20.4367 2.5 21.5 3.56332 21.5 4.875V19.125C21.5 20.4367 20.4367 21.5 19.125 21.5H4.875Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

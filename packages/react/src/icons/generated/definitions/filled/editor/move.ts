@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/editor/move","library":"filled","family":"editor","categoryPath":["editor"],"nodeId":"721:603","componentKey":"c46c9b276e748a154050bbc989eacc8b34535a13","sourcePath":"icons/source/svg/filled/editor/move.svg","importPath":"@cometal/react/icons/filled/editor/move","sourceSha256":"dbdab3453f1c0615f29e4267bf2f3c6c474461659d32972b7e6a812b516f4601","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M5.82811 8.67189L2.5 12L5.82811 15.3281M2.5 12H21.5M18.1719 8.67189L21.5 12L18.1719 15.3281M15.3281 5.82811L12 2.5L8.67189 5.82811M12 2.5L12 21.5M15.3281 18.1719L12 21.5L8.67189 18.1719\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

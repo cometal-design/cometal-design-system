@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"tech/Microsoft/Square","library":"feature-icons-and-logos","family":"tech","categoryPath":["tech","Microsoft"],"nodeId":"691:22367","componentKey":"148a4a18774a8e549f4c2d0a34263acdf4066c07","sourcePath":"icons/source/svg/feature-icons-and-logos/tech/microsoft/square.svg","importPath":"@cometal/react/icons/feature-icons-and-logos/tech/microsoft/square","sourceSha256":"36918112ca3ec8fae942ac22bed79db09396ce9ebbfe0d10cbb006be84c397d5","viewBox":[0,0,32,32],"intrinsicWidth":32,"intrinsicHeight":32,"paintMode":"intrinsic","body":"<rect width=\"32\" height=\"32\" rx=\"6\" fill=\"#F4F4F4\"/><path d=\"M15.4829 15.4836H5.56445V5.56519H15.4829V15.4836Z\" fill=\"#F1511B\"/><path d=\"M26.4339 15.4836H16.5156V5.56519H26.4339V15.4836Z\" fill=\"#80CC28\"/><path d=\"M15.4826 26.4384H5.56445V16.52H15.4826V26.4384Z\" fill=\"#07A6F0\"/><path d=\"M26.4339 26.4384H16.5156V16.52H26.4339V26.4384Z\" fill=\"#FBBC09\"/>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

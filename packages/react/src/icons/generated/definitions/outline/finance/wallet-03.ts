@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/finance/wallet-03","library":"outline","family":"finance","categoryPath":["finance"],"nodeId":"700:15020","componentKey":"555c88ba24805807235238e1c39c292dcc34bb81","sourcePath":"icons/source/svg/outline/finance/wallet-03.svg","importPath":"@cometal/react/icons/outline/finance/wallet-03","sourceSha256":"6a60af229e94e24ed6033c14131e77974cc8c4aa21868e743cd4a2b13e985d14","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M2.5 7.52294L2.50464 19.9302C2.50464 21.3495 3.63857 22.5 5.03735 22.5H18.9673C20.3661 22.5 21.5 21.3495 21.5 19.9302V9.65105C21.5 8.46834 20.5551 7.50956 19.3894 7.50956H2.51862C2.51024 7.50956 2.50278 7.51492 2.5 7.52294ZM2.5 7.52294C2.50078 7.28239 16.7512 1.5 16.7512 1.5V6.92065M16.4511 14.7739L16.4346 14.7906\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

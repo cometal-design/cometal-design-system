@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/travel-and-location/luggage-04","library":"filled","family":"travel-and-location","categoryPath":["travel-and-location"],"nodeId":"700:13132","componentKey":"3ac5661c2e764a2e31c3fbe8bd35292ae57ee212","sourcePath":"icons/source/svg/filled/travel-and-location/luggage-04.svg","importPath":"@cometal/react/icons/filled/travel-and-location/luggage-04","sourceSha256":"6f6b7c105ceaccff6a278970e00747f702fc801eea3f70ff66bfa80f7780ae44","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M8.4375 7.96154V5.65385C8.4375 5.01659 8.96916 4.5 9.625 4.5H13.7812C14.4371 4.5 14.9688 5.01659 14.9688 5.65385V7.96154M4.875 19.5H19.125C20.4367 19.5 21.5 18.4668 21.5 17.1923V10.2692C21.5 8.99473 20.4367 7.96154 19.125 7.96154H4.875C3.56332 7.96154 2.5 8.99473 2.5 10.2692V17.1923C2.5 18.4668 3.56332 19.5 4.875 19.5Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"tech/Microsoft/Icon","library":"feature-icons-and-logos","family":"tech","categoryPath":["tech","Microsoft"],"nodeId":"691:21973","componentKey":"44798e934d5a1ad474720f817ed8361f5ffe3d38","sourcePath":"icons/source/svg/feature-icons-and-logos/tech/microsoft/icon.svg","importPath":"@cometal/react/icons/feature-icons-and-logos/tech/microsoft/icon","sourceSha256":"953d20371c8336e57880833053d350334c980ff94e44484367362684b0956697","viewBox":[0,0,32,32],"intrinsicWidth":32,"intrinsicHeight":32,"paintMode":"intrinsic","body":"<path d=\"M15.4829 15.4836H5.56445V5.56519H15.4829V15.4836Z\" fill=\"#F1511B\"/><path d=\"M26.4339 15.4836H16.5156V5.56519H26.4339V15.4836Z\" fill=\"#80CC28\"/><path d=\"M15.4826 26.4384H5.56445V16.52H15.4826V26.4384Z\" fill=\"#07A6F0\"/><path d=\"M26.4339 26.4384H16.5156V16.52H26.4339V26.4384Z\" fill=\"#FBBC09\"/>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

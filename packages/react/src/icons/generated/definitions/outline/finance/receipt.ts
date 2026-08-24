@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/finance/receipt","library":"outline","family":"finance","categoryPath":["finance"],"nodeId":"700:14945","componentKey":"0d7e93dce173dae24b5f4c92a0cbbf27b5c28803","sourcePath":"icons/source/svg/outline/finance/receipt.svg","importPath":"@cometal/react/icons/outline/finance/receipt","sourceSha256":"8f61dca200e9aad47f159da1dfc1719a4f0d66d8ac50a53a1ec992121aead7c3","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M18.4 3H5.6C4.71634 3 4 3.80589 4 4.8V21L6.66667 19.2L9.33333 21L12 19.2L14.6667 21L17.3333 19.2L20 21V4.8C20 3.80589 19.2837 3 18.4 3Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

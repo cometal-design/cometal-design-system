@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/finance/coin-broken","library":"outline","family":"finance","categoryPath":["finance"],"nodeId":"700:14879","componentKey":"f01f095280b1f2f9ce666005d90185907f9c0028","sourcePath":"icons/source/svg/outline/finance/coin-broken.svg","importPath":"@cometal/react/icons/outline/finance/coin-broken","sourceSha256":"858c516d71095c3cad493ca098f6fc91e8aa6e0f813f4ad5c6079bedc3d26d7b","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M10.2181 4.0604C11.4092 3.08515 12.932 2.5 14.5915 2.5C18.407 2.5 21.5 5.59331 21.5 9.40909C21.5 11.068 20.9154 12.5903 19.9411 13.7812M16.317 14.5909C16.317 18.4067 13.224 21.5 9.4085 21.5C5.59304 21.5 2.5 18.4067 2.5 14.5909C2.5 10.7751 5.59304 7.68182 9.4085 7.68182C13.224 7.68182 16.317 10.7751 16.317 14.5909Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

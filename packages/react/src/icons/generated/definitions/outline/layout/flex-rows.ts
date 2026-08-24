@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/layout/flex-rows","library":"outline","family":"layout","categoryPath":["layout"],"nodeId":"691:11796","componentKey":"19813ed9fbc1bde4df6e311607ee46f54357d6b2","sourcePath":"icons/source/svg/outline/layout/flex-rows.svg","importPath":"@cometal/react/icons/outline/layout/flex-rows","sourceSha256":"6ec10c27ae9dcf3e85a7d6e63165bc43d59da3ab886fe62fe79402977790bb07","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M17.0625 9.75V6.9375M13.6875 9.75V6.9375M10.3125 17.0625V14.25M6.9375 17.0625V14.25M10.3125 9.75V6.9375M6.9375 9.75L6.9375 6.9375M17.625 3L6.375 3C4.51104 3 3 4.51104 3 6.375C3 8.23896 3 15.761 3 17.625C3 19.489 4.51104 21 6.375 21C6.375 21 15.761 21 17.625 21C19.489 21 21 19.489 21 17.625V6.375C21 4.51104 19.489 3 17.625 3Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

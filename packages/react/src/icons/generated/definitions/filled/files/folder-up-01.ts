@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/files/folder-up-01","library":"filled","family":"files","categoryPath":["files"],"nodeId":"700:12962","componentKey":"457fbab094a75c6b31dd0e8ebe6b1ef80fa8222f","sourcePath":"icons/source/svg/filled/files/folder-up-01.svg","importPath":"@cometal/react/icons/filled/files/folder-up-01","sourceSha256":"0af207ed5104d90b33643f074ceaa64fda8a1420ede5e7abb58b767cd1d4f126","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M14.3221 13.1408L12.0007 10.7914L9.57195 13.2521M12.0007 10.7914V16.8359M2.50053 17.5821L2.50062 8.3902C2.50062 7.4695 2.50029 6.15812 2.5 5.20859C2.4998 4.54075 3.03155 4 3.68757 4H9.34635L12.0826 6.97553H20.3125C20.9683 6.97553 21.5 7.51679 21.5 8.18446L21.4997 17.5823C21.4997 18.9176 20.4363 20 19.1247 20L4.87558 20C3.56387 20 2.50052 18.9175 2.50053 17.5821Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

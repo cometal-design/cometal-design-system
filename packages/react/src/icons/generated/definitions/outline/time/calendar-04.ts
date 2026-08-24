@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/time/calendar-04","library":"outline","family":"time","categoryPath":["time"],"nodeId":"691:12335","componentKey":"fe5f287f95702302dd726e60dc3b7361fdb94b0f","sourcePath":"icons/source/svg/outline/time/calendar-04.svg","importPath":"@cometal/react/icons/outline/time/calendar-04","sourceSha256":"49b9758e596ac41d14d81a9f6e7c531ec043b49c2ab73cb4716d8eeb0d0744c4","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M5 8.91425H19M6.80952 3V4.54304M17 3V4.54285M17 4.54285H7C5.34315 4.54285 4 5.92436 4 7.62855V17.9143C4 19.6185 5.34315 21 7 21H17C18.6569 21 20 19.6185 20 17.9143L20 7.62855C20 5.92436 18.6569 4.54285 17 4.54285ZM20 15.0857H14.5M14.5 15.0857H9.5M14.5 15.0857V20.2285M14.5 15.0857V9.42858M9.5 15.0857H4M9.5 15.0857V20.2285M9.5 15.0857V9.42858\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

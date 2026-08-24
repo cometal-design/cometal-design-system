@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"tech/Marketo/Square","library":"feature-icons-and-logos","family":"tech","categoryPath":["tech","Marketo"],"nodeId":"691:22319","componentKey":"a55a0725e3e8f279707f5f6bf08e173fa65ab128","sourcePath":"icons/source/svg/feature-icons-and-logos/tech/marketo/square.svg","importPath":"@cometal/react/icons/feature-icons-and-logos/tech/marketo/square","sourceSha256":"bc018187e3264e93fc72ae9e95980d5f3a25033524054deb91223bf41441bebb","viewBox":[0,0,32,32],"intrinsicWidth":32,"intrinsicHeight":32,"paintMode":"intrinsic","body":"<rect width=\"32\" height=\"32\" rx=\"6\" fill=\"#5C4C9F\"/><path d=\"M25.5118 7.99188L19.7684 4.86963V27.3417L25.5118 22.767V7.99188ZM17.0923 8.19255V22.4338L12.4674 24.4542V6.82492L17.0923 8.19255ZM6.27844 9.16004L6.26172 21.9166L9.80143 20.9814V9.7274L6.27844 9.16004Z\" fill=\"white\"/>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

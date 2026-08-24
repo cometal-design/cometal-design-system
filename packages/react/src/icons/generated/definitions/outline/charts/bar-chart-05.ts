@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/charts/bar-chart-05","library":"outline","family":"charts","categoryPath":["charts"],"nodeId":"691:11404","componentKey":"a1fc8fd87db616828dc38b03eb72d907d4562f28","sourcePath":"icons/source/svg/outline/charts/bar-chart-05.svg","importPath":"@cometal/react/icons/outline/charts/bar-chart-05","sourceSha256":"23199c4c2709fcd16531632f1d097af2fd61b26bbb28b4d83d0ad1f54b86e13e","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M21.5 21.5V19.3889M15.1667 21.5V14.1111M8.83333 21.5V8.83333M2.5 21.5V2.5\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

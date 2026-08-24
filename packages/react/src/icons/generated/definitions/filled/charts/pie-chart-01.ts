@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/charts/pie-chart-01","library":"filled","family":"charts","categoryPath":["charts"],"nodeId":"700:13270","componentKey":"74adce69a338ce8519044a66948fc3b5057403c8","sourcePath":"icons/source/svg/filled/charts/pie-chart-01.svg","importPath":"@cometal/react/icons/filled/charts/pie-chart-01","sourceSha256":"ee02199be68ce7f3aed9738744dbc8b84da85f2ae61df3c342645164c8edd7ab","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M12.0001 2.5C17.2467 2.50003 21.5 6.75333 21.5 12C21.5 17.2467 17.2467 21.5 12 21.5C6.7533 21.5 2.5 17.2467 2.5 12C2.5 6.75329 6.75333 2.49997 12.0001 2.5ZM5.46875 18.5313L12 12L12.0001 2.5M12 12L5.46875 5.4688\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

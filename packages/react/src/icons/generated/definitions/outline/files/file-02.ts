@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/files/file-02","library":"outline","family":"files","categoryPath":["files"],"nodeId":"700:15494","componentKey":"296cc21e443e39f8cafce0c25228c6acbe73069f","sourcePath":"icons/source/svg/outline/files/file-02.svg","importPath":"@cometal/react/icons/outline/files/file-02","sourceSha256":"e55cbed5849c7e559ac35f9c6d0cf09745799d06a72e2c2e46e38c616c7589ef","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M8.30799 7.25H15.6925M8.30799 10.8125H15.6925M8.30799 14.375H12.0002M6.46158 2.5H17.5385C18.898 2.5 20 3.56335 20 4.87505L19.9997 19.1251C19.9997 20.4367 18.8976 21.5 17.5382 21.5L6.46148 21.5C5.10203 21.5 3.99999 20.4366 4 19.1249L4.0001 4.87499C4.0001 3.56332 5.10215 2.5 6.46158 2.5Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

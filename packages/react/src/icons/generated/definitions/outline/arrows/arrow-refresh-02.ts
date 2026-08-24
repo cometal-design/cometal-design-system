@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/arrows/arrow-refresh-02","library":"outline","family":"arrows","categoryPath":["arrows"],"nodeId":"700:14291","componentKey":"c678cf304bc6ff8f7d9212cbca844345ec94ea53","sourcePath":"icons/source/svg/outline/arrows/arrow-refresh-02.svg","importPath":"@cometal/react/icons/outline/arrows/arrow-refresh-02","sourceSha256":"38c44db06e21953353925367b1e3f6c978c0b4abf075ad42a23f66aae0966c28","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M18.9221 8C17.5322 5.60879 14.9343 4 11.9588 4C8.58513 4 5.69686 6.06817 4.50433 9M16.4806 9H20.5V5M5.07787 16C6.46782 18.3912 9.06573 20 12.0412 20C15.4149 20 18.3031 17.9318 19.4957 15M7.5194 15H3.5V19\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

@@ -2,6 +2,9 @@
 
 import './icon.css';
 
+export { Icon } from './icons/runtime/Icon';
+export type { DecorativeIconProps, IconDefinition, IconProps, InformativeIconProps } from './icons/runtime/public-types';
+
 export { ActionLink, Button, IconButton, buttonSizes, buttonVariants } from './Button/Button';
 export type { ActionLinkProps, ButtonProps, ButtonSize, ButtonVariant, IconButtonProps } from './Button/Button';
 export { Badge, badgeSurfaces, badgeTones } from './Badge/Badge';

@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/arrows/arrow-left","library":"filled","family":"arrows","categoryPath":["arrows"],"nodeId":"700:1161","componentKey":"7ca934d490d8dc7d58bcdd2b0c7e15b3052c3942","sourcePath":"icons/source/svg/filled/arrows/arrow-left.svg","importPath":"@cometal/react/icons/filled/arrows/arrow-left","sourceSha256":"075caff4953d1736de592f403a4e7a8d181d7486d6b3616c68ab4c4fa93ff730","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M11.879 4.92451C12.4729 5.50199 12.4863 6.45164 11.9088 7.04562L8.5504 10.5H19C19.8284 10.5 20.5 11.1716 20.5 12C20.5 12.8284 19.8284 13.5 19 13.5H8.5504L11.9088 16.9544C12.4863 17.5484 12.4729 18.498 11.879 19.0755C11.285 19.653 10.3353 19.6396 9.75784 19.0456L3.92451 13.0456C3.3585 12.4634 3.3585 11.5366 3.92451 10.9544L9.75784 4.95438C10.3353 4.36041 11.285 4.34703 11.879 4.92451Z\" fill=\"currentColor\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

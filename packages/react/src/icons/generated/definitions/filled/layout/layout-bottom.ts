@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/layout/layout-bottom","library":"filled","family":"layout","categoryPath":["layout"],"nodeId":"721:237","componentKey":"7561d5098dbe65b310a9b33a8038b59c2ce53f10","sourcePath":"icons/source/svg/filled/layout/layout-bottom.svg","importPath":"@cometal/react/icons/filled/layout/layout-bottom","sourceSha256":"1c906b4236ef948c1258d5320910079696a3a3544e50001807c1cbbda304f7ad","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M20.9062 14.9688L3.09375 14.9688M17.9375 2.5L6.0625 2.5C4.09499 2.5 2.5 4.09499 2.5 6.0625L2.5 17.9375C2.5 19.905 4.09498 21.5 6.0625 21.5H17.9375C19.905 21.5 21.5 19.905 21.5 17.9375V6.0625C21.5 4.09499 19.905 2.5 17.9375 2.5Z\" stroke=\"currentColor\" stroke-width=\"2\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

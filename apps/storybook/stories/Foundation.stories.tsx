@@ -1,7 +1,9 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { useState } from 'react';
-import { expect } from 'storybook/test';
+import { expect, userEvent, within } from 'storybook/test';
 import { Button, Switch } from '@cometal/react';
+import { IconCatalog } from '@cometal/react/icons/catalog';
+import { iconManifestMetadata } from '@cometal/react/icons/manifest';
 import primitiveSource from '../../../packages/tokens/src/primitive.tokens.json';
 import semanticSource from '../../../packages/tokens/src/semantic.tokens.json';
 import componentSource from '../../../packages/tokens/src/component.tokens.json';
@@ -9,7 +11,6 @@ import motionSource from '../../../packages/tokens/src/motion.tokens.json';
 import effectsSource from '../../../packages/tokens/src/effects.tokens.json';
 import typographyData from '../../../packages/tokens/src/typography.styles.json';
 import gridData from '../../../packages/tokens/src/grid.presets.json';
-import iconData from '../../../packages/tokens/src/icons.inventory.json';
 import inventory from '../../../packages/tokens/src/foundation.inventory.json';
 
 type TokenValue =
@@ -140,7 +141,7 @@ function OverviewPage() {
     [inventory.figma.variables.semantic, 'семантических токена'],
     [inventory.figma.styles.text, 'текстовых стилей'],
     [gridData.presets.length, 'grid-пресета'],
-    [iconData.totalComponents, 'икон-компонентов'],
+    [iconManifestMetadata.total, 'икон-компонентов'],
   ];
   return (
     <main className="ds-page">
@@ -223,7 +224,14 @@ function GridPage() {
 }
 
 function IconsPage() {
-  return <main className="ds-page"><PageHeader eyebrow="FOUNDATION / ICONS" title="Иконки" description="Полный инвентарь Figma и честный статус инженерной готовности. SVG и React API пока не утверждены, поэтому каталог не подменяет их самодельными иконками." nodeId="381:25439" /><div className="ds-status-grid">{iconData.libraries.map((library)=><article key={library.name}><strong>{library.components}</strong><span>{library.name}</span><small>{library.categories} категорий</small></article>)}</div><section className="ds-section"><h2>Карта замены</h2><div className="ds-review-grid"><article className="ok"><strong>{iconData.replacementMap.highConfidence}</strong><span>высокая уверенность</span></article><article className="warn"><strong>{iconData.replacementMap.needsVisualReview}</strong><span>визуальное ревью</span></article><article className="stop"><strong>{iconData.replacementMap.notFound}</strong><span>не найдено</span></article></div><p className="ds-note">{iconData.replacementMap.policy}</p></section></main>;
+  return (
+    <main className="ds-page">
+      <PageHeader eyebrow="FOUNDATION / ICONS" title="Иконки" description="Единый generated-каталог всех 2 810 канонических источников: exact name, прямой import, поиск, фильтры и постраничная загрузка." nodeId="381:25439" />
+      <section className="ds-section">
+        <IconCatalog />
+      </section>
+    </main>
+  );
 }
 
 function ShadowPage() {
@@ -409,6 +417,18 @@ export const Radius: Story = { name: 'Радиусы', render: () => <MetricPage
 export const Stroke: Story = { name: 'Толщины линий', render: () => <MetricPage kind="Stroke" title="Толщины линий" nodeId="4:28" /> };
 export const Grid: Story = { name: 'Сетка', render: () => <GridPage /> };
 export const Shadow: Story = { name: 'Тени', render: () => <ShadowPage /> };
-export const Icons: Story = { name: 'Иконки', render: () => <IconsPage /> };
+export const Icons: Story = {
+  name: 'Иконки',
+  render: () => <IconsPage />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const search = canvas.getByRole('searchbox', { name: 'Поиск по каноническому имени' });
+    await userEvent.type(search, 'payment/lg/Visa');
+    await expect(await canvas.findByText('payment/lg/Visa')).toBeVisible();
+    await expect(canvas.getAllByRole('listitem')).toHaveLength(1);
+    await expect(canvas.getByRole('button', { name: 'Копировать имя' })).toBeVisible();
+    await expect(canvas.getByRole('button', { name: 'Копировать import' })).toBeVisible();
+  },
+};
 export const Motion: Story = { name: 'Motion', render: () => <MotionPage /> };
 export const Engineering: Story = { name: 'Инженерный паспорт', render: () => <EngineeringPage /> };

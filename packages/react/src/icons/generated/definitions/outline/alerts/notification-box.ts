@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/alerts/notification-box","library":"outline","family":"alerts","categoryPath":["alerts"],"nodeId":"700:15278","componentKey":"fb52965551cbb4d38c6539972e51ffca8038eb24","sourcePath":"icons/source/svg/outline/alerts/notification-box.svg","importPath":"@cometal/react/icons/outline/alerts/notification-box","sourceSha256":"a7a14f853559aa8adddaf45686fce0a8127d8a812167af8a437c180113502bdd","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M10.875 3H6.375C4.51104 3 3 4.51103 3 6.37498V17.625C3 19.489 4.51104 21 6.375 21H17.625C19.489 21 21 19.489 21 17.625V12.5624M21 5.81248C21 7.36578 19.7408 8.62497 18.1875 8.62497C16.6342 8.62497 15.375 7.36578 15.375 5.81248C15.375 4.25919 16.6342 3 18.1875 3C19.7408 3 21 4.25919 21 5.81248Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

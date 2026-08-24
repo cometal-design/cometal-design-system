@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/layout/minimise-01","library":"filled","family":"layout","categoryPath":["layout"],"nodeId":"721:253","componentKey":"ea347b1ef85f0404b91305eb2d5e1581b90de877","sourcePath":"icons/source/svg/filled/layout/minimise-01.svg","importPath":"@cometal/react/icons/filled/layout/minimise-01","sourceSha256":"5de218a51b28fcdebddce3dcd0f7da7c8289e438ff18481b6e041cb8b0cd3935","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M2.5 15.4199H6.32622C7.49211 15.4199 8.43724 16.3273 8.43724 17.4466V21.5M8.4375 2.5V6.55341C8.4375 7.67273 7.49236 8.58012 6.32648 8.58012H2.50026M21.5 15.4199H17.6738C16.5079 15.4199 15.5628 16.3273 15.5628 17.4466V21.5M15.5625 2.5V6.55341C15.5625 7.67273 16.5076 8.58012 17.6735 8.58012H21.4997\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

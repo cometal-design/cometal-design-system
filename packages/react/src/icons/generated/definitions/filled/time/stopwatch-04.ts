@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/time/stopwatch-04","library":"filled","family":"time","categoryPath":["time"],"nodeId":"721:503","componentKey":"ba46a212c124b66e8da29ae82473d78724eb06bb","sourcePath":"icons/source/svg/filled/time/stopwatch-04.svg","importPath":"@cometal/react/icons/filled/time/stopwatch-04","sourceSha256":"1ae34d19e9ca6451337662bdddc2a28c2d3978f9b29169df15514eeb04545253","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M9.59762 9.68696L12.1797 13.3043H16.1962M19.4962 3.49986L22 6.00421M2 6.49986L4.5038 3.99551M9.49764 2H14.4966M20.4953 13.4286C20.4953 18.1624 16.6905 22 11.9971 22C7.3037 22 3.49894 18.1624 3.49894 13.4286C3.49894 8.6947 7.3037 4.85714 11.9971 4.85714C16.6905 4.85714 20.4953 8.6947 20.4953 13.4286Z\" stroke=\"currentColor\" stroke-width=\"2\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

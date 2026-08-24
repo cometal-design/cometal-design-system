@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/editor/delete","library":"outline","family":"editor","categoryPath":["editor"],"nodeId":"691:12516","componentKey":"00ea59f9a4cee24e0a9dcfbeb7a0cd36eb23fdf9","sourcePath":"icons/source/svg/outline/editor/delete.svg","importPath":"@cometal/react/icons/outline/editor/delete","sourceSha256":"5b9238cc373981831582a5bb06d443945256088587ff6736590b5ed4b0a9209d","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M10.6122 9.4L13.1456 12M13.1456 12L15.6789 14.6M13.1456 12L15.6789 9.4M13.1456 12L10.6122 14.6M7.151 18.5L20.1122 18.5C20.8118 18.5 21.3789 17.918 21.3789 17.2V6.8C21.3789 6.08203 20.8118 5.5 20.1122 5.5L7.151 5.5L2.81339 11.4082C2.55483 11.7604 2.55483 12.2396 2.81339 12.5918L7.151 18.5Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

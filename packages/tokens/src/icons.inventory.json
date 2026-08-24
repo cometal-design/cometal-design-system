@@ -1,24 +1,34 @@
 {
-  "$description": "Icon library inventory synchronized from Figma DS Core.",
+  "$description": "Generated compatibility projection of the canonical @cometal/react icon manifest.",
   "$extensions": {
     "com.cometal.figma": {
       "fileKey": "KKNGucImxFAtQLBhPy8tLs",
       "pageId": "381:25439"
     }
   },
+  "schemaVersion": "1.0.0",
+  "sourceFingerprintSha256": "d4a210b39244ccf6a09489e28c1e82858ec3efc7921f50fe28c7b48dd6d64c0a",
   "totalComponents": 2810,
   "libraries": [
-    { "name": "Outline", "frameId": "691:9685", "components": 875, "categories": 20 },
-    { "name": "Filled", "frameId": "691:12877", "components": 877, "categories": 19 },
-    { "name": "Feature Icons and Logos", "frameId": "691:15704", "components": 1058, "categories": 9 }
+    {
+      "name": "Outline",
+      "id": "outline",
+      "frameId": "691:9685",
+      "components": 875
+    },
+    {
+      "name": "Filled",
+      "id": "filled",
+      "frameId": "691:12877",
+      "components": 877
+    },
+    {
+      "name": "Feature Icons and Logos",
+      "id": "feature-icons-and-logos",
+      "frameId": "691:15704",
+      "components": 1058
+    }
   ],
-  "replacementMap": {
-    "frameId": "483:657",
-    "highConfidence": 163,
-    "needsVisualReview": 46,
-    "notFound": 25,
-    "policy": "Outline first; Filled only when no Outline form exists."
-  },
-  "codeStatus": "metadata-only",
-  "codeStatusReason": "SVG assets and a React icon API have not been approved or exported yet."
+  "codeStatus": "implementation-candidate",
+  "codeStatusReason": "Generated React entries and the shared catalog exist locally; code review, independent QA, and release remain pending."
 }

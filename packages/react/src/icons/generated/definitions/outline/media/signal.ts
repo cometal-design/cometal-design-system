@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/media/signal","library":"outline","family":"media","categoryPath":["media"],"nodeId":"700:15089","componentKey":"08c27e8450afc9b66c9701972a2ca3cabe93bc42","sourcePath":"icons/source/svg/outline/media/signal.svg","importPath":"@cometal/react/icons/outline/media/signal","sourceSha256":"30618dcbe28757e4bf67754acca4a135da1a6ec54ad767b0cf07dfcf55d2ba30","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M11.9473 12H12M9.8198 7.95942C8.43635 8.74716 7.5 10.2614 7.5 12C7.5 13.7386 8.43635 15.2528 9.8198 16.0406M14.1802 7.95942C15.5637 8.74716 16.5 10.2614 16.5 12C16.5 13.7386 15.5637 15.2528 14.1802 16.0406M7.5 20C4.80989 18.4031 3 15.4185 3 12C3 8.58154 4.80989 5.59687 7.5 4M16.5 20C19.1901 18.4031 21 15.4185 21 12C21 8.58154 19.1901 5.59687 16.5 4\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

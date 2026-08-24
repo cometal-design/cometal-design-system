@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"flag-rectangle/PM","library":"feature-icons-and-logos","family":"flag-rectangle","categoryPath":["flag-rectangle"],"nodeId":"691:19410","componentKey":"c07f32600f772aaec3a4f5388bdf43922b488da3","sourcePath":"icons/source/svg/feature-icons-and-logos/flag-rectangle/pm.svg","importPath":"@cometal/react/icons/feature-icons-and-logos/flag-rectangle/pm","sourceSha256":"b0c11f21c2f53088a2bb7ad6fbb3a68041324547ef45c15f68c248f1ed398617","viewBox":[0,0,35,24],"intrinsicWidth":35,"intrinsicHeight":24,"paintMode":"intrinsic","body":"<path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M1.95898 0.0119629H33.0389V23.988H1.95898V0.0119629Z\" fill=\"white\"/><path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M1.95898 0.0119629H12.3173V23.988H1.95898V0.0119629Z\" fill=\"#00267F\"/><path fill-rule=\"evenodd\" clip-rule=\"evenodd\" d=\"M22.6816 0.0119629H33.04V23.988H22.6816V0.0119629Z\" fill=\"#F31830\"/>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

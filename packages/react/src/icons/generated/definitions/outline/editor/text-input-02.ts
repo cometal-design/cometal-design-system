@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Outline/editor/text-input-02","library":"outline","family":"editor","categoryPath":["editor"],"nodeId":"691:12697","componentKey":"e80ba5b9481676cd920fa22aa218f598acca4f47","sourcePath":"icons/source/svg/outline/editor/text-input-02.svg","importPath":"@cometal/react/icons/outline/editor/text-input-02","sourceSha256":"273f04cc862822045bb6ab01895c7a453c5a0885644a055eb767ccecc53d36af","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M6.65625 12.5833V11.4167M21.5 9.66667V14.3333C21.5 14.9777 20.9683 15.5 20.3125 15.5H3.6875C3.03166 15.5 2.5 14.9777 2.5 14.3333V9.66667C2.5 9.02233 3.03166 8.5 3.6875 8.5H20.3125C20.9683 8.5 21.5 9.02233 21.5 9.66667Z\" stroke=\"currentColor\" stroke-width=\"1.4\" stroke-linecap=\"round\" stroke-linejoin=\"round\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;

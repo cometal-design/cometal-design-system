@@ -1,0 +1,5 @@
+import type { CompiledIconDefinition } from '../../../../runtime/types';
+
+const definition = Object.freeze({"canonicalName":"Filled/arrows/chevron-up-filled","library":"filled","family":"arrows","categoryPath":["arrows"],"nodeId":"700:1137","componentKey":"65dd221f014b80a9619410f352bc429ce9a2c8bd","sourcePath":"icons/source/svg/filled/arrows/chevron-up-filled.svg","importPath":"@cometal/react/icons/filled/arrows/chevron-up-filled","sourceSha256":"ea28648d505d482e87c305a3d5ec3612af26284e098f23ae69d4f4fc9d34454f","viewBox":[0,0,24,24],"intrinsicWidth":24,"intrinsicHeight":24,"paintMode":"currentColor","body":"<g>\n<path d=\"M11.6464 8.75004L5.85355 14.5429C5.53857 14.8579 5.76165 15.3965 6.20711 15.3965L17.7929 15.3965C18.2383 15.3965 18.4614 14.8579 18.1464 14.5429L12.3536 8.75004C12.1583 8.55478 11.8417 8.55478 11.6464 8.75004Z\" fill=\"currentColor\"/>\n</g>","hasReferencedIds":false} as const) satisfies CompiledIconDefinition;
+
+export default definition;
