@@ -45,3 +45,9 @@
 - Apple Passwords хранит секреты и recovery-коды. В Git, Figma, Storybook и Obsidian пароли не записываются.
 
 Машиночитаемая версия матрицы: `registry/sources.json`.
+
+## Icons local candidate contract
+
+For `COMETAL-ICONS-LIBRARY-2026-08-24`, the established local candidate connects the existing sources without creating a sixth source or 2,810 registry identities: Figma DS Core supplies visual and canonical-name identity; `packages/react/icons/source/manifest.source.json` and the tracked SVG corpus preserve the accepted source; `@cometal/react` supplies the implementation; Storybook `foundation--icons` and portal `/foundation/icons/catalog/` are candidate surfaces; Obsidian and `specifications/foundations/icons.md` preserve the written contract.
+
+This contract is bound to candidate SHA `e528f77d85ed14cdc2decfac3bc3e0996c8cd5da` and handoff fingerprint `d4a210b39244ccf6a09489e28c1e82858ec3efc7921f50fe28c7b48dd6d64c0a`. It does not revise the production addresses above and is not `CODE_APPROVED`, `QA_PASSED`, release, or production evidence.

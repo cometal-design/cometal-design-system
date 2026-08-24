@@ -11,7 +11,7 @@ Foundation — общий визуальный и технический язы�
 | Spacing | `4:33` | Primitive и semantic tokens | Шкала значений | Синхронизировано |
 | Radius | `4:32` | Primitive и semantic tokens | Шкала значений | Синхронизировано |
 | Grid | `1026:3600` | 4 responsive presets | Визуализация пресетов | Синхронизировано как документация |
-| Icons | `381:25439` | Инвентарь 2 810 компонентов | Статус библиотек и карты замены | Частично: SVG и React API ещё не заведены |
+| Icons | `381:25439`, `691:9685` / `691:12877` / `691:15704` | `packages/react/icons/source/`, immutable 2 810-record manifest | `foundation--icons`; candidate portal `/foundation/icons/catalog/` | Local implementation candidate; code review and independent QA pending |
 | Motion | Статическая документационная борда ожидает решения; variables не создаём | 5 duration + 3 easing tokens | Button, Fields, Checkbox, Radio Button, Switch, Inline Link и Date Picker используют общий source; Storybook и портал показывают все 8 токенов | Частично: Git, React, tests, Storybook и портал синхронизированы локально |
 | Shadows | `4:31` | Нет значений | Показан явный empty state | Не заведено в Figma |
 
@@ -21,7 +21,7 @@ Foundation — общий визуальный и технический язы�
 - Semantic содержит 98 цветовых ролей и 45 размерных токенов. Карта цветов в Figma, token source, портал и Storybook должны совпадать 1:1.
 - Storybook не создаёт значения, которых нет в Figma. Пробел показывается открыто.
 - Grid сейчас существует как документированная сетка, но не как локальные Figma Grid Styles.
-- Иконки пока синхронизированы на уровне реестра. Их нельзя считать готовым React-пакетом до экспорта SVG, утверждения API и визуального ревью карты замены.
+- Иконки имеют отдельный candidate contract в [[Icons]]. Figma canonical names и SVG identity не переименяются и не дедуплицируются; не создаём 2 810 component registry records. Candidate не является `Ready`, релизом или production.
 - Motion принадлежит code-owned слою: Git хранит значения и React-поведение, Storybook показывает и проверяет, портал объясняет, Obsidian фиксирует контекст. В Figma не создаём ложные motion variables; допустима отдельная статическая документационная борда.
 - Локальные значения длительности и easing внутри React-компонентов запрещены: state, popover и loader-motion обращаются к `--cometal-motion-*`.
 - Pointer-сценарии могут использовать короткое движение, частые keyboard-сценарии остаются мгновенными, `prefers-reduced-motion` убирает пространственный сдвиг.
@@ -34,4 +34,6 @@ Foundation — общий визуальный и технический язы�
 - `packages/tokens/src/typography.styles.json`
 - `packages/tokens/src/grid.presets.json`
 - `packages/tokens/src/icons.inventory.json`
+- `packages/react/icons/source/manifest.source.json`
+- `specifications/foundations/icons.md`
 - `packages/tokens/src/motion.tokens.json`
