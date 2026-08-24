@@ -21,6 +21,6 @@ The local candidate exposes the same catalog in Storybook `foundation--icons` an
 
 ## Status and next gate
 
-Candidate: `e528f77d85ed14cdc2decfac3bc3e0996c8cd5da` on `agent/icons-library-implementation-2026-08-25`. This is an implementation candidate only. `CODE_APPROVED`, `QA_PASSED`, user acceptance, publication and production verification remain pending.
+Initial implementation/code parent: `e528f77d85ed14cdc2decfac3bc3e0996c8cd5da` on `agent/icons-library-implementation-2026-08-25`. The exact current review candidate belongs in the external Orchestrator delivery manifest, not in this self-committing note. This remains a local implementation candidate only. `CODE_APPROVED`, `QA_PASSED`, user acceptance, publication and production verification remain pending.
 
 Related: [[Index]], `specifications/foundations/icons.md`, `docs/handoffs/2026-08-24-icons/IMPLEMENTATION_REPORT.md`.

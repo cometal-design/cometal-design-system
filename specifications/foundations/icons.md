@@ -8,7 +8,7 @@ Status: `IMPLEMENTATION_CANDIDATE` on the local delivery candidate only. This is
 - Canonical artboards: Outline `691:9685`, Filled `691:12877`, Feature Icons and Logos `691:15704`.
 - Accepted handoff: `docs/handoffs/2026-08-24-icons/`; `2810/2810` standalone components, no component sets.
 - Immutable handoff fingerprint: `d4a210b39244ccf6a09489e28c1e82858ec3efc7921f50fe28c7b48dd6d64c0a`.
-- Candidate implementation SHA: `e528f77d85ed14cdc2decfac3bc3e0996c8cd5da` on `agent/icons-library-implementation-2026-08-25`.
+- Initial implementation/code parent: `e528f77d85ed14cdc2decfac3bc3e0996c8cd5da` on `agent/icons-library-implementation-2026-08-25`.
 
 The exact Figma `canonicalName` is the source identity. It remains byte-for-byte visible and copyable; search may normalize separately. Do not create 2,810 component registry records, synthesize a stable component ID, rename, deduplicate, redraw, or substitute records.
 
@@ -36,4 +36,4 @@ The implementation report records a passing local validation set, including sour
 
 ## Release boundary
 
-Production remains the existing baseline. No package publication, production deployment, registry readiness flag, or release status is implied by this candidate contract.
+The exact current review candidate is owned by the external Orchestrator delivery manifest and is deliberately not hardcoded in this self-committing knowledge artifact. Production remains the existing baseline. No package publication, production deployment, registry readiness flag, or release status is implied by this candidate contract.
