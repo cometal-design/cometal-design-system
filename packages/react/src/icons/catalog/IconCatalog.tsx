@@ -1,17 +1,18 @@
 'use client';
 
 import { useEffect, useMemo, useRef, useState } from 'react';
+import { Button } from '../../Button/Button';
 import { iconLoaders } from '../generated/loaders';
 import { iconManifest, iconManifestMetadata } from '../generated/manifest';
 import type { IconComponent, IconManifestRecord } from '../runtime/types';
 import {
-  copyCatalogValue,
   filterIconRecords,
   getIconCatalogFilterOptions,
   iconCategory,
   iconImportSnippet,
   paginateIconRecords,
 } from './catalog-model';
+import { createCatalogCopyController } from './copy-feedback';
 import './catalog.css';
 
 function CatalogPreview({ record }: { record: IconManifestRecord }) {
@@ -26,8 +27,8 @@ function CatalogPreview({ record }: { record: IconManifestRecord }) {
       .catch(() => { if (active) setFailed(true); });
     return () => { active = false; };
   }, [record.canonicalName]);
-  if (failed) return <span className="cometal-icon-catalog__preview-state" role="status">Ошибка загрузки</span>;
-  if (!IconComponent) return <span className="cometal-icon-catalog__preview-state" role="status">Иконка загружается</span>;
+  if (failed) return <span className="cometal-icon-catalog__preview-state">Ошибка загрузки</span>;
+  if (!IconComponent) return <span className="cometal-icon-catalog__preview-state" aria-hidden="true">Иконка загружается</span>;
   return <IconComponent className="cometal-icon-catalog__icon" />;
 }
 
@@ -43,12 +44,9 @@ export function IconCatalog({ className }: IconCatalogProps) {
   const [page, setPage] = useState(1);
   const [feedback, setFeedback] = useState('');
   const [copyError, setCopyError] = useState('');
-  const timer = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
-  const mounted = useRef(true);
-  useEffect(() => () => {
-    mounted.current = false;
-    if (timer.current) clearTimeout(timer.current);
-  }, []);
+  const copyController = useRef<ReturnType<typeof createCatalogCopyController>>(undefined);
+  if (!copyController.current) copyController.current = createCatalogCopyController({ setFeedback, setError: setCopyError });
+  useEffect(() => copyController.current?.mount(), []);
 
   const filters = useMemo(() => ({ library, family, category }), [library, family, category]);
   const results = useMemo(() => filterIconRecords(iconManifest, search, filters), [search, filters]);
@@ -58,18 +56,7 @@ export function IconCatalog({ className }: IconCatalogProps) {
   function resetPage() { setPage(1); }
 
   async function copy(value: string, label: string) {
-    setCopyError('');
-    try {
-      await copyCatalogValue(value, typeof navigator === 'undefined' ? undefined : navigator.clipboard);
-      if (!mounted.current) return;
-      setFeedback(label);
-      if (timer.current) clearTimeout(timer.current);
-      timer.current = setTimeout(() => { if (mounted.current) setFeedback(''); }, 2400);
-    } catch (error) {
-      if (!mounted.current) return;
-      setFeedback('');
-      setCopyError(error instanceof Error ? error.message : 'Не удалось скопировать. Скопируйте видимый текст вручную.');
-    }
+    await copyController.current?.copy(value, label, typeof navigator === 'undefined' ? undefined : navigator.clipboard);
   }
 
   return (
@@ -115,17 +102,17 @@ export function IconCatalog({ className }: IconCatalogProps) {
               <code className="cometal-icon-catalog__name">{record.canonicalName}</code>
               <span>{record.library} · {iconCategory(record)}</span>
               <div className="cometal-icon-catalog__actions">
-                <button type="button" onClick={() => void copy(record.canonicalName, `Скопировано имя: ${record.canonicalName}`)}>Копировать имя</button>
-                <button type="button" onClick={() => void copy(iconImportSnippet(record), `Скопирован import для ${record.canonicalName}`)}>Копировать import</button>
+                <Button variant="secondary" size="s" aria-label={`Копировать имя ${record.canonicalName}`} onClick={() => void copy(record.canonicalName, `Скопировано имя: ${record.canonicalName}`)}>Копировать имя</Button>
+                <Button variant="secondary" size="s" aria-label={`Копировать import ${record.canonicalName}`} onClick={() => void copy(iconImportSnippet(record), `Скопирован import для ${record.canonicalName}`)}>Копировать import</Button>
               </div>
             </li>
           ))}
         </ul>
       ) : <p className="cometal-icon-catalog__empty">По текущему запросу и фильтрам иконки не найдены.</p>}
       <nav className="cometal-icon-catalog__pagination" aria-label="Страницы каталога иконок">
-        <button type="button" disabled={pagination.page <= 1} onClick={() => setPage((value) => Math.max(1, value - 1))}>Предыдущая</button>
+        <Button variant="secondary" size="s" disabled={pagination.page <= 1} onClick={() => setPage((value) => Math.max(1, value - 1))}>Предыдущая</Button>
         <span>{Math.min((pagination.page - 1) * 120 + 1, results.length)}–{Math.min(pagination.page * 120, results.length)} из {results.length}</span>
-        <button type="button" disabled={pagination.page >= pagination.pageCount} onClick={() => setPage((value) => Math.min(pagination.pageCount, value + 1))}>Следующая</button>
+        <Button variant="secondary" size="s" disabled={pagination.page >= pagination.pageCount} onClick={() => setPage((value) => Math.min(pagination.pageCount, value + 1))}>Следующая</Button>
       </nav>
     </section>
   );

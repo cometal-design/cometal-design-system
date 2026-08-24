@@ -32,7 +32,7 @@
     "**/*.css"
   ],
   "scripts": {
-    "build": "vite build && node ./scripts/icons/finalize-build.mjs",
+    "build": "pnpm validate:icons && vite build && node ./scripts/icons/finalize-build.mjs",
     "generate:icons": "node ./scripts/icons/generate-icons.mjs",
     "validate:icons": "node ./scripts/icons/validate-icons.mjs",
     "validate:icons:dist": "node ./scripts/icons/validate-icons.mjs --dist && node ./scripts/icons/validate-bundles.mjs",

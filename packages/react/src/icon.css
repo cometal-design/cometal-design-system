@@ -1,7 +1,9 @@
 :where([data-cometal-component]) svg:not([data-cometal-icon])[stroke]:not([stroke='none']),
-:where([data-cometal-component]) svg:not([data-cometal-icon]) [stroke]:not([stroke='none']),
-:where(svg[data-cometal-icon-library='outline'][data-cometal-icon-paint='currentColor'])[stroke]:not([stroke='none']),
-:where(svg[data-cometal-icon-library='outline'][data-cometal-icon-paint='currentColor']) [stroke]:not([stroke='none']) {
-  /* Preserve legacy component slots; new library records opt in through explicit Outline markers. */
+:where([data-cometal-component]) svg:not([data-cometal-icon]) [stroke]:not([stroke='none']) {
   stroke-width: var(--cometal-icon-source-stroke, var(--cometal-primitive-stroke-140, 1.4px));
+}
+
+:where(svg[data-cometal-icon-library='outline'][data-cometal-icon-paint='currentColor']) [data-cometal-stroke-scale] {
+  /* Only generator-audited 1.4 source elements opt in; masks and nonstandard widths remain intrinsic. */
+  stroke-width: var(--cometal-icon-source-stroke, var(--cometal-primitive-stroke-140));
 }

@@ -10,6 +10,17 @@ const sourceManifestPath = path.join(sourceRoot, 'manifest.source.json');
 const generatedRoot = path.join(packageRoot, 'src/icons/generated');
 const tokenProjectionPath = path.join(repositoryRoot, 'packages/tokens/src/icons.inventory.json');
 const acceptedFingerprint = 'd4a210b39244ccf6a09489e28c1e82858ec3efc7921f50fe28c7b48dd6d64c0a';
+const acceptedPaintContractFingerprint = '80075bdc027f117ae810fd5ad7e0fcc98f6c562feba6ba37af4cf86b5de4e33c';
+const approvedPaintBindings = Object.freeze({
+  outline: Object.freeze({
+    key: '33b752bc5c0bd5a01503962cf5d1295698f2cebf',
+    fields: new Set(['strokes', 'stroke.color']),
+  }),
+  filled: Object.freeze({
+    key: 'a6cc9f03c2228eae9bbd49c22a83f9a459a02a42',
+    fields: new Set(['fills', 'fill.color', 'strokes', 'stroke.color']),
+  }),
+});
 const expectedCounts = Object.freeze({ outline: 875, filled: 877, 'feature-icons-and-logos': 1058 });
 const manifestFiles = Object.freeze([
   ['OUTLINE_MANIFEST.json', 'outline'],
@@ -48,6 +59,10 @@ function sourceProjection(record) {
   return [record.canonicalName, record.nodeId, record.componentKey, record.acceptedSafePath, record.sourceSha256];
 }
 
+function paintContractProjection(record) {
+  return [record.canonicalName, record.sourceSha256, record.variableBindings];
+}
+
 function deriveRecord(record, library, sourceOrder) {
   const canonicalSegments = record.canonicalName.split('/');
   const relativeSegments = library === 'outline' || library === 'filled'
@@ -75,6 +90,7 @@ function deriveRecord(record, library, sourceOrder) {
     generatedIdentifier: `Cometal_${[library, ...generatedSegments].join('_').replace(/[^A-Za-z0-9_]/g, '_')}_Icon`,
     sourceSha256: record.svgSha256,
     sourceBytes: record.svgBytes,
+    variableBindings: record.variableBindings ?? [],
     viewBox,
     intrinsicWidth: Number(record.geometry?.exportedWidth ?? record.geometry?.width),
     intrinsicHeight: Number(record.geometry?.exportedHeight ?? record.geometry?.height),
@@ -152,10 +168,19 @@ function compileSvg(svg, record) {
     body = body.replaceAll(`xlink:href="#${reference}"`, `xlink:href="#__COMETAL_ID__${safeReference}"`);
     body = body.replaceAll(`xlink:href='#${reference}'`, `xlink:href="#__COMETAL_ID__${safeReference}"`);
   }
+  const approvedBinding = approvedPaintBindings[record.library];
+  const paintBinding = approvedBinding
+    ? record.variableBindings.find((binding) => approvedBinding.fields.has(binding.field) && binding.variable?.key === approvedBinding.key)
+    : undefined;
   const paintValues = [...body.matchAll(/\b(?:fill|stroke)=["'](#[0-9A-Fa-f]{3,8})["']/g)].map((match) => match[1].toUpperCase());
+  const sourcePaintMatchesBinding = paintValues.length > 0 && paintValues.every((value) => value === '#292929');
+  if (paintBinding && !sourcePaintMatchesBinding) {
+    fail(`accepted paint binding no longer matches source paint: ${record.canonicalName}`);
+  }
   const canUseCurrentColor = record.library !== 'feature-icons-and-logos'
+    && Boolean(paintBinding)
     && paintValues.length > 0
-    && paintValues.every((value) => value === '#292929');
+    && sourcePaintMatchesBinding;
   let paintReplacements = 0;
   if (canUseCurrentColor) {
     body = body.replace(/\b(fill|stroke)=(["'])#292929\2/gi, (_match, attribute) => {
@@ -163,11 +188,39 @@ function compileSvg(svg, record) {
       return `${attribute}="currentColor"`;
     });
   }
+  const explicitStrokeWidths = [];
+  let scalableStrokeElements = 0;
+  let preservedStrokeElements = 0;
+  body = body.replace(/<([A-Za-z][\w:-]*)([^<>]*?)>/g, (element, _tag, attributes) => {
+    const width = attributes.match(/\bstroke-width=["']([^"']+)["']/)?.[1];
+    if (!width) return element;
+    explicitStrokeWidths.push(width);
+    const numericWidth = Number(width);
+    const isStandardWidth = Number.isFinite(numericWidth) && Math.abs(numericWidth - 1.4) < 1e-9;
+    if (canUseCurrentColor && record.library === 'outline' && isStandardWidth) {
+      scalableStrokeElements += 1;
+      return element.replace(/\s*\/?\>$/, (ending) => ` data-cometal-stroke-scale=""${ending}`);
+    }
+    preservedStrokeElements += 1;
+    return element;
+  });
   if (body.includes('__COMETAL_ID__') !== (references.size > 0)) fail(`ID compilation mismatch: ${record.canonicalName}`);
+  const sourceStrokeWidths = Object.entries(Object.fromEntries(explicitStrokeWidths.map((width) => [width, 0])))
+    .map(([width]) => ({ width, count: explicitStrokeWidths.filter((value) => value === width).length }))
+    .sort((left, right) => Number(left.width) - Number(right.width) || left.width.localeCompare(right.width));
   return {
     body,
     hasReferencedIds: references.size > 0,
     paintMode: canUseCurrentColor ? 'currentColor' : 'intrinsic',
+    paintBindingKey: paintBinding?.variable.key,
+    strokeAudit: {
+      explicitElementCount: explicitStrokeWidths.length,
+      standardElementCount: explicitStrokeWidths.filter((width) => Math.abs(Number(width) - 1.4) < 1e-9).length,
+      nonstandardElementCount: explicitStrokeWidths.filter((width) => !Number.isFinite(Number(width)) || Math.abs(Number(width) - 1.4) >= 1e-9).length,
+      scalableElementCount: scalableStrokeElements,
+      preservedElementCount: preservedStrokeElements,
+      sourceStrokeWidths,
+    },
     transformations: {
       removedUnreferencedIds: removedIds,
       prefixedReferencedIds: references.size,
@@ -189,6 +242,8 @@ async function intake(handoffRoot) {
   validateRecordIdentity(records);
   const projectionFingerprint = sha256(JSON.stringify(records.map(sourceProjection)));
   if (projectionFingerprint !== acceptedFingerprint) fail(`computed accepted fingerprint ${projectionFingerprint}`);
+  const paintContractFingerprint = sha256(JSON.stringify(records.map(paintContractProjection)));
+  if (paintContractFingerprint !== acceptedPaintContractFingerprint) fail(`computed accepted paint contract fingerprint ${paintContractFingerprint}`);
   await rm(sourceRoot, { recursive: true, force: true });
   await mkdir(path.join(sourceRoot, 'svg'), { recursive: true });
   for (const record of records) {
@@ -209,6 +264,11 @@ async function intake(handoffRoot) {
       artboards: { outline: '691:9685', filled: '691:12877', 'feature-icons-and-logos': '691:15704' },
     },
     acceptedFingerprintSha256: acceptedFingerprint,
+    paintContract: {
+      schemaVersion: '1.0.0',
+      algorithm: 'accepted-figma-variable-bindings-v1',
+      sha256: acceptedPaintContractFingerprint,
+    },
     counts: { total: 2810, libraries: expectedCounts },
     acceptedSameSourceExceptions: [
       Object.freeze({ library: 'feature-icons-and-logos', canonicalNames: ['flag-rectangle/PM', 'flag-rectangle/RE'] }),
@@ -233,6 +293,8 @@ function publicRecord(record, compiled) {
     intrinsicWidth: record.intrinsicWidth,
     intrinsicHeight: record.intrinsicHeight,
     paintMode: compiled.paintMode,
+    strokeScaling: compiled.strokeAudit.scalableElementCount > 0 ? 'marked-elements' : 'preserve-source',
+    scalableStrokeElementCount: compiled.strokeAudit.scalableElementCount,
   };
 }
 
@@ -275,13 +337,22 @@ async function expectedGeneratedFiles(sourceManifest) {
     output.set(definitionFile, definitionSource(record, definitionFile, compiled));
     output.set(componentFile, componentSource(record, componentFile, definitionFile, compiled));
     publicRecords.push(publicRecord(record, compiled));
-    report.push({ canonicalName: record.canonicalName, sourceSha256: record.sourceSha256, paintMode: compiled.paintMode, ...compiled.transformations });
+    report.push({
+      canonicalName: record.canonicalName,
+      library: record.library,
+      sourceSha256: record.sourceSha256,
+      paintMode: compiled.paintMode,
+      paintBindingKey: compiled.paintBindingKey,
+      strokeAudit: compiled.strokeAudit,
+      ...compiled.transformations,
+    });
     loaderLines.push(`  ${JSON.stringify(record.canonicalName)}: () => import(${JSON.stringify(`./components/${relative}`)}),`);
   }
   const metadata = {
     schemaVersion: '1.0.0',
     generatorVersion: sourceManifest.generatorVersion,
     sourceFingerprintSha256: sourceManifest.acceptedFingerprintSha256,
+    paintContractFingerprintSha256: sourceManifest.paintContract.sha256,
     total: sourceManifest.counts.total,
     libraries: sourceManifest.counts.libraries,
     families: Object.fromEntries([...new Set(publicRecords.map((record) => record.family))].sort().map((family) => [family, publicRecords.filter((record) => record.family === family).length])),
@@ -297,6 +368,13 @@ async function expectedGeneratedFiles(sourceManifest) {
       intrinsicRecords: report.filter((item) => item.paintMode === 'intrinsic').length,
       referencedIdRecords: report.filter((item) => item.prefixedReferencedIds > 0).length,
       removedUnreferencedIds: report.reduce((sum, item) => sum + item.removedUnreferencedIds, 0),
+      strokeAudit: {
+        explicitElementCount: report.reduce((sum, item) => sum + item.strokeAudit.explicitElementCount, 0),
+        standardElementCount: report.reduce((sum, item) => sum + item.strokeAudit.standardElementCount, 0),
+        nonstandardElementCount: report.reduce((sum, item) => sum + item.strokeAudit.nonstandardElementCount, 0),
+        scalableElementCount: report.reduce((sum, item) => sum + item.strokeAudit.scalableElementCount, 0),
+        preservedElementCount: report.reduce((sum, item) => sum + item.strokeAudit.preservedElementCount, 0),
+      },
     },
     records: report,
   }));
@@ -327,12 +405,13 @@ async function writeGenerated(output) {
   }
 }
 
-async function checkGenerated(output) {
-  const actualFiles = (await listFiles(generatedRoot)).sort();
-  const expectedFiles = [...output.keys()].sort();
+async function checkGenerated(output, actualRoot = generatedRoot) {
+  const actualFiles = (await listFiles(actualRoot)).sort();
+  const expectedFiles = [...output.keys()].map((file) => path.join(actualRoot, path.relative(generatedRoot, file))).sort();
   if (JSON.stringify(actualFiles) !== JSON.stringify(expectedFiles)) fail('generated file set is stale');
   for (const [file, content] of output) {
-    if (await readFile(file, 'utf8') !== content) fail(`generated file is stale: ${path.relative(packageRoot, file)}`);
+    const actualFile = path.join(actualRoot, path.relative(generatedRoot, file));
+    if (await readFile(actualFile, 'utf8') !== content) fail(`generated file is stale: ${path.relative(actualRoot, actualFile)}`);
   }
 }
 
@@ -357,7 +436,14 @@ function tokenProjection(metadata) {
 async function main() {
   const args = process.argv.slice(2);
   const handoffIndex = args.indexOf('--handoff');
+  const generatedFixtureIndex = args.indexOf('--generated-fixture-root');
+  const tokenFixtureIndex = args.indexOf('--token-projection-fixture');
   const check = args.includes('--check');
+  const environmentGeneratedFixture = process.env.COMETAL_ICONS_CHECK_GENERATED_ROOT;
+  const environmentTokenFixture = process.env.COMETAL_ICONS_CHECK_TOKEN_PROJECTION;
+  if ((generatedFixtureIndex >= 0 || tokenFixtureIndex >= 0 || environmentGeneratedFixture || environmentTokenFixture) && !check) {
+    fail('fixture paths are available only with --check');
+  }
   if (handoffIndex >= 0) {
     if (check) fail('--handoff and --check cannot be combined');
     const handoffRoot = args[handoffIndex + 1];
@@ -371,11 +457,21 @@ async function main() {
   if (sourceManifest.acceptedFingerprintSha256 !== acceptedFingerprint) fail('tracked source fingerprint mismatch');
   const computedFingerprint = sha256(JSON.stringify([...sourceManifest.records].sort((a, b) => a.sourceOrder - b.sourceOrder).map(sourceProjection)));
   if (computedFingerprint !== acceptedFingerprint) fail(`tracked manifest projection fingerprint ${computedFingerprint}`);
+  if (sourceManifest.paintContract?.sha256 !== acceptedPaintContractFingerprint) fail('tracked paint contract declaration mismatch');
+  const computedPaintContractFingerprint = sha256(JSON.stringify([...sourceManifest.records].sort((a, b) => a.sourceOrder - b.sourceOrder).map(paintContractProjection)));
+  if (computedPaintContractFingerprint !== acceptedPaintContractFingerprint) fail(`tracked paint contract fingerprint ${computedPaintContractFingerprint}`);
   const { output, metadata } = await expectedGeneratedFiles(sourceManifest);
   const projection = tokenProjection(metadata);
   if (check) {
-    await checkGenerated(output);
-    if (await readFile(tokenProjectionPath, 'utf8') !== projection) fail('tokens compatibility projection is stale');
+    const actualGeneratedRoot = generatedFixtureIndex >= 0
+      ? path.resolve(args[generatedFixtureIndex + 1] ?? '')
+      : environmentGeneratedFixture ? path.resolve(environmentGeneratedFixture) : generatedRoot;
+    const actualTokenProjectionPath = tokenFixtureIndex >= 0
+      ? path.resolve(args[tokenFixtureIndex + 1] ?? '')
+      : environmentTokenFixture ? path.resolve(environmentTokenFixture) : tokenProjectionPath;
+    if ((generatedFixtureIndex >= 0 && !args[generatedFixtureIndex + 1]) || (tokenFixtureIndex >= 0 && !args[tokenFixtureIndex + 1])) fail('fixture path argument is missing');
+    await checkGenerated(output, actualGeneratedRoot);
+    if (await readFile(actualTokenProjectionPath, 'utf8') !== projection) fail('tokens compatibility projection is stale');
     console.log(`[icons] generated output is fresh: ${metadata.total} records, ${metadata.sourceFingerprintSha256}`);
     return;
   }

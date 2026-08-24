@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { useState } from 'react';
-import { expect, userEvent, within } from 'storybook/test';
+import { StrictMode, useState } from 'react';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 import { Button, Switch } from '@cometal/react';
 import { IconCatalog } from '@cometal/react/icons/catalog';
 import { iconManifestMetadata } from '@cometal/react/icons/manifest';
@@ -419,15 +419,42 @@ export const Grid: Story = { name: 'Сетка', render: () => <GridPage /> };
 export const Shadow: Story = { name: 'Тени', render: () => <ShadowPage /> };
 export const Icons: Story = {
   name: 'Иконки',
-  render: () => <IconsPage />,
+  render: () => <StrictMode><IconsPage /></StrictMode>,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    await expect(canvas.getAllByRole('listitem')).toHaveLength(120);
+    await expect(canvasElement.querySelectorAll('.cometal-icon-catalog__name')).toHaveLength(120);
+    await expect(canvas.queryAllByRole('status')).toHaveLength(0);
+    const firstName = canvasElement.querySelector('.cometal-icon-catalog__name')?.textContent;
+    await expect(firstName).toBeTruthy();
+    const firstCopyName = canvas.getByRole('button', { name: `Копировать имя ${firstName}` });
+    const clipboardDescriptor = Object.getOwnPropertyDescriptor(navigator, 'clipboard');
+    Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async () => undefined } });
+    try {
+      await userEvent.click(firstCopyName);
+      await expect(await canvas.findByText(`Скопировано имя: ${firstName}`)).toBeVisible();
+    } finally {
+      if (clipboardDescriptor) Object.defineProperty(navigator, 'clipboard', clipboardDescriptor);
+      else Reflect.deleteProperty(navigator, 'clipboard');
+    }
+
     const search = canvas.getByRole('searchbox', { name: 'Поиск по каноническому имени' });
+    await userEvent.clear(search);
+    await userEvent.type(search, 'Outline/profiles-and-users/user-profile-03-02');
+    await expect(await canvas.findByText('Outline/profiles-and-users/user-profile-03-02')).toBeVisible();
+    await waitFor(() => {
+      const maskPath = canvasElement.querySelector('.cometal-icon-catalog__card path[stroke-width="2.8"]');
+      expect(maskPath).not.toBeNull();
+      expect(Number.parseFloat(getComputedStyle(maskPath!).strokeWidth)).toBe(2.8);
+      expect(maskPath).not.toHaveAttribute('data-cometal-stroke-scale');
+    });
+
+    await userEvent.clear(search);
     await userEvent.type(search, 'payment/lg/Visa');
     await expect(await canvas.findByText('payment/lg/Visa')).toBeVisible();
     await expect(canvas.getAllByRole('listitem')).toHaveLength(1);
-    await expect(canvas.getByRole('button', { name: 'Копировать имя' })).toBeVisible();
-    await expect(canvas.getByRole('button', { name: 'Копировать import' })).toBeVisible();
+    await expect(canvas.getByRole('button', { name: 'Копировать имя payment/lg/Visa' })).toBeVisible();
+    await expect(canvas.getByRole('button', { name: 'Копировать import payment/lg/Visa' })).toBeVisible();
   },
 };
 export const Motion: Story = { name: 'Motion', render: () => <MotionPage /> };

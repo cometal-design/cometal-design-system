@@ -8,6 +8,7 @@ const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '
 const sourceManifest = JSON.parse(await readFile(path.join(packageRoot, 'icons/source/manifest.source.json'), 'utf8'));
 const packageJson = JSON.parse(await readFile(path.join(packageRoot, 'package.json'), 'utf8'));
 const expectedFingerprint = 'd4a210b39244ccf6a09489e28c1e82858ec3efc7921f50fe28c7b48dd6d64c0a';
+const expectedPaintContractFingerprint = '80075bdc027f117ae810fd5ad7e0fcc98f6c562feba6ba37af4cf86b5de4e33c';
 const sha256 = (value) => createHash('sha256').update(value).digest('hex');
 const errors = [];
 let packageImportsResolved = 0;
@@ -24,6 +25,11 @@ const projection = [...sourceManifest.records]
   .sort((a, b) => a.sourceOrder - b.sourceOrder)
   .map((record) => [record.canonicalName, record.nodeId, record.componentKey, record.acceptedSafePath, record.sourceSha256]);
 if (sha256(JSON.stringify(projection)) !== expectedFingerprint) errors.push('computed source fingerprint mismatch');
+const paintProjection = [...sourceManifest.records]
+  .sort((a, b) => a.sourceOrder - b.sourceOrder)
+  .map((record) => [record.canonicalName, record.sourceSha256, record.variableBindings]);
+if (sourceManifest.paintContract?.sha256 !== expectedPaintContractFingerprint) errors.push('declared paint contract fingerprint mismatch');
+if (sha256(JSON.stringify(paintProjection)) !== expectedPaintContractFingerprint) errors.push('computed paint contract fingerprint mismatch');
 
 for (const [label, key] of Object.entries({
   exactName: (record) => record.canonicalName,
@@ -102,6 +108,7 @@ const result = {
   parseable,
   hashMatches,
   sourceFingerprintSha256: expectedFingerprint,
+  paintContractFingerprintSha256: expectedPaintContractFingerprint,
   duplicateSourceExceptions: duplicateHashes.map(([hash, names]) => ({ hash, names })),
   generatedFresh: freshness.status === 0,
   distChecked: process.argv.includes('--dist'),

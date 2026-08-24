@@ -24,6 +24,7 @@ export const Icon = forwardRef<SVGSVGElement, IconRuntimeProps>(function Icon(
       data-cometal-icon=""
       data-cometal-icon-library={definition.library}
       data-cometal-icon-paint={definition.paintMode}
+      data-cometal-icon-stroke-scaling={definition.strokeScaling}
       aria-hidden={decorative ? 'true' : undefined}
       aria-label={decorative ? undefined : label}
       role={decorative ? undefined : 'img'}

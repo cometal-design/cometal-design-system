@@ -2,6 +2,7 @@ import type { CSSProperties, ForwardRefExoticComponent, RefAttributes, SVGProps 
 
 export type IconLibrary = 'outline' | 'filled' | 'feature-icons-and-logos';
 export type IconPaintMode = 'currentColor' | 'intrinsic';
+export type IconStrokeScaling = 'marked-elements' | 'preserve-source';
 
 export interface IconManifestRecord {
   readonly canonicalName: string;
@@ -17,12 +18,15 @@ export interface IconManifestRecord {
   readonly intrinsicWidth?: number;
   readonly intrinsicHeight?: number;
   readonly paintMode: IconPaintMode;
+  readonly strokeScaling: IconStrokeScaling;
+  readonly scalableStrokeElementCount: number;
 }
 
 export interface IconManifestMetadata {
   readonly schemaVersion: string;
   readonly generatorVersion: string;
   readonly sourceFingerprintSha256: string;
+  readonly paintContractFingerprintSha256: string;
   readonly total: number;
   readonly libraries: Readonly<Record<IconLibrary, number>>;
   readonly families: Readonly<Record<string, number>>;

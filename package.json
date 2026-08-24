@@ -15,7 +15,7 @@
     "build:react": "pnpm --filter @cometal/react build",
     "build:storybook": "pnpm --filter @cometal/storybook build",
     "build:docs": "pnpm --filter @cometal/docs build",
-    "build:site": "pnpm build && node ./scripts/assemble-site.mjs",
+    "build:site": "pnpm validate:icons && pnpm build && node ./scripts/assemble-site.mjs",
     "generate:icons": "pnpm --filter @cometal/react generate:icons",
     "validate:icons": "pnpm --filter @cometal/react validate:icons",
     "dev": "pnpm build:tokens && pnpm build:react && pnpm --filter @cometal/docs dev",
