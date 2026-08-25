@@ -63,6 +63,9 @@ describe('Outline and Filled root presentation runtime', () => {
       expect(markup).toContain('fill="#F4900C"');
       expect(markup).toContain('fill="#FFCC4D"');
       expect(markup).toMatch(/clip-path="url\(#cometal-[^)]+clip0_381_25439\)"/);
+      expect([...markup.matchAll(/<path\b/g)]).toHaveLength(14);
+      expect(markup).not.toContain('#F5F5F5');
+      expect(markup).not.toMatch(/M-\d+ -7140/);
     }
 
     const repeated = renderToStaticMarkup(<><EmojiSmIcon /><EmojiSmIcon /></>);
@@ -74,7 +77,7 @@ describe('Outline and Filled root presentation runtime', () => {
   it('retains the accepted runtime digests after Filled and Feature root preservation', async () => {
     const expected = {
       filled: ['2c4e1ebbc82bef598b6b7add80c4ced144367de8e729af07f77e01824ddd1833', 877],
-      'feature-icons-and-logos': ['c313b5f6fd8aee04ea918ea0a282f3b60e9276bfdf02c3d40972e8b204e4cc06', 1058],
+      'feature-icons-and-logos': ['4ff3c7922447c208cbbd8aded8f33743a1dd1414d10ebeb65db0b5b06a8774d3', 1058],
     } as const;
     for (const [library, [expectedDigest, expectedCount]] of Object.entries(expected)) {
       const records = iconManifest
