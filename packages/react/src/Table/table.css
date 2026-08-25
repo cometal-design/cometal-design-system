@@ -271,6 +271,7 @@
 }
 
 .cometal-table__filter-control {
+  position: relative;
   display: flex;
   min-width: 0;
   min-height: calc(var(--cometal-component-table-header-height) - var(--cometal-table-border-width));
@@ -278,7 +279,50 @@
   padding-inline: var(--cometal-component-table-header-inset-start) var(--cometal-component-table-header-inset-end);
 }
 
-.cometal-table__filter-control > * {
+.cometal-table__filter-control[data-has-action] .cometal-field__control,
+.cometal-table__filter-control[data-has-action] .cometal-field__select-trigger,
+.cometal-table__filter-control[data-has-action] .cometal-field__combobox-control {
+  padding-inline-end: calc(var(--cometal-primitive-size-24) + var(--cometal-primitive-spacing-100));
+}
+
+.cometal-table__filter-action {
+  position: absolute;
+  top: 50%;
+  right: calc(var(--cometal-component-table-header-inset-end) + var(--cometal-primitive-spacing-50));
+  display: inline-flex;
+  width: var(--cometal-primitive-size-24);
+  height: var(--cometal-primitive-size-24);
+  align-items: center;
+  justify-content: center;
+  transform: translateY(-50%);
+}
+
+.cometal-table__filter-action-button {
+  display: inline-flex;
+  width: var(--cometal-primitive-size-24);
+  height: var(--cometal-primitive-size-24);
+  align-items: center;
+  justify-content: center;
+  padding: 0;
+  border: 0;
+  border-radius: var(--cometal-primitive-radius-100);
+  background: transparent;
+  color: var(--cometal-component-table-header-icon-context-action);
+  cursor: pointer;
+}
+
+.cometal-table__filter-action-button:hover,
+.cometal-table__filter-action-button[aria-expanded='true'] {
+  background: var(--cometal-component-table-header-surface-context-action-hover);
+}
+
+.cometal-table__filter-action-icon {
+  display: block;
+  width: 12px;
+  height: 12px;
+}
+
+.cometal-table__filter-control > :not(.cometal-table__filter-action) {
   width: 100%;
   min-width: 0;
 }
@@ -380,8 +424,21 @@
   box-shadow: inset 0 calc(var(--cometal-primitive-stroke-200) * -1) var(--cometal-semantic-color-global-state-focus-ring);
 }
 
-.cometal-table__cell:not([data-state='disabled']):hover {
+.cometal-table[data-mode='edit'] .cometal-table__body .cometal-table__cell[data-state='default']:hover {
   background: var(--cometal-table-hover);
+}
+
+.cometal-table[data-mode='read'] .cometal-table__body .cometal-table__row:not([data-row-selected]):hover > .cometal-table__cell[data-state='default'] {
+  background: var(--cometal-table-hover);
+}
+
+.cometal-table__cell[data-editable] {
+  cursor: text;
+}
+
+.cometal-table__cell[data-editable]:focus-visible {
+  outline: var(--cometal-primitive-stroke-200) solid var(--cometal-semantic-color-global-state-focus-ring);
+  outline-offset: calc(var(--cometal-primitive-stroke-100) * -1);
 }
 
 .cometal-table__cell[data-state='hover'] {

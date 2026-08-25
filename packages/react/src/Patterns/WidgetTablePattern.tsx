@@ -7,7 +7,7 @@ import { DatePicker } from '../DatePicker/DatePicker';
 import { Select, TextField } from '../Field/Field';
 import {
   Table, TableBody, TableCell, TableContextAction, TableDragCell, TableDragHandle,
-  TableFileCell, TableFilterCell, TableFilterRow, TableHeaderCell, TableHead,
+  TableFileCell, TableFilterAction, TableFilterCell, TableFilterRow, TableHeaderCell, TableHead,
   TableIndexCell, TablePaginator, TableRow, TableSelectionCell, TableSelectionHeader,
   TableSummaryCell, reorderTableRows,
 } from '../Table/Table';
@@ -77,6 +77,13 @@ function HeaderAction({ label }: { label: string }) {
   return <TableContextAction label={`Действия колонки ${label}`} menuLabel={`Действия колонки ${label}`} menu={<HeaderMenu />} />;
 }
 
+const filterOperators = {
+  text: ['Содержит', 'Не содержит', 'Начинается с', 'Пусто'],
+  number: ['Равно', 'Не равно', 'Больше', 'Меньше'],
+  date: ['Дата равна', 'До даты', 'После даты', 'Период'],
+  select: ['Равно', 'Не равно', 'Выбрано', 'Не выбрано'],
+} as const;
+
 export interface WidgetTableReviewExampleProps {
   initialDensity?: TableDensity;
 }
@@ -92,6 +99,12 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable' }: Wid
   const [pageSize, setPageSize] = useState(10);
   const [query, setQuery] = useState('');
   const [status, setStatus] = useState('all');
+  const [operators, setOperators] = useState<Record<string, string>>({});
+  const operatorAction = (column: string, type: keyof typeof filterOperators) => {
+    const options = filterOperators[type];
+    const value = operators[column] ?? options[0];
+    return <TableFilterAction label={column} menu={options.map((option) => <ContextMenuItem key={option} selected={option === value} onClick={() => setOperators((current) => ({ ...current, [column]: option }))}>{option}</ContextMenuItem>)} />;
+  };
   const visibleRows = useMemo(() => orderedRows.filter((row) => {
     const matchesText = `${row[0]} ${row[1]} ${row[2]} ${row[10]}`.toLowerCase().includes(query.toLowerCase());
     const matchesStatus = status === 'all' || (status === 'approved' && row[8] === 'Согласован') || (status === 'review' && row[8] === 'На проверке') || (status === 'working' && row[8] === 'В работе') || (status === 'draft' && row[8] === 'Черновик');
@@ -117,7 +130,7 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable' }: Wid
 
   return (
     <WidgetTablePattern title="Спецификация позиций" description={`${visibleRows.length} строк · фильтры по колонкам ${filters ? 'включены' : 'выключены'}`} toolbar={toolbar} footer={<TablePaginator page={page} pageCount={9} onPageChange={setPage} pageSize={pageSize} onPageSizeChange={setPageSize} />}>
-      <Table density={density} aria-label="Спецификация позиций" onRowReorder={(event) => setOrderedRows((current) => reorderTableRows(current, event, (row) => row[0]))}>
+      <Table density={density} mode="edit" aria-label="Спецификация позиций" onRowReorder={(event) => setOrderedRows((current) => reorderTableRows(current, event, (row) => row[0]))} rowContextMenu={(rowId) => <><ContextMenuItem onClick={() => setSelected((current) => current.includes(rowId) ? current : [...current, rowId])}>Выбрать строку</ContextMenuItem><ContextMenuItem>Открыть позицию</ContextMenuItem><ContextMenuDivider /><ContextMenuItem tone="danger">Удалить строку</ContextMenuItem></>}>
         <TableHead>
           <TableRow>
             <TableHeaderCell kind="drag"><span className="cometal-widget-table-pattern__sr-only">Перемещение</span></TableHeaderCell>
@@ -139,25 +152,25 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable' }: Wid
           </TableRow>
           {filters ? <TableFilterRow aria-label="Фильтры таблицы">
             <TableFilterCell kind="drag" /><TableFilterCell kind="index" /><TableFilterCell kind="selection" />
-            <TableFilterCell><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по позиции" size="s" placeholder="Содержит" value={query} onChange={(event) => setQuery(event.currentTarget.value)} /></TableFilterCell>
-            <TableFilterCell><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по наименованию" size="s" placeholder="Содержит" /></TableFilterCell>
-            <TableFilterCell><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по марке" size="s" placeholder="Содержит" /></TableFilterCell>
-            <TableFilterCell><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по количеству" size="s" placeholder="Равно" inputMode="numeric" /></TableFilterCell>
-            <TableFilterCell><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по единице" size="s" placeholder="Равно" /></TableFilterCell>
-            <TableFilterCell><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по цене" size="s" placeholder="Равно" inputMode="numeric" /></TableFilterCell>
-            <TableFilterCell><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по сумме" size="s" placeholder="Равно" inputMode="numeric" /></TableFilterCell>
-            <TableFilterCell><DatePicker className="cometal-widget-table-pattern__filter" label="Фильтр по дате" size="s" placeholder="Дата равна" /></TableFilterCell>
-            <TableFilterCell><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по документу" size="s" placeholder="Содержит" /></TableFilterCell>
-            <TableFilterCell><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по файлу" size="s" placeholder="Содержит" /></TableFilterCell>
-            <TableFilterCell><Select className="cometal-widget-table-pattern__filter" label="Фильтр по статусу" size="s" options={statusOptions} value={status} onValueChange={setStatus} /></TableFilterCell>
-            <TableFilterCell><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по контролю" size="s" placeholder="Равно" /></TableFilterCell>
-            <TableFilterCell><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по поставщику" size="s" placeholder="Равно" /></TableFilterCell>
+            <TableFilterCell action={operatorAction('Позиция', 'text')}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по позиции" size="s" placeholder={operators.Позиция ?? 'Содержит'} value={query} onChange={(event) => setQuery(event.currentTarget.value)} /></TableFilterCell>
+            <TableFilterCell action={operatorAction('Наименование', 'text')}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по наименованию" size="s" placeholder={operators.Наименование ?? 'Содержит'} /></TableFilterCell>
+            <TableFilterCell action={operatorAction('Марка', 'text')}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по марке" size="s" placeholder={operators.Марка ?? 'Содержит'} /></TableFilterCell>
+            <TableFilterCell action={operatorAction('Количество', 'number')}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по количеству" size="s" placeholder={operators.Количество ?? 'Равно'} inputMode="numeric" /></TableFilterCell>
+            <TableFilterCell action={operatorAction('Единица', 'select')}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по единице" size="s" placeholder={operators.Единица ?? 'Равно'} /></TableFilterCell>
+            <TableFilterCell action={operatorAction('Цена', 'number')}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по цене" size="s" placeholder={operators.Цена ?? 'Равно'} inputMode="numeric" /></TableFilterCell>
+            <TableFilterCell action={operatorAction('Сумма', 'number')}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по сумме" size="s" placeholder={operators.Сумма ?? 'Равно'} inputMode="numeric" /></TableFilterCell>
+            <TableFilterCell action={operatorAction('Дата поставки', 'date')}><DatePicker className="cometal-widget-table-pattern__filter" label="Фильтр по дате" size="s" placeholder={operators['Дата поставки'] ?? 'Дата равна'} /></TableFilterCell>
+            <TableFilterCell action={operatorAction('Документ', 'text')}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по документу" size="s" placeholder={operators.Документ ?? 'Содержит'} /></TableFilterCell>
+            <TableFilterCell action={operatorAction('Файл', 'text')}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по файлу" size="s" placeholder={operators.Файл ?? 'Содержит'} /></TableFilterCell>
+            <TableFilterCell action={operatorAction('Статус', 'select')}><Select className="cometal-widget-table-pattern__filter" label="Фильтр по статусу" size="s" options={statusOptions} value={status} onValueChange={setStatus} /></TableFilterCell>
+            <TableFilterCell action={operatorAction('Контроль', 'select')}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по контролю" size="s" placeholder={operators.Контроль ?? 'Равно'} /></TableFilterCell>
+            <TableFilterCell action={operatorAction('Поставщик', 'select')}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по поставщику" size="s" placeholder={operators.Поставщик ?? 'Равно'} /></TableFilterCell>
           </TableFilterRow> : null}
         </TableHead>
         <TableBody>
           {visibleRows.map((row, index) => {
             const sum = row[3] * row[5];
-            return <TableRow key={row[0]} reorderId={row[0]} selected={selected.includes(row[0])}>
+            return <TableRow key={row[0]} rowId={row[0]} reorderId={row[0]} selected={selected.includes(row[0])}>
               <TableDragCell><TableDragHandle rowLabel={row[0]} /></TableDragCell>
               <TableIndexCell>{index + 1}</TableIndexCell>
               <TableSelectionCell label={`Выбрать ${row[0]}`} checked={selected.includes(row[0])} onCheckedChange={(checked) => setSelected((current) => checked ? [...current, row[0]] : current.filter((value) => value !== row[0]))} />

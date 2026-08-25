@@ -9,6 +9,7 @@ import {
   TableDragHandle,
   TableFileCell,
   TableFileIcon,
+  TableFilterAction,
   TableFilterCell,
   TableFilterRow,
   TableHeaderCell,
@@ -70,6 +71,23 @@ describe('Table', () => {
     expect(html).toContain('cometal-table__filter-row');
     expect(html).toContain('Фильтр позиции');
     expect(html).not.toContain('cometal-table__header-filter');
+  });
+
+  it('publishes read/edit interaction modes, filter actions and row menu identities', () => {
+    const html = renderToStaticMarkup(
+      <Table mode="edit" aria-label="Редактирование" rowContextMenu={() => <ContextMenuItem>Открыть</ContextMenuItem>}>
+        <TableHead><TableFilterRow><TableFilterCell action={<TableFilterAction label="Позиция" menu={<ContextMenuItem>Содержит</ContextMenuItem>} />}><input aria-label="Фильтр" /></TableFilterCell></TableFilterRow></TableHead>
+        <TableBody><TableRow rowId="POS-001"><TableCell editable onEditStart={() => undefined}>Значение</TableCell></TableRow></TableBody>
+      </Table>,
+    );
+
+    expect(html).toContain('data-mode="edit"');
+    expect(html).toContain('data-row-context-menu="true"');
+    expect(html).toContain('data-row-id="POS-001"');
+    expect(html).toContain('data-editable="true"');
+    expect(html).toContain('tabindex="0"');
+    expect(html).toContain('cometal-table__filter-action-button');
+    expect(html).toContain('width="12" height="12"');
   });
 
   it('keeps source utility families semantic and density-owned', () => {

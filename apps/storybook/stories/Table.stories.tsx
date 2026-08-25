@@ -1,15 +1,15 @@
 import { useMemo, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, userEvent, within } from 'storybook/test';
+import { expect, fireEvent, userEvent, within } from 'storybook/test';
 import {
   Badge, Button, ContextMenuDivider, ContextMenuItem, DatePicker, DateRangePicker, Select,
   Table, TableBody, TableCell, TableContextAction, TableDragCell, TableDragHandle,
-  TableFileCell, TableFileIcon, TableFilterCell, TableFilterRow, TableHeaderCell, TableHead,
+  TableFileCell, TableFileIcon, TableFilterAction, TableFilterCell, TableFilterRow, TableHeaderCell, TableHead,
   TableIndexCell, TablePaginator, TableRow, TableSelectionCell, TableSelectionHeader,
   TableSummaryCell, TextField, tableDensities, tableDocumentationSections, tableFileTypes,
   tableFigmaSources, tableSourceFamilies, tableStandaloneSources, reorderTableRows,
 } from '@cometal/react';
-import type { TableCellState, TableDensity, TableFileType, TableSortDirection } from '@cometal/react';
+import type { TableCellState, TableDensity, TableFileType, TableMode, TableSortDirection } from '@cometal/react';
 import { ComponentCodeExample } from './ComponentCodeExample';
 
 const SOURCE_URL = 'https://github.com/cometal-design/cometal-design-system/blob/main/packages/react/src/Table/Table.tsx';
@@ -91,13 +91,23 @@ function HeaderAction({ column, visualState }: { column: string; visualState?: '
   return <TableContextAction className={stateClass} defaultOpen={visualState === 'open'} label={`Действия колонки ${column}`} menuLabel={`Действия колонки ${column}`} menu={<ColumnMenu />} />;
 }
 
-function SourceTable({ density = 'comfortable', filters = true, ariaLabel = 'Позиции закупки' }: { density?: TableDensity; filters?: boolean; ariaLabel?: string }) {
+const textFilterOperators = ['Содержит', 'Не содержит', 'Начинается с', 'Пусто'] as const;
+const numberFilterOperators = ['Равно', 'Не равно', 'Больше', 'Меньше'] as const;
+const selectFilterOperators = ['Равно', 'Не равно', 'Выбрано', 'Не выбрано'] as const;
+
+function FilterOperatorAction({ column, value, options, onChange }: { column: string; value: string; options: readonly string[]; onChange: (value: string) => void }) {
+  return <TableFilterAction label={column} menu={options.map((option) => <ContextMenuItem key={option} selected={option === value} onClick={() => onChange(option)}>{option}</ContextMenuItem>)} />;
+}
+
+function SourceTable({ density = 'comfortable', filters = true, ariaLabel = 'Позиции закупки', mode = 'read' }: { density?: TableDensity; filters?: boolean; ariaLabel?: string; mode?: TableMode }) {
   const [orderedRows, setOrderedRows] = useState(() => [...sourceRows]);
   const [selected, setSelected] = useState<number[]>([2]);
   const [sort, setSort] = useState<TableSortDirection>('ascending');
+  const [editingCell, setEditingCell] = useState<number | null>(null);
+  const [operators, setOperators] = useState({ position: 'Содержит', name: 'Содержит', quantity: 'Равно', status: 'Равно', file: 'Содержит' });
   const toggleAll = (checked: boolean) => setSelected(checked ? orderedRows.map((row) => row.id) : []);
   return (
-    <Table density={density} aria-label={ariaLabel} className="ds-table-source-example" onRowReorder={(event) => setOrderedRows((current) => reorderTableRows(current, event, (row) => String(row.id)))}>
+    <Table density={density} mode={mode} aria-label={ariaLabel} className="ds-table-source-example" onRowReorder={mode === 'edit' ? (event) => setOrderedRows((current) => reorderTableRows(current, event, (row) => String(row.id))) : undefined} rowContextMenu={(rowId) => <><ContextMenuItem onClick={() => setSelected((current) => current.includes(Number(rowId)) ? current : [...current, Number(rowId)])}>Выбрать строку</ContextMenuItem><ContextMenuItem>Открыть позицию</ContextMenuItem>{mode === 'edit' ? <><ContextMenuDivider /><ContextMenuItem tone="danger">Удалить строку</ContextMenuItem></> : null}</>}>
       <TableHead>
         <TableRow>
           <TableHeaderCell kind="drag"><span className="sr-only">Перемещение</span></TableHeaderCell>
@@ -111,19 +121,19 @@ function SourceTable({ density = 'comfortable', filters = true, ariaLabel = 'П�
         </TableRow>
         {filters ? <TableFilterRow aria-label="Фильтры таблицы">
           <TableFilterCell kind="drag" /><TableFilterCell kind="index" /><TableFilterCell kind="selection" />
-          <TableFilterCell><TextField className="ds-table-filter-field" label="Фильтр по позиции" size="s" placeholder="Найти" /></TableFilterCell>
-          <TableFilterCell><TextField className="ds-table-filter-field" label="Фильтр по наименованию" size="s" placeholder="Найти" /></TableFilterCell>
-          <TableFilterCell><TextField className="ds-table-filter-field" label="Фильтр по количеству" size="s" inputMode="numeric" placeholder="0" /></TableFilterCell>
-          <TableFilterCell><Select className="ds-table-filter-field" label="Фильтр по статусу" size="s" options={statusOptions} defaultValue="all" /></TableFilterCell>
-          <TableFilterCell><TextField className="ds-table-filter-field" label="Фильтр по файлу" size="s" placeholder="Найти" /></TableFilterCell>
+          <TableFilterCell action={<FilterOperatorAction column="Позиция" value={operators.position} options={textFilterOperators} onChange={(value) => setOperators((current) => ({ ...current, position: value }))} />}><TextField className="ds-table-filter-field" label="Фильтр по позиции" size="s" placeholder={operators.position} /></TableFilterCell>
+          <TableFilterCell action={<FilterOperatorAction column="Наименование" value={operators.name} options={textFilterOperators} onChange={(value) => setOperators((current) => ({ ...current, name: value }))} />}><TextField className="ds-table-filter-field" label="Фильтр по наименованию" size="s" placeholder={operators.name} /></TableFilterCell>
+          <TableFilterCell action={<FilterOperatorAction column="Количество" value={operators.quantity} options={numberFilterOperators} onChange={(value) => setOperators((current) => ({ ...current, quantity: value }))} />}><TextField className="ds-table-filter-field" label="Фильтр по количеству" size="s" inputMode="numeric" placeholder={operators.quantity} /></TableFilterCell>
+          <TableFilterCell action={<FilterOperatorAction column="Статус" value={operators.status} options={selectFilterOperators} onChange={(value) => setOperators((current) => ({ ...current, status: value }))} />}><Select className="ds-table-filter-field" label="Фильтр по статусу" size="s" options={statusOptions} defaultValue="all" /></TableFilterCell>
+          <TableFilterCell action={<FilterOperatorAction column="Файл" value={operators.file} options={textFilterOperators} onChange={(value) => setOperators((current) => ({ ...current, file: value }))} />}><TextField className="ds-table-filter-field" label="Фильтр по файлу" size="s" placeholder={operators.file} /></TableFilterCell>
         </TableFilterRow> : null}
       </TableHead>
       <TableBody>
-        {orderedRows.map((row, index) => <TableRow key={row.id} reorderId={String(row.id)} selected={selected.includes(row.id)}>
-          <TableDragCell><TableDragHandle rowLabel={row.position} /></TableDragCell>
+        {orderedRows.map((row, index) => <TableRow key={row.id} rowId={String(row.id)} reorderId={mode === 'edit' ? String(row.id) : undefined} selected={selected.includes(row.id)}>
+          <TableDragCell><TableDragHandle rowLabel={row.position} disabled={mode === 'read'} /></TableDragCell>
           <TableIndexCell>{index + 1}</TableIndexCell>
           <TableSelectionCell label={`Выбрать строку ${row.id}`} checked={selected.includes(row.id)} onCheckedChange={(checked) => setSelected((current) => checked ? [...current, row.id] : current.filter((id) => id !== row.id))} />
-          <TableCell state={row.id === 2 ? 'selected' : 'default'}>{row.position}</TableCell>
+          <TableCell editable state={editingCell === row.id ? 'editing' : 'default'} onEditStart={() => setEditingCell(row.id)}>{editingCell === row.id ? <TextField className="ds-table-filter-field" label={`Позиция ${row.position}`} size="s" defaultValue={row.position} autoFocus onBlur={() => setEditingCell(null)} /> : row.position}</TableCell>
           <TableCell state={row.id === 3 ? 'error' : 'default'}>{row.name}</TableCell>
           <TableCell align="end">{row.quantity}</TableCell><TableCell><Badge tone={row.tone}>{row.status}</Badge></TableCell>
           <TableFileCell fileName={row.file} fileSize={row.size} fileType={row.type} />
@@ -138,7 +148,7 @@ function OverviewPage() {
   const [page, setPage] = useState(1); const [pageSize, setPageSize] = useState(10);
   return <main className="ds-component-page ds-table-page">
     <header className="ds-component-hero"><div><span className="ds-eyebrow">COMPONENT FAMILY · WEB · IN REVIEW</span><h1>Table</h1><p>Семейство таблицы из 16 source families. Figma задаёт визуальный и композиционный контракт, React сохраняет нативную HTML table-семантику и минимальный поведенческий API.</p></div><a href={tableFigmaSources.sources} target="_blank" rel="noreferrer">Открыть Sources в Figma ↗</a></header>
-    <section className="ds-component-section"><div className="ds-component-section__intro"><span>01</span><div><h2>Рабочая композиция</h2><p>Первый ряд header содержит названия и действия колонок. Второй независимый ряд синхронно содержит фильтры. Плотность меняет body, но header остаётся 48px.</p></div></div><div className="ds-table-demo"><SourceTable /></div><TablePaginator page={page} pageCount={8} onPageChange={setPage} pageSize={pageSize} onPageSizeChange={setPageSize} /></section>
+    <section className="ds-component-section"><div className="ds-component-section__intro"><span>01</span><div><h2>Read и Edit</h2><p>Read подсвечивает строку целиком. Edit подсвечивает ячейку, открывает controlled edit по click/Enter/F2 и разрешает reorder. Оба режима используют filter action и row context menu.</p></div></div><h3>Read</h3><div className="ds-table-demo"><SourceTable mode="read" ariaLabel="Позиции закупки · чтение" /></div><h3>Edit</h3><div className="ds-table-demo"><SourceTable mode="edit" ariaLabel="Позиции закупки · редактирование" /></div><TablePaginator page={page} pageCount={8} onPageChange={setPage} pageSize={pageSize} onPageSizeChange={setPageSize} /></section>
     <section className="ds-component-section"><div className="ds-component-section__intro"><span>02</span><div><h2>Состав источников</h2><p>Ровно 16 Figma Component Sets и 5 standalone sources. Каждое семейство показано в Cells, Headers, Columns и Paginator; variant count — evidence, а не React props.</p></div></div><div className="ds-table-source-grid">{tableSourceFamilies.map((family) => <article key={family.id}><code>{family.id}</code><h3>{family.label}</h3><p>{family.variants} variants</p><a href={family.source} target="_blank" rel="noreferrer">Figma source ↗</a></article>)}</div><h3 className="ds-table-standalone-title">5 standalone sources</h3><div className="ds-table-source-grid">{tableStandaloneSources.map((source) => <article key={source.id}><code>{source.id}</code><h3>{source.label}</h3><p>Standalone source</p><a href={source.source} target="_blank" rel="noreferrer">Figma source ↗</a></article>)}</div></section>
     <section className="ds-component-section"><div className="ds-component-section__intro"><span>03</span><div><h2>Разделы документации</h2><p>Cells, Headers, Columns и Paginator раскрываются самостоятельными stories; служебные primitives не теряются внутри одного большого стенда.</p></div></div><div className="ds-table-doc-index">{tableDocumentationSections.map((section, index) => <article key={section.id}><span>{String(index + 1).padStart(2, '0')}</span><strong>{section.label}</strong></article>)}</div></section>
     <section className="ds-component-section"><div className="ds-component-section__intro"><span>04</span><div><h2>Код</h2><p>Публичный API разделяет table, header/filter row, cell families, selection, file content, summary и paginator.</p></div></div><ComponentCodeExample componentId="data-display.table" componentName="Table" sourceHref={SOURCE_URL} /></section>
@@ -235,15 +245,16 @@ export const Overview: Story = {
   render: () => <OverviewPage />,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const table = canvas.getByRole('table', { name: 'Позиции закупки' });
+    const table = canvas.getByRole('table', { name: 'Позиции закупки · редактирование' });
     await expect(within(table).getAllByRole('row')).toHaveLength(7);
     await expect(within(table).getByRole('row', { name: /Фильтры таблицы/i })).toBeVisible();
     await expect(canvas.getByRole('navigation', { name: 'Пагинация таблицы' })).toBeVisible();
 
-    const contextAction = canvas.getByRole('button', { name: 'Действия колонки Позиция' });
+    const tableCanvas = within(table);
+    const contextAction = tableCanvas.getByRole('button', { name: 'Действия колонки Позиция' });
     const contextIcon = contextAction.querySelector('svg');
     const contextGlyphs = Array.from(contextAction.querySelectorAll('path'));
-    const dragHandle = canvas.getByRole('button', { name: 'Переместить строку POS-00127' });
+    const dragHandle = tableCanvas.getByRole('button', { name: 'Переместить строку POS-00127' });
     const dragIcon = dragHandle.querySelector('svg');
     await expect(contextAction.getBoundingClientRect().width).toBe(24);
     await expect(contextAction.getBoundingClientRect().height).toBe(24);
@@ -255,6 +266,18 @@ export const Overview: Story = {
     await expect(Math.round((firstDot?.height ?? 0) * 1000) / 1000).toBe(3.333);
     await expect(dragIcon).toHaveAttribute('data-cometal-table-icon', 'drag-handle');
     await expect(dragIcon?.querySelector('path')).toHaveAttribute('d', 'M6 9H18M6 15H18');
+    const filterAction = tableCanvas.getByRole('button', { name: 'Параметры фильтра: Позиция' });
+    await expect(filterAction.getBoundingClientRect().width).toBe(24);
+    await expect(filterAction.getBoundingClientRect().height).toBe(24);
+    await expect(filterAction.querySelector('svg')?.getBoundingClientRect().width).toBe(12);
+    await userEvent.click(filterAction);
+    await userEvent.click(within(document.body).getByRole('menuitem', { name: 'Не содержит' }));
+    await expect(tableCanvas.getByRole('textbox', { name: 'Фильтр по позиции' })).toHaveAttribute('placeholder', 'Не содержит');
+    const firstRow = table.querySelector<HTMLTableRowElement>('tbody tr[data-row-id="1"]');
+    if (!firstRow) throw new Error('Expected row 1');
+    fireEvent.contextMenu(firstRow, { clientX: 320, clientY: 420 });
+    await expect(within(document.body).getByRole('menuitem', { name: 'Открыть позицию' })).toBeVisible();
+    await userEvent.click(within(document.body).getByRole('menuitem', { name: 'Открыть позицию' }));
     dragHandle.focus();
     await userEvent.keyboard('{Space}');
     await expect(dragHandle).toHaveAttribute('aria-pressed', 'true');

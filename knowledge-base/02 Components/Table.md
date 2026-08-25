@@ -18,9 +18,12 @@
 
 - Нативная table-семантика с независимыми Cells, Headers, Columns и Paginator.
 - Первый header row содержит названия колонок; второй отдельный Filter Row содержит поля и контролы фильтрации.
+- Filter Row использует `TableFilterAction` с канонической filter icon и общим Context Menu для смены оператора поля; оператор и значение фильтра остаются consumer-owned state.
 - Comfortable 48px и Compact 40px; Header всегда 48px.
 - Плотность не должна сбрасывать значения, badge settings или file metadata.
 - Строка может быть selected; отдельная ячейка может быть active, selected/editing, error или disabled.
+- Read и Edit — разные interaction modes: Read подсвечивает строку целиком, Edit подсвечивает ячейку и запускает controlled editing по click/Enter/F2.
+- Row context menu открывается общим `ContextMenu` по правому клику и получает стабильный `rowId`; локальные menu implementations внутри таблицы запрещены.
 - File metadata используют IBM Plex Mono через `Technical/S/Default` и скрываются только визуально в Compact.
 - `TableFileIcon` является inline SVG: ref имеет тип `SVGSVGElement`, прежние image-пропы `src`/`alt` удаляются; standalone-смысл задаётся через `aria-label`, декоративное использование — через `aria-hidden`.
 - Все outline icons используют глобальный `Stroke/140 = 1.4px`.

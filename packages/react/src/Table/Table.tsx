@@ -3,6 +3,7 @@ import type {
   ButtonHTMLAttributes,
   HTMLAttributes,
   KeyboardEvent as ReactKeyboardEvent,
+  MouseEvent as ReactMouseEvent,
   PointerEvent as ReactPointerEvent,
   ReactNode,
   SVGAttributes,
@@ -14,6 +15,7 @@ import { Checkbox } from '../Selection/Selection';
 import { ContextMenu } from '../ContextMenu/ContextMenu';
 import { Select } from '../Field/Field';
 import DotHorizontalFilledIcon from '../icons/generated/components/filled/general/dot-horizontal-filled';
+import FilterIcon from '../icons/generated/components/outline/general/filter';
 import ArrowLeftIcon from '../icons/generated/components/outline/arrows/arrow-left';
 import ArrowRightIcon from '../icons/generated/components/outline/arrows/arrow-right';
 import ArrowUpSmallIcon from '../icons/generated/components/outline/arrows/arrow-up-sm';
@@ -36,6 +38,7 @@ export const tableFileTypes = ['word', 'excel', 'file', 'doc', 'sheets', 'adobe'
 export type TableDensity = (typeof tableDensities)[number];
 export type TableCellState = (typeof tableCellStates)[number];
 export type TableFileType = (typeof tableFileTypes)[number];
+export type TableMode = 'read' | 'edit';
 export type TableRowDropPosition = 'before' | 'after';
 
 export interface TableRowReorderEvent {
@@ -75,17 +78,35 @@ interface TableReorderContextValue {
 
 const TableReorderContext = createContext<TableReorderContextValue | null>(null);
 const TableRowReorderIdContext = createContext<string | null>(null);
+const TableModeContext = createContext<TableMode>('read');
+
+type TableRowMenuState = { rowId: string; x: number; y: number };
 
 export interface TableProps extends TableHTMLAttributes<HTMLTableElement> {
   density?: TableDensity;
+  /** Read tables highlight a whole row; edit tables expose cell-level interaction. */
+  mode?: TableMode;
   /** Accessible label for the internally scrollable table region. */
   'aria-label': string;
   /** Controlled row-order mutation. Rows participate when they expose a stable `reorderId`. */
   onRowReorder?: (event: TableRowReorderEvent) => void;
+  /** Renders the shared DS context menu opened by right-clicking a row. */
+  rowContextMenu?: (rowId: string) => ReactNode;
+  rowContextMenuLabel?: (rowId: string) => string;
 }
 
 export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
-  { density = 'comfortable', className, 'aria-label': ariaLabel, onRowReorder, ...tableProps },
+  {
+    density = 'comfortable',
+    mode = 'read',
+    className,
+    'aria-label': ariaLabel,
+    onRowReorder,
+    rowContextMenu,
+    rowContextMenuLabel = (rowId) => `Действия строки ${rowId}`,
+    onContextMenu,
+    ...tableProps
+  },
   ref,
 ) {
   const instructionId = useId();
@@ -94,6 +115,7 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
   const [overId, setOverId] = useState<string | null>(null);
   const [position, setPosition] = useState<TableRowDropPosition | null>(null);
   const [announcement, setAnnouncement] = useState('');
+  const [rowMenu, setRowMenu] = useState<TableRowMenuState | null>(null);
 
   const resetReorder = () => {
     setActiveId(null);
@@ -183,7 +205,18 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
     };
   }, [activeId, instructionId, interaction, onRowReorder, overId, position]);
 
+  const openRowMenu = (event: ReactMouseEvent<HTMLTableElement>) => {
+    onContextMenu?.(event);
+    if (!rowContextMenu || event.defaultPrevented) return;
+    const row = (event.target as Element).closest<HTMLTableRowElement>('tbody tr[data-row-id]');
+    const rowId = row?.dataset.rowId;
+    if (!rowId || row?.closest('table') !== event.currentTarget) return;
+    event.preventDefault();
+    setRowMenu({ rowId, x: event.clientX, y: event.clientY });
+  };
+
   return (
+    <TableModeContext.Provider value={mode}>
     <TableReorderContext.Provider value={reorderContext}>
       <div
         className="cometal-table-scroll"
@@ -208,14 +241,32 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
           className={['cometal-table', className].filter(Boolean).join(' ')}
           data-cometal-component="table"
           data-density={density}
+          data-mode={mode}
           data-reorderable={onRowReorder ? true : undefined}
+          data-row-context-menu={rowContextMenu ? true : undefined}
+          onContextMenu={openRowMenu}
         />
         {onRowReorder ? <>
           <span id={instructionId} className="cometal-table__visually-hidden">Нажмите Пробел или Enter, затем используйте стрелки вверх и вниз. Повторное нажатие завершает перемещение.</span>
           <span className="cometal-table__visually-hidden" aria-live="polite" aria-atomic="true">{announcement}</span>
         </> : null}
+        {rowContextMenu && rowMenu ? (
+          <ContextMenu
+            anchor="pointer"
+            pointerPosition={{ x: rowMenu.x, y: rowMenu.y }}
+            open
+            onOpenChange={(open) => { if (!open) setRowMenu(null); }}
+            clickOpens={false}
+            contextOpens={false}
+            size="s"
+            trigger={<button className="cometal-table__visually-hidden" type="button" tabIndex={-1} aria-label={rowContextMenuLabel(rowMenu.rowId)} />}
+          >
+            {rowContextMenu(rowMenu.rowId)}
+          </ContextMenu>
+        ) : null}
       </div>
     </TableReorderContext.Provider>
+    </TableModeContext.Provider>
   );
 });
 
@@ -236,15 +287,18 @@ export interface TableRowProps extends HTMLAttributes<HTMLTableRowElement> {
   selected?: boolean;
   /** Stable business identifier used by controlled row reordering. */
   reorderId?: string;
+  /** Stable business identifier used by delegated row actions such as context menus. */
+  rowId?: string;
 }
 
 export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(function TableRow(
-  { selected = false, reorderId, className, children, ...props },
+  { selected = false, reorderId, rowId, className, children, ...props },
   ref,
 ) {
   const reorder = useContext(TableReorderContext);
   const dragging = Boolean(reorderId && reorder?.activeId === reorderId);
   const dropPosition = reorderId && reorder?.overId === reorderId ? reorder.position : null;
+  const resolvedRowId = rowId ?? reorderId;
   return <TableRowReorderIdContext.Provider value={reorderId ?? null}>
     <tr
       {...props}
@@ -252,6 +306,7 @@ export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(function 
       className={['cometal-table__row', className].filter(Boolean).join(' ')}
       data-row-selected={selected || undefined}
       data-reorder-id={reorderId}
+      data-row-id={resolvedRowId}
       data-row-dragging={dragging || undefined}
       data-drop-position={dropPosition ?? undefined}
     >{children}</tr>
@@ -312,15 +367,20 @@ export const TableFilterRow = forwardRef<HTMLTableRowElement, HTMLAttributes<HTM
 
 export interface TableFilterCellProps extends ThHTMLAttributes<HTMLTableCellElement> {
   kind?: 'default' | 'index' | 'selection' | 'drag';
+  /** Filter operator/action rendered inside the filter control. */
+  action?: ReactNode;
 }
 
 export const TableFilterCell = forwardRef<HTMLTableCellElement, TableFilterCellProps>(
-  function TableFilterCell({ kind = 'default', children, className, 'aria-label': ariaLabel, ...props }, ref) {
+  function TableFilterCell({ kind = 'default', action, children, className, 'aria-label': ariaLabel, ...props }, ref) {
     const emptyLabel = kind === 'drag' ? 'Без фильтра перемещения' : kind === 'index' ? 'Без фильтра номера' : kind === 'selection' ? 'Без фильтра выбора' : 'Без фильтра';
     return (
       <th {...props} ref={ref} className={['cometal-table__filter-cell', className].filter(Boolean).join(' ')} data-kind={kind}>
         {children ? (
-          <div className="cometal-table__filter-control">{children}</div>
+          <div className="cometal-table__filter-control" data-has-action={action ? true : undefined}>
+            {children}
+            {action ? <span className="cometal-table__filter-action">{action}</span> : null}
+          </div>
         ) : (
           <span className="cometal-table__visually-hidden">{ariaLabel ?? emptyLabel}</span>
         )}
@@ -334,15 +394,49 @@ export interface TableCellProps extends Omit<TdHTMLAttributes<HTMLTableCellEleme
   align?: 'start' | 'center' | 'end';
   leading?: ReactNode;
   trailing?: ReactNode;
+  /** Enables controlled edit entry when the parent Table is in edit mode. */
+  editable?: boolean;
+  onEditStart?: () => void;
 }
 
 export const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(function TableCell(
-  { state = 'default', align = 'start', leading, trailing, children, className, 'aria-disabled': ariaDisabled, ...props },
+  {
+    state = 'default', align = 'start', leading, trailing, editable = false, onEditStart,
+    children, className, 'aria-disabled': ariaDisabled, onClick, onKeyDown, tabIndex, ...props
+  },
   ref,
 ) {
   const disabled = state === 'disabled' || ariaDisabled === true;
+  const mode = useContext(TableModeContext);
+  const canEdit = mode === 'edit' && editable && !disabled;
+  const startEdit = () => onEditStart?.();
   return (
-    <td {...props} ref={ref} aria-disabled={disabled || undefined} aria-invalid={state === 'error' || undefined} className={['cometal-table__cell', className].filter(Boolean).join(' ')} data-state={state} data-align={align}>
+    <td
+      {...props}
+      ref={ref}
+      aria-disabled={disabled || undefined}
+      aria-invalid={state === 'error' || undefined}
+      className={['cometal-table__cell', className].filter(Boolean).join(' ')}
+      data-state={state}
+      data-align={align}
+      data-editable={canEdit || undefined}
+      tabIndex={canEdit ? (tabIndex ?? 0) : tabIndex}
+      onClick={(event) => {
+        onClick?.(event);
+        if (!canEdit || event.defaultPrevented) return;
+        const target = event.target as Element;
+        if (target.closest('button, input, select, textarea, a[href]')) return;
+        startEdit();
+      }}
+      onKeyDown={(event) => {
+        onKeyDown?.(event);
+        if (!canEdit || event.defaultPrevented || event.currentTarget !== event.target) return;
+        if (event.key === 'Enter' || event.key === 'F2') {
+          event.preventDefault();
+          startEdit();
+        }
+      }}
+    >
       <div className="cometal-table__cell-content">
         {leading ? <span className="cometal-table__cell-leading">{leading}</span> : null}
         <span className="cometal-table__cell-value">{children}</span>
@@ -444,6 +538,25 @@ export interface TableContextActionProps extends Omit<ButtonHTMLAttributes<HTMLB
   /** Documentation and controlled compositions can expose the approved Open state. */
   defaultOpen?: boolean;
 }
+
+export interface TableFilterActionProps extends Omit<TableContextActionProps, 'label' | 'menuLabel'> {
+  label: string;
+}
+
+export const TableFilterAction = forwardRef<HTMLButtonElement, TableFilterActionProps>(
+  function TableFilterAction({ label, menu, defaultOpen = false, className, ...props }, ref) {
+    return (
+      <ContextMenu
+        aria-label={`Параметры фильтра: ${label}`}
+        defaultOpen={defaultOpen}
+        size="s"
+        trigger={<button {...props} ref={ref} className={['cometal-table__filter-action-button', className].filter(Boolean).join(' ')} type="button" aria-label={`Параметры фильтра: ${label}`}><FilterIcon className="cometal-table__filter-action-icon" width={12} height={12} /></button>}
+      >
+        {menu}
+      </ContextMenu>
+    );
+  },
+);
 
 export const TableContextAction = forwardRef<HTMLButtonElement, TableContextActionProps>(
   function TableContextAction({ menu, label = 'Открыть действия колонки', menuLabel = 'Действия колонки', defaultOpen = false, className, ...props }, ref) {

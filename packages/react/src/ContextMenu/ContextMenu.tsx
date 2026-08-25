@@ -83,6 +83,8 @@ export interface ContextMenuProps extends HTMLAttributes<HTMLSpanElement> {
   defaultOpen?: boolean;
   onOpenChange?: (open: boolean) => void;
   anchor?: ContextMenuAnchor;
+  /** External pointer anchor for delegated context-menu triggers such as table rows. */
+  pointerPosition?: { x: number; y: number };
   clickOpens?: boolean;
   contextOpens?: boolean;
 }
@@ -96,6 +98,7 @@ export const ContextMenu = forwardRef<HTMLSpanElement, ContextMenuProps>(functio
     defaultOpen = false,
     onOpenChange,
     anchor = 'trigger',
+    pointerPosition,
     clickOpens = true,
     contextOpens = true,
     className,
@@ -116,6 +119,7 @@ export const ContextMenu = forwardRef<HTMLSpanElement, ContextMenuProps>(functio
   const [position, setPosition] = useState<ContextMenuPosition>({ top: -9999, left: -9999 });
   const [activeIndex, setActiveIndex] = useState(0);
   const [pointerAnchor, setPointerAnchor] = useState<{ x: number; y: number } | undefined>();
+  const resolvedPointerAnchor = pointerPosition ?? pointerAnchor;
   const isOpen = open ?? internalOpen;
 
   useEffect(() => () => {
@@ -147,7 +151,7 @@ export const ContextMenu = forwardRef<HTMLSpanElement, ContextMenuProps>(functio
     const handleScroll = () => {
       if (!menuRef.current) return;
       const triggerRect = triggerRef.current?.getBoundingClientRect();
-      setPosition(resolveMenuPosition(anchor, menuRef.current.getBoundingClientRect(), triggerRect, pointerAnchor));
+      setPosition(resolveMenuPosition(anchor, menuRef.current.getBoundingClientRect(), triggerRect, resolvedPointerAnchor));
     };
     const handleResize = () => closeMenu(false);
     window.addEventListener('resize', handleResize);
@@ -156,14 +160,14 @@ export const ContextMenu = forwardRef<HTMLSpanElement, ContextMenuProps>(functio
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('scroll', handleScroll, true);
     };
-  }, [anchor, isOpen, pointerAnchor]);
+  }, [anchor, isOpen, resolvedPointerAnchor]);
 
   useEffect(() => {
     if (!isOpen || !menuRef.current) return;
     const triggerRect = triggerRef.current?.getBoundingClientRect();
-    const next = resolveMenuPosition(anchor, menuRef.current.getBoundingClientRect(), triggerRect, pointerAnchor);
+    const next = resolveMenuPosition(anchor, menuRef.current.getBoundingClientRect(), triggerRect, resolvedPointerAnchor);
     setPosition(next);
-  }, [anchor, isOpen, pointerAnchor]);
+  }, [anchor, isOpen, resolvedPointerAnchor]);
 
   useEffect(() => {
     if (!isOpen || position.top < 0 || !menuRef.current) return;
