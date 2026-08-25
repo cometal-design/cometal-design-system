@@ -107,6 +107,7 @@
 .cometal-field__clear:focus-visible { outline: var(--cometal-semantic-stroke-global-state-focus) solid var(--cometal-semantic-color-global-state-focus-ring); outline-offset: var(--cometal-primitive-spacing-12); }
 .cometal-field__icon { display: inline-flex; align-items: center; justify-content: center; color: var(--cometal-component-input-icon-default); }
 .cometal-field__icon > svg, .cometal-field__icon > img, .cometal-field__asset > svg { display: block; width: 100%; height: 100%; }
+.cometal-field__asset.cometal-field__clear > svg { width: 80%; height: 80%; }
 .cometal-field__asset > svg { --cometal-icon-source-stroke: var(--cometal-primitive-stroke-140, 1.4px); }
 .cometal-field:hover .cometal-field__icon,
 .cometal-field:hover .cometal-field__asset { color: var(--cometal-component-input-icon-hover); }
