@@ -5,7 +5,9 @@ export const tableFigmaSources = {
   contextAction: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2482-5611',
   dragHandle: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2778-8288',
   paginator: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-10882',
+  composedPaginator: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2371-29654',
   headers: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-10891',
+  summaryCell: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2760-8126',
   mainComponents: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-9824',
 } as const;
 
@@ -58,4 +60,13 @@ export const tablePrimitiveGeometry = [
   ['Selection Cell', '48×48 Comfortable · 40×40 Compact · Checkbox L 20×20 по центру обеих осей', tableFigmaSources.selectionCell],
   ['Drag Handle', '24×24 · две линии по 12px на y=9 и y=15 · stroke 1.4 с round caps', tableFigmaSources.dragHandle],
   ['Paginator', '40×40 controls · Outline arrows 24×24 · gap 4 · current/disabled/ellipsis', tableFigmaSources.paginator],
+] as const;
+
+export const tableTypographyMatrix = [
+  ['Read, Index и body content', 'Body/M/Default · Grtsk Peta Regular · 14/20 · 0.25%', tableFigmaSources.cells],
+  ['Summary Cell', 'Body/M/Accent · Grtsk Peta Medium · 14/20 · 0.25%', tableFigmaSources.summaryCell],
+  ['Column и Index Header', 'Body/S/Accent · Grtsk Peta Medium · 13/20 · 0.5%', tableFigmaSources.headers],
+  ['Paginator page и ellipsis', 'Control/M · Grtsk Peta Regular · 14/16 · 0.25%', tableFigmaSources.paginator],
+  ['Paginator page-size Select', 'Body/M/Default · Grtsk Peta Regular · 14/20 · 0.25%', tableFigmaSources.composedPaginator],
+  ['File Content', 'Name: Caption & Label/Label 12/18 · metadata: IBM Plex Mono 11/14', tableFigmaSources.cells],
 ] as const;

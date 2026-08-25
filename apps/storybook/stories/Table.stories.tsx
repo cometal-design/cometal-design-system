@@ -24,6 +24,71 @@ const sourceRows = [
   { id: 4, position: 'POS-00130', name: 'Балка двутавровая 20Б1', quantity: 16, status: 'Согласовано', tone: 'green' as const, file: 'certificate.pdf', size: '760 KB', type: 'pdf' as TableFileType },
 ];
 
+type TypographyContract = { family: string; size: string; weight: string; lineHeight: string; letterSpacing: string };
+const tableTypography = {
+  body: { family: 'Grtsk Peta', size: '14px', weight: '400', lineHeight: '20px', letterSpacing: '0.035px' },
+  summary: { family: 'Grtsk Peta', size: '14px', weight: '500', lineHeight: '20px', letterSpacing: '0.035px' },
+  header: { family: 'Grtsk Peta', size: '13px', weight: '500', lineHeight: '20px', letterSpacing: '0.065px' },
+  paginator: { family: 'Grtsk Peta', size: '14px', weight: '400', lineHeight: '16px', letterSpacing: '0.035px' },
+  badge: { family: 'Grtsk Peta', size: '12px', weight: '400', lineHeight: '16px', letterSpacing: '0.06px' },
+  fileName: { family: 'Grtsk Peta', size: '12px', weight: '400', lineHeight: '18px', letterSpacing: '0.06px' },
+  fileSize: { family: 'IBM Plex Mono', size: '11px', weight: '400', lineHeight: '14px', letterSpacing: 'normal' },
+} as const satisfies Record<string, TypographyContract>;
+
+async function expectTypography(element: HTMLElement, contract: TypographyContract) {
+  const style = getComputedStyle(element);
+  const actual = {
+    family: style.fontFamily,
+    size: style.fontSize,
+    weight: style.fontWeight,
+    lineHeight: style.lineHeight,
+    letterSpacing: style.letterSpacing,
+  };
+  await expect(actual.family).toContain(contract.family);
+  await expect(actual.size).toBe(contract.size);
+  await expect(actual.weight).toBe(contract.weight);
+  await expect(actual.lineHeight).toBe(contract.lineHeight);
+  await expect(actual.letterSpacing).toBe(contract.letterSpacing);
+}
+
+async function expectTypographyFor(root: Element, selector: string, contract: TypographyContract, minimum = 1) {
+  const elements = Array.from(root.querySelectorAll<HTMLElement>(selector));
+  await expect(elements.length).toBeGreaterThanOrEqual(minimum);
+  for (const element of elements) await expectTypography(element, contract);
+}
+
+async function expectPageSizeTypography(root: Element, minimum = 1) {
+  await expectTypographyFor(root, '.cometal-table__page-size', tableTypography.body, minimum);
+  const selects = Array.from(root.querySelectorAll<HTMLSelectElement>('.cometal-table__page-size select'));
+  await expect(selects.length).toBeGreaterThanOrEqual(minimum);
+  for (const select of selects) {
+    const style = getComputedStyle(select);
+    const actual = { family: style.fontFamily, size: style.fontSize, weight: style.fontWeight, letterSpacing: style.letterSpacing };
+    await expect(actual.family).toContain(tableTypography.body.family);
+    await expect(actual.size).toBe(tableTypography.body.size);
+    await expect(actual.weight).toBe(tableTypography.body.weight);
+    await expect(actual.letterSpacing).toBe(tableTypography.body.letterSpacing);
+  }
+}
+
+const bodyValueSelector = 'tbody .cometal-table__cell:not(.cometal-table__selection-cell):not(.cometal-table__drag-cell):not(.cometal-table__summary-cell) .cometal-table__cell-value';
+const headerValueSelector = '.cometal-table__header-cell .cometal-table__header-label';
+
+async function expectTableSurfaceTypography(root: Element) {
+  await expectTypographyFor(root, bodyValueSelector, tableTypography.body);
+  await expectTypographyFor(root, headerValueSelector, tableTypography.header);
+  const summaries = root.querySelectorAll<HTMLElement>('.cometal-table__summary-cell');
+  for (const summary of summaries) await expectTypography(summary, tableTypography.summary);
+  const badges = root.querySelectorAll<HTMLElement>('.cometal-table .cometal-badge');
+  for (const badge of badges) await expectTypography(badge, tableTypography.badge);
+  const fileNames = root.querySelectorAll<HTMLElement>('.cometal-table__file-name');
+  for (const fileName of fileNames) await expectTypography(fileName, tableTypography.fileName);
+  const fileSizes = root.querySelectorAll<HTMLElement>('.cometal-table__file-size');
+  for (const fileSize of fileSizes) await expectTypography(fileSize, tableTypography.fileSize);
+  const nestedValues = root.querySelectorAll<HTMLElement>('.cometal-table__filter-cell .cometal-field__input, .cometal-table__filter-cell .cometal-field__select-trigger, .cometal-table__cell .cometal-field__input, .cometal-table__cell .cometal-field__select-trigger');
+  for (const nestedValue of nestedValues) await expectTypography(nestedValue, tableTypography.body);
+}
+
 function ColumnMenu() {
   return <><ContextMenuItem>Закрепить слева</ContextMenuItem><ContextMenuItem>Скрыть колонку</ContextMenuItem><ContextMenuDivider /><ContextMenuItem tone="danger">Сбросить фильтр</ContextMenuItem></>;
 }
@@ -196,9 +261,38 @@ export const Overview: Story = {
     await expect(dragIcon?.querySelector('path')).toHaveAttribute('d', 'M6 9H18M6 15H18');
     await expect(canvasElement.querySelectorAll('[data-cometal-icon]').length).toBeGreaterThan(0);
     await expect(canvasElement.querySelectorAll('.cometal-selection').length).toBeGreaterThan(0);
+    await expectTableSurfaceTypography(canvasElement);
+    await expectTypographyFor(canvasElement, '.cometal-table__page-control, .cometal-table__page-ellipsis', tableTypography.paginator);
+    await expectPageSizeTypography(canvasElement);
   },
 };
-export const Cells: Story = { name: 'Кирпичики/Cells', render: () => <CellMatrix /> };
+export const Cells: Story = {
+  name: 'Кирпичики/Cells',
+  render: () => <CellMatrix />,
+  play: async ({ canvasElement }) => {
+    await expectTypographyFor(canvasElement, "table[aria-label^='Read Cell'] tbody .cometal-table__cell-value", tableTypography.body, 80);
+    await expectTypographyFor(canvasElement, "table[aria-label^='Edit Cell'] tbody .cometal-table__cell-value", tableTypography.body, 56);
+    await expectTypographyFor(canvasElement, "table[aria-label^='Index Cell'] tbody .cometal-table__cell-value", tableTypography.body, 12);
+    await expectTypographyFor(canvasElement, "table[aria-label^='Summary Cell'] .cometal-table__summary-cell", tableTypography.summary, 6);
+    await expectTypographyFor(canvasElement, '.cometal-table__header-cell .cometal-table__header-label', tableTypography.header);
+    await expectTypographyFor(canvasElement, "table[aria-label^='Edit Cell'] .cometal-field__input, table[aria-label^='Edit Cell'] .cometal-field__select-trigger", tableTypography.body, 42);
+    await expectTypographyFor(canvasElement, "table[aria-label^='Read Cell'] .cometal-badge", tableTypography.badge, 30);
+    const hiddenSelectionLabels = Array.from(canvasElement.querySelectorAll<HTMLElement>("table[aria-label^='Selection Cell'] .cometal-selection__content"));
+    await expect(hiddenSelectionLabels).toHaveLength(16);
+    for (const label of hiddenSelectionLabels) {
+      const style = getComputedStyle(label);
+      await expect(style.position).toBe('absolute');
+      await expect(style.width).toBe('1px');
+      await expect(style.height).toBe('1px');
+    }
+    const dragHandles = Array.from(canvasElement.querySelectorAll<HTMLButtonElement>("table[aria-label^='Drag Handle Cell'] .cometal-table__drag-handle"));
+    await expect(dragHandles).toHaveLength(10);
+    for (const handle of dragHandles) {
+      await expect(handle).toHaveAttribute('aria-label');
+      await expect(handle.textContent).toBe('');
+    }
+  },
+};
 export const Headers: Story = {
   name: 'Кирпичики/Headers',
   render: () => <HeaderMatrix />,
@@ -217,9 +311,19 @@ export const Headers: Story = {
     await userEvent.keyboard('{Escape}');
     await expect(contextAction).toHaveAttribute('aria-expanded', 'false');
     await expect(contextAction).toHaveFocus();
+    await expectTypographyFor(canvasElement, headerValueSelector, tableTypography.header);
+    await expectTypographyFor(canvasElement, '.cometal-table__filter-cell .cometal-field__input, .cometal-table__filter-cell .cometal-field__select-trigger', tableTypography.body);
   },
 };
-export const Columns: Story = { name: 'Кирпичики/Columns', render: () => <ColumnMatrix /> };
+export const Columns: Story = {
+  name: 'Кирпичики/Columns',
+  render: () => <ColumnMatrix />,
+  play: async ({ canvasElement }) => {
+    await expectTableSurfaceTypography(canvasElement);
+    await expectTypographyFor(canvasElement, "table[aria-label^='Column families'] .cometal-table__index-cell .cometal-table__cell-value", tableTypography.body, 8);
+    await expectTypographyFor(canvasElement, "table[aria-label^='Column families'] .cometal-table__summary-cell", tableTypography.summary, 10);
+  },
+};
 export const Paginator: Story = {
   name: 'Кирпичики/Paginator',
   render: () => <PaginatorDocumentation />,
@@ -235,6 +339,8 @@ export const Paginator: Story = {
     await expect(previousIcon?.getBoundingClientRect().width).toBe(24);
     await expect(previousIcon?.getBoundingClientRect().height).toBe(24);
     await expect(controls ? getComputedStyle(controls).gap : '').toBe('4px');
+    await expectTypographyFor(canvasElement, '.cometal-table__page-control, .cometal-table__page-ellipsis', tableTypography.paginator);
+    await expectPageSizeTypography(canvasElement, 4);
     await userEvent.click(paginator.getByRole('button', { name: 'Следующая страница' }));
     await expect(paginator.getByRole('button', { name: 'Страница 2' })).toHaveAttribute('aria-current', 'page');
   },
@@ -259,6 +365,16 @@ export const Density: Story = {
       await expect(Math.round((((controlRect?.left ?? 0) + (controlRect?.width ?? 0) / 2) - ((contentRect?.left ?? 0) + (contentRect?.width ?? 0) / 2)) * 100) / 100).toBe(0);
       await expect(Math.round((((controlRect?.top ?? 0) + (controlRect?.height ?? 0) / 2) - ((contentRect?.top ?? 0) + (contentRect?.height ?? 0) / 2)) * 100) / 100).toBe(0);
     }
+    await expectTableSurfaceTypography(canvasElement);
   },
 };
-export const TablePlayground: Story = { name: 'Playground', render: () => <Playground />, play: async ({ canvasElement }) => { const canvas = within(canvasElement); await userEvent.click(canvas.getByRole('button', { name: 'Compact' })); await expect(canvas.getByRole('table', { name: 'Позиции закупки' })).toHaveAttribute('data-density', 'compact'); } };
+export const TablePlayground: Story = {
+  name: 'Playground',
+  render: () => <Playground />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await userEvent.click(canvas.getByRole('button', { name: 'Compact' }));
+    await expect(canvas.getByRole('table', { name: 'Позиции закупки' })).toHaveAttribute('data-density', 'compact');
+    await expectTableSurfaceTypography(canvasElement);
+  },
+};
