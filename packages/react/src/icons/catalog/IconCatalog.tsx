@@ -156,6 +156,9 @@ export function IconCatalog({ className }: IconCatalogProps) {
           value={search}
           onChange={(event) => { setSearch(event.currentTarget.value); resetPage(); }}
           onOptionSelect={(value) => { setSearch(value); resetPage(); }}
+          clearable
+          clearLabel="Очистить поиск по каноническому имени"
+          onClear={() => { setSearch(''); resetPage(); }}
           placeholder="Например, payment/lg/Visa"
         />
         <Select

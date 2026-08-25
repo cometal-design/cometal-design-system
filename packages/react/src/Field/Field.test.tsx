@@ -81,6 +81,17 @@ describe('Fields', () => {
     expect(html).not.toContain('icon-c');
   });
 
+  it('uses the generated Outline X icon for the opt-in combobox clear action', () => {
+    const html = renderToStaticMarkup(
+      <Combobox label="Поиск" type="search" defaultValue="Visa" clearable clearLabel="Очистить поиск" />,
+    );
+
+    expect(html).toContain('aria-label="Очистить поиск"');
+    expect(html).toContain('data-cometal-icon-library="outline"');
+    expect(html).toContain('data-cometal-icon-stroke-scaling="marked-elements"');
+    expect(html).toContain('cometal-field__clear');
+  });
+
   it('keeps listbox options out of the Tab sequence', () => {
     const select = renderToStaticMarkup(<Select label="Статус" expanded options={[{ value: 'active', label: 'Активный' }]} />);
     const combobox = renderToStaticMarkup(<Combobox label="Контрагент" defaultValue="north" expanded options={[{ value: 'north', label: 'Северсталь' }]} />);

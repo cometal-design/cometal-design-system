@@ -74,7 +74,7 @@ function ComboboxInteractionExample() {
   const [value, setValue] = useState('');
   return (
     <div className="ds-field-story-shell">
-      <Combobox label="Контрагент" placeholder="Найдите значение" options={contractorOptions} onOptionSelect={setValue} />
+      <Combobox label="Контрагент" placeholder="Найдите значение" options={contractorOptions} clearable onClear={() => setValue('')} onOptionSelect={setValue} />
       <output aria-live="polite">Выбрано: {value || '—'}</output>
     </div>
   );
@@ -359,6 +359,12 @@ export const ComboboxInteraction: Story = {
     await expect(canvas.getByText('Выбрано: severstal')).toBeInTheDocument();
     await expect(input).toHaveValue('Северсталь');
     await expect(input).toHaveAttribute('aria-expanded', 'false');
+    const clear = canvas.getByRole('button', { name: 'Очистить поле' });
+    await expect(clear.querySelector('svg')).toHaveAttribute('data-cometal-icon-library', 'outline');
+    await userEvent.click(clear);
+    await expect(input).toHaveValue('');
+    await expect(input).toHaveFocus();
+    await expect(canvas.getByText('Выбрано: —')).toBeInTheDocument();
   },
 };
 export const MultiSelectInteraction: Story = {

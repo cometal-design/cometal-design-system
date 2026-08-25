@@ -8,6 +8,7 @@ import type {
   SelectHTMLAttributes,
   TextareaHTMLAttributes,
 } from 'react';
+import OutlineXIcon from '../icons/generated/components/outline/general/x-01';
 import './field.css';
 
 export const fieldSizes = ['l', 'm', 's'] as const;
@@ -399,17 +400,22 @@ export interface ComboboxProps extends Omit<InputHTMLAttributes<HTMLInputElement
   options?: SelectOption[];
   maxVisibleOptions?: number;
   onOptionSelect?: (value: string) => void;
+  clearable?: boolean;
+  clearLabel?: string;
+  onClear?: () => void;
 }
 
 export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
-  { label, helperText, optional, error, size = 'l', mode = 'edit', readValue, expanded, defaultExpanded = false, onExpandedChange, listboxId, options = [], maxVisibleOptions, onOptionSelect, className, disabled, onFocus, onKeyDown, onChange, value, defaultValue, ...inputProps },
-  ref,
+  { label, helperText, optional, error, size = 'l', mode = 'edit', readValue, expanded, defaultExpanded = false, onExpandedChange, listboxId, options = [], maxVisibleOptions, onOptionSelect, clearable = false, clearLabel = 'Очистить поле', onClear, className, disabled, onFocus, onKeyDown, onChange, value, defaultValue, ...inputProps },
+  forwardedRef,
 ) {
   const generatedId = useId();
   const controlId = inputProps.id ?? `cometal-combobox-${generatedId}`;
   const resolvedListboxId = listboxId ?? `${controlId}-listbox`;
   const supportingId = helperText || error ? `${controlId}-supporting` : undefined;
   const popupRef = useRef<HTMLSpanElement | null>(null);
+  const inputRef = useRef<HTMLInputElement | null>(null);
+  useImperativeHandle(forwardedRef, () => inputRef.current as HTMLInputElement);
   const [isExpanded, setExpanded] = usePopupState(expanded, defaultExpanded, onExpandedChange);
   useOutsidePointerDismiss(popupRef, isExpanded, () => setExpanded(false));
   const [internalInputValue, setInternalInputValue] = useState(String(defaultValue ?? ''));
@@ -447,7 +453,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
           <input
             {...inputProps}
             id={controlId}
-            ref={ref}
+            ref={inputRef}
             value={value ?? internalInputValue}
             disabled={disabled}
             role="combobox"
@@ -484,6 +490,24 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
             }}
             className="cometal-field__input"
           />
+          {clearable && inputValue ? (
+            <button
+              type="button"
+              className="cometal-field__asset cometal-field__clear"
+              aria-label={clearLabel}
+              disabled={disabled}
+              onPointerDown={(event) => event.preventDefault()}
+              onClick={() => {
+                if (value === undefined) setInternalInputValue('');
+                setActiveIndex(-1);
+                setExpanded(false);
+                onClear?.();
+                inputRef.current?.focus();
+              }}
+            >
+              <OutlineXIcon />
+            </button>
+          ) : null}
         </span>
         {isExpanded && filteredOptions.length ? (
           <FieldListbox

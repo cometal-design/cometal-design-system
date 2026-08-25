@@ -498,6 +498,10 @@ export const Icons: Story = {
       await expect(searchIcon).not.toBeNull();
 
       await userEvent.type(search, 'payment/lg/Vi');
+      const clearSearch = canvas.getByRole('button', { name: 'Очистить поиск по каноническому имени' });
+      const clearSearchIcon = clearSearch.querySelector<SVGSVGElement>('svg[data-cometal-icon]');
+      await expect(clearSearchIcon).not.toBeNull();
+      await expect(clearSearchIcon).toHaveAttribute('data-cometal-icon-library', 'outline');
       const searchListbox = await canvas.findByRole('listbox', { name: 'Поиск по каноническому имени: результаты' });
       await expect(search).toHaveAttribute('aria-expanded', 'true');
       await expect(search).toHaveAttribute('aria-controls', searchListbox.id);

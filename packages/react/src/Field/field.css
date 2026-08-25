@@ -74,6 +74,12 @@
   line-height: var(--cometal-typography-body-l-default-line-height);
   letter-spacing: var(--cometal-typography-body-l-default-letter-spacing);
 }
+.cometal-field__input[type='search']::-webkit-search-cancel-button,
+.cometal-field__input[type='search']::-webkit-search-decoration {
+  display: none;
+  -webkit-appearance: none;
+  appearance: none;
+}
 .cometal-field[data-size='m'] .cometal-field__input { font-size: var(--cometal-typography-body-m-default-font-size); font-weight: var(--cometal-typography-body-m-default-font-weight); line-height: var(--cometal-typography-body-m-default-line-height); letter-spacing: var(--cometal-typography-body-m-default-letter-spacing); }
 .cometal-field[data-size='s'] .cometal-field__input { font-size: var(--cometal-typography-body-m-default-font-size); font-weight: var(--cometal-typography-body-m-default-font-weight); line-height: var(--cometal-typography-body-m-default-line-height); letter-spacing: var(--cometal-typography-body-m-default-letter-spacing); }
 .cometal-field:hover .cometal-field__input:not(:disabled),
@@ -96,6 +102,9 @@
 .cometal-field[data-invalid] .cometal-field__supporting { color: var(--cometal-component-input-helper-error); }
 .cometal-field[data-disabled] .cometal-field__supporting-row { color: var(--cometal-component-input-helper-disabled); }
 .cometal-field__icon, .cometal-field__asset { display: inline-flex; width: var(--cometal-field-icon-size); height: var(--cometal-field-icon-size); flex: 0 0 var(--cometal-field-icon-size); align-items: center; justify-content: center; color: var(--cometal-component-input-icon-default); }
+.cometal-field__clear { padding: 0; border: 0; background: transparent; cursor: pointer; }
+.cometal-field__clear:disabled { cursor: not-allowed; }
+.cometal-field__clear:focus-visible { outline: var(--cometal-semantic-stroke-global-state-focus) solid var(--cometal-semantic-color-global-state-focus-ring); outline-offset: var(--cometal-primitive-spacing-12); }
 .cometal-field__icon { display: inline-flex; align-items: center; justify-content: center; color: var(--cometal-component-input-icon-default); }
 .cometal-field__icon > svg, .cometal-field__icon > img, .cometal-field__asset > svg { display: block; width: 100%; height: 100%; }
 .cometal-field__asset > svg { --cometal-icon-source-stroke: var(--cometal-primitive-stroke-140, 1.4px); }
