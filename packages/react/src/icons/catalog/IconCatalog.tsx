@@ -36,7 +36,7 @@ function CatalogPreview({ record }: { record: IconManifestRecord }) {
     >
       {failed ? <span className="cometal-icon-catalog__preview-state">Ошибка загрузки</span> : null}
       {!failed && !IconComponent ? <span className="cometal-icon-catalog__preview-state" aria-hidden="true">Иконка загружается</span> : null}
-      {IconComponent ? <IconComponent className="cometal-icon-catalog__icon" width={48} height={48} /> : null}
+      {IconComponent ? <IconComponent className="cometal-icon-catalog__icon" width={32} height={32} /> : null}
     </span>
   );
 }

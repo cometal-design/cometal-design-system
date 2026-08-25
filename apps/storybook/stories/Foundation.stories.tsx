@@ -500,8 +500,8 @@ export const Icons: Story = {
       await expect(normalizedSvgs).toHaveLength(1);
       const normalizedSvg = normalizedSvgs[0];
       const paths = [...normalizedSvg.querySelectorAll<SVGPathElement>('path')];
-      await expect(normalizedSvg).toHaveAttribute('width', '48');
-      await expect(normalizedSvg).toHaveAttribute('height', '48');
+      await expect(normalizedSvg).toHaveAttribute('width', '32');
+      await expect(normalizedSvg).toHaveAttribute('height', '32');
       await expect(normalizedSvg).toHaveAttribute('fill', 'none');
       await expect(getComputedStyle(normalizedSvg).fill).toBe('none');
       await expect(paths).toHaveLength(2);
@@ -531,8 +531,8 @@ export const Icons: Story = {
       const visaPreview = await waitForLoadedPreview('payment/lg/Visa');
       const visaSvgs = [...visaPreview.querySelectorAll<SVGSVGElement>('svg')];
       await expect(visaSvgs).toHaveLength(1);
-      await expect(visaSvgs[0]).toHaveAttribute('width', '48');
-      await expect(visaSvgs[0]).toHaveAttribute('height', '48');
+      await expect(visaSvgs[0]).toHaveAttribute('width', '32');
+      await expect(visaSvgs[0]).toHaveAttribute('height', '32');
       await expect(visaPreview.querySelector('[data-outline-projection]')).toBeNull();
       await expect(canvas.getByRole('button', { name: 'Копировать имя payment/lg/Visa' })).toBeVisible();
       await expect(canvas.getByRole('button', { name: 'Копировать import payment/lg/Visa' })).toBeVisible();
