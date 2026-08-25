@@ -5,6 +5,27 @@
   border-radius: var(--cometal-primitive-radius-100);
   background: var(--cometal-semantic-color-global-surface-raised);
 }
+
+/* The pattern shell owns the single opaque perimeter from the Figma Table Surface.
+   Table cells keep only their internal dividers while composed inside that shell. */
+.cometal-widget-table-pattern__table .cometal-table__head:first-child .cometal-table__row:first-child .cometal-table__header-cell {
+  border-top: 0;
+}
+
+.cometal-widget-table-pattern__table .cometal-table__header-cell:first-child,
+.cometal-widget-table-pattern__table .cometal-table__filter-cell:first-child,
+.cometal-widget-table-pattern__table .cometal-table__cell:first-child {
+  border-left: 0;
+}
+
+.cometal-widget-table-pattern__table .cometal-table__row > :last-child {
+  border-right: 0;
+}
+
+.cometal-widget-table-pattern__table .cometal-table__body .cometal-table__row:last-child > .cometal-table__cell {
+  border-bottom: 0;
+}
+
 .cometal-widget-table-pattern__footer { min-width: 0; }
 .cometal-widget-table-pattern__filter { width: 100%; min-width: 0; }
 .cometal-widget-table-pattern__filter .cometal-field__label-row,
