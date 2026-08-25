@@ -107,10 +107,11 @@ function SourceTable({ density = 'comfortable', filters = true, ariaLabel = 'П�
   const [sort, setSort] = useState<TableSortDirection>('ascending');
   const [editingCell, setEditingCell] = useState<number | null>(null);
   const [pinnedColumnIds, setPinnedColumnIds] = useState<string[]>([]);
+  const [columnWidths, setColumnWidths] = useState<Record<string, number>>({});
   const [operators, setOperators] = useState({ position: 'Содержит', name: 'Содержит', quantity: 'Равно', status: 'Равно', file: 'Содержит' });
   const toggleAll = (checked: boolean) => setSelected(checked ? orderedRows.map((row) => row.id) : []);
   return (
-    <Table density={density} mode={mode} aria-label={ariaLabel} className="ds-table-source-example" pinnedColumnIds={pinnedColumnIds} onPinnedColumnIdsChange={setPinnedColumnIds} onRowReorder={mode === 'edit' ? (event) => setOrderedRows((current) => reorderTableRows(current, event, (row) => String(row.id))) : undefined} rowContextMenu={(rowId) => <><ContextMenuItem onClick={() => setSelected((current) => current.includes(Number(rowId)) ? current : [...current, Number(rowId)])}>Выбрать строку</ContextMenuItem><ContextMenuItem>Открыть позицию</ContextMenuItem>{mode === 'edit' ? <><ContextMenuDivider /><ContextMenuItem tone="danger">Удалить строку</ContextMenuItem></> : null}</>}>
+    <Table density={density} mode={mode} aria-label={ariaLabel} className="ds-table-source-example" pinnedColumnIds={pinnedColumnIds} onPinnedColumnIdsChange={setPinnedColumnIds} columnWidths={columnWidths} onColumnWidthsChange={setColumnWidths} onRowReorder={mode === 'edit' ? (event) => setOrderedRows((current) => reorderTableRows(current, event, (row) => String(row.id))) : undefined} rowContextMenu={(rowId) => <><ContextMenuItem onClick={() => setSelected((current) => current.includes(Number(rowId)) ? current : [...current, Number(rowId)])}>Выбрать строку</ContextMenuItem><ContextMenuItem>Открыть позицию</ContextMenuItem>{mode === 'edit' ? <><ContextMenuDivider /><ContextMenuItem tone="danger">Удалить строку</ContextMenuItem></> : null}</>}>
       <TableHead>
         <TableRow>
           <TableHeaderCell columnId={sourceColumnIds.drag} kind="drag"><span className="sr-only">Перемещение</span></TableHeaderCell>

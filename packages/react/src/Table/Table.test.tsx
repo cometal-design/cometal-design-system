@@ -146,7 +146,7 @@ describe('Table', () => {
 
   it('propagates controlled column identity and pinned state across every table floor', () => {
     const html = renderToStaticMarkup(
-      <Table aria-label="Закреплённые колонки" pinnedColumnIds={['position']} onPinnedColumnIdsChange={() => undefined}>
+      <Table aria-label="Закреплённые колонки" pinnedColumnIds={['position']} onPinnedColumnIdsChange={() => undefined} columnWidths={{ position: 240 }} onColumnWidthsChange={() => undefined}>
         <TableHead>
           <TableRow><TableHeaderCell columnId="position">Позиция</TableHeaderCell><TableHeaderCell columnId="name">Наименование</TableHeaderCell></TableRow>
           <TableFilterRow><TableFilterCell columnId="position"><input aria-label="Фильтр позиции" /></TableFilterCell><TableFilterCell columnId="name" /></TableFilterRow>
@@ -161,7 +161,12 @@ describe('Table', () => {
     expect(html.match(/data-column-id="position"/g)).toHaveLength(4);
     expect(html.match(/data-column-pinned="true"/g)).toHaveLength(4);
     expect(html.match(/data-column-pinned-last="true"/g)).toHaveLength(4);
+    expect(html.match(/data-column-width="240"/g)).toHaveLength(4);
     expect(html).toContain('--cometal-table-pinned-left:0px');
+    expect(html).toContain('--cometal-table-column-width:240px');
+    expect(html).toContain('role="separator"');
+    expect(html).toContain('aria-label="Изменить ширину колонки Позиция"');
+    expect(html).toContain('aria-valuenow="240"');
     expect(html).toContain('data-state="selected"');
     expect(html).toContain('data-state="error"');
   });

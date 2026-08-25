@@ -1,4 +1,4 @@
-import { createContext, forwardRef, useCallback, useContext, useEffect, useId, useMemo, useRef, useState } from 'react';
+import { createContext, forwardRef, useCallback, useContext, useEffect, useId, useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type {
   ButtonHTMLAttributes,
   CSSProperties,
@@ -92,7 +92,21 @@ interface TableColumnPinningContextValue {
 
 const TableColumnPinningContext = createContext<TableColumnPinningContextValue | null>(null);
 
-type TablePinnedCellStyle = CSSProperties & { '--cometal-table-pinned-left'?: string };
+interface TableColumnSizingContextValue {
+  columnWidths: Readonly<Record<string, number>>;
+  canChange: boolean;
+  setColumnWidth: (columnId: string, width: number) => void;
+  replaceColumnWidths: (columnWidths: Readonly<Record<string, number>>) => void;
+}
+
+const TableColumnSizingContext = createContext<TableColumnSizingContextValue | null>(null);
+const EMPTY_TABLE_COLUMN_IDS: readonly string[] = [];
+const EMPTY_TABLE_COLUMN_WIDTHS: Readonly<Record<string, number>> = {};
+
+type TableColumnCellStyle = CSSProperties & {
+  '--cometal-table-pinned-left'?: string;
+  '--cometal-table-column-width'?: string;
+};
 
 function getTableColumnOrder(table: HTMLTableElement | null): string[] {
   if (!table) return [];
@@ -109,15 +123,22 @@ function orderPinnedTableColumns(columnIds: readonly string[], columnOrder: read
   return columnOrder.filter((columnId) => pinned.has(columnId));
 }
 
-function usePinnedTableColumn(columnId: string | undefined, style: CSSProperties | undefined) {
+function useTableColumnLayout(columnId: string | undefined, style: CSSProperties | undefined) {
   const pinning = useContext(TableColumnPinningContext);
+  const sizing = useContext(TableColumnSizingContext);
   const pinned = Boolean(columnId && pinning?.pinnedColumnIds.includes(columnId));
-  const resolvedStyle: TablePinnedCellStyle | undefined = pinned
-    ? { ...style, '--cometal-table-pinned-left': `${pinning?.offsets[columnId ?? ''] ?? 0}px` }
+  const width = columnId ? sizing?.columnWidths[columnId] : undefined;
+  const resolvedStyle: TableColumnCellStyle | undefined = pinned || width !== undefined
+    ? {
+        ...style,
+        ...(pinned ? { '--cometal-table-pinned-left': `${pinning?.offsets[columnId ?? ''] ?? 0}px` } : null),
+        ...(width !== undefined ? { '--cometal-table-column-width': `${width}px` } : null),
+      }
     : style;
   return {
     style: resolvedStyle,
     'data-column-id': columnId,
+    'data-column-width': width !== undefined ? width : undefined,
     'data-column-pinned': pinned || undefined,
     'data-column-pinned-last': pinned && pinning?.lastPinnedColumnId === columnId || undefined,
   };
@@ -140,6 +161,10 @@ export interface TableProps extends TableHTMLAttributes<HTMLTableElement> {
   pinnedColumnIds?: readonly string[];
   /** Receives pinned identifiers normalized to the current DOM column order. */
   onPinnedColumnIdsChange?: (columnIds: string[]) => void;
+  /** Controlled pixel widths keyed by the stable identifiers shared across every column floor. */
+  columnWidths?: Readonly<Record<string, number>>;
+  /** Receives the complete next controlled width record after pointer or keyboard resizing. */
+  onColumnWidthsChange?: (columnWidths: Record<string, number>) => void;
 }
 
 export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
@@ -151,8 +176,10 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
     onRowReorder,
     rowContextMenu,
     rowContextMenuLabel = (rowId) => `Действия строки ${rowId}`,
-    pinnedColumnIds = [],
+    pinnedColumnIds = EMPTY_TABLE_COLUMN_IDS,
     onPinnedColumnIdsChange,
+    columnWidths = EMPTY_TABLE_COLUMN_WIDTHS,
+    onColumnWidthsChange,
     onContextMenu,
     ...tableProps
   },
@@ -168,6 +195,8 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
   const [announcement, setAnnouncement] = useState('');
   const [rowMenu, setRowMenu] = useState<TableRowMenuState | null>(null);
   const [columnLayout, setColumnLayout] = useState<{ order: string[]; offsets: Record<string, number> }>({ order: [], offsets: {} });
+  const columnWidthsRef = useRef(columnWidths);
+  columnWidthsRef.current = columnWidths;
 
   const setTableRef = useCallback((node: HTMLTableElement | null) => {
     tableRef.current = node;
@@ -200,7 +229,6 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
   }, [pinnedColumnIds]);
 
   useEffect(() => {
-    measurePinnedColumns();
     const table = tableRef.current;
     if (!table) return;
     const headers = Array.from(table.querySelectorAll<HTMLTableCellElement>('.cometal-table__head > .cometal-table__row:first-child > [data-column-id]'));
@@ -213,6 +241,10 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
     headers.forEach((header) => observer.observe(header));
     return () => observer.disconnect();
   }, [measurePinnedColumns]);
+
+  useLayoutEffect(() => {
+    measurePinnedColumns();
+  }, [columnWidths, measurePinnedColumns]);
 
   const pinningContext = useMemo<TableColumnPinningContextValue>(() => {
     const orderedPinnedColumnIds = columnLayout.order.length
@@ -233,6 +265,19 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
       },
     };
   }, [columnLayout.offsets, columnLayout.order, onPinnedColumnIdsChange, pinnedColumnIds]);
+
+  const sizingContext = useMemo<TableColumnSizingContextValue>(() => ({
+    columnWidths,
+    canChange: Boolean(onColumnWidthsChange),
+    setColumnWidth(columnId, width) {
+      if (!onColumnWidthsChange) return;
+      onColumnWidthsChange({ ...columnWidthsRef.current, [columnId]: width });
+    },
+    replaceColumnWidths(nextColumnWidths) {
+      if (!onColumnWidthsChange) return;
+      onColumnWidthsChange({ ...nextColumnWidths });
+    },
+  }), [columnWidths, onColumnWidthsChange]);
 
   const resetReorder = () => {
     setActiveId(null);
@@ -335,6 +380,7 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
   return (
     <TableModeContext.Provider value={mode}>
     <TableColumnPinningContext.Provider value={pinningContext}>
+    <TableColumnSizingContext.Provider value={sizingContext}>
     <TableReorderContext.Provider value={reorderContext}>
       <div
         className="cometal-table-scroll"
@@ -384,6 +430,7 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
         ) : null}
       </div>
     </TableReorderContext.Provider>
+    </TableColumnSizingContext.Provider>
     </TableColumnPinningContext.Provider>
     </TableModeContext.Provider>
   );
@@ -450,15 +497,125 @@ export interface TableHeaderCellProps extends ThHTMLAttributes<HTMLTableCellElem
   kind?: 'default' | 'index' | 'selection' | 'drag';
   /** Stable identifier shared by header, filter, body and summary cells in this column. */
   columnId?: string;
+  /** Opts a stable default data column out of the controlled resize affordance. */
+  resizable?: boolean;
+}
+
+const TABLE_COLUMN_RESIZE_STEP = 8;
+const TABLE_COLUMN_RESIZE_LARGE_STEP = 32;
+
+function getTableColumnMinWidth(cell: HTMLTableCellElement): number {
+  const minimum = Number.parseFloat(getComputedStyle(cell).minWidth);
+  return Number.isFinite(minimum) ? minimum : 0;
+}
+
+function clampTableColumnWidth(width: number, minimum: number): number {
+  return Math.max(minimum, Math.round(width));
+}
+
+interface TableColumnResizeHandleProps {
+  columnId: string;
+  label: string;
+  headerRef: React.RefObject<HTMLTableCellElement | null>;
+}
+
+function TableColumnResizeHandle({ columnId, label, headerRef }: TableColumnResizeHandleProps) {
+  const sizing = useContext(TableColumnSizingContext);
+  const handleRef = useRef<HTMLSpanElement | null>(null);
+  const dragRef = useRef<{ pointerId: number; startX: number; startWidth: number; startWidths: Readonly<Record<string, number>> } | null>(null);
+  const [dragging, setDragging] = useState(false);
+  const controlledWidth = sizing?.columnWidths[columnId];
+  const [measuredWidth, setMeasuredWidth] = useState(controlledWidth ?? 0);
+  const minimum = headerRef.current ? getTableColumnMinWidth(headerRef.current) : 0;
+
+  useLayoutEffect(() => {
+    const cell = headerRef.current;
+    if (!cell) return;
+    const measure = () => setMeasuredWidth(Math.round(controlledWidth ?? cell.getBoundingClientRect().width));
+    measure();
+    if (controlledWidth !== undefined || typeof ResizeObserver === 'undefined') return;
+    const observer = new ResizeObserver(measure);
+    observer.observe(cell);
+    return () => observer.disconnect();
+  }, [controlledWidth, headerRef]);
+
+  const finishPointerResize = (restore: boolean) => {
+    const drag = dragRef.current;
+    const handle = handleRef.current;
+    if (!drag) return;
+    if (restore) sizing?.replaceColumnWidths(drag.startWidths);
+    if (handle?.hasPointerCapture(drag.pointerId)) handle.releasePointerCapture(drag.pointerId);
+    dragRef.current = null;
+    setDragging(false);
+  };
+
+  return <span
+    ref={handleRef}
+    className="cometal-table__column-resize-handle"
+    role="separator"
+    aria-label={`Изменить ширину колонки ${label}`}
+    aria-orientation="vertical"
+    aria-valuemin={Math.round(minimum || 96)}
+    aria-valuenow={Math.round((controlledWidth ?? measuredWidth) || minimum || 96)}
+    tabIndex={0}
+    data-resizing={dragging || undefined}
+    onPointerDown={(event) => {
+      if (event.button !== 0 || !sizing?.canChange || !headerRef.current) return;
+      event.preventDefault();
+      event.currentTarget.focus();
+      const startWidth = controlledWidth ?? headerRef.current.getBoundingClientRect().width;
+      dragRef.current = { pointerId: event.pointerId, startX: event.clientX, startWidth, startWidths: { ...sizing.columnWidths } };
+      try { event.currentTarget.setPointerCapture(event.pointerId); } catch { /* Synthetic pointer events may not own an active browser pointer. */ }
+      setDragging(true);
+    }}
+    onPointerMove={(event) => {
+      const drag = dragRef.current;
+      const cell = headerRef.current;
+      if (!drag || drag.pointerId !== event.pointerId || !cell) return;
+      sizing?.setColumnWidth(columnId, clampTableColumnWidth(drag.startWidth + event.clientX - drag.startX, getTableColumnMinWidth(cell)));
+    }}
+    onPointerUp={(event) => {
+      if (dragRef.current?.pointerId === event.pointerId) finishPointerResize(false);
+    }}
+    onPointerCancel={(event) => {
+      if (dragRef.current?.pointerId === event.pointerId) finishPointerResize(true);
+    }}
+    onLostPointerCapture={() => {
+      dragRef.current = null;
+      setDragging(false);
+    }}
+    onKeyDown={(event) => {
+      const cell = headerRef.current;
+      if (!cell || !sizing?.canChange) return;
+      if (event.key === 'Escape' && dragRef.current) {
+        event.preventDefault();
+        finishPointerResize(true);
+        return;
+      }
+      const minWidth = getTableColumnMinWidth(cell);
+      const currentWidth = controlledWidth ?? cell.getBoundingClientRect().width;
+      if (event.key === 'Home') {
+        event.preventDefault();
+        sizing.setColumnWidth(columnId, minWidth);
+        return;
+      }
+      if (event.key !== 'ArrowLeft' && event.key !== 'ArrowRight') return;
+      event.preventDefault();
+      const step = event.shiftKey ? TABLE_COLUMN_RESIZE_LARGE_STEP : TABLE_COLUMN_RESIZE_STEP;
+      sizing.setColumnWidth(columnId, clampTableColumnWidth(currentWidth + (event.key === 'ArrowRight' ? step : -step), minWidth));
+    }}
+  />;
 }
 
 export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellProps>(
   function TableHeaderCell(
-    { sort = 'none', onSortChange, action, kind = 'default', columnId, children, className, scope = 'col', style, ...props },
+    { sort = 'none', onSortChange, action, kind = 'default', columnId, resizable = true, children, className, scope = 'col', style, ...props },
     ref,
   ) {
     const mode = useContext(TableModeContext);
-    const pinnedColumn = usePinnedTableColumn(columnId, style);
+    const sizing = useContext(TableColumnSizingContext);
+    const headerRef = useRef<HTMLTableCellElement | null>(null);
+    const columnLayout = useTableColumnLayout(columnId, style);
     if (kind === 'drag' && mode === 'read') return null;
     const label = typeof children === 'string' ? children : 'колонку';
     const nextSort = getNextTableSortDirection(sort);
@@ -471,7 +628,7 @@ export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellP
     );
 
     return (
-      <th {...props} {...pinnedColumn} ref={ref} scope={scope} aria-sort={sort === 'none' ? undefined : sort} className={['cometal-table__header-cell', className].filter(Boolean).join(' ')} data-kind={kind} data-sort={sort}>
+      <th {...props} {...columnLayout} ref={(node) => { headerRef.current = node; if (typeof ref === 'function') ref(node); else if (ref) ref.current = node; }} scope={scope} aria-sort={sort === 'none' ? undefined : sort} className={['cometal-table__header-cell', className].filter(Boolean).join(' ')} data-kind={kind} data-sort={sort} data-column-resizable={kind === 'default' && columnId && resizable && sizing?.canChange || undefined}>
         <div className="cometal-table__header-main">
           {onSortChange ? (
             <button className="cometal-table__sort-button" type="button" onClick={() => onSortChange(nextSort)} aria-label={`Сортировать ${label}: ${nextSort === 'ascending' ? 'по возрастанию' : nextSort === 'descending' ? 'по убыванию' : 'отключить сортировку'}`}>
@@ -480,6 +637,7 @@ export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellP
           ) : content}
           {action ? <span className="cometal-table__header-action">{action}</span> : null}
         </div>
+        {kind === 'default' && columnId && resizable && sizing?.canChange ? <TableColumnResizeHandle columnId={columnId} label={label} headerRef={headerRef} /> : null}
       </th>
     );
   },
@@ -502,11 +660,11 @@ export interface TableFilterCellProps extends ThHTMLAttributes<HTMLTableCellElem
 export const TableFilterCell = forwardRef<HTMLTableCellElement, TableFilterCellProps>(
   function TableFilterCell({ kind = 'default', action, columnId, children, className, 'aria-label': ariaLabel, style, ...props }, ref) {
     const mode = useContext(TableModeContext);
-    const pinnedColumn = usePinnedTableColumn(columnId, style);
+    const columnLayout = useTableColumnLayout(columnId, style);
     if (kind === 'drag' && mode === 'read') return null;
     const emptyLabel = kind === 'drag' ? 'Без фильтра перемещения' : kind === 'index' ? 'Без фильтра номера' : kind === 'selection' ? 'Без фильтра выбора' : 'Без фильтра';
     return (
-      <th {...props} {...pinnedColumn} ref={ref} className={['cometal-table__filter-cell', className].filter(Boolean).join(' ')} data-kind={kind}>
+      <th {...props} {...columnLayout} ref={ref} className={['cometal-table__filter-cell', className].filter(Boolean).join(' ')} data-kind={kind}>
         {children ? (
           <div className="cometal-table__filter-control" data-has-action={action ? true : undefined}>
             {children}
@@ -544,12 +702,12 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(functi
   const mode = useContext(TableModeContext);
   const canEdit = mode === 'edit' && editable && !disabled;
   const isEditing = canEdit && state === 'editing';
-  const pinnedColumn = usePinnedTableColumn(columnId, style);
+  const columnLayout = useTableColumnLayout(columnId, style);
   const startEdit = () => onEditStart?.();
   return (
     <td
       {...props}
-      {...pinnedColumn}
+      {...columnLayout}
       ref={ref}
       aria-disabled={disabled || undefined}
       aria-invalid={state === 'error' || undefined}

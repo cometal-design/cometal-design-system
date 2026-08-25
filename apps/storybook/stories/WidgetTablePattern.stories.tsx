@@ -86,6 +86,8 @@ export const Overview: Story = {
     await expect(readTable.querySelector('.cometal-table__drag-cell')).toBeNull();
     await expect(readTable).not.toHaveAttribute('data-reorderable');
     await expect(readCells.length).toBeGreaterThan(1);
+    await expect(within(readTable).getByRole('separator', { name: 'Изменить ширину колонки Позиция' })).toBeVisible();
+    await expect(within(readTable).queryByRole('separator', { name: /Перемещение|№|Выбрать/ })).toBeNull();
 
     const editRow = editTable.querySelector<HTMLTableRowElement>('tbody tr[data-row-id]')!;
     const editCells = Array.from(editRow.querySelectorAll<HTMLElement>('td[data-state="default"]'));
@@ -105,8 +107,21 @@ export const Overview: Story = {
     const positionHeader = editTable.querySelector<HTMLTableCellElement>('thead th[data-column-id="position"]')!;
     const nameHeader = editTable.querySelector<HTMLTableCellElement>('thead th[data-column-id="name"]')!;
     const gradeHeader = editTable.querySelector<HTMLTableCellElement>('thead th[data-column-id="grade"]')!;
+    const positionResizer = editTableCanvas.getByRole('separator', { name: 'Изменить ширину колонки Позиция' });
+    const initialPositionWidth = positionHeader.getBoundingClientRect().width;
+    fireEvent.pointerDown(positionResizer, { pointerId: 7, button: 0, clientX: 400 });
+    fireEvent.pointerMove(positionResizer, { pointerId: 7, clientX: 464 });
+    fireEvent.pointerUp(positionResizer, { pointerId: 7, clientX: 464 });
+    const pointerWidth = Math.round(initialPositionWidth + 64);
+    await waitFor(() => expect(positionHeader).toHaveAttribute('data-column-width', String(pointerWidth)));
+    await expect(editTable.querySelectorAll(`[data-column-id="position"][data-column-width="${pointerWidth}"]`)).toHaveLength(13);
+    positionResizer.focus();
+    await userEvent.keyboard('{ArrowRight}');
+    const keyboardWidth = pointerWidth + 8;
+    await waitFor(() => expect(positionHeader).toHaveAttribute('data-column-width', String(keyboardWidth)));
+    await expect(positionResizer).toHaveAttribute('aria-valuenow', String(keyboardWidth));
     await expect(positionHeader.style.getPropertyValue('--cometal-table-pinned-left')).toBe('0px');
-    await expect(parseFloat(nameHeader.style.getPropertyValue('--cometal-table-pinned-left'))).toBeCloseTo(positionHeader.getBoundingClientRect().width, 3);
+    await waitFor(() => expect(parseFloat(nameHeader.style.getPropertyValue('--cometal-table-pinned-left'))).toBeCloseTo(keyboardWidth, 3));
     await expect(nameHeader).toHaveAttribute('data-column-pinned-last', 'true');
     await expect(editTable.querySelectorAll('[data-column-id="position"][data-column-pinned]')).toHaveLength(13);
     await expect(editTable.querySelectorAll('[data-column-id="name"][data-column-pinned]')).toHaveLength(13);

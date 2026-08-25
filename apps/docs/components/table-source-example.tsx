@@ -36,6 +36,7 @@ export function TableSourceExample({ density = 'comfortable', filters = true, mo
   const [selected, setSelected] = useState([2]); const [sort, setSort] = useState<TableSortDirection>('ascending');
   const [editing, setEditing] = useState<{ rowId: number; column: 'position' | 'name' | 'quantity' } | null>(null);
   const [pinnedColumnIds, setPinnedColumnIds] = useState<string[]>([]);
+  const [columnWidths, setColumnWidths] = useState<Record<string, number>>({});
   const [operators, setOperators] = useState({ position: 'Содержит', name: 'Содержит', quantity: 'Равно', status: 'Равно', file: 'Содержит' });
   const updateRow = (rowId: number, field: 'position' | 'name' | 'quantity', value: string) => setOrderedRows((current) => current.map((row) => row.id === rowId ? { ...row, [field]: field === 'quantity' ? Number(value) || 0 : value } : row));
   const editableCell = (row: (typeof rows)[number], field: 'position' | 'name' | 'quantity', label: string, align: 'start' | 'end' = 'start', idleState: 'default' | 'error' = 'default') => {
@@ -67,6 +68,8 @@ export function TableSourceExample({ density = 'comfortable', filters = true, mo
     className="docs-table-source"
     pinnedColumnIds={pinnedColumnIds}
     onPinnedColumnIdsChange={setPinnedColumnIds}
+    columnWidths={columnWidths}
+    onColumnWidthsChange={setColumnWidths}
     onRowReorder={mode === 'edit' ? (event) => setOrderedRows((current) => reorderTableRows(current, event, (row) => String(row.id))) : undefined}
     rowContextMenu={(rowId) => <><ContextMenuItem onClick={() => setSelected((current) => current.includes(Number(rowId)) ? current : [...current, Number(rowId)])}>Выбрать строку</ContextMenuItem><ContextMenuItem>Открыть позицию</ContextMenuItem>{mode === 'edit' ? <><ContextMenuDivider /><ContextMenuItem tone="danger">Удалить строку</ContextMenuItem></> : null}</>}
   >

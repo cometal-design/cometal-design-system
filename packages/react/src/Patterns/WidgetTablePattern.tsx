@@ -117,6 +117,7 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode 
   const [operators, setOperators] = useState<Record<string, string>>({});
   const [editingCell, setEditingCell] = useState<{ rowId: string; column: EditableColumn } | null>(null);
   const [pinnedColumnIds, setPinnedColumnIds] = useState<string[]>([]);
+  const [columnWidths, setColumnWidths] = useState<Record<string, number>>({});
   const operatorAction = (column: string, type: keyof typeof filterOperators) => {
     const options = filterOperators[type];
     const value = operators[column] ?? options[0];
@@ -200,7 +201,7 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode 
 
   return (
     <WidgetTablePattern title={`Спецификация позиций · ${mode === 'read' ? 'Read' : 'Edit'}`} description={`${visibleRows.length} строк · ${mode === 'read' ? 'построчное чтение' : 'редактирование ячеек'} · фильтры ${filters ? 'включены' : 'выключены'}`} toolbar={toolbar} footer={<TablePaginator aria-label={`Пагинация таблицы · ${mode === 'read' ? 'Read' : 'Edit'}`} page={page} pageCount={9} onPageChange={setPage} pageSize={pageSize} onPageSizeChange={setPageSize} />}>
-      <Table density={density} mode={mode} aria-label={`Спецификация позиций · ${mode === 'read' ? 'Read' : 'Edit'}`} pinnedColumnIds={pinnedColumnIds} onPinnedColumnIdsChange={setPinnedColumnIds} onRowReorder={mode === 'edit' ? (event) => setOrderedRows((current) => reorderTableRows(current, event, (row) => row[0])) : undefined} rowContextMenu={(rowId) => <><ContextMenuItem onClick={() => setSelected((current) => current.includes(rowId) ? current : [...current, rowId])}>Выбрать строку</ContextMenuItem><ContextMenuItem>Открыть позицию</ContextMenuItem>{mode === 'edit' ? <><ContextMenuDivider /><ContextMenuItem tone="danger">Удалить строку</ContextMenuItem></> : null}</>}>
+      <Table density={density} mode={mode} aria-label={`Спецификация позиций · ${mode === 'read' ? 'Read' : 'Edit'}`} pinnedColumnIds={pinnedColumnIds} onPinnedColumnIdsChange={setPinnedColumnIds} columnWidths={columnWidths} onColumnWidthsChange={setColumnWidths} onRowReorder={mode === 'edit' ? (event) => setOrderedRows((current) => reorderTableRows(current, event, (row) => row[0])) : undefined} rowContextMenu={(rowId) => <><ContextMenuItem onClick={() => setSelected((current) => current.includes(rowId) ? current : [...current, rowId])}>Выбрать строку</ContextMenuItem><ContextMenuItem>Открыть позицию</ContextMenuItem>{mode === 'edit' ? <><ContextMenuDivider /><ContextMenuItem tone="danger">Удалить строку</ContextMenuItem></> : null}</>}>
         <TableHead>
           <TableRow>
             <TableHeaderCell columnId={reviewColumnIds.drag} kind="drag"><span className="cometal-widget-table-pattern__sr-only">Перемещение</span></TableHeaderCell>

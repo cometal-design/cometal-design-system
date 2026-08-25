@@ -53,6 +53,9 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - `columnId` должен быть одинаковым у `TableHeaderCell`, `TableFilterCell`, body cell и `TableSummaryCell` одной колонки. `Table` измеряет фактические ширины первого header row через `ResizeObserver`, вычисляет накопленные left offsets и применяет их ко всем этажам колонки.
 - Контекстное меню использует `TableColumnPinAction`: «Закрепить слева» / «Открепить слева» меняет только controlled список. Можно закрепить произвольные 1..N колонок; порядок кликов не меняет их визуальный порядок.
 - Последняя закреплённая колонка получает системный separator/shadow. Pinned header, filter, body и summary сохраняют собственные surface tokens, включая selected, editing и error, поверх прокручиваемых колонок.
+- Resize остаётся controlled: `Table.columnWidths` хранит ширины по стабильным `columnId`, а `onColumnWidthsChange` получает полный следующий record. Компонент не пишет в storage; продукт может сохранять record в профиле пользователя или local persistence.
+- У data header с `columnId` separator доступен pointer и клавиатурой. Pointer drag использует capture и курсор `col-resize`; `ArrowLeft/ArrowRight` меняют ширину на 8px, Shift — на 32px, `Home` возвращает token minimum. Utility columns Index, Selection и Drag не resizeable.
+- Одна controlled ширина применяется к header, filter, body и summary. Pin/unpin, density и rerender не сбрасывают её; изменение ширины pinned column немедленно пересчитывает накопленные sticky offsets следующих закреплённых колонок.
 
 ## Плотность
 
@@ -97,4 +100,5 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - [x] Read полностью исключает drag-column и не активирует `onRowReorder`; Edit сохраняет drag-column и reorder.
 - [x] Состояние Edit Cell / Editing делает саму `td` textbox-поверхностью без вложенного input.
 - [x] Controlled pinning синхронизирует header/filter/body/summary, использует фактические widths и DOM-порядок.
+- [x] Controlled resizing синхронизирует все этажи колонки и сохраняет keyboard/pointer contract независимо от pinning.
 - [ ] Frontend Lead acceptance подтверждён.

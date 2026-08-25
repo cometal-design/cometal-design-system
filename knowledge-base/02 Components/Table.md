@@ -37,6 +37,8 @@
 - Закрепление колонок тоже controlled: consumer хранит `Table.pinnedColumnIds`, `TableColumnPinAction` вызывает `onPinnedColumnIdsChange`, а результат всегда нормализуется по DOM/визуальному порядку, не по порядку кликов.
 - Одинаковый `columnId` связывает header, filter, body и summary одной колонки. Table измеряет фактические header widths через `ResizeObserver`, накапливает left offsets и сохраняет sticky layering для default/selected/editing/error surfaces в обеих плотностях.
 - Последняя pinned column показывает separator/shadow; при horizontal scroll остальные колонки проходят под закреплёнными. Read по-прежнему не рендерит drag-column, Edit сохраняет её.
+- Ширина колонки — отдельное controlled состояние `columnWidths`, связанное тем же `columnId`. Separator заголовка поддерживает pointer drag и клавиатуру; utility columns остаются фиксированными. Изменение ширины синхронно применяется ко всем этажам и пересчитывает offsets pinned columns.
+- Table намеренно не владеет storage. Consumer хранит record в React state и при необходимости персистит его в пользовательских настройках; поэтому pin/unpin, density и rerender не должны менять заданный размер.
 
 ## Ownership
 

@@ -84,6 +84,11 @@
   vertical-align: middle;
 }
 
+.cometal-table [data-column-width] {
+  width: var(--cometal-table-column-width);
+  max-width: var(--cometal-table-column-width);
+}
+
 .cometal-table__header-cell[data-column-pinned],
 .cometal-table__filter-cell[data-column-pinned],
 .cometal-table__cell[data-column-pinned] {
@@ -134,11 +139,44 @@
 }
 
 .cometal-table__header-cell {
+  position: relative;
   font-family: var(--cometal-typography-body-s-accent-font-family);
   font-size: var(--cometal-typography-body-s-accent-font-size);
   font-weight: var(--cometal-typography-body-s-accent-font-weight);
   line-height: var(--cometal-typography-body-s-accent-line-height);
   letter-spacing: var(--cometal-typography-body-s-accent-letter-spacing);
+}
+
+.cometal-table__column-resize-handle {
+  position: absolute;
+  z-index: 2;
+  top: 0;
+  right: calc(var(--cometal-primitive-spacing-50) / -2);
+  bottom: 0;
+  width: var(--cometal-primitive-spacing-50);
+  cursor: col-resize;
+  touch-action: none;
+}
+
+.cometal-table__column-resize-handle::after {
+  position: absolute;
+  top: 0;
+  right: calc((var(--cometal-primitive-spacing-50) - var(--cometal-table-border-width)) / 2);
+  bottom: 0;
+  width: var(--cometal-table-border-width);
+  background: var(--cometal-table-divider);
+  content: '';
+}
+
+.cometal-table__column-resize-handle:hover::after,
+.cometal-table__column-resize-handle[data-resizing]::after,
+.cometal-table__column-resize-handle:focus-visible::after {
+  width: var(--cometal-primitive-stroke-200);
+  background: var(--cometal-semantic-color-global-state-focus-ring);
+}
+
+.cometal-table__column-resize-handle:focus-visible {
+  outline: none;
 }
 
 .cometal-table__filter-cell {
