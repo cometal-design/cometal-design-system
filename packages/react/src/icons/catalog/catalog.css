@@ -124,25 +124,6 @@
   place-items: center;
 }
 
-.cometal-icon-catalog__outline-projections {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: var(--cometal-primitive-spacing-75);
-  max-width: 100%;
-}
-
-.cometal-icon-catalog__outline-projections > span {
-  display: grid;
-  flex: none;
-  place-items: center;
-}
-
-.cometal-icon-catalog__outline-projections .cometal-icon-catalog__icon {
-  max-width: none;
-  max-height: none;
-}
-
 .cometal-icon-catalog__preview-state {
   color: var(--cometal-semantic-color-global-text-secondary);
   font-size: var(--cometal-primitive-size-12);

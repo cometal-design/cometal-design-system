@@ -36,13 +36,7 @@ function CatalogPreview({ record }: { record: IconManifestRecord }) {
     >
       {failed ? <span className="cometal-icon-catalog__preview-state">Ошибка загрузки</span> : null}
       {!failed && !IconComponent ? <span className="cometal-icon-catalog__preview-state" aria-hidden="true">Иконка загружается</span> : null}
-      {IconComponent && record.library === 'outline' ? (
-        <span className="cometal-icon-catalog__outline-projections">
-          <span data-outline-projection="24"><IconComponent className="cometal-icon-catalog__icon" width={24} height={24} /></span>
-          <span data-outline-projection="64"><IconComponent className="cometal-icon-catalog__icon" width={64} height={64} /></span>
-        </span>
-      ) : null}
-      {IconComponent && record.library !== 'outline' ? <IconComponent className="cometal-icon-catalog__icon" /> : null}
+      {IconComponent ? <IconComponent className="cometal-icon-catalog__icon" width={48} height={48} /> : null}
     </span>
   );
 }
