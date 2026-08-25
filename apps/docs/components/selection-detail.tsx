@@ -3,6 +3,7 @@ import type { ReactNode } from 'react';
 import { components, statusLabels } from '../lib/registry';
 import { usageExamples } from '../lib/usage-examples';
 import { CodeExample } from './code-example';
+import { ComponentEnvironmentNotes } from './component-environment-notes';
 import { ComponentPageHeader } from './component-page-header';
 import { SectionHeading } from './section-heading';
 
@@ -27,7 +28,7 @@ function SizeExample({ kind, size }: { kind: Kind; size: 'l' | 'm' | 's' }) {
   return <Switch {...common} defaultChecked />;
 }
 
-export function SelectionDetail({ kind }: { kind: Kind }) {
+export function SelectionDetail({ kind, stableId }: { kind: Kind; stableId: ReactNode }) {
   const copy = content[kind];
   const component = components.find((item) => item.id === copy.id)!;
   const usage = usageExamples[component.id];
@@ -43,11 +44,21 @@ export function SelectionDetail({ kind }: { kind: Kind }) {
         figmaHref={`https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=${copy.figma}`}
         playgroundHref={`/storybook/?path=/story/${copy.story}`}
       />
+      <div className="metadata-strip" data-top-divider data-bottom-divider><span>Stable ID</span>{stableId}<span>React</span><strong>{component.name}</strong></div>
       <section className="content-section" id="usage"><SectionHeading title="Использование" description="Label является частью компонента и увеличивает кликабельную область нативного control." /><div className="guidance"><article data-tone="positive"><strong>Используйте</strong><p>{copy.use}</p></article><article data-tone="negative"><strong>Не используйте</strong><p>{copy.avoid}</p></article></div></section>
       <section className="content-section" id="code"><SectionHeading title="Код" description="Скопируйте установку, импорт или минимальный рабочий пример, соответствующий нативной семантике компонента." /><CodeExample componentName={component.name} sourceHref={sourceHref} usage={usage} /></section>
       <section className="content-section" id="values"><SectionHeading title="Значения и состояния" description="Hover, pressed и focus проверяются реальным взаимодействием; disabled передаётся приложением." /><div className="selection-value-board"><article><code>{kind === 'switch' ? 'Off' : kind === 'radio-button' ? 'Not selected' : 'Unchecked'}</code><Example kind={kind} state="off" /></article><article><code>{kind === 'switch' ? 'On' : kind === 'radio-button' ? 'Selected' : 'Checked'}</code><Example kind={kind} state="on" /></article>{extraValue}<article><code>Disabled</code><Example kind={kind} state="disabled" /></article></div></section>
       <section className="content-section" id="sizes"><SectionHeading title="Размеры" description="L, M и S меняют control и типографику, но сохраняют доступную кликабельную область с label." /><div className="selection-size-row">{(['l','m','s'] as const).map((size)=><article key={size}><code>{size.toUpperCase()}</code><SizeExample kind={kind} size={size} /></article>)}</div></section>
       <section className="content-section" id="api"><SectionHeading title="React API" description="Компонент расширяет нативные InputHTMLAttributes и не эмулирует browser behavior." /><div className="api-table"><div className="api-table__head"><span>Prop</span><span>Тип</span><span>Default</span></div>{[['label','string','required'],['description','string','—'],['size',"'l' | 'm' | 's'","'l'"],['checked / defaultChecked','boolean','native'],...(kind==='checkbox'?[['indeterminate','boolean','false']]:[])].map(([name,type,value])=><div key={name}><code>{name}</code><span>{type}</span><span>{value}</span></div>)}</div></section>
+      <ComponentEnvironmentNotes
+        responsive="Control, label и description образуют одну кликабельную строку с min-width: 0; длинный текст переносится в content, не уменьшая нативный input и focus target."
+        theme="Control, label, disabled и focus-visible используют semantic tokens активной темы; отдельного light/dark prop нет."
+        edgeCases={kind === 'checkbox'
+          ? 'Mixed задаётся indeterminate и aria-checked=mixed; disabled остаётся нативным. Empty label недопустим, потому что label является обязательным доступным именем.'
+          : kind === 'radio-button'
+            ? 'Все варианты группы используют общий name; empty group и одиночный Radio Button не выражают взаимоисключающий выбор. Disabled сохраняет нативную семантику.'
+            : 'Switch применяется сразу: pending/error продукта показываются рядом, а не как новый Switch state. Empty label недопустим; disabled блокирует нативное переключение.'}
+      />
     </main>
   );
 }

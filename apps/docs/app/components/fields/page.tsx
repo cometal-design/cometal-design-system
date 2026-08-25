@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Combobox, Select, TextArea, TextField } from '@cometal/react';
 import { CodeExample } from '../../../components/code-example';
+import { ComponentEnvironmentNotes } from '../../../components/component-environment-notes';
 import { ComponentPageHeader } from '../../../components/component-page-header';
 import { ComboboxModeDemo } from '../../../components/combobox-mode-demo';
 import { MultiSelectModeDemo } from '../../../components/multi-select-mode-demo';
@@ -34,6 +35,14 @@ export default function FieldsPage() {
         figmaHref="https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1096-42"
         playgroundHref="/storybook/?path=/story/components-fields--fields-playground"
       />
+
+      <section className="content-section" id="usage">
+        <SectionHeading title="Использование" description="Выбирайте field по задаче ввода, а не по внешнему сходству общей рамки." />
+        <div className="guidance">
+          <article data-tone="positive"><strong>Используйте</strong><p>Text Field для короткого ввода, Text Area для многострочного текста, Select для известного списка, Combobox для поиска и Multi Select для нескольких значений.</p></article>
+          <article data-tone="negative"><strong>Не используйте</strong><p>Не используйте disabled control как режим чтения, Select как свободный ввод или Multi Select для единственного значения. Для неизменяемых данных используйте <code>mode=&quot;read&quot;</code>.</p></article>
+        </div>
+      </section>
 
       <section className="content-section" id="family">
         <SectionHeading title="Пять компонентов" description="Mode=Read не копирует disabled-поле: рамка и интерактивность полностью исчезают." />
@@ -85,6 +94,12 @@ export default function FieldsPage() {
         <SectionHeading title="Общий React API" description="Каждый компонент расширяет нативные props своего HTML-элемента." />
         <div className="api-table"><div className="api-table__head"><span>Prop</span><span>Тип</span><span>Default</span></div>{[['label','string','required'],['size · single-line',"'l' | 'm' | 's'","'l'"],['size · TextArea / MultiSelect',"'l' | 'm'","'l'"],['mode',"'edit' | 'read'","'edit'"],['helperText','string','—'],['optional','boolean','false'],['error','string','—'],['readValue','ReactNode','—']].map(([name,type,value])=><div key={name}><code>{name}</code><span>{type}</span><span>{value}</span></div>)}</div>
       </section>
+
+      <ComponentEnvironmentNotes
+        responsive="Fields занимают доступную ширину контейнера и сохраняют min-width: 0. Длинные выбранные значения используют ellipsis, а Multi Select сворачивает лишние tags в счётчик."
+        theme="Control, listbox, error, helper и read mode используют общие semantic tokens активной темы; отдельного light/dark prop нет."
+        edgeCases="Empty, disabled и error остаются различимыми семантически; длинные labels и helper text не должны перекрывать control, а optional и required нельзя показывать одновременно."
+      />
     </main>
   );
 }
