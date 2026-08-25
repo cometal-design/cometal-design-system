@@ -265,7 +265,6 @@
 
 .cometal-table__sort-button:focus-visible,
 .cometal-table__context-action:focus-visible,
-.cometal-table__drag-handle:focus-visible,
 .cometal-table__page-control:focus-visible,
 .cometal-table__page-size select:focus-visible {
   outline: var(--cometal-primitive-stroke-200) solid var(--cometal-semantic-color-global-state-focus-ring);
@@ -316,6 +315,10 @@
 
 .cometal-table__context-action:hover {
   background: var(--cometal-component-table-header-surface-context-action-hover);
+}
+
+.cometal-table__drag-handle:focus-visible {
+  outline: none;
 }
 
 .cometal-table__context-action[aria-expanded='true'] {

@@ -813,7 +813,6 @@ export const TableDragHandle = forwardRef<HTMLButtonElement, TableDragHandleProp
         onPointerDown?.(event);
         if (!rowId || !reorder || event.defaultPrevented || event.button !== 0) return;
         event.preventDefault();
-        event.currentTarget.focus();
         event.currentTarget.closest<HTMLElement>('.cometal-table-scroll')?.setPointerCapture(event.pointerId);
         reorder.startPointerDrag(rowId, rowLabel);
       }}

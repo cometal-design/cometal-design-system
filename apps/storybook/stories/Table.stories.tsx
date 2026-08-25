@@ -295,6 +295,7 @@ export const Overview: Story = {
     await expect(editableCell).toHaveAttribute('contenteditable', 'true');
     await expect(editableCell.querySelector('input')).toBeNull();
     dragHandle.focus();
+    await expect(getComputedStyle(dragHandle).outlineStyle).toBe('none');
     await userEvent.keyboard('{Space}');
     await expect(dragHandle).toHaveAttribute('aria-pressed', 'true');
     await expect(table.querySelector('tr[data-reorder-id="1"]')).toHaveAttribute('data-row-dragging', 'true');
