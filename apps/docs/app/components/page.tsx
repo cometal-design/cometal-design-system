@@ -1,5 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
+import { Badge } from '@cometal/react';
 import { ComponentCatalogPreview } from '../../components/component-catalog-preview';
 import { MetadataStrip } from '../../components/metadata-strip';
 import { PageHeader } from '../../components/page-header';
@@ -53,7 +54,7 @@ export default function ComponentsPage() {
           <article className="component-card" data-component-id={family.id} key={family.id}>
             <div className="component-card__preview"><div className="component-card__demo"><ComponentCatalogPreview id={family.id} /></div></div>
             <div className="component-card__body">
-              <div><code>{family.id}</code><span className="status" data-status={family.status}>{statusLabels[family.status] ?? family.status}</span></div>
+              <div><code>{family.id}</code><Badge tone={family.status === 'ready' ? 'green' : 'yellow'}>{statusLabels[family.status] ?? family.status}</Badge></div>
               <h2><Link href={family.href}>{family.name}</Link></h2>
               <p>{family.description}</p>
               <footer><span>{family.version}</span><span>{family.checks}/5 источников согласовано</span></footer>

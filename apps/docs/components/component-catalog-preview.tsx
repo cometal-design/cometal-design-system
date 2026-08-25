@@ -63,13 +63,13 @@ export function ComponentCatalogPreview({ id }: { id: string }) {
   if (id === 'overlay.tooltip') {
     return (
       <Tooltip content="Подсказка для действия" defaultOpen placement="top-center">
-        <button style={{ padding: '12px 16px' }}>Наведи или сфокусируй</button>
+        <Button size="m" variant="secondary">Наведи или сфокусируй</Button>
       </Tooltip>
     );
   }
   if (id === 'overlay.context-menu') {
     return (
-      <ContextMenu defaultOpen trigger={<button style={{ padding: '12px 16px' }}>Открыть</button>}>
+      <ContextMenu defaultOpen trigger={<Button size="m" variant="secondary">Открыть</Button>}>
         <ContextMenuItem>Открыть</ContextMenuItem>
         <ContextMenuItem>Переименовать</ContextMenuItem>
         <ContextMenuDivider />

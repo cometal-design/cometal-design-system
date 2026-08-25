@@ -213,27 +213,6 @@ code, pre, kbd, samp {
   -webkit-backdrop-filter: blur(var(--cometal-primitive-spacing-150));
   backdrop-filter: blur(var(--cometal-primitive-spacing-150));
 }
-.menu-icon {
-  position: relative;
-  display: block;
-  width: var(--cometal-primitive-size-16);
-  height: var(--cometal-primitive-size-16);
-}
-.menu-icon span {
-  position: absolute;
-  top: 50%;
-  left: 0;
-  display: block;
-  width: 100%;
-  height: var(--cometal-primitive-stroke-200);
-  border-radius: var(--cometal-primitive-stroke-200);
-  background: currentColor;
-  transition: transform var(--cometal-motion-duration-popover) var(--cometal-motion-easing-enter);
-}
-.menu-icon span:first-child { transform: translateY(calc(var(--cometal-primitive-spacing-12) * -1)); }
-.menu-icon span:last-child { transform: translateY(var(--cometal-primitive-spacing-12)); }
-.menu-icon[data-open] span:first-child { transform: rotate(45deg); }
-.menu-icon[data-open] span:last-child { transform: rotate(-45deg); }
 .mobile-navigation {
   position: absolute;
   z-index: 45;
@@ -816,8 +795,6 @@ code, pre, kbd, samp {
 .component-card__body { padding: var(--cometal-primitive-spacing-150); }
 .component-card__body > div { display: flex; align-items: center; justify-content: space-between; }
 .component-card code, .component-card footer { color: var(--portal-muted); font: var(--portal-code-s-size)/var(--portal-code-line-height) var(--portal-font-code); }
-.status { display: inline-flex; min-height: var(--cometal-primitive-size-24); padding: 0 var(--cometal-primitive-spacing-50); align-items: center; border-radius: var(--portal-radius-s); background: var(--portal-warning-surface); color: var(--portal-warning-text); font: var(--portal-code-xs-size)/var(--portal-code-line-height) var(--portal-font-code); }
-.status[data-status='ready'] { background: var(--portal-positive-surface); color: var(--portal-positive-text); }
 .component-card h2 { margin: var(--portal-space-block) 0 0; font-family: var(--cometal-typography-heading-l-font-family); font-size: var(--cometal-typography-heading-l-font-size); font-weight: var(--cometal-typography-heading-l-font-weight); line-height: var(--cometal-typography-heading-l-line-height); letter-spacing: var(--cometal-typography-heading-l-letter-spacing); }
 .component-card h2 a { text-decoration: none; }.component-card h2 a::after { content: ' →'; color: var(--portal-subtle); }
 .component-card h2 a:hover { color: var(--portal-blue); }
@@ -828,7 +805,6 @@ code, pre, kbd, samp {
 .component-title > div:first-child { max-width: var(--portal-copy-medium-width); }
 .component-title__toolbar { display: flex; margin-top: var(--portal-space-group); align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--cometal-primitive-spacing-100); }
 .component-title__links { display: flex; margin-left: auto; flex-wrap: wrap; gap: var(--cometal-primitive-spacing-50); }
-.status.component-title__status { min-height: var(--cometal-semantic-size-global-button-l); padding-inline: var(--cometal-semantic-spacing-global-button-l-inset-icon); border-radius: var(--cometal-semantic-radius-global-button); font-family: var(--cometal-typography-control-l-font-family); font-size: var(--cometal-typography-control-l-font-size); font-weight: var(--cometal-typography-control-l-font-weight); line-height: var(--cometal-typography-control-l-line-height); letter-spacing: var(--cometal-typography-control-l-letter-spacing); }
 .guidance { display: grid; grid-template-columns: 1fr 1fr; gap: var(--cometal-primitive-spacing-100); }
 .guidance article { min-height: var(--cometal-documentation-layout-height-guidance); padding: var(--cometal-primitive-spacing-150); border-radius: var(--portal-radius-l); }
 .guidance article[data-tone='positive'] { background: var(--portal-positive-surface); }.guidance article[data-tone='negative'] { background: var(--portal-negative-surface); }
@@ -1087,7 +1063,6 @@ code, pre, kbd, samp {
   html { scroll-behavior: auto; }
   .brand,
   .menu-button,
-  .menu-icon span,
   .primary-nav__link,
   .foundation-tabs a {
     transition: none;

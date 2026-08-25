@@ -1,6 +1,6 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { WidgetTableReviewExample } from '@cometal/react';
+import { Badge, WidgetTableReviewExample } from '@cometal/react';
 import { MetadataStrip } from '../../components/metadata-strip';
 import { PageHeader } from '../../components/page-header';
 
@@ -13,7 +13,7 @@ export default function PatternsPage() {
     <section className="pattern-catalog" aria-label="Каталог паттернов">
       <article className="pattern-catalog__item">
         <div className="pattern-catalog__preview"><WidgetTableReviewExample initialDensity="compact" /></div>
-        <div className="pattern-catalog__body"><div><code>pattern.widget-table</code><span className="status" data-status="in-review">In review</span></div><h2><Link href="/patterns/widget-table/">Widget + Table</Link></h2><p>Универсальный Widget с полноценной Table: toolbar, два уровня header, строки, summary и paginator.</p></div>
+        <div className="pattern-catalog__body"><div><code>pattern.widget-table</code><Badge tone="yellow">In review</Badge></div><h2><Link href="/patterns/widget-table/">Widget + Table</Link></h2><p>Универсальный Widget с полноценной Table: toolbar, два уровня header, строки, summary и paginator.</p></div>
       </article>
     </section>
   </main>;

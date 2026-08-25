@@ -1,4 +1,4 @@
-import { Tooltip } from '@cometal/react';
+import { Button, Tooltip } from '@cometal/react';
 
 export default function TooltipPage() {
   return (
@@ -14,7 +14,7 @@ export default function TooltipPage() {
 
       <section style={{ paddingTop: 32 }}>
         <Tooltip content="Подсказка для действия" defaultOpen placement="top-center">
-          <button style={{ padding: '12px 16px' }}>Наведи или сфокусируй</button>
+          <Button size="m" variant="secondary">Наведи или сфокусируй</Button>
         </Tooltip>
       </section>
     </main>

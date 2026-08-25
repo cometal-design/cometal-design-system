@@ -1,5 +1,6 @@
 import { Badge } from '@cometal/react';
 import type { BadgeSurface, BadgeTone } from '@cometal/react';
+import CheckIcon from '@cometal/react/icons/outline/general/check-01';
 import { components, statusLabels } from '../lib/registry';
 import { usageExamples } from '../lib/usage-examples';
 import { CodeExample } from './code-example';
@@ -8,10 +9,6 @@ import { SectionHeading } from './section-heading';
 
 const badgeSurfaces: readonly BadgeSurface[] = ['light', 'dark'];
 const badgeTones: readonly BadgeTone[] = ['neutral', 'blue', 'cyan', 'green', 'purple', 'red', 'violet', 'yellow'];
-
-function CheckIcon() {
-  return <svg viewBox="0 0 12 12" focusable="false"><path fill="currentColor" d="M4.83 8.7 2.1 5.98l1.06-1.06 1.67 1.67 4-4 1.07 1.06-5.07 5.06Z" /></svg>;
-}
 
 export function BadgeDetail() {
   const component = components.find((item) => item.id === 'status.badge')!;

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Button } from '@cometal/react';
 import type { ButtonVariant } from '@cometal/react';
+import ArrowRightIcon from '@cometal/react/icons/outline/arrows/arrow-right';
 import { CodeExample } from '../../../components/code-example';
 import { ComponentPageHeader } from '../../../components/component-page-header';
 import { components, statusLabels } from '../../../lib/registry';
@@ -15,14 +16,6 @@ const sourceHref = `https://github.com/cometal-design/cometal-design-system/blob
 const buttonSizes = ['l', 'm', 's'] as const;
 const darkVariants = new Set(['ghost', 'inverse', 'inverse-ghost']);
 const documentedVariants: ButtonVariant[] = ['primary', 'secondary', 'link', 'danger', 'success', 'warning', 'ghost', 'inverse', 'inverse-ghost'];
-
-function ArrowIcon() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" focusable="false">
-      <path d="M13.333 19 20 12l-6.667-7M20 12H4" stroke="currentColor" strokeWidth="var(--cometal-primitive-stroke-140, 1.4)" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
 
 export default function ButtonPage() {
   return (
@@ -61,9 +54,9 @@ export default function ButtonPage() {
               <div className="size-list__size"><strong>{size.toUpperCase()}</strong><span>{size === 'l' ? 48 : size === 'm' ? 40 : 32}px</span></div>
               <div className="size-list__examples">
                 <div className="size-list__example"><span>Текст</span><Button size={size}>Продолжить</Button></div>
-                <div className="size-list__example"><span>Иконка слева</span><Button size={size} startIcon={<ArrowIcon />}>Продолжить</Button></div>
-                <div className="size-list__example"><span>Иконка справа</span><Button size={size} endIcon={<ArrowIcon />}>Продолжить</Button></div>
-                <div className="size-list__example"><span>Только иконка</span><Button size={size} startIcon={<ArrowIcon />} aria-label="Продолжить" /></div>
+                <div className="size-list__example"><span>Иконка слева</span><Button size={size} startIcon={<ArrowRightIcon />}>Продолжить</Button></div>
+                <div className="size-list__example"><span>Иконка справа</span><Button size={size} endIcon={<ArrowRightIcon />}>Продолжить</Button></div>
+                <div className="size-list__example"><span>Только иконка</span><Button size={size} startIcon={<ArrowRightIcon />} aria-label="Продолжить" /></div>
               </div>
             </article>
           ))}

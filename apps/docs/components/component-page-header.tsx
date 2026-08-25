@@ -1,4 +1,4 @@
-import { ActionLink } from '@cometal/react';
+import { ActionLink, Badge } from '@cometal/react';
 
 type ComponentPageHeaderProps = {
   eyebrow?: string;
@@ -27,7 +27,7 @@ export function ComponentPageHeader({
         <p>{summary}</p>
       </div>
       <div className="component-title__toolbar">
-        <span className="status component-title__status" data-status={status}>{statusLabel}</span>
+        <Badge className="component-title__status" tone={status === 'ready' ? 'green' : 'yellow'}>{statusLabel}</Badge>
         <div className="component-title__links">
           <ActionLink href={figmaHref} target="_blank" rel="noreferrer" variant="secondary">Figma ↗</ActionLink>
           <ActionLink href={playgroundHref} variant="secondary">Playground ↗</ActionLink>

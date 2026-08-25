@@ -8,6 +8,7 @@ import {
   ContextMenuItem,
   DatePicker,
   DateRangePicker,
+  InlineLink,
   Select,
   Table,
   TableBody,
@@ -48,7 +49,7 @@ const dragStates = ['default', 'hover', 'dragging', 'disabled', 'active'] as con
 
 function ReadValue({ type }: { type: (typeof readTypes)[number] }) {
   if (type === 'Number') return <>12 450,00</>;
-  if (type === 'Link') return <a href="#table-read-cell" onClick={(event) => event.preventDefault()}>Открыть позицию</a>;
+  if (type === 'Link') return <InlineLink href="#table-read-cell" onClick={(event) => event.preventDefault()}>Открыть позицию</InlineLink>;
   if (type === 'Badge') return <Badge tone="blue">Статус</Badge>;
   if (type === 'Text + Badge') return <>Значение <Badge tone="blue">Статус</Badge></>;
   if (type === 'Number + Badge') return <>12 450 <Badge tone="green">ОК</Badge></>;

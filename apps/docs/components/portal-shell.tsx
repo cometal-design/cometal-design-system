@@ -5,6 +5,8 @@ import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 import { useEffect, useState } from 'react';
 import { IconButton } from '@cometal/react';
+import MenuIcon from '@cometal/react/icons/outline/general/menu-01';
+import CloseIcon from '@cometal/react/icons/outline/general/x-01';
 import { primaryNavigation, sectionNavigation } from '../lib/navigation';
 
 function normalizePath(path: string) {
@@ -21,15 +23,6 @@ function isPrimaryItemActive(pathname: string, item: (typeof primaryNavigation)[
   const section = currentSection(pathname);
   if (item.activeSections) return item.activeSections.includes(section);
   return pathname.startsWith(item.href);
-}
-
-function MenuIcon({ open }: { open: boolean }) {
-  return (
-    <span className="menu-icon" data-open={open || undefined} aria-hidden="true">
-      <span />
-      <span />
-    </span>
-  );
 }
 
 export function PortalShell({ children }: { children: React.ReactNode }) {
@@ -84,7 +77,7 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
             aria-expanded={menuOpen}
             aria-controls="mobile-navigation"
             onClick={() => setMenuOpen((value) => !value)}
-            icon={<MenuIcon open={menuOpen} />}
+            icon={menuOpen ? <CloseIcon /> : <MenuIcon />}
           />
         </div>
 
