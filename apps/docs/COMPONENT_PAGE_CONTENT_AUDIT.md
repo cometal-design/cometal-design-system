@@ -1,11 +1,12 @@
 # COMETAL component page content audit
 
-Audit date: 2026-08-25
-Source mode: `delivery_candidate`
-Audited page-content SHA: `4c12e28535c0339f905d83c66368c23d53174c62`
-Worktree: `/Users/vadim/Documents/Cometal/cometal-design-system-icons-implementation-2026-08-25`
-Branch: `agent/icons-library-implementation-2026-08-25`
-Method: static deterministic source/content-contract audit; no component page was changed
+- Audit date: 2026-08-25
+- Source mode: `delivery_candidate`
+- Exact implementation baseline: `7883377ade90aa25baab225ae57911ae5b95236d`
+- Audited content: bounded working tree for the six-route P0 batch; the exact containing candidate SHA is reported by the implementation handoff
+- Worktree: `/Users/vadim/Documents/Cometal/cometal-design-system-icons-implementation-2026-08-25`
+- Branch: `agent/icons-library-implementation-2026-08-25`
+Method: static deterministic source/content-contract audit
 
 ## Inventory
 
@@ -17,12 +18,14 @@ Method: static deterministic source/content-contract audit; no component page wa
 
 ## Summary
 
-- Complete routes: 0/15.
-- Routes with missing evidence: 15/15.
-- Criterion results: 125 PASS, 69 MISSING, 1 explicit N/A.
-- All 15 routes render a real COMETAL component/example and all 15 provide a title and summary.
-- No route currently demonstrates the full responsive + theme + edge-case evidence set.
-- Context Menu explicitly lacks React source and code-example evidence.
+- Complete routes: 6/15 (previously 0/15).
+- Routes with missing evidence: 9/15 (previously 15/15).
+- Criterion results: 168 PASS, 26 MISSING, 1 explicit N/A (previously 125 PASS, 69 MISSING, 1 N/A).
+- All 43 missing criteria in the approved six-route batch are closed.
+- Tooltip and Context Menu now consume `ComponentPageHeader`, registry usage data and `CodeExample`, with visible stable IDs and exact React source context.
+- The four Table child routes now state their shared `data-display.table` identity and `Table.tsx` implementation, while retaining exact child Figma evidence. Columns uses `tableFigmaSources.mainComponents`.
+- Context Menu no longer lacks code/source evidence.
+- Nine untouched routes retain 26 known gaps; this batch does not claim system-wide completeness.
 
 Criterion IDs are defined in `COMPONENT_PAGE_CONTENT_CHECKLIST.md` and the JSON contract.
 
@@ -37,43 +40,41 @@ Criterion IDs are defined in `COMPONENT_PAGE_CONTENT_CHECKLIST.md` and the JSON 
 | `/components/checkbox/` | title-summary, lifecycle, figma, storybook, react-source, usage-boundaries, real-example, code-example, matrix, behavior-a11y, public-api | identity, responsive-theme-edge | — |
 | `/components/radio-button/` | title-summary, lifecycle, figma, storybook, react-source, usage-boundaries, real-example, code-example, matrix, behavior-a11y, public-api | identity, responsive-theme-edge | — |
 | `/components/switch/` | title-summary, lifecycle, figma, storybook, react-source, usage-boundaries, real-example, code-example, matrix, behavior-a11y, public-api | identity, responsive-theme-edge | — |
-| `/components/tooltip/` | title-summary, real-example | identity, lifecycle, figma, storybook, react-source, usage-boundaries, code-example, matrix, behavior-a11y, public-api, responsive-theme-edge | — |
+| `/components/tooltip/` | identity, title-summary, lifecycle, figma, storybook, react-source, usage-boundaries, real-example, code-example, matrix, behavior-a11y, public-api, responsive-theme-edge | — | — |
 | `/components/table/` | title-summary, lifecycle, figma, storybook, react-source, real-example, code-example, behavior-a11y | identity, usage-boundaries, matrix, public-api, responsive-theme-edge | — |
-| `/components/table/cells/` | title-summary, lifecycle, figma, storybook, real-example, matrix, behavior-a11y | identity, react-source, usage-boundaries, code-example, public-api, responsive-theme-edge | — |
-| `/components/table/headers/` | title-summary, lifecycle, figma, storybook, real-example, matrix, behavior-a11y | identity, react-source, usage-boundaries, code-example, public-api, responsive-theme-edge | — |
-| `/components/table/columns/` | title-summary, lifecycle, storybook, real-example, matrix, behavior-a11y | identity, figma, react-source, usage-boundaries, code-example, public-api, responsive-theme-edge | — |
-| `/components/table/paginator/` | title-summary, lifecycle, figma, storybook, real-example, matrix, behavior-a11y | identity, react-source, usage-boundaries, code-example, public-api, responsive-theme-edge | — |
+| `/components/table/cells/` | identity, title-summary, lifecycle, figma, storybook, react-source, usage-boundaries, real-example, code-example, matrix, behavior-a11y, public-api, responsive-theme-edge | — | — |
+| `/components/table/headers/` | identity, title-summary, lifecycle, figma, storybook, react-source, usage-boundaries, real-example, code-example, matrix, behavior-a11y, public-api, responsive-theme-edge | — | — |
+| `/components/table/columns/` | identity, title-summary, lifecycle, figma, storybook, react-source, usage-boundaries, real-example, code-example, matrix, behavior-a11y, public-api, responsive-theme-edge | — | — |
+| `/components/table/paginator/` | identity, title-summary, lifecycle, figma, storybook, react-source, usage-boundaries, real-example, code-example, matrix, behavior-a11y, public-api, responsive-theme-edge | — | — |
 | `/components/widget/` | title-summary, lifecycle, figma, storybook, react-source, real-example, code-example, behavior-a11y | identity, usage-boundaries, public-api, responsive-theme-edge | matrix: Widget exposes composition slots rather than a public size/variant/state axis. |
-| `/components/context-menu/` | title-summary, lifecycle, figma, storybook, real-example, behavior-a11y | identity, react-source, usage-boundaries, code-example, matrix, public-api, responsive-theme-edge | — |
+| `/components/context-menu/` | identity, title-summary, lifecycle, figma, storybook, react-source, usage-boundaries, real-example, code-example, matrix, behavior-a11y, public-api, responsive-theme-edge | — | — |
 
-## Prioritized systemic gaps
+## Six-route audit delta
 
-### Priority 1 — shared completeness contract
+| Route | Before | After | Closed criteria |
+|---|---:|---:|---|
+| `/components/tooltip/` | 2 PASS / 11 MISSING | 13 PASS / 0 MISSING | identity, lifecycle, figma, storybook, react-source, usage-boundaries, code-example, matrix, behavior-a11y, public-api, responsive-theme-edge |
+| `/components/context-menu/` | 6 PASS / 7 MISSING | 13 PASS / 0 MISSING | identity, react-source, usage-boundaries, code-example, matrix, public-api, responsive-theme-edge |
+| `/components/table/cells/` | 7 PASS / 6 MISSING | 13 PASS / 0 MISSING | identity, react-source, usage-boundaries, code-example, public-api, responsive-theme-edge |
+| `/components/table/headers/` | 7 PASS / 6 MISSING | 13 PASS / 0 MISSING | identity, react-source, usage-boundaries, code-example, public-api, responsive-theme-edge |
+| `/components/table/columns/` | 6 PASS / 7 MISSING | 13 PASS / 0 MISSING | identity, figma, react-source, usage-boundaries, code-example, public-api, responsive-theme-edge |
+| `/components/table/paginator/` | 7 PASS / 6 MISSING | 13 PASS / 0 MISSING | identity, react-source, usage-boundaries, code-example, public-api, responsive-theme-edge |
 
-1. `responsive-theme-edge` is missing on 15/15 routes. The repair should define one reusable portal evidence pattern instead of adding unrelated bespoke sections.
-2. Visible stable identity is missing on 13/15 routes. Registry lookups exist in source, but the stable ID is not visible content.
-3. Usage/boundary guidance is missing on 10/15 routes, and public API reference is missing on 9/15.
+## Remaining prioritized gaps
 
-### Priority 2 — family and sparse pages
-
-1. Tooltip is the least complete page: 11 of 13 criteria are missing; it currently provides only a title/summary and one real example.
-2. All four Table child routes omit React source and install/import/usage/copy context. This is a systemic family-child defect, even though the shared header supplies lifecycle and Storybook navigation.
-3. Table Columns has no exact child-level Figma link. The generic family header is not sufficient for this narrower route.
-4. Context Menu has no React source link or code example. Its `registry/component-usage.json` entry exists, but the page does not consume it.
-
-### Priority 3 — depth and explicit exceptions
-
-1. Date Picker lacks a portal state/size matrix and public API reference; its text delegates full behavior evidence to Storybook.
-2. Button lacks explicit keyboard/a11y content despite showing focus state.
-3. Widget has the only current N/A: a variant/size/state matrix is not applicable because the public contract is slot composition. Its optional-region and responsive evidence is still missing.
+1. `responsive-theme-edge` remains missing on all nine untouched routes.
+2. Visible stable identity remains missing on Button, Badge, Checkbox, Radio Button, Switch, Table overview and Widget.
+3. Date Picker still lacks usage boundaries, a state/size matrix and a public API reference.
+4. Table overview and Widget still lack usage boundaries and public API context.
 
 ## Known limits
 
 - This is a source-content audit. It does not prove visual parity, link reachability, browser behavior, accessibility conformance or production availability.
-- Regex evidence is deliberately conservative and deterministic. It can report MISSING for semantically equivalent prose until the contract pattern is updated during a bounded content change.
-- Shared component source is followed for delegated pages, but PASS means evidence exists in the declared content graph, not that readers successfully understand it.
-- The native code Tabs inside `CodeExample` are not approved in Figma. This audit neither changes nor approves them.
-- The report records the exact page-content baseline SHA. The audit/tooling commit receives a new SHA while leaving all audited component pages byte-identical.
+- Regex evidence is conservative and deterministic. PASS means evidence exists in the declared content graph, not that independent QA has approved its clarity or visual presentation.
+- The four Table child routes intentionally share one documentation block and one React source. Their child-level matrix and Figma source remain route-specific.
+- No standalone Column React component exists; the Columns API section records that axis as an explicit composition-level N/A without weakening the page-level public API criterion.
+- The native code Tabs inside `CodeExample` are not approved in Figma. This batch neither changes nor approves them.
+- Full strict mode still exits nonzero because nine routes outside this bounded batch retain documented gaps.
 
 ## Commands
 
@@ -83,5 +84,3 @@ node apps/docs/scripts/validate-component-page-content.mjs --strict
 pnpm --filter @cometal/docs typecheck
 git diff --check
 ```
-
-Report mode is the default package script. Strict mode is expected to fail until the documented gaps are resolved and therefore is not part of the default build or validation chain.

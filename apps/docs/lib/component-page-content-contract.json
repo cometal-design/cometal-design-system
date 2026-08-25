@@ -214,7 +214,7 @@
       "contentFiles": [],
       "requirements": {
         "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>overlay\\.tooltip</code>"] }] } },
-        "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["node-id=2866-2"] }] } },
+        "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["figmaHref=\\{component\\.links\\.figma\\}"] }] } },
         "real-example": { "evidence": { "clauses": [{ "scope": "content", "all": ["<Tooltip\\b"] }] } }
       }
     },
@@ -235,7 +235,7 @@
       "source": "app/components/table/cells/page.tsx",
       "tier": "family-child",
       "stableIds": ["data-display.table"],
-      "contentFiles": ["components/table-family-header.tsx"],
+      "contentFiles": ["components/table-family-header.tsx", "components/table-child-documentation.tsx"],
       "requirements": {
         "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>data-display\\.table</code>"] }] } },
         "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["tableFigmaSources\\.cells"] }] } },
@@ -247,7 +247,7 @@
       "source": "app/components/table/headers/page.tsx",
       "tier": "family-child",
       "stableIds": ["data-display.table"],
-      "contentFiles": ["components/table-family-header.tsx"],
+      "contentFiles": ["components/table-family-header.tsx", "components/table-child-documentation.tsx"],
       "requirements": {
         "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>data-display\\.table</code>"] }] } },
         "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["tableFigmaSources\\.headers"] }] } },
@@ -259,7 +259,7 @@
       "source": "app/components/table/columns/page.tsx",
       "tier": "family-child",
       "stableIds": ["data-display.table"],
-      "contentFiles": ["components/table-family-header.tsx"],
+      "contentFiles": ["components/table-family-header.tsx", "components/table-child-documentation.tsx"],
       "requirements": {
         "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>data-display\\.table</code>"] }] } },
         "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["tableFigmaSources\\.mainComponents"] }] } },
@@ -271,7 +271,7 @@
       "source": "app/components/table/paginator/page.tsx",
       "tier": "family-child",
       "stableIds": ["data-display.table"],
-      "contentFiles": ["components/table-family-header.tsx"],
+      "contentFiles": ["components/table-family-header.tsx", "components/table-child-documentation.tsx"],
       "requirements": {
         "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>data-display\\.table</code>"] }] } },
         "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["tableFigmaSources\\.paginator"] }] } },
