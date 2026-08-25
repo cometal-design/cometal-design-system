@@ -22,7 +22,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - Поле заполняет ширину родителя. Календарь имеет базовую ширину 364px, выравнивается по левому краю поля, располагается через 8px и не изменяет высоту layout.
 - Календарь: понедельник — первый день недели; день занимает 44×44px.
 - Состояния дня: default, hover, selected, today, outside, disabled; focus-visible независим.
-- Для периода используются canonical range states: `start`, `middle`, `end`.
+- Для периода используются canonical range states: `start`, `middle`, `end`. За датами проходит непрерывный track высотой 32px, перекрывающий горизонтальный gap 4px; endpoints — полностью скруглённые brand-поверхности 40×40px.
 - Стили, размеры, цвета, типографика, радиусы и stroke используют токены Cometal.
 
 ## React API

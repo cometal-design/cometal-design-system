@@ -189,6 +189,21 @@ export const DateRangeOpen: Story = {
     const middleDays = canvasElement.querySelectorAll('[data-range-middle="true"]');
     await expect(middleDays.length).toBeGreaterThan(0);
     const panel = canvasElement.querySelector<HTMLElement>('.cometal-date-picker__panel');
+    const start = canvasElement.querySelector<HTMLElement>('[role="gridcell"][data-range-start="true"]')!;
+    const middle = canvasElement.querySelector<HTMLElement>('[role="gridcell"][data-range-middle="true"]')!;
+    const end = canvasElement.querySelector<HTMLElement>('[role="gridcell"][data-range-end="true"]')!;
+    const startTrack = getComputedStyle(start, '::before');
+    const middleTrack = getComputedStyle(middle, '::before');
+    const endTrack = getComputedStyle(end, '::before');
+    await expect(canvas.queryByText(/Сначала выберите|Выберите дату окончания/)).not.toBeInTheDocument();
+    await expect(panel?.getBoundingClientRect().height).toBe(350);
+    await expect(canvasElement.querySelector<HTMLElement>('.cometal-date-picker__month-header')?.getBoundingClientRect().height).toBe(32);
+    await expect(start.querySelector<HTMLElement>('.cometal-date-picker__day')?.getBoundingClientRect().width).toBe(40);
+    await expect(start.querySelector<HTMLElement>('.cometal-date-picker__day')?.getBoundingClientRect().height).toBe(40);
+    await expect(getComputedStyle(start.querySelector<HTMLElement>('.cometal-date-picker__day')!).borderRadius).toBe('8px');
+    await expect([startTrack.left, startTrack.width, startTrack.top, startTrack.height]).toEqual(['22px', '26px', '6px', '32px']);
+    await expect([middleTrack.left, middleTrack.width, middleTrack.top, middleTrack.height]).toEqual(['0px', '48px', '6px', '32px']);
+    await expect([endTrack.left, endTrack.width, endTrack.top, endTrack.height]).toEqual(['0px', '22px', '6px', '32px']);
     await expect(getComputedStyle(panel!).boxShadow).not.toBe('none');
   },
 };

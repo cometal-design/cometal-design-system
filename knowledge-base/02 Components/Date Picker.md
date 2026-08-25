@@ -21,6 +21,7 @@
 - В React дата хранится как ISO `YYYY-MM-DD`, показывается как `ДД.ММ.ГГГГ`.
 - Диапазон хранится как `{ start: Date | null, end: Date | null }`; промежуточные дни рендерятся через canonical classes start / middle / end.
 - Table header filters переиспользуют `DateRangePicker`, а не создают отдельный локальный overlay.
+- Date range рисует `start / middle / end` как непрерывный 32px selected-track за сеткой 44×44px; начало и конец — отдельные полностью скруглённые 40×40px brand endpoints.
 - Figma владеет визуальной моделью; спецификация — правилами; React — поведением/API; Storybook — исполняемыми состояниями и проверками.
 
 ## Motion

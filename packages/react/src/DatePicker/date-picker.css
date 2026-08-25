@@ -95,21 +95,6 @@
   gap: var(--cometal-primitive-spacing-50);
 }
 
-.cometal-date-range-picker__header-copy {
-  display: grid;
-  gap: var(--cometal-primitive-spacing-25);
-}
-
-.cometal-date-range-picker__header-copy p {
-  margin: 0;
-  color: var(--cometal-semantic-color-global-text-secondary);
-  font-family: var(--cometal-typography-body-s-default-font-family);
-  font-size: var(--cometal-typography-body-s-default-font-size);
-  font-weight: var(--cometal-typography-body-s-default-font-weight);
-  line-height: var(--cometal-typography-body-s-default-line-height);
-  letter-spacing: var(--cometal-typography-body-s-default-letter-spacing);
-}
-
 .cometal-date-picker__month-header h2 {
   margin: 0;
   color: var(--cometal-semantic-color-global-text-primary);
@@ -248,35 +233,51 @@
 }
 
 .cometal-date-range-picker .cometal-date-picker__day-row > [data-range-cell] {
-  background: var(--cometal-semantic-color-global-surface-subtle);
+  position: relative;
+  border-radius: 0;
+  background: transparent;
+  isolation: isolate;
+}
+
+.cometal-date-range-picker .cometal-date-picker__day-row > [data-range-cell]::before {
+  position: absolute;
+  z-index: 0;
+  top: 6px;
+  height: var(--cometal-primitive-size-32);
+  border-radius: 0;
+  background: var(--cometal-semantic-color-global-surface-selected);
+  content: '';
+  pointer-events: none;
+}
+
+.cometal-date-range-picker .cometal-date-picker__day-row > [data-range-start]:not([data-range-end])::before {
+  left: 22px;
+  width: 26px;
+}
+
+.cometal-date-range-picker .cometal-date-picker__day-row > [data-range-middle]::before {
+  left: 0;
+  width: 48px;
+}
+
+.cometal-date-range-picker .cometal-date-picker__day-row > [data-range-end]:not([data-range-start])::before {
+  left: 0;
+  width: 22px;
 }
 
 .cometal-date-range-picker .cometal-date-picker__day[data-range-middle] {
-  width: var(--cometal-primitive-size-44);
-  border-radius: 0;
+  position: relative;
+  z-index: 1;
   background: transparent;
   color: var(--cometal-semantic-color-global-text-primary);
 }
 
 .cometal-date-range-picker .cometal-date-picker__day[data-range-start]:not([data-range-end]),
 .cometal-date-range-picker .cometal-date-picker__day[data-range-end]:not([data-range-start]) {
-  width: var(--cometal-primitive-size-44);
-}
-
-.cometal-date-range-picker .cometal-date-picker__day[data-range-start]:not([data-range-end]) {
-  border-radius:
-    var(--cometal-semantic-radius-global-input)
-    0
-    0
-    var(--cometal-semantic-radius-global-input);
-}
-
-.cometal-date-range-picker .cometal-date-picker__day[data-range-end]:not([data-range-start]) {
-  border-radius:
-    0
-    var(--cometal-semantic-radius-global-input)
-    var(--cometal-semantic-radius-global-input)
-    0;
+  position: relative;
+  z-index: 1;
+  width: var(--cometal-primitive-size-40);
+  border-radius: var(--cometal-semantic-radius-global-input);
 }
 
 .cometal-date-range-picker .cometal-date-picker__day[data-range-start][data-range-end] {

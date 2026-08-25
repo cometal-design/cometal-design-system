@@ -502,14 +502,7 @@ export function DateRangePicker({
           onKeyDown={onCalendarKeyDown}
         >
           <div className="cometal-date-picker__month-header">
-            <div className="cometal-date-range-picker__header-copy">
-              <h2 data-month-motion={monthMotionDirection || undefined} id={headingId} aria-live="polite">{monthLabel(visibleMonth, locale)}</h2>
-              <p>
-                {rangeValue.start && !rangeValue.end
-                  ? 'Выберите дату окончания периода'
-                  : 'Сначала выберите начало периода'}
-              </p>
-            </div>
+            <h2 data-month-motion={monthMotionDirection || undefined} id={headingId} aria-live="polite">{monthLabel(visibleMonth, locale)}</h2>
             <div className="cometal-date-picker__month-actions">
               <button type="button" className="cometal-date-picker__month-control" aria-label="Предыдущий месяц" onClick={(event) => changeVisibleMonth(-1, event.detail !== 0)}>
                 <ChevronIcon direction="left" />
@@ -538,7 +531,16 @@ export function DateRangePicker({
                   const rangeEnd = Boolean(end && sameDay(date, end));
                   const rangeMiddle = Boolean(start && end && isBetween(date, start, end));
                   return (
-                    <span key={iso} role="gridcell" aria-label={fullDateLabel(date, locale)} aria-selected={selected} data-range-cell={rangeMiddle || rangeStart || rangeEnd || undefined}>
+                    <span
+                      key={iso}
+                      role="gridcell"
+                      aria-label={fullDateLabel(date, locale)}
+                      aria-selected={selected}
+                      data-range-cell={rangeMiddle || rangeStart || rangeEnd || undefined}
+                      data-range-start={rangeStart || undefined}
+                      data-range-middle={rangeMiddle || undefined}
+                      data-range-end={rangeEnd || undefined}
+                    >
                       <button
                         type="button"
                         className="cometal-date-picker__day"
