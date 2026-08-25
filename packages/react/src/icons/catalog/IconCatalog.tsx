@@ -19,7 +19,15 @@ import {
 import { createCatalogCopyController } from './copy-feedback';
 import './catalog.css';
 
-function CatalogPreview({ record }: { record: IconManifestRecord }) {
+type PreviewSize = 32 | 48 | 64;
+
+const previewSizeOptions: SelectOption[] = [
+  { value: '32', label: '32 × 32' },
+  { value: '48', label: '48 × 48' },
+  { value: '64', label: '64 × 64' },
+];
+
+function CatalogPreview({ record, size }: { record: IconManifestRecord; size: PreviewSize }) {
   const [IconComponent, setIconComponent] = useState<IconComponent>();
   const [failed, setFailed] = useState(false);
   useEffect(() => {
@@ -40,7 +48,7 @@ function CatalogPreview({ record }: { record: IconManifestRecord }) {
     >
       {failed ? <span className="cometal-icon-catalog__preview-state">Ошибка загрузки</span> : null}
       {!failed && !IconComponent ? <span className="cometal-icon-catalog__preview-state" aria-hidden="true">Иконка загружается</span> : null}
-      {IconComponent ? <IconComponent className="cometal-icon-catalog__icon" width={32} height={32} /> : null}
+      {IconComponent ? <IconComponent className="cometal-icon-catalog__icon" width={size} height={size} /> : null}
     </span>
   );
 }
@@ -53,11 +61,11 @@ export function IconCatalog({ className }: IconCatalogProps) {
   const [search, setSearch] = useState('');
   const [library, setLibrary] = useState('');
   const [family, setFamily] = useState('');
-  const [category, setCategory] = useState('');
+  const [previewSize, setPreviewSize] = useState<PreviewSize>(32);
   const [page, setPage] = useState(1);
   const [feedback, setFeedback] = useState('');
   const [copyError, setCopyError] = useState('');
-  const filters = useMemo(() => ({ library, family, category }), [library, family, category]);
+  const filters = useMemo(() => ({ library, family }), [library, family]);
   const results = useMemo(() => filterIconRecords(iconManifest, search, filters), [search, filters]);
   const filterOptions = useMemo(() => getIconCatalogFilterOptions(iconManifest, search, filters), [search, filters]);
   const libraryOptions = useMemo<SelectOption[]>(() => [
@@ -68,10 +76,6 @@ export function IconCatalog({ className }: IconCatalogProps) {
     { value: '', label: 'Все' },
     ...filterOptions.families.map((option) => ({ value: option.value, label: option.value })),
   ], [filterOptions.families]);
-  const categoryOptions = useMemo<SelectOption[]>(() => [
-    { value: '', label: 'Все' },
-    ...filterOptions.categories.map((option) => ({ value: option.value, label: option.value })),
-  ], [filterOptions.categories]);
   const pagination = useMemo(() => paginateIconRecords(results, page), [results, page]);
   const resultAnnouncement = `Найдено ${results.length.toLocaleString('ru-RU')}. Страница ${pagination.page} из ${pagination.pageCount}.`;
   const resultAnnouncementRef = useRef(resultAnnouncement);
@@ -153,21 +157,21 @@ export function IconCatalog({ className }: IconCatalogProps) {
           size="l"
           options={libraryOptions}
           value={library}
-          onValueChange={(value) => { setLibrary(value); setFamily(''); setCategory(''); resetPage(); }}
+          onValueChange={(value) => { setLibrary(value); setFamily(''); resetPage(); }}
         />
         <Select
           label="Семейство"
           size="l"
           options={familyOptions}
           value={family}
-          onValueChange={(value) => { setFamily(value); setCategory(''); resetPage(); }}
+          onValueChange={(value) => { setFamily(value); resetPage(); }}
         />
         <Select
-          label="Категория"
+          label="Размер превью"
           size="l"
-          options={categoryOptions}
-          value={category}
-          onValueChange={(value) => { setCategory(value); resetPage(); }}
+          options={previewSizeOptions}
+          value={String(previewSize)}
+          onValueChange={(value) => setPreviewSize(Number(value) as PreviewSize)}
         />
       </div>
       <div className="cometal-icon-catalog__result-line" data-page={pagination.page} data-page-count={pagination.pageCount}>
@@ -181,7 +185,7 @@ export function IconCatalog({ className }: IconCatalogProps) {
         <ul className="cometal-icon-catalog__grid">
           {pagination.records.map((record) => (
             <li key={record.canonicalName} className="cometal-icon-catalog__card" data-paint-mode={record.paintMode}>
-              <div className="cometal-icon-catalog__preview"><CatalogPreview record={record} /></div>
+              <div className="cometal-icon-catalog__preview"><CatalogPreview record={record} size={previewSize} /></div>
               <code className="cometal-icon-catalog__name">{record.canonicalName}</code>
               <span>{record.library} · {iconCategory(record)}</span>
               <div className="cometal-icon-catalog__actions">

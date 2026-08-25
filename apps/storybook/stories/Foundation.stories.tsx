@@ -423,7 +423,7 @@ export const Icons: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const search = canvas.getByRole('searchbox', { name: 'Поиск по каноническому имени' }) as HTMLInputElement;
-    const filterLabels = ['Библиотека', 'Семейство', 'Категория'] as const;
+    const filterLabels = ['Библиотека', 'Семейство', 'Размер превью'] as const;
     const selects = filterLabels.map((label) => canvas.getByRole('combobox', { name: label }) as HTMLButtonElement);
     const resultLine = canvasElement.querySelector<HTMLElement>('.cometal-icon-catalog__result-line')!;
     const originalSearch = search.value;
@@ -500,19 +500,25 @@ export const Icons: Story = {
       await selectFilter('Библиотека', 'outline');
       await expect(currentPage()).toBe(1);
       await selectFilter('Семейство', 'general');
-      await selectFilter('Категория', 'general');
       await selectFilter('Библиотека', 'filled');
       await expect(canvas.getByRole('combobox', { name: 'Семейство' })).toHaveTextContent('Все');
-      await expect(canvas.getByRole('combobox', { name: 'Категория' })).toHaveTextContent('Все');
       await selectFilter('Библиотека', 'outline');
       await selectFilter('Семейство', 'general');
-      await selectFilter('Категория', 'general');
       await selectFilter('Семейство', 'Все');
-      await expect(canvas.getByRole('combobox', { name: 'Категория' })).toHaveTextContent('Все');
-      await selectFilter('Семейство', 'alerts');
-      await selectFilter('Категория', 'alerts');
-      await selectFilter('Категория', 'Все');
-      await selectFilter('Семейство', 'Все');
+      await moveToPage(2);
+      const filteredResultCount = canvasElement.querySelector('.cometal-icon-catalog__result-line strong')?.textContent ?? '';
+      const firstVisiblePreview = canvasElement.querySelector<HTMLElement>('[data-preview-name]');
+      await expect(firstVisiblePreview).not.toBeNull();
+      await selectFilter('Размер превью', '48 × 48');
+      await expect(currentPage()).toBe(2);
+      await expect(canvasElement.querySelector('.cometal-icon-catalog__result-line strong')).toHaveTextContent(filteredResultCount);
+      await waitFor(() => expect(firstVisiblePreview!.querySelector('svg')).toHaveAttribute('width', '48'));
+      await expect(firstVisiblePreview!.querySelector('svg')).toHaveAttribute('height', '48');
+      await selectFilter('Размер превью', '64 × 64');
+      await expect(currentPage()).toBe(2);
+      await waitFor(() => expect(firstVisiblePreview!.querySelector('svg')).toHaveAttribute('width', '64'));
+      await expect(firstVisiblePreview!.querySelector('svg')).toHaveAttribute('height', '64');
+      await selectFilter('Размер превью', '32 × 32');
       await selectFilter('Библиотека', 'Все');
       await waitFor(() => expect(canvas.getAllByRole('listitem')).toHaveLength(120));
 
