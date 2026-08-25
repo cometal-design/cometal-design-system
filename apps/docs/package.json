@@ -4,6 +4,7 @@
   "private": true,
   "type": "module",
   "scripts": {
+    "audit:component-pages": "node ./scripts/validate-component-page-content.mjs --report",
     "dev": "next dev --port 3000",
     "build": "NEXT_TELEMETRY_DISABLED=1 next build",
     "typecheck": "tsc --noEmit"

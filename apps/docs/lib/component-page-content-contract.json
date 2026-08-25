@@ -1,0 +1,307 @@
+{
+  "schemaVersion": 1,
+  "inventory": {
+    "sourceRoot": "app/components",
+    "primaryNavigationFile": "lib/navigation.ts",
+    "tableFamilyNavigationFile": "components/table-family-header.tsx",
+    "registryFile": "../../registry/components.json",
+    "expectedPrimaryDetailRoutes": 11,
+    "expectedTableChildRoutes": 4,
+    "expectedTotalDetailRoutes": 15
+  },
+  "criteria": [
+    {
+      "id": "identity",
+      "label": "Visible identity and stable ID",
+      "defaultRequirement": "required"
+    },
+    {
+      "id": "title-summary",
+      "label": "Title and purpose summary",
+      "defaultRequirement": "required",
+      "evidence": {
+        "clauses": [
+          { "scope": "content", "any": ["<ComponentPageHeader\\b", "<h1(?:\\s|>)"] },
+          { "scope": "content", "any": ["\\bsummary=", "<p(?:\\s|>)"] }
+        ]
+      }
+    },
+    {
+      "id": "lifecycle",
+      "label": "Lifecycle Badge",
+      "defaultRequirement": "required",
+      "evidence": { "clauses": [{ "scope": "content", "all": ["status=", "statusLabel="] }] }
+    },
+    {
+      "id": "figma",
+      "label": "Exact Figma source link",
+      "defaultRequirement": "required"
+    },
+    {
+      "id": "storybook",
+      "label": "Storybook or playground link",
+      "defaultRequirement": "required",
+      "evidence": { "clauses": [{ "scope": "content", "all": ["playgroundHref=", "storybook"] }] }
+    },
+    {
+      "id": "react-source",
+      "label": "React source context and link",
+      "defaultRequirement": "required",
+      "evidence": {
+        "clauses": [
+          { "scope": "content", "all": ["sourceHref"] },
+          { "scope": "content", "any": ["github\\.com/cometal-design/cometal-design-system/blob/main/packages/react", "component\\.links\\.source", "firstField\\.links\\.source"] }
+        ]
+      }
+    },
+    {
+      "id": "usage-boundaries",
+      "label": "Usage guidance and boundaries",
+      "defaultRequirement": "required",
+      "evidence": {
+        "clauses": [
+          { "scope": "content", "any": ["id=\"usage\"", "title=\"Использование\""] },
+          { "scope": "content", "any": ["Не используйте", "Для .*используйте", "Product pattern", "границ", "boundary"] }
+        ]
+      }
+    },
+    {
+      "id": "real-example",
+      "label": "Real design-system component example",
+      "defaultRequirement": "required"
+    },
+    {
+      "id": "code-example",
+      "label": "Install, import, minimal usage and copy",
+      "defaultRequirement": "required",
+      "evidence": {
+        "clauses": [
+          { "scope": "content", "all": ["<CodeExample\\b", "usage="] },
+          { "scope": "graph", "all": ["Установка", "Импорт", "Пример", "navigator\\.clipboard\\.writeText", "\"install\"\\s*:", "\"import\"\\s*:", "\"example\"\\s*:"] }
+        ]
+      }
+    },
+    {
+      "id": "matrix",
+      "label": "Sizes, variants and states when applicable",
+      "defaultRequirement": "conditional",
+      "condition": "Required when the component exposes public sizes, variants, values or states.",
+      "evidence": {
+        "clauses": [{ "scope": "content", "any": ["id=\"sizes\"", "id=\"states\"", "id=\"variants\"", "id=\"values\"", "title=\"[^\"]*матрица", "title=\"Surface и tone\""] }]
+      }
+    },
+    {
+      "id": "behavior-a11y",
+      "label": "Behavior, keyboard and accessibility",
+      "defaultRequirement": "required",
+      "evidence": {
+        "clauses": [
+          { "scope": "content", "any": ["title=\"Поведение\"", "Технический контракт", "нативн[^\n]*семантик", "keyboard", "клавиатур", "tab order", "tab-stop", "доступн"] },
+          { "scope": "content", "any": ["keyboard", "клавиатур", "focus", "aria-", "tab order", "tab-stop", "доступн", "нативн[^\n]*семантик"] }
+        ]
+      }
+    },
+    {
+      "id": "public-api",
+      "label": "Public React API reference",
+      "defaultRequirement": "required",
+      "evidence": { "clauses": [{ "scope": "content", "any": ["id=\"api\"", "title=\"React API\"", "title=\"Общий React API\""] }] }
+    },
+    {
+      "id": "responsive-theme-edge",
+      "label": "Responsive, theme and edge-case evidence",
+      "defaultRequirement": "required",
+      "evidence": {
+        "clauses": [
+          { "scope": "content", "any": ["responsive", "адаптив", "overflow", "переполн", "320", "768", "1440"] },
+          { "scope": "content", "any": ["theme", "тема", "dark", "light"] },
+          { "scope": "content", "any": ["edge", "disabled", "error", "empty", "icon-only", "без текста", "длинн", "optional", "отсутствует"] }
+        ]
+      }
+    }
+  ],
+  "routes": [
+    {
+      "route": "/components/button/",
+      "source": "app/components/button/page.tsx",
+      "tier": "primary",
+      "stableIds": ["action.button"],
+      "contentFiles": [],
+      "requirements": {
+        "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>action\\.button</code>"] }] } },
+        "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["figmaHref=\\{component\\.links\\.figma\\}"] }] } },
+        "real-example": { "evidence": { "clauses": [{ "scope": "content", "all": ["<Button\\b"] }] } }
+      }
+    },
+    {
+      "route": "/components/badge/",
+      "source": "app/components/badge/page.tsx",
+      "tier": "primary",
+      "stableIds": ["status.badge"],
+      "contentFiles": ["components/badge-detail.tsx"],
+      "requirements": {
+        "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>status\\.badge</code>"] }] } },
+        "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["figmaHref=\\{component\\.links\\.figma\\}"] }] } },
+        "real-example": { "evidence": { "clauses": [{ "scope": "content", "all": ["<Badge\\b"] }] } },
+        "behavior-a11y": { "evidence": { "clauses": [{ "scope": "content", "all": ["только цветом", "aria-label"] }] } }
+      }
+    },
+    {
+      "route": "/components/fields/",
+      "source": "app/components/fields/page.tsx",
+      "tier": "primary",
+      "stableIds": ["input.text-field", "input.text-area", "input.select", "input.combobox", "input.multi-select"],
+      "contentFiles": [],
+      "requirements": {
+        "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>input\\.text-field</code>", "<code>input\\.text-area</code>", "<code>input\\.select</code>", "<code>input\\.combobox</code>", "<code>input\\.multi-select</code>"] }] } },
+        "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["node-id=1096-42"] }] } },
+        "real-example": { "evidence": { "clauses": [{ "scope": "content", "all": ["<TextField\\b", "<TextArea\\b", "<SelectModeDemo\\b", "<ComboboxModeDemo\\b", "<MultiSelectModeDemo\\b"] }] } }
+      }
+    },
+    {
+      "route": "/components/date-picker/",
+      "source": "app/components/date-picker/page.tsx",
+      "tier": "primary",
+      "stableIds": ["input.date-picker"],
+      "contentFiles": [],
+      "requirements": {
+        "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>input\\.date-picker</code>"] }] } },
+        "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["figmaHref=\\{component\\.links\\.figma\\}"] }] } },
+        "real-example": { "evidence": { "clauses": [{ "scope": "content", "all": ["<DatePicker\\b", "<DateRangePicker\\b"] }] } }
+      }
+    },
+    {
+      "route": "/components/checkbox/",
+      "source": "app/components/checkbox/page.tsx",
+      "tier": "primary",
+      "stableIds": ["selection.checkbox"],
+      "contentFiles": ["components/selection-detail.tsx"],
+      "requirements": {
+        "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>selection\\.checkbox</code>"] }] } },
+        "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["1571-521"] }] } },
+        "real-example": { "evidence": { "clauses": [{ "scope": "content", "all": ["<Checkbox\\b"] }] } }
+      }
+    },
+    {
+      "route": "/components/radio-button/",
+      "source": "app/components/radio-button/page.tsx",
+      "tier": "primary",
+      "stableIds": ["selection.radio-button"],
+      "contentFiles": ["components/selection-detail.tsx"],
+      "requirements": {
+        "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>selection\\.radio-button</code>"] }] } },
+        "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["1571-8954"] }] } },
+        "real-example": { "evidence": { "clauses": [{ "scope": "content", "all": ["<RadioButton\\b"] }] } }
+      }
+    },
+    {
+      "route": "/components/switch/",
+      "source": "app/components/switch/page.tsx",
+      "tier": "primary",
+      "stableIds": ["selection.switch"],
+      "contentFiles": ["components/selection-detail.tsx"],
+      "requirements": {
+        "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>selection\\.switch</code>"] }] } },
+        "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["1571-9673"] }] } },
+        "real-example": { "evidence": { "clauses": [{ "scope": "content", "all": ["<Switch\\b"] }] } }
+      }
+    },
+    {
+      "route": "/components/tooltip/",
+      "source": "app/components/tooltip/page.tsx",
+      "tier": "primary",
+      "stableIds": ["overlay.tooltip"],
+      "contentFiles": [],
+      "requirements": {
+        "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>overlay\\.tooltip</code>"] }] } },
+        "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["node-id=2866-2"] }] } },
+        "real-example": { "evidence": { "clauses": [{ "scope": "content", "all": ["<Tooltip\\b"] }] } }
+      }
+    },
+    {
+      "route": "/components/table/",
+      "source": "app/components/table/page.tsx",
+      "tier": "primary",
+      "stableIds": ["data-display.table"],
+      "contentFiles": ["components/table-family-header.tsx"],
+      "requirements": {
+        "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>data-display\\.table</code>"] }] } },
+        "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["figmaHref=\\{table\\.links\\.figma\\}"] }] } },
+        "real-example": { "evidence": { "clauses": [{ "scope": "content", "all": ["<TableSourceExample\\b", "<TablePaginatorExample\\b"] }] } }
+      }
+    },
+    {
+      "route": "/components/table/cells/",
+      "source": "app/components/table/cells/page.tsx",
+      "tier": "family-child",
+      "stableIds": ["data-display.table"],
+      "contentFiles": ["components/table-family-header.tsx"],
+      "requirements": {
+        "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>data-display\\.table</code>"] }] } },
+        "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["tableFigmaSources\\.cells"] }] } },
+        "real-example": { "evidence": { "clauses": [{ "scope": "content", "all": ["<TableCellsContract\\b"] }] } }
+      }
+    },
+    {
+      "route": "/components/table/headers/",
+      "source": "app/components/table/headers/page.tsx",
+      "tier": "family-child",
+      "stableIds": ["data-display.table"],
+      "contentFiles": ["components/table-family-header.tsx"],
+      "requirements": {
+        "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>data-display\\.table</code>"] }] } },
+        "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["tableFigmaSources\\.headers"] }] } },
+        "real-example": { "evidence": { "clauses": [{ "scope": "content", "all": ["<TableHeadersContract\\b"] }] } }
+      }
+    },
+    {
+      "route": "/components/table/columns/",
+      "source": "app/components/table/columns/page.tsx",
+      "tier": "family-child",
+      "stableIds": ["data-display.table"],
+      "contentFiles": ["components/table-family-header.tsx"],
+      "requirements": {
+        "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>data-display\\.table</code>"] }] } },
+        "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["tableFigmaSources\\.mainComponents"] }] } },
+        "real-example": { "evidence": { "clauses": [{ "scope": "content", "all": ["<TableColumnsContract\\b"] }] } }
+      }
+    },
+    {
+      "route": "/components/table/paginator/",
+      "source": "app/components/table/paginator/page.tsx",
+      "tier": "family-child",
+      "stableIds": ["data-display.table"],
+      "contentFiles": ["components/table-family-header.tsx"],
+      "requirements": {
+        "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>data-display\\.table</code>"] }] } },
+        "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["tableFigmaSources\\.paginator"] }] } },
+        "real-example": { "evidence": { "clauses": [{ "scope": "content", "all": ["<TablePaginatorContract\\b"] }] } }
+      }
+    },
+    {
+      "route": "/components/widget/",
+      "source": "app/components/widget/page.tsx",
+      "tier": "primary",
+      "stableIds": ["template.widget"],
+      "contentFiles": [],
+      "requirements": {
+        "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>template\\.widget</code>"] }] } },
+        "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["figmaHref=\\{widget\\.links\\.figma\\}"] }] } },
+        "real-example": { "evidence": { "clauses": [{ "scope": "content", "all": ["<WidgetSourceExample\\b"] }] } },
+        "matrix": { "requirement": "na", "rationale": "Widget exposes composition slots rather than a public size, variant or state axis." }
+      }
+    },
+    {
+      "route": "/components/context-menu/",
+      "source": "app/components/context-menu/page.tsx",
+      "tier": "primary",
+      "stableIds": ["overlay.context-menu"],
+      "contentFiles": [],
+      "requirements": {
+        "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>overlay\\.context-menu</code>"] }] } },
+        "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["figmaHref=\\{component\\.links\\.figma\\}"] }] } },
+        "real-example": { "evidence": { "clauses": [{ "scope": "content", "all": ["<ContextMenu\\b", "<ContextMenuItem\\b"] }] } }
+      }
+    }
+  ]
+}
