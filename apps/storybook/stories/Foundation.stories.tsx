@@ -422,7 +422,7 @@ export const Icons: Story = {
   render: () => <StrictMode><IconsPage /></StrictMode>,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const search = canvas.getByRole('searchbox', { name: 'Поиск по каноническому имени' }) as HTMLInputElement;
+    const search = canvas.getByRole('combobox', { name: 'Поиск по каноническому имени' }) as HTMLInputElement;
     const filterLabels = ['Библиотека', 'Семейство', 'Размер превью'] as const;
     const selects = filterLabels.map((label) => canvas.getByRole('combobox', { name: label }) as HTMLButtonElement);
     const resultLine = canvasElement.querySelector<HTMLElement>('.cometal-icon-catalog__result-line')!;
@@ -488,13 +488,36 @@ export const Icons: Story = {
         expect(field.querySelector<HTMLElement>('.cometal-field__control')?.getBoundingClientRect().height).toBe(48);
       }
       await expect(selects).toHaveLength(3);
+      await expect(search).toHaveAttribute('aria-haspopup', 'listbox');
+      await expect(search).toHaveAttribute('aria-expanded', 'false');
       for (const select of selects) {
         await expect(select).toHaveAttribute('aria-haspopup', 'listbox');
         await expect(select).toHaveAttribute('aria-expanded', 'false');
       }
-      const searchIcon = search.closest('[data-cometal-component="field"]')?.querySelector<SVGSVGElement>('.cometal-field__icon > svg[data-cometal-icon]');
+      const searchIcon = search.closest('[data-cometal-component="field"]')?.querySelector<SVGSVGElement>('.cometal-field__asset > svg');
       await expect(searchIcon).not.toBeNull();
-      await expect(searchIcon).toHaveAttribute('data-cometal-icon-library', 'outline');
+
+      await userEvent.type(search, 'payment/lg/Vi');
+      const searchListbox = await canvas.findByRole('listbox', { name: 'Поиск по каноническому имени: результаты' });
+      await expect(search).toHaveAttribute('aria-expanded', 'true');
+      await expect(search).toHaveAttribute('aria-controls', searchListbox.id);
+      const searchSuggestions = within(searchListbox).getAllByRole('option');
+      expect(searchSuggestions.length).toBeLessThanOrEqual(50);
+      const searchListboxBounds = searchListbox.getBoundingClientRect();
+      expect(searchListboxBounds.left).toBeGreaterThanOrEqual(0);
+      expect(searchListboxBounds.right).toBeLessThanOrEqual(window.innerWidth);
+      expect(getComputedStyle(searchSuggestions[0].querySelector('span')!).whiteSpace).toBe('nowrap');
+      const visaSuggestion = within(searchListbox).getByRole('option', { name: 'payment/lg/Visa' });
+      await userEvent.click(visaSuggestion);
+      await waitFor(() => expect(search).toHaveValue('payment/lg/Visa'));
+      await expect(search).toHaveAttribute('aria-expanded', 'false');
+      await expect(currentPage()).toBe(1);
+      await userEvent.clear(search);
+      await userEvent.type(search, 'payment/lg/Vi');
+      await userEvent.keyboard('{ArrowDown}{Enter}');
+      await waitFor(() => expect(search).toHaveValue('payment/lg/Visa'));
+      await expect(search).toHaveAttribute('aria-expanded', 'false');
+      await userEvent.clear(search);
 
       await moveToPage(2);
       await selectFilter('Библиотека', 'outline');
@@ -558,7 +581,7 @@ export const Icons: Story = {
 
       await userEvent.clear(search);
       await userEvent.type(search, 'Outline/profiles-and-users/user-profile-03-02');
-      await expect(await canvas.findByText('Outline/profiles-and-users/user-profile-03-02')).toBeVisible();
+      await waitFor(() => expect(canvasElement.querySelector('.cometal-icon-catalog__name')).toHaveTextContent('Outline/profiles-and-users/user-profile-03-02'));
       const normalizedPreview = await waitForLoadedPreview('Outline/profiles-and-users/user-profile-03-02');
       await expect(normalizedPreview).toHaveAttribute('data-preview-state', 'loaded');
       const normalizedSvgs = [...normalizedPreview.querySelectorAll<SVGSVGElement>('svg')];
@@ -591,7 +614,7 @@ export const Icons: Story = {
 
       await userEvent.clear(search);
       await userEvent.type(search, 'payment/lg/Visa');
-      await expect(await canvas.findByText('payment/lg/Visa')).toBeVisible();
+      await waitFor(() => expect(canvasElement.querySelector('.cometal-icon-catalog__name')).toHaveTextContent('payment/lg/Visa'));
       await expect(canvas.getAllByRole('listitem')).toHaveLength(1);
       const visaPreview = await waitForLoadedPreview('payment/lg/Visa');
       const visaSvgs = [...visaPreview.querySelectorAll<SVGSVGElement>('svg')];

@@ -53,10 +53,32 @@ describe('Fields', () => {
     const combobox = renderToStaticMarkup(<Combobox label="Контрагент" listboxId="contractors" expanded />);
     const multi = renderToStaticMarkup(<MultiSelect label="Контрагенты" selectedValues={['Северсталь', 'НЛМК', 'ММК']} />);
     expect(combobox).toContain('role="combobox"');
+    expect(combobox).toContain('aria-haspopup="listbox"');
     expect(combobox).toContain('aria-controls="contractors"');
     expect(multi).toContain('role="combobox"');
     expect(multi).toContain('aria-haspopup="listbox"');
     expect(multi).toContain('cometal-field__tags-measure');
+  });
+
+  it('caps visible combobox suggestions without limiting its search source', () => {
+    const html = renderToStaticMarkup(
+      <Combobox
+        label="Иконка"
+        defaultValue="icon"
+        expanded
+        maxVisibleOptions={2}
+        options={[
+          { value: 'icon-a', label: 'icon-a' },
+          { value: 'icon-b', label: 'icon-b' },
+          { value: 'icon-c', label: 'icon-c' },
+        ]}
+      />,
+    );
+
+    expect((html.match(/role="option"/g) ?? [])).toHaveLength(2);
+    expect(html).toContain('icon-a');
+    expect(html).toContain('icon-b');
+    expect(html).not.toContain('icon-c');
   });
 
   it('keeps listbox options out of the Tab sequence', () => {

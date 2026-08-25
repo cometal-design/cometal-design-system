@@ -2,10 +2,9 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '../../Button/Button';
-import { Select, TextField } from '../../Field/Field';
+import { Combobox, Select } from '../../Field/Field';
 import type { SelectOption } from '../../Field/Field';
 import CopyLeftIcon from '../generated/components/outline/general/copy-left';
-import Search01Icon from '../generated/components/outline/general/search-01';
 import { iconLoaders } from '../generated/loaders';
 import { iconManifest, iconManifestMetadata } from '../generated/manifest';
 import type { IconComponent, IconManifestRecord } from '../runtime/types';
@@ -68,6 +67,11 @@ export function IconCatalog({ className }: IconCatalogProps) {
   const filters = useMemo(() => ({ library, family }), [library, family]);
   const results = useMemo(() => filterIconRecords(iconManifest, search, filters), [search, filters]);
   const filterOptions = useMemo(() => getIconCatalogFilterOptions(iconManifest, search, filters), [search, filters]);
+  const searchOptions = useMemo<SelectOption[]>(() =>
+    filterIconRecords(iconManifest, '', filters).map((record) => ({
+      value: record.canonicalName,
+      label: record.canonicalName,
+    })), [filters]);
   const libraryOptions = useMemo<SelectOption[]>(() => [
     { value: '', label: 'Все' },
     ...filterOptions.libraries.map((option) => ({ value: option.value, label: option.value })),
@@ -143,13 +147,15 @@ export function IconCatalog({ className }: IconCatalogProps) {
         <code>{iconManifestMetadata.sourceFingerprintSha256}</code>
       </header>
       <div className="cometal-icon-catalog__controls">
-        <TextField
+        <Combobox
           type="search"
           label="Поиск по каноническому имени"
           size="l"
-          startIcon={<Search01Icon />}
+          options={searchOptions}
+          maxVisibleOptions={50}
           value={search}
           onChange={(event) => { setSearch(event.currentTarget.value); resetPage(); }}
+          onOptionSelect={(value) => { setSearch(value); resetPage(); }}
           placeholder="Например, payment/lg/Visa"
         />
         <Select

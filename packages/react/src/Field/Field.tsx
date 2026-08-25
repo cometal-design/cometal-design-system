@@ -397,11 +397,12 @@ export interface ComboboxProps extends Omit<InputHTMLAttributes<HTMLInputElement
   onExpandedChange?: (expanded: boolean) => void;
   listboxId?: string;
   options?: SelectOption[];
+  maxVisibleOptions?: number;
   onOptionSelect?: (value: string) => void;
 }
 
 export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
-  { label, helperText, optional, error, size = 'l', mode = 'edit', readValue, expanded, defaultExpanded = false, onExpandedChange, listboxId, options = [], onOptionSelect, className, disabled, onFocus, onKeyDown, onChange, value, defaultValue, ...inputProps },
+  { label, helperText, optional, error, size = 'l', mode = 'edit', readValue, expanded, defaultExpanded = false, onExpandedChange, listboxId, options = [], maxVisibleOptions, onOptionSelect, className, disabled, onFocus, onKeyDown, onChange, value, defaultValue, ...inputProps },
   ref,
 ) {
   const generatedId = useId();
@@ -414,9 +415,10 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
   const [internalInputValue, setInternalInputValue] = useState(String(defaultValue ?? ''));
   const inputValue = String(value ?? internalInputValue);
   const normalizedQuery = inputValue.trim().toLocaleLowerCase('ru-RU');
-  const filteredOptions = normalizedQuery
+  const matchingOptions = normalizedQuery
     ? options.filter((option) => `${option.label} ${option.value}`.toLocaleLowerCase('ru-RU').includes(normalizedQuery))
     : [];
+  const filteredOptions = maxVisibleOptions === undefined ? matchingOptions : matchingOptions.slice(0, maxVisibleOptions);
   const [activeIndex, setActiveIndex] = useState(-1);
   const selectedOption = options.find((option) => option.value === inputValue || option.label === inputValue);
   const moveActive = (direction: 1 | -1) => {
@@ -449,6 +451,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
             value={value ?? internalInputValue}
             disabled={disabled}
             role="combobox"
+            aria-haspopup="listbox"
             aria-autocomplete="list"
             aria-expanded={isExpanded}
             aria-controls={resolvedListboxId}
