@@ -13,7 +13,10 @@ import {
 } from '../Table/Table';
 import type { TableDensity, TableSortDirection } from '../Table/Table';
 import { Widget } from '../Widget/Widget';
-import { WidgetToolbarIcon } from '../Widget/WidgetToolbarIcon';
+import RefreshIcon from '../icons/generated/components/outline/arrows/arrow-refresh-01';
+import DownloadIcon from '../icons/generated/components/outline/general/download-01';
+import FilterIcon from '../icons/generated/components/outline/general/filter';
+import PlusIcon from '../icons/generated/components/outline/general/plus-01';
 import './widget-table-pattern.css';
 
 export interface WidgetTablePatternProps {
@@ -94,10 +97,10 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable' }: Wid
   const totalSum = visibleRows.reduce((total, row) => total + row[3] * row[5], 0);
 
   const toolbar = <>
-    <IconButton size="m" variant={filters ? 'primary' : 'secondary'} aria-label={filters ? 'Скрыть фильтры' : 'Показать фильтры'} icon={<WidgetToolbarIcon type="filter" inverse={filters} />} onClick={() => setFilters((value) => !value)} />
-    <IconButton size="m" variant="secondary" aria-label="Обновить" icon={<WidgetToolbarIcon type="refresh" />} />
-    <IconButton size="m" variant="secondary" aria-label="Экспорт" icon={<WidgetToolbarIcon type="download" />} />
-    <Button size="m" startIcon={<WidgetToolbarIcon type="plus" inverse />}>Добавить запись</Button>
+    <IconButton size="m" variant="secondary" aria-label={filters ? 'Скрыть фильтры' : 'Показать фильтры'} icon={<FilterIcon />} onClick={() => setFilters((value) => !value)} />
+    <IconButton size="m" variant="secondary" aria-label="Обновить" icon={<RefreshIcon />} />
+    <IconButton size="m" variant="secondary" aria-label="Экспорт" icon={<DownloadIcon />} />
+    <Button size="m" startIcon={<PlusIcon />}>Добавить запись</Button>
   </>;
 
   return (

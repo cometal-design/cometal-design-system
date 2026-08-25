@@ -59,16 +59,10 @@ async function expectTypographyFor(root: Element, selector: string, contract: Ty
 
 async function expectPageSizeTypography(root: Element, minimum = 1) {
   await expectTypographyFor(root, '.cometal-table__page-size', tableTypography.body, minimum);
-  const selects = Array.from(root.querySelectorAll<HTMLSelectElement>('.cometal-table__page-size select'));
-  await expect(selects.length).toBeGreaterThanOrEqual(minimum);
-  for (const select of selects) {
-    const style = getComputedStyle(select);
-    const actual = { family: style.fontFamily, size: style.fontSize, weight: style.fontWeight, letterSpacing: style.letterSpacing };
-    await expect(actual.family).toContain(tableTypography.body.family);
-    await expect(actual.size).toBe(tableTypography.body.size);
-    await expect(actual.weight).toBe(tableTypography.body.weight);
-    await expect(actual.letterSpacing).toBe(tableTypography.body.letterSpacing);
-  }
+  await expectTypographyFor(root, '.cometal-table__page-size .cometal-field__select-trigger', tableTypography.body, minimum);
+  const nativeSelects = Array.from(root.querySelectorAll<HTMLSelectElement>('.cometal-table__page-size .cometal-field__native-select'));
+  await expect(nativeSelects.length).toBeGreaterThanOrEqual(minimum);
+  for (const select of nativeSelects) await expect(select).toHaveAttribute('aria-hidden', 'true');
 }
 
 const bodyValueSelector = 'tbody .cometal-table__cell:not(.cometal-table__selection-cell):not(.cometal-table__drag-cell):not(.cometal-table__summary-cell) .cometal-table__cell-value';
@@ -223,7 +217,7 @@ function ColumnMatrix() {
 
 function PaginatorDocumentation() {
   const [page, setPage] = useState(1); const [pageSize, setPageSize] = useState(10);
-  return <main className="ds-component-page ds-table-page"><header className="ds-component-hero"><div><span className="ds-eyebrow">TABLE · PAGINATOR</span><h1>Paginator</h1><p>Paginator Control — 14 вариантов Content, Direction и State. Paginator — отдельный standalone source; Figma row counts не становятся API.</p></div><a href={tableFigmaSources.paginator} target="_blank" rel="noreferrer">Paginator Source в Figma ↗</a></header><section className="ds-component-section"><div className="ds-component-section__intro"><span>01</span><div><h2>Интерактивный пример</h2><p>Disabled края, current page, ellipsis и выбор размера страницы доступны с клавиатуры.</p></div></div><TablePaginator aria-label="Интерактивная пагинация таблицы" page={page} pageCount={12} onPageChange={setPage} pageSize={pageSize} onPageSizeChange={setPageSize} /></section><section className="ds-component-section"><div className="ds-component-section__intro"><span>02</span><div><h2>Control states</h2><p>Три реальные композиции показывают Previous/Next Default и Disabled, Page Default/Current, Ellipsis и page-size.</p></div></div><div className="ds-table-paginator-contract"><article><code>first page</code><TablePaginator aria-label="Пагинация на первой странице" page={1} pageCount={12} onPageChange={() => undefined} pageSize={10} /></article><article><code>middle · ellipsis both sides</code><TablePaginator aria-label="Пагинация в середине диапазона" page={6} pageCount={12} onPageChange={() => undefined} pageSize={15} /></article><article><code>last page</code><TablePaginator aria-label="Пагинация на последней странице" page={12} pageCount={12} onPageChange={() => undefined} pageSize={30} /></article></div></section></main>;
+  return <main className="ds-component-page ds-table-page"><header className="ds-component-hero"><div><span className="ds-eyebrow">TABLE · PAGINATOR</span><h1>Paginator</h1><p>Paginator Control — 14 вариантов Content, Direction и State. Paginator — отдельный standalone source; Figma row counts не становятся API.</p></div><a href={tableFigmaSources.paginator} target="_blank" rel="noreferrer">Paginator Source в Figma ↗</a></header><section className="ds-component-section"><div className="ds-component-section__intro"><span>01</span><div><h2>Интерактивный пример</h2><p>Disabled края, current page, ellipsis и выбор размера страницы доступны с клавиатуры.</p></div></div><TablePaginator aria-label="Интерактивная пагинация таблицы" page={page} pageCount={12} onPageChange={setPage} pageSize={pageSize} onPageSizeChange={setPageSize} /><output className="ds-visually-hidden" data-page-size={pageSize} data-page-size-type={typeof pageSize}>{pageSize}</output></section><section className="ds-component-section"><div className="ds-component-section__intro"><span>02</span><div><h2>Control states</h2><p>Три реальные композиции показывают Previous/Next Default и Disabled, Page Default/Current, Ellipsis и page-size.</p></div></div><div className="ds-table-paginator-contract"><article><code>first page</code><TablePaginator aria-label="Пагинация на первой странице" page={1} pageCount={12} onPageChange={() => undefined} pageSize={10} /></article><article><code>middle · ellipsis both sides</code><TablePaginator aria-label="Пагинация в середине диапазона" page={6} pageCount={12} onPageChange={() => undefined} pageSize={15} /></article><article><code>last page</code><TablePaginator aria-label="Пагинация на последней странице" page={12} pageCount={12} onPageChange={() => undefined} pageSize={30} /></article></div></section></main>;
 }
 
 function Playground() {
@@ -334,13 +328,34 @@ export const Paginator: Story = {
     const previous = paginator.getByRole('button', { name: 'Предыдущая страница' });
     const previousIcon = previous.querySelector('svg');
     const controls = navigation.querySelector('.cometal-table__paginator-controls');
+    const pageSizeField = navigation.querySelector<HTMLElement>('.cometal-table__page-size')!;
+    const pageSizeTrigger = paginator.getByRole('combobox', { name: 'Строк на странице' });
+    const pageSizeAsset = pageSizeTrigger.querySelector<HTMLElement>('.cometal-field__asset')!;
     await expect(previous.getBoundingClientRect().width).toBe(40);
     await expect(previous.getBoundingClientRect().height).toBe(40);
     await expect(previousIcon?.getBoundingClientRect().width).toBe(24);
     await expect(previousIcon?.getBoundingClientRect().height).toBe(24);
     await expect(controls ? getComputedStyle(controls).gap : '').toBe('4px');
+    await expect(pageSizeField.getBoundingClientRect().width).toBe(96);
+    await expect(pageSizeField.getBoundingClientRect().height).toBe(40);
+    await expect(pageSizeTrigger.getBoundingClientRect().width).toBe(96);
+    await expect(pageSizeTrigger.getBoundingClientRect().height).toBe(40);
+    await expect(getComputedStyle(pageSizeTrigger).paddingLeft).toBe('12px');
+    await expect(getComputedStyle(pageSizeTrigger).paddingRight).toBe('12px');
+    await expect(getComputedStyle(pageSizeTrigger).gap).toBe('8px');
+    await expect(pageSizeAsset.getBoundingClientRect().width).toBe(20);
+    await expect(pageSizeAsset.getBoundingClientRect().height).toBe(20);
     await expectTypographyFor(canvasElement, '.cometal-table__page-control, .cometal-table__page-ellipsis', tableTypography.paginator);
     await expectPageSizeTypography(canvasElement, 4);
+    await userEvent.click(pageSizeTrigger);
+    const listbox = paginator.getByRole('listbox', { name: 'Строк на странице: варианты' });
+    await expect(listbox.getBoundingClientRect().width).toBe(96);
+    await expect(within(listbox).getAllByRole('option')[0]?.getBoundingClientRect().height).toBe(40);
+    await userEvent.click(within(listbox).getByRole('option', { name: '20' }));
+    await expect(pageSizeTrigger).toHaveTextContent('20');
+    const pageSizeOutput = canvasElement.querySelector<HTMLOutputElement>('output[data-page-size]')!;
+    await expect(pageSizeOutput).toHaveAttribute('data-page-size', '20');
+    await expect(pageSizeOutput).toHaveAttribute('data-page-size-type', 'number');
     await userEvent.click(paginator.getByRole('button', { name: 'Следующая страница' }));
     await expect(paginator.getByRole('button', { name: 'Страница 2' })).toHaveAttribute('aria-current', 'page');
   },

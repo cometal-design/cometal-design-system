@@ -1,9 +1,47 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent, within } from 'storybook/test';
-import { Button, IconButton, Tooltip, Widget, WidgetToolbarIcon, widgetFigmaLinks, widgetGeometry } from '@cometal/react';
+import { Button, IconButton, Tooltip, Widget, widgetFigmaLinks, widgetGeometry } from '@cometal/react';
+import RefreshIcon, { definition as refreshIconDefinition } from '@cometal/react/icons/outline/arrows/arrow-refresh-01';
+import DownloadIcon, { definition as downloadIconDefinition } from '@cometal/react/icons/outline/general/download-01';
+import FilterIcon, { definition as filterIconDefinition } from '@cometal/react/icons/outline/general/filter';
+import PlusIcon, { definition as plusIconDefinition } from '@cometal/react/icons/outline/general/plus-01';
+
+const approvedToolbarIcons = [filterIconDefinition, refreshIconDefinition, downloadIconDefinition, plusIconDefinition];
+
+function definitionPathData(body: string) {
+  return Array.from(body.matchAll(/<path d="([^"]+)"/g), (match) => match[1]);
+}
+
+async function expectApprovedWidgetToolbar(root: Element) {
+  const toolbar = root.querySelector<HTMLElement>('.cometal-widget__toolbar')!;
+  const buttons = Array.from(toolbar.querySelectorAll<HTMLButtonElement>('.cometal-button'));
+  const iconContainers = Array.from(toolbar.querySelectorAll<HTMLElement>('.cometal-button__icon'));
+  const icons = Array.from(toolbar.querySelectorAll<SVGSVGElement>('svg[data-cometal-icon]'));
+  await expect(getComputedStyle(toolbar).gap).toBe('8px');
+  await expect(buttons).toHaveLength(4);
+  await expect(iconContainers).toHaveLength(4);
+  await expect(icons).toHaveLength(4);
+  for (const button of buttons.slice(0, 3)) {
+    await expect(button).toHaveAttribute('data-variant', 'secondary');
+    await expect(button.getBoundingClientRect().width).toBe(40);
+    await expect(button.getBoundingClientRect().height).toBe(40);
+  }
+  await expect(buttons[3]).toHaveAttribute('data-variant', 'primary');
+  await expect(buttons[3]?.getBoundingClientRect().height).toBe(40);
+  for (const [index, icon] of icons.entries()) {
+    await expect(iconContainers[index]?.getBoundingClientRect().width).toBe(16);
+    await expect(iconContainers[index]?.getBoundingClientRect().height).toBe(16);
+    await expect(icon.getBoundingClientRect().width).toBe(16);
+    await expect(icon.getBoundingClientRect().height).toBe(16);
+    await expect(icon).toHaveAttribute('viewBox', '0 0 24 24');
+    await expect(Array.from(icon.querySelectorAll('path'), (path) => path.getAttribute('d'))).toEqual(definitionPathData(approvedToolbarIcons[index]!.body));
+    await expect(icon.querySelector('path')).toHaveAttribute('stroke-width', '1.4');
+  }
+  await expect(approvedToolbarIcons.map((definition) => definition.nodeId)).toEqual(['700:14705', '700:14276', '700:14813', '700:14531']);
+}
 
 export function ApprovedWidgetToolbar() {
-  return <><IconButton size="m" variant="secondary" aria-label="Фильтры" icon={<WidgetToolbarIcon type="filter" />} /><IconButton size="m" variant="secondary" aria-label="Обновить" icon={<WidgetToolbarIcon type="refresh" />} /><IconButton size="m" variant="secondary" aria-label="Экспорт" icon={<WidgetToolbarIcon type="download" />} /><Button size="m" startIcon={<WidgetToolbarIcon type="plus" inverse />}>Добавить запись</Button></>;
+  return <><IconButton size="m" variant="secondary" aria-label="Фильтры" icon={<FilterIcon />} /><IconButton size="m" variant="secondary" aria-label="Обновить" icon={<RefreshIcon />} /><IconButton size="m" variant="secondary" aria-label="Экспорт" icon={<DownloadIcon />} /><Button size="m" startIcon={<PlusIcon />}>Добавить запись</Button></>;
 }
 
 function Placeholder({ children = 'Content slot' }: { children?: string }) {
@@ -19,7 +57,7 @@ const meta = {
 export default meta;
 type Story = StoryObj<typeof meta>;
 
-export const Overview: Story = { play: async ({ canvasElement }) => { const canvas = within(canvasElement); await expect(canvas.getByRole('region', { name: 'Спецификация позиций' })).toBeVisible(); await expect(canvas.getByRole('toolbar', { name: 'Действия виджета' })).toBeVisible(); await expect(canvas.getAllByRole('button')).toHaveLength(4); } };
+export const Overview: Story = { play: async ({ canvasElement }) => { const canvas = within(canvasElement); await expect(canvas.getByRole('region', { name: 'Спецификация позиций' })).toBeVisible(); await expect(canvas.getByRole('toolbar', { name: 'Действия виджета' })).toBeVisible(); await expect(canvas.getAllByRole('button')).toHaveLength(4); await expectApprovedWidgetToolbar(canvasElement); } };
 
 export const Anatomy: Story = { render: () => <div className="ds-widget-anatomy"><Widget title="01 · Title" description="02 · Description" toolbar={<Button size="m" variant="secondary">03 · Toolbar</Button>}><Placeholder>04 · Content slot</Placeholder></Widget></div> };
 

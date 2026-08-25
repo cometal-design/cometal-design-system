@@ -9,6 +9,7 @@ import type {
 } from 'react';
 import { Checkbox } from '../Selection/Selection';
 import { ContextMenu } from '../ContextMenu/ContextMenu';
+import { Select } from '../Field/Field';
 import DotHorizontalFilledIcon from '../icons/generated/components/filled/general/dot-horizontal-filled';
 import ArrowLeftIcon from '../icons/generated/components/outline/arrows/arrow-left';
 import ArrowRightIcon from '../icons/generated/components/outline/arrows/arrow-right';
@@ -325,6 +326,7 @@ export const TablePaginator = forwardRef<HTMLElement, TablePaginatorProps>(funct
 ) {
   const safePageCount = Math.max(1, pageCount);
   const safePage = Math.min(Math.max(1, page), safePageCount);
+  const selectOptions = pageSizeOptions.map((option) => ({ value: String(option), label: String(option) }));
   return (
     <nav {...props} ref={ref} className={['cometal-table__paginator', className].filter(Boolean).join(' ')} aria-label={ariaLabel}>
       <div className="cometal-table__paginator-spacer" aria-hidden="true" />
@@ -335,7 +337,15 @@ export const TablePaginator = forwardRef<HTMLElement, TablePaginatorProps>(funct
         ) : <span key={item} className="cometal-table__page-ellipsis" aria-hidden="true">…</span>)}
         <button type="button" className="cometal-table__page-control" disabled={safePage === safePageCount} onClick={() => onPageChange(safePage + 1)} aria-label="Следующая страница"><ArrowRightIcon className="cometal-table__asset-icon cometal-table__paginator-icon" width={24} height={24} /></button>
       </div>
-      <label className="cometal-table__page-size"><span>Строк</span><select value={pageSize} onChange={(event) => onPageSizeChange?.(Number(event.currentTarget.value))} disabled={!onPageSizeChange} aria-label="Строк на странице">{pageSizeOptions.map((option) => <option key={option} value={option}>{option}</option>)}</select></label>
+      <Select
+        className="cometal-table__page-size"
+        label="Строк на странице"
+        size="m"
+        options={selectOptions}
+        value={pageSize === undefined ? undefined : String(pageSize)}
+        onValueChange={(value) => onPageSizeChange?.(Number(value))}
+        disabled={!onPageSizeChange}
+      />
     </nav>
   );
 });

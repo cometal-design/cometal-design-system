@@ -468,11 +468,9 @@
   letter-spacing: var(--cometal-typography-body-m-default-letter-spacing);
 }
 
-.cometal-table__paginator-controls,
-.cometal-table__page-size {
+.cometal-table__paginator-controls {
   display: flex;
   align-items: center;
-  gap: var(--cometal-primitive-spacing-50);
 }
 
 .cometal-table__paginator-controls {
@@ -526,7 +524,11 @@
 }
 
 .cometal-table__page-size {
+  width: calc(var(--cometal-primitive-size-48) * 2);
+  min-width: calc(var(--cometal-primitive-size-48) * 2);
+  height: var(--cometal-semantic-size-global-control-m);
   justify-self: end;
+  gap: 0;
   color: var(--cometal-component-table-text-secondary);
   font-family: var(--cometal-typography-body-m-default-font-family);
   font-size: var(--cometal-typography-body-m-default-font-size);
@@ -535,18 +537,48 @@
   letter-spacing: var(--cometal-typography-body-m-default-letter-spacing);
 }
 
-.cometal-table__page-size select {
-  min-width: calc(var(--cometal-primitive-size-32) * 2);
-  height: var(--cometal-primitive-size-32);
-  border: var(--cometal-primitive-stroke-100) solid var(--cometal-semantic-color-global-border-default);
-  border-radius: var(--cometal-primitive-radius-100);
-  background: var(--cometal-semantic-color-global-surface-canvas);
-  color: var(--cometal-component-table-text-primary);
+.cometal-table__page-size.cometal-field[data-size='m'] {
+  --cometal-field-icon-size: var(--cometal-primitive-size-20);
+}
+
+.cometal-table__page-size .cometal-field__body,
+.cometal-table__page-size .cometal-field__trigger-stack,
+.cometal-table__page-size .cometal-field__select-trigger {
+  width: 100%;
+  height: 100%;
+}
+
+.cometal-table__page-size .cometal-field__body {
+  gap: 0;
+}
+
+.cometal-table__page-size .cometal-field__label-row {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
+}
+
+.cometal-table__page-size .cometal-field__select-trigger {
+  padding-inline: var(--cometal-semantic-spacing-global-input-m-inset);
+  gap: var(--cometal-semantic-spacing-global-input-gap);
   font-family: var(--cometal-typography-body-m-default-font-family);
   font-size: var(--cometal-typography-body-m-default-font-size);
   font-weight: var(--cometal-typography-body-m-default-font-weight);
   line-height: var(--cometal-typography-body-m-default-line-height);
   letter-spacing: var(--cometal-typography-body-m-default-letter-spacing);
+}
+
+.cometal-table__page-size .cometal-field__asset {
+  width: var(--cometal-primitive-size-20);
+  height: var(--cometal-primitive-size-20);
+  flex-basis: var(--cometal-primitive-size-20);
 }
 
 @media (max-width: 47.99rem) {

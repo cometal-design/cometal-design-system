@@ -1,8 +1,8 @@
 import { Button, IconButton, Widget } from '@cometal/react';
-import DownloadIcon from '@cometal/react/icons/outline/general/download';
+import RefreshIcon from '@cometal/react/icons/outline/arrows/arrow-refresh-01';
+import DownloadIcon from '@cometal/react/icons/outline/general/download-01';
 import FilterIcon from '@cometal/react/icons/outline/general/filter';
 import PlusIcon from '@cometal/react/icons/outline/general/plus-01';
-import RefreshIcon from '@cometal/react/icons/outline/media/refresh-01';
 
 export function WidgetSourceToolbar() {
   return <><IconButton size="m" variant="secondary" aria-label="Фильтры" icon={<FilterIcon />} /><IconButton size="m" variant="secondary" aria-label="Обновить" icon={<RefreshIcon />} /><IconButton size="m" variant="secondary" aria-label="Экспорт" icon={<DownloadIcon />} /><Button size="m" startIcon={<PlusIcon />}>Добавить запись</Button></>;

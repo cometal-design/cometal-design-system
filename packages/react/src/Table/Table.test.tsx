@@ -128,6 +128,11 @@ describe('Table', () => {
     expect(html).toContain('cometal-table__paginator-icon');
     expect(html).toContain('width="24" height="24"');
     expect(html).toContain('data-cometal-icon-library="outline"');
-    expect(html).toContain('aria-label="Строк на странице"');
+    expect(html).toContain('data-cometal-component="field"');
+    expect(html).toContain('data-size="m"');
+    expect(html).toContain('role="combobox"');
+    expect(html).toContain('aria-haspopup="listbox"');
+    expect(html).toContain('cometal-field__native-select');
+    expect(html).not.toContain('<label class="cometal-table__page-size"');
   });
 });
