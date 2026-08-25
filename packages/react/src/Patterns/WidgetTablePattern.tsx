@@ -17,6 +17,7 @@ import RefreshIcon from '../icons/generated/components/outline/arrows/arrow-refr
 import DownloadIcon from '../icons/generated/components/outline/general/download-01';
 import FilterIcon from '../icons/generated/components/outline/general/filter';
 import PlusIcon from '../icons/generated/components/outline/general/plus-01';
+import FlexRowsIcon from '../icons/generated/components/outline/layout/flex-rows';
 import './widget-table-pattern.css';
 
 export interface WidgetTablePatternProps {
@@ -97,6 +98,14 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable' }: Wid
   const totalSum = visibleRows.reduce((total, row) => total + row[3] * row[5], 0);
 
   const toolbar = <>
+    <IconButton
+      size="m"
+      variant="secondary"
+      aria-label={density === 'comfortable' ? 'Включить компактную плотность' : 'Включить комфортную плотность'}
+      aria-pressed={density === 'compact'}
+      icon={<FlexRowsIcon />}
+      onClick={() => setDensity((value) => value === 'comfortable' ? 'compact' : 'comfortable')}
+    />
     <IconButton size="m" variant="secondary" aria-label={filters ? 'Скрыть фильтры' : 'Показать фильтры'} icon={<FilterIcon />} onClick={() => setFilters((value) => !value)} />
     <IconButton size="m" variant="secondary" aria-label="Обновить" icon={<RefreshIcon />} />
     <IconButton size="m" variant="secondary" aria-label="Экспорт" icon={<DownloadIcon />} />
@@ -161,7 +170,6 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable' }: Wid
           <TableRow><TableSummaryCell kind="empty" colSpan={4} /><TableSummaryCell kind="label" colSpan={2}>Итого</TableSummaryCell><TableSummaryCell kind="value" align="end">{totalQuantity}</TableSummaryCell><TableSummaryCell kind="empty" /><TableSummaryCell kind="value" align="end">—</TableSummaryCell><TableSummaryCell kind="value" align="end">{totalSum.toLocaleString('ru-RU')}</TableSummaryCell><TableSummaryCell kind="empty" colSpan={6} /></TableRow>
         </TableBody>
       </Table>
-      <div className="cometal-widget-table-pattern__density" role="group" aria-label="Плотность таблицы"><Button size="s" variant={density === 'comfortable' ? 'primary' : 'secondary'} onClick={() => setDensity('comfortable')}>Comfortable</Button><Button size="s" variant={density === 'compact' ? 'primary' : 'secondary'} onClick={() => setDensity('compact')}>Compact</Button></div>
     </WidgetTablePattern>
   );
 }

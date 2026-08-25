@@ -1,8 +1,13 @@
-.cometal-widget-table-pattern__table { min-width: 0; }
+.cometal-widget-table-pattern__table {
+  min-width: 0;
+  overflow: hidden;
+  border: var(--cometal-primitive-stroke-100) solid var(--cometal-semantic-color-global-border-default);
+  border-radius: var(--cometal-primitive-radius-100);
+  background: var(--cometal-semantic-color-global-surface-raised);
+}
 .cometal-widget-table-pattern__footer { min-width: 0; }
 .cometal-widget-table-pattern__filter { width: 100%; min-width: 0; }
 .cometal-widget-table-pattern__filter .cometal-field__label-row,
 .cometal-widget-table-pattern__filter .cometal-field__support-slot { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
 .cometal-widget-table-pattern__filter .cometal-field__control { width: 100%; }
-.cometal-widget-table-pattern__density { display: flex; flex-wrap: wrap; gap: var(--cometal-primitive-spacing-50); padding-block-start: var(--cometal-primitive-spacing-100); }
 .cometal-widget-table-pattern__sr-only { position: absolute; width: 1px; height: 1px; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
