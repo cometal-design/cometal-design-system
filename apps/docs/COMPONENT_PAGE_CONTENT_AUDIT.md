@@ -24,6 +24,7 @@
 - All 26 missing criteria in the approved nine-route batch are closed without changing validator criteria or route requirements.
 - Widget retains the justified matrix N/A: its public contract is slot composition without a public size, variant or state axis.
 - The new shared environment block keeps responsive, theme and edge-case evidence consistent while route content remains component-specific.
+- Context Menu matrix evidence is route-specific: PASS requires visible real `ContextMenu` instances for explicit `size="l"`, `size="m"` and `size="s"`; generic state prose no longer satisfies this route.
 
 Criterion IDs are defined in `COMPONENT_PAGE_CONTENT_CHECKLIST.md` and the unchanged JSON contract.
 

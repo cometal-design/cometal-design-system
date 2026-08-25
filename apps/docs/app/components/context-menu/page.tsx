@@ -28,6 +28,24 @@ export default function ContextMenuPage() {
       </div>
     </section>
 
+    <section className="content-section" id="sizes">
+      <SectionHeading title="Размеры" description="Три реальные Context Menu используют одинаковый состав, чтобы сравнивать surface, типографику, inset и высоту item: L 48px, M 40px и S 32px." />
+      <div className="size-list">
+        <article>
+          <div className="size-list__size"><strong>L</strong><span>Item 48px</span></div>
+          <div className="component-inline-demo"><ContextMenu size="l" defaultOpen trigger={<Button size="m" variant="secondary">Открыть L</Button>}><ContextMenuItem>Открыть</ContextMenuItem><ContextMenuItem>Переименовать</ContextMenuItem><ContextMenuDivider /><ContextMenuItem selected>Закрепить</ContextMenuItem><ContextMenuItem tone="danger">Удалить</ContextMenuItem></ContextMenu></div>
+        </article>
+        <article>
+          <div className="size-list__size"><strong>M</strong><span>Item 40px</span></div>
+          <div className="component-inline-demo"><ContextMenu size="m" defaultOpen trigger={<Button size="m" variant="secondary">Открыть M</Button>}><ContextMenuItem>Открыть</ContextMenuItem><ContextMenuItem>Переименовать</ContextMenuItem><ContextMenuDivider /><ContextMenuItem selected>Закрепить</ContextMenuItem><ContextMenuItem tone="danger">Удалить</ContextMenuItem></ContextMenu></div>
+        </article>
+        <article>
+          <div className="size-list__size"><strong>S</strong><span>Item 32px</span></div>
+          <div className="component-inline-demo"><ContextMenu size="s" defaultOpen trigger={<Button size="m" variant="secondary">Открыть S</Button>}><ContextMenuItem>Открыть</ContextMenuItem><ContextMenuItem>Переименовать</ContextMenuItem><ContextMenuDivider /><ContextMenuItem selected>Закрепить</ContextMenuItem><ContextMenuItem tone="danger">Удалить</ContextMenuItem></ContextMenu></div>
+        </article>
+      </div>
+    </section>
+
     <section className="content-section" id="states">
       <SectionHeading title="Размеры и состояния" description="Surface поддерживает L, M и S; item показывает default, selected, disabled и danger без локальных visual substitutes." />
       <div className="definition-list">

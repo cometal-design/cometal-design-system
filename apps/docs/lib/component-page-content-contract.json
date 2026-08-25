@@ -300,7 +300,8 @@
       "requirements": {
         "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>overlay\\.context-menu</code>"] }] } },
         "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["figmaHref=\\{component\\.links\\.figma\\}"] }] } },
-        "real-example": { "evidence": { "clauses": [{ "scope": "content", "all": ["<ContextMenu\\b", "<ContextMenuItem\\b"] }] } }
+        "real-example": { "evidence": { "clauses": [{ "scope": "content", "all": ["<ContextMenu\\b", "<ContextMenuItem\\b"] }] } },
+        "matrix": { "evidence": { "clauses": [{ "scope": "content", "all": ["id=\"sizes\"", "<ContextMenu\\s+size=\"l\"", "<ContextMenu\\s+size=\"m\"", "<ContextMenu\\s+size=\"s\""] }] } }
       }
     }
   ]
