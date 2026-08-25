@@ -6,6 +6,7 @@ import { ComboboxModeDemo } from '../../../components/combobox-mode-demo';
 import { MultiSelectModeDemo } from '../../../components/multi-select-mode-demo';
 import { SelectModeDemo } from '../../../components/select-mode-demo';
 import { SectionHeading } from '../../../components/section-heading';
+import { contractorOptions } from '../../../lib/demo-options';
 import { components, statusLabels } from '../../../lib/registry';
 import { usageExamples } from '../../../lib/usage-examples';
 
@@ -53,7 +54,7 @@ export default function FieldsPage() {
               <code>{size.toUpperCase()} · {size === 'l' ? '48' : size === 'm' ? '40' : '32'}px</code>
               <TextField label="Название поля" placeholder="Введите значение" size={size} />
               <Select label="Статус" options={fieldSizeOptions} size={size} />
-              <Combobox label="Контрагент" placeholder="Найдите значение" options={fieldSizeOptions} size={size} defaultValue="Северсталь" />
+              <Combobox label="Контрагент" placeholder="Найдите значение" options={contractorOptions} size={size} defaultValue="Северсталь" />
             </article>
           ))}
         </div>
