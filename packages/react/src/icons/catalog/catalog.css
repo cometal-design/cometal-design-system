@@ -37,24 +37,8 @@
   gap: var(--cometal-primitive-spacing-75);
 }
 
-.cometal-icon-catalog__controls label {
-  display: grid;
-  gap: var(--cometal-semantic-spacing-global-input-label-gap);
-  color: var(--cometal-semantic-color-global-text-secondary);
-  font-size: var(--cometal-primitive-size-12);
-  font-weight: 600;
-}
-
-.cometal-icon-catalog__controls input,
-.cometal-icon-catalog__controls select {
-  width: 100%;
-  min-height: var(--cometal-semantic-size-global-control-m);
-  padding: var(--cometal-primitive-spacing-50) var(--cometal-primitive-spacing-60);
-  border: var(--cometal-primitive-stroke-100) solid var(--cometal-semantic-color-global-border-default);
-  border-radius: var(--cometal-semantic-radius-global-input);
-  background: var(--cometal-semantic-color-global-surface-canvas);
-  color: var(--cometal-semantic-color-global-text-primary);
-  font: inherit;
+.cometal-icon-catalog__controls > * {
+  min-width: 0;
 }
 
 .cometal-icon-catalog__feedback {
@@ -160,12 +144,6 @@
   border: 0;
   clip: rect(0 0 0 0);
   white-space: nowrap;
-}
-
-.cometal-icon-catalog__controls input:focus-visible,
-.cometal-icon-catalog__controls select:focus-visible {
-  outline: var(--cometal-primitive-stroke-200) solid var(--cometal-semantic-color-global-state-focus-ring);
-  outline-offset: var(--cometal-primitive-stroke-200);
 }
 
 @media (max-width: 900px) {

@@ -2,7 +2,10 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '../../Button/Button';
+import { Select, TextField } from '../../Field/Field';
+import type { SelectOption } from '../../Field/Field';
 import CopyLeftIcon from '../generated/components/outline/general/copy-left';
+import Search01Icon from '../generated/components/outline/general/search-01';
 import { iconLoaders } from '../generated/loaders';
 import { iconManifest, iconManifestMetadata } from '../generated/manifest';
 import type { IconComponent, IconManifestRecord } from '../runtime/types';
@@ -57,6 +60,18 @@ export function IconCatalog({ className }: IconCatalogProps) {
   const filters = useMemo(() => ({ library, family, category }), [library, family, category]);
   const results = useMemo(() => filterIconRecords(iconManifest, search, filters), [search, filters]);
   const filterOptions = useMemo(() => getIconCatalogFilterOptions(iconManifest, search, filters), [search, filters]);
+  const libraryOptions = useMemo<SelectOption[]>(() => [
+    { value: '', label: `Все (${iconManifest.length})` },
+    ...filterOptions.libraries.map((option) => ({ value: option.value, label: `${option.value} (${option.count})` })),
+  ], [filterOptions.libraries]);
+  const familyOptions = useMemo<SelectOption[]>(() => [
+    { value: '', label: 'Все' },
+    ...filterOptions.families.map((option) => ({ value: option.value, label: `${option.value} (${option.count})` })),
+  ], [filterOptions.families]);
+  const categoryOptions = useMemo<SelectOption[]>(() => [
+    { value: '', label: 'Все' },
+    ...filterOptions.categories.map((option) => ({ value: option.value, label: `${option.value} (${option.count})` })),
+  ], [filterOptions.categories]);
   const pagination = useMemo(() => paginateIconRecords(results, page), [results, page]);
   const resultAnnouncement = `Найдено ${results.length.toLocaleString('ru-RU')}. Страница ${pagination.page} из ${pagination.pageCount}.`;
   const resultAnnouncementRef = useRef(resultAnnouncement);
@@ -124,27 +139,36 @@ export function IconCatalog({ className }: IconCatalogProps) {
         <code>{iconManifestMetadata.sourceFingerprintSha256}</code>
       </header>
       <div className="cometal-icon-catalog__controls">
-        <label className="cometal-icon-catalog__search">Поиск по каноническому имени
-          <input type="search" value={search} onChange={(event) => { setSearch(event.currentTarget.value); resetPage(); }} placeholder="Например, payment/lg/Visa" />
-        </label>
-        <label>Библиотека
-          <select value={library} onChange={(event) => { setLibrary(event.currentTarget.value); setFamily(''); setCategory(''); resetPage(); }}>
-            <option value="">Все ({iconManifest.length})</option>
-            {filterOptions.libraries.map((option) => <option value={option.value} key={option.value}>{option.value} ({option.count})</option>)}
-          </select>
-        </label>
-        <label>Семейство
-          <select value={family} onChange={(event) => { setFamily(event.currentTarget.value); setCategory(''); resetPage(); }}>
-            <option value="">Все</option>
-            {filterOptions.families.map((option) => <option value={option.value} key={option.value}>{option.value} ({option.count})</option>)}
-          </select>
-        </label>
-        <label>Категория
-          <select value={category} onChange={(event) => { setCategory(event.currentTarget.value); resetPage(); }}>
-            <option value="">Все</option>
-            {filterOptions.categories.map((option) => <option value={option.value} key={option.value}>{option.value} ({option.count})</option>)}
-          </select>
-        </label>
+        <TextField
+          type="search"
+          label="Поиск по каноническому имени"
+          size="s"
+          startIcon={<Search01Icon />}
+          value={search}
+          onChange={(event) => { setSearch(event.currentTarget.value); resetPage(); }}
+          placeholder="Например, payment/lg/Visa"
+        />
+        <Select
+          label="Библиотека"
+          size="s"
+          options={libraryOptions}
+          value={library}
+          onValueChange={(value) => { setLibrary(value); setFamily(''); setCategory(''); resetPage(); }}
+        />
+        <Select
+          label="Семейство"
+          size="s"
+          options={familyOptions}
+          value={family}
+          onValueChange={(value) => { setFamily(value); setCategory(''); resetPage(); }}
+        />
+        <Select
+          label="Категория"
+          size="s"
+          options={categoryOptions}
+          value={category}
+          onValueChange={(value) => { setCategory(value); resetPage(); }}
+        />
       </div>
       <div className="cometal-icon-catalog__result-line" data-page={pagination.page} data-page-count={pagination.pageCount}>
         <span>Найдено: <strong>{results.length.toLocaleString('ru-RU')}</strong></span>

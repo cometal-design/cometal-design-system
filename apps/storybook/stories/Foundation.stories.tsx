@@ -423,15 +423,24 @@ export const Icons: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const search = canvas.getByRole('searchbox', { name: 'Поиск по каноническому имени' }) as HTMLInputElement;
-    const selects = canvas.getAllByRole('combobox') as HTMLSelectElement[];
+    const filterLabels = ['Библиотека', 'Семейство', 'Категория'] as const;
+    const selects = filterLabels.map((label) => canvas.getByRole('combobox', { name: label }) as HTMLButtonElement);
     const resultLine = canvasElement.querySelector<HTMLElement>('.cometal-icon-catalog__result-line')!;
     const originalSearch = search.value;
-    const originalFilters = selects.map((select) => select.value);
+    const originalFilters = selects.map((select) => select.textContent?.trim() ?? '');
     const originalPage = Number(resultLine.dataset.page);
     const clipboardDescriptor = Object.getOwnPropertyDescriptor(navigator, 'clipboard');
     Object.defineProperty(navigator, 'clipboard', { configurable: true, value: { writeText: async () => undefined } });
 
     const currentPage = () => Number(resultLine.dataset.page);
+    const selectFilter = async (label: typeof filterLabels[number], optionName: string | RegExp) => {
+      const trigger = canvas.getByRole('combobox', { name: label });
+      await userEvent.click(trigger);
+      const listbox = await canvas.findByRole('listbox', { name: `${label}: варианты` });
+      const option = within(listbox).getByRole('option', { name: optionName });
+      await userEvent.click(option);
+      await waitFor(() => expect(trigger).toHaveTextContent(optionName));
+    };
     const moveToPage = async (target: number) => {
       while (currentPage() < target) {
         const nextPage = currentPage() + 1;
@@ -472,6 +481,37 @@ export const Icons: Story = {
       await expect(canvasElement.querySelectorAll('.cometal-icon-catalog__name')).toHaveLength(120);
       await expect(canvas.queryAllByRole('status')).toHaveLength(1);
       await expect(canvasElement.querySelectorAll('[aria-live="polite"]')).toHaveLength(1);
+      const fields = [...canvasElement.querySelectorAll<HTMLElement>('[data-cometal-component="field"]')];
+      await expect(fields).toHaveLength(4);
+      for (const field of fields) await expect(field).toHaveAttribute('data-size', 's');
+      await expect(selects).toHaveLength(3);
+      for (const select of selects) {
+        await expect(select).toHaveAttribute('aria-haspopup', 'listbox');
+        await expect(select).toHaveAttribute('aria-expanded', 'false');
+      }
+      const searchIcon = search.closest('[data-cometal-component="field"]')?.querySelector<SVGSVGElement>('.cometal-field__icon > svg[data-cometal-icon]');
+      await expect(searchIcon).not.toBeNull();
+      await expect(searchIcon).toHaveAttribute('data-cometal-icon-library', 'outline');
+
+      await moveToPage(2);
+      await selectFilter('Библиотека', 'outline (875)');
+      await expect(currentPage()).toBe(1);
+      await selectFilter('Семейство', /^general \(/);
+      await selectFilter('Категория', /^general \(/);
+      await selectFilter('Библиотека', /^filled \(/);
+      await expect(canvas.getByRole('combobox', { name: 'Семейство' })).toHaveTextContent('Все');
+      await expect(canvas.getByRole('combobox', { name: 'Категория' })).toHaveTextContent('Все');
+      await selectFilter('Библиотека', 'outline (875)');
+      await selectFilter('Семейство', /^general \(/);
+      await selectFilter('Категория', /^general \(/);
+      await selectFilter('Семейство', 'Все');
+      await expect(canvas.getByRole('combobox', { name: 'Категория' })).toHaveTextContent('Все');
+      await selectFilter('Семейство', /^alerts \(/);
+      await selectFilter('Категория', /^alerts \(/);
+      await selectFilter('Категория', 'Все');
+      await selectFilter('Семейство', 'Все');
+      await selectFilter('Библиотека', `Все (${iconManifestMetadata.total})`);
+      await waitFor(() => expect(canvas.getAllByRole('listitem')).toHaveLength(120));
 
       const actionButtons = [...canvasElement.querySelectorAll<HTMLButtonElement>('.cometal-icon-catalog__actions button')];
       await expect(actionButtons).toHaveLength(240);
@@ -585,7 +625,7 @@ export const Icons: Story = {
       await userEvent.clear(search);
       if (originalSearch) await userEvent.type(search, originalSearch);
       for (let index = 0; index < selects.length; index += 1) {
-        if (selects[index].value !== originalFilters[index]) await userEvent.selectOptions(selects[index], originalFilters[index]);
+        if (selects[index].textContent?.trim() !== originalFilters[index]) await selectFilter(filterLabels[index], originalFilters[index]);
       }
       await moveToPage(originalPage);
       await waitFor(() => expect(canvasElement.querySelectorAll('.cometal-icon-catalog__name')).toHaveLength(120));
