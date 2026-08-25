@@ -141,7 +141,9 @@ function validateSvgEnvelope(svg, record) {
 
 function compileSvg(svg, record) {
   validateSvgEnvelope(svg, record);
-  const rootPresentation = record.library === 'outline' || record.library === 'filled'
+  const rootPresentation = record.library === 'outline'
+    || record.library === 'filled'
+    || record.library === 'feature-icons-and-logos'
     ? parseSvgRootPresentation(svg, record)
     : undefined;
   const root = svg.match(/^<svg\b[^>]*>([\s\S]*)<\/svg>\s*$/);

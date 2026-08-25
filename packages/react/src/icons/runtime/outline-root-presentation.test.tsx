@@ -4,21 +4,22 @@ import { describe, expect, it } from 'vitest';
 import ArrowIcon, { definition as outlineDefinition } from '../generated/components/outline/arrows/arrow-curve-left-down';
 import FilledIcon, { definition as filledDefinition } from '../generated/components/filled/security/shield-plus-filled';
 import FilledStrokeIcon, { definition as filledStrokeDefinition } from '../generated/components/filled/charts/bar-chart-square-02';
+import FeatureStrokeIcon, { definition as featureStrokeDefinition } from '../generated/components/feature-icons-and-logos/file-icon/file';
 import BrandIcon, { definition as brandDefinition } from '../generated/components/feature-icons-and-logos/payment/lg/visa';
 import { iconLoaders } from '../generated/loaders';
 import { iconManifest } from '../generated/manifest';
 
 describe('Outline and Filled root presentation runtime', () => {
-  it('emits source-derived fill none for every Outline and Filled definition only', async () => {
+  it('emits source-derived fill none for every generated definition', async () => {
     expect(outlineDefinition.rootPresentation).toEqual({ fill: 'none' });
     expect(filledDefinition.rootPresentation).toEqual({ fill: 'none' });
     expect(filledStrokeDefinition.rootPresentation).toEqual({ fill: 'none' });
-    expect('rootPresentation' in brandDefinition).toBe(false);
+    expect(featureStrokeDefinition.rootPresentation).toEqual({ fill: 'none' });
+    expect(brandDefinition.rootPresentation).toEqual({ fill: 'none' });
 
     const report = await import('../generated/generation-report.json');
-    expect(report.default.transformed.rootPresentationRecords).toBe(1752);
-    expect(report.default.records.filter((record) => record.rootPresentation)).toHaveLength(1752);
-    expect(report.default.records.filter((record) => record.rootPresentation).every((record) => record.library === 'outline' || record.library === 'filled')).toBe(true);
+    expect(report.default.transformed.rootPresentationRecords).toBe(2810);
+    expect(report.default.records.filter((record) => record.rootPresentation)).toHaveLength(2810);
   });
 
   it('uses root presentation as a default while caller fill and style fill retain priority', () => {
@@ -40,14 +41,22 @@ describe('Outline and Filled root presentation runtime', () => {
     expect(explicitFill).toMatch(/<path[^>]*\sfill="currentColor"/);
   });
 
-  it('does not add root fill to Feature runtime output', () => {
-    expect(renderToStaticMarkup(<BrandIcon />).match(/<svg[^>]*\sfill=/)).toBeNull();
+  it('keeps Feature stroke-only paths transparent and intrinsic explicit fills unchanged', () => {
+    const strokeOnly = renderToStaticMarkup(<FeatureStrokeIcon />);
+    expect(strokeOnly).toMatch(/<svg[^>]*\sfill="none"/);
+    expect(strokeOnly).toContain('stroke="#9FA8B3"');
+    expect(strokeOnly).not.toMatch(/<path[^>]*\sfill=/);
+
+    const brand = renderToStaticMarkup(<BrandIcon />);
+    expect(brand).toMatch(/<svg[^>]*\sfill="none"/);
+    expect(brand).toContain('fill="#172B85"');
+    expect(brand).not.toContain('currentColor');
   });
 
-  it('retains the accepted runtime digests after Filled root preservation', async () => {
+  it('retains the accepted runtime digests after Filled and Feature root preservation', async () => {
     const expected = {
       filled: ['2c4e1ebbc82bef598b6b7add80c4ced144367de8e729af07f77e01824ddd1833', 877],
-      'feature-icons-and-logos': ['aeb293e0aa0199c27325f1066723d78fd580fd160443642e10e623d6bf8a8a63', 1058],
+      'feature-icons-and-logos': ['05624038dbc15ad436f935e9a9416943ea7a4fdc2b24b81b4f2123bb5e7126e8', 1058],
     } as const;
     for (const [library, [expectedDigest, expectedCount]] of Object.entries(expected)) {
       const records = iconManifest
