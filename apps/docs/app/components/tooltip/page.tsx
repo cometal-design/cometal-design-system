@@ -44,9 +44,9 @@ export default function TooltipPage() {
     </section>
 
     <section className="content-section" data-component-phase="visual-contract" id="states">
-      <SectionHeading title="Матрица 2 × 8" description="Shipped @cometal/react Tooltip показан в двух размерах и восьми placement рядом с exact geometry canonical COMPONENT_SET 2871:43; portal не маскирует найденное визуальное расхождение." />
+      <SectionHeading title="Матрица 2 × 8" description="Shipped @cometal/react Tooltip показан в двух размерах и восьми placement по exact geometry canonical COMPONENT_SET 2871:43." />
       <p><InlineLink href={component.links.figma} target="_blank" rel="noreferrer">Открыть canonical Tooltip COMPONENT_SET 2871:43 в Figma ↗</InlineLink></p>
-      <div className="notice"><strong>CONFLICT · visual geometry</strong><span>Size names и восемь placement совпадают. Shipped React использует content-driven Compact, Wide min/max-width, общий padding 24/16 и rotated 12×12 square arrow с offset 24; это не совпадает с canonical surface, padding, vector arrow и offsets ниже. Матрица намеренно показывает фактический React output.</span></div>
+      <div className="notice"><strong>MATCH · visual geometry</strong><span>React surface, typography line, triangular arrow silhouette и offsets повторяют canonical Compact/Wide geometry; 10px trigger gap и collision fallback остаются частью существующего behavior.</span></div>
       <div className="tooltip-contract-matrix" aria-label="Tooltip: два размера и восемь placement">
         {tooltipSizes.map((size) => (
           <article className="tooltip-contract-matrix__size" data-tooltip-size={size.size} key={size.size}>
@@ -80,7 +80,7 @@ export default function TooltipPage() {
       </div>
       <div className="definition-list">
         <article><span>01</span><strong>Figma target</strong><p><code>compact</code>: surface 185×32, padding 12/8. <code>wide</code>: 240×44, padding 16/12. Top/bottom arrow — 12×6, side arrow — 6×12.</p></article>
-        <article><span>02</span><strong>React actual</strong><p>Compact width зависит от content и ограничен 320px; Wide использует min-width 240px и max-width 420px. Оба получают фактический padding 24/16, а arrow остаётся rotated 12×12 square.</p></article>
+        <article><span>02</span><strong>React actual</strong><p>Compact фиксирует surface 185×32, padding 12/8 и line-height 16; Wide — 240×44, padding 16/12 и line-height 20. Arrow использует triangle 12×6 или 6×12.</p></article>
         <article><span>03</span><strong>Placement</strong><p>Порядок canonical и public React values совпадает: Top Start, Top Center, Top End, Bottom Start, Bottom Center, Bottom End, Left, Right.</p></article>
         <article><span>04</span><strong>State</strong><p><code>open</code> и <code>onOpenChange</code> задают controlled mode, <code>defaultOpen</code> — начальное uncontrolled состояние, <code>disabled</code> запрещает показ.</p></article>
       </div>

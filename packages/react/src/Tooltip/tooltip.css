@@ -8,11 +8,17 @@
 }
 
 .cometal-tooltip__panel {
+  --cometal-tooltip-surface-width: 185px;
+  --cometal-tooltip-surface-height: var(--cometal-primitive-size-32);
+  --cometal-tooltip-arrow-offset: var(--cometal-primitive-spacing-75);
   position: fixed;
   z-index: 80;
   display: inline-flex;
-  max-width: min(320px, calc(100vw - 16px));
-  padding: var(--cometal-primitive-spacing-100) var(--cometal-primitive-spacing-150);
+  box-sizing: border-box;
+  width: min(var(--cometal-tooltip-surface-width), calc(100vw - var(--cometal-primitive-spacing-100)));
+  height: var(--cometal-tooltip-surface-height);
+  padding: var(--cometal-primitive-spacing-50) var(--cometal-primitive-spacing-75);
+  align-items: center;
   border-radius: var(--cometal-primitive-radius-100);
   background: var(--cometal-semantic-color-global-surface-inverse);
   box-shadow: var(--cometal-effects-effects-elevation-floating-soft);
@@ -21,21 +27,24 @@
 }
 
 .cometal-tooltip__panel[data-size='wide'] {
-  max-width: min(420px, calc(100vw - 16px));
-  min-width: min(240px, calc(100vw - 16px));
+  --cometal-tooltip-surface-width: calc(var(--cometal-primitive-spacing-750) * 2);
+  --cometal-tooltip-surface-height: var(--cometal-primitive-size-44);
+  --cometal-tooltip-arrow-offset: var(--cometal-primitive-spacing-100);
+  padding: var(--cometal-primitive-spacing-75) var(--cometal-primitive-spacing-100);
 }
 
 .cometal-tooltip__content {
   display: block;
   min-width: 0;
   max-width: 100%;
-  overflow-wrap: anywhere;
-  font-family: var(--cometal-typography-body-s-default-font-family);
-  font-size: var(--cometal-typography-body-s-default-font-size);
-  font-weight: var(--cometal-typography-body-s-default-font-weight);
-  line-height: var(--cometal-typography-body-s-default-line-height);
-  letter-spacing: var(--cometal-typography-body-s-default-letter-spacing);
-  white-space: normal;
+  overflow: hidden;
+  font-family: var(--cometal-typography-control-s-font-family);
+  font-size: var(--cometal-typography-control-s-font-size);
+  font-weight: var(--cometal-typography-control-s-font-weight);
+  line-height: var(--cometal-typography-control-s-line-height);
+  letter-spacing: var(--cometal-typography-control-s-letter-spacing);
+  text-overflow: ellipsis;
+  white-space: nowrap;
 }
 
 .cometal-tooltip__panel[data-size='wide'] .cometal-tooltip__content {
@@ -49,38 +58,46 @@
 .cometal-tooltip__arrow {
   position: absolute;
   width: var(--cometal-primitive-size-12);
-  height: var(--cometal-primitive-size-12);
+  height: calc(var(--cometal-primitive-size-12) / 2);
   background: inherit;
-  border-radius: var(--cometal-primitive-radius-25);
-  transform: rotate(45deg);
+  border-radius: 0;
+  transform: none;
 }
 
 .cometal-tooltip__panel[data-placement^='top'] .cometal-tooltip__arrow {
-  bottom: -5px;
+  bottom: calc(var(--cometal-primitive-spacing-60) / -2);
+  clip-path: polygon(0 0, 100% 0, 50% 100%);
 }
 
 .cometal-tooltip__panel[data-placement^='bottom'] .cometal-tooltip__arrow {
-  top: -5px;
+  top: calc(var(--cometal-primitive-spacing-60) / -2);
+  clip-path: polygon(50% 0, 100% 100%, 0 100%);
 }
 
 .cometal-tooltip__panel[data-placement='left'] .cometal-tooltip__arrow {
-  right: -5px;
-  top: calc(50% - 6px);
+  width: calc(var(--cometal-primitive-size-12) / 2);
+  height: var(--cometal-primitive-size-12);
+  right: calc(var(--cometal-primitive-spacing-60) / -2);
+  top: calc(50% - var(--cometal-primitive-size-12) / 2);
+  clip-path: polygon(0 0, 100% 50%, 0 100%);
 }
 
 .cometal-tooltip__panel[data-placement='right'] .cometal-tooltip__arrow {
-  left: -5px;
-  top: calc(50% - 6px);
+  width: calc(var(--cometal-primitive-size-12) / 2);
+  height: var(--cometal-primitive-size-12);
+  left: calc(var(--cometal-primitive-spacing-60) / -2);
+  top: calc(50% - var(--cometal-primitive-size-12) / 2);
+  clip-path: polygon(100% 0, 100% 100%, 0 50%);
 }
 
 .cometal-tooltip__panel[data-placement$='start'] .cometal-tooltip__arrow {
-  left: var(--cometal-primitive-spacing-150);
+  left: var(--cometal-tooltip-arrow-offset);
 }
 
 .cometal-tooltip__panel[data-placement$='center'] .cometal-tooltip__arrow {
-  left: calc(50% - 6px);
+  left: calc(50% - var(--cometal-primitive-size-12) / 2);
 }
 
 .cometal-tooltip__panel[data-placement$='end'] .cometal-tooltip__arrow {
-  left: calc(100% - var(--cometal-primitive-spacing-150) - 12px);
+  left: calc(100% - var(--cometal-tooltip-arrow-offset) - var(--cometal-primitive-size-12));
 }
