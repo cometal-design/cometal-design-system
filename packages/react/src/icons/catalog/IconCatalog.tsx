@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useRef, useState } from 'react';
 import { Button } from '../../Button/Button';
+import CopyLeftIcon from '../generated/components/outline/general/copy-left';
 import { iconLoaders } from '../generated/loaders';
 import { iconManifest, iconManifestMetadata } from '../generated/manifest';
 import type { IconComponent, IconManifestRecord } from '../runtime/types';
@@ -160,8 +161,8 @@ export function IconCatalog({ className }: IconCatalogProps) {
               <code className="cometal-icon-catalog__name">{record.canonicalName}</code>
               <span>{record.library} · {iconCategory(record)}</span>
               <div className="cometal-icon-catalog__actions">
-                <Button variant="secondary" size="s" aria-label={`Копировать имя ${record.canonicalName}`} onClick={() => void copy(record.canonicalName, `Скопировано имя: ${record.canonicalName}`)}>Копировать имя</Button>
-                <Button variant="secondary" size="s" aria-label={`Копировать import ${record.canonicalName}`} onClick={() => void copy(iconImportSnippet(record), `Скопирован import для ${record.canonicalName}`)}>Копировать import</Button>
+                <Button variant="secondary" size="s" startIcon={<CopyLeftIcon />} aria-label={`Копировать имя ${record.canonicalName}`} onClick={() => void copy(record.canonicalName, `Скопировано имя: ${record.canonicalName}`)}>Имя</Button>
+                <Button variant="secondary" size="s" startIcon={<CopyLeftIcon />} aria-label={`Копировать import ${record.canonicalName}`} onClick={() => void copy(iconImportSnippet(record), `Скопирован import для ${record.canonicalName}`)}>Импорт</Button>
               </div>
             </li>
           ))}

@@ -476,7 +476,23 @@ export const Icons: Story = {
       const actionButtons = [...canvasElement.querySelectorAll<HTMLButtonElement>('.cometal-icon-catalog__actions button')];
       await expect(actionButtons).toHaveLength(240);
       for (const button of actionButtons) {
+        await expect(button).toHaveAttribute('data-cometal-component', 'button');
+        const label = button.querySelector<HTMLElement>('.cometal-button__label');
+        await expect(label).not.toBeNull();
+        await expect(['Имя', 'Импорт']).toContain(label!.textContent);
+        await expect(label!.textContent?.trim().split(/\s+/)).toHaveLength(1);
+        const startIcon = button.querySelector<SVGSVGElement>('.cometal-button__content > .cometal-button__icon:first-child > svg[data-cometal-icon]');
+        await expect(startIcon).not.toBeNull();
+        await expect(startIcon).toHaveAttribute('data-cometal-icon-library', 'outline');
         expect(button.scrollWidth, `${button.textContent} overflows at ${window.innerWidth}px`).toBeLessThanOrEqual(button.clientWidth);
+      }
+      for (const actions of canvasElement.querySelectorAll<HTMLElement>('.cometal-icon-catalog__actions')) {
+        const buttons = [...actions.querySelectorAll<HTMLButtonElement>('button')];
+        await expect(buttons.map((button) => button.textContent?.trim())).toEqual(['Имя', 'Импорт']);
+        for (const button of buttons) {
+          expect(Math.abs(button.getBoundingClientRect().width - actions.getBoundingClientRect().width)).toBeLessThanOrEqual(1);
+        }
+        expect(buttons[1].getBoundingClientRect().top).toBeGreaterThanOrEqual(buttons[0].getBoundingClientRect().bottom);
       }
 
       const firstName = canvasElement.querySelector('.cometal-icon-catalog__name')?.textContent;

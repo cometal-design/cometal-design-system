@@ -141,28 +141,13 @@
 
 .cometal-icon-catalog__actions {
   display: grid;
-  grid-template-columns: 1fr 1fr;
+  grid-template-columns: 1fr;
   gap: var(--cometal-semantic-spacing-global-stack-xs);
   align-self: end;
 }
 
 .cometal-icon-catalog__actions .cometal-button {
-  min-width: 0;
-  min-height: var(--cometal-semantic-size-global-button-s);
-  height: auto;
   width: 100%;
-  padding-block: var(--cometal-primitive-spacing-25);
-  white-space: normal;
-}
-
-.cometal-icon-catalog__actions .cometal-button__content,
-.cometal-icon-catalog__actions .cometal-button__label {
-  min-width: 0;
-  max-width: 100%;
-}
-
-.cometal-icon-catalog__actions .cometal-button__label {
-  overflow-wrap: anywhere;
 }
 
 .cometal-icon-catalog__live-status {
