@@ -35,6 +35,31 @@ export function TableSourceExample({ density = 'comfortable', filters = true, mo
   const [editing, setEditing] = useState<{ rowId: number; column: 'position' | 'name' | 'quantity' } | null>(null);
   const [operators, setOperators] = useState({ position: 'Содержит', name: 'Содержит', quantity: 'Равно', status: 'Равно', file: 'Содержит' });
   const updateRow = (rowId: number, field: 'position' | 'name' | 'quantity', value: string) => setOrderedRows((current) => current.map((row) => row.id === rowId ? { ...row, [field]: field === 'quantity' ? Number(value) || 0 : value } : row));
+  const editableCell = (row: (typeof rows)[number], field: 'position' | 'name' | 'quantity', label: string, align: 'start' | 'end' = 'start', idleState: 'default' | 'error' = 'default') => {
+    const isEditing = mode === 'edit' && editing?.rowId === row.id && editing.column === field;
+    return <TableCell
+      align={align}
+      editable={mode === 'edit'}
+      state={isEditing ? 'editing' : idleState}
+      contentEditable={isEditing || undefined}
+      suppressContentEditableWarning
+      role={isEditing ? 'textbox' : undefined}
+      aria-multiline={isEditing ? false : undefined}
+      aria-label={isEditing ? `Редактирование: ${label}` : undefined}
+      onEditStart={() => setEditing({ rowId: row.id, column: field })}
+      onBlur={(event) => {
+        if (!isEditing) return;
+        if (!event.currentTarget.dataset.editCancelled) updateRow(row.id, field, event.currentTarget.textContent?.trim() ?? '');
+        delete event.currentTarget.dataset.editCancelled;
+        setEditing(null);
+      }}
+      onKeyDown={(event) => {
+        if (!isEditing) return;
+        if (event.key === 'Enter') { event.preventDefault(); event.currentTarget.blur(); }
+        if (event.key === 'Escape') { event.preventDefault(); event.currentTarget.dataset.editCancelled = 'true'; event.currentTarget.blur(); }
+      }}
+    >{row[field]}</TableCell>;
+  };
   return <Table
     density={density}
     mode={mode}
@@ -49,7 +74,7 @@ export function TableSourceExample({ density = 'comfortable', filters = true, mo
       <TableHeaderCell style={{ width: 156 }} sort={sort} onSortChange={setSort} action={<Action column="Позиция" />}>Позиция</TableHeaderCell>
       <TableHeaderCell action={<Action column="Наименование" />}>Наименование</TableHeaderCell><TableHeaderCell style={{ width: 136 }}>Количество</TableHeaderCell><TableHeaderCell style={{ width: 160 }}>Статус</TableHeaderCell><TableHeaderCell style={{ width: 220 }}>Файл</TableHeaderCell>
     </TableRow>{filters ? <TableFilterRow aria-label="Фильтры таблицы"><TableFilterCell kind="drag" /><TableFilterCell kind="index" /><TableFilterCell kind="selection" /><TableFilterCell action={<FilterAction label="Позиция" value={operators.position} options={textOperators} onChange={(value) => setOperators((current) => ({ ...current, position: value }))} />}><TextField className="docs-table-filter" label="Фильтр по позиции" size="s" placeholder={operators.position} /></TableFilterCell><TableFilterCell action={<FilterAction label="Наименование" value={operators.name} options={textOperators} onChange={(value) => setOperators((current) => ({ ...current, name: value }))} />}><TextField className="docs-table-filter" label="Фильтр по наименованию" size="s" placeholder={operators.name} /></TableFilterCell><TableFilterCell action={<FilterAction label="Количество" value={operators.quantity} options={numberOperators} onChange={(value) => setOperators((current) => ({ ...current, quantity: value }))} />}><TextField className="docs-table-filter" label="Фильтр по количеству" size="s" placeholder={operators.quantity} /></TableFilterCell><TableFilterCell action={<FilterAction label="Статус" value={operators.status} options={selectOperators} onChange={(value) => setOperators((current) => ({ ...current, status: value }))} />}><Select className="docs-table-filter" label="Фильтр по статусу" size="s" options={statusOptions} defaultValue="all" /></TableFilterCell><TableFilterCell action={<FilterAction label="Файл" value={operators.file} options={textOperators} onChange={(value) => setOperators((current) => ({ ...current, file: value }))} />}><TextField className="docs-table-filter" label="Фильтр по файлу" size="s" placeholder={operators.file} /></TableFilterCell></TableFilterRow> : null}</TableHead>
-    <TableBody>{orderedRows.map((row, index) => <TableRow key={row.id} rowId={String(row.id)} reorderId={mode === 'edit' ? String(row.id) : undefined} selected={selected.includes(row.id)}><TableDragCell><TableDragHandle rowLabel={row.position} disabled={mode === 'read'} /></TableDragCell><TableIndexCell>{index + 1}</TableIndexCell><TableSelectionCell label={`Выбрать строку ${row.id}`} checked={selected.includes(row.id)} onCheckedChange={(checked) => setSelected((current) => checked ? [...current, row.id] : current.filter((id) => id !== row.id))} /><TableCell editable onEditStart={() => setEditing({ rowId: row.id, column: 'position' })} state={editing?.rowId === row.id && editing.column === 'position' ? 'editing' : 'default'}>{editing?.rowId === row.id && editing.column === 'position' ? <TextField className="docs-table-filter" label="Позиция" size="s" value={row.position} autoFocus onChange={(event) => updateRow(row.id, 'position', event.currentTarget.value)} onBlur={() => setEditing(null)} /> : row.position}</TableCell><TableCell editable onEditStart={() => setEditing({ rowId: row.id, column: 'name' })} state={editing?.rowId === row.id && editing.column === 'name' ? 'editing' : row.id === 3 ? 'error' : 'default'}>{editing?.rowId === row.id && editing.column === 'name' ? <TextField className="docs-table-filter" label="Наименование" size="s" value={row.name} autoFocus onChange={(event) => updateRow(row.id, 'name', event.currentTarget.value)} onBlur={() => setEditing(null)} /> : row.name}</TableCell><TableCell editable align="end" onEditStart={() => setEditing({ rowId: row.id, column: 'quantity' })} state={editing?.rowId === row.id && editing.column === 'quantity' ? 'editing' : 'default'}>{editing?.rowId === row.id && editing.column === 'quantity' ? <TextField className="docs-table-filter" label="Количество" size="s" value={row.quantity} inputMode="numeric" autoFocus onChange={(event) => updateRow(row.id, 'quantity', event.currentTarget.value)} onBlur={() => setEditing(null)} /> : row.quantity}</TableCell><TableCell><Badge tone={row.tone}>{row.status}</Badge></TableCell><TableFileCell fileName={row.file} fileSize={row.size} fileType={row.type} /></TableRow>)}<TableRow><TableSummaryCell kind="empty" colSpan={3} /><TableSummaryCell kind="label" colSpan={2}>Итого</TableSummaryCell><TableSummaryCell kind="value" align="end">504</TableSummaryCell><TableSummaryCell kind="value">4 позиции</TableSummaryCell><TableSummaryCell kind="value">4 файла</TableSummaryCell></TableRow></TableBody>
+    <TableBody>{orderedRows.map((row, index) => <TableRow key={row.id} rowId={String(row.id)} reorderId={mode === 'edit' ? String(row.id) : undefined} selected={selected.includes(row.id)}><TableDragCell><TableDragHandle rowLabel={row.position} disabled={mode === 'read'} /></TableDragCell><TableIndexCell>{index + 1}</TableIndexCell><TableSelectionCell label={`Выбрать строку ${row.id}`} checked={selected.includes(row.id)} onCheckedChange={(checked) => setSelected((current) => checked ? [...current, row.id] : current.filter((id) => id !== row.id))} />{editableCell(row, 'position', `Позиция ${row.id}`)}{editableCell(row, 'name', `Наименование ${row.id}`, 'start', row.id === 3 ? 'error' : 'default')}{editableCell(row, 'quantity', `Количество ${row.id}`, 'end')}<TableCell><Badge tone={row.tone}>{row.status}</Badge></TableCell><TableFileCell fileName={row.file} fileSize={row.size} fileType={row.type} /></TableRow>)}<TableRow><TableSummaryCell kind="empty" colSpan={3} /><TableSummaryCell kind="label" colSpan={2}>Итого</TableSummaryCell><TableSummaryCell kind="value" align="end">504</TableSummaryCell><TableSummaryCell kind="value">4 позиции</TableSummaryCell><TableSummaryCell kind="value">4 файла</TableSummaryCell></TableRow></TableBody>
   </Table>;
 }
 

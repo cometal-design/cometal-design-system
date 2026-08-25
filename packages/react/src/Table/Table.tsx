@@ -426,6 +426,7 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(functi
         if (!canEdit || event.defaultPrevented) return;
         const target = event.target as Element;
         if (target.closest('button, input, select, textarea, a[href]')) return;
+        event.currentTarget.focus();
         startEdit();
       }}
       onKeyDown={(event) => {

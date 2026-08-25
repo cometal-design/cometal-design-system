@@ -16,6 +16,8 @@
 - все Table source families, summary и paginator;
 - toolbar actions из Widget source;
 - 10 строк демонстрационного контента из Figma Review.
+- два явных режима: Read с построчным hover и Edit с hover/editing отдельной ячейки;
+- в Edit сама TableCell переходит в `editing` и редактируется без вложенного Input.
 
 ## Граница
 

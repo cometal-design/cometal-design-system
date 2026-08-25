@@ -18,6 +18,9 @@
 - Text/status filters alter rows; density changes body geometry while preserving selection and query state.
 - Sort, selection, column context actions and paginator retain their component-owned keyboard behavior.
 - Table overflow remains inside the labelled scroll region; Widget does not clip focus rings or overlays.
+- Pattern documentation always exposes two explicit compositions: `Read` and `Edit`.
+- `Read` applies hover to the complete row and has no editable cells, row reorder or destructive row action.
+- `Edit` applies hover to one cell. Activation moves that same cell to the canonical `editing` state and makes the `td` editable; it must not mount a nested input.
 
 ## Exclusions
 

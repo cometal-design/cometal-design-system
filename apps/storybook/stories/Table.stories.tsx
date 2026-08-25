@@ -133,7 +133,7 @@ function SourceTable({ density = 'comfortable', filters = true, ariaLabel = 'П�
           <TableDragCell><TableDragHandle rowLabel={row.position} disabled={mode === 'read'} /></TableDragCell>
           <TableIndexCell>{index + 1}</TableIndexCell>
           <TableSelectionCell label={`Выбрать строку ${row.id}`} checked={selected.includes(row.id)} onCheckedChange={(checked) => setSelected((current) => checked ? [...current, row.id] : current.filter((id) => id !== row.id))} />
-          <TableCell editable state={editingCell === row.id ? 'editing' : 'default'} onEditStart={() => setEditingCell(row.id)}>{editingCell === row.id ? <TextField className="ds-table-filter-field" label={`Позиция ${row.position}`} size="s" defaultValue={row.position} autoFocus onBlur={() => setEditingCell(null)} /> : row.position}</TableCell>
+          <TableCell editable state={editingCell === row.id ? 'editing' : 'default'} contentEditable={editingCell === row.id || undefined} suppressContentEditableWarning role={editingCell === row.id ? 'textbox' : undefined} aria-multiline={editingCell === row.id ? false : undefined} aria-label={editingCell === row.id ? `Редактирование позиции ${row.position}` : undefined} onEditStart={() => setEditingCell(row.id)} onBlur={() => setEditingCell(null)} onKeyDown={(event) => { if (editingCell !== row.id) return; if (event.key === 'Enter') { event.preventDefault(); event.currentTarget.blur(); } if (event.key === 'Escape') { event.preventDefault(); setEditingCell(null); event.currentTarget.blur(); } }}>{row.position}</TableCell>
           <TableCell state={row.id === 3 ? 'error' : 'default'}>{row.name}</TableCell>
           <TableCell align="end">{row.quantity}</TableCell><TableCell><Badge tone={row.tone}>{row.status}</Badge></TableCell>
           <TableFileCell fileName={row.file} fileSize={row.size} fileType={row.type} />
@@ -278,6 +278,12 @@ export const Overview: Story = {
     fireEvent.contextMenu(firstRow, { clientX: 320, clientY: 420 });
     await expect(within(document.body).getByRole('menuitem', { name: 'Открыть позицию' })).toBeVisible();
     await userEvent.click(within(document.body).getByRole('menuitem', { name: 'Открыть позицию' }));
+    const editableCell = firstRow.querySelector<HTMLElement>('td[data-editable="true"]');
+    if (!editableCell) throw new Error('Expected editable cell');
+    await userEvent.click(editableCell);
+    await expect(editableCell).toHaveAttribute('data-state', 'editing');
+    await expect(editableCell).toHaveAttribute('contenteditable', 'true');
+    await expect(editableCell.querySelector('input')).toBeNull();
     dragHandle.focus();
     await userEvent.keyboard('{Space}');
     await expect(dragHandle).toHaveAttribute('aria-pressed', 'true');

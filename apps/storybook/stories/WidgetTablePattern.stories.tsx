@@ -25,67 +25,94 @@ type Story = StoryObj<typeof meta>;
 
 export const Overview: Story = {
   name: 'Обзор',
-  render: () => <main className="ds-story-canvas ds-widget-table-pattern-story"><WidgetTableReviewExample /></main>,
+  render: () => <main className="ds-story-canvas ds-widget-table-pattern-story"><WidgetTableReviewExample mode="read" /><WidgetTableReviewExample mode="edit" /></main>,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const table = canvas.getByRole('table', { name: 'Спецификация позиций' });
-    const tableWrapper = canvasElement.querySelector<HTMLElement>('.cometal-widget-table-pattern__table')!;
-    const footer = canvasElement.querySelector<HTMLElement>('.cometal-widget-table-pattern__footer')!;
-    await expect(within(table).getAllByRole('row')).toHaveLength(13);
-    await expect(within(table).getByRole('row', { name: /Фильтры таблицы/ })).toBeVisible();
-    await expect(canvas.getByRole('navigation', { name: 'Пагинация таблицы' })).toBeVisible();
-    const toolbar = canvas.getByRole('toolbar', { name: 'Действия виджета' });
-    const toolbarButtons = within(toolbar).getAllByRole('button');
-    const toolbarIcons = Array.from(toolbar.querySelectorAll<SVGSVGElement>('svg[data-cometal-icon]'));
-    await expect(getComputedStyle(toolbar).gap).toBe('8px');
-    await expect(toolbarButtons).toHaveLength(5);
-    await expect(toolbarIcons).toHaveLength(5);
-    for (const button of toolbarButtons.slice(0, 4)) {
+    const readTable = canvas.getByRole('table', { name: 'Спецификация позиций · Read' });
+    const editTable = canvas.getByRole('table', { name: 'Спецификация позиций · Edit' });
+    const tableWrappers = Array.from(canvasElement.querySelectorAll<HTMLElement>('.cometal-widget-table-pattern__table'));
+    const footers = Array.from(canvasElement.querySelectorAll<HTMLElement>('.cometal-widget-table-pattern__footer'));
+    await expect(readTable).toHaveAttribute('data-mode', 'read');
+    await expect(editTable).toHaveAttribute('data-mode', 'edit');
+    await expect(within(readTable).getAllByRole('row')).toHaveLength(13);
+    await expect(within(editTable).getAllByRole('row')).toHaveLength(13);
+    await expect(within(readTable).getByRole('row', { name: /Фильтры таблицы/ })).toBeVisible();
+    await expect(canvas.getAllByRole('navigation', { name: /Пагинация таблицы/ })).toHaveLength(2);
+
+    const [readToolbar, editToolbar] = canvas.getAllByRole('toolbar', { name: 'Действия виджета' });
+    const readToolbarButtons = within(readToolbar!).getAllByRole('button');
+    const editToolbarButtons = within(editToolbar!).getAllByRole('button');
+    const editToolbarIcons = Array.from(editToolbar!.querySelectorAll<SVGSVGElement>('svg[data-cometal-icon]'));
+    await expect(getComputedStyle(readToolbar!).gap).toBe('8px');
+    await expect(readToolbarButtons).toHaveLength(4);
+    await expect(editToolbarButtons).toHaveLength(5);
+    await expect(editToolbarIcons).toHaveLength(5);
+    for (const button of editToolbarButtons.slice(0, 4)) {
       await expect(button).toHaveAttribute('data-variant', 'secondary');
       await expect(button.getBoundingClientRect().width).toBe(40);
       await expect(button.getBoundingClientRect().height).toBe(40);
     }
-    await expect(toolbarButtons[4]).toHaveAttribute('data-variant', 'primary');
-    for (const [index, icon] of toolbarIcons.entries()) {
+    await expect(editToolbarButtons[4]).toHaveAttribute('data-variant', 'primary');
+    for (const [index, icon] of editToolbarIcons.entries()) {
       await expect(icon.getBoundingClientRect().width).toBe(16);
       await expect(icon.getBoundingClientRect().height).toBe(16);
       await expect(Array.from(icon.querySelectorAll('path'), (path) => path.getAttribute('d'))).toEqual(definitionPathData(patternToolbarIcons[index]!.body));
     }
-    const wrapperStyle = getComputedStyle(tableWrapper);
+
     const borderProbe = document.createElement('span');
     borderProbe.style.color = 'var(--cometal-semantic-color-global-border-default)';
     borderProbe.style.backgroundColor = 'var(--cometal-semantic-color-global-surface-raised)';
     canvasElement.append(borderProbe);
     const probeStyle = getComputedStyle(borderProbe);
-    await expect(wrapperStyle.borderTopWidth).toBe('1px');
-    await expect(wrapperStyle.borderTopStyle).toBe('solid');
-    await expect(wrapperStyle.borderTopColor).toBe(probeStyle.color);
-    await expect(wrapperStyle.borderRadius).toBe('8px');
-    await expect(wrapperStyle.backgroundColor).toBe(probeStyle.backgroundColor);
-    await expect(wrapperStyle.overflow).toBe('hidden');
-    await expect(tableWrapper.contains(footer)).toBe(false);
+    await expect(tableWrappers).toHaveLength(2);
+    await expect(footers).toHaveLength(2);
+    for (const [index, tableWrapper] of tableWrappers.entries()) {
+      const wrapperStyle = getComputedStyle(tableWrapper);
+      await expect(wrapperStyle.borderTopWidth).toBe('1px');
+      await expect(wrapperStyle.borderTopStyle).toBe('solid');
+      await expect(wrapperStyle.borderTopColor).toBe(probeStyle.color);
+      await expect(wrapperStyle.borderRadius).toBe('8px');
+      await expect(wrapperStyle.backgroundColor).toBe(probeStyle.backgroundColor);
+      await expect(wrapperStyle.overflow).toBe('hidden');
+      await expect(tableWrapper.contains(footers[index]!)).toBe(false);
+    }
     borderProbe.remove();
     await expect(canvasElement.querySelector('.cometal-widget-table-pattern__density')).toBeNull();
-    const densityToggle = canvas.getByRole('button', { name: 'Включить компактную плотность' });
+
+    const readRow = readTable.querySelector<HTMLTableRowElement>('tbody tr[data-row-id]')!;
+    const readCells = Array.from(readRow.querySelectorAll<HTMLElement>('td[data-state="default"]'));
+    await expect(readRow.querySelectorAll('td[data-editable="true"]')).toHaveLength(0);
+    await expect(readCells.length).toBeGreaterThan(1);
+
+    const editRow = editTable.querySelector<HTMLTableRowElement>('tbody tr[data-row-id]')!;
+    const editCells = Array.from(editRow.querySelectorAll<HTMLElement>('td[data-state="default"]'));
+    await expect(editCells.filter((cell) => cell.dataset.editable === 'true').length).toBeGreaterThan(1);
+    const editableCell = editRow.querySelector<HTMLElement>('td[data-editable="true"]')!;
+    await userEvent.click(editableCell);
+    await expect(editableCell).toHaveAttribute('data-state', 'editing');
+    await expect(editableCell).toHaveAttribute('contenteditable', 'true');
+    await expect(editableCell).toHaveAttribute('role', 'textbox');
+    await expect(editableCell.querySelector('input')).toBeNull();
+
+    const densityToggle = within(readToolbar!).getByRole('button', { name: 'Включить компактную плотность' });
     await expect(densityToggle).toHaveAttribute('aria-pressed', 'false');
     await userEvent.click(densityToggle);
-    await expect(table).toHaveAttribute('data-density', 'compact');
-    const comfortableToggle = canvas.getByRole('button', { name: 'Включить комфортную плотность' });
+    await expect(readTable).toHaveAttribute('data-density', 'compact');
+    const comfortableToggle = within(readToolbar!).getByRole('button', { name: 'Включить комфортную плотность' });
     await expect(comfortableToggle).toHaveAttribute('aria-pressed', 'true');
     await userEvent.click(comfortableToggle);
-    await expect(table).toHaveAttribute('data-density', 'comfortable');
-    await expect(canvas.getByRole('button', { name: 'Включить компактную плотность' })).toHaveAttribute('aria-pressed', 'false');
-    await userEvent.click(canvas.getByRole('button', { name: 'Скрыть фильтры' }));
-    await expect(within(table).queryByRole('row', { name: /Фильтры таблицы/ })).not.toBeInTheDocument();
-    await userEvent.click(canvas.getByRole('button', { name: 'Показать фильтры' }));
+    await expect(readTable).toHaveAttribute('data-density', 'comfortable');
+    await userEvent.click(within(readToolbar!).getByRole('button', { name: 'Скрыть фильтры' }));
+    await expect(within(readTable).queryByRole('row', { name: /Фильтры таблицы/ })).not.toBeInTheDocument();
+    await userEvent.click(within(readToolbar!).getByRole('button', { name: 'Показать фильтры' }));
   },
 };
 
 export const Compact: Story = {
-  render: () => <main className="ds-story-canvas ds-widget-table-pattern-story"><WidgetTableReviewExample initialDensity="compact" /></main>,
+  render: () => <main className="ds-story-canvas ds-widget-table-pattern-story"><WidgetTableReviewExample mode="read" initialDensity="compact" /></main>,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    await expect(canvas.getByRole('table', { name: 'Спецификация позиций' })).toHaveAttribute('data-density', 'compact');
+    await expect(canvas.getByRole('table', { name: 'Спецификация позиций · Read' })).toHaveAttribute('data-density', 'compact');
     await expect(canvas.getByRole('button', { name: 'Включить комфортную плотность' })).toHaveAttribute('aria-pressed', 'true');
   },
 };

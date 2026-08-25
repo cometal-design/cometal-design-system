@@ -40,7 +40,8 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - Date range filter переиспользует `DateRangePicker`; paginator, summary row и reorder handle собираются как composition primitives вокруг таблицы.
 - Row reorder остаётся controlled: `Table.onRowReorder` сообщает `activeId`, `overId` и `before | after`, `TableRow.reorderId` связывает DOM со стабильной бизнес-сущностью, а `reorderTableRows` иммутабельно обновляет consumer-owned данные.
 - Selection относится к строке, selected/editing/error относятся к конкретной ячейке.
-- `Table.mode="read"` задаёт hover всей строки и исключает cell edit entry; `mode="edit"` задаёт hover отдельной ячейки, а `TableCell.editable` + `onEditStart` образуют controlled переход в editing.
+- `Table.mode="read"` задаёт hover всей строки и исключает cell edit entry; `mode="edit"` задаёт hover отдельной ячейки, а `TableCell.editable` + `onEditStart` образуют controlled переход в `editing`.
+- В `editing` редактируемой поверхностью остаётся сама `TableCell` (`td[contenteditable][role=textbox]`); вложенный `TextField` или локальный `input` не создаётся. `Enter` завершает ввод, `Escape` отменяет локальное изменение.
 - `Table.rowContextMenu` переиспользует общий pointer-anchored `ContextMenu`; `TableRow.rowId` связывает меню со стабильной бизнес-сущностью. Правый клик по строке не создаёт локальный menu primitive.
 
 ## Плотность

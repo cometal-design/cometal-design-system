@@ -11,7 +11,7 @@ import {
   TableIndexCell, TablePaginator, TableRow, TableSelectionCell, TableSelectionHeader,
   TableSummaryCell, reorderTableRows,
 } from '../Table/Table';
-import type { TableDensity, TableSortDirection } from '../Table/Table';
+import type { TableDensity, TableMode, TableSortDirection } from '../Table/Table';
 import { Widget } from '../Widget/Widget';
 import RefreshIcon from '../icons/generated/components/outline/arrows/arrow-refresh-01';
 import DownloadIcon from '../icons/generated/components/outline/general/download-01';
@@ -47,7 +47,10 @@ const statusOptions = [
   { value: 'draft', label: 'Черновик' },
 ];
 
-const rows = [
+type ReviewRow = [string, string, string, number, string, number, string, string, string, string, string];
+type EditableColumn = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 | 10;
+
+const rows: readonly ReviewRow[] = [
   ['POS-001', 'Лист горячекатаный', '09Г2С', 24, 'т', 86400, '21.08.2026', 'Вх. 233-500', 'Согласован', 'Комплектность', 'Северсталь'],
   ['POS-002', 'Труба профильная', 'Ст3сп5', 18, 'т', 94800, '24.08.2026', 'Вх. 234-501', 'На проверке', 'Качество', 'ЕВРАЗ Маркет'],
   ['POS-003', 'Швеллер 20П', '10ХСНД', 12, 'т', 78200, '26.08.2026', 'Вх. 235-502', 'В работе', 'Срок поставки', 'Мечел-Сервис'],
@@ -58,9 +61,7 @@ const rows = [
   ['POS-008', 'Круг стальной', '40Х', 14, 'т', 96700, '07.09.2026', 'Вх. 240-507', 'Отклонен', 'Сертификат', 'ТМК'],
   ['POS-009', 'Полоса 50×5', 'Ст3', 28, 'т', 74900, '09.09.2026', 'Вх. 241-508', 'Согласован', 'Упаковка', 'Сталепромышленная'],
   ['POS-010', 'Труба электросварная', 'Ст20', 10, 'т', 88600, '11.09.2026', 'Вх. 242-509', 'В работе', 'Приёмка', 'МЕТАЛЛСЕРВИС'],
-] as const;
-
-type ReviewRow = (typeof rows)[number];
+];
 
 function toneForStatus(status: string): 'green' | 'blue' | 'yellow' | 'red' {
   if (status === 'Согласован') return 'green';
@@ -86,20 +87,22 @@ const filterOperators = {
 
 export interface WidgetTableReviewExampleProps {
   initialDensity?: TableDensity;
+  mode?: TableMode;
 }
 
 /** Shared documentation evidence for the approved Widget + Table composition. */
-export function WidgetTableReviewExample({ initialDensity = 'comfortable' }: WidgetTableReviewExampleProps) {
-  const [orderedRows, setOrderedRows] = useState<readonly ReviewRow[]>(() => [...rows]);
+export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode = 'read' }: WidgetTableReviewExampleProps) {
+  const [orderedRows, setOrderedRows] = useState<ReviewRow[]>(() => rows.map((row) => [...row] as ReviewRow));
   const [density, setDensity] = useState<TableDensity>(initialDensity);
   const [filters, setFilters] = useState(true);
-  const [selected, setSelected] = useState<string[]>(['POS-005', 'POS-010']);
+  const [selected, setSelected] = useState<string[]>([]);
   const [sort, setSort] = useState<TableSortDirection>('none');
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [query, setQuery] = useState('');
   const [status, setStatus] = useState('all');
   const [operators, setOperators] = useState<Record<string, string>>({});
+  const [editingCell, setEditingCell] = useState<{ rowId: string; column: EditableColumn } | null>(null);
   const operatorAction = (column: string, type: keyof typeof filterOperators) => {
     const options = filterOperators[type];
     const value = operators[column] ?? options[0];
@@ -113,6 +116,61 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable' }: Wid
   const totalQuantity = visibleRows.reduce((total, row) => total + row[3], 0);
   const totalSum = visibleRows.reduce((total, row) => total + row[3] * row[5], 0);
 
+  const updateCell = (rowId: string, column: EditableColumn, rawValue: string) => {
+    setOrderedRows((current) => current.map((row) => {
+      if (row[0] !== rowId) return row;
+      const next: ReviewRow = [...row];
+      if (column === 3) next[3] = Number(rawValue) || 0;
+      else if (column === 5) next[5] = Number(rawValue.replace(/\s/g, '')) || 0;
+      else if (column === 1) next[1] = rawValue;
+      else if (column === 2) next[2] = rawValue;
+      else if (column === 4) next[4] = rawValue;
+      else if (column === 6) next[6] = rawValue;
+      else if (column === 7) next[7] = rawValue;
+      else if (column === 9) next[9] = rawValue;
+      else next[10] = rawValue;
+      return next;
+    }));
+  };
+
+  const editableCell = (row: ReviewRow, column: EditableColumn, label: string, align: 'start' | 'end' = 'start') => {
+    const isEditing = mode === 'edit' && editingCell?.rowId === row[0] && editingCell.column === column;
+    const displayValue = typeof row[column] === 'number' ? row[column].toLocaleString('ru-RU') : row[column];
+    return <TableCell
+      align={align}
+      editable={mode === 'edit'}
+      state={isEditing ? 'editing' : 'default'}
+      contentEditable={isEditing || undefined}
+      suppressContentEditableWarning
+      role={isEditing ? 'textbox' : undefined}
+      aria-multiline={isEditing ? false : undefined}
+      aria-label={isEditing ? `Редактирование: ${label}` : undefined}
+      onEditStart={() => setEditingCell({ rowId: row[0], column })}
+      onBlur={(event) => {
+        if (!isEditing) return;
+        if (event.currentTarget.dataset.editCancelled) {
+          delete event.currentTarget.dataset.editCancelled;
+          setEditingCell(null);
+          return;
+        }
+        updateCell(row[0], column, event.currentTarget.textContent?.trim() ?? '');
+        setEditingCell(null);
+      }}
+      onKeyDown={(event) => {
+        if (!isEditing) return;
+        if (event.key === 'Enter') {
+          event.preventDefault();
+          event.currentTarget.blur();
+        }
+        if (event.key === 'Escape') {
+          event.preventDefault();
+          event.currentTarget.dataset.editCancelled = 'true';
+          event.currentTarget.blur();
+        }
+      }}
+    >{displayValue}</TableCell>;
+  };
+
   const toolbar = <>
     <IconButton
       size="m"
@@ -125,12 +183,12 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable' }: Wid
     <IconButton size="m" variant="secondary" aria-label={filters ? 'Скрыть фильтры' : 'Показать фильтры'} icon={<FilterIcon />} onClick={() => setFilters((value) => !value)} />
     <IconButton size="m" variant="secondary" aria-label="Обновить" icon={<RefreshIcon />} />
     <IconButton size="m" variant="secondary" aria-label="Экспорт" icon={<DownloadIcon />} />
-    <Button size="m" startIcon={<PlusIcon />}>Добавить запись</Button>
+    {mode === 'edit' ? <Button size="m" startIcon={<PlusIcon />}>Добавить запись</Button> : null}
   </>;
 
   return (
-    <WidgetTablePattern title="Спецификация позиций" description={`${visibleRows.length} строк · фильтры по колонкам ${filters ? 'включены' : 'выключены'}`} toolbar={toolbar} footer={<TablePaginator page={page} pageCount={9} onPageChange={setPage} pageSize={pageSize} onPageSizeChange={setPageSize} />}>
-      <Table density={density} mode="edit" aria-label="Спецификация позиций" onRowReorder={(event) => setOrderedRows((current) => reorderTableRows(current, event, (row) => row[0]))} rowContextMenu={(rowId) => <><ContextMenuItem onClick={() => setSelected((current) => current.includes(rowId) ? current : [...current, rowId])}>Выбрать строку</ContextMenuItem><ContextMenuItem>Открыть позицию</ContextMenuItem><ContextMenuDivider /><ContextMenuItem tone="danger">Удалить строку</ContextMenuItem></>}>
+    <WidgetTablePattern title={`Спецификация позиций · ${mode === 'read' ? 'Read' : 'Edit'}`} description={`${visibleRows.length} строк · ${mode === 'read' ? 'построчное чтение' : 'редактирование ячеек'} · фильтры ${filters ? 'включены' : 'выключены'}`} toolbar={toolbar} footer={<TablePaginator aria-label={`Пагинация таблицы · ${mode === 'read' ? 'Read' : 'Edit'}`} page={page} pageCount={9} onPageChange={setPage} pageSize={pageSize} onPageSizeChange={setPageSize} />}>
+      <Table density={density} mode={mode} aria-label={`Спецификация позиций · ${mode === 'read' ? 'Read' : 'Edit'}`} onRowReorder={mode === 'edit' ? (event) => setOrderedRows((current) => reorderTableRows(current, event, (row) => row[0])) : undefined} rowContextMenu={(rowId) => <><ContextMenuItem onClick={() => setSelected((current) => current.includes(rowId) ? current : [...current, rowId])}>Выбрать строку</ContextMenuItem><ContextMenuItem>Открыть позицию</ContextMenuItem>{mode === 'edit' ? <><ContextMenuDivider /><ContextMenuItem tone="danger">Удалить строку</ContextMenuItem></> : null}</>}>
         <TableHead>
           <TableRow>
             <TableHeaderCell kind="drag"><span className="cometal-widget-table-pattern__sr-only">Перемещение</span></TableHeaderCell>
@@ -170,16 +228,16 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable' }: Wid
         <TableBody>
           {visibleRows.map((row, index) => {
             const sum = row[3] * row[5];
-            return <TableRow key={row[0]} rowId={row[0]} reorderId={row[0]} selected={selected.includes(row[0])}>
-              <TableDragCell><TableDragHandle rowLabel={row[0]} /></TableDragCell>
+            return <TableRow key={row[0]} rowId={row[0]} reorderId={mode === 'edit' ? row[0] : undefined} selected={selected.includes(row[0])}>
+              <TableDragCell><TableDragHandle rowLabel={row[0]} disabled={mode === 'read'} /></TableDragCell>
               <TableIndexCell>{index + 1}</TableIndexCell>
               <TableSelectionCell label={`Выбрать ${row[0]}`} checked={selected.includes(row[0])} onCheckedChange={(checked) => setSelected((current) => checked ? [...current, row[0]] : current.filter((value) => value !== row[0]))} />
-              <TableCell>{row[0]}</TableCell><TableCell>{row[1]}</TableCell><TableCell>{row[2]}</TableCell>
-              <TableCell align="end">{row[3]}</TableCell><TableCell>{row[4]}</TableCell>
-              <TableCell align="end">{row[5].toLocaleString('ru-RU')}</TableCell><TableCell align="end">{sum.toLocaleString('ru-RU')}</TableCell>
-              <TableCell>{row[6]}</TableCell><TableCell>{row[7]}</TableCell>
+              <TableCell>{row[0]}</TableCell>{editableCell(row, 1, `Наименование ${row[0]}`)}{editableCell(row, 2, `Марка стали ${row[0]}`)}
+              {editableCell(row, 3, `Количество ${row[0]}`, 'end')}{editableCell(row, 4, `Единица ${row[0]}`)}
+              {editableCell(row, 5, `Цена ${row[0]}`, 'end')}<TableCell align="end">{sum.toLocaleString('ru-RU')}</TableCell>
+              {editableCell(row, 6, `Дата поставки ${row[0]}`)}{editableCell(row, 7, `Документ ${row[0]}`)}
               <TableFileCell fileName="Спецификация.pdf" fileSize="130 КБ" fileType="pdf" />
-              <TableCell><Badge tone={toneForStatus(row[8])}>{row[8]}</Badge></TableCell><TableCell>{row[9]}</TableCell><TableCell>{row[10]}</TableCell>
+              <TableCell><Badge tone={toneForStatus(row[8])}>{row[8]}</Badge></TableCell>{editableCell(row, 9, `Контроль ${row[0]}`)}{editableCell(row, 10, `Поставщик ${row[0]}`)}
             </TableRow>;
           })}
           <TableRow><TableSummaryCell kind="empty" colSpan={4} /><TableSummaryCell kind="label" colSpan={2}>Итого</TableSummaryCell><TableSummaryCell kind="value" align="end">{totalQuantity}</TableSummaryCell><TableSummaryCell kind="empty" /><TableSummaryCell kind="value" align="end">—</TableSummaryCell><TableSummaryCell kind="value" align="end">{totalSum.toLocaleString('ru-RU')}</TableSummaryCell><TableSummaryCell kind="empty" colSpan={6} /></TableRow>

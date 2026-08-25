@@ -1,3 +1,7 @@
 'use client';
 import { WidgetTableReviewExample } from '@cometal/react';
-export function WidgetTablePatternExample() { return <WidgetTableReviewExample />; }
+import type { TableMode } from '@cometal/react';
+
+export function WidgetTablePatternExample({ mode }: { mode: TableMode }) {
+  return <WidgetTableReviewExample mode={mode} />;
+}

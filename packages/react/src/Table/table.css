@@ -441,6 +441,14 @@
   outline-offset: calc(var(--cometal-primitive-stroke-100) * -1);
 }
 
+.cometal-table__cell[data-state='editing'][contenteditable='true'] {
+  outline: var(--cometal-primitive-stroke-200) solid var(--cometal-semantic-color-global-state-focus-ring);
+  outline-offset: calc(var(--cometal-primitive-stroke-100) * -1);
+  caret-color: currentColor;
+  cursor: text;
+  user-select: text;
+}
+
 .cometal-table__cell[data-state='hover'] {
   background: var(--cometal-table-hover);
 }
