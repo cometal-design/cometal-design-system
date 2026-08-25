@@ -156,7 +156,7 @@ export const SizingContract: Story = {
         <div key={size} data-sizing-row={size}>
           <TextField label={`${size.toUpperCase()} · ${size === 'l' ? '48' : size === 'm' ? '40' : '32'}px`} size={size} placeholder="Введите значение" />
           <Select label="Статус" options={options} size={size} />
-          <Combobox label="Контрагент" placeholder="Найдите значение" options={contractorOptions} size={size} />
+          <Combobox label="Контрагент" placeholder="Найдите значение" options={contractorOptions} size={size} defaultValue="Север" clearable />
         </div>
       ))}
     </div>
@@ -168,15 +168,19 @@ export const SizingContract: Story = {
       const controls = Array.from(row?.querySelectorAll<HTMLElement>('.cometal-field__control') ?? []);
       const strokeNodes = Array.from(row?.querySelectorAll<SVGElement>('svg [stroke]:not([stroke="none"])') ?? []);
       await expect(controls.map((control) => control.getBoundingClientRect().height)).toEqual(Array(3).fill(expectedHeights[size]));
-      await expect(strokeNodes).toHaveLength(2);
+      await expect(strokeNodes).toHaveLength(3);
       const renderedStrokeWidths = strokeNodes.map((node) => {
+        if (getComputedStyle(node).vectorEffect === 'non-scaling-stroke') return Number.parseFloat(getComputedStyle(node).strokeWidth);
         const svg = node.ownerSVGElement!;
         return Number.parseFloat(getComputedStyle(node).strokeWidth)
           * svg.getBoundingClientRect().width
           / svg.viewBox.baseVal.width;
       });
       await expect(renderedStrokeWidths.every((width) => Math.abs(width - 1.4) < 0.01)).toBe(true);
-      await expect(strokeNodes.every((node) => getComputedStyle(node).vectorEffect === 'none')).toBe(true);
+      const clearStroke = row?.querySelector<SVGElement>('.cometal-field__clear [data-cometal-stroke-scale]');
+      await expect(clearStroke).not.toBeNull();
+      await expect(getComputedStyle(clearStroke!).vectorEffect).toBe('non-scaling-stroke');
+      await expect(strokeNodes.filter((node) => node !== clearStroke).every((node) => getComputedStyle(node).vectorEffect === 'none')).toBe(true);
     }
   },
 };

@@ -123,6 +123,8 @@
 .cometal-field[data-size='s'] .cometal-field__select-trigger { font-size: var(--cometal-typography-body-m-default-font-size); line-height: var(--cometal-typography-body-m-default-line-height); }
 .cometal-field[data-size='m'] .cometal-field__asset > svg { --cometal-icon-source-stroke: calc(var(--cometal-primitive-stroke-140, 1.4px) * 1.25); }
 .cometal-field[data-size='s'] .cometal-field__asset > svg { --cometal-icon-source-stroke: calc(var(--cometal-primitive-stroke-140, 1.4px) * 1.4285714286); }
+.cometal-field .cometal-field__asset.cometal-field__clear > svg { --cometal-icon-source-stroke: var(--cometal-primitive-stroke-140, 1.4px); }
+.cometal-field__clear [data-cometal-stroke-scale] { vector-effect: non-scaling-stroke; }
 .cometal-field__value, .cometal-field__placeholder { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
 .cometal-field__native-select { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 .cometal-field__listbox {

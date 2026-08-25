@@ -509,6 +509,8 @@ export const Icons: Story = {
       const clearPathBounds = clearSearchIcon!.querySelector('path')!.getBoundingClientRect();
       expect(Math.abs(clearPathBounds.width - 8)).toBeLessThanOrEqual(0.5);
       expect(Math.abs(clearPathBounds.height - 8)).toBeLessThanOrEqual(0.5);
+      expect(getComputedStyle(clearSearchIcon!.querySelector('path')!).vectorEffect).toBe('non-scaling-stroke');
+      expect(Number.parseFloat(getComputedStyle(clearSearchIcon!.querySelector('path')!).strokeWidth)).toBe(1.4);
       const searchListbox = await canvas.findByRole('listbox', { name: 'Поиск по каноническому имени: результаты' });
       await expect(search).toHaveAttribute('aria-expanded', 'true');
       await expect(search).toHaveAttribute('aria-controls', searchListbox.id);
