@@ -70,11 +70,11 @@ const actualSourceRoutes = uniqueSorted((await walkPages(path.join(docsRoot, con
   .map(sourceFileToRoute)
   .filter((route) => route !== '/components/'));
 const contractRoutes = uniqueSorted(contract.routes.map((route) => route.route));
-const primaryNavigationSource = await readFile(path.join(docsRoot, contract.inventory.primaryNavigationFile), 'utf8');
 const tableNavigationSource = await readFile(path.join(docsRoot, contract.inventory.tableFamilyNavigationFile), 'utf8');
 const registry = JSON.parse(await readFile(path.join(docsRoot, contract.inventory.registryFile), 'utf8'));
+const familyRegistry = JSON.parse(await readFile(path.join(docsRoot, contract.inventory.familyRegistryFile), 'utf8'));
 const registryIds = new Set(registry.components.map((component) => component.id));
-const primaryRoutes = uniqueSorted(extractRoutes(primaryNavigationSource).filter((route) => route !== '/components/'));
+const primaryRoutes = uniqueSorted(familyRegistry.families.map((family) => family.route));
 const tableChildRoutes = uniqueSorted(extractRoutes(tableNavigationSource).filter((route) => route.startsWith('/components/table/') && route !== '/components/table/'));
 
 const inventoryErrors = [];
@@ -88,7 +88,6 @@ compareRouteSets('contract vs source', actualSourceRoutes, contractRoutes);
 compareRouteSets('primary navigation vs primary contract routes', contract.routes.filter((route) => route.tier === 'primary').map((route) => route.route).sort(), primaryRoutes);
 compareRouteSets('Table family navigation vs child contract routes', contract.routes.filter((route) => route.tier === 'family-child').map((route) => route.route).sort(), tableChildRoutes);
 
-if (primaryRoutes.length !== contract.inventory.expectedPrimaryDetailRoutes) inventoryErrors.push(`primary detail route count: expected ${contract.inventory.expectedPrimaryDetailRoutes}, found ${primaryRoutes.length}`);
 if (tableChildRoutes.length !== contract.inventory.expectedTableChildRoutes) inventoryErrors.push(`Table child route count: expected ${contract.inventory.expectedTableChildRoutes}, found ${tableChildRoutes.length}`);
 if (actualSourceRoutes.length !== contract.inventory.expectedTotalDetailRoutes) inventoryErrors.push(`total detail route count: expected ${contract.inventory.expectedTotalDetailRoutes}, found ${actualSourceRoutes.length}`);
 for (const route of contract.routes) {

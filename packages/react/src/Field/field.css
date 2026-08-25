@@ -108,7 +108,7 @@
 .cometal-field__icon { display: inline-flex; align-items: center; justify-content: center; color: var(--cometal-component-input-icon-default); }
 .cometal-field__icon > svg, .cometal-field__icon > img, .cometal-field__asset > svg { display: block; width: 100%; height: 100%; }
 .cometal-field__asset.cometal-field__clear > svg { width: 80%; height: 80%; }
-.cometal-field__asset > svg { --cometal-icon-source-stroke: var(--cometal-primitive-stroke-140, 1.4px); }
+.cometal-field__asset > svg { --cometal-icon-source-stroke: calc(var(--cometal-primitive-stroke-140, 1.4px) * 1.2); }
 .cometal-field:hover .cometal-field__icon,
 .cometal-field:hover .cometal-field__asset { color: var(--cometal-component-input-icon-hover); }
 .cometal-field:focus-within .cometal-field__icon,
@@ -121,8 +121,8 @@
 .cometal-field__select-trigger { justify-content: space-between; color: var(--cometal-component-input-content-default); font: inherit; font-size: var(--cometal-typography-body-l-default-font-size); line-height: var(--cometal-typography-body-l-default-line-height); text-align: left; cursor: pointer; }
 .cometal-field[data-size='m'] .cometal-field__select-trigger { font-size: var(--cometal-typography-body-m-default-font-size); line-height: var(--cometal-typography-body-m-default-line-height); }
 .cometal-field[data-size='s'] .cometal-field__select-trigger { font-size: var(--cometal-typography-body-m-default-font-size); line-height: var(--cometal-typography-body-m-default-line-height); }
-.cometal-field[data-size='m'] .cometal-field__asset > svg { --cometal-icon-source-stroke: calc(var(--cometal-primitive-stroke-140, 1.4px) * 1.25); }
-.cometal-field[data-size='s'] .cometal-field__asset > svg { --cometal-icon-source-stroke: calc(var(--cometal-primitive-stroke-140, 1.4px) * 1.4285714286); }
+.cometal-field[data-size='m'] .cometal-field__asset > svg { --cometal-icon-source-stroke: calc(var(--cometal-primitive-stroke-140, 1.4px) * 1.5); }
+.cometal-field[data-size='s'] .cometal-field__asset > svg { --cometal-icon-source-stroke: calc(var(--cometal-primitive-stroke-140, 1.4px) * 1.7142857143); }
 .cometal-field .cometal-field__asset.cometal-field__clear > svg { --cometal-icon-source-stroke: var(--cometal-primitive-stroke-140, 1.4px); }
 .cometal-field__clear [data-cometal-stroke-scale] { vector-effect: non-scaling-stroke; }
 .cometal-field__value, .cometal-field__placeholder { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
@@ -211,7 +211,9 @@
 .cometal-field__tag-label { overflow: hidden; text-overflow: ellipsis; }
 .cometal-field__tag-remove { position: relative; z-index: 3; display: inline-flex; width: var(--cometal-primitive-size-14); height: var(--cometal-primitive-size-14); padding: 0; flex: 0 0 var(--cometal-primitive-size-14); align-items: center; justify-content: center; border: 0; background: transparent; color: var(--cometal-semantic-color-global-icon-secondary); cursor: pointer; pointer-events: auto; }
 .cometal-field__tag-remove:focus-visible { outline: 1px solid var(--cometal-semantic-color-global-state-focus-ring); outline-offset: 1px; }
-.cometal-field__tag-remove > svg { display: block; width: 100%; height: 100%; }
+/* Stroke/140 is the canonical generated X source width; keep the fallback stable even if the token layer is unavailable. */
+.cometal-field__tag-remove > svg { --cometal-icon-source-stroke: 1.4px; display: block; width: 100%; height: 100%; }
+.cometal-field__tag-remove [data-cometal-stroke-scale] { vector-effect: non-scaling-stroke; }
 .cometal-field[data-size='m'] .cometal-field__tag { height: var(--cometal-semantic-size-global-field-value-tag-m); }
 .cometal-field[data-size='m'] .cometal-field__tag-remove { width: 12px; height: 12px; flex-basis: 12px; }
 .cometal-field-read__label { color: var(--cometal-primitive-color-neutral-800-100); font-size: var(--cometal-typography-caption-label-label-font-size); font-weight: var(--cometal-typography-caption-label-label-font-weight); line-height: var(--cometal-typography-caption-label-label-line-height); letter-spacing: var(--cometal-typography-caption-label-label-letter-spacing); }

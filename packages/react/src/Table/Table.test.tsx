@@ -8,6 +8,7 @@ import {
   TableDragCell,
   TableDragHandle,
   TableFileCell,
+  TableFileIcon,
   TableFilterCell,
   TableFilterRow,
   TableHeaderCell,
@@ -19,6 +20,7 @@ import {
   TableSelectionHeader,
   TableSummaryCell,
   getNextTableSortDirection,
+  tableFileTypes,
 } from './Table';
 import { ContextMenuItem } from '../ContextMenu/ContextMenu';
 
@@ -39,6 +41,16 @@ describe('Table', () => {
     expect(comfortable).toContain('130 KB');
     expect(compact).toContain('130 KB');
     expect(comfortable).toContain('data-file-type="pdf"');
+    expect(comfortable).toContain('data-cometal-icon-library="feature-icons-and-logos"');
+    expect(comfortable).not.toContain('<img');
+  });
+
+  it('maps every file type to the generated canonical icon library', () => {
+    const html = renderToStaticMarkup(<>{tableFileTypes.map((type) => <TableFileIcon key={type} type={type} />)}</>);
+
+    expect((html.match(/data-cometal-icon-library="feature-icons-and-logos"/g) ?? [])).toHaveLength(tableFileTypes.length);
+    for (const type of tableFileTypes) expect(html).toContain(`data-file-type="${type}"`);
+    expect(html).not.toContain('<img');
   });
 
   it('uses two native header rows for labels and the synchronized filter floor', () => {
@@ -106,8 +118,7 @@ describe('Table', () => {
 
     expect(html).toContain('data-cometal-icon-library="outline"');
     expect(html).toContain('data-cometal-icon-library="filled"');
-    expect(html).toContain('aria-haspopup="menu"');
-    expect(html).toContain('aria-expanded="false"');
+    expect(html).not.toContain('aria-haspopup="menu"');
     expect(html).not.toContain('mask-image');
     expect(html).not.toContain('data:image/svg+xml');
   });

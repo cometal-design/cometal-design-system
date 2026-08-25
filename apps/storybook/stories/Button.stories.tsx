@@ -4,6 +4,7 @@ import { expect, fn, userEvent, within } from 'storybook/test';
 import { Button, buttonSizes, buttonVariants } from '@cometal/react';
 import type { ButtonProps, ButtonVariant } from '@cometal/react';
 import { ComponentCodeExample } from './ComponentCodeExample';
+import Arrow from '@cometal/react/icons/outline/arrows/arrow-right';
 
 const FIGMA_URL = 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=808-4393';
 const SOURCE_URL = 'https://github.com/cometal-design/cometal-design-system/blob/main/packages/react/src/Button/Button.tsx';
@@ -31,20 +32,6 @@ const documentedButtonVariants: ButtonVariant[] = [
   'inverse',
   'inverse-ghost',
 ];
-
-function Arrow() {
-  return (
-    <svg viewBox="0 0 24 24" fill="none" focusable="false" aria-hidden="true">
-      <path
-        d="M13.3333 19L20 12L13.3333 5M20 12H4"
-        stroke="currentColor"
-        strokeWidth="var(--cometal-primitive-stroke-140, 1.4)"
-        strokeLinecap="round"
-        strokeLinejoin="round"
-      />
-    </svg>
-  );
-}
 
 function ButtonDocumentation() {
   return (

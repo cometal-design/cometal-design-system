@@ -1,6 +1,6 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, userEvent, within } from 'storybook/test';
-import { Tooltip } from '@cometal/react';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
+import { Button, Tooltip } from '@cometal/react';
 
 const placements = ['top-start', 'top-center', 'top-end', 'bottom-start', 'bottom-center', 'bottom-end', 'left', 'right'] as const;
 
@@ -27,8 +27,8 @@ const meta = {
     content: 'Подсказка',
     placement: 'bottom-center',
     size: 'compact',
-    defaultOpen: true,
-    children: <button style={{ padding: '12px 16px' }}>Наведи или сфокусируй</button>,
+    defaultOpen: false,
+    children: <Button>Наведи или сфокусируй</Button>,
   },
 } satisfies Meta<typeof Tooltip>;
 
@@ -39,7 +39,9 @@ type Story = StoryObj<typeof meta>;
 export const Overview: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const tooltip = canvas.getByRole('tooltip');
+    const trigger = canvas.getByRole('button', { name: 'Наведи или сфокусируй' });
+    await userEvent.hover(trigger);
+    const tooltip = await canvas.findByRole('tooltip');
     await expect(tooltip).toBeVisible();
     await expect(tooltip).toHaveAttribute('data-placement', 'bottom-center');
     const geometry = getRenderedGeometry(tooltip);
@@ -52,7 +54,12 @@ export const Overview: Story = {
     await expect(getComputedStyle(tooltip).padding).toBe('8px 12px');
     await expect(getComputedStyle(tooltip.querySelector<HTMLElement>('.cometal-tooltip__content')!).lineHeight).toBe('16px');
     await userEvent.keyboard('{Escape}');
-    await expect(canvas.queryByRole('tooltip')).not.toBeInTheDocument();
+    await waitFor(() => expect(canvas.queryByRole('tooltip')).not.toBeInTheDocument());
+    await userEvent.unhover(trigger);
+    trigger.focus();
+    await waitFor(() => expect(canvas.getByRole('tooltip')).toBeVisible());
+    trigger.blur();
+    await waitFor(() => expect(canvas.queryByRole('tooltip')).not.toBeInTheDocument());
   },
 };
 
@@ -66,7 +73,7 @@ export const Placements: Story = {
         {placements.map((placement) => (
           <div key={placement}>
             <Tooltip {...args} placement={placement} content={placement} defaultOpen>
-              <button style={{ padding: '10px 12px' }}>{placement}</button>
+              <Button>{placement}</Button>
             </Tooltip>
           </div>
         ))}
@@ -75,7 +82,7 @@ export const Placements: Story = {
         {placements.map((placement, index) => (
           <div key={placement}>
             <Tooltip {...args} placement={placement} content={placement} defaultOpen={index === 0}>
-              <button style={{ padding: '10px 12px' }}>{placement}</button>
+              <Button>{placement}</Button>
             </Tooltip>
           </div>
         ))}
@@ -93,6 +100,7 @@ export const Wide: Story = {
     size: 'wide',
     placement: 'right',
     content: 'Wide tooltip',
+    defaultOpen: true,
   },
   play: async ({ canvasElement }) => {
     const tooltip = within(canvasElement).getByRole('tooltip');

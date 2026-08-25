@@ -12,10 +12,9 @@
   ],
   "inventory": {
     "sourceRoot": "app/components",
-    "primaryNavigationFile": "lib/navigation.ts",
+    "familyRegistryFile": "../../registry/component-families.json",
     "tableFamilyNavigationFile": "components/table-family-header.tsx",
     "registryFile": "../../registry/components.json",
-    "expectedPrimaryDetailRoutes": 11,
     "expectedTableChildRoutes": 4,
     "expectedTotalDetailRoutes": 15
   },
@@ -164,7 +163,7 @@
       "contentFiles": [],
       "requirements": {
         "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>input\\.text-field</code>", "<code>input\\.text-area</code>", "<code>input\\.select</code>", "<code>input\\.combobox</code>", "<code>input\\.multi-select</code>"] }] } },
-        "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["node-id=1096-42"] }] } },
+        "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["figmaHref=\\{fieldsFamilyFigma\\}"] }] } },
         "real-example": { "evidence": { "clauses": [{ "scope": "content", "all": ["<TextField\\b", "<TextArea\\b", "<SelectModeDemo\\b", "<ComboboxModeDemo\\b", "<MultiSelectModeDemo\\b"] }] } }
       }
     },

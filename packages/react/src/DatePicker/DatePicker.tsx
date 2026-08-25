@@ -1,4 +1,5 @@
 import {
+  forwardRef,
   useEffect,
   useId,
   useMemo,
@@ -8,6 +9,10 @@ import {
 import type { ChangeEvent, KeyboardEvent } from 'react';
 import { FieldChrome } from '../Field/Field';
 import type { FieldMode, FieldSize } from '../Field/Field';
+import { useControllableOpen, useOutsidePointerDismiss } from '../internal/overlay';
+import ChevronLeftIcon from '../icons/generated/components/outline/arrows/chevron-left';
+import ChevronRightIcon from '../icons/generated/components/outline/arrows/chevron-right';
+import CalendarIcon from '../icons/generated/components/outline/time/calendar-02';
 import './date-picker.css';
 
 const DISPLAY_PATTERN = /^(\d{2})\.(\d{2})\.(\d{4})$/;
@@ -104,36 +109,6 @@ function fullDateLabel(date: Date, locale: string) {
   }).format(date);
 }
 
-function CalendarIcon() {
-  return (
-    <svg viewBox="0 0 16 18" fill="none" focusable="false" aria-hidden="true">
-      <path d="M4.5 13.25v-.07M8.25 13.25v-.07M8.25 9.75v-.07M11.58 9.75v-.07M2 6.32h11.67M3.5 1.4v1.29M12 1.4v1.29M12 2.69H3.67A2.53 2.53 0 0 0 1.17 5.26v8.57a2.53 2.53 0 0 0 2.5 2.57H12a2.53 2.53 0 0 0 2.5-2.57V5.26A2.53 2.53 0 0 0 12 2.69Z" stroke="currentColor" strokeWidth="var(--cometal-primitive-stroke-140, 1.4)" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function ChevronIcon({ direction }: { direction: 'left' | 'right' }) {
-  return (
-    <svg viewBox="0 0 20 20" fill="none" focusable="false" aria-hidden="true" data-direction={direction}>
-      <path d="M7.7 4.8 12.9 10l-5.2 5.2" stroke="currentColor" strokeWidth="var(--cometal-primitive-stroke-140, 1.4)" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function useControllableBoolean(
-  controlled: boolean | undefined,
-  defaultValue: boolean,
-  onChange?: (value: boolean) => void,
-) {
-  const [internal, setInternal] = useState(defaultValue);
-  const value = controlled ?? internal;
-  const setValue = (next: boolean) => {
-    if (controlled === undefined) setInternal(next);
-    onChange?.(next);
-  };
-  return [value, setValue] as const;
-}
-
 function useControllableDate(
   controlled: string | null | undefined,
   defaultValue: string | null,
@@ -174,7 +149,7 @@ export interface DatePickerProps {
   className?: string;
 }
 
-export function DatePicker({
+export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(function DatePicker({
   id,
   name,
   label,
@@ -198,7 +173,7 @@ export function DatePicker({
   onOpenChange,
   autoComplete = 'off',
   className,
-}: DatePickerProps) {
+}: DatePickerProps, forwardedRef) {
   const generatedId = useId();
   const controlId = id ?? `cometal-date-picker-${generatedId}`;
   const dialogId = `${controlId}-dialog`;
@@ -209,7 +184,7 @@ export function DatePicker({
   const triggerRef = useRef<HTMLButtonElement>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
   const [selectedValue, setSelectedValue] = useControllableDate(controlledValue, defaultValue, onValueChange);
-  const [isOpen, setIsOpen] = useControllableBoolean(controlledOpen, defaultOpen, onOpenChange);
+  const [isOpen, setIsOpen] = useControllableOpen(controlledOpen, defaultOpen, onOpenChange);
   const initialDate = parseIsoDate(selectedValue) ?? parseIsoDate(today) ?? new Date();
   const [visibleMonth, setVisibleMonth] = useState(() => startOfMonth(initialDate));
   const [inputValue, setInputValue] = useState(() => formatDisplayDate(selectedValue));
@@ -233,14 +208,7 @@ export function DatePicker({
     inputRef.current?.setCustomValidity(effectiveError ?? '');
   }, [effectiveError]);
 
-  useEffect(() => {
-    if (!isOpen) return undefined;
-    const onPointerDown = (event: MouseEvent) => {
-      if (!rootRef.current?.contains(event.target as Node)) setIsOpen(false);
-    };
-    document.addEventListener('mousedown', onPointerDown);
-    return () => document.removeEventListener('mousedown', onPointerDown);
-  }, [isOpen, setIsOpen]);
+  useOutsidePointerDismiss(isOpen, [rootRef], () => setIsOpen(false));
 
   useEffect(() => {
     if (!isOpen || !focusTarget) return;
@@ -405,7 +373,11 @@ export function DatePicker({
       >
         <span className="cometal-field__control cometal-date-picker__control">
           <input
-            ref={inputRef}
+            ref={(node) => {
+              inputRef.current = node;
+              if (typeof forwardedRef === 'function') forwardedRef(node);
+              else if (forwardedRef) forwardedRef.current = node;
+            }}
             id={controlId}
             className="cometal-field__input cometal-date-picker__input"
             type="text"
@@ -431,12 +403,23 @@ export function DatePicker({
             aria-expanded={isOpen}
             aria-controls={dialogId}
             onClick={(event) => (isOpen ? closeAndRestoreFocus() : openCalendar(false, event.detail !== 0))}
+            onKeyDown={(event) => {
+              if (isOpen && event.key === 'Escape') {
+                event.preventDefault();
+                closeAndRestoreFocus();
+                return;
+              }
+              if (!isOpen && (event.key === 'Enter' || event.key === ' ')) {
+                event.preventDefault();
+                openCalendar(true);
+              }
+            }}
           >
             <CalendarIcon />
           </button>
         </span>
       </FieldChrome>
-      {name ? <input type="hidden" name={name} value={selectedValue ?? ''} /> : null}
+      {name ? <input type="hidden" name={name} value={selectedValue ?? ''} disabled={disabled} /> : null}
 
       {isOpen ? (
         <div
@@ -453,10 +436,10 @@ export function DatePicker({
             <h2 data-month-motion={monthMotionDirection || undefined} id={headingId} aria-live="polite">{monthLabel(visibleMonth, locale)}</h2>
             <div className="cometal-date-picker__month-actions">
               <button type="button" className="cometal-date-picker__month-control" aria-label="Предыдущий месяц" onClick={(event) => changeVisibleMonth(-1, event.detail !== 0)}>
-                <ChevronIcon direction="left" />
+                <ChevronLeftIcon />
               </button>
               <button type="button" className="cometal-date-picker__month-control" aria-label="Следующий месяц" onClick={(event) => changeVisibleMonth(1, event.detail !== 0)}>
-                <ChevronIcon direction="right" />
+                <ChevronRightIcon />
               </button>
             </div>
           </div>
@@ -500,4 +483,4 @@ export function DatePicker({
       ) : null}
     </div>
   );
-}
+});

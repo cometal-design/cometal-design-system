@@ -14,6 +14,8 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 
 Семейство для одной календарной даты и периода через ручной ввод или календарь. Публичные `DatePicker` и `DateRangePicker` объединяют поле и календарь; `Date Field Trigger`, `Calendar Panel` и `Calendar Day` остаются внутренними частями и отдельно не экспортируются.
 
+`input.date-range-picker` — documented family-child alias для export `DateRangePicker`, а не самостоятельная registry identity. Lifecycle, Figma source ownership и readiness наследуются от `input.date-picker` до появления отдельного утверждённого component contract.
+
 ## Визуальная модель
 
 - Режимы: `edit`, `read`.
@@ -30,6 +32,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - Значение передаётся строкой ISO `YYYY-MM-DD`, чтобы контракт не зависел от timezone.
 - `value` / `onValueChange` — controlled-сценарий; `defaultValue` — uncontrolled.
 - `DateRangePicker` принимает `value` / `defaultValue` вида `{ start: Date | null; end: Date | null }` и `onChange`.
+- При заданном `name` Date Range участвует в native form submission через одно hidden-поле: полный период сериализуется как `YYYY-MM-DD/YYYY-MM-DD`, неполный или пустой период — как пустая строка; disabled control не отправляется.
 - `open` / `onOpenChange` — controlled-сценарий раскрытия; `defaultOpen` — uncontrolled.
 - `min` и `max` ограничивают ручной ввод и календарь.
 - `today` задаёт детерминированную текущую дату для тестов, серверного рендера и визуальных эталонов.

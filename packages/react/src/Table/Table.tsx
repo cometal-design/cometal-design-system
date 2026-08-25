@@ -3,6 +3,7 @@ import type {
   ButtonHTMLAttributes,
   HTMLAttributes,
   ReactNode,
+  SVGAttributes,
   TableHTMLAttributes,
   TdHTMLAttributes,
   ThHTMLAttributes,
@@ -15,15 +16,15 @@ import ArrowLeftIcon from '../icons/generated/components/outline/arrows/arrow-le
 import ArrowRightIcon from '../icons/generated/components/outline/arrows/arrow-right';
 import ArrowUpSmallIcon from '../icons/generated/components/outline/arrows/arrow-up-sm';
 import ArrowDownSmallIcon from '../icons/generated/components/outline/arrows/down-arrow-sm';
-import wordFileAsset from './assets/file-word.svg';
-import excelFileAsset from './assets/file-excel.svg';
-import genericFileAsset from './assets/file-generic.svg';
-import docFileAsset from './assets/file-doc.svg';
-import sheetsFileAsset from './assets/file-sheets.svg';
-import adobeFileAsset from './assets/file-adobe.svg';
-import zipFileAsset from './assets/file-zip.svg';
-import pdfFileAsset from './assets/file-pdf.svg';
-import imageFileAsset from './assets/file-image.svg';
+import WordFileIcon from '../icons/generated/components/feature-icons-and-logos/file-icon/word';
+import ExcelFileIcon from '../icons/generated/components/feature-icons-and-logos/file-icon/excel';
+import GenericFileIcon from '../icons/generated/components/feature-icons-and-logos/file-icon/file';
+import DocFileIcon from '../icons/generated/components/feature-icons-and-logos/file-icon/doc';
+import SheetsFileIcon from '../icons/generated/components/feature-icons-and-logos/file-icon/sheets';
+import AdobeFileIcon from '../icons/generated/components/feature-icons-and-logos/file-icon/adobe';
+import ZipFileIcon from '../icons/generated/components/feature-icons-and-logos/file-icon/zip';
+import PdfFileIcon from '../icons/generated/components/feature-icons-and-logos/file-icon/pdf';
+import ImageFileIcon from '../icons/generated/components/feature-icons-and-logos/file-icon/image';
 import './table.css';
 
 export const tableDensities = ['comfortable', 'compact'] as const;
@@ -254,15 +255,30 @@ export const TableContextAction = forwardRef<HTMLButtonElement, TableContextActi
   },
 );
 
-export interface TableFileIconProps extends HTMLAttributes<HTMLImageElement> {
+export interface TableFileIconProps extends Omit<SVGAttributes<SVGSVGElement>, 'children' | 'dangerouslySetInnerHTML'> {
+  /**
+   * The canonical file asset is an inline SVG. Consumers migrating from the former
+   * image implementation must remove `src`/`alt` and type refs as SVGSVGElement.
+   */
   type?: TableFileType;
 }
 
-const fileAssets: Record<TableFileType, string> = { word: wordFileAsset, excel: excelFileAsset, file: genericFileAsset, doc: docFileAsset, sheets: sheetsFileAsset, adobe: adobeFileAsset, zip: zipFileAsset, pdf: pdfFileAsset, image: imageFileAsset };
+const fileIcons = {
+  word: WordFileIcon,
+  excel: ExcelFileIcon,
+  file: GenericFileIcon,
+  doc: DocFileIcon,
+  sheets: SheetsFileIcon,
+  adobe: AdobeFileIcon,
+  zip: ZipFileIcon,
+  pdf: PdfFileIcon,
+  image: ImageFileIcon,
+} as const;
 
-export const TableFileIcon = forwardRef<HTMLImageElement, TableFileIconProps>(
+export const TableFileIcon = forwardRef<SVGSVGElement, TableFileIconProps>(
   function TableFileIcon({ type = 'file', className, ...props }, ref) {
-    return <img {...props} ref={ref} className={['cometal-table__file-asset', className].filter(Boolean).join(' ')} data-file-type={type} src={fileAssets[type]} alt="" aria-hidden="true" />;
+    const Icon = fileIcons[type];
+    return <Icon {...props} ref={ref} className={['cometal-table__file-asset', className].filter(Boolean).join(' ')} data-file-type={type} />;
   },
 );
 

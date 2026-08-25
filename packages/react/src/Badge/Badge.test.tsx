@@ -32,4 +32,10 @@ describe('Badge', () => {
     expect((html.match(/cometal-badge__icon/g) ?? [])).toHaveLength(1);
     expect(html).not.toContain('ignored');
   });
+
+  it('rejects an icon-only composition without an accessible name', () => {
+    expect(() => renderToStaticMarkup(<Badge startIcon={<svg />} />)).toThrow(
+      'Badge requires aria-label when rendered without text.',
+    );
+  });
 });

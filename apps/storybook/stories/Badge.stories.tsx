@@ -2,16 +2,9 @@ import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect } from 'storybook/test';
 import { Badge, badgeSurfaces, badgeTones } from '@cometal/react';
 import { ComponentCodeExample } from './ComponentCodeExample';
+import CheckIcon from '@cometal/react/icons/filled/general/check-01-filled';
 
 const SOURCE_URL = 'https://github.com/cometal-design/cometal-design-system/blob/main/packages/react/src/Badge/Badge.tsx';
-
-function CheckIcon() {
-  return (
-    <svg viewBox="0 0 12 12" focusable="false">
-      <path fill="currentColor" d="M4.83 8.7 2.1 5.98l1.06-1.06 1.67 1.67 4-4 1.07 1.06-5.07 5.06Z" />
-    </svg>
-  );
-}
 
 function OverviewPage() {
   return (

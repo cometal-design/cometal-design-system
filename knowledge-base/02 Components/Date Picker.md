@@ -14,6 +14,8 @@
 
 Публичная семья включает `DatePicker` и `DateRangePicker`, но использует один календарный contract. Внутренние части `Date Field Trigger`, `Calendar Panel` и `Calendar Day` не используются продуктом отдельно. Отдельный публичный Date Input возможен только после подтверждённого самостоятельного сценария без календаря.
 
+`input.date-range-picker` используется только как family-child alias для поиска и документации export `DateRangePicker`; отдельной registry-записью и отдельным readiness verdict он не является.
+
 ## Контракт
 
 - Single date и period picker живут в одном модуле и одном визуальном контракте.
@@ -21,6 +23,7 @@
 - В React дата хранится как ISO `YYYY-MM-DD`, показывается как `ДД.ММ.ГГГГ`.
 - Диапазон хранится как `{ start: Date | null, end: Date | null }`; промежуточные дни рендерятся через canonical classes start / middle / end.
 - Table header filters переиспользуют `DateRangePicker`, а не создают отдельный локальный overlay.
+- Form contract Date Range: `name` создаёт одно hidden-поле со значением `YYYY-MM-DD/YYYY-MM-DD`; незавершённый период даёт пустую строку, disabled control исключается из submission.
 - Date range рисует `start / middle / end` как непрерывный 32px selected-track за сеткой 44×44px; начало и конец — отдельные полностью скруглённые 40×40px brand endpoints.
 - Figma владеет визуальной моделью; спецификация — правилами; React — поведением/API; Storybook — исполняемыми состояниями и проверками.
 

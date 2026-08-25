@@ -1,5 +1,7 @@
 # Components
 
+`input.fields` — catalog family alias для пяти независимых registry IDs (`input.text-field`, `input.text-area`, `input.select`, `input.combobox`, `input.multi-select`), а не шестой компонент. `input.date-range-picker` — child alias семейства `input.date-picker`.
+
 Паспорта компонентов. Каждый паспорт связывает Figma, спецификацию, реестр, React-код и Storybook.
 
 - [[Badge]] — `status.badge`, компактный статус и атрибут сущности, статус `in-review`.

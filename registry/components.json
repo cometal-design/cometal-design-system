@@ -177,7 +177,7 @@
       "platform": "web",
       "version": "0.1.0-beta.1",
       "links": {
-        "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2866-2",
+        "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2871-43",
         "specification": "specifications/components/tooltip.md",
         "source": "packages/react/src/Tooltip/Tooltip.tsx",
         "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-tooltip--overview",

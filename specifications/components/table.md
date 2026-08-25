@@ -34,6 +34,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - `TableSelectionHeader` и `TableSelectionCell` используют общий Checkbox.
 - `TableIndexCell`, `TableDragCell`, `TableDragHandle`, `TableContextAction`, `TableSummaryCell` и `TablePaginator` остаются композиционными кирпичиками.
 - `TableFileCell` использует один из девяти утверждённых file assets: word, excel, file, doc, sheets, adobe, zip, pdf, image.
+- `TableFileIcon` рендерит канонический inline SVG и передаёт ref как `SVGSVGElement`; при миграции с прежнего image API необходимо удалить `src`/`alt` и использовать `aria-label` только для смысловой standalone-иконки либо `aria-hidden` для декоративной.
 - Header actions переиспользуют `ContextMenu`; Table не владеет отдельным menu API.
 - Date range filter переиспользует `DateRangePicker`; paginator, summary row и reorder handle собираются как composition primitives вокруг таблицы.
 - Selection относится к строке, selected/editing/error относятся к конкретной ячейке.

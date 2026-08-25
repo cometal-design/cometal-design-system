@@ -258,6 +258,46 @@ export const KeyboardNavigation: Story = {
   },
 };
 
+export const TriggerKeyboardDismissal: Story = {
+  name: 'Trigger keyboard open and Escape',
+  args: { defaultValue: '2026-07-15' },
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: 'Открыть календарь' });
+    trigger.focus();
+    await userEvent.keyboard('{Enter}');
+    await waitFor(() => expect(canvas.getByRole('dialog', { name: 'Июль 2026' })).toBeVisible());
+    await expect(canvas.getByRole('button', { name: /среда, 15 июля 2026/ })).toHaveFocus();
+    await userEvent.keyboard('{Escape}');
+    await waitFor(() => expect(canvas.queryByRole('dialog')).not.toBeInTheDocument());
+    await expect(trigger).toHaveFocus();
+  },
+};
+
+export const DateRangeKeyboardDismissal: Story = {
+  name: 'Date Range keyboard open and Escape',
+  render: () => (
+    <DateRangePicker
+      label="Период поставки"
+      name="deliveryPeriod"
+      defaultValue={{ start: new Date(2026, 6, 15), end: new Date(2026, 6, 23) }}
+      today={new Date(2026, 6, 31)}
+    />
+  ),
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('button', { name: 'Открыть календарь периода' });
+    trigger.focus();
+    await userEvent.keyboard(' ');
+    await waitFor(() => expect(canvas.getByRole('dialog', { name: 'Июль 2026' })).toBeVisible());
+    await expect(canvas.getByRole('button', { name: /среда, 15 июля 2026/ })).toHaveFocus();
+    await userEvent.keyboard('{Escape}');
+    await waitFor(() => expect(canvas.queryByRole('dialog')).not.toBeInTheDocument());
+    await expect(trigger).toHaveFocus();
+    await expect(canvasElement.querySelector<HTMLInputElement>('input[type="hidden"][name="deliveryPeriod"]')).toHaveValue('2026-07-15/2026-07-23');
+  },
+};
+
 export const MonthBoundary: Story = {
   name: 'Граница месяца',
   args: { defaultValue: '2026-07-31', today: '2026-07-31' },

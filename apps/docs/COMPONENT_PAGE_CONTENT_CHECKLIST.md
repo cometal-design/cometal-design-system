@@ -8,7 +8,9 @@ Validator contract: `apps/docs/lib/component-page-content-contract.json`
 
 A component page is complete only when a reader can identify the component, understand when and how to use it, inspect a real COMETAL implementation, reach the exact design and engineering sources, and copy a working integration example. A polished screenshot or a green portal build is not a substitute for this evidence.
 
-The component index at `/components/` is navigation, not a detail page. The audited detail inventory is the 11 primary routes in `apps/docs/lib/navigation.ts` plus the four Table child routes in `apps/docs/components/table-family-header.tsx`.
+The component index at `/components/` is navigation, not a detail page. Primary catalog cards, sidebar routes, family membership, documented aliases and preview IDs come from the validated `registry/component-families.json`; the four Table child routes remain in `apps/docs/components/table-family-header.tsx`.
+
+`input.fields` is a family alias for five stable registry IDs, not a sixth component. `input.date-range-picker` is a family-child alias for the `DateRangePicker` export owned by `input.date-picker`. Aliases never receive independent lifecycle checks or readiness verdicts.
 
 ## Required evidence
 
@@ -87,7 +89,7 @@ Strict mode remains an explicit documentation gate and is not presented as visua
 Before declaring a component page content-complete:
 
 1. Add or update its route entry in the JSON contract.
-2. Reconcile source routes, primary navigation and family navigation.
+2. Add or update the family, route, members, aliases and preview ID once in `registry/component-families.json`; do not duplicate the catalog or sidebar list in portal code.
 3. Declare the eight semantic phases in canonical order and place every visible H2 under the correct phase.
 4. Run report mode and inspect both the route’s content and order PASS/MISSING results.
 5. Resolve every MISSING item or record an allowed N/A with rationale.

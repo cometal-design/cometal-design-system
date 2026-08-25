@@ -31,9 +31,9 @@
 }
 
 .cometal-date-picker__trigger svg {
-  --cometal-icon-source-stroke: var(--cometal-primitive-stroke-140, 1.4px);
+  --cometal-icon-source-stroke: calc(var(--cometal-primitive-stroke-140, 1.4px) * 1.2);
   display: block;
-  width: var(--cometal-primitive-size-16);
+  width: var(--cometal-primitive-size-20);
   height: var(--cometal-primitive-size-20);
 }
 
@@ -145,13 +145,9 @@
 }
 
 .cometal-date-picker__month-control svg {
-  --cometal-icon-source-stroke: calc(var(--cometal-primitive-stroke-140, 1.4px) * 0.8333333333);
+  --cometal-icon-source-stroke: var(--cometal-primitive-stroke-140, 1.4px);
   width: var(--cometal-primitive-size-24);
   height: var(--cometal-primitive-size-24);
-}
-
-.cometal-date-picker__month-control svg[data-direction='left'] {
-  transform: rotate(180deg);
 }
 
 .cometal-date-picker__calendar {

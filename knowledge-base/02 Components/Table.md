@@ -22,6 +22,7 @@
 - Плотность не должна сбрасывать значения, badge settings или file metadata.
 - Строка может быть selected; отдельная ячейка может быть active, selected/editing, error или disabled.
 - File metadata используют IBM Plex Mono через `Technical/S/Default` и скрываются только визуально в Compact.
+- `TableFileIcon` является inline SVG: ref имеет тип `SVGSVGElement`, прежние image-пропы `src`/`alt` удаляются; standalone-смысл задаётся через `aria-label`, декоративное использование — через `aria-hidden`.
 - Все outline icons используют глобальный `Stroke/140 = 1.4px`.
 - Усечённый контент переиспользует `Tooltip`; header actions переиспользуют `ContextMenu`; периодный фильтр строится на `DateRangePicker`.
 - 16 source families и все их утверждённые states/densities документируются внутри одной Table family, а не разбрасываются по верхнему каталогу.

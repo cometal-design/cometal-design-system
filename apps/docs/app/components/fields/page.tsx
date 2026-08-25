@@ -8,7 +8,7 @@ import { MultiSelectModeDemo } from '../../../components/multi-select-mode-demo'
 import { SelectModeDemo } from '../../../components/select-mode-demo';
 import { SectionHeading } from '../../../components/section-heading';
 import { contractorOptions } from '../../../lib/demo-options';
-import { components, statusLabels } from '../../../lib/registry';
+import { componentFamilies, components, statusLabels } from '../../../lib/registry';
 import { usageExamples } from '../../../lib/usage-examples';
 
 export const metadata: Metadata = { title: 'Fields' };
@@ -16,6 +16,8 @@ export const metadata: Metadata = { title: 'Fields' };
 const fieldComponentIds = new Set(['input.text-field', 'input.text-area', 'input.select', 'input.combobox', 'input.multi-select']);
 const fieldComponents = components.filter((item) => fieldComponentIds.has(item.id));
 const firstField = fieldComponents[0]!;
+const fieldsFamilyFigma: string = componentFamilies.find((family) => family.id === 'input.fields')?.figma
+  ?? (() => { throw new Error('Fields family requires an exact Figma source'); })();
 const fieldsUsage = usageExamples['input.fields'];
 const sourceHref = `https://github.com/cometal-design/cometal-design-system/blob/main/${firstField.links.source}`;
 const documentedFieldSizes = ['l', 'm', 's'] as const;
@@ -32,11 +34,11 @@ export default function FieldsPage() {
         summary="Пять публичных полей с общей визуальной основой и разной семантикой: ввод текста, многострочный ввод, выбор, поиск и множественный выбор."
         status={firstField.status}
         statusLabel={statusLabels[firstField.status]}
-        figmaHref="https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1096-42"
+        figmaHref={fieldsFamilyFigma}
         playgroundHref="/storybook/?path=/story/components-fields--fields-playground"
       />
 
-      <div className="metadata-strip" data-component-phase="identity" data-top-divider data-bottom-divider><span>Stable IDs</span><code>input.text-field · input.text-area · input.select · input.combobox · input.multi-select</code><span>React</span><strong>Fields family</strong></div>
+      <div className="metadata-strip" data-component-phase="identity" data-top-divider data-bottom-divider><span>Stable IDs</span><code>input.text-field · input.text-area · input.select · input.combobox · input.multi-select</code><span>Family alias</span><strong>input.fields</strong><span>React</span><strong>Fields family</strong></div>
 
       <section className="content-section" data-component-phase="overview" id="family">
         <SectionHeading title="Пять компонентов" description="Mode=Read не копирует disabled-поле: рамка и интерактивность полностью исчезают." />

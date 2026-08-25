@@ -1,5 +1,4 @@
 import {
-  Children,
   cloneElement,
   forwardRef,
   isValidElement,
@@ -11,6 +10,7 @@ import {
   useState,
 } from 'react';
 import type { HTMLAttributes, ReactElement, ReactNode } from 'react';
+import { useControllableOpen, useEscapeDismiss, useHydrated } from '../internal/overlay';
 import './tooltip.css';
 
 export const tooltipSizes = ['compact', 'wide'] as const;
@@ -155,18 +155,14 @@ export const Tooltip = forwardRef<HTMLSpanElement, TooltipProps>(function Toolti
   const wrapperRef = useRef<HTMLSpanElement | null>(null);
   const triggerRef = useRef<HTMLSpanElement | null>(null);
   const panelRef = useRef<HTMLSpanElement | null>(null);
-  const [internalOpen, setInternalOpen] = useState(defaultOpen);
+  const [openState, setOpen] = useControllableOpen(open, defaultOpen, onOpenChange);
   const [position, setPosition] = useState<TooltipPosition>({
     top: -9999,
     left: -9999,
     placement,
   });
-  const isOpen = !disabled && (open ?? internalOpen);
-
-  const setOpen = (next: boolean) => {
-    if (open === undefined) setInternalOpen(next);
-    onOpenChange?.(next);
-  };
+  const isOpen = !disabled && openState;
+  useEscapeDismiss(isOpen, () => setOpen(false));
 
   useEffect(() => {
     if (!isOpen) setPosition((current) => ({ ...current, placement }));
@@ -210,9 +206,6 @@ export const Tooltip = forwardRef<HTMLSpanElement, TooltipProps>(function Toolti
 
   useEffect(() => {
     if (!isOpen) return;
-    const handleKeyDown = (event: globalThis.KeyboardEvent) => {
-      if (event.key === 'Escape') setOpen(false);
-    };
     const handleWindowChange = () => {
       if (!triggerRef.current || !panelRef.current) return;
       const triggerRect = triggerRef.current.getBoundingClientRect();
@@ -226,18 +219,17 @@ export const Tooltip = forwardRef<HTMLSpanElement, TooltipProps>(function Toolti
         placement: position.placement,
       });
     };
-    document.addEventListener('keydown', handleKeyDown);
     window.addEventListener('resize', handleWindowChange);
     window.addEventListener('scroll', handleWindowChange, true);
     return () => {
-      document.removeEventListener('keydown', handleKeyDown);
       window.removeEventListener('resize', handleWindowChange);
       window.removeEventListener('scroll', handleWindowChange, true);
     };
   }, [isOpen, position.left, position.placement, position.top]);
 
-  const child = Children.only(children);
-  const describedBy = isOpen ? tooltipId : undefined;
+  const child = children;
+  const hydrated = useHydrated();
+  const describedBy = isOpen && hydrated ? tooltipId : undefined;
   const trigger = useMemo(() => {
     if (!isValidElement(child)) return child;
     const existingProps = child.props as { 'aria-describedby'?: string };

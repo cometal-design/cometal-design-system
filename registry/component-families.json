@@ -1,0 +1,17 @@
+{
+  "$schema": "./component-families.schema.json",
+  "version": 1,
+  "families": [
+    { "id": "action.button", "name": "Button", "route": "/components/button/", "description": "Запускает одно понятное действие пользователя.", "members": ["action.button"], "aliases": [], "preview": "action.button" },
+    { "id": "status.badge", "name": "Badge", "route": "/components/badge/", "description": "Компактно показывает статус или атрибут сущности.", "members": ["status.badge"], "aliases": [], "preview": "status.badge" },
+    { "id": "input.fields", "name": "Fields", "route": "/components/fields/", "description": "Text Field, Text Area, Select, Combobox и Multi Select в одном семействе.", "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1096-42", "members": ["input.text-field", "input.text-area", "input.select", "input.combobox", "input.multi-select"], "aliases": [{ "id": "input.fields", "kind": "family", "member": "input.text-field" }], "preview": "input.text-field" },
+    { "id": "input.date-picker", "name": "Date Picker", "route": "/components/date-picker/", "description": "Ручной ввод и календарный выбор даты или периода.", "members": ["input.date-picker"], "aliases": [{ "id": "input.date-range-picker", "kind": "family-child", "member": "input.date-picker", "publicExport": "DateRangePicker" }], "preview": "input.date-picker" },
+    { "id": "selection.checkbox", "name": "Checkbox", "route": "/components/checkbox/", "description": "Независимый выбор: unchecked, checked и mixed.", "members": ["selection.checkbox"], "aliases": [], "preview": "selection.checkbox" },
+    { "id": "selection.radio-button", "name": "Radio Button", "route": "/components/radio-button/", "description": "Один вариант из взаимоисключающей группы.", "members": ["selection.radio-button"], "aliases": [], "preview": "selection.radio-button" },
+    { "id": "selection.switch", "name": "Switch", "route": "/components/switch/", "description": "Мгновенно включает или выключает настройку.", "members": ["selection.switch"], "aliases": [], "preview": "selection.switch" },
+    { "id": "overlay.tooltip", "name": "Tooltip", "route": "/components/tooltip/", "description": "Короткое пояснение для элемента интерфейса.", "members": ["overlay.tooltip"], "aliases": [], "preview": "overlay.tooltip" },
+    { "id": "data-display.table", "name": "Table", "route": "/components/table/", "description": "Cells, headers, columns и paginator в одном большом семействе.", "members": ["data-display.table"], "aliases": [], "preview": "data-display.table" },
+    { "id": "template.widget", "name": "Widget", "route": "/components/widget/", "description": "Универсальная компонентная оболочка для title, toolbar и любого content slot; stable ID сохранён для совместимости.", "members": ["template.widget"], "aliases": [], "preview": "template.widget" },
+    { "id": "overlay.context-menu", "name": "Context Menu", "route": "/components/context-menu/", "description": "Контекстные действия над сущностью с pointer и keyboard anchor.", "members": ["overlay.context-menu"], "aliases": [], "preview": "overlay.context-menu" }
+  ]
+}

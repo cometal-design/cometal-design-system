@@ -1,9 +1,16 @@
+---
+id: overlay.context-menu
+name: Context Menu
+status: in-review
+platform: web
+framework: react
+figma: "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2663-77"
+storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-context-menu--overview"
+---
+
 # Context Menu
 
-- ID: `overlay.context-menu`
-- Figma: `2663:77`
-- React source: `packages/react/src/ContextMenu/ContextMenu.tsx`
-- Storybook: `components-context-menu--overview`
+React source: `packages/react/src/ContextMenu/ContextMenu.tsx`.
 
 ## Scope
 

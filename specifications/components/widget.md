@@ -1,7 +1,16 @@
+---
+id: template.widget
+name: Widget
+status: in-review
+platform: web
+framework: react
+figma: "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2702-2238"
+storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-widget--overview"
+---
+
 # Widget
 
-- Registry ID: `template.widget` (legacy compatibility identity; canonical layer is Component)
-- Status: `in-review`
+- Registry ID: `template.widget` is a legacy stable identity retained for compatibility; canonical layer is Component.
 - Figma page: `Widgets`, `2702:2`
 - Canonical artboards: `2702:2190`, `2702:2238`
 - Sources: Toolbar `2702:3`, Content slot `2702:21`, Table payload `2702:23`, Main `2702:2173`
@@ -20,6 +29,12 @@ Widget is a generic named region that composes required title/content, optional 
 - `as?: section | article | aside | div` supports deliberate semantics.
 - Title and description IDs may be supplied; otherwise stable IDs are generated.
 - `toolbarLabel` names the toolbar group.
+
+## Public composition exports
+
+- `Widget`, `WidgetContent` and `WidgetToolbar` are the current component-family exports.
+- `WidgetToolbarIcon` and `widgetToolbarIconTypes` are a deprecated compatibility layer. New composition uses generated icons from `@cometal/react/icons/*` inside `Button` or `IconButton`; the legacy export is not a second icon source.
+- `WidgetTablePattern` and `WidgetTableReviewExample` belong to the separately documented `pattern.widget-table` composition and are not Widget variants.
 
 ## Token and geometry contract
 

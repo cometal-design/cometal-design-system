@@ -19,6 +19,8 @@ import type {
   ReactNode,
 } from 'react';
 import { createPortal } from 'react-dom';
+import { useHydrated, useOutsidePointerDismiss } from '../internal/overlay';
+import CheckIcon from '../icons/generated/components/outline/general/check-01';
 import './context-menu.css';
 
 export const contextMenuSizes = ['l', 'm', 's'] as const;
@@ -28,7 +30,7 @@ type ContextMenuAnchor = 'trigger' | 'pointer';
 
 type ContextMenuContextValue = {
   size: ContextMenuSize;
-  closeMenu: () => void;
+  closeMenu: (restoreFocus?: boolean) => void;
 };
 
 const ContextMenuContext = createContext<ContextMenuContextValue | null>(null);
@@ -37,14 +39,6 @@ function useContextMenuContext() {
   const context = useContext(ContextMenuContext);
   if (!context) throw new Error('ContextMenu subcomponents must be used inside ContextMenu.');
   return context;
-}
-
-function CheckIcon() {
-  return (
-    <svg viewBox="0 0 16 16" fill="none" focusable="false" aria-hidden="true">
-      <path d="M4.5 8.2 6.8 10.5 11.5 5.8" stroke="currentColor" strokeWidth="var(--cometal-primitive-stroke-140, 1.4)" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
 }
 
 type ContextMenuPosition = { top: number; left: number };
@@ -114,18 +108,24 @@ export const ContextMenu = forwardRef<HTMLSpanElement, ContextMenuProps>(functio
   const rootRef = useRef<HTMLSpanElement | null>(null);
   const triggerRef = useRef<HTMLSpanElement | null>(null);
   const menuRef = useRef<HTMLDivElement | null>(null);
+  const typeaheadTimerRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const typeaheadBufferRef = useRef('');
+  const focusMenuOnOpenRef = useRef(false);
   const [internalOpen, setInternalOpen] = useState(defaultOpen);
+  const mounted = useHydrated();
   const [position, setPosition] = useState<ContextMenuPosition>({ top: -9999, left: -9999 });
   const [activeIndex, setActiveIndex] = useState(0);
   const [pointerAnchor, setPointerAnchor] = useState<{ x: number; y: number } | undefined>();
   const isOpen = open ?? internalOpen;
 
+  useEffect(() => () => {
+    if (typeaheadTimerRef.current) clearTimeout(typeaheadTimerRef.current);
+  }, []);
+
   const setOpen = (next: boolean) => {
     if (open === undefined) setInternalOpen(next);
     onOpenChange?.(next);
   };
-
-  const closeMenu = () => setOpen(false);
 
   const focusTrigger = () => {
     const trigger = triggerRef.current?.querySelector<HTMLElement>(
@@ -134,24 +134,25 @@ export const ContextMenu = forwardRef<HTMLSpanElement, ContextMenuProps>(functio
     trigger?.focus();
   };
 
+  const closeMenu = (restoreFocus = false) => {
+    focusMenuOnOpenRef.current = false;
+    setOpen(false);
+    if (restoreFocus) requestAnimationFrame(focusTrigger);
+  };
+
+  useOutsidePointerDismiss(isOpen, [rootRef, menuRef], () => closeMenu(false));
+
   useEffect(() => {
     if (!isOpen) return;
-    const handlePointerDown = (event: PointerEvent) => {
-      const target = event.target;
-      if (!(target instanceof Node)) return;
-      if (!rootRef.current?.contains(target) && !menuRef.current?.contains(target)) closeMenu();
-    };
     const handleScroll = () => {
       if (!menuRef.current) return;
       const triggerRect = triggerRef.current?.getBoundingClientRect();
       setPosition(resolveMenuPosition(anchor, menuRef.current.getBoundingClientRect(), triggerRect, pointerAnchor));
     };
-    const handleResize = () => closeMenu();
-    document.addEventListener('pointerdown', handlePointerDown);
+    const handleResize = () => closeMenu(false);
     window.addEventListener('resize', handleResize);
     window.addEventListener('scroll', handleScroll, true);
     return () => {
-      document.removeEventListener('pointerdown', handlePointerDown);
       window.removeEventListener('resize', handleResize);
       window.removeEventListener('scroll', handleScroll, true);
     };
@@ -166,8 +167,13 @@ export const ContextMenu = forwardRef<HTMLSpanElement, ContextMenuProps>(functio
 
   useEffect(() => {
     if (!isOpen || position.top < 0 || !menuRef.current) return;
-    const items = menuRef.current.querySelectorAll<HTMLElement>('[data-cometal-menu-item]:not([data-disabled])');
-    items[Math.max(0, activeIndex)]?.focus({ preventScroll: true });
+    const items = Array.from(menuRef.current.querySelectorAll<HTMLElement>('[data-cometal-menu-item]:not([data-disabled])'));
+    const resolvedIndex = Math.min(Math.max(0, activeIndex), Math.max(0, items.length - 1));
+    items.forEach((item, index) => { item.tabIndex = index === resolvedIndex ? 0 : -1; });
+    if (focusMenuOnOpenRef.current) {
+      focusMenuOnOpenRef.current = false;
+      items[resolvedIndex]?.focus({ preventScroll: true });
+    }
   }, [activeIndex, isOpen, position]);
 
   const enabledItems = () =>
@@ -176,7 +182,17 @@ export const ContextMenu = forwardRef<HTMLSpanElement, ContextMenuProps>(functio
   const moveFocus = (direction: 1 | -1) => {
     const items = enabledItems();
     if (!items.length) return;
-    const nextIndex = (activeIndex + direction + items.length) % items.length;
+    const focusedIndex = items.indexOf(document.activeElement as HTMLElement);
+    const currentIndex = focusedIndex >= 0 ? focusedIndex : activeIndex;
+    const nextIndex = (currentIndex + direction + items.length) % items.length;
+    setActiveIndex(nextIndex);
+    items[nextIndex]?.focus();
+  };
+
+  const moveFocusToBoundary = (boundary: 'first' | 'last') => {
+    const items = enabledItems();
+    if (!items.length) return;
+    const nextIndex = boundary === 'first' ? 0 : items.length - 1;
     setActiveIndex(nextIndex);
     items[nextIndex]?.focus();
   };
@@ -184,8 +200,7 @@ export const ContextMenu = forwardRef<HTMLSpanElement, ContextMenuProps>(functio
   const handleMenuKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
     if (event.key === 'Escape') {
       event.preventDefault();
-      closeMenu();
-      focusTrigger();
+      closeMenu(true);
       return;
     }
     if (event.key === 'ArrowDown') {
@@ -200,22 +215,35 @@ export const ContextMenu = forwardRef<HTMLSpanElement, ContextMenuProps>(functio
     }
     if (event.key === 'Home') {
       event.preventDefault();
-      const items = enabledItems();
-      setActiveIndex(0);
-      items[0]?.focus();
+      moveFocusToBoundary('first');
       return;
     }
     if (event.key === 'End') {
       event.preventDefault();
+      moveFocusToBoundary('last');
+      return;
+    }
+    if (event.key.length === 1 && !event.ctrlKey && !event.altKey && !event.metaKey) {
+      typeaheadBufferRef.current += event.key.toLocaleLowerCase('ru-RU');
+      if (typeaheadTimerRef.current) clearTimeout(typeaheadTimerRef.current);
+      typeaheadTimerRef.current = setTimeout(() => { typeaheadBufferRef.current = ''; }, 500);
       const items = enabledItems();
-      const next = Math.max(0, items.length - 1);
-      setActiveIndex(next);
-      items[next]?.focus();
+      const query = typeaheadBufferRef.current;
+      const currentIndex = Math.max(items.indexOf(document.activeElement as HTMLElement), -1);
+      for (let offset = 1; offset <= items.length; offset += 1) {
+        const index = (currentIndex + offset) % items.length;
+        if (items[index]?.textContent?.trim().toLocaleLowerCase('ru-RU').startsWith(query)) {
+          event.preventDefault();
+          setActiveIndex(index);
+          items[index]?.focus();
+          break;
+        }
+      }
     }
   };
 
   const triggerNode = useMemo(() => {
-    if (!isValidElement(trigger)) return trigger;
+    if (!mounted || !isValidElement(trigger)) return trigger;
     const existingTriggerId = (trigger.props as { id?: unknown }).id;
     const triggerId = typeof existingTriggerId === 'string' ? existingTriggerId : generatedTriggerId;
     return cloneElement(trigger as ReactElement<Record<string, unknown>>, {
@@ -224,7 +252,7 @@ export const ContextMenu = forwardRef<HTMLSpanElement, ContextMenuProps>(functio
       'aria-expanded': isOpen,
       'aria-controls': isOpen ? menuId : undefined,
     });
-  }, [generatedTriggerId, isOpen, menuId, trigger]);
+  }, [generatedTriggerId, isOpen, menuId, mounted, trigger]);
 
   const triggerId = isValidElement(trigger) && typeof (trigger.props as { id?: unknown }).id === 'string'
     ? (trigger.props as { id: string }).id
@@ -240,6 +268,11 @@ export const ContextMenu = forwardRef<HTMLSpanElement, ContextMenuProps>(functio
       aria-labelledby={triggerId}
       style={{ top: `${position.top}px`, left: `${position.left}px` }}
       onKeyDown={handleMenuKeyDown}
+      onBlur={(event) => {
+        const nextTarget = event.relatedTarget;
+        if (nextTarget && menuRef.current?.contains(nextTarget)) return;
+        closeMenu(false);
+      }}
     >
       {Children.map(children, (child) => {
         if (!isValidElement(child)) return child;
@@ -265,19 +298,41 @@ export const ContextMenu = forwardRef<HTMLSpanElement, ContextMenuProps>(functio
           onClick={(event) => {
             if (!clickOpens) return;
             setPointerAnchor(undefined);
+            if (!isOpen) {
+              setActiveIndex(0);
+              focusMenuOnOpenRef.current = event.detail === 0;
+            }
             setOpen(!isOpen);
             event.stopPropagation();
+          }}
+          onKeyDown={(event) => {
+            if (!triggerRef.current?.contains(event.target as Node)) return;
+            if (isOpen && event.key === 'Escape') {
+              event.preventDefault();
+              closeMenu(true);
+              return;
+            }
+            if (isOpen) return;
+            if (event.key === 'ArrowDown' || event.key === 'ArrowUp' || event.key === 'Enter' || event.key === ' ') {
+              event.preventDefault();
+              setPointerAnchor(undefined);
+              setActiveIndex(event.key === 'ArrowUp' ? Number.MAX_SAFE_INTEGER : 0);
+              focusMenuOnOpenRef.current = true;
+              setOpen(true);
+            }
           }}
           onContextMenu={(event) => {
             if (!contextOpens) return;
             event.preventDefault();
             setPointerAnchor({ x: event.clientX, y: event.clientY });
+            setActiveIndex(0);
+            focusMenuOnOpenRef.current = false;
             setOpen(true);
           }}
         >
           {triggerNode}
         </span>
-        {menuSurface && typeof document !== 'undefined' ? createPortal(menuSurface, document.body) : null}
+        {mounted && menuSurface ? createPortal(menuSurface, document.body) : null}
       </span>
     </ContextMenuContext.Provider>
   );
@@ -302,6 +357,7 @@ export const ContextMenuItem = forwardRef<HTMLButtonElement, ContextMenuItemProp
     children,
     className,
     onClick,
+    tabIndex = -1,
     ...props
   },
   ref,
@@ -320,11 +376,12 @@ export const ContextMenuItem = forwardRef<HTMLButtonElement, ContextMenuItemProp
       data-selected={selected || undefined}
       data-disabled={disabled || undefined}
       disabled={disabled}
+      tabIndex={tabIndex}
       role={selected ? 'menuitemcheckbox' : 'menuitem'}
       aria-checked={selected || undefined}
       onClick={(event) => {
         onClick?.(event);
-        if (!disabled && !event.defaultPrevented) context.closeMenu();
+        if (!disabled && !event.defaultPrevented) context.closeMenu(true);
       }}
     >
       <span className="cometal-context-menu__item-main">

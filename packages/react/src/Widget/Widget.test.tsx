@@ -1,6 +1,7 @@
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import { Widget, WidgetContent, WidgetToolbar } from './Widget';
+import { WidgetToolbarIcon, widgetToolbarIconTypes } from './WidgetToolbarIcon';
 
 describe('Widget', () => {
   it('names the default region with its visible title and associates its description', () => {
@@ -43,5 +44,13 @@ describe('Widget', () => {
     expect(html).toContain('cometal-widget__content">Payload');
     expect(html).toContain('role="toolbar"');
     expect(html).toContain('aria-label="Команды"');
+  });
+
+  it('keeps the deprecated toolbar icon wrapper on the generated icon library', () => {
+    const html = renderToStaticMarkup(<>{widgetToolbarIconTypes.map((type) => <WidgetToolbarIcon key={type} type={type} />)}</>);
+
+    expect((html.match(/data-cometal-icon-library="outline"/g) ?? [])).toHaveLength(widgetToolbarIconTypes.length);
+    expect((html.match(/width="16" height="16"/g) ?? [])).toHaveLength(widgetToolbarIconTypes.length);
+    expect(html).not.toContain('transform="translate');
   });
 });

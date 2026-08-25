@@ -1,3 +1,5 @@
+import familyRegistry from '../../../registry/component-families.json';
+
 export type NavItem = {
   label: string;
   href: string;
@@ -35,17 +37,11 @@ export const sectionNavigation: Record<string, NavItem[]> = {
   ],
   components: [
     { label: 'Обзор', href: '/components/' },
-    { label: 'Button', href: '/components/button/' },
-    { label: 'Badge', href: '/components/badge/' },
-    { label: 'Fields', href: '/components/fields/' },
-    { label: 'Date Picker', href: '/components/date-picker/' },
-    { label: 'Checkbox', href: '/components/checkbox/' },
-    { label: 'Radio Button', href: '/components/radio-button/' },
-    { label: 'Switch', href: '/components/switch/' },
-    { label: 'Tooltip', href: '/components/tooltip/' },
-    { label: 'Table', href: '/components/table/', activePrefix: '/components/table/' },
-    { label: 'Widget', href: '/components/widget/' },
-    { label: 'Context Menu', href: '/components/context-menu/' },
+    ...familyRegistry.families.map((family) => ({
+      label: family.name,
+      href: family.route,
+      ...(family.id === 'data-display.table' ? { activePrefix: family.route } : {}),
+    })),
   ],
   patterns: [{ label: 'Обзор', href: '/patterns/' }],
   templates: [{ label: 'Обзор', href: '/templates/' }],

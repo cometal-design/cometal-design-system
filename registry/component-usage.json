@@ -45,15 +45,15 @@
     "packageName": "@cometal/react",
     "availability": "beta-target",
     "install": "pnpm add @cometal/react @cometal/tokens",
-    "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport { Tooltip } from '@cometal/react';",
-    "example": "<Tooltip content=\"Подсказка\" placement=\"top-center\">\n  <button>Действие</button>\n</Tooltip>"
+    "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport { Button, Tooltip } from '@cometal/react';",
+    "example": "<Tooltip content=\"Подсказка\" placement=\"top-center\">\n  <Button variant=\"secondary\">Действие</Button>\n</Tooltip>"
   },
   "overlay.context-menu": {
     "packageName": "@cometal/react",
     "availability": "beta-target",
     "install": "pnpm add @cometal/react @cometal/tokens",
-    "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport { ContextMenu, ContextMenuDivider, ContextMenuItem } from '@cometal/react';",
-    "example": "<ContextMenu trigger={<button>Открыть</button>}>\n  <ContextMenuItem>Открыть</ContextMenuItem>\n  <ContextMenuItem>Переименовать</ContextMenuItem>\n  <ContextMenuDivider />\n  <ContextMenuItem tone=\"danger\">Удалить</ContextMenuItem>\n</ContextMenu>"
+    "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport { Button, ContextMenu, ContextMenuDivider, ContextMenuItem } from '@cometal/react';",
+    "example": "<ContextMenu trigger={<Button variant=\"secondary\">Открыть</Button>}>\n  <ContextMenuItem>Открыть</ContextMenuItem>\n  <ContextMenuItem>Переименовать</ContextMenuItem>\n  <ContextMenuDivider />\n  <ContextMenuItem tone=\"danger\">Удалить</ContextMenuItem>\n</ContextMenu>"
   },
   "selection.radio-button": {
     "packageName": "@cometal/react",

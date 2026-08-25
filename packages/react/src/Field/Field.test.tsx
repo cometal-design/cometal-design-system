@@ -46,7 +46,8 @@ describe('Fields', () => {
     expect(textarea).toContain('5 / 500');
     expect(select).toContain('<select');
     expect(select).toContain('Активный');
-    expect(select).toContain('stroke-width="var(--cometal-primitive-stroke-140, 1.4)"');
+    expect(select).toContain('data-cometal-icon-library="outline"');
+    expect(select).toContain('data-cometal-icon-stroke-scaling="marked-elements"');
   });
 
   it('points field chevrons down when closed and up when their listbox is open', () => {
@@ -71,6 +72,14 @@ describe('Fields', () => {
     expect(multi).toContain('role="combobox"');
     expect(multi).toContain('aria-haspopup="listbox"');
     expect(multi).toContain('cometal-field__tags-measure');
+  });
+
+  it('publishes invalid semantics on the visible Multi Select trigger', () => {
+    const html = renderToStaticMarkup(<MultiSelect label="Контрагенты" error="Выберите хотя бы одно значение" />);
+
+    expect(html).toContain('role="combobox"');
+    expect(html).toContain('aria-invalid="true"');
+    expect(html).toContain('Выберите хотя бы одно значение');
   });
 
   it('caps visible combobox suggestions without limiting its search source', () => {
@@ -148,5 +157,6 @@ describe('Fields', () => {
     expect(html).toContain('ММК');
     expect(html).not.toContain('✓');
     expect(html).toContain('aria-multiselectable="true"');
+    expect((html.match(/data-cometal-icon-library="outline"/g) ?? []).length).toBeGreaterThanOrEqual(3);
   });
 });

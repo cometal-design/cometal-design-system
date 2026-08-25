@@ -20,6 +20,13 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - Для подтверждения формы или шага.
 - Для разрушительного действия с вариантом `danger`.
 
+## Public family exports
+
+- `Button` — действие с текстом или optional leading/trailing icon.
+- `IconButton` — icon-only действие; требует доступного имени и использует ту же size/variant engineering.
+- `ActionLink` — навигационное действие с Button geometry; рендерит ссылочную семантику.
+- `InlineLink` — отдельный текстовый Link atom из `packages/react/src/Link/InlineLink.tsx`; он документируется рядом с action family, но не является Button variant.
+
 ## Когда не использовать
 
 - Для обычной навигации — использовать семантическую ссылку.

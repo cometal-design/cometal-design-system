@@ -32,3 +32,5 @@ Widget — универсальная оболочка для именованн
 ## Совместимость
 
 Registry ID `template.widget` оставлен временно, чтобы не ломать существующие ссылки. Канонический маршрут теперь `/components/widget/`; `/templates/widget/` — redirect.
+
+`Widget`, `WidgetContent` и `WidgetToolbar` образуют публичную component family. `WidgetToolbarIcon` сохранён только как deprecated compatibility export: новые toolbar actions собираются из `Button`/`IconButton` и generated icons. `WidgetTablePattern` относится к слою Pattern и не является вариантом Widget.

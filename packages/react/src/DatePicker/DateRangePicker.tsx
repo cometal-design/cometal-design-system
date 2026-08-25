@@ -1,4 +1,5 @@
 import {
+  forwardRef,
   useEffect,
   useId,
   useMemo,
@@ -8,6 +9,10 @@ import {
 import type { ChangeEvent, KeyboardEvent } from 'react';
 import { FieldChrome } from '../Field/Field';
 import type { FieldMode, FieldSize } from '../Field/Field';
+import { useControllableOpen, useOutsidePointerDismiss } from '../internal/overlay';
+import ChevronLeftIcon from '../icons/generated/components/outline/arrows/chevron-left';
+import ChevronRightIcon from '../icons/generated/components/outline/arrows/chevron-right';
+import CalendarIcon from '../icons/generated/components/outline/time/calendar-02';
 import './date-picker.css';
 
 const DISPLAY_PATTERN = /^(\d{2})\.(\d{2})\.(\d{4})$/;
@@ -15,6 +20,13 @@ const WEEKDAYS = ['Пн', 'Вт', 'Ср', 'Чт', 'Пт', 'Сб', 'Вс'];
 
 function pad(value: number) {
   return String(value).padStart(2, '0');
+}
+
+function toIsoDate(date: Date | null | undefined) {
+  const normalized = normalizeDate(date);
+  return normalized
+    ? `${normalized.getFullYear()}-${pad(normalized.getMonth() + 1)}-${pad(normalized.getDate())}`
+    : '';
 }
 
 function normalizeDate(value: Date | null | undefined) {
@@ -130,34 +142,10 @@ function formatRangeInput(value: DateRangeValue) {
   return `${formatDisplayDate(value.start)} — ${formatDisplayDate(value.end)}`.trim();
 }
 
-function CalendarIcon() {
-  return (
-    <svg viewBox="0 0 16 18" fill="none" focusable="false" aria-hidden="true">
-      <path d="M4.5 13.25v-.07M8.25 13.25v-.07M8.25 9.75v-.07M11.58 9.75v-.07M2 6.32h11.67M3.5 1.4v1.29M12 1.4v1.29M12 2.69H3.67A2.53 2.53 0 0 0 1.17 5.26v8.57a2.53 2.53 0 0 0 2.5 2.57H12a2.53 2.53 0 0 0 2.5-2.57V5.26A2.53 2.53 0 0 0 12 2.69Z" stroke="currentColor" strokeWidth="var(--cometal-primitive-stroke-140, 1.4)" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function ChevronIcon({ direction }: { direction: 'left' | 'right' }) {
-  return (
-    <svg viewBox="0 0 20 20" fill="none" focusable="false" aria-hidden="true" data-direction={direction}>
-      <path d="M7.7 4.8 12.9 10l-5.2 5.2" stroke="currentColor" strokeWidth="var(--cometal-primitive-stroke-140, 1.4)" strokeLinecap="round" strokeLinejoin="round" />
-    </svg>
-  );
-}
-
-function useControllableBoolean(
-  controlled: boolean | undefined,
-  defaultValue: boolean,
-  onChange?: (value: boolean) => void,
-) {
-  const [internal, setInternal] = useState(defaultValue);
-  const value = controlled ?? internal;
-  const setValue = (next: boolean) => {
-    if (controlled === undefined) setInternal(next);
-    onChange?.(next);
-  };
-  return [value, setValue] as const;
+function serializeRangeValue(value: DateRangeValue) {
+  const start = toIsoDate(value.start);
+  const end = toIsoDate(value.end);
+  return start || end ? `${start}/${end}` : '';
 }
 
 export type DateRangeValue = {
@@ -190,6 +178,7 @@ function useControllableRange(
 
 export interface DateRangePickerProps {
   id?: string;
+  name?: string;
   label: string;
   value?: DateRangeValue;
   defaultValue?: DateRangeValue;
@@ -213,8 +202,9 @@ export interface DateRangePickerProps {
   className?: string;
 }
 
-export function DateRangePicker({
+export const DateRangePicker = forwardRef<HTMLInputElement, DateRangePickerProps>(function DateRangePicker({
   id,
+  name,
   label,
   value: controlledValue,
   defaultValue = { start: null, end: null },
@@ -236,7 +226,7 @@ export function DateRangePicker({
   onOpenChange,
   autoComplete = 'off',
   className,
-}: DateRangePickerProps) {
+}: DateRangePickerProps, forwardedRef) {
   const generatedId = useId();
   const controlId = id ?? `cometal-date-range-picker-${generatedId}`;
   const dialogId = `${controlId}-dialog`;
@@ -247,7 +237,7 @@ export function DateRangePicker({
   const triggerRef = useRef<HTMLButtonElement>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
   const [rangeValue, setRangeValue] = useControllableRange(controlledValue, defaultValue, onChange);
-  const [isOpen, setIsOpen] = useControllableBoolean(controlledOpen, defaultOpen, onOpenChange);
+  const [isOpen, setIsOpen] = useControllableOpen(controlledOpen, defaultOpen, onOpenChange);
   const referenceDate = normalizeDate(rangeValue.start) ?? normalizeDate(rangeValue.end) ?? normalizeDate(today) ?? new Date();
   const [visibleMonth, setVisibleMonth] = useState(() => startOfMonth(referenceDate));
   const [inputValue, setInputValue] = useState(() => formatRangeInput(rangeValue));
@@ -273,14 +263,7 @@ export function DateRangePicker({
     inputRef.current?.setCustomValidity(effectiveError ?? '');
   }, [effectiveError]);
 
-  useEffect(() => {
-    if (!isOpen) return undefined;
-    const onPointerDown = (event: MouseEvent) => {
-      if (!rootRef.current?.contains(event.target as Node)) setIsOpen(false);
-    };
-    document.addEventListener('mousedown', onPointerDown);
-    return () => document.removeEventListener('mousedown', onPointerDown);
-  }, [isOpen, setIsOpen]);
+  useOutsidePointerDismiss(isOpen, [rootRef], () => setIsOpen(false));
 
   useEffect(() => {
     if (!isOpen || !focusTarget) return;
@@ -344,7 +327,7 @@ export function DateRangePicker({
     if (disabled || mode === 'read') return;
     const anchor = rangeValue.start ?? rangeValue.end ?? todayDate;
     setVisibleMonth(startOfMonth(anchor));
-    if (moveFocusToCalendar) setFocusTarget(formatDisplayDate(anchor).split('.').reverse().join('-'));
+    if (moveFocusToCalendar) setFocusTarget(toIsoDate(anchor));
     setPanelMotion(animate);
     setIsOpen(true);
   };
@@ -409,7 +392,7 @@ export function DateRangePicker({
     event.preventDefault();
     if (isUnavailable(next)) return;
     setVisibleMonth(startOfMonth(next));
-    setFocusTarget(next.toISOString().slice(0, 10));
+    setFocusTarget(toIsoDate(next));
   };
 
   const onInputChange = (event: ChangeEvent<HTMLInputElement>) => {
@@ -458,7 +441,11 @@ export function DateRangePicker({
       >
         <span className="cometal-field__control cometal-date-picker__control">
           <input
-            ref={inputRef}
+            ref={(node) => {
+              inputRef.current = node;
+              if (typeof forwardedRef === 'function') forwardedRef(node);
+              else if (forwardedRef) forwardedRef.current = node;
+            }}
             id={controlId}
             className="cometal-field__input cometal-date-picker__input"
             type="text"
@@ -484,11 +471,30 @@ export function DateRangePicker({
             aria-expanded={isOpen}
             aria-controls={dialogId}
             onClick={(event) => (isOpen ? closeAndRestoreFocus() : openCalendar(false, event.detail !== 0))}
+            onKeyDown={(event) => {
+              if (isOpen && event.key === 'Escape') {
+                event.preventDefault();
+                closeAndRestoreFocus();
+                return;
+              }
+              if (!isOpen && (event.key === 'Enter' || event.key === ' ')) {
+                event.preventDefault();
+                openCalendar(true);
+              }
+            }}
           >
             <CalendarIcon />
           </button>
         </span>
       </FieldChrome>
+      {name ? (
+        <input
+          type="hidden"
+          name={name}
+          value={serializeRangeValue(rangeValue)}
+          disabled={disabled}
+        />
+      ) : null}
 
       {isOpen ? (
         <div
@@ -505,10 +511,10 @@ export function DateRangePicker({
             <h2 data-month-motion={monthMotionDirection || undefined} id={headingId} aria-live="polite">{monthLabel(visibleMonth, locale)}</h2>
             <div className="cometal-date-picker__month-actions">
               <button type="button" className="cometal-date-picker__month-control" aria-label="Предыдущий месяц" onClick={(event) => changeVisibleMonth(-1, event.detail !== 0)}>
-                <ChevronIcon direction="left" />
+                <ChevronLeftIcon />
               </button>
               <button type="button" className="cometal-date-picker__month-control" aria-label="Следующий месяц" onClick={(event) => changeVisibleMonth(1, event.detail !== 0)}>
-                <ChevronIcon direction="right" />
+                <ChevronRightIcon />
               </button>
             </div>
           </div>
@@ -520,7 +526,7 @@ export function DateRangePicker({
             {Array.from({ length: days.length / 7 }, (_, rowIndex) => (
               <div className="cometal-date-picker__day-row" role="row" key={`week-${rowIndex}`}>
                 {days.slice(rowIndex * 7, rowIndex * 7 + 7).map((date) => {
-                  const iso = date.toISOString().slice(0, 10);
+                  const iso = toIsoDate(date);
                   const start = normalizeDate(rangeValue.start);
                   const end = normalizeDate(rangeValue.end);
                   const selected = Boolean(sameDay(date, start) || sameDay(date, end));
@@ -570,4 +576,4 @@ export function DateRangePicker({
       ) : null}
     </div>
   );
-}
+});

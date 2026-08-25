@@ -42,6 +42,7 @@ Button — первый эталон полного распространени
 - Размеры: `l / m / s` = `48 / 40 / 32`.
 - State motion — code-owned, `120ms`; при reduced motion отключается.
 - Outline icons и loader в runtime обязаны визуально оставаться `1.4px`, даже когда slot меньше исходного viewBox.
+- Public family exports: `Button`, `IconButton` и ссылочный `ActionLink`; `InlineLink` — соседний текстовый Link atom, а не Button variant.
 
 ## Storybook stories
 

@@ -30,7 +30,7 @@ import { contractorOptions, statusOptions } from '../lib/demo-options';
 export function ComponentCatalogPreview({ id }: { id: string }) {
   const [selectedContractors, setSelectedContractors] = useState<string[]>([]);
 
-  if (id === 'input.fields') return <TextField label="Название поля" placeholder="Введите значение" />;
+  if (id === 'action.button') return <Button>Продолжить</Button>;
   if (id === 'data-display.table') {
     return (
       <Table density="compact" aria-label="Пример Table">
@@ -80,5 +80,5 @@ export function ComponentCatalogPreview({ id }: { id: string }) {
   if (id === 'selection.radio-button') return <RadioButton label="Выбрать вариант" name="catalog-radio" defaultChecked />;
   if (id === 'selection.switch') return <Switch label="Получать уведомления" defaultChecked />;
   if (id === 'status.badge') return <Badge surface="dark" tone="green">Согласовано</Badge>;
-  return <Button>Продолжить</Button>;
+  throw new Error(`Component family preview is not implemented for ${id}`);
 }

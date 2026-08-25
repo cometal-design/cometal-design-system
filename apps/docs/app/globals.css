@@ -1073,9 +1073,9 @@ code, pre, kbd, samp {
   }
 }
 
-.pattern-catalog { padding-block: var(--portal-space-section); }
-.pattern-catalog__item { display: grid; overflow: hidden; border: var(--portal-hairline) solid var(--portal-line); border-radius: var(--cometal-primitive-radius-200, 16px); }
-.pattern-catalog__preview { max-height: 520px; padding: var(--cometal-primitive-spacing-200); overflow: auto; background: var(--cometal-semantic-color-global-surface-canvas); }
+.pattern-catalog { min-width: 0; max-width: 100%; padding-block: var(--portal-space-section); }
+.pattern-catalog__item { display: grid; contain: inline-size; min-width: 0; max-width: 100%; overflow: hidden; border: var(--portal-hairline) solid var(--portal-line); border-radius: var(--cometal-primitive-radius-200, 16px); }
+.pattern-catalog__preview { box-sizing: border-box; contain: inline-size paint; width: 100%; min-width: 0; max-height: 520px; padding: var(--cometal-primitive-spacing-200); overflow: auto; background: var(--cometal-semantic-color-global-surface-canvas); }
 .pattern-catalog__preview > .cometal-widget { min-width: 1080px; }
 .pattern-catalog__body { display: grid; padding: var(--cometal-primitive-spacing-200); border-top: var(--portal-hairline) solid var(--portal-line); gap: var(--cometal-primitive-spacing-100); }
 .pattern-catalog__body > div { display: flex; align-items: center; justify-content: space-between; gap: var(--cometal-primitive-spacing-100); }
@@ -1085,8 +1085,8 @@ code, pre, kbd, samp {
 .widget-table-pattern-page .cometal-widget { max-width: 100%; }
 .component-inline-demo { min-height: 320px; display: flex; align-items: flex-start; padding: var(--cometal-primitive-spacing-200); }
 
-.tooltip-contract-matrix { display: grid; gap: var(--cometal-primitive-spacing-500); margin-top: var(--cometal-primitive-spacing-300); }
-.tooltip-contract-matrix__size { display: grid; gap: var(--cometal-primitive-spacing-300); }
+.tooltip-contract-matrix { min-width: 0; max-width: 100%; display: grid; gap: var(--cometal-semantic-spacing-global-section-m); margin-top: var(--cometal-primitive-spacing-300); }
+.tooltip-contract-matrix__size { min-width: 0; max-width: 100%; display: grid; gap: var(--cometal-primitive-spacing-300); }
 .tooltip-contract-matrix__size-header { display: grid; grid-template-columns: minmax(120px, .35fr) minmax(0, 1fr); align-items: start; gap: var(--cometal-primitive-spacing-300); padding-block: var(--cometal-primitive-spacing-200); border-block: var(--portal-hairline) solid var(--portal-line); }
 .tooltip-contract-matrix__size-header > div { display: grid; gap: var(--cometal-primitive-spacing-25); }
 .tooltip-contract-matrix__size-header span,
@@ -1095,12 +1095,12 @@ code, pre, kbd, samp {
 .tooltip-contract-matrix__size-header dl { display: grid; grid-template-columns: repeat(5, minmax(0, 1fr)); gap: var(--cometal-primitive-spacing-150); margin: 0; }
 .tooltip-contract-matrix__size-header dl > div { display: grid; align-content: start; gap: var(--cometal-primitive-spacing-50); }
 .tooltip-contract-matrix__size-header dd { margin: 0; color: var(--portal-ink); font: var(--portal-code-s-size)/var(--portal-code-line-height) var(--portal-font-code); }
-.tooltip-contract-matrix__placements { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--cometal-primitive-spacing-300); }
+.tooltip-contract-matrix__placements { min-width: 0; max-width: 100%; display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--cometal-primitive-spacing-300); }
 .tooltip-contract-matrix__item { min-width: 0; min-height: 220px; display: grid; grid-template-rows: auto 1fr; gap: var(--cometal-primitive-spacing-150); padding: var(--cometal-primitive-spacing-150); border: var(--portal-hairline) solid var(--portal-line); border-radius: var(--portal-radius-l); }
 .tooltip-contract-matrix__item > header { display: flex; min-width: 0; align-items: baseline; justify-content: space-between; gap: var(--cometal-primitive-spacing-100); }
 .tooltip-contract-matrix__item > header strong { font-family: var(--cometal-typography-body-s-accent-font-family); font-size: var(--cometal-typography-body-s-accent-font-size); font-weight: var(--cometal-typography-body-s-accent-font-weight); line-height: var(--cometal-typography-body-s-accent-line-height); }
 .tooltip-contract-matrix__item > header code { color: var(--portal-muted); font: var(--portal-code-xs-size)/var(--portal-code-line-height) var(--portal-font-code); }
-.tooltip-contract-matrix__stage { position: relative; min-height: 156px; display: grid; place-items: center; }
+.tooltip-contract-matrix__stage { position: relative; min-width: 0; max-width: 100%; min-height: 156px; display: grid; place-items: center; overflow: clip; }
 .tooltip-contract-matrix .cometal-tooltip { position: static; }
 .tooltip-contract-matrix .cometal-tooltip__panel { position: absolute; top: auto !important; right: auto; bottom: auto; left: auto !important; transform: none; }
 .tooltip-contract-matrix .cometal-tooltip__panel[data-placement^='top'] { bottom: calc(50% + 26px); }

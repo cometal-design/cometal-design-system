@@ -43,6 +43,9 @@ export const Badge = forwardRef<HTMLSpanElement, BadgeProps>(function Badge(
 ) {
   const hasText = children !== undefined && children !== null && children !== false && children !== '';
   const iconOnly = hasText ? null : (startIcon ?? endIcon);
+  if (iconOnly && !spanProps['aria-label']) {
+    throw new Error('Badge requires aria-label when rendered without text.');
+  }
 
   return (
     <span

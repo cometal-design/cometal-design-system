@@ -9,10 +9,7 @@ import { usageExamples } from '../../../lib/usage-examples';
 export const metadata: Metadata = { title: 'Tooltip' };
 const registryComponent = components.find((item) => item.id === 'overlay.tooltip')!;
 const figmaFileHref = 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs';
-const component = {
-  ...registryComponent,
-  links: { ...registryComponent.links, figma: `${figmaFileHref}?node-id=2871-43` },
-};
+const component = registryComponent;
 const sourceHref = 'https://github.com/cometal-design/cometal-design-system/blob/main/packages/react/src/Tooltip/Tooltip.tsx';
 const tooltipPlacements = [
   { placement: 'top-start', label: 'Top Start', compactNode: '2867:42', wideNode: '2868:42' },
