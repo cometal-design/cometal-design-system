@@ -141,7 +141,9 @@ function validateSvgEnvelope(svg, record) {
 
 function compileSvg(svg, record) {
   validateSvgEnvelope(svg, record);
-  const rootPresentation = record.library === 'outline' ? parseSvgRootPresentation(svg, record) : undefined;
+  const rootPresentation = record.library === 'outline' || record.library === 'filled'
+    ? parseSvgRootPresentation(svg, record)
+    : undefined;
   const root = svg.match(/^<svg\b[^>]*>([\s\S]*)<\/svg>\s*$/);
   if (!root) fail(`cannot extract SVG body: ${record.canonicalName}`);
   let body = root[1].trim();
