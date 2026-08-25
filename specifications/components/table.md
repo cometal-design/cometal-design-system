@@ -18,6 +18,8 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 
 - Table / Sources: `2814:8351`.
 - Cells: `2353:9497`.
+- Read Cell Component Set: `2353:9506`.
+- Edit Cell Component Set: `2353:9656`.
 - Paginator Source: `2353:10882`.
 - Header Source: `2353:10891`.
 - Main Components: `2353:9824`.
@@ -30,7 +32,9 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - Первый ряд `TableHeaderCell` содержит названия колонок, сортировку и context action.
 - Второй независимый `TableFilterRow` содержит `TableFilterCell` с полями и контролами фильтрации; фильтры не передаются пропом в первый ряд.
 - Каждый непустой filter control может содержать `TableFilterAction`: canonical `Outline/general/filter` использует 12px glyph в 16px Figma slot и открывает общий `ContextMenu` выбора оператора (`Содержит`, `Равно`, date/select equivalents).
-- `TableCell` поддерживает состояния `default`, `active`, `selected`, `editing`, `error`, `disabled`.
+- Figma `Read Cell` (`2353:9506`) задаёт типы Text, Number, Link, Badge, Text + Badge, Badge + Text, Number + Badge и File; состояния Default, Hover, Active, Selected и Disabled; плотности Comfortable и Compact.
+- Figma `Edit Cell` (`2353:9656`) задаёт типы Text, Number, Dropdown и File; состояния Default, Hover, Active, Editing, Selected, Error и Disabled; плотности Comfortable и Compact.
+- `editing` и `error` не применяются к Read Cell. `dragging` принадлежит служебному Drag Handle Cell, а не основной Read/Edit Cell.
 - `TableFileCell` хранит имя и размер файла в одном источнике; Compact скрывает только вторичную строку размера.
 - `TableSelectionHeader` и `TableSelectionCell` используют общий Checkbox.
 - `TableIndexCell`, `TableDragCell`, `TableDragHandle`, `TableContextAction`, `TableSummaryCell` и `TablePaginator` остаются композиционными кирпичиками.
@@ -40,8 +44,10 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - Date range filter переиспользует `DateRangePicker`; paginator, summary row и reorder handle собираются как composition primitives вокруг таблицы.
 - Row reorder остаётся controlled: `Table.onRowReorder` сообщает `activeId`, `overId` и `before | after`, `TableRow.reorderId` связывает DOM со стабильной бизнес-сущностью, а `reorderTableRows` иммутабельно обновляет consumer-owned данные.
 - Selection относится к строке, selected/editing/error относятся к конкретной ячейке.
-- `Table.mode="read"` задаёт hover всей строки и исключает cell edit entry; `mode="edit"` задаёт hover отдельной ячейки, а `TableCell.editable` + `onEditStart` образуют controlled переход в `editing`.
-- В `editing` редактируемой поверхностью остаётся сама `TableCell` (`td[contenteditable][role=textbox]`); вложенный `TextField` или локальный `input` не создаётся. `Enter` завершает ввод, `Escape` отменяет локальное изменение.
+- `Table.mode="read"` задаёт hover всей строки, исключает cell edit entry и принудительно отключает reorder. Drag header, drag filter cell и drag body cell в Read не рендерятся: пустая либо disabled drag-колонка запрещена.
+- `Table.mode="edit"` задаёт hover отдельной ячейки, разрешает controlled row reorder и переводит `TableCell.editable` в `editing` по click/Enter/F2.
+- В `editing` редактируемой поверхностью автоматически становится сама `TableCell` (`td[contenteditable=true][role=textbox][aria-multiline=false]`); consumer не должен вручную собирать эту семантику. Вложенный `TextField` или локальный `input` не создаётся. `Enter` завершает ввод, `Escape` отменяет локальное изменение.
+- Вычисляемые и бизнес-заблокированные значения могут оставаться Read Cell внутри Edit table; это должно быть явно задано consumer-логикой, а не возникать из отсутствующего обработчика.
 - `Table.rowContextMenu` переиспользует общий pointer-anchored `ContextMenu`; `TableRow.rowId` связывает меню со стабильной бизнес-сущностью. Правый клик по строке не создаёт локальный menu primitive.
 
 ## Плотность
@@ -83,4 +89,6 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - [ ] Unit и Storybook interaction checks пройдены на итоговом локальном SHA.
 - [ ] Независимый Visual QA подтвердил полное совпадение с пятью canonical source nodes.
 - [x] Registry, specification, Storybook и knowledge base связаны стабильным ID.
+- [x] Read полностью исключает drag-column и не активирует `onRowReorder`; Edit сохраняет drag-column и reorder.
+- [x] Состояние Edit Cell / Editing делает саму `td` textbox-поверхностью без вложенного input.
 - [ ] Frontend Lead acceptance подтверждён.

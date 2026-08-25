@@ -17,7 +17,9 @@
 - toolbar actions из Widget source;
 - 10 строк демонстрационного контента из Figma Review.
 - два явных режима: Read с построчным hover и Edit с hover/editing отдельной ячейки;
-- в Edit сама TableCell переходит в `editing` и редактируется без вложенного Input.
+- Read не изменяет данные, не включает reorder и полностью исключает drag-column, а не показывает disabled-заглушку;
+- Edit показывает drag-column, разрешает controlled reorder и переводит eligible TableCell в `editing`;
+- в Edit сама TableCell автоматически становится `td[contenteditable][role=textbox]` без вложенного Input.
 
 ## Граница
 

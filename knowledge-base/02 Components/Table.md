@@ -23,6 +23,9 @@
 - Плотность не должна сбрасывать значения, badge settings или file metadata.
 - Строка может быть selected; отдельная ячейка может быть active, selected/editing, error или disabled.
 - Read и Edit — разные interaction modes: Read подсвечивает строку целиком, Edit подсвечивает ячейку и запускает controlled editing по click/Enter/F2. В editing сама `td` является редактируемой поверхностью; вложенный Field/Input запрещён.
+- Каноническая матрица ячеек разделена на `Read Cell` `2353:9506` (8 типов, 5 состояний, 2 плотности) и `Edit Cell` `2353:9656` (4 типа, 7 состояний, 2 плотности). `Editing` и `Error` принадлежат только Edit.
+- Read mode на границе `Table` блокирует reorder и полностью исключает drag header/filter/body cells. Edit mode допускает drag-column только вместе с controlled `onRowReorder` и стабильным `reorderId`.
+- `TableCell` сам публикует `contenteditable=true`, `role=textbox` и `aria-multiline=false`, когда editable cell переходит в `editing`; consumer хранит значение и commit/cancel, но не пересобирает DOM-контракт.
 - Row context menu открывается общим `ContextMenu` по правому клику и получает стабильный `rowId`; локальные menu implementations внутри таблицы запрещены.
 - File metadata используют IBM Plex Mono через `Technical/S/Default` и скрываются только визуально в Compact.
 - `TableFileIcon` является inline SVG: ref имеет тип `SVGSVGElement`, прежние image-пропы `src`/`alt` удаляются; standalone-смысл задаётся через `aria-label`, декоративное использование — через `aria-hidden`.

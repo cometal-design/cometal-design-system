@@ -109,6 +109,7 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
   },
   ref,
 ) {
+  const reorderEnabled = mode === 'edit' && Boolean(onRowReorder);
   const instructionId = useId();
   const [activeId, setActiveId] = useState<string | null>(null);
   const [interaction, setInteraction] = useState<'pointer' | 'keyboard' | null>(null);
@@ -125,7 +126,7 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
   };
 
   const reorderContext = useMemo<TableReorderContextValue | null>(() => {
-    if (!onRowReorder) return null;
+    if (!reorderEnabled || !onRowReorder) return null;
 
     return {
       activeId,
@@ -203,7 +204,7 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
         }
       },
     };
-  }, [activeId, instructionId, interaction, onRowReorder, overId, position]);
+  }, [activeId, instructionId, interaction, onRowReorder, overId, position, reorderEnabled]);
 
   const openRowMenu = (event: ReactMouseEvent<HTMLTableElement>) => {
     onContextMenu?.(event);
@@ -242,11 +243,11 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
           data-cometal-component="table"
           data-density={density}
           data-mode={mode}
-          data-reorderable={onRowReorder ? true : undefined}
+          data-reorderable={reorderEnabled || undefined}
           data-row-context-menu={rowContextMenu ? true : undefined}
           onContextMenu={openRowMenu}
         />
-        {onRowReorder ? <>
+        {reorderEnabled ? <>
           <span id={instructionId} className="cometal-table__visually-hidden">Нажмите Пробел или Enter, затем используйте стрелки вверх и вниз. Повторное нажатие завершает перемещение.</span>
           <span className="cometal-table__visually-hidden" aria-live="polite" aria-atomic="true">{announcement}</span>
         </> : null}
@@ -296,16 +297,18 @@ export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(function 
   ref,
 ) {
   const reorder = useContext(TableReorderContext);
-  const dragging = Boolean(reorderId && reorder?.activeId === reorderId);
-  const dropPosition = reorderId && reorder?.overId === reorderId ? reorder.position : null;
-  const resolvedRowId = rowId ?? reorderId;
-  return <TableRowReorderIdContext.Provider value={reorderId ?? null}>
+  const mode = useContext(TableModeContext);
+  const effectiveReorderId = mode === 'edit' && reorder ? reorderId : undefined;
+  const dragging = Boolean(effectiveReorderId && reorder?.activeId === effectiveReorderId);
+  const dropPosition = effectiveReorderId && reorder?.overId === effectiveReorderId ? reorder.position : null;
+  const resolvedRowId = rowId ?? effectiveReorderId;
+  return <TableRowReorderIdContext.Provider value={effectiveReorderId ?? null}>
     <tr
       {...props}
       ref={ref}
       className={['cometal-table__row', className].filter(Boolean).join(' ')}
       data-row-selected={selected || undefined}
-      data-reorder-id={reorderId}
+      data-reorder-id={effectiveReorderId}
       data-row-id={resolvedRowId}
       data-row-dragging={dragging || undefined}
       data-drop-position={dropPosition ?? undefined}
@@ -334,6 +337,8 @@ export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellP
     { sort = 'none', onSortChange, action, kind = 'default', children, className, scope = 'col', ...props },
     ref,
   ) {
+    const mode = useContext(TableModeContext);
+    if (kind === 'drag' && mode === 'read') return null;
     const label = typeof children === 'string' ? children : 'колонку';
     const nextSort = getNextTableSortDirection(sort);
     const content = (
@@ -373,6 +378,8 @@ export interface TableFilterCellProps extends ThHTMLAttributes<HTMLTableCellElem
 
 export const TableFilterCell = forwardRef<HTMLTableCellElement, TableFilterCellProps>(
   function TableFilterCell({ kind = 'default', action, children, className, 'aria-label': ariaLabel, ...props }, ref) {
+    const mode = useContext(TableModeContext);
+    if (kind === 'drag' && mode === 'read') return null;
     const emptyLabel = kind === 'drag' ? 'Без фильтра перемещения' : kind === 'index' ? 'Без фильтра номера' : kind === 'selection' ? 'Без фильтра выбора' : 'Без фильтра';
     return (
       <th {...props} ref={ref} className={['cometal-table__filter-cell', className].filter(Boolean).join(' ')} data-kind={kind}>
@@ -402,13 +409,15 @@ export interface TableCellProps extends Omit<TdHTMLAttributes<HTMLTableCellEleme
 export const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(function TableCell(
   {
     state = 'default', align = 'start', leading, trailing, editable = false, onEditStart,
-    children, className, 'aria-disabled': ariaDisabled, onClick, onKeyDown, tabIndex, ...props
+    children, className, 'aria-disabled': ariaDisabled, onClick, onKeyDown, tabIndex,
+    contentEditable, suppressContentEditableWarning, role, 'aria-multiline': ariaMultiline, ...props
   },
   ref,
 ) {
   const disabled = state === 'disabled' || ariaDisabled === true;
   const mode = useContext(TableModeContext);
   const canEdit = mode === 'edit' && editable && !disabled;
+  const isEditing = canEdit && state === 'editing';
   const startEdit = () => onEditStart?.();
   return (
     <td
@@ -421,6 +430,10 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(functi
       data-align={align}
       data-editable={canEdit || undefined}
       tabIndex={canEdit ? (tabIndex ?? 0) : tabIndex}
+      contentEditable={isEditing ? (contentEditable ?? true) : contentEditable}
+      suppressContentEditableWarning={isEditing ? (suppressContentEditableWarning ?? true) : suppressContentEditableWarning}
+      role={isEditing ? (role ?? 'textbox') : role}
+      aria-multiline={isEditing ? (ariaMultiline ?? false) : ariaMultiline}
       onClick={(event) => {
         onClick?.(event);
         if (!canEdit || event.defaultPrevented) return;
@@ -528,6 +541,8 @@ export const TableDragHandle = forwardRef<HTMLButtonElement, TableDragHandleProp
 
 export const TableDragCell = forwardRef<HTMLTableCellElement, Omit<TableCellProps, 'align'>>(
   function TableDragCell({ className, ...props }, ref) {
+    const mode = useContext(TableModeContext);
+    if (mode === 'read') return null;
     return <TableCell {...props} ref={ref} align="center" className={['cometal-table__drag-cell', className].filter(Boolean).join(' ')} />;
   },
 );

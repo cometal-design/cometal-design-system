@@ -82,10 +82,16 @@ export const Overview: Story = {
     const readRow = readTable.querySelector<HTMLTableRowElement>('tbody tr[data-row-id]')!;
     const readCells = Array.from(readRow.querySelectorAll<HTMLElement>('td[data-state="default"]'));
     await expect(readRow.querySelectorAll('td[data-editable="true"]')).toHaveLength(0);
+    await expect(readTable.querySelector('[data-kind="drag"]')).toBeNull();
+    await expect(readTable.querySelector('.cometal-table__drag-cell')).toBeNull();
+    await expect(readTable).not.toHaveAttribute('data-reorderable');
     await expect(readCells.length).toBeGreaterThan(1);
 
     const editRow = editTable.querySelector<HTMLTableRowElement>('tbody tr[data-row-id]')!;
     const editCells = Array.from(editRow.querySelectorAll<HTMLElement>('td[data-state="default"]'));
+    await expect(editTable.querySelector('[data-kind="drag"]')).not.toBeNull();
+    await expect(editTable.querySelector('.cometal-table__drag-cell')).not.toBeNull();
+    await expect(editTable).toHaveAttribute('data-reorderable', 'true');
     await expect(editCells.filter((cell) => cell.dataset.editable === 'true').length).toBeGreaterThan(1);
     const editableCell = editRow.querySelector<HTMLElement>('td[data-editable="true"]')!;
     await userEvent.click(editableCell);

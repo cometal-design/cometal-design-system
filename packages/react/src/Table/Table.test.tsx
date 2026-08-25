@@ -92,7 +92,7 @@ describe('Table', () => {
 
   it('keeps source utility families semantic and density-owned', () => {
     const html = renderToStaticMarkup(
-      <Table density="compact" aria-label="Выбор позиций">
+      <Table density="compact" mode="edit" aria-label="Выбор позиций">
         <TableHead>
           <TableRow>
             <TableHeaderCell kind="index">№</TableHeaderCell>
@@ -127,7 +127,7 @@ describe('Table', () => {
 
   it('publishes the controlled row-reorder contract only when enabled', () => {
     const html = renderToStaticMarkup(
-      <Table aria-label="Порядок позиций" onRowReorder={() => undefined}>
+      <Table mode="edit" aria-label="Порядок позиций" onRowReorder={() => undefined}>
         <TableBody>
           <TableRow reorderId="POS-001">
             <TableDragCell><TableDragHandle rowLabel="POS-001" /></TableDragCell>
@@ -142,6 +142,33 @@ describe('Table', () => {
     expect(html).toContain('data-reorder-handle="true"');
     expect(html).toContain('Нажмите Пробел или Enter');
     expect(html).toContain('aria-live="polite"');
+  });
+
+  it('removes the drag column and disables reorder at the Table boundary in read mode', () => {
+    const html = renderToStaticMarkup(
+      <Table mode="read" aria-label="Только чтение" onRowReorder={() => undefined}>
+        <TableHead><TableRow><TableHeaderCell kind="drag">Порядок</TableHeaderCell><TableHeaderCell>Название</TableHeaderCell></TableRow></TableHead>
+        <TableBody><TableRow reorderId="POS-001"><TableDragCell><TableDragHandle rowLabel="POS-001" /></TableDragCell><TableCell>Лист</TableCell></TableRow></TableBody>
+      </Table>,
+    );
+
+    expect(html).not.toContain('data-kind="drag"');
+    expect(html).not.toContain('cometal-table__drag-cell');
+    expect(html).not.toContain('data-reorderable="true"');
+    expect(html).not.toContain('data-reorder-id="POS-001"');
+  });
+
+  it('turns an editing TableCell into the textbox surface without a nested input', () => {
+    const html = renderToStaticMarkup(
+      <Table mode="edit" aria-label="Редактирование">
+        <TableBody><TableRow><TableCell editable state="editing">Значение</TableCell></TableRow></TableBody>
+      </Table>,
+    );
+
+    expect(html).toContain('contentEditable="true"');
+    expect(html).toContain('role="textbox"');
+    expect(html).toContain('aria-multiline="false"');
+    expect(html).not.toContain('<input');
   });
 
   it('moves immutable business rows before or after the target', () => {

@@ -48,7 +48,7 @@ const statusOptions = [
 ];
 
 type ReviewRow = [string, string, string, number, string, number, string, string, string, string, string];
-type EditableColumn = 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 | 10;
+type EditableColumn = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 | 10;
 
 const rows: readonly ReviewRow[] = [
   ['POS-001', 'Лист горячекатаный', '09Г2С', 24, 'т', 86400, '21.08.2026', 'Вх. 233-500', 'Согласован', 'Комплектность', 'Северсталь'],
@@ -122,6 +122,7 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode 
       const next: ReviewRow = [...row];
       if (column === 3) next[3] = Number(rawValue) || 0;
       else if (column === 5) next[5] = Number(rawValue.replace(/\s/g, '')) || 0;
+      else if (column === 0) next[0] = rawValue;
       else if (column === 1) next[1] = rawValue;
       else if (column === 2) next[2] = rawValue;
       else if (column === 4) next[4] = rawValue;
@@ -140,10 +141,6 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode 
       align={align}
       editable={mode === 'edit'}
       state={isEditing ? 'editing' : 'default'}
-      contentEditable={isEditing || undefined}
-      suppressContentEditableWarning
-      role={isEditing ? 'textbox' : undefined}
-      aria-multiline={isEditing ? false : undefined}
       aria-label={isEditing ? `Редактирование: ${label}` : undefined}
       onEditStart={() => setEditingCell({ rowId: row[0], column })}
       onBlur={(event) => {
@@ -229,10 +226,10 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode 
           {visibleRows.map((row, index) => {
             const sum = row[3] * row[5];
             return <TableRow key={row[0]} rowId={row[0]} reorderId={mode === 'edit' ? row[0] : undefined} selected={selected.includes(row[0])}>
-              <TableDragCell><TableDragHandle rowLabel={row[0]} disabled={mode === 'read'} /></TableDragCell>
+              <TableDragCell><TableDragHandle rowLabel={row[0]} /></TableDragCell>
               <TableIndexCell>{index + 1}</TableIndexCell>
               <TableSelectionCell label={`Выбрать ${row[0]}`} checked={selected.includes(row[0])} onCheckedChange={(checked) => setSelected((current) => checked ? [...current, row[0]] : current.filter((value) => value !== row[0]))} />
-              <TableCell>{row[0]}</TableCell>{editableCell(row, 1, `Наименование ${row[0]}`)}{editableCell(row, 2, `Марка стали ${row[0]}`)}
+              {editableCell(row, 0, `Позиция ${row[0]}`)}{editableCell(row, 1, `Наименование ${row[0]}`)}{editableCell(row, 2, `Марка стали ${row[0]}`)}
               {editableCell(row, 3, `Количество ${row[0]}`, 'end')}{editableCell(row, 4, `Единица ${row[0]}`)}
               {editableCell(row, 5, `Цена ${row[0]}`, 'end')}<TableCell align="end">{sum.toLocaleString('ru-RU')}</TableCell>
               {editableCell(row, 6, `Дата поставки ${row[0]}`)}{editableCell(row, 7, `Документ ${row[0]}`)}
@@ -240,7 +237,7 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode 
               <TableCell><Badge tone={toneForStatus(row[8])}>{row[8]}</Badge></TableCell>{editableCell(row, 9, `Контроль ${row[0]}`)}{editableCell(row, 10, `Поставщик ${row[0]}`)}
             </TableRow>;
           })}
-          <TableRow><TableSummaryCell kind="empty" colSpan={4} /><TableSummaryCell kind="label" colSpan={2}>Итого</TableSummaryCell><TableSummaryCell kind="value" align="end">{totalQuantity}</TableSummaryCell><TableSummaryCell kind="empty" /><TableSummaryCell kind="value" align="end">—</TableSummaryCell><TableSummaryCell kind="value" align="end">{totalSum.toLocaleString('ru-RU')}</TableSummaryCell><TableSummaryCell kind="empty" colSpan={6} /></TableRow>
+          <TableRow><TableSummaryCell kind="empty" colSpan={mode === 'edit' ? 4 : 3} /><TableSummaryCell kind="label" colSpan={2}>Итого</TableSummaryCell><TableSummaryCell kind="value" align="end">{totalQuantity}</TableSummaryCell><TableSummaryCell kind="empty" /><TableSummaryCell kind="value" align="end">—</TableSummaryCell><TableSummaryCell kind="value" align="end">{totalSum.toLocaleString('ru-RU')}</TableSummaryCell><TableSummaryCell kind="empty" colSpan={6} /></TableRow>
         </TableBody>
       </Table>
     </WidgetTablePattern>
