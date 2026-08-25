@@ -18,11 +18,6 @@ const apiRows = [
 export default function TablePaginatorPage() {
   return <main className="content-page component-detail table-family-page">
     <TableFamilyHeader activeHref="/components/table/paginator/" title="Table · Paginator" summary="Previous, Page, Ellipsis, Next и page-size control с самостоятельными состояниями и клавиатурной доступностью." />
-    <section className="content-section" id="states">
-      <SectionHeading title="Полная матрица Paginator" description="Интерактивный Paginator и реальные first/middle/last compositions показывают disabled, current и ellipsis states." />
-      <TablePaginatorContract />
-      <p><InlineLink href={tableFigmaSources.paginator} target="_blank" rel="noreferrer">Открыть Paginator Source в Figma ↗</InlineLink></p>
-    </section>
-    <TableChildDocumentation childLabel="Paginator" useWhen="Для controlled перехода между страницами Table и опционального выбора числа строк на странице." doNotUseWhen="Не используйте Paginator для бесконечной ленты или когда весь небольшой dataset уже помещается без разбиения." behavior="Current page получает aria-current=page; Previous/Next disabled на границах; ellipsis скрыт от accessibility tree, а каждая page button имеет доступное имя." apiRows={apiRows} edgeCases="Page меньше 1 или больше pageCount безопасно ограничивается; pageCount 0 трактуется как одна страница; без onPageSizeChange optional select остаётся disabled." />
+    <TableChildDocumentation childLabel="Paginator" useWhen="Для controlled перехода между страницами Table и опционального выбора числа строк на странице." doNotUseWhen="Не используйте Paginator для бесконечной ленты или когда весь небольшой dataset уже помещается без разбиения." behavior="Current page получает aria-current=page; Previous/Next disabled на границах; ellipsis скрыт от accessibility tree, а каждая page button имеет доступное имя." apiRows={apiRows} edgeCases="Page меньше 1 или больше pageCount безопасно ограничивается; pageCount 0 трактуется как одна страница; без onPageSizeChange optional select остаётся disabled." visualContract={<section className="content-section" id="states"><SectionHeading title="Полная матрица Paginator" description="Интерактивный Paginator и реальные first/middle/last compositions показывают disabled, current и ellipsis states." /><TablePaginatorContract /><p><InlineLink href={tableFigmaSources.paginator} target="_blank" rel="noreferrer">Открыть Paginator Source в Figma ↗</InlineLink></p></section>} />
   </main>;
 }

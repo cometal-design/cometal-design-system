@@ -29,19 +29,14 @@ export default function ButtonPage() {
         figmaHref={component.links.figma}
         playgroundHref="/storybook/?path=/story/components-button--playground"
       />
-      <div className="metadata-strip" data-top-divider data-bottom-divider><span>Stable ID</span><code>action.button</code><span>React</span><strong>Button</strong></div>
+      <div className="metadata-strip" data-component-phase="identity" data-top-divider data-bottom-divider><span>Stable ID</span><code>action.button</code><span>React</span><strong>Button</strong></div>
 
-      <section className="content-section" id="usage">
-        <SectionHeading title="Использование" description="Кнопка выполняет действие. Для обычного перехода используйте ссылку, для переключения режима — Toggle." />
-        <div className="guidance"><article data-tone="positive"><strong>Используйте</strong><p>Один Primary на локальную область. Подпись начинается с глагола и объясняет результат.</p></article><article data-tone="negative"><strong>Не используйте</strong><p>Для навигации, выбора значения или нескольких равнозначных основных действий рядом.</p></article></div>
+      <section className="content-section" data-component-phase="overview">
+        <SectionHeading title="Рабочий пример" description="Живая Primary-кнопка показывает базовую роль и реальное поведение публичного React-компонента." />
+        <Button endIcon={<ArrowRightIcon />}>Продолжить</Button>
       </section>
 
-      <section className="content-section" id="code">
-        <SectionHeading title="Код" description="Скопируйте установку, импорт или минимальный рабочий пример. Все представления соответствуют публичному React API." />
-        <CodeExample componentName={component.name} sourceHref={sourceHref} usage={usage} />
-      </section>
-
-      <section className="content-section" id="variants">
+      <section className="content-section" data-component-phase="visual-contract" id="variants">
         <SectionHeading title="Варианты" description="Девять визуальных ролей синхронизированы с DS Core." />
         <div className="variant-board">
           {documentedVariants.map((variant) => <article key={variant} data-dark={darkVariants.has(variant) || undefined}><code>{variant}</code><Button variant={variant}>Продолжить</Button></article>)}
@@ -70,7 +65,17 @@ export default function ButtonPage() {
         <div className="state-board"><article><code>Default</code><Button>Продолжить</Button></article><article><code>Hover</code><Button className="docs-button--hover">Продолжить</Button></article><article><code>Focus visible</code><Button className="docs-button--focus">Продолжить</Button></article><article><code>Pressed</code><Button className="docs-button--pressed">Продолжить</Button></article><article><code>Disabled</code><Button disabled>Продолжить</Button></article><article><code>Loading</code><Button loading>Продолжить</Button></article></div>
       </section>
 
-      <section className="content-section">
+      <section className="content-section" data-component-phase="code" id="code">
+        <SectionHeading title="Код" description="Скопируйте установку, импорт или минимальный рабочий пример. Все представления соответствуют публичному React API." />
+        <CodeExample componentName={component.name} sourceHref={sourceHref} usage={usage} />
+      </section>
+
+      <section className="content-section" data-component-phase="usage" id="usage">
+        <SectionHeading title="Использование" description="Кнопка выполняет действие. Для обычного перехода используйте ссылку, для переключения режима — Toggle." />
+        <div className="guidance"><article data-tone="positive"><strong>Используйте</strong><p>Один Primary на локальную область. Подпись начинается с глагола и объясняет результат.</p></article><article data-tone="negative"><strong>Не используйте</strong><p>Для навигации, выбора значения или нескольких равнозначных основных действий рядом.</p></article></div>
+      </section>
+
+      <section className="content-section" data-component-phase="behavior-a11y">
         <SectionHeading title="Поведение и доступность" description="Button сохраняет нативную button-семантику и не превращает визуальный variant в отдельный interaction contract." />
         <div className="definition-list">
           <article><span>01</span><strong>Keyboard</strong><p>Tab переводит focus на Button, Enter и Space запускают нативное действие; focus-visible остаётся различимым.</p></article>
@@ -79,18 +84,20 @@ export default function ButtonPage() {
         </div>
       </section>
 
-      <section className="content-section" id="api">
+      <section className="content-section" data-component-phase="public-api" id="api">
         <SectionHeading title="React API" description="Публичный API остаётся минимальным. Интерактивные состояния не передаются props." />
         <div className="api-table"><div className="api-table__head"><span>Prop</span><span>Тип</span><span>Default</span></div>{[
           ['variant', "'primary' | 'secondary' | …", "'primary'"], ['size', "'l' | 'm' | 's'", "'l'"], ['loading', 'boolean', 'false'], ['disabled', 'boolean', 'false'], ['startIcon / endIcon', 'ReactNode', '—'], ['children', 'ReactNode', '—'],
         ].map(([name, type, value]) => <div key={name}><code>{name}</code><span>{type}</span><span>{value}</span></div>)}</div>
       </section>
 
-      <ComponentEnvironmentNotes
-        responsive="Button сохраняет intrinsic width и nowrap; перенос, растяжение или вертикальный stack задаёт родительская layout-композиция. На узкой ширине не сокращайте доступное имя до одной непонятной иконки."
-        theme="Primary, semantic и inverse variants используют component tokens активной темы. Inverse и inverse-ghost применяются только на контрастной тёмной поверхности."
-        edgeCases="Loading и disabled не вызывают действие; icon-only требует aria-label, а длинная подпись должна проверяться в доступной ширине без ручного уменьшения control height."
-      />
+      <div data-component-phase="adaptation">
+        <ComponentEnvironmentNotes
+          responsive="Button сохраняет intrinsic width и nowrap; перенос, растяжение или вертикальный stack задаёт родительская layout-композиция. На узкой ширине не сокращайте доступное имя до одной непонятной иконки."
+          theme="Primary, semantic и inverse variants используют component tokens активной темы. Inverse и inverse-ghost применяются только на контрастной тёмной поверхности."
+          edgeCases="Loading и disabled не вызывают действие; icon-only требует aria-label, а длинная подпись должна проверяться в доступной ширине без ручного уменьшения control height."
+        />
+      </div>
     </main>
   );
 }

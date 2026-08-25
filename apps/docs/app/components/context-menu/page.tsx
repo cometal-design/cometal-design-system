@@ -13,22 +13,14 @@ const sourceHref = 'https://github.com/cometal-design/cometal-design-system/blob
 export default function ContextMenuPage() {
   return <main className="content-page component-detail">
     <ComponentPageHeader title="Context Menu" summary="Контекстные действия над сущностью: pointer/trigger anchor, клавиатурная навигация, selected, disabled и danger items." status={component.status} statusLabel={statusLabels[component.status]} figmaHref={component.links.figma} playgroundHref="/storybook/?path=/story/components-context-menu--overview" />
-    <div className="metadata-strip" data-top-divider data-bottom-divider><span>Stable ID</span><code>overlay.context-menu</code><span>React</span><strong>ContextMenu</strong></div>
+    <div className="metadata-strip" data-component-phase="identity" data-top-divider data-bottom-divider><span>Stable ID</span><code>overlay.context-menu</code><span>React</span><strong>ContextMenu</strong></div>
 
-    <section className="content-section">
+    <section className="content-section" data-component-phase="overview">
       <SectionHeading title="Рабочий пример" description="Menu остаётся overlay-компонентом. Product pattern решает, к какой сущности и сценарию его привязать." />
       <div className="component-inline-demo"><ContextMenu defaultOpen trigger={<Button size="m" variant="secondary">Открыть меню</Button>}><ContextMenuItem>Открыть</ContextMenuItem><ContextMenuItem selected>Закрепить</ContextMenuItem><ContextMenuItem disabled>Недоступно</ContextMenuItem><ContextMenuDivider /><ContextMenuItem tone="danger">Удалить</ContextMenuItem></ContextMenu></div>
     </section>
 
-    <section className="content-section" id="usage">
-      <SectionHeading title="Использование" description="Набор коротких действий относится к конкретной сущности и открывается из видимого trigger или по contextmenu." />
-      <div className="guidance">
-        <article data-tone="positive"><strong>Используйте</strong><p>Для вторичных действий над строкой, файлом или объектом, когда их связь с текущим контекстом однозначна.</p></article>
-        <article data-tone="negative"><strong>Не используйте</strong><p>Не используйте Context Menu для основной навигации, сложной формы, длинного объяснения или единственного пути к критичному действию.</p></article>
-      </div>
-    </section>
-
-    <section className="content-section" id="sizes">
+    <section className="content-section" data-component-phase="visual-contract" id="sizes">
       <SectionHeading title="Размеры" description="Три реальные Context Menu используют одинаковый состав, чтобы сравнивать surface, типографику, inset и высоту item: L 48px, M 40px и S 32px." />
       <div className="size-list">
         <article>
@@ -55,7 +47,20 @@ export default function ContextMenuPage() {
       </div>
     </section>
 
-    <section className="content-section">
+    <section className="content-section" data-component-phase="code">
+      <SectionHeading title="Код" description="Registry usage source содержит установку, импорт и минимальный пример без локального дублирования API." />
+      <CodeExample componentName="ContextMenu" sourceHref={sourceHref} usage={usageExamples['overlay.context-menu']} />
+    </section>
+
+    <section className="content-section" data-component-phase="usage" id="usage">
+      <SectionHeading title="Использование" description="Набор коротких действий относится к конкретной сущности и открывается из видимого trigger или по contextmenu." />
+      <div className="guidance">
+        <article data-tone="positive"><strong>Используйте</strong><p>Для вторичных действий над строкой, файлом или объектом, когда их связь с текущим контекстом однозначна.</p></article>
+        <article data-tone="negative"><strong>Не используйте</strong><p>Не используйте Context Menu для основной навигации, сложной формы, длинного объяснения или единственного пути к критичному действию.</p></article>
+      </div>
+    </section>
+
+    <section className="content-section" data-component-phase="behavior-a11y">
       <SectionHeading title="Поведение и доступность" description="Portal surface имеет role=menu, получает доступное имя от trigger и удерживает keyboard focus только на доступных items." />
       <div className="definition-list">
         <article><span>01</span><strong>Keyboard</strong><p>ArrowDown/ArrowUp циклически перемещают focus, Home/End переходят к краям, Escape закрывает menu и возвращает focus trigger.</p></article>
@@ -64,7 +69,7 @@ export default function ContextMenuPage() {
       </div>
     </section>
 
-    <section className="content-section" id="api">
+    <section className="content-section" data-component-phase="public-api" id="api">
       <SectionHeading title="React API" description="Публичный контракт состоит из ContextMenu, ContextMenuItem и ContextMenuDivider." />
       <div className="api-table">
         <div className="api-table__head"><span>Prop</span><span>Тип</span><span>Назначение</span></div>
@@ -77,7 +82,7 @@ export default function ContextMenuPage() {
       </div>
     </section>
 
-    <section className="content-section">
+    <section className="content-section" data-component-phase="adaptation">
       <SectionHeading title="Responsive, theme и edge cases" description="Portal ограничивает координаты фактическим viewport и наследует системное оформление." />
       <div className="definition-list">
         <article><span>01</span><strong>Responsive / overflow</strong><p>На узком viewport menu разворачивается относительно trigger или pointer и ограничивается inset 8px; scroll обновляет позицию.</p></article>
@@ -86,9 +91,5 @@ export default function ContextMenuPage() {
       </div>
     </section>
 
-    <section className="content-section">
-      <SectionHeading title="Код" description="Registry usage source содержит установку, импорт и минимальный пример без локального дублирования API." />
-      <CodeExample componentName="ContextMenu" sourceHref={sourceHref} usage={usageExamples['overlay.context-menu']} />
-    </section>
   </main>;
 }

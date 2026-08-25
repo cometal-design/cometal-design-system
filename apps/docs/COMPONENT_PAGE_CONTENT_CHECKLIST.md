@@ -28,6 +28,23 @@ The component index at `/components/` is navigation, not a detail page. The audi
 | `public-api` | Public API | Public props, defaults, controlled/uncontrolled behavior, composition boundaries and native-attribute inheritance are described at the useful depth for consumers. |
 | `responsive-theme-edge` | Responsive, theme and edge cases | Evidence covers supported responsive/overflow behavior, applicable themes/surfaces, and representative edge cases such as long content, empty/error/disabled or optional regions. |
 
+## Canonical semantic phase order
+
+Every detail route uses the single ordered phase definition in `componentPhases` inside `apps/docs/lib/component-page-content-contract.json`. A phase is declared once in rendered page source with `data-component-phase`; additional H2 sections may belong to that phase until the next declaration.
+
+| Order | Phase ID | Reader question | Typical content |
+|---:|---|---|---|
+| 0 | `identity` | What is this exact component? | Header, lifecycle, visible stable ID, exact Figma/Storybook/React sources. |
+| 1 | `overview` | What does the real component or family look like? | Live `@cometal/react` example or an explicit shared-family overview. |
+| 2 | `visual-contract` | What visual axes and composition rules exist? | Anatomy, variants, sizes, values, states, composition and complex family matrices. |
+| 3 | `code` | How do I integrate it? | Install, import, minimal usage, copy and React source context. |
+| 4 | `usage` | When should or should not I use it? | Use cases, alternatives, content guidance and product boundaries. |
+| 5 | `behavior-a11y` | How does it behave? | Interaction lifecycle, keyboard, focus, semantics, accessible names and ARIA. |
+| 6 | `public-api` | What is the supported React contract? | Public props, defaults, controlled/uncontrolled state and native inheritance. |
+| 7 | `adaptation` | What changes across environments? | Responsive/overflow behavior, themes and representative edge cases. |
+
+Table family matrices belong to phase 2. Each Table child still declares all later phases and explicitly references the shared parent React implementation. Fields begins phase 1 with the live five-component family overview; sizes and states remain phase 2. Tabs are outside this contract and remain out of scope.
+
 ## Conditional and N/A rules
 
 - `required` means the page fails when evidence is absent.
@@ -36,6 +53,8 @@ The component index at `/components/` is navigation, not a detail page. The audi
 - N/A cannot be used because implementation or evidence is unfinished, because a child page relies on an undocumented parent, or because the evidence exists only in Figma without a link.
 - A family child may inherit lifecycle, Figma family context and Storybook navigation through a shared header, but it still requires explicit source/code context and its own exact source link where the child maps to a narrower Figma source.
 - If a family shares one React implementation, the child page may link that shared implementation and parent usage example; it must say so explicitly.
+- Phase N/A follows the same fail-closed rule: a route-specific `phaseRequirements` entry and rationale are required. The phase must retain its canonical position through an explicit N/A section or shared-parent reference when omitting it would make the reading sequence ambiguous.
+- Missing, duplicate, unknown or out-of-order phase declarations fail order validation even when all content criteria pass.
 
 ## Code example boundary
 
@@ -55,13 +74,13 @@ Machine-readable output:
 node apps/docs/scripts/validate-component-page-content.mjs --report --json
 ```
 
-Strict mode exits non-zero when inventory differs or any required/conditional evidence is missing:
+Strict mode exits non-zero when inventory differs, any required/conditional evidence is missing, or any route has missing, duplicate, unknown or out-of-order phase declarations:
 
 ```bash
 node apps/docs/scripts/validate-component-page-content.mjs --strict
 ```
 
-Strict mode is intentionally not wired into the default build or repository validation while the baseline audit contains known gaps.
+Strict mode remains an explicit documentation gate and is not presented as visual QA, code approval or release readiness.
 
 ## Authoring completion rule
 
@@ -69,7 +88,8 @@ Before declaring a component page content-complete:
 
 1. Add or update its route entry in the JSON contract.
 2. Reconcile source routes, primary navigation and family navigation.
-3. Run report mode and inspect the route’s PASS/MISSING/NA result.
-4. Resolve every MISSING item or record an allowed N/A with rationale.
-5. Run strict mode, docs typecheck and `git diff --check` on the bounded candidate.
-6. Treat visual parity, code approval, QA and release as separate exact-SHA gates.
+3. Declare the eight semantic phases in canonical order and place every visible H2 under the correct phase.
+4. Run report mode and inspect both the route’s content and order PASS/MISSING results.
+5. Resolve every MISSING item or record an allowed N/A with rationale.
+6. Run strict mode, docs typecheck and `git diff --check` on the bounded candidate.
+7. Treat visual parity, code approval, QA and release as separate exact-SHA gates.

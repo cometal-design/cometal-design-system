@@ -1,5 +1,15 @@
 {
-  "schemaVersion": 1,
+  "schemaVersion": 2,
+  "componentPhases": [
+    { "id": "identity", "order": 0, "label": "Header, visible identity and exact sources", "defaultRequirement": "required" },
+    { "id": "overview", "order": 1, "label": "Live component or family overview", "defaultRequirement": "required" },
+    { "id": "visual-contract", "order": 2, "label": "Visual contract: anatomy, variants, sizes, states and composition", "defaultRequirement": "required" },
+    { "id": "code", "order": 3, "label": "Copy-ready code", "defaultRequirement": "required" },
+    { "id": "usage", "order": 4, "label": "Usage and do-not-use boundaries", "defaultRequirement": "required" },
+    { "id": "behavior-a11y", "order": 5, "label": "Behavior and accessibility", "defaultRequirement": "required" },
+    { "id": "public-api", "order": 6, "label": "Public React API", "defaultRequirement": "required" },
+    { "id": "adaptation", "order": 7, "label": "Responsive, themes and edge cases", "defaultRequirement": "required" }
+  ],
   "inventory": {
     "sourceRoot": "app/components",
     "primaryNavigationFile": "lib/navigation.ts",

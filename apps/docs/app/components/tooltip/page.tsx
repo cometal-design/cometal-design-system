@@ -13,22 +13,14 @@ const sourceHref = 'https://github.com/cometal-design/cometal-design-system/blob
 export default function TooltipPage() {
   return <main className="content-page component-detail">
     <ComponentPageHeader title="Tooltip" summary="Короткое дополнительное пояснение к интерактивному элементу, доступное по hover и focus и не заменяющее основную подпись." status={component.status} statusLabel={statusLabels[component.status]} figmaHref={component.links.figma} playgroundHref="/storybook/?path=/story/components-tooltip--overview" />
-    <div className="metadata-strip" data-top-divider data-bottom-divider><span>Stable ID</span><code>overlay.tooltip</code><span>React</span><strong>Tooltip</strong></div>
+    <div className="metadata-strip" data-component-phase="identity" data-top-divider data-bottom-divider><span>Stable ID</span><code>overlay.tooltip</code><span>React</span><strong>Tooltip</strong></div>
 
-    <section className="content-section">
+    <section className="content-section" data-component-phase="overview">
       <SectionHeading title="Рабочий пример" description="Один и тот же trigger открывает tooltip при наведении мыши и при клавиатурном focus. Default open используется здесь только для видимой документации." />
       <div className="component-inline-demo"><Tooltip content="Подсказка для действия" defaultOpen placement="top-center"><Button size="m" variant="secondary">Наведи или сфокусируй</Button></Tooltip></div>
     </section>
 
-    <section className="content-section" id="usage">
-      <SectionHeading title="Использование" description="Tooltip поясняет действие, когда основной интерфейс уже понятен без overlay." />
-      <div className="guidance">
-        <article data-tone="positive"><strong>Используйте</strong><p>Для краткого контекста к иконке, сокращённой подписи или действию, если trigger остаётся доступным по focus.</p></article>
-        <article data-tone="negative"><strong>Не используйте</strong><p>Не используйте Tooltip как единственную подпись, для обязательной инструкции, ошибки, длинного текста или интерактивного контента.</p></article>
-      </div>
-    </section>
-
-    <section className="content-section" id="states">
+    <section className="content-section" data-component-phase="visual-contract" id="states">
       <SectionHeading title="Размеры, placement и состояния" description="Публичные оси ограничены двумя размерами, восемью предпочтительными placement и controlled/uncontrolled open state." />
       <div className="definition-list">
         <article><span>01</span><strong>Size</strong><p><code>compact</code> — короткое пояснение; <code>wide</code> — более широкая строка без превращения tooltip в popover.</p></article>
@@ -37,7 +29,20 @@ export default function TooltipPage() {
       </div>
     </section>
 
-    <section className="content-section">
+    <section className="content-section" data-component-phase="code">
+      <SectionHeading title="Код" description="Установка, импорт и минимальное использование берутся из общего registry usage source." />
+      <CodeExample componentName="Tooltip" sourceHref={sourceHref} usage={usageExamples['overlay.tooltip']} />
+    </section>
+
+    <section className="content-section" data-component-phase="usage" id="usage">
+      <SectionHeading title="Использование" description="Tooltip поясняет действие, когда основной интерфейс уже понятен без overlay." />
+      <div className="guidance">
+        <article data-tone="positive"><strong>Используйте</strong><p>Для краткого контекста к иконке, сокращённой подписи или действию, если trigger остаётся доступным по focus.</p></article>
+        <article data-tone="negative"><strong>Не используйте</strong><p>Не используйте Tooltip как единственную подпись, для обязательной инструкции, ошибки, длинного текста или интерактивного контента.</p></article>
+      </div>
+    </section>
+
+    <section className="content-section" data-component-phase="behavior-a11y">
       <SectionHeading title="Поведение и доступность" description="Hover и focus равноправно открывают подсказку; Escape закрывает её, а trigger получает aria-describedby только пока tooltip показан." />
       <div className="definition-list">
         <article><span>01</span><strong>Keyboard</strong><p>Tab фокусирует исходный интерактивный trigger; Escape закрывает overlay без изменения focus.</p></article>
@@ -46,7 +51,7 @@ export default function TooltipPage() {
       </div>
     </section>
 
-    <section className="content-section" id="api">
+    <section className="content-section" data-component-phase="public-api" id="api">
       <SectionHeading title="React API" description="Tooltip расширяет HTML attributes корневого span, кроме конфликтующего content attribute." />
       <div className="api-table">
         <div className="api-table__head"><span>Prop</span><span>Тип</span><span>Назначение</span></div>
@@ -60,7 +65,7 @@ export default function TooltipPage() {
       </div>
     </section>
 
-    <section className="content-section">
+    <section className="content-section" data-component-phase="adaptation">
       <SectionHeading title="Responsive, theme и edge cases" description="Overlay использует текущие семантические tokens и вычисляет позицию по фактическому viewport." />
       <div className="definition-list">
         <article><span>01</span><strong>Responsive / overflow</strong><p>При нехватке места placement проходит fallback chain, затем координаты ограничиваются viewport inset 8px; resize и вложенный scroll обновляют позицию.</p></article>
@@ -69,9 +74,5 @@ export default function TooltipPage() {
       </div>
     </section>
 
-    <section className="content-section">
-      <SectionHeading title="Код" description="Установка, импорт и минимальное использование берутся из общего registry usage source." />
-      <CodeExample componentName="Tooltip" sourceHref={sourceHref} usage={usageExamples['overlay.tooltip']} />
-    </section>
   </main>;
 }
