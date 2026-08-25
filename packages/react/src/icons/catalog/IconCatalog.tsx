@@ -142,7 +142,7 @@ export function IconCatalog({ className }: IconCatalogProps) {
         <TextField
           type="search"
           label="Поиск по каноническому имени"
-          size="s"
+          size="l"
           startIcon={<Search01Icon />}
           value={search}
           onChange={(event) => { setSearch(event.currentTarget.value); resetPage(); }}
@@ -150,21 +150,21 @@ export function IconCatalog({ className }: IconCatalogProps) {
         />
         <Select
           label="Библиотека"
-          size="s"
+          size="l"
           options={libraryOptions}
           value={library}
           onValueChange={(value) => { setLibrary(value); setFamily(''); setCategory(''); resetPage(); }}
         />
         <Select
           label="Семейство"
-          size="s"
+          size="l"
           options={familyOptions}
           value={family}
           onValueChange={(value) => { setFamily(value); setCategory(''); resetPage(); }}
         />
         <Select
           label="Категория"
-          size="s"
+          size="l"
           options={categoryOptions}
           value={category}
           onValueChange={(value) => { setCategory(value); resetPage(); }}

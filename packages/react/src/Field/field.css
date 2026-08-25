@@ -175,8 +175,8 @@
   text-align: left;
   cursor: pointer;
 }
-.cometal-field__option:hover { background: var(--cometal-component-option-surface-hover); color: var(--cometal-component-option-content-hover); }
 .cometal-field__option[data-active] { background: var(--cometal-component-option-surface-focus); color: var(--cometal-component-option-content-focus); }
+.cometal-field__option:hover { background: var(--cometal-component-option-surface-hover); color: var(--cometal-component-option-content-hover); }
 .cometal-field__option[data-selected] { background: var(--cometal-component-option-surface-selected); color: var(--cometal-component-option-content-selected); }
 .cometal-field__option[aria-disabled='true'] { background: var(--cometal-component-option-surface-disabled); color: var(--cometal-component-option-content-disabled); cursor: not-allowed; }
 .cometal-field__listbox[data-size='m'] .cometal-field__option { padding-inline: var(--cometal-primitive-spacing-75); font-size: var(--cometal-typography-body-s-default-font-size); line-height: var(--cometal-typography-body-s-default-line-height); }

@@ -267,6 +267,67 @@ export const SelectInteraction: Story = {
       await expect(motion.transitionDuration).toContain('0.16s');
       await expect(motion.transitionDuration).toContain('0.18s');
     }
+    const resolveColorToken = (token: string) => {
+      const probe = canvasElement.ownerDocument.createElement('span');
+      probe.style.color = `var(${token})`;
+      canvasElement.append(probe);
+      const value = getComputedStyle(probe).color;
+      probe.remove();
+      return value;
+    };
+    const optionColors = {
+      selectedSurface: resolveColorToken('--cometal-component-option-surface-selected'),
+      selectedContent: resolveColorToken('--cometal-component-option-content-selected'),
+      disabledSurface: resolveColorToken('--cometal-component-option-surface-disabled'),
+      disabledContent: resolveColorToken('--cometal-component-option-content-disabled'),
+      focusSurface: resolveColorToken('--cometal-component-option-surface-focus'),
+      focusContent: resolveColorToken('--cometal-component-option-content-focus'),
+    };
+    const hoverOption = canvas.getByRole('option', { name: 'Активный' });
+    await userEvent.hover(hoverOption);
+    await expect(hoverOption).toHaveAttribute('data-active');
+    const optionStateRules = Array.from(canvasElement.ownerDocument.styleSheets)
+      .flatMap((styleSheet) => {
+        try {
+          return Array.from(styleSheet.cssRules);
+        } catch {
+          return [];
+        }
+      })
+      .filter((rule): rule is CSSStyleRule => rule instanceof CSSStyleRule && rule.selectorText.startsWith('.cometal-field__option'));
+    const ruleIndex = (selector: string) => optionStateRules.findIndex((rule) => rule.selectorText === selector);
+    const activeIndex = ruleIndex('.cometal-field__option[data-active]');
+    const hoverIndex = ruleIndex('.cometal-field__option:hover');
+    const selectedIndex = ruleIndex('.cometal-field__option[data-selected]');
+    const disabledIndex = ruleIndex(".cometal-field__option[aria-disabled='true']");
+    expect(activeIndex).toBeGreaterThanOrEqual(0);
+    expect(activeIndex).toBeLessThan(hoverIndex);
+    expect(hoverIndex).toBeLessThan(selectedIndex);
+    expect(selectedIndex).toBeLessThan(disabledIndex);
+    expect(optionStateRules[hoverIndex]?.style.background).toBe('var(--cometal-component-option-surface-hover)');
+    expect(optionStateRules[hoverIndex]?.style.color).toBe('var(--cometal-component-option-content-hover)');
+    await userEvent.unhover(hoverOption);
+    await expect(hoverOption).not.toHaveAttribute('data-active');
+
+    const selectedOption = canvas.getByRole('option', { name: 'На согласовании' });
+    await userEvent.hover(selectedOption);
+    expect(getComputedStyle(selectedOption).backgroundColor).toBe(optionColors.selectedSurface);
+    expect(getComputedStyle(selectedOption).color).toBe(optionColors.selectedContent);
+    await userEvent.unhover(selectedOption);
+
+    const disabledOption = canvas.getByRole('option', { name: 'Архивный' });
+    await userEvent.hover(disabledOption);
+    expect(getComputedStyle(disabledOption).backgroundColor).toBe(optionColors.disabledSurface);
+    expect(getComputedStyle(disabledOption).color).toBe(optionColors.disabledContent);
+    await userEvent.unhover(disabledOption);
+
+    trigger.focus();
+    await userEvent.keyboard('{ArrowDown}');
+    const keyboardOption = canvas.getByRole('option', { name: 'Новый' });
+    await expect(keyboardOption).toHaveAttribute('data-active');
+    expect(keyboardOption.matches(':hover')).toBe(false);
+    expect(getComputedStyle(keyboardOption).backgroundColor).toBe(optionColors.focusSurface);
+    expect(getComputedStyle(keyboardOption).color).toBe(optionColors.focusContent);
     await userEvent.click(canvas.getByText('Выбрано: approval'));
     await expect(trigger).toHaveAttribute('aria-expanded', 'false');
   },

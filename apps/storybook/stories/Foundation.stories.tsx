@@ -483,7 +483,10 @@ export const Icons: Story = {
       await expect(canvasElement.querySelectorAll('[aria-live="polite"]')).toHaveLength(1);
       const fields = [...canvasElement.querySelectorAll<HTMLElement>('[data-cometal-component="field"]')];
       await expect(fields).toHaveLength(4);
-      for (const field of fields) await expect(field).toHaveAttribute('data-size', 's');
+      for (const field of fields) {
+        await expect(field).toHaveAttribute('data-size', 'l');
+        expect(field.querySelector<HTMLElement>('.cometal-field__control')?.getBoundingClientRect().height).toBe(48);
+      }
       await expect(selects).toHaveLength(3);
       for (const select of selects) {
         await expect(select).toHaveAttribute('aria-haspopup', 'listbox');
