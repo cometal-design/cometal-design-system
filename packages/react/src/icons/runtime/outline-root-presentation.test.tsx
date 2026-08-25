@@ -57,13 +57,17 @@ describe('Outline and Filled root presentation runtime', () => {
   });
 
   it('renders the three normalized Twemoji assets with intrinsic paint and isolated clip IDs', () => {
-    for (const Icon of [EmojiSmIcon, EmojiMdIcon, EmojiLgIcon]) {
+    for (const [Icon, expectedPaths] of [[EmojiSmIcon, 12], [EmojiMdIcon, 12], [EmojiLgIcon, 14]] as const) {
       const markup = renderToStaticMarkup(<Icon />);
       expect(markup).toMatch(/<svg[^>]*\sfill="none"/);
       expect(markup).toContain('fill="#F4900C"');
       expect(markup).toContain('fill="#FFCC4D"');
       expect(markup).toMatch(/clip-path="url\(#cometal-[^)]+clip0_381_25439\)"/);
-      expect([...markup.matchAll(/<path\b/g)]).toHaveLength(14);
+      expect([...markup.matchAll(/<path\b/g)]).toHaveLength(expectedPaths);
+      if (expectedPaths === 12) {
+        expect(markup).not.toContain('#CCD6DD');
+        expect(markup).not.toContain('#E1E8ED');
+      }
       expect(markup).not.toContain('#F5F5F5');
       expect(markup).not.toMatch(/M-\d+ -7140/);
     }
@@ -77,7 +81,7 @@ describe('Outline and Filled root presentation runtime', () => {
   it('retains the accepted runtime digests after Filled and Feature root preservation', async () => {
     const expected = {
       filled: ['2c4e1ebbc82bef598b6b7add80c4ced144367de8e729af07f77e01824ddd1833', 877],
-      'feature-icons-and-logos': ['4ff3c7922447c208cbbd8aded8f33743a1dd1414d10ebeb65db0b5b06a8774d3', 1058],
+      'feature-icons-and-logos': ['d742eb60dae70e3e1fae7d2f561ee602944c13e5a268341e67c1cb240eeac240', 1058],
     } as const;
     for (const [library, [expectedDigest, expectedCount]] of Object.entries(expected)) {
       const records = iconManifest

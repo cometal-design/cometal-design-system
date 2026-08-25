@@ -1,13 +1,13 @@
 {
   "schemaVersion": "1.0.0",
-  "sourceFingerprintSha256": "832a10dd7e4a597c8b1021dd25734beac2d26ece2724197d3080258d7df6ba36",
+  "sourceFingerprintSha256": "8cde56a1207cc4c4dd73f69840aa2efecf9c3718ffbc140a1c49f8c8f5d89bb7",
   "total": 2810,
   "transformed": {
     "currentColorRecords": 1751,
     "intrinsicRecords": 1059,
     "referencedIdRecords": 621,
     "rootPresentationRecords": 2810,
-    "removedUnreferencedIds": 6082,
+    "removedUnreferencedIds": 6078,
     "strokeAudit": {
       "explicitElementCount": 1640,
       "standardElementCount": 834,
@@ -645,7 +645,7 @@
     {
       "canonicalName": "emoji-icon/md",
       "library": "feature-icons-and-logos",
-      "sourceSha256": "bca211ebd7a7b8a4e87f798c9efcce9bf1425790a6691aafa96dcc2edba88093",
+      "sourceSha256": "be1273cd0ff900858bccb7e7e294bb0d608f322d4405aa2f45d9bcc385fa95ac",
       "paintMode": "intrinsic",
       "rootPresentation": {
         "fill": "none"
@@ -658,14 +658,14 @@
         "preservedElementCount": 0,
         "sourceStrokeWidths": []
       },
-      "removedUnreferencedIds": 23,
+      "removedUnreferencedIds": 21,
       "prefixedReferencedIds": 1,
       "currentColorReplacements": 0
     },
     {
       "canonicalName": "emoji-icon/sm",
       "library": "feature-icons-and-logos",
-      "sourceSha256": "fa8f2a4b2cad03c3cbe9e5a45e06cdbc8f63e50c577ebc39ec691ede34965a60",
+      "sourceSha256": "664d9ab0571cf474915f98e099aae65be40efc343ddfbd9c49d0f7bc52cda57e",
       "paintMode": "intrinsic",
       "rootPresentation": {
         "fill": "none"
@@ -678,7 +678,7 @@
         "preservedElementCount": 0,
         "sourceStrokeWidths": []
       },
-      "removedUnreferencedIds": 23,
+      "removedUnreferencedIds": 21,
       "prefixedReferencedIds": 1,
       "currentColorReplacements": 0
     },

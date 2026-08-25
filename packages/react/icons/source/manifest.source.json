@@ -11,11 +11,11 @@
       "feature-icons-and-logos": "691:15704"
     }
   },
-  "acceptedFingerprintSha256": "832a10dd7e4a597c8b1021dd25734beac2d26ece2724197d3080258d7df6ba36",
+  "acceptedFingerprintSha256": "8cde56a1207cc4c4dd73f69840aa2efecf9c3718ffbc140a1c49f8c8f5d89bb7",
   "paintContract": {
     "schemaVersion": "1.0.0",
     "algorithm": "accepted-figma-variable-bindings-v1",
-    "sha256": "00172d6f46629a6c65ad7848d02dea5dbfe1df91f7978783e3eee5b820392db6"
+    "sha256": "9436f859162676a7eecf1bdb222aba383f25d73c5b089ef176aa4334dc74a6e4"
   },
   "counts": {
     "total": 2810,
@@ -133551,8 +133551,8 @@
       "importPath": "@cometal/react/icons/feature-icons-and-logos/emoji-icon/md",
       "generatedRelativePath": "emoji-icon/md",
       "generatedIdentifier": "Cometal_feature_icons_and_logos_emoji_icon_md_Icon",
-      "sourceSha256": "bca211ebd7a7b8a4e87f798c9efcce9bf1425790a6691aafa96dcc2edba88093",
-      "sourceBytes": 4561,
+      "sourceSha256": "be1273cd0ff900858bccb7e7e294bb0d608f322d4405aa2f45d9bcc385fa95ac",
+      "sourceBytes": 4161,
       "variableBindings": [],
       "viewBox": [
         0,
@@ -133605,8 +133605,8 @@
       "importPath": "@cometal/react/icons/feature-icons-and-logos/emoji-icon/sm",
       "generatedRelativePath": "emoji-icon/sm",
       "generatedIdentifier": "Cometal_feature_icons_and_logos_emoji_icon_sm_Icon",
-      "sourceSha256": "fa8f2a4b2cad03c3cbe9e5a45e06cdbc8f63e50c577ebc39ec691ede34965a60",
-      "sourceBytes": 5245,
+      "sourceSha256": "664d9ab0571cf474915f98e099aae65be40efc343ddfbd9c49d0f7bc52cda57e",
+      "sourceBytes": 4679,
       "variableBindings": [],
       "viewBox": [
         0,
