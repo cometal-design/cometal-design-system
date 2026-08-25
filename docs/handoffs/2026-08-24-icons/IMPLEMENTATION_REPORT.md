@@ -104,6 +104,34 @@ No Storybook public/config file or Portal layout/helper expansion was necessary:
 
 Final `pnpm validate` is rerun after this report and before the bounded commit. The exact commit SHA is recorded in the handoff response because writing it into this file would make the SHA self-referential.
 
+## Outline root-presentation remediation pilot
+
+Baseline: `4be0977f1f72bf555ebf6559cb54427bc9132406` (`CODE_APPROVAL_INVALIDATED_BY_P1`; previous QA was revoked for the lost root presentation defect).
+
+Scope: the architecture-approved 875-record Outline pilot only. This section records implementation evidence, not a renewed code approval or QA verdict.
+
+- A dedicated deterministic opening-`svg` parser accepts exactly `width`, `height`, `viewBox`, `fill`, and `xmlns`. It validates dimensions/viewBox against the manifest, requires the SVG namespace and literal `fill="none"`, and fails on duplicate, missing, malformed, unknown, or unconsumed syntax in generation and freshness-check paths.
+- `CompiledIconDefinition.rootPresentation` is additive and optional. Generation emits `{ fill: 'none' }` for exactly 875 Outline definitions and no Filled or Feature Icons and Logos definition.
+- The shared runtime applies the source-derived root fill before caller props. Explicit `fill` and `style.fill` remain authoritative; public props, refs, SSR, instance IDs, accessibility, exports, and raw sources are unchanged. No runtime `library === 'outline'` fallback exists.
+- Outline catalog cards render native 24×24 and enlarged 64×64 projections from the same resolved lazy component. Filled and Feature Icons and Logos retain the pre-existing single-preview branch.
+- `Outline/profiles-and-users/user-profile-03-02` browser coverage checks both projections for root/computed `fill: none`, actual and computed `stroke-width: 2.8`, and absence of `data-cometal-stroke-scale`; projection bounds and scroll overflow are checked in the 320/768/1440 matrix.
+
+Pilot evidence:
+
+| Check | Result |
+|---|---|
+| Deterministic generation + read-only freshness | PASS; 2810 generated records fresh, 875 Outline root contracts, 0 non-Outline root contracts |
+| Strict parser regression | PASS; 12/12 including unknown, duplicate, missing, malformed, unconsumed, dimension/viewBox/fill/namespace failures |
+| Outline source-to-built-runtime raster | PASS; Chromium DPR1, transparent background, `currentColor #292929`, exact RGBA at 24×24 and 96×96 for 875/875, no skips |
+| Filled runtime digest | PASS; 877 records, `097b1bcb289b9c9bf884bd75db0ba04d9b661afd181268dd7ac2a57fc70375e5` |
+| Feature Icons and Logos runtime digest | PASS; 1058 records, `aeb293e0aa0199c27325f1066723d78fd580fd160443642e10e623d6bf8a8a63` |
+| React type/unit/runtime | PASS; 14 files, 60 tests, including all 2810 direct renders and non-Outline digest invariants |
+| Storybook 320/768/1440 browser + a11y matrix | PASS; 42 files and 243 tests, including Outline projections, bounds/overflow, one aggregate live region, focus and cleanup |
+| Default Storybook browser + a11y | PASS; 14 files and 81 tests |
+| Full repository validation | PASS; sources, CSS variables, secrets, workspace typecheck, unit/provenance/Storybook tests, React/Storybook/docs builds, 2810 dist imports and bundle boundaries |
+
+Raw SVGs, the `d4a210b39244ccf6a09489e28c1e82858ec3efc7921f50fe28c7b48dd6d64c0a` source fingerprint, Filled/Feature definitions and components, generated manifest/loaders, tokens, and lockfile have no candidate diff. Final clean-HEAD assembled-site provenance is checked after the bounded commit so it can resolve the non-self-referential candidate SHA.
+
 ## Local review surfaces
 
 From the candidate worktree:

@@ -15,6 +15,7 @@ export const Icon = forwardRef<SVGSVGElement, IconRuntimeProps>(function Icon(
   const [minX, minY, viewBoxWidth, viewBoxHeight] = definition.viewBox;
   return (
     <svg
+      fill={definition.rootPresentation?.fill}
       {...props}
       ref={ref}
       width={width ?? definition.intrinsicWidth ?? viewBoxWidth}

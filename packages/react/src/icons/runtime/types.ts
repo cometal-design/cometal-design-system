@@ -35,6 +35,7 @@ export interface IconManifestMetadata {
 export interface CompiledIconDefinition extends IconManifestRecord {
   readonly body: string;
   readonly hasReferencedIds: boolean;
+  readonly rootPresentation?: Readonly<{ fill: 'none' }>;
 }
 
 type UnsafeSvgProp =

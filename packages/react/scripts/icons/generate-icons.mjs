@@ -2,6 +2,7 @@ import { createHash } from 'node:crypto';
 import { copyFile, mkdir, readFile, readdir, rm, stat, writeFile } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { parseSvgRootPresentation } from './svg-root-presentation.mjs';
 
 const packageRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '../..');
 const repositoryRoot = path.resolve(packageRoot, '../..');
@@ -140,6 +141,7 @@ function validateSvgEnvelope(svg, record) {
 
 function compileSvg(svg, record) {
   validateSvgEnvelope(svg, record);
+  const rootPresentation = record.library === 'outline' ? parseSvgRootPresentation(svg, record) : undefined;
   const root = svg.match(/^<svg\b[^>]*>([\s\S]*)<\/svg>\s*$/);
   if (!root) fail(`cannot extract SVG body: ${record.canonicalName}`);
   let body = root[1].trim();
@@ -211,6 +213,7 @@ function compileSvg(svg, record) {
   return {
     body,
     hasReferencedIds: references.size > 0,
+    rootPresentation,
     paintMode: canUseCurrentColor ? 'currentColor' : 'intrinsic',
     paintBindingKey: paintBinding?.variable.key,
     strokeAudit: {
@@ -306,7 +309,9 @@ function relativeModule(fromFile, targetFile) {
 function definitionSource(record, definitionFile, compiled) {
   const metadata = publicRecord(record, compiled);
   const typesFile = path.join(packageRoot, 'src/icons/runtime/types.ts');
-  return `import type { CompiledIconDefinition } from '${relativeModule(definitionFile, typesFile)}';\n\nconst definition = Object.freeze(${JSON.stringify({ ...metadata, body: compiled.body, hasReferencedIds: compiled.hasReferencedIds })} as const) satisfies CompiledIconDefinition;\n\nexport default definition;\n`;
+  const definition = { ...metadata, body: compiled.body, hasReferencedIds: compiled.hasReferencedIds };
+  if (compiled.rootPresentation) definition.rootPresentation = compiled.rootPresentation;
+  return `import type { CompiledIconDefinition } from '${relativeModule(definitionFile, typesFile)}';\n\nconst definition = Object.freeze(${JSON.stringify(definition)} as const) satisfies CompiledIconDefinition;\n\nexport default definition;\n`;
 }
 
 function componentSource(record, componentFile, definitionFile, compiled) {
@@ -343,6 +348,7 @@ async function expectedGeneratedFiles(sourceManifest) {
       sourceSha256: record.sourceSha256,
       paintMode: compiled.paintMode,
       paintBindingKey: compiled.paintBindingKey,
+      rootPresentation: compiled.rootPresentation,
       strokeAudit: compiled.strokeAudit,
       ...compiled.transformations,
     });
@@ -367,6 +373,7 @@ async function expectedGeneratedFiles(sourceManifest) {
       currentColorRecords: report.filter((item) => item.paintMode === 'currentColor').length,
       intrinsicRecords: report.filter((item) => item.paintMode === 'intrinsic').length,
       referencedIdRecords: report.filter((item) => item.prefixedReferencedIds > 0).length,
+      rootPresentationRecords: report.filter((item) => item.rootPresentation).length,
       removedUnreferencedIds: report.reduce((sum, item) => sum + item.removedUnreferencedIds, 0),
       strokeAudit: {
         explicitElementCount: report.reduce((sum, item) => sum + item.strokeAudit.explicitElementCount, 0),

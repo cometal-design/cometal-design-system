@@ -496,15 +496,39 @@ export const Icons: Story = {
       await expect(await canvas.findByText('Outline/profiles-and-users/user-profile-03-02')).toBeVisible();
       const maskPreview = await waitForLoadedPreview('Outline/profiles-and-users/user-profile-03-02');
       await expect(maskPreview).toHaveAttribute('data-preview-state', 'loaded');
-      const maskPath = maskPreview.querySelector('path[stroke-width="2.8"]');
-      await expect(maskPath).not.toBeNull();
-      await expect(Number.parseFloat(getComputedStyle(maskPath!).strokeWidth)).toBe(2.8);
-      await expect(maskPath).not.toHaveAttribute('data-cometal-stroke-scale');
+      const projections = [...maskPreview.querySelectorAll<HTMLElement>('[data-outline-projection]')];
+      await expect(projections).toHaveLength(2);
+      await expect(projections.map((projection) => projection.dataset.outlineProjection)).toEqual(['24', '64']);
+      for (const projection of projections) {
+        const expectedSize = Number(projection.dataset.outlineProjection);
+        const svg = projection.querySelector('svg');
+        const maskPath = projection.querySelector('path[stroke-width="2.8"]');
+        await expect(svg).not.toBeNull();
+        await expect(svg).toHaveAttribute('width', String(expectedSize));
+        await expect(svg).toHaveAttribute('height', String(expectedSize));
+        await expect(svg).toHaveAttribute('fill', 'none');
+        await expect(getComputedStyle(svg!).fill).toBe('none');
+        await expect(maskPath).not.toBeNull();
+        await expect(getComputedStyle(maskPath!).fill).toBe('none');
+        await expect(Number.parseFloat(getComputedStyle(maskPath!).strokeWidth)).toBe(2.8);
+        await expect(maskPath).not.toHaveAttribute('data-cometal-stroke-scale');
+        const previewBounds = maskPreview.getBoundingClientRect();
+        const projectionBounds = svg!.getBoundingClientRect();
+        expect(projectionBounds.left).toBeGreaterThanOrEqual(previewBounds.left);
+        expect(projectionBounds.right).toBeLessThanOrEqual(previewBounds.right);
+        expect(projectionBounds.top).toBeGreaterThanOrEqual(previewBounds.top);
+        expect(projectionBounds.bottom).toBeLessThanOrEqual(previewBounds.bottom);
+      }
+      expect(maskPreview.scrollWidth).toBeLessThanOrEqual(maskPreview.clientWidth);
+      expect(maskPreview.scrollHeight).toBeLessThanOrEqual(maskPreview.clientHeight);
 
       await userEvent.clear(search);
       await userEvent.type(search, 'payment/lg/Visa');
       await expect(await canvas.findByText('payment/lg/Visa')).toBeVisible();
       await expect(canvas.getAllByRole('listitem')).toHaveLength(1);
+      const visaPreview = await waitForLoadedPreview('payment/lg/Visa');
+      await expect(visaPreview.querySelectorAll('svg')).toHaveLength(1);
+      await expect(visaPreview.querySelector('[data-outline-projection]')).toBeNull();
       await expect(canvas.getByRole('button', { name: 'Копировать имя payment/lg/Visa' })).toBeVisible();
       await expect(canvas.getByRole('button', { name: 'Копировать import payment/lg/Visa' })).toBeVisible();
 

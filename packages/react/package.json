@@ -36,7 +36,7 @@
     "generate:icons": "node ./scripts/icons/generate-icons.mjs",
     "validate:icons": "node ./scripts/icons/validate-icons.mjs",
     "validate:icons:dist": "node ./scripts/icons/validate-icons.mjs --dist && node ./scripts/icons/validate-bundles.mjs",
-    "test": "vitest run --project unit",
+    "test": "node --test ./scripts/icons/svg-root-presentation.test.mjs && vitest run --project unit",
     "typecheck": "tsc --noEmit"
   },
   "peerDependencies": {
