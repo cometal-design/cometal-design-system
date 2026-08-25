@@ -4,11 +4,13 @@
 
 Icons are a foundation library in the local delivery candidate, not 2,810 independent registry components. Visual and identity authority remains Figma DS Core: page `381:25439`, artboards Outline `691:9685`, Filled `691:12877`, and Feature Icons and Logos `691:15704`.
 
-The accepted source contains 2,810 standalone components: 875 Outline, 877 Filled and 1,058 Feature Icons and Logos. Its immutable fingerprint is `d4a210b39244ccf6a09489e28c1e82858ec3efc7921f50fe28c7b48dd6d64c0a`.
+The normalized source contains 2,810 standalone components: 875 Outline, 877 Filled and 1,058 Feature Icons and Logos. Its corpus fingerprint is `87caaa283983e042491e2b0beb6bb8cc54a8aeaad75b1b9599e66d06c2199a58`; the Outline fingerprint is `4143ba6593eb6f852c091552d83264ae73f1609a1d7679b4734eddd8c7a724ed`.
 
 ## Identity and use
 
 `canonicalName` is the exact Figma component name, retained byte-for-byte in the source manifest, display and primary copy action. It is not an accessibility label and is not silently renamed, deduplicated, redrawn or substituted. Direct imports use generated `@cometal/react/icons/<path>` subpaths; the catalog is available separately at `@cometal/react/icons/catalog`.
+
+The normalized Outline record `profiles-and-users/user-profile-03-02` keeps component `700:15590`, vector `700:15589`, its two 1.4 token-bound paths and no-mask structure. Only its stroke alignment changed from `INSIDE` to `CENTER`; SVG hash `897a2fb485e9e42472da312a1d567681fa766853b86f83b9c5927e6951d717b5` is the candidate source evidence.
 
 The local candidate exposes the same catalog in Storybook `foundation--icons` and portal `/foundation/icons/catalog/`. It uses canonical-name search and filters, 120-item pages, visible wrapping selectable names, exact-name copy feedback, and a recoverable clipboard-error state.
 
@@ -21,6 +23,6 @@ The local candidate exposes the same catalog in Storybook `foundation--icons` an
 
 ## Status and next gate
 
-Initial implementation/code parent: `e528f77d85ed14cdc2decfac3bc3e0996c8cd5da` on `agent/icons-library-implementation-2026-08-25`. The exact current review candidate belongs in the external Orchestrator delivery manifest, not in this self-committing note. This remains a local implementation candidate only. `CODE_APPROVED`, `QA_PASSED`, user acceptance, publication and production verification remain pending.
+Normalized implementation parent: `bb500bd2daf5921dd2f7c6a3a8a1d497a1c2b844` on `agent/icons-library-implementation-2026-08-25`. The exact current review candidate belongs in the external Orchestrator delivery manifest, not in this self-committing note. This remains a local implementation candidate only. `CODE_APPROVED`, `QA_PASSED`, user acceptance, publication and production verification remain pending.
 
 Related: [[Index]], `specifications/foundations/icons.md`, `docs/handoffs/2026-08-24-icons/IMPLEMENTATION_REPORT.md`.

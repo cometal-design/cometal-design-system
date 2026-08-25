@@ -7,10 +7,12 @@ Status: `IMPLEMENTATION_CANDIDATE` on the local delivery candidate only. This is
 - Figma DS Core `KKNGucImxFAtQLBhPy8tLs`, Icons page `381:25439`.
 - Canonical artboards: Outline `691:9685`, Filled `691:12877`, Feature Icons and Logos `691:15704`.
 - Accepted handoff: `docs/handoffs/2026-08-24-icons/`; `2810/2810` standalone components, no component sets.
-- Immutable handoff fingerprint: `d4a210b39244ccf6a09489e28c1e82858ec3efc7921f50fe28c7b48dd6d64c0a`.
-- Initial implementation/code parent: `e528f77d85ed14cdc2decfac3bc3e0996c8cd5da` on `agent/icons-library-implementation-2026-08-25`.
+- Normalized corpus fingerprint: `87caaa283983e042491e2b0beb6bb8cc54a8aeaad75b1b9599e66d06c2199a58`; Outline fingerprint: `4143ba6593eb6f852c091552d83264ae73f1609a1d7679b4734eddd8c7a724ed`.
+- Normalized implementation parent: `bb500bd2daf5921dd2f7c6a3a8a1d497a1c2b844` on `agent/icons-library-implementation-2026-08-25`.
 
 The exact Figma `canonicalName` is the source identity. It remains byte-for-byte visible and copyable; search may normalize separately. Do not create 2,810 component registry records, synthesize a stable component ID, rename, deduplicate, redraw, or substitute records.
+
+The normalized record is `Outline/profiles-and-users/user-profile-03-02`: component `700:15590`, vector `700:15589`. Its stroke alignment changed only from `INSIDE` to `CENTER`; the two token-bound 1.4 paths, geometry and identity remain unchanged. The normalized SVG is `897a2fb485e9e42472da312a1d567681fa766853b86f83b9c5927e6951d717b5`; it has no mask or IDs and compiles to two scalable `currentColor` paths.
 
 ## Local candidate boundary
 
