@@ -10,7 +10,7 @@ const direct = await readFile(directPath, 'utf8');
 const catalogPath = path.join(packageRoot, 'dist/icons/catalog.js');
 const catalog = await readFile(catalogPath, 'utf8');
 const sourceManifest = JSON.parse(await readFile(path.join(packageRoot, 'icons/source/manifest.source.json'), 'utf8'));
-const fingerprint = 'd4a210b39244ccf6a09489e28c1e82858ec3efc7921f50fe28c7b48dd6d64c0a';
+const fingerprint = '87caaa283983e042491e2b0beb6bb8cc54a8aeaad75b1b9599e66d06c2199a58';
 
 if (root.includes(fingerprint) || root.includes('payment/lg/Visa') || root.includes('iconLoaders')) errors.push('root entry contains icon corpus or loader metadata');
 if (direct.includes('payment/lg/Visa') || direct.includes('iconLoaders')) errors.push('direct entry contains unrelated icon or catalog loader');

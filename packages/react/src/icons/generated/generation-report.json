@@ -1,19 +1,19 @@
 {
   "schemaVersion": "1.0.0",
-  "sourceFingerprintSha256": "d4a210b39244ccf6a09489e28c1e82858ec3efc7921f50fe28c7b48dd6d64c0a",
+  "sourceFingerprintSha256": "87caaa283983e042491e2b0beb6bb8cc54a8aeaad75b1b9599e66d06c2199a58",
   "total": 2810,
   "transformed": {
     "currentColorRecords": 1751,
     "intrinsicRecords": 1059,
-    "referencedIdRecords": 619,
+    "referencedIdRecords": 618,
     "rootPresentationRecords": 875,
     "removedUnreferencedIds": 6019,
     "strokeAudit": {
       "explicitElementCount": 1640,
-      "standardElementCount": 832,
-      "nonstandardElementCount": 808,
-      "scalableElementCount": 827,
-      "preservedElementCount": 813
+      "standardElementCount": 834,
+      "nonstandardElementCount": 806,
+      "scalableElementCount": 829,
+      "preservedElementCount": 811
     }
   },
   "records": [
@@ -45392,7 +45392,7 @@
     {
       "canonicalName": "Outline/profiles-and-users/user-profile-03-02",
       "library": "outline",
-      "sourceSha256": "e279bbca38064b0fd18148b94fbe8a73dc73922ca7edb78ddbec30f9c7075557",
+      "sourceSha256": "897a2fb485e9e42472da312a1d567681fa766853b86f83b9c5927e6951d717b5",
       "paintMode": "currentColor",
       "paintBindingKey": "33b752bc5c0bd5a01503962cf5d1295698f2cebf",
       "rootPresentation": {
@@ -45400,19 +45400,19 @@
       },
       "strokeAudit": {
         "explicitElementCount": 2,
-        "standardElementCount": 0,
-        "nonstandardElementCount": 2,
-        "scalableElementCount": 0,
-        "preservedElementCount": 2,
+        "standardElementCount": 2,
+        "nonstandardElementCount": 0,
+        "scalableElementCount": 2,
+        "preservedElementCount": 0,
         "sourceStrokeWidths": [
           {
-            "width": "2.8",
+            "width": "1.4",
             "count": 2
           }
         ]
       },
       "removedUnreferencedIds": 2,
-      "prefixedReferencedIds": 1,
+      "prefixedReferencedIds": 0,
       "currentColorReplacements": 2
     },
     {

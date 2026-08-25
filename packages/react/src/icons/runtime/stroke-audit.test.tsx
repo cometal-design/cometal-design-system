@@ -9,10 +9,10 @@ describe('generated icon stroke audit', () => {
     expect(generationReport.records).toHaveLength(2810);
     expect(audit).toEqual({
       explicitElementCount: 1640,
-      standardElementCount: 832,
-      nonstandardElementCount: 808,
-      scalableElementCount: 827,
-      preservedElementCount: 813,
+      standardElementCount: 834,
+      nonstandardElementCount: 806,
+      scalableElementCount: 829,
+      preservedElementCount: 811,
     });
     for (const record of generationReport.records) {
       const widths = record.strokeAudit.sourceStrokeWidths.reduce((sum, item) => sum + item.count, 0);
@@ -23,19 +23,22 @@ describe('generated icon stroke audit', () => {
     }
   });
 
-  it('retains the 2.8 mask construction for user-profile-03-02', () => {
+  it('uses the accepted scalable 1.4 paths for user-profile-03-02', () => {
     const record = generationReport.records.find((item) => item.canonicalName === 'Outline/profiles-and-users/user-profile-03-02');
     expect(record?.strokeAudit).toEqual({
       explicitElementCount: 2,
-      standardElementCount: 0,
-      nonstandardElementCount: 2,
-      scalableElementCount: 0,
-      preservedElementCount: 2,
-      sourceStrokeWidths: [{ width: '2.8', count: 2 }],
+      standardElementCount: 2,
+      nonstandardElementCount: 0,
+      scalableElementCount: 2,
+      preservedElementCount: 0,
+      sourceStrokeWidths: [{ width: '1.4', count: 2 }],
     });
-    expect(profileDefinition.strokeScaling).toBe('preserve-source');
+    expect(profileDefinition.strokeScaling).toBe('marked-elements');
+    expect(profileDefinition.hasReferencedIds).toBe(false);
     const html = renderToStaticMarkup(<ProfileIcon />);
-    expect(html.match(/stroke-width="2.8"/g)).toHaveLength(2);
-    expect(html).not.toContain('data-cometal-stroke-scale');
+    expect(html.match(/stroke-width="1.4"/g)).toHaveLength(2);
+    expect(html.match(/data-cometal-stroke-scale=""/g)).toHaveLength(2);
+    expect(html).not.toMatch(/\b(?:id|mask|clip-path|filter)="/);
+    expect(html).not.toContain('url(#');
   });
 });

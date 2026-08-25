@@ -76,7 +76,7 @@ async function rasterBatch(page, batch) {
   }, { items: batch, scales: sizes });
 }
 
-if (iconManifestMetadata.sourceFingerprintSha256 !== 'd4a210b39244ccf6a09489e28c1e82858ec3efc7921f50fe28c7b48dd6d64c0a') {
+if (iconManifestMetadata.sourceFingerprintSha256 !== '87caaa283983e042491e2b0beb6bb8cc54a8aeaad75b1b9599e66d06c2199a58') {
   fail(`unexpected source fingerprint ${iconManifestMetadata.sourceFingerprintSha256}`);
 }
 if (outlineRecords.length !== 875) fail(`expected 875 Outline records, received ${outlineRecords.length}`);

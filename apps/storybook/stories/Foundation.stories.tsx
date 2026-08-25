@@ -494,33 +494,40 @@ export const Icons: Story = {
       await userEvent.clear(search);
       await userEvent.type(search, 'Outline/profiles-and-users/user-profile-03-02');
       await expect(await canvas.findByText('Outline/profiles-and-users/user-profile-03-02')).toBeVisible();
-      const maskPreview = await waitForLoadedPreview('Outline/profiles-and-users/user-profile-03-02');
-      await expect(maskPreview).toHaveAttribute('data-preview-state', 'loaded');
-      const projections = [...maskPreview.querySelectorAll<HTMLElement>('[data-outline-projection]')];
+      const normalizedPreview = await waitForLoadedPreview('Outline/profiles-and-users/user-profile-03-02');
+      await expect(normalizedPreview).toHaveAttribute('data-preview-state', 'loaded');
+      const projections = [...normalizedPreview.querySelectorAll<HTMLElement>('[data-outline-projection]')];
       await expect(projections).toHaveLength(2);
       await expect(projections.map((projection) => projection.dataset.outlineProjection)).toEqual(['24', '64']);
       for (const projection of projections) {
         const expectedSize = Number(projection.dataset.outlineProjection);
         const svg = projection.querySelector('svg');
-        const maskPath = projection.querySelector('path[stroke-width="2.8"]');
+        const paths = [...projection.querySelectorAll<SVGPathElement>('path')];
         await expect(svg).not.toBeNull();
         await expect(svg).toHaveAttribute('width', String(expectedSize));
         await expect(svg).toHaveAttribute('height', String(expectedSize));
         await expect(svg).toHaveAttribute('fill', 'none');
         await expect(getComputedStyle(svg!).fill).toBe('none');
-        await expect(maskPath).not.toBeNull();
-        await expect(getComputedStyle(maskPath!).fill).toBe('none');
-        await expect(Number.parseFloat(getComputedStyle(maskPath!).strokeWidth)).toBe(2.8);
-        await expect(maskPath).not.toHaveAttribute('data-cometal-stroke-scale');
-        const previewBounds = maskPreview.getBoundingClientRect();
+        await expect(paths).toHaveLength(2);
+        for (const path of paths) {
+          await expect(path).toHaveAttribute('stroke-width', '1.4');
+          await expect(path).toHaveAttribute('data-cometal-stroke-scale', '');
+          await expect(getComputedStyle(path).fill).toBe('none');
+          await expect(Number.parseFloat(getComputedStyle(path).strokeWidth)).toBe(1.4);
+        }
+        await expect(svg!.querySelector('mask')).toBeNull();
+        await expect(svg!.querySelector('[id]')).toBeNull();
+        await expect(svg!.querySelector('[mask], [clip-path], [filter]')).toBeNull();
+        expect(svg!.outerHTML).not.toContain('url(#');
+        const previewBounds = normalizedPreview.getBoundingClientRect();
         const projectionBounds = svg!.getBoundingClientRect();
         expect(projectionBounds.left).toBeGreaterThanOrEqual(previewBounds.left);
         expect(projectionBounds.right).toBeLessThanOrEqual(previewBounds.right);
         expect(projectionBounds.top).toBeGreaterThanOrEqual(previewBounds.top);
         expect(projectionBounds.bottom).toBeLessThanOrEqual(previewBounds.bottom);
       }
-      expect(maskPreview.scrollWidth).toBeLessThanOrEqual(maskPreview.clientWidth);
-      expect(maskPreview.scrollHeight).toBeLessThanOrEqual(maskPreview.clientHeight);
+      expect(normalizedPreview.scrollWidth).toBeLessThanOrEqual(normalizedPreview.clientWidth);
+      expect(normalizedPreview.scrollHeight).toBeLessThanOrEqual(normalizedPreview.clientHeight);
 
       await userEvent.clear(search);
       await userEvent.type(search, 'payment/lg/Visa');
