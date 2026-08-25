@@ -61,16 +61,16 @@ export function IconCatalog({ className }: IconCatalogProps) {
   const results = useMemo(() => filterIconRecords(iconManifest, search, filters), [search, filters]);
   const filterOptions = useMemo(() => getIconCatalogFilterOptions(iconManifest, search, filters), [search, filters]);
   const libraryOptions = useMemo<SelectOption[]>(() => [
-    { value: '', label: `Все (${iconManifest.length})` },
-    ...filterOptions.libraries.map((option) => ({ value: option.value, label: `${option.value} (${option.count})` })),
+    { value: '', label: 'Все' },
+    ...filterOptions.libraries.map((option) => ({ value: option.value, label: option.value })),
   ], [filterOptions.libraries]);
   const familyOptions = useMemo<SelectOption[]>(() => [
     { value: '', label: 'Все' },
-    ...filterOptions.families.map((option) => ({ value: option.value, label: `${option.value} (${option.count})` })),
+    ...filterOptions.families.map((option) => ({ value: option.value, label: option.value })),
   ], [filterOptions.families]);
   const categoryOptions = useMemo<SelectOption[]>(() => [
     { value: '', label: 'Все' },
-    ...filterOptions.categories.map((option) => ({ value: option.value, label: `${option.value} (${option.count})` })),
+    ...filterOptions.categories.map((option) => ({ value: option.value, label: option.value })),
   ], [filterOptions.categories]);
   const pagination = useMemo(() => paginateIconRecords(results, page), [results, page]);
   const resultAnnouncement = `Найдено ${results.length.toLocaleString('ru-RU')}. Страница ${pagination.page} из ${pagination.pageCount}.`;

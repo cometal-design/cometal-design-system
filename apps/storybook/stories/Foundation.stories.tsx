@@ -497,23 +497,23 @@ export const Icons: Story = {
       await expect(searchIcon).toHaveAttribute('data-cometal-icon-library', 'outline');
 
       await moveToPage(2);
-      await selectFilter('Библиотека', 'outline (875)');
+      await selectFilter('Библиотека', 'outline');
       await expect(currentPage()).toBe(1);
-      await selectFilter('Семейство', /^general \(/);
-      await selectFilter('Категория', /^general \(/);
-      await selectFilter('Библиотека', /^filled \(/);
+      await selectFilter('Семейство', 'general');
+      await selectFilter('Категория', 'general');
+      await selectFilter('Библиотека', 'filled');
       await expect(canvas.getByRole('combobox', { name: 'Семейство' })).toHaveTextContent('Все');
       await expect(canvas.getByRole('combobox', { name: 'Категория' })).toHaveTextContent('Все');
-      await selectFilter('Библиотека', 'outline (875)');
-      await selectFilter('Семейство', /^general \(/);
-      await selectFilter('Категория', /^general \(/);
+      await selectFilter('Библиотека', 'outline');
+      await selectFilter('Семейство', 'general');
+      await selectFilter('Категория', 'general');
       await selectFilter('Семейство', 'Все');
       await expect(canvas.getByRole('combobox', { name: 'Категория' })).toHaveTextContent('Все');
-      await selectFilter('Семейство', /^alerts \(/);
-      await selectFilter('Категория', /^alerts \(/);
+      await selectFilter('Семейство', 'alerts');
+      await selectFilter('Категория', 'alerts');
       await selectFilter('Категория', 'Все');
       await selectFilter('Семейство', 'Все');
-      await selectFilter('Библиотека', `Все (${iconManifestMetadata.total})`);
+      await selectFilter('Библиотека', 'Все');
       await waitFor(() => expect(canvas.getAllByRole('listitem')).toHaveLength(120));
 
       const actionButtons = [...canvasElement.querySelectorAll<HTMLButtonElement>('.cometal-icon-catalog__actions button')];

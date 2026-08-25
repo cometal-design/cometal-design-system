@@ -41,6 +41,24 @@
   min-width: 0;
 }
 
+.cometal-icon-catalog__controls .cometal-field__listbox {
+  right: 0;
+  left: auto;
+  width: max-content;
+  min-width: 100%;
+  max-width: calc(100vw - (var(--cometal-primitive-spacing-100) * 2));
+}
+
+.cometal-icon-catalog__controls .cometal-field__option {
+  width: 100%;
+}
+
+.cometal-icon-catalog__controls .cometal-field__option > span {
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+
 .cometal-icon-catalog__feedback {
   min-height: var(--cometal-primitive-size-20);
   margin: calc(-1 * var(--cometal-primitive-spacing-75)) 0;
