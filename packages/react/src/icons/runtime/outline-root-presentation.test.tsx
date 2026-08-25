@@ -6,6 +6,9 @@ import FilledIcon, { definition as filledDefinition } from '../generated/compone
 import FilledStrokeIcon, { definition as filledStrokeDefinition } from '../generated/components/filled/charts/bar-chart-square-02';
 import FeatureStrokeIcon, { definition as featureStrokeDefinition } from '../generated/components/feature-icons-and-logos/file-icon/file';
 import BrandIcon, { definition as brandDefinition } from '../generated/components/feature-icons-and-logos/payment/lg/visa';
+import EmojiLgIcon from '../generated/components/feature-icons-and-logos/emoji-icon/lg';
+import EmojiMdIcon from '../generated/components/feature-icons-and-logos/emoji-icon/md';
+import EmojiSmIcon from '../generated/components/feature-icons-and-logos/emoji-icon/sm';
 import { iconLoaders } from '../generated/loaders';
 import { iconManifest } from '../generated/manifest';
 
@@ -53,10 +56,25 @@ describe('Outline and Filled root presentation runtime', () => {
     expect(brand).not.toContain('currentColor');
   });
 
+  it('renders the three normalized Twemoji assets with intrinsic paint and isolated clip IDs', () => {
+    for (const Icon of [EmojiSmIcon, EmojiMdIcon, EmojiLgIcon]) {
+      const markup = renderToStaticMarkup(<Icon />);
+      expect(markup).toMatch(/<svg[^>]*\sfill="none"/);
+      expect(markup).toContain('fill="#F4900C"');
+      expect(markup).toContain('fill="#FFCC4D"');
+      expect(markup).toMatch(/clip-path="url\(#cometal-[^)]+clip0_381_25439\)"/);
+    }
+
+    const repeated = renderToStaticMarkup(<><EmojiSmIcon /><EmojiSmIcon /></>);
+    const ids = [...repeated.matchAll(/<clipPath id="([^"]+)"/g)].map((match) => match[1]);
+    expect(ids).toHaveLength(2);
+    expect(new Set(ids).size).toBe(2);
+  });
+
   it('retains the accepted runtime digests after Filled and Feature root preservation', async () => {
     const expected = {
       filled: ['2c4e1ebbc82bef598b6b7add80c4ced144367de8e729af07f77e01824ddd1833', 877],
-      'feature-icons-and-logos': ['05624038dbc15ad436f935e9a9416943ea7a4fdc2b24b81b4f2123bb5e7126e8', 1058],
+      'feature-icons-and-logos': ['c313b5f6fd8aee04ea918ea0a282f3b60e9276bfdf02c3d40972e8b204e4cc06', 1058],
     } as const;
     for (const [library, [expectedDigest, expectedCount]] of Object.entries(expected)) {
       const records = iconManifest

@@ -1,13 +1,13 @@
 {
   "schemaVersion": "1.0.0",
-  "sourceFingerprintSha256": "87caaa283983e042491e2b0beb6bb8cc54a8aeaad75b1b9599e66d06c2199a58",
+  "sourceFingerprintSha256": "510fb7514e9f5643ec25bb2ec22bb34c94fe38c147d76d676e15a2881b7d22ea",
   "total": 2810,
   "transformed": {
     "currentColorRecords": 1751,
     "intrinsicRecords": 1059,
-    "referencedIdRecords": 618,
+    "referencedIdRecords": 621,
     "rootPresentationRecords": 2810,
-    "removedUnreferencedIds": 6019,
+    "removedUnreferencedIds": 6082,
     "strokeAudit": {
       "explicitElementCount": 1640,
       "standardElementCount": 834,
@@ -625,7 +625,7 @@
     {
       "canonicalName": "emoji-icon/lg",
       "library": "feature-icons-and-logos",
-      "sourceSha256": "e45aeca734b3756efc644cc57d7d4c049366a607ca89dd521502a57bfa223f93",
+      "sourceSha256": "c27c9d2460193935ad478a8b3f0cd899a9e2f2e77b1c40ec6b5f4dffd9cba110",
       "paintMode": "intrinsic",
       "rootPresentation": {
         "fill": "none"
@@ -638,14 +638,14 @@
         "preservedElementCount": 0,
         "sourceStrokeWidths": []
       },
-      "removedUnreferencedIds": 2,
-      "prefixedReferencedIds": 0,
+      "removedUnreferencedIds": 23,
+      "prefixedReferencedIds": 1,
       "currentColorReplacements": 0
     },
     {
       "canonicalName": "emoji-icon/md",
       "library": "feature-icons-and-logos",
-      "sourceSha256": "6fd440681a5a0034fae4789cfc82842f75d6c89323bb8a3a184fac47909e2a52",
+      "sourceSha256": "a23f09cc383e2c8161acc79f1562b2d03e2bd4a81100718010c0e796d8ced998",
       "paintMode": "intrinsic",
       "rootPresentation": {
         "fill": "none"
@@ -658,14 +658,14 @@
         "preservedElementCount": 0,
         "sourceStrokeWidths": []
       },
-      "removedUnreferencedIds": 2,
-      "prefixedReferencedIds": 0,
+      "removedUnreferencedIds": 23,
+      "prefixedReferencedIds": 1,
       "currentColorReplacements": 0
     },
     {
       "canonicalName": "emoji-icon/sm",
       "library": "feature-icons-and-logos",
-      "sourceSha256": "0b2d38680b5f63b9200a68a9c2dc857ab44857c097d60791c3e500d415486231",
+      "sourceSha256": "c9dca9860f76bf8c353228e8c81fd5fd7000de8426b49047b58ca810ab568565",
       "paintMode": "intrinsic",
       "rootPresentation": {
         "fill": "none"
@@ -678,8 +678,8 @@
         "preservedElementCount": 0,
         "sourceStrokeWidths": []
       },
-      "removedUnreferencedIds": 2,
-      "prefixedReferencedIds": 0,
+      "removedUnreferencedIds": 23,
+      "prefixedReferencedIds": 1,
       "currentColorReplacements": 0
     },
     {

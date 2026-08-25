@@ -10,8 +10,8 @@ const sourceRoot = path.join(packageRoot, 'icons/source');
 const sourceManifestPath = path.join(sourceRoot, 'manifest.source.json');
 const generatedRoot = path.join(packageRoot, 'src/icons/generated');
 const tokenProjectionPath = path.join(repositoryRoot, 'packages/tokens/src/icons.inventory.json');
-const acceptedFingerprint = '87caaa283983e042491e2b0beb6bb8cc54a8aeaad75b1b9599e66d06c2199a58';
-const acceptedPaintContractFingerprint = 'e79df22d862fcc5e6e7f1b6659e93a80986aab4c429b7c7b79285b0b9e4eef78';
+const acceptedFingerprint = '510fb7514e9f5643ec25bb2ec22bb34c94fe38c147d76d676e15a2881b7d22ea';
+const acceptedPaintContractFingerprint = '951e63483ea7bdb41fdd516ab9bb085ee17a99b0c494c1238add8be831227451';
 const approvedPaintBindings = Object.freeze({
   outline: Object.freeze({
     key: '33b752bc5c0bd5a01503962cf5d1295698f2cebf',

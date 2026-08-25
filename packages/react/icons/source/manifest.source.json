@@ -11,11 +11,11 @@
       "feature-icons-and-logos": "691:15704"
     }
   },
-  "acceptedFingerprintSha256": "87caaa283983e042491e2b0beb6bb8cc54a8aeaad75b1b9599e66d06c2199a58",
+  "acceptedFingerprintSha256": "510fb7514e9f5643ec25bb2ec22bb34c94fe38c147d76d676e15a2881b7d22ea",
   "paintContract": {
     "schemaVersion": "1.0.0",
     "algorithm": "accepted-figma-variable-bindings-v1",
-    "sha256": "e79df22d862fcc5e6e7f1b6659e93a80986aab4c429b7c7b79285b0b9e4eef78"
+    "sha256": "951e63483ea7bdb41fdd516ab9bb085ee17a99b0c494c1238add8be831227451"
   },
   "counts": {
     "total": 2810,
@@ -133551,8 +133551,8 @@
       "importPath": "@cometal/react/icons/feature-icons-and-logos/emoji-icon/md",
       "generatedRelativePath": "emoji-icon/md",
       "generatedIdentifier": "Cometal_feature_icons_and_logos_emoji_icon_md_Icon",
-      "sourceSha256": "6fd440681a5a0034fae4789cfc82842f75d6c89323bb8a3a184fac47909e2a52",
-      "sourceBytes": 212,
+      "sourceSha256": "a23f09cc383e2c8161acc79f1562b2d03e2bd4a81100718010c0e796d8ced998",
+      "sourceBytes": 4813,
       "variableBindings": [],
       "viewBox": [
         0,
@@ -133578,8 +133578,8 @@
       "importPath": "@cometal/react/icons/feature-icons-and-logos/emoji-icon/lg",
       "generatedRelativePath": "emoji-icon/lg",
       "generatedIdentifier": "Cometal_feature_icons_and_logos_emoji_icon_lg_Icon",
-      "sourceSha256": "e45aeca734b3756efc644cc57d7d4c049366a607ca89dd521502a57bfa223f93",
-      "sourceBytes": 212,
+      "sourceSha256": "c27c9d2460193935ad478a8b3f0cd899a9e2f2e77b1c40ec6b5f4dffd9cba110",
+      "sourceBytes": 5434,
       "variableBindings": [],
       "viewBox": [
         0,
@@ -133605,8 +133605,8 @@
       "importPath": "@cometal/react/icons/feature-icons-and-logos/emoji-icon/sm",
       "generatedRelativePath": "emoji-icon/sm",
       "generatedIdentifier": "Cometal_feature_icons_and_logos_emoji_icon_sm_Icon",
-      "sourceSha256": "0b2d38680b5f63b9200a68a9c2dc857ab44857c097d60791c3e500d415486231",
-      "sourceBytes": 212,
+      "sourceSha256": "c9dca9860f76bf8c353228e8c81fd5fd7000de8426b49047b58ca810ab568565",
+      "sourceBytes": 5497,
       "variableBindings": [],
       "viewBox": [
         0,
