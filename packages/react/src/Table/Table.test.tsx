@@ -4,6 +4,7 @@ import {
   Table,
   TableBody,
   TableCell,
+  TableContextAction,
   TableDragCell,
   TableDragHandle,
   TableFileCell,
@@ -19,6 +20,7 @@ import {
   TableSummaryCell,
   getNextTableSortDirection,
 } from './Table';
+import { ContextMenuItem } from '../ContextMenu/ContextMenu';
 
 describe('Table', () => {
   it('keeps file content and the exact icon swap in the DOM across densities', () => {
@@ -85,7 +87,29 @@ describe('Table', () => {
     expect(html).toContain('aria-checked="mixed"');
     expect(html).toContain('data-row-selected="true"');
     expect(html).toContain('Переместить строку 1');
+    expect(html).toContain('cometal-table__selection-cell');
+    expect(html).toContain('data-cometal-table-icon="drag-handle"');
+    expect(html).toContain('d="M6 9H18M6 15H18"');
+    expect(html).toContain('stroke-width="1.4"');
     expect(html).toContain('data-summary-kind="empty"');
+  });
+
+  it('renders canonical currentColor icons without data URL masks', () => {
+    const html = renderToStaticMarkup(
+      <Table aria-label="Иконки таблицы">
+        <TableHead><TableRow>
+          <TableHeaderCell sort="ascending">Ascending</TableHeaderCell>
+          <TableHeaderCell sort="descending" action={<TableContextAction label="Действия" menu={<ContextMenuItem>Скрыть</ContextMenuItem>} />}>Descending</TableHeaderCell>
+        </TableRow></TableHead>
+      </Table>,
+    );
+
+    expect(html).toContain('data-cometal-icon-library="outline"');
+    expect(html).toContain('data-cometal-icon-library="filled"');
+    expect(html).toContain('aria-haspopup="menu"');
+    expect(html).toContain('aria-expanded="false"');
+    expect(html).not.toContain('mask-image');
+    expect(html).not.toContain('data:image/svg+xml');
   });
 
   it('cycles sorting in the approved order', () => {
@@ -101,6 +125,9 @@ describe('Table', () => {
     expect(html).toContain('aria-label="Пагинация таблицы"');
     expect(html).toContain('aria-current="page"');
     expect(html).toContain('aria-label="Предыдущая страница"');
+    expect(html).toContain('cometal-table__paginator-icon');
+    expect(html).toContain('width="24" height="24"');
+    expect(html).toContain('data-cometal-icon-library="outline"');
     expect(html).toContain('aria-label="Строк на странице"');
   });
 });

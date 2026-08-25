@@ -1,6 +1,9 @@
 export const tableFigmaSources = {
   sources: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2814-8351',
   cells: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-9497',
+  selectionCell: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-9766',
+  contextAction: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2482-5611',
+  dragHandle: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2778-8288',
   paginator: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-10882',
   headers: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-10891',
   mainComponents: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-9824',
@@ -26,12 +29,12 @@ export const tableDocumentationSections = [
 export const tableSourceFamilies = [
   ['read-cell', 'Read Cell', 80, tableFigmaSources.cells],
   ['edit-cell', 'Edit Cell', 56, tableFigmaSources.cells],
-  ['selection-cell', 'Selection Cell', 16, tableFigmaSources.cells],
+  ['selection-cell', 'Selection Cell', 16, tableFigmaSources.selectionCell],
   ['index-cell', 'Index Cell', 12, tableFigmaSources.cells],
   ['drag-handle-cell', 'Drag Handle Cell', 10, tableFigmaSources.cells],
   ['summary-cell', 'Summary Cell', 6, tableFigmaSources.cells],
   ['column-header', 'Column Header', 6, tableFigmaSources.headers],
-  ['context-action', 'Context Action', 3, tableFigmaSources.headers],
+  ['context-action', 'Context Action', 3, tableFigmaSources.contextAction],
   ['selection-header', 'Selection Header', 18, tableFigmaSources.headers],
   ['filter-row', 'Filter Row', 10, tableFigmaSources.headers],
   ['read-column', 'Read Column', 8, tableFigmaSources.mainComponents],
@@ -44,8 +47,15 @@ export const tableSourceFamilies = [
 
 export const tableStandaloneSources = [
   ['file-content', 'File Content', tableFigmaSources.cells],
-  ['drag-handle-icon', 'Drag Handle Icon', tableFigmaSources.cells],
+  ['drag-handle-icon', 'Drag Handle Icon', tableFigmaSources.dragHandle],
   ['paginator', 'Paginator', tableFigmaSources.paginator],
   ['index-header', 'Index Header', tableFigmaSources.headers],
   ['drag-handle-header', 'Drag Handle Header', tableFigmaSources.headers],
+] as const;
+
+export const tablePrimitiveGeometry = [
+  ['Context Action', '24×24 hit area · 16×16 Filled/general/dot-horizontal-filled · Default, Hover, Open и focus', tableFigmaSources.contextAction],
+  ['Selection Cell', '48×48 Comfortable · 40×40 Compact · Checkbox L 20×20 по центру обеих осей', tableFigmaSources.selectionCell],
+  ['Drag Handle', '24×24 · две линии по 12px на y=9 и y=15 · stroke 1.4 с round caps', tableFigmaSources.dragHandle],
+  ['Paginator', '40×40 controls · Outline arrows 24×24 · gap 4 · current/disabled/ellipsis', tableFigmaSources.paginator],
 ] as const;

@@ -1,7 +1,6 @@
 import { forwardRef } from 'react';
 import type {
   ButtonHTMLAttributes,
-  CSSProperties,
   HTMLAttributes,
   ReactNode,
   TableHTMLAttributes,
@@ -10,12 +9,11 @@ import type {
 } from 'react';
 import { Checkbox } from '../Selection/Selection';
 import { ContextMenu } from '../ContextMenu/ContextMenu';
-import sortAscendingAsset from './assets/sort-ascending.svg';
-import sortDescendingAsset from './assets/sort-descending.svg';
-import contextActionAsset from './assets/context-action.svg';
-import dragHandleAsset from './assets/drag-handle.svg';
-import previousAsset from './assets/paginator-previous.svg';
-import nextAsset from './assets/paginator-next.svg';
+import DotHorizontalFilledIcon from '../icons/generated/components/filled/general/dot-horizontal-filled';
+import ArrowLeftIcon from '../icons/generated/components/outline/arrows/arrow-left';
+import ArrowRightIcon from '../icons/generated/components/outline/arrows/arrow-right';
+import ArrowUpSmallIcon from '../icons/generated/components/outline/arrows/arrow-up-sm';
+import ArrowDownSmallIcon from '../icons/generated/components/outline/arrows/down-arrow-sm';
 import wordFileAsset from './assets/file-word.svg';
 import excelFileAsset from './assets/file-excel.svg';
 import genericFileAsset from './assets/file-generic.svg';
@@ -108,7 +106,8 @@ export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellP
     const nextSort = getNextTableSortDirection(sort);
     const content = (
       <>
-        {sort !== 'none' ? <TableIcon asset={sort === 'ascending' ? sortAscendingAsset : sortDescendingAsset} className="cometal-table__sort-icon" /> : null}
+        {sort === 'ascending' ? <ArrowUpSmallIcon className="cometal-table__asset-icon cometal-table__sort-icon" width={16} height={16} /> : null}
+        {sort === 'descending' ? <ArrowDownSmallIcon className="cometal-table__asset-icon cometal-table__sort-icon" width={16} height={16} /> : null}
         <span className="cometal-table__header-label">{children}</span>
       </>
     );
@@ -205,9 +204,9 @@ export interface TableSelectionCellProps extends Omit<TableCellProps, 'children'
 }
 
 export const TableSelectionCell = forwardRef<HTMLTableCellElement, TableSelectionCellProps>(
-  function TableSelectionCell({ label, checked, defaultChecked, onCheckedChange, disabled = false, ...props }, ref) {
+  function TableSelectionCell({ label, checked, defaultChecked, onCheckedChange, disabled = false, className, ...props }, ref) {
     return (
-      <TableCell {...props} ref={ref} align="center">
+      <TableCell {...props} ref={ref} align="center" className={['cometal-table__selection-cell', className].filter(Boolean).join(' ')}>
         <Checkbox className="cometal-table__checkbox" label={label} size="l" checked={checked} defaultChecked={defaultChecked} disabled={disabled} onChange={(event) => onCheckedChange?.(event.currentTarget.checked)} />
       </TableCell>
     );
@@ -226,7 +225,7 @@ export interface TableDragHandleProps extends ButtonHTMLAttributes<HTMLButtonEle
 
 export const TableDragHandle = forwardRef<HTMLButtonElement, TableDragHandleProps>(
   function TableDragHandle({ rowLabel, className, ...props }, ref) {
-    return <button {...props} ref={ref} type="button" className={['cometal-table__drag-handle', className].filter(Boolean).join(' ')} aria-label={`Переместить строку ${rowLabel}`}><TableIcon asset={dragHandleAsset} /></button>;
+    return <button {...props} ref={ref} type="button" className={['cometal-table__drag-handle', className].filter(Boolean).join(' ')} aria-label={`Переместить строку ${rowLabel}`}><TableDragHandleIcon /></button>;
   },
 );
 
@@ -247,7 +246,7 @@ export interface TableContextActionProps extends Omit<ButtonHTMLAttributes<HTMLB
 export const TableContextAction = forwardRef<HTMLButtonElement, TableContextActionProps>(
   function TableContextAction({ menu, label = 'Открыть действия колонки', menuLabel = 'Действия колонки', defaultOpen = false, className, ...props }, ref) {
     return (
-      <ContextMenu aria-label={menuLabel} defaultOpen={defaultOpen} trigger={<button {...props} ref={ref} className={['cometal-table__context-action', className].filter(Boolean).join(' ')} type="button" aria-label={label}><TableIcon asset={contextActionAsset} /></button>}>
+      <ContextMenu aria-label={menuLabel} defaultOpen={defaultOpen} trigger={<button {...props} ref={ref} className={['cometal-table__context-action', className].filter(Boolean).join(' ')} type="button" aria-label={label}><DotHorizontalFilledIcon className="cometal-table__asset-icon cometal-table__context-icon" width={16} height={16} /></button>}>
         {menu}
       </ContextMenu>
     );
@@ -330,17 +329,21 @@ export const TablePaginator = forwardRef<HTMLElement, TablePaginatorProps>(funct
     <nav {...props} ref={ref} className={['cometal-table__paginator', className].filter(Boolean).join(' ')} aria-label={ariaLabel}>
       <div className="cometal-table__paginator-spacer" aria-hidden="true" />
       <div className="cometal-table__paginator-controls">
-        <button type="button" className="cometal-table__page-control" disabled={safePage === 1} onClick={() => onPageChange(safePage - 1)} aria-label="Предыдущая страница"><TableIcon asset={previousAsset} /></button>
+        <button type="button" className="cometal-table__page-control" disabled={safePage === 1} onClick={() => onPageChange(safePage - 1)} aria-label="Предыдущая страница"><ArrowLeftIcon className="cometal-table__asset-icon cometal-table__paginator-icon" width={24} height={24} /></button>
         {getPaginatorItems(safePage, safePageCount).map((item) => typeof item === 'number' ? (
           <button key={item} type="button" className="cometal-table__page-control" data-current={item === safePage || undefined} aria-current={item === safePage ? 'page' : undefined} onClick={() => onPageChange(item)} aria-label={`Страница ${item}`}>{item}</button>
         ) : <span key={item} className="cometal-table__page-ellipsis" aria-hidden="true">…</span>)}
-        <button type="button" className="cometal-table__page-control" disabled={safePage === safePageCount} onClick={() => onPageChange(safePage + 1)} aria-label="Следующая страница"><TableIcon asset={nextAsset} /></button>
+        <button type="button" className="cometal-table__page-control" disabled={safePage === safePageCount} onClick={() => onPageChange(safePage + 1)} aria-label="Следующая страница"><ArrowRightIcon className="cometal-table__asset-icon cometal-table__paginator-icon" width={24} height={24} /></button>
       </div>
       <label className="cometal-table__page-size"><span>Строк</span><select value={pageSize} onChange={(event) => onPageSizeChange?.(Number(event.currentTarget.value))} disabled={!onPageSizeChange} aria-label="Строк на странице">{pageSizeOptions.map((option) => <option key={option} value={option}>{option}</option>)}</select></label>
     </nav>
   );
 });
 
-function TableIcon({ asset, className }: { asset: string; className?: string }) {
-  return <span className={['cometal-table__asset-icon', className].filter(Boolean).join(' ')} style={{ maskImage: `url(${asset})` } as CSSProperties} aria-hidden="true" />;
+function TableDragHandleIcon() {
+  return (
+    <svg className="cometal-table__asset-icon cometal-table__drag-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-cometal-table-icon="drag-handle" aria-hidden="true" focusable="false">
+      <path d="M6 9H18M6 15H18" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
+    </svg>
+  );
 }

@@ -29,7 +29,7 @@ function ColumnMenu() {
 }
 function HeaderAction({ column, visualState }: { column: string; visualState?: 'hover' | 'open' }) {
   const stateClass = visualState === 'hover' ? 'ds-table-context-force-hover' : visualState === 'open' ? 'ds-table-context-force-open' : undefined;
-  return <TableContextAction className={stateClass} label={`Действия колонки ${column}`} menuLabel={`Действия колонки ${column}`} menu={<ColumnMenu />} />;
+  return <TableContextAction className={stateClass} defaultOpen={visualState === 'open'} label={`Действия колонки ${column}`} menuLabel={`Действия колонки ${column}`} menu={<ColumnMenu />} />;
 }
 
 function SourceTable({ density = 'comfortable', filters = true, ariaLabel = 'Позиции закупки' }: { density?: TableDensity; filters?: boolean; ariaLabel?: string }) {
@@ -44,7 +44,7 @@ function SourceTable({ density = 'comfortable', filters = true, ariaLabel = 'П�
           <TableHeaderCell kind="index">№</TableHeaderCell>
           <TableSelectionHeader selectedCount={selected.length} totalCount={sourceRows.length} onSelectionChange={toggleAll} />
           <TableHeaderCell style={{ width: 156 }} sort={sort} onSortChange={setSort} action={<HeaderAction column="Позиция" />}>Позиция</TableHeaderCell>
-          <TableHeaderCell style={{ width: 300 }} action={<HeaderAction column="Наименование" />}>Наименование</TableHeaderCell>
+          <TableHeaderCell action={<HeaderAction column="Наименование" />}>Наименование</TableHeaderCell>
           <TableHeaderCell style={{ width: 136 }} action={<HeaderAction column="Количество" />}>Количество</TableHeaderCell>
           <TableHeaderCell style={{ width: 160 }} action={<HeaderAction column="Статус" />}>Статус</TableHeaderCell>
           <TableHeaderCell style={{ width: 220 }} action={<HeaderAction column="Файл" />}>Файл</TableHeaderCell>
@@ -170,10 +170,95 @@ function Playground() {
 const meta = { title: 'Components/Table', component: Table, args: { 'aria-label': 'Table example' }, parameters: { layout: 'fullscreen', controls: { disable: true } } } satisfies Meta<typeof Table>;
 export default meta;
 type Story = StoryObj<typeof meta>;
-export const Overview: Story = { name: 'Обзор', render: () => <OverviewPage />, play: async ({ canvasElement }) => { const canvas = within(canvasElement); const table = canvas.getByRole('table', { name: 'Позиции закупки' }); await expect(within(table).getAllByRole('row')).toHaveLength(7); await expect(within(table).getByRole('row', { name: /Фильтры таблицы/i })).toBeVisible(); await expect(canvas.getByRole('navigation', { name: 'Пагинация таблицы' })).toBeVisible(); } };
+export const Overview: Story = {
+  name: 'Обзор',
+  render: () => <OverviewPage />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const table = canvas.getByRole('table', { name: 'Позиции закупки' });
+    await expect(within(table).getAllByRole('row')).toHaveLength(7);
+    await expect(within(table).getByRole('row', { name: /Фильтры таблицы/i })).toBeVisible();
+    await expect(canvas.getByRole('navigation', { name: 'Пагинация таблицы' })).toBeVisible();
+
+    const contextAction = canvas.getByRole('button', { name: 'Действия колонки Позиция' });
+    const contextIcon = contextAction.querySelector('svg');
+    const contextGlyphs = Array.from(contextAction.querySelectorAll('path'));
+    const dragIcon = canvas.getByRole('button', { name: 'Переместить строку 1' }).querySelector('svg');
+    await expect(contextAction.getBoundingClientRect().width).toBe(24);
+    await expect(contextAction.getBoundingClientRect().height).toBe(24);
+    await expect(contextIcon?.getBoundingClientRect().width).toBe(16);
+    await expect(contextIcon?.getBoundingClientRect().height).toBe(16);
+    const firstDot = contextGlyphs[0]?.getBoundingClientRect();
+    const lastDot = contextGlyphs[2]?.getBoundingClientRect();
+    await expect(Math.round(((lastDot?.right ?? 0) - (firstDot?.left ?? 0)) * 1000) / 1000).toBe(12.667);
+    await expect(Math.round((firstDot?.height ?? 0) * 1000) / 1000).toBe(3.333);
+    await expect(dragIcon).toHaveAttribute('data-cometal-table-icon', 'drag-handle');
+    await expect(dragIcon?.querySelector('path')).toHaveAttribute('d', 'M6 9H18M6 15H18');
+    await expect(canvasElement.querySelectorAll('[data-cometal-icon]').length).toBeGreaterThan(0);
+    await expect(canvasElement.querySelectorAll('.cometal-selection').length).toBeGreaterThan(0);
+  },
+};
 export const Cells: Story = { name: 'Кирпичики/Cells', render: () => <CellMatrix /> };
-export const Headers: Story = { name: 'Кирпичики/Headers', render: () => <HeaderMatrix />, play: async ({ canvasElement }) => { const canvas = within(canvasElement); const sortButton = canvas.getByRole('button', { name: /Сортировать Позиция/ }); await userEvent.click(sortButton); await expect(canvas.getByRole('columnheader', { name: /Позиция/ })).toHaveAttribute('aria-sort', 'ascending'); } };
+export const Headers: Story = {
+  name: 'Кирпичики/Headers',
+  render: () => <HeaderMatrix />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const sortButton = canvas.getByRole('button', { name: /Сортировать Позиция/ });
+    await userEvent.click(sortButton);
+    await expect(canvas.getByRole('columnheader', { name: /Позиция/ })).toHaveAttribute('aria-sort', 'ascending');
+
+    const contextAction = canvas.getByRole('button', { name: 'Действия колонки Позиция' });
+    await expect(contextAction).toHaveAttribute('aria-expanded', 'false');
+    await userEvent.click(contextAction);
+    await expect(contextAction).toHaveAttribute('aria-expanded', 'true');
+    const documentCanvas = within(canvasElement.ownerDocument.body);
+    await expect(documentCanvas.getByRole('menu', { name: 'Действия колонки Позиция' })).toBeVisible();
+    await userEvent.keyboard('{Escape}');
+    await expect(contextAction).toHaveAttribute('aria-expanded', 'false');
+    await expect(contextAction).toHaveFocus();
+  },
+};
 export const Columns: Story = { name: 'Кирпичики/Columns', render: () => <ColumnMatrix /> };
-export const Paginator: Story = { name: 'Кирпичики/Paginator', render: () => <PaginatorDocumentation />, play: async ({ canvasElement }) => { const canvas = within(canvasElement); const paginator = within(canvas.getByRole('navigation', { name: 'Интерактивная пагинация таблицы' })); await userEvent.click(paginator.getByRole('button', { name: 'Следующая страница' })); await expect(paginator.getByRole('button', { name: 'Страница 2' })).toHaveAttribute('aria-current', 'page'); } };
-export const Density: Story = { name: 'Плотность', render: () => <div className="ds-story-canvas ds-table-density-pair"><section><h2>Comfortable · 48px</h2><SourceTable density="comfortable" filters={false} ariaLabel="Позиции закупки · Comfortable" /></section><section><h2>Compact · 40px</h2><SourceTable density="compact" filters={false} ariaLabel="Позиции закупки · Compact" /></section></div> };
+export const Paginator: Story = {
+  name: 'Кирпичики/Paginator',
+  render: () => <PaginatorDocumentation />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const navigation = canvas.getByRole('navigation', { name: 'Интерактивная пагинация таблицы' });
+    const paginator = within(navigation);
+    const previous = paginator.getByRole('button', { name: 'Предыдущая страница' });
+    const previousIcon = previous.querySelector('svg');
+    const controls = navigation.querySelector('.cometal-table__paginator-controls');
+    await expect(previous.getBoundingClientRect().width).toBe(40);
+    await expect(previous.getBoundingClientRect().height).toBe(40);
+    await expect(previousIcon?.getBoundingClientRect().width).toBe(24);
+    await expect(previousIcon?.getBoundingClientRect().height).toBe(24);
+    await expect(controls ? getComputedStyle(controls).gap : '').toBe('4px');
+    await userEvent.click(paginator.getByRole('button', { name: 'Следующая страница' }));
+    await expect(paginator.getByRole('button', { name: 'Страница 2' })).toHaveAttribute('aria-current', 'page');
+  },
+};
+export const Density: Story = {
+  name: 'Плотность',
+  render: () => <div className="ds-story-canvas ds-table-density-pair"><section><h2>Comfortable · 48px</h2><SourceTable density="comfortable" filters={false} ariaLabel="Позиции закупки · Comfortable" /></section><section><h2>Compact · 40px</h2><SourceTable density="compact" filters={false} ariaLabel="Позиции закупки · Compact" /></section></div>,
+  play: async ({ canvasElement }) => {
+    const cells = Array.from(canvasElement.querySelectorAll<HTMLElement>('tbody .cometal-table__selection-cell'));
+    const firstByDensity = [cells[0], cells[4]];
+    for (const [index, cell] of firstByDensity.entries()) {
+      const expected = index === 0 ? 48 : 40;
+      const control = cell.querySelector<HTMLElement>('.cometal-selection__control');
+      const content = cell.querySelector<HTMLElement>('.cometal-table__cell-content');
+      const cellRect = cell.getBoundingClientRect();
+      const controlRect = control?.getBoundingClientRect();
+      const contentRect = content?.getBoundingClientRect();
+      await expect(cellRect.width).toBe(expected);
+      await expect(cellRect.height).toBe(expected);
+      await expect(controlRect?.width).toBe(20);
+      await expect(controlRect?.height).toBe(20);
+      await expect(Math.round((((controlRect?.left ?? 0) + (controlRect?.width ?? 0) / 2) - ((contentRect?.left ?? 0) + (contentRect?.width ?? 0) / 2)) * 100) / 100).toBe(0);
+      await expect(Math.round((((controlRect?.top ?? 0) + (controlRect?.height ?? 0) / 2) - ((contentRect?.top ?? 0) + (contentRect?.height ?? 0) / 2)) * 100) / 100).toBe(0);
+    }
+  },
+};
 export const TablePlayground: Story = { name: 'Playground', render: () => <Playground />, play: async ({ canvasElement }) => { const canvas = within(canvasElement); await userEvent.click(canvas.getByRole('button', { name: 'Compact' })); await expect(canvas.getByRole('table', { name: 'Позиции закупки' })).toHaveAttribute('data-density', 'compact'); } };

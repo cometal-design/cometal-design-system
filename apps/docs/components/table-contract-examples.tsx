@@ -97,7 +97,7 @@ function HeaderMenu() {
 
 function HeaderAction({ label, visualState }: { label: string; visualState?: 'hover' | 'open' }) {
   const className = visualState === 'hover' ? 'docs-table-context-force-hover' : visualState === 'open' ? 'docs-table-context-force-open' : undefined;
-  return <TableContextAction className={className} label={`Действия колонки ${label}`} menuLabel={`Действия колонки ${label}`} menu={<HeaderMenu />} />;
+  return <TableContextAction className={className} defaultOpen={visualState === 'open'} label={`Действия колонки ${label}`} menuLabel={`Действия колонки ${label}`} menu={<HeaderMenu />} />;
 }
 
 export function TableHeadersContract() {

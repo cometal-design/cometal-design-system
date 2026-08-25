@@ -1,6 +1,9 @@
 export const tableFigmaSources = {
   sources: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2814-8351',
   cells: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-9497',
+  selectionCell: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-9766',
+  contextAction: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2482-5611',
+  dragHandle: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2778-8288',
   paginator: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-10882',
   headers: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-10891',
   mainComponents: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-9824',
@@ -24,12 +27,12 @@ export const tableDocumentationSections = [
 export const tableSourceFamilies = [
   { id: 'read-cell', label: 'Read Cell', variants: 80, source: tableFigmaSources.cells },
   { id: 'edit-cell', label: 'Edit Cell', variants: 56, source: tableFigmaSources.cells },
-  { id: 'selection-cell', label: 'Selection Cell', variants: 16, source: tableFigmaSources.cells },
+  { id: 'selection-cell', label: 'Selection Cell', variants: 16, source: tableFigmaSources.selectionCell },
   { id: 'index-cell', label: 'Index Cell', variants: 12, source: tableFigmaSources.cells },
   { id: 'drag-handle-cell', label: 'Drag Handle Cell', variants: 10, source: tableFigmaSources.cells },
   { id: 'summary-cell', label: 'Summary Cell', variants: 6, source: tableFigmaSources.cells },
   { id: 'column-header', label: 'Column Header', variants: 6, source: tableFigmaSources.headers },
-  { id: 'context-action', label: 'Context Action', variants: 3, source: tableFigmaSources.headers },
+  { id: 'context-action', label: 'Context Action', variants: 3, source: tableFigmaSources.contextAction },
   { id: 'selection-header', label: 'Selection Header', variants: 18, source: tableFigmaSources.headers },
   { id: 'filter-row', label: 'Filter Row', variants: 10, source: tableFigmaSources.headers },
   { id: 'read-column', label: 'Read Column', variants: 8, source: tableFigmaSources.mainComponents },
@@ -42,7 +45,7 @@ export const tableSourceFamilies = [
 
 export const tableStandaloneSources = [
   { id: 'file-content', label: 'File Content', source: tableFigmaSources.cells },
-  { id: 'drag-handle-icon', label: 'Drag Handle Icon', source: tableFigmaSources.cells },
+  { id: 'drag-handle-icon', label: 'Drag Handle Icon', source: tableFigmaSources.dragHandle },
   { id: 'paginator', label: 'Paginator', source: tableFigmaSources.paginator },
   { id: 'index-header', label: 'Index Header', source: tableFigmaSources.headers },
   { id: 'drag-handle-header', label: 'Drag Handle Header', source: tableFigmaSources.headers },
