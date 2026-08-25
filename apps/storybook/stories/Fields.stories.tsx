@@ -88,11 +88,11 @@ function FieldsDocumentation() {
         <article><header><code>TextField</code><span>input</span></header><div><TextField label="Название поля" placeholder="Введите значение" helperText="Подсказка или описание" /><TextField label="Название поля" mode="read" readValue="ООО Северсталь" /></div></article>
         <article><header><code>TextArea</code><span>textarea</span></header><div><TextArea label="Комментарий" placeholder="Введите комментарий" rows={4} /><TextArea label="Комментарий" mode="read" readValue={<>Условия поставки согласованы.<br />Оплата в течение 10 дней.</>} /></div></article>
         <article><header><code>Select</code><span>select</span></header><div><Select label="Статус" options={options} defaultValue="" /><Select label="Статус" options={options} mode="read" readValue="Активный" /></div></article>
-        <article><header><code>Combobox</code><span>input + listbox pattern</span></header><div><Combobox label="Контрагент" placeholder="Найдите значение" /><Combobox label="Контрагент" mode="read" readValue="ООО Северсталь" /></div></article>
+        <article><header><code>Combobox</code><span>input + listbox pattern</span></header><div><Combobox label="Контрагент" placeholder="Найдите значение" defaultValue="Северсталь" /><Combobox label="Контрагент" mode="read" readValue="ООО Северсталь" /></div></article>
         <article><header><code>MultiSelect</code><span>button + listbox pattern</span></header><div><MultiSelect label="Контрагенты" selectedValues={['Северсталь', 'НЛМК', 'ММК']} /><MultiSelect label="Контрагенты" selectedValues={['Северсталь', 'НЛМК', 'ММК']} mode="read" /></div></article>
       </div></section>
       <section className="ds-component-section"><div className="ds-component-section__intro"><span>02</span><div><h2>Размеры однострочных controls</h2><p>Text Field, Select и Combobox используют общую шкалу S 32px, M 40px и L 48px. Text Area и Multi Select остаются в M/L.</p></div></div><div className="ds-field-size-grid">
-        {fieldSizes.map((size) => <article key={size}><code>{size.toUpperCase()} · {size === 'l' ? '48' : size === 'm' ? '40' : '32'}px</code><TextField label="Название поля" placeholder="Введите значение" size={size} /><Select label="Статус" options={options} size={size} /><Combobox label="Контрагент" placeholder="Найдите значение" size={size} options={contractorOptions} /></article>)}
+        {fieldSizes.map((size) => <article key={size}><code>{size.toUpperCase()} · {size === 'l' ? '48' : size === 'm' ? '40' : '32'}px</code><TextField label="Название поля" placeholder="Введите значение" size={size} /><Select label="Статус" options={options} size={size} /><Combobox label="Контрагент" placeholder="Найдите значение" size={size} options={contractorOptions} defaultValue="Северсталь" /></article>)}
       </div></section>
       <section className="ds-component-section"><div className="ds-component-section__intro"><span>03</span><div><h2>Состояния Text Field</h2><p>Focus остаётся независимым от filled/error и появляется от клавиатуры.</p></div></div><div className="ds-field-states"><article><code>Default</code><TextField label="Название поля" placeholder="Введите значение" /></article><article><code>Filled</code><TextField label="Название поля" defaultValue="Договор поставки" /></article><article><code>Error</code><TextField label="Название поля" defaultValue="123" error="Проверьте значение" /></article><article><code>Disabled</code><TextField label="Название поля" disabled placeholder="Недоступно" /></article></div></section>
       <section className="ds-component-section"><div className="ds-component-section__intro"><span>04</span><div><h2>API и границы</h2><p>Active Select, Combobox и Multi Select включают тот же Listbox/Option слой, который утверждён внутри Figma component sets.</p></div></div><div className="ds-rule-list"><article><code>size</code><p><b>TextField, Select, Combobox:</b> l / m / s. <b>TextArea, MultiSelect:</b> l / m.</p></article><article><code>mode</code><p><b>edit</b> использует интерактивный control; <b>read</b> выводит обычный текст.</p></article><article><code>error</code><p>Меняет border/supporting text и выставляет <b>aria-invalid</b>.</p></article><article><code>form semantics</code><p>Text controls нативны; Select сохраняет скрытый native select для form-value, а видимый trigger/Listbox обеспечивает точный визуал и keyboard behavior.</p></article></div></section>
@@ -178,7 +178,15 @@ export const SizingContract: Story = {
       });
       await expect(renderedStrokeWidths.every((width) => Math.abs(width - 1.4) < 0.01)).toBe(true);
       const clearStroke = row?.querySelector<SVGElement>('.cometal-field__clear [data-cometal-stroke-scale]');
+      const clear = row?.querySelector<HTMLElement>('.cometal-field__clear');
+      const clearIcon = clear?.querySelector<SVGSVGElement>('svg[data-cometal-icon]');
       await expect(clearStroke).not.toBeNull();
+      await expect(clear?.getBoundingClientRect().width).toBe(20);
+      await expect(clear?.getBoundingClientRect().height).toBe(20);
+      await expect(clearIcon?.getBoundingClientRect().width).toBe(16);
+      await expect(clearIcon?.getBoundingClientRect().height).toBe(16);
+      await expect(clearStroke?.getBoundingClientRect().width).toBe(8);
+      await expect(clearStroke?.getBoundingClientRect().height).toBe(8);
       await expect(getComputedStyle(clearStroke!).vectorEffect).toBe('non-scaling-stroke');
       await expect(strokeNodes.filter((node) => node !== clearStroke).every((node) => getComputedStyle(node).vectorEffect === 'none')).toBe(true);
     }
@@ -187,7 +195,24 @@ export const SizingContract: Story = {
 export const TextFieldPlayground: Story = { name: 'Text Field', play: async ({ canvasElement }) => { const canvas = within(canvasElement); await expect(canvas.getByRole('textbox', { name: 'Название поля' })).toBeEnabled(); } };
 export const TextAreaPlayground: Story = { name: 'Text Area', render: () => <TextArea label="Комментарий" placeholder="Введите комментарий" rows={4} />, play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('textbox', { name: 'Комментарий' })).toBeInTheDocument(); } };
 export const SelectPlayground: Story = { name: 'Select', render: () => <Select label="Статус" options={options} defaultValue="" />, play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('combobox', { name: 'Статус' })).toHaveAttribute('aria-haspopup', 'listbox'); } };
-export const ComboboxPlayground: Story = { name: 'Combobox', render: () => <Combobox label="Контрагент" placeholder="Найдите значение" />, play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('combobox', { name: 'Контрагент' })).toHaveAttribute('aria-expanded', 'false'); } };
+export const ComboboxPlayground: Story = {
+  name: 'Combobox',
+  render: () => <Combobox label="Контрагент" placeholder="Найдите значение" defaultValue="Северсталь" />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByRole('combobox', { name: 'Контрагент' })).toHaveAttribute('aria-expanded', 'false');
+    const clear = canvas.getByRole('button', { name: 'Очистить поле' });
+    const icon = clear.querySelector<SVGSVGElement>('svg[data-cometal-icon]')!;
+    const path = icon.querySelector<SVGPathElement>('path')!;
+    await expect(clear.getBoundingClientRect().width).toBe(20);
+    await expect(clear.getBoundingClientRect().height).toBe(20);
+    await expect(icon.getBoundingClientRect().width).toBe(16);
+    await expect(icon.getBoundingClientRect().height).toBe(16);
+    await expect(path.getBoundingClientRect().width).toBe(8);
+    await expect(path.getBoundingClientRect().height).toBe(8);
+    await expect(Number.parseFloat(getComputedStyle(path).strokeWidth)).toBe(1.4);
+  },
+};
 export const MultiSelectPlayground: Story = {
   name: 'Multi Select',
   render: () => <MultiSelect label="Контрагенты" selectedValues={['Северсталь','НЛМК','ММК']} />,

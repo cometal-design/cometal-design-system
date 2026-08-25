@@ -48,7 +48,7 @@ export function ComponentCatalogPreview({ id }: { id: string }) {
   if (id === 'input.date-picker') return <DatePicker label="Дата поставки" defaultValue="2026-07-15" />;
   if (id === 'input.text-area') return <TextArea label="Комментарий" placeholder="Введите комментарий" rows={3} />;
   if (id === 'input.select') return <Select label="Статус" options={statusOptions} defaultValue="" />;
-  if (id === 'input.combobox') return <Combobox label="Контрагент" placeholder="Найдите значение" options={contractorOptions} />;
+  if (id === 'input.combobox') return <Combobox label="Контрагент" placeholder="Найдите значение" options={contractorOptions} defaultValue="Северсталь" />;
   if (id === 'input.multi-select') {
     return (
       <MultiSelect

@@ -102,7 +102,7 @@
 .cometal-field[data-invalid] .cometal-field__supporting { color: var(--cometal-component-input-helper-error); }
 .cometal-field[data-disabled] .cometal-field__supporting-row { color: var(--cometal-component-input-helper-disabled); }
 .cometal-field__icon, .cometal-field__asset { display: inline-flex; width: var(--cometal-field-icon-size); height: var(--cometal-field-icon-size); flex: 0 0 var(--cometal-field-icon-size); align-items: center; justify-content: center; color: var(--cometal-component-input-icon-default); }
-.cometal-field__clear { padding: 0; border: 0; background: transparent; cursor: pointer; }
+.cometal-field__asset.cometal-field__clear { width: var(--cometal-primitive-size-20); height: var(--cometal-primitive-size-20); flex-basis: var(--cometal-primitive-size-20); padding: 0; border: 0; background: transparent; cursor: pointer; }
 .cometal-field__clear:disabled { cursor: not-allowed; }
 .cometal-field__clear:focus-visible { outline: var(--cometal-semantic-stroke-global-state-focus) solid var(--cometal-semantic-color-global-state-focus-ring); outline-offset: var(--cometal-primitive-spacing-12); }
 .cometal-field__icon { display: inline-flex; align-items: center; justify-content: center; color: var(--cometal-component-input-icon-default); }

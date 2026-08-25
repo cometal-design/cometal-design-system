@@ -53,7 +53,7 @@ export default function FieldsPage() {
               <code>{size.toUpperCase()} · {size === 'l' ? '48' : size === 'm' ? '40' : '32'}px</code>
               <TextField label="Название поля" placeholder="Введите значение" size={size} />
               <Select label="Статус" options={fieldSizeOptions} size={size} />
-              <Combobox label="Контрагент" placeholder="Найдите значение" options={fieldSizeOptions} size={size} />
+              <Combobox label="Контрагент" placeholder="Найдите значение" options={fieldSizeOptions} size={size} defaultValue="Северсталь" />
             </article>
           ))}
         </div>

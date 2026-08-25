@@ -81,15 +81,20 @@ describe('Fields', () => {
     expect(html).not.toContain('icon-c');
   });
 
-  it('uses the generated Outline X icon for the opt-in combobox clear action', () => {
+  it('uses the generated Outline X icon for the default filled combobox clear action', () => {
     const html = renderToStaticMarkup(
-      <Combobox label="Поиск" type="search" defaultValue="Visa" clearable clearLabel="Очистить поиск" />,
+      <Combobox label="Поиск" type="search" defaultValue="Visa" clearLabel="Очистить поиск" />,
     );
 
     expect(html).toContain('aria-label="Очистить поиск"');
     expect(html).toContain('data-cometal-icon-library="outline"');
     expect(html).toContain('data-cometal-icon-stroke-scaling="marked-elements"');
     expect(html).toContain('cometal-field__clear');
+  });
+
+  it('allows products to explicitly disable the filled combobox clear action', () => {
+    const html = renderToStaticMarkup(<Combobox label="Поиск" defaultValue="Visa" clearable={false} />);
+    expect(html).not.toContain('cometal-field__clear');
   });
 
   it('keeps listbox options out of the Tab sequence', () => {

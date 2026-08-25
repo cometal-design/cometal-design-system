@@ -406,7 +406,7 @@ export interface ComboboxProps extends Omit<InputHTMLAttributes<HTMLInputElement
 }
 
 export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Combobox(
-  { label, helperText, optional, error, size = 'l', mode = 'edit', readValue, expanded, defaultExpanded = false, onExpandedChange, listboxId, options = [], maxVisibleOptions, onOptionSelect, clearable = false, clearLabel = 'Очистить поле', onClear, className, disabled, onFocus, onKeyDown, onChange, value, defaultValue, ...inputProps },
+  { label, helperText, optional, error, size = 'l', mode = 'edit', readValue, expanded, defaultExpanded = false, onExpandedChange, listboxId, options = [], maxVisibleOptions, onOptionSelect, clearable = true, clearLabel = 'Очистить поле', onClear, className, disabled, onFocus, onKeyDown, onChange, value, defaultValue, ...inputProps },
   forwardedRef,
 ) {
   const generatedId = useId();

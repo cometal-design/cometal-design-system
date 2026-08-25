@@ -24,9 +24,10 @@ Input-driven Listbox обновляется без анимации, чтобы 
 
 ## Что зафиксировано
 
-- Public API: `options`, `defaultValue`, `expanded/defaultExpanded`, `onExpandedChange`, `onOptionSelect`, `placeholder`, `mode`, `size`.
+- Public API: `options`, `defaultValue`, `expanded/defaultExpanded`, `onExpandedChange`, `onOptionSelect`, `placeholder`, `mode`, `size`, `clearable`, `clearLabel`, `onClear`.
 - Раскрытие driven by input query: фокус и pointer click сами по себе не открывают listbox.
 - Search icon использует runtime outline stroke contract `1.4px`.
+- Filled по умолчанию показывает `Outline/general/x-02`: слот `20×20px`, SVG `16×16px`, контур `8×8px`, stroke `1.4px` в `L/M/S`.
 - Overlay результатов использует current Soft effect, но без spatial pointer animation при вводе.
 
 ## Storybook stories

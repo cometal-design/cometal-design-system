@@ -20,6 +20,7 @@ Listbox с результатами.
 - Нативный input получает `role="combobox"`, `aria-expanded` и связь с listbox.
 - Размеры используют общую шкалу controls: `l` = 48px, `m` = 40px, `s` = 32px; режимы: `edit` и `read`.
 - Search icon является частью композиции, но декоративен для screen reader.
+- Заполненный Combobox по умолчанию показывает clear action с канонической `Outline/general/x-02`; `clearable={false}` явно отключает её.
 - `options`, `expanded/defaultExpanded/onExpandedChange` и `onOptionSelect`
   образуют публичный interaction API.
 - Ввод фильтрует options без учёта регистра; выбор результата подставляет label
@@ -43,6 +44,7 @@ Listbox с результатами.
 
 - Input использует shared field semantic contract для surface, border, placeholder, helper/error и disabled state.
 - Search icon — built-in asset со stroke contract `1.4px` в итоговом рендере.
+- Clear action использует одинаковую геометрию в `l/m/s`: слот `20×20px`, SVG `16×16px`, контур `8×8px`, итоговый stroke `1.4px`.
 - Input-driven listbox не использует pointer popover-motion как Select/Multi Select; геометрия обновляется сразу по мере фильтрации.
 - Overlay результатов использует current Soft effect token и current option state tokens.
 
