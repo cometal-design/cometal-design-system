@@ -8,7 +8,7 @@ import type {
   SelectHTMLAttributes,
   TextareaHTMLAttributes,
 } from 'react';
-import OutlineXIcon from '../icons/generated/components/outline/general/x-01';
+import OutlineClearIcon from '../icons/generated/components/outline/general/x-02';
 import './field.css';
 
 export const fieldSizes = ['l', 'm', 's'] as const;
@@ -505,7 +505,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
                 inputRef.current?.focus();
               }}
             >
-              <OutlineXIcon />
+              <OutlineClearIcon />
             </button>
           ) : null}
         </span>
