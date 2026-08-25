@@ -21,6 +21,7 @@ form-value и совместимость с HTML-формами.
 - Размеры используют общую шкалу controls: `l` = 48px, `m` = 40px, `s` = 32px; режимы: `edit` и `read`.
 - Состояния: default, hover, filled, error, disabled, focus-visible и active.
 - `expanded/defaultExpanded/onExpandedChange` управляют раскрытием.
+- Chevron синхронизирован с `aria-expanded`: вниз при закрытом Listbox, вверх при открытом.
 - `value/defaultValue/onValueChange` управляют выбранным значением.
 - Active содержит связанный Listbox с default, selected и disabled options.
 - Listbox растёт по количеству вариантов до максимальной высоты: до пяти options

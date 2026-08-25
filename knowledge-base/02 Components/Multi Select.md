@@ -28,6 +28,7 @@ Pointer-открытие Listbox использует системный popover
 - Public API: `options`, `selectedValues/defaultSelectedValues`, `onSelectedValuesChange`, `expanded/defaultExpanded`, `onExpandedChange`, `placeholder`, `mode`, `size`.
 - `+N` counter появляется только когда tags реально перестают помещаться по ширине.
 - Read mode показывает полный textual list, не tags.
+- Chevron показывает вниз при `aria-expanded=false` и вверх при `aria-expanded=true`.
 - Popup listbox использует current Soft effect и shared option-state contract.
 
 ## Storybook stories

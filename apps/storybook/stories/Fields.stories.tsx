@@ -234,7 +234,14 @@ export const SelectActive: Story = {
   parameters: { controls: { disable: true } },
   render: () => <div className="ds-field-story-shell"><Select label="Статус" options={options} defaultValue="active" expanded /></div>,
   play: async ({ canvasElement }) => {
+    const trigger = within(canvasElement).getByRole('combobox', { name: 'Статус' });
+    const chevron = trigger.querySelector<SVGSVGElement>('[data-chevron-direction]')!;
     const listbox = within(canvasElement).getByRole('listbox');
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    await expect(chevron).toHaveAttribute('data-chevron-direction', 'up');
+    await expect(chevron.getBoundingClientRect().width).toBe(20);
+    await expect(chevron.getBoundingClientRect().height).toBe(20);
+    await expect(Number.parseFloat(getComputedStyle(chevron.querySelector('path')!).strokeWidth)).toBe(1.4);
     await expect(listbox).toBeInTheDocument();
     await expect(within(listbox).getAllByRole('option')).toHaveLength(12);
     await expect(listbox.scrollHeight).toBeGreaterThan(listbox.clientHeight);
@@ -268,6 +275,13 @@ export const MultiSelectActive: Story = {
   render: () => <div className="ds-field-story-shell"><MultiSelect label="Контрагенты" selectedValues={['severstal', 'mmk']} options={contractorOptions} expanded /></div>,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    const trigger = canvas.getByRole('combobox', { name: 'Контрагенты' });
+    const chevron = canvasElement.querySelector<SVGSVGElement>('[data-chevron-direction]')!;
+    await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    await expect(chevron).toHaveAttribute('data-chevron-direction', 'up');
+    await expect(chevron.getBoundingClientRect().width).toBe(20);
+    await expect(chevron.getBoundingClientRect().height).toBe(20);
+    await expect(Number.parseFloat(getComputedStyle(chevron.querySelector('path')!).strokeWidth)).toBe(1.4);
     await expect(canvas.getByRole('listbox')).toHaveAttribute('aria-multiselectable', 'true');
     await expect(canvas.getByRole('option', { name: /Северсталь/ })).toHaveAttribute('aria-selected', 'true');
     await expect(canvas.getByRole('option', { name: /ММК/ })).toHaveAttribute('aria-selected', 'true');
@@ -280,12 +294,15 @@ export const SelectInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const trigger = canvas.getByRole('combobox', { name: 'Статус' });
+    const chevron = trigger.querySelector<SVGSVGElement>('[data-chevron-direction]')!;
+    await expect(chevron).toHaveAttribute('data-chevron-direction', 'down');
     trigger.focus();
     await userEvent.keyboard('{ArrowDown}{ArrowDown}{ArrowDown}{ArrowDown}{Enter}');
     await expect(canvas.getByText('Выбрано: approval')).toBeInTheDocument();
     await expect(trigger).toHaveAttribute('aria-expanded', 'false');
     await userEvent.click(trigger);
     await expect(trigger).toHaveAttribute('aria-expanded', 'true');
+    await expect(chevron).toHaveAttribute('data-chevron-direction', 'up');
     const motion = getComputedStyle(canvas.getByRole('listbox'));
     const reducedMotion = canvasElement.ownerDocument.defaultView?.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reducedMotion) {
@@ -403,11 +420,16 @@ export const MultiSelectInteraction: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const trigger = canvas.getByRole('combobox', { name: 'Контрагенты' });
+    const chevron = canvasElement.querySelector<SVGSVGElement>('[data-chevron-direction]')!;
+    await expect(chevron).toHaveAttribute('data-chevron-direction', 'down');
     trigger.focus();
     await userEvent.keyboard('{ArrowDown}{Enter}{ArrowDown}{Enter}');
     await expect(canvas.getByText('Выбрано: severstal, nlmk')).toBeInTheDocument();
     await expect(trigger).toHaveAttribute('aria-expanded', 'true');
-    await expect(canvasElement.querySelector('.cometal-field__asset svg')).toBeInTheDocument();
+    await expect(chevron).toHaveAttribute('data-chevron-direction', 'up');
+    await userEvent.keyboard('{Escape}');
+    await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+    await expect(chevron).toHaveAttribute('data-chevron-direction', 'down');
   },
 };
 export const MultiSelectResponsiveTags: Story = {

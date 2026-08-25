@@ -49,6 +49,19 @@ describe('Fields', () => {
     expect(select).toContain('stroke-width="var(--cometal-primitive-stroke-140, 1.4)"');
   });
 
+  it('points field chevrons down when closed and up when their listbox is open', () => {
+    const options = [{ value: 'active', label: 'Активный' }];
+    const closedSelect = renderToStaticMarkup(<Select label="Статус" options={options} />);
+    const openSelect = renderToStaticMarkup(<Select label="Статус" options={options} expanded />);
+    const closedMultiSelect = renderToStaticMarkup(<MultiSelect label="Статусы" options={options} />);
+    const openMultiSelect = renderToStaticMarkup(<MultiSelect label="Статусы" options={options} expanded />);
+
+    expect(closedSelect).toContain('data-chevron-direction="down"');
+    expect(openSelect).toContain('data-chevron-direction="up"');
+    expect(closedMultiSelect).toContain('data-chevron-direction="down"');
+    expect(openMultiSelect).toContain('data-chevron-direction="up"');
+  });
+
   it('exposes combobox and multi-select popup semantics', () => {
     const combobox = renderToStaticMarkup(<Combobox label="Контрагент" listboxId="contractors" expanded />);
     const multi = renderToStaticMarkup(<MultiSelect label="Контрагенты" selectedValues={['Северсталь', 'НЛМК', 'ММК']} />);

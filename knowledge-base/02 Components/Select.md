@@ -31,6 +31,7 @@ Pointer-открытие использует системный motion: кор�
 
 - Public API: `options`, `value/defaultValue`, `onValueChange`, `expanded/defaultExpanded`, `onExpandedChange`, `placeholder`, `mode`, `size`.
 - Hidden native `select` сохраняет form value; видимый trigger/listbox отвечает за Figma-совпадение и keyboard behavior.
+- Chevron показывает вниз при `aria-expanded=false` и вверх при `aria-expanded=true`.
 - До пяти options listbox растёт по контенту; дальше включает внутренний scroll.
 - Pointer open использует current popover motion + Soft effect; keyboard open остаётся мгновенным.
 

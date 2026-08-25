@@ -34,10 +34,10 @@ export type FieldChromeProps = {
   children: ReactNode;
 };
 
-function ChevronDownIcon() {
+function ChevronIcon({ expanded }: { expanded: boolean }) {
   return (
-    <svg viewBox="0 0 20 20" fill="none" focusable="false">
-      <path d="M5.833 7.917 10 12.083l4.167-4.166" stroke="currentColor" strokeWidth="var(--cometal-primitive-stroke-140, 1.4)" strokeLinecap="round" strokeLinejoin="round" />
+    <svg viewBox="0 0 20 20" fill="none" focusable="false" data-chevron-direction={expanded ? 'up' : 'down'}>
+      <path d={expanded ? 'M5.833 12.083 10 7.917l4.167 4.166' : 'M5.833 7.917 10 12.083l4.167-4.166'} stroke="currentColor" strokeWidth="var(--cometal-primitive-stroke-140, 1.4)" strokeLinecap="round" strokeLinejoin="round" />
     </svg>
   );
 }
@@ -341,7 +341,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
           onKeyDown={handleKeyDown}
         >
           <span className={selectedLabel ? 'cometal-field__value' : 'cometal-field__placeholder'}>{selectedLabel ?? placeholder}</span>
-          <span className="cometal-field__asset" aria-hidden="true"><ChevronDownIcon /></span>
+          <span className="cometal-field__asset" aria-hidden="true"><ChevronIcon expanded={isExpanded} /></span>
         </button>
         <select
           {...selectProps}
@@ -707,7 +707,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(funct
               })}
             </span>
           ) : null}
-          <span className="cometal-field__asset" aria-hidden="true"><ChevronDownIcon /></span>
+          <span className="cometal-field__asset" aria-hidden="true"><ChevronIcon expanded={isExpanded} /></span>
         </span>
         {isExpanded && options.length ? (
           <FieldListbox

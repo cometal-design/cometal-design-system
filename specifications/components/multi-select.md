@@ -21,7 +21,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - Active включает Listbox с `aria-multiselectable`.
 - `options`, `selectedValues` и `onSelectedValuesChange` образуют controlled API.
 - Каждый Value Tag имеет отдельную доступную кнопку удаления.
-- Chevron остаётся видимым при выбранных значениях. Компонент показывает все tags,
+- Chevron остаётся видимым при выбранных значениях и синхронизирован с `aria-expanded`: вниз при закрытом Listbox, вверх при открытом. Компонент показывает все tags,
   которые помещаются в доступную ширину; только реально не поместившиеся значения
   сворачиваются в счётчик `+N`.
 - Pointer-раскрытие не задаёт active option до реального наведения; keyboard active задаётся Arrow Up/Down. `aria-selected` при этом продолжает честно отражать уже выбранные значения.
