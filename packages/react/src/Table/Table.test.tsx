@@ -144,6 +144,28 @@ describe('Table', () => {
     expect(html).toContain('aria-live="polite"');
   });
 
+  it('propagates controlled column identity and pinned state across every table floor', () => {
+    const html = renderToStaticMarkup(
+      <Table aria-label="Закреплённые колонки" pinnedColumnIds={['position']} onPinnedColumnIdsChange={() => undefined}>
+        <TableHead>
+          <TableRow><TableHeaderCell columnId="position">Позиция</TableHeaderCell><TableHeaderCell columnId="name">Наименование</TableHeaderCell></TableRow>
+          <TableFilterRow><TableFilterCell columnId="position"><input aria-label="Фильтр позиции" /></TableFilterCell><TableFilterCell columnId="name" /></TableFilterRow>
+        </TableHead>
+        <TableBody>
+          <TableRow selected><TableCell columnId="position" state="selected">POS-001</TableCell><TableCell columnId="name" state="error">Лист</TableCell></TableRow>
+          <TableRow><TableSummaryCell columnId="position" kind="label">Итого</TableSummaryCell><TableSummaryCell columnId="name" kind="value">1</TableSummaryCell></TableRow>
+        </TableBody>
+      </Table>,
+    );
+
+    expect(html.match(/data-column-id="position"/g)).toHaveLength(4);
+    expect(html.match(/data-column-pinned="true"/g)).toHaveLength(4);
+    expect(html.match(/data-column-pinned-last="true"/g)).toHaveLength(4);
+    expect(html).toContain('--cometal-table-pinned-left:0px');
+    expect(html).toContain('data-state="selected"');
+    expect(html).toContain('data-state="error"');
+  });
+
   it('removes the drag column and disables reorder at the Table boundary in read mode', () => {
     const html = renderToStaticMarkup(
       <Table mode="read" aria-label="Только чтение" onRowReorder={() => undefined}>

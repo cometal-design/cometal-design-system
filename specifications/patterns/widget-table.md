@@ -21,6 +21,8 @@
 - Pattern documentation always exposes two explicit compositions: `Read` and `Edit`.
 - `Read` applies hover to the complete row and has no editable cells, row reorder or destructive row action. The drag column is absent at header, filter and body levels; a disabled placeholder column is not allowed.
 - `Edit` applies hover to one cell and exposes the drag column for controlled row reorder. Activation moves an eligible cell to the canonical `editing` state and the shared `TableCell` automatically makes that `td` the textbox surface; it must not mount a nested input.
+- Both `Read` and `Edit` expose the shared `TableColumnPinAction` in column menus. The pattern stores `pinnedColumnIds`, while Table owns DOM-order normalization, measured offsets, sticky layering and the last-pinned separator.
+- Pinning never creates a drag placeholder in `Read`; `Edit` keeps the real drag column, and pinned header/filter/body/summary cells remain synchronized across density changes and horizontal scrolling.
 
 ## Exclusions
 

@@ -1,6 +1,7 @@
-import { createContext, forwardRef, useContext, useId, useMemo, useState } from 'react';
+import { createContext, forwardRef, useCallback, useContext, useEffect, useId, useMemo, useRef, useState } from 'react';
 import type {
   ButtonHTMLAttributes,
+  CSSProperties,
   HTMLAttributes,
   KeyboardEvent as ReactKeyboardEvent,
   MouseEvent as ReactMouseEvent,
@@ -12,7 +13,8 @@ import type {
   ThHTMLAttributes,
 } from 'react';
 import { Checkbox } from '../Selection/Selection';
-import { ContextMenu } from '../ContextMenu/ContextMenu';
+import { ContextMenu, ContextMenuItem } from '../ContextMenu/ContextMenu';
+import type { ContextMenuItemProps } from '../ContextMenu/ContextMenu';
 import { Select } from '../Field/Field';
 import DotHorizontalFilledIcon from '../icons/generated/components/filled/general/dot-horizontal-filled';
 import FilterIcon from '../icons/generated/components/outline/general/filter';
@@ -80,6 +82,47 @@ const TableReorderContext = createContext<TableReorderContextValue | null>(null)
 const TableRowReorderIdContext = createContext<string | null>(null);
 const TableModeContext = createContext<TableMode>('read');
 
+interface TableColumnPinningContextValue {
+  pinnedColumnIds: readonly string[];
+  offsets: Readonly<Record<string, number>>;
+  lastPinnedColumnId: string | null;
+  canChange: boolean;
+  toggle: (columnId: string) => void;
+}
+
+const TableColumnPinningContext = createContext<TableColumnPinningContextValue | null>(null);
+
+type TablePinnedCellStyle = CSSProperties & { '--cometal-table-pinned-left'?: string };
+
+function getTableColumnOrder(table: HTMLTableElement | null): string[] {
+  if (!table) return [];
+  const headers = Array.from(table.querySelectorAll<HTMLTableCellElement>('.cometal-table__head > .cometal-table__row:first-child > [data-column-id]'));
+  return headers.reduce<string[]>((order, header) => {
+    const columnId = header.dataset.columnId;
+    if (columnId && !order.includes(columnId)) order.push(columnId);
+    return order;
+  }, []);
+}
+
+function orderPinnedTableColumns(columnIds: readonly string[], columnOrder: readonly string[]): string[] {
+  const pinned = new Set(columnIds);
+  return columnOrder.filter((columnId) => pinned.has(columnId));
+}
+
+function usePinnedTableColumn(columnId: string | undefined, style: CSSProperties | undefined) {
+  const pinning = useContext(TableColumnPinningContext);
+  const pinned = Boolean(columnId && pinning?.pinnedColumnIds.includes(columnId));
+  const resolvedStyle: TablePinnedCellStyle | undefined = pinned
+    ? { ...style, '--cometal-table-pinned-left': `${pinning?.offsets[columnId ?? ''] ?? 0}px` }
+    : style;
+  return {
+    style: resolvedStyle,
+    'data-column-id': columnId,
+    'data-column-pinned': pinned || undefined,
+    'data-column-pinned-last': pinned && pinning?.lastPinnedColumnId === columnId || undefined,
+  };
+}
+
 type TableRowMenuState = { rowId: string; x: number; y: number };
 
 export interface TableProps extends TableHTMLAttributes<HTMLTableElement> {
@@ -93,6 +136,10 @@ export interface TableProps extends TableHTMLAttributes<HTMLTableElement> {
   /** Renders the shared DS context menu opened by right-clicking a row. */
   rowContextMenu?: (rowId: string) => ReactNode;
   rowContextMenuLabel?: (rowId: string) => string;
+  /** Controlled set of stable column identifiers pinned to the inline-start edge. */
+  pinnedColumnIds?: readonly string[];
+  /** Receives pinned identifiers normalized to the current DOM column order. */
+  onPinnedColumnIdsChange?: (columnIds: string[]) => void;
 }
 
 export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
@@ -104,11 +151,14 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
     onRowReorder,
     rowContextMenu,
     rowContextMenuLabel = (rowId) => `Действия строки ${rowId}`,
+    pinnedColumnIds = [],
+    onPinnedColumnIdsChange,
     onContextMenu,
     ...tableProps
   },
   ref,
 ) {
+  const tableRef = useRef<HTMLTableElement | null>(null);
   const reorderEnabled = mode === 'edit' && Boolean(onRowReorder);
   const instructionId = useId();
   const [activeId, setActiveId] = useState<string | null>(null);
@@ -117,6 +167,72 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
   const [position, setPosition] = useState<TableRowDropPosition | null>(null);
   const [announcement, setAnnouncement] = useState('');
   const [rowMenu, setRowMenu] = useState<TableRowMenuState | null>(null);
+  const [columnLayout, setColumnLayout] = useState<{ order: string[]; offsets: Record<string, number> }>({ order: [], offsets: {} });
+
+  const setTableRef = useCallback((node: HTMLTableElement | null) => {
+    tableRef.current = node;
+    if (typeof ref === 'function') ref(node);
+    else if (ref) ref.current = node;
+  }, [ref]);
+
+  const measurePinnedColumns = useCallback(() => {
+    const table = tableRef.current;
+    const order = getTableColumnOrder(table);
+    const pinnedOrder = orderPinnedTableColumns(pinnedColumnIds, order);
+    const widths = new Map<string, number>();
+    for (const header of Array.from(table?.querySelectorAll<HTMLTableCellElement>('.cometal-table__head > .cometal-table__row:first-child > [data-column-id]') ?? [])) {
+      const columnId = header.dataset.columnId;
+      if (columnId && !widths.has(columnId)) widths.set(columnId, header.getBoundingClientRect().width);
+    }
+    const offsets: Record<string, number> = {};
+    let offset = 0;
+    for (const columnId of pinnedOrder) {
+      offsets[columnId] = offset;
+      offset += widths.get(columnId) ?? 0;
+    }
+    setColumnLayout((current) => {
+      const unchangedOrder = current.order.length === order.length && current.order.every((columnId, index) => columnId === order[index]);
+      const currentKeys = Object.keys(current.offsets);
+      const nextKeys = Object.keys(offsets);
+      const unchangedOffsets = currentKeys.length === nextKeys.length && nextKeys.every((columnId) => current.offsets[columnId] === offsets[columnId]);
+      return unchangedOrder && unchangedOffsets ? current : { order, offsets };
+    });
+  }, [pinnedColumnIds]);
+
+  useEffect(() => {
+    measurePinnedColumns();
+    const table = tableRef.current;
+    if (!table) return;
+    const headers = Array.from(table.querySelectorAll<HTMLTableCellElement>('.cometal-table__head > .cometal-table__row:first-child > [data-column-id]'));
+    if (typeof ResizeObserver === 'undefined') {
+      window.addEventListener('resize', measurePinnedColumns);
+      return () => window.removeEventListener('resize', measurePinnedColumns);
+    }
+    const observer = new ResizeObserver(measurePinnedColumns);
+    observer.observe(table);
+    headers.forEach((header) => observer.observe(header));
+    return () => observer.disconnect();
+  }, [measurePinnedColumns]);
+
+  const pinningContext = useMemo<TableColumnPinningContextValue>(() => {
+    const orderedPinnedColumnIds = columnLayout.order.length
+      ? orderPinnedTableColumns(pinnedColumnIds, columnLayout.order)
+      : [...pinnedColumnIds];
+    return {
+      pinnedColumnIds: orderedPinnedColumnIds,
+      offsets: columnLayout.offsets,
+      lastPinnedColumnId: orderedPinnedColumnIds.at(-1) ?? null,
+      canChange: Boolean(onPinnedColumnIdsChange),
+      toggle(columnId) {
+        if (!onPinnedColumnIdsChange) return;
+        const order = getTableColumnOrder(tableRef.current);
+        const next = new Set(pinnedColumnIds);
+        if (next.has(columnId)) next.delete(columnId);
+        else next.add(columnId);
+        onPinnedColumnIdsChange(orderPinnedTableColumns([...next], order));
+      },
+    };
+  }, [columnLayout.offsets, columnLayout.order, onPinnedColumnIdsChange, pinnedColumnIds]);
 
   const resetReorder = () => {
     setActiveId(null);
@@ -218,6 +334,7 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
 
   return (
     <TableModeContext.Provider value={mode}>
+    <TableColumnPinningContext.Provider value={pinningContext}>
     <TableReorderContext.Provider value={reorderContext}>
       <div
         className="cometal-table-scroll"
@@ -237,7 +354,7 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
       >
         <table
           {...tableProps}
-          ref={ref}
+          ref={setTableRef}
           aria-label={ariaLabel}
           className={['cometal-table', className].filter(Boolean).join(' ')}
           data-cometal-component="table"
@@ -267,6 +384,7 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
         ) : null}
       </div>
     </TableReorderContext.Provider>
+    </TableColumnPinningContext.Provider>
     </TableModeContext.Provider>
   );
 });
@@ -330,14 +448,17 @@ export interface TableHeaderCellProps extends ThHTMLAttributes<HTMLTableCellElem
   /** Compact trailing action, normally `TableContextAction`. */
   action?: ReactNode;
   kind?: 'default' | 'index' | 'selection' | 'drag';
+  /** Stable identifier shared by header, filter, body and summary cells in this column. */
+  columnId?: string;
 }
 
 export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellProps>(
   function TableHeaderCell(
-    { sort = 'none', onSortChange, action, kind = 'default', children, className, scope = 'col', ...props },
+    { sort = 'none', onSortChange, action, kind = 'default', columnId, children, className, scope = 'col', style, ...props },
     ref,
   ) {
     const mode = useContext(TableModeContext);
+    const pinnedColumn = usePinnedTableColumn(columnId, style);
     if (kind === 'drag' && mode === 'read') return null;
     const label = typeof children === 'string' ? children : 'колонку';
     const nextSort = getNextTableSortDirection(sort);
@@ -350,7 +471,7 @@ export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellP
     );
 
     return (
-      <th {...props} ref={ref} scope={scope} aria-sort={sort === 'none' ? undefined : sort} className={['cometal-table__header-cell', className].filter(Boolean).join(' ')} data-kind={kind} data-sort={sort}>
+      <th {...props} {...pinnedColumn} ref={ref} scope={scope} aria-sort={sort === 'none' ? undefined : sort} className={['cometal-table__header-cell', className].filter(Boolean).join(' ')} data-kind={kind} data-sort={sort}>
         <div className="cometal-table__header-main">
           {onSortChange ? (
             <button className="cometal-table__sort-button" type="button" onClick={() => onSortChange(nextSort)} aria-label={`Сортировать ${label}: ${nextSort === 'ascending' ? 'по возрастанию' : nextSort === 'descending' ? 'по убыванию' : 'отключить сортировку'}`}>
@@ -374,15 +495,18 @@ export interface TableFilterCellProps extends ThHTMLAttributes<HTMLTableCellElem
   kind?: 'default' | 'index' | 'selection' | 'drag';
   /** Filter operator/action rendered inside the filter control. */
   action?: ReactNode;
+  /** Stable identifier shared by header, filter, body and summary cells in this column. */
+  columnId?: string;
 }
 
 export const TableFilterCell = forwardRef<HTMLTableCellElement, TableFilterCellProps>(
-  function TableFilterCell({ kind = 'default', action, children, className, 'aria-label': ariaLabel, ...props }, ref) {
+  function TableFilterCell({ kind = 'default', action, columnId, children, className, 'aria-label': ariaLabel, style, ...props }, ref) {
     const mode = useContext(TableModeContext);
+    const pinnedColumn = usePinnedTableColumn(columnId, style);
     if (kind === 'drag' && mode === 'read') return null;
     const emptyLabel = kind === 'drag' ? 'Без фильтра перемещения' : kind === 'index' ? 'Без фильтра номера' : kind === 'selection' ? 'Без фильтра выбора' : 'Без фильтра';
     return (
-      <th {...props} ref={ref} className={['cometal-table__filter-cell', className].filter(Boolean).join(' ')} data-kind={kind}>
+      <th {...props} {...pinnedColumn} ref={ref} className={['cometal-table__filter-cell', className].filter(Boolean).join(' ')} data-kind={kind}>
         {children ? (
           <div className="cometal-table__filter-control" data-has-action={action ? true : undefined}>
             {children}
@@ -404,13 +528,15 @@ export interface TableCellProps extends Omit<TdHTMLAttributes<HTMLTableCellEleme
   /** Enables controlled edit entry when the parent Table is in edit mode. */
   editable?: boolean;
   onEditStart?: () => void;
+  /** Stable identifier shared by header, filter, body and summary cells in this column. */
+  columnId?: string;
 }
 
 export const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(function TableCell(
   {
-    state = 'default', align = 'start', leading, trailing, editable = false, onEditStart,
+    state = 'default', align = 'start', leading, trailing, editable = false, onEditStart, columnId,
     children, className, 'aria-disabled': ariaDisabled, onClick, onKeyDown, tabIndex,
-    contentEditable, suppressContentEditableWarning, role, 'aria-multiline': ariaMultiline, ...props
+    contentEditable, suppressContentEditableWarning, role, 'aria-multiline': ariaMultiline, style, ...props
   },
   ref,
 ) {
@@ -418,10 +544,12 @@ export const TableCell = forwardRef<HTMLTableCellElement, TableCellProps>(functi
   const mode = useContext(TableModeContext);
   const canEdit = mode === 'edit' && editable && !disabled;
   const isEditing = canEdit && state === 'editing';
+  const pinnedColumn = usePinnedTableColumn(columnId, style);
   const startEdit = () => onEditStart?.();
   return (
     <td
       {...props}
+      {...pinnedColumn}
       ref={ref}
       aria-disabled={disabled || undefined}
       aria-invalid={state === 'error' || undefined}
@@ -554,6 +682,31 @@ export interface TableContextActionProps extends Omit<ButtonHTMLAttributes<HTMLB
   /** Documentation and controlled compositions can expose the approved Open state. */
   defaultOpen?: boolean;
 }
+
+export interface TableColumnPinActionProps extends Omit<ContextMenuItemProps, 'children' | 'selected'> {
+  columnId: string;
+  pinLabel?: string;
+  unpinLabel?: string;
+}
+
+/** Context-menu command bound to the nearest controlled Table column-pinning state. */
+export const TableColumnPinAction = forwardRef<HTMLButtonElement, TableColumnPinActionProps>(
+  function TableColumnPinAction({ columnId, pinLabel = 'Закрепить слева', unpinLabel = 'Открепить слева', disabled, onClick, ...props }, ref) {
+    const pinning = useContext(TableColumnPinningContext);
+    const pinned = Boolean(pinning?.pinnedColumnIds.includes(columnId));
+    return <ContextMenuItem
+      {...props}
+      ref={ref}
+      selected={pinned}
+      disabled={disabled || !pinning?.canChange}
+      data-column-pin-action={columnId}
+      onClick={(event) => {
+        onClick?.(event);
+        if (!event.defaultPrevented) pinning?.toggle(columnId);
+      }}
+    >{pinned ? unpinLabel : pinLabel}</ContextMenuItem>;
+  },
+);
 
 export interface TableFilterActionProps extends Omit<TableContextActionProps, 'label' | 'menuLabel'> {
   label: string;

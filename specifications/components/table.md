@@ -49,6 +49,10 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - В `editing` редактируемой поверхностью автоматически становится сама `TableCell` (`td[contenteditable=true][role=textbox][aria-multiline=false]`); consumer не должен вручную собирать эту семантику. Вложенный `TextField` или локальный `input` не создаётся. `Enter` завершает ввод, `Escape` отменяет локальное изменение.
 - Вычисляемые и бизнес-заблокированные значения могут оставаться Read Cell внутри Edit table; это должно быть явно задано consumer-логикой, а не возникать из отсутствующего обработчика.
 - `Table.rowContextMenu` переиспользует общий pointer-anchored `ContextMenu`; `TableRow.rowId` связывает меню со стабильной бизнес-сущностью. Правый клик по строке не создаёт локальный menu primitive.
+- Закрепление колонок остаётся controlled: `Table.pinnedColumnIds` хранит consumer, а `onPinnedColumnIdsChange` получает идентификаторы, нормализованные по текущему DOM/визуальному порядку колонок.
+- `columnId` должен быть одинаковым у `TableHeaderCell`, `TableFilterCell`, body cell и `TableSummaryCell` одной колонки. `Table` измеряет фактические ширины первого header row через `ResizeObserver`, вычисляет накопленные left offsets и применяет их ко всем этажам колонки.
+- Контекстное меню использует `TableColumnPinAction`: «Закрепить слева» / «Открепить слева» меняет только controlled список. Можно закрепить произвольные 1..N колонок; порядок кликов не меняет их визуальный порядок.
+- Последняя закреплённая колонка получает системный separator/shadow. Pinned header, filter, body и summary сохраняют собственные surface tokens, включая selected, editing и error, поверх прокручиваемых колонок.
 
 ## Плотность
 
@@ -77,6 +81,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - Reorder начинается только с drag handle. Pointer/touch показывает active row и before/after insertion marker; Space/Enter поднимает или отпускает строку, Arrow Up/Down меняют порядок, Escape завершает режим, изменения озвучиваются через polite live region.
 - Read hover применяется ко всей строке; edit hover — только к доступной ячейке. Enter/F2 и pointer click вызывают controlled edit entry, но интерактивный дочерний control не запускает его повторно.
 - Правый клик по body row открывает общий Context Menu у координат pointer; меню получает `rowId`, а не индекс строки.
+- Pin/unpin доступен из клавиатурно управляемого Context Menu. Горизонтальная прокрутка оставляет закреплённые колонки у левого края, а незакреплённые проходят под ними без изменения нативного фокус-порядка.
 
 ## Acceptance criteria
 
@@ -91,4 +96,5 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - [x] Registry, specification, Storybook и knowledge base связаны стабильным ID.
 - [x] Read полностью исключает drag-column и не активирует `onRowReorder`; Edit сохраняет drag-column и reorder.
 - [x] Состояние Edit Cell / Editing делает саму `td` textbox-поверхностью без вложенного input.
+- [x] Controlled pinning синхронизирует header/filter/body/summary, использует фактические widths и DOM-порядок.
 - [ ] Frontend Lead acceptance подтверждён.

@@ -28,6 +28,7 @@ export {
   Table,
   TableBody,
   TableCell,
+  TableColumnPinAction,
   TableContextAction,
   TableDragCell,
   TableDragHandle,
@@ -53,6 +54,7 @@ export {
 export type {
   TableCellProps,
   TableCellState,
+  TableColumnPinActionProps,
   TableContextActionProps,
   TableDensity,
   TableDragHandleProps,

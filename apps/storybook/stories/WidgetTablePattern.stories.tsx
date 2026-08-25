@@ -1,5 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, userEvent, within } from 'storybook/test';
+import { expect, fireEvent, userEvent, waitFor, within } from 'storybook/test';
 import { WidgetTablePattern, WidgetTableReviewExample } from '@cometal/react';
 import { definition as refreshIconDefinition } from '@cometal/react/icons/outline/arrows/arrow-refresh-01';
 import { definition as downloadIconDefinition } from '@cometal/react/icons/outline/general/download-01';
@@ -93,6 +93,38 @@ export const Overview: Story = {
     await expect(editTable.querySelector('.cometal-table__drag-cell')).not.toBeNull();
     await expect(editTable).toHaveAttribute('data-reorderable', 'true');
     await expect(editCells.filter((cell) => cell.dataset.editable === 'true').length).toBeGreaterThan(1);
+
+    const editTableCanvas = within(editTable);
+    await userEvent.click(editTableCanvas.getByRole('button', { name: 'Действия колонки Наименование' }));
+    await userEvent.click(within(document.body).getByRole('menuitem', { name: 'Закрепить слева' }));
+    await userEvent.click(editTableCanvas.getByRole('button', { name: 'Действия колонки Позиция' }));
+    await userEvent.click(within(document.body).getByRole('menuitem', { name: 'Закрепить слева' }));
+
+    const pinnedHeaders = () => Array.from(editTable.querySelectorAll<HTMLTableCellElement>('thead tr:first-child > th[data-column-pinned]'));
+    await waitFor(() => expect(pinnedHeaders().map((cell) => cell.dataset.columnId)).toEqual(['position', 'name']));
+    const positionHeader = editTable.querySelector<HTMLTableCellElement>('thead th[data-column-id="position"]')!;
+    const nameHeader = editTable.querySelector<HTMLTableCellElement>('thead th[data-column-id="name"]')!;
+    const gradeHeader = editTable.querySelector<HTMLTableCellElement>('thead th[data-column-id="grade"]')!;
+    await expect(positionHeader.style.getPropertyValue('--cometal-table-pinned-left')).toBe('0px');
+    await expect(parseFloat(nameHeader.style.getPropertyValue('--cometal-table-pinned-left'))).toBeCloseTo(positionHeader.getBoundingClientRect().width, 3);
+    await expect(nameHeader).toHaveAttribute('data-column-pinned-last', 'true');
+    await expect(editTable.querySelectorAll('[data-column-id="position"][data-column-pinned]')).toHaveLength(13);
+    await expect(editTable.querySelectorAll('[data-column-id="name"][data-column-pinned]')).toHaveLength(13);
+
+    const scrollRegion = editTable.closest<HTMLElement>('.cometal-table-scroll')!;
+    const gradeBeforeScroll = gradeHeader.getBoundingClientRect().left;
+    scrollRegion.scrollLeft = 800;
+    fireEvent.scroll(scrollRegion);
+    await waitFor(() => expect(Math.round(positionHeader.getBoundingClientRect().left)).toBe(Math.round(scrollRegion.getBoundingClientRect().left)));
+    await expect(Math.round(nameHeader.getBoundingClientRect().left)).toBe(Math.round(positionHeader.getBoundingClientRect().right));
+    await expect(gradeHeader.getBoundingClientRect().left).toBeLessThan(gradeBeforeScroll);
+
+    await userEvent.click(editTableCanvas.getByRole('button', { name: 'Действия колонки Позиция' }));
+    await userEvent.click(within(document.body).getByRole('menuitemcheckbox', { name: 'Открепить слева' }));
+    await waitFor(() => expect(positionHeader).not.toHaveAttribute('data-column-pinned'));
+    await expect(nameHeader.style.getPropertyValue('--cometal-table-pinned-left')).toBe('0px');
+    await expect(nameHeader).toHaveAttribute('data-column-pinned-last', 'true');
+
     const editableCell = editRow.querySelector<HTMLElement>('td[data-editable="true"]')!;
     await userEvent.click(editableCell);
     await expect(editableCell).toHaveAttribute('data-state', 'editing');

@@ -1,9 +1,9 @@
 import { useMemo, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, fireEvent, userEvent, within } from 'storybook/test';
+import { expect, fireEvent, userEvent, waitFor, within } from 'storybook/test';
 import {
   Badge, Button, ContextMenuDivider, ContextMenuItem, DatePicker, DateRangePicker, Select,
-  Table, TableBody, TableCell, TableContextAction, TableDragCell, TableDragHandle,
+  Table, TableBody, TableCell, TableColumnPinAction, TableContextAction, TableDragCell, TableDragHandle,
   TableFileCell, TableFileIcon, TableFilterAction, TableFilterCell, TableFilterRow, TableHeaderCell, TableHead,
   TableIndexCell, TablePaginator, TableRow, TableSelectionCell, TableSelectionHeader,
   TableSummaryCell, TextField, tableDensities, tableDocumentationSections, tableFileTypes,
@@ -83,13 +83,15 @@ async function expectTableSurfaceTypography(root: Element) {
   for (const nestedValue of nestedValues) await expectTypography(nestedValue, tableTypography.body);
 }
 
-function ColumnMenu() {
-  return <><ContextMenuItem>Закрепить слева</ContextMenuItem><ContextMenuItem>Скрыть колонку</ContextMenuItem><ContextMenuDivider /><ContextMenuItem tone="danger">Сбросить фильтр</ContextMenuItem></>;
+function ColumnMenu({ columnId }: { columnId: string }) {
+  return <><TableColumnPinAction columnId={columnId} /><ContextMenuItem>Скрыть колонку</ContextMenuItem><ContextMenuDivider /><ContextMenuItem tone="danger">Сбросить фильтр</ContextMenuItem></>;
 }
-function HeaderAction({ column, visualState }: { column: string; visualState?: 'hover' | 'open' }) {
+function HeaderAction({ columnId, column, visualState }: { columnId?: string; column: string; visualState?: 'hover' | 'open' }) {
   const stateClass = visualState === 'hover' ? 'ds-table-context-force-hover' : visualState === 'open' ? 'ds-table-context-force-open' : undefined;
-  return <TableContextAction className={stateClass} defaultOpen={visualState === 'open'} label={`Действия колонки ${column}`} menuLabel={`Действия колонки ${column}`} menu={<ColumnMenu />} />;
+  return <TableContextAction className={stateClass} defaultOpen={visualState === 'open'} label={`Действия колонки ${column}`} menuLabel={`Действия колонки ${column}`} menu={<ColumnMenu columnId={columnId ?? column.toLowerCase()} />} />;
 }
+
+const sourceColumnIds = { drag: 'drag', index: 'index', selection: 'selection', position: 'position', name: 'name', quantity: 'quantity', status: 'status', file: 'file' } as const;
 
 const textFilterOperators = ['Содержит', 'Не содержит', 'Начинается с', 'Пусто'] as const;
 const numberFilterOperators = ['Равно', 'Не равно', 'Больше', 'Меньше'] as const;
@@ -104,41 +106,42 @@ function SourceTable({ density = 'comfortable', filters = true, ariaLabel = 'П�
   const [selected, setSelected] = useState<number[]>([2]);
   const [sort, setSort] = useState<TableSortDirection>('ascending');
   const [editingCell, setEditingCell] = useState<number | null>(null);
+  const [pinnedColumnIds, setPinnedColumnIds] = useState<string[]>([]);
   const [operators, setOperators] = useState({ position: 'Содержит', name: 'Содержит', quantity: 'Равно', status: 'Равно', file: 'Содержит' });
   const toggleAll = (checked: boolean) => setSelected(checked ? orderedRows.map((row) => row.id) : []);
   return (
-    <Table density={density} mode={mode} aria-label={ariaLabel} className="ds-table-source-example" onRowReorder={mode === 'edit' ? (event) => setOrderedRows((current) => reorderTableRows(current, event, (row) => String(row.id))) : undefined} rowContextMenu={(rowId) => <><ContextMenuItem onClick={() => setSelected((current) => current.includes(Number(rowId)) ? current : [...current, Number(rowId)])}>Выбрать строку</ContextMenuItem><ContextMenuItem>Открыть позицию</ContextMenuItem>{mode === 'edit' ? <><ContextMenuDivider /><ContextMenuItem tone="danger">Удалить строку</ContextMenuItem></> : null}</>}>
+    <Table density={density} mode={mode} aria-label={ariaLabel} className="ds-table-source-example" pinnedColumnIds={pinnedColumnIds} onPinnedColumnIdsChange={setPinnedColumnIds} onRowReorder={mode === 'edit' ? (event) => setOrderedRows((current) => reorderTableRows(current, event, (row) => String(row.id))) : undefined} rowContextMenu={(rowId) => <><ContextMenuItem onClick={() => setSelected((current) => current.includes(Number(rowId)) ? current : [...current, Number(rowId)])}>Выбрать строку</ContextMenuItem><ContextMenuItem>Открыть позицию</ContextMenuItem>{mode === 'edit' ? <><ContextMenuDivider /><ContextMenuItem tone="danger">Удалить строку</ContextMenuItem></> : null}</>}>
       <TableHead>
         <TableRow>
-          <TableHeaderCell kind="drag"><span className="sr-only">Перемещение</span></TableHeaderCell>
-          <TableHeaderCell kind="index">№</TableHeaderCell>
-          <TableSelectionHeader selectedCount={selected.length} totalCount={orderedRows.length} onSelectionChange={toggleAll} />
-          <TableHeaderCell style={{ width: 156 }} sort={sort} onSortChange={setSort} action={<HeaderAction column="Позиция" />}>Позиция</TableHeaderCell>
-          <TableHeaderCell action={<HeaderAction column="Наименование" />}>Наименование</TableHeaderCell>
-          <TableHeaderCell style={{ width: 136 }} action={<HeaderAction column="Количество" />}>Количество</TableHeaderCell>
-          <TableHeaderCell style={{ width: 160 }} action={<HeaderAction column="Статус" />}>Статус</TableHeaderCell>
-          <TableHeaderCell style={{ width: 220 }} action={<HeaderAction column="Файл" />}>Файл</TableHeaderCell>
+          <TableHeaderCell columnId={sourceColumnIds.drag} kind="drag"><span className="sr-only">Перемещение</span></TableHeaderCell>
+          <TableHeaderCell columnId={sourceColumnIds.index} kind="index">№</TableHeaderCell>
+          <TableSelectionHeader columnId={sourceColumnIds.selection} selectedCount={selected.length} totalCount={orderedRows.length} onSelectionChange={toggleAll} />
+          <TableHeaderCell columnId={sourceColumnIds.position} style={{ width: 156 }} sort={sort} onSortChange={setSort} action={<HeaderAction columnId={sourceColumnIds.position} column="Позиция" />}>Позиция</TableHeaderCell>
+          <TableHeaderCell columnId={sourceColumnIds.name} action={<HeaderAction columnId={sourceColumnIds.name} column="Наименование" />}>Наименование</TableHeaderCell>
+          <TableHeaderCell columnId={sourceColumnIds.quantity} style={{ width: 136 }} action={<HeaderAction columnId={sourceColumnIds.quantity} column="Количество" />}>Количество</TableHeaderCell>
+          <TableHeaderCell columnId={sourceColumnIds.status} style={{ width: 160 }} action={<HeaderAction columnId={sourceColumnIds.status} column="Статус" />}>Статус</TableHeaderCell>
+          <TableHeaderCell columnId={sourceColumnIds.file} style={{ width: 220 }} action={<HeaderAction columnId={sourceColumnIds.file} column="Файл" />}>Файл</TableHeaderCell>
         </TableRow>
         {filters ? <TableFilterRow aria-label="Фильтры таблицы">
-          <TableFilterCell kind="drag" /><TableFilterCell kind="index" /><TableFilterCell kind="selection" />
-          <TableFilterCell action={<FilterOperatorAction column="Позиция" value={operators.position} options={textFilterOperators} onChange={(value) => setOperators((current) => ({ ...current, position: value }))} />}><TextField className="ds-table-filter-field" label="Фильтр по позиции" size="s" placeholder={operators.position} /></TableFilterCell>
-          <TableFilterCell action={<FilterOperatorAction column="Наименование" value={operators.name} options={textFilterOperators} onChange={(value) => setOperators((current) => ({ ...current, name: value }))} />}><TextField className="ds-table-filter-field" label="Фильтр по наименованию" size="s" placeholder={operators.name} /></TableFilterCell>
-          <TableFilterCell action={<FilterOperatorAction column="Количество" value={operators.quantity} options={numberFilterOperators} onChange={(value) => setOperators((current) => ({ ...current, quantity: value }))} />}><TextField className="ds-table-filter-field" label="Фильтр по количеству" size="s" inputMode="numeric" placeholder={operators.quantity} /></TableFilterCell>
-          <TableFilterCell action={<FilterOperatorAction column="Статус" value={operators.status} options={selectFilterOperators} onChange={(value) => setOperators((current) => ({ ...current, status: value }))} />}><Select className="ds-table-filter-field" label="Фильтр по статусу" size="s" options={statusOptions} defaultValue="all" /></TableFilterCell>
-          <TableFilterCell action={<FilterOperatorAction column="Файл" value={operators.file} options={textFilterOperators} onChange={(value) => setOperators((current) => ({ ...current, file: value }))} />}><TextField className="ds-table-filter-field" label="Фильтр по файлу" size="s" placeholder={operators.file} /></TableFilterCell>
+          <TableFilterCell columnId={sourceColumnIds.drag} kind="drag" /><TableFilterCell columnId={sourceColumnIds.index} kind="index" /><TableFilterCell columnId={sourceColumnIds.selection} kind="selection" />
+          <TableFilterCell columnId={sourceColumnIds.position} action={<FilterOperatorAction column="Позиция" value={operators.position} options={textFilterOperators} onChange={(value) => setOperators((current) => ({ ...current, position: value }))} />}><TextField className="ds-table-filter-field" label="Фильтр по позиции" size="s" placeholder={operators.position} /></TableFilterCell>
+          <TableFilterCell columnId={sourceColumnIds.name} action={<FilterOperatorAction column="Наименование" value={operators.name} options={textFilterOperators} onChange={(value) => setOperators((current) => ({ ...current, name: value }))} />}><TextField className="ds-table-filter-field" label="Фильтр по наименованию" size="s" placeholder={operators.name} /></TableFilterCell>
+          <TableFilterCell columnId={sourceColumnIds.quantity} action={<FilterOperatorAction column="Количество" value={operators.quantity} options={numberFilterOperators} onChange={(value) => setOperators((current) => ({ ...current, quantity: value }))} />}><TextField className="ds-table-filter-field" label="Фильтр по количеству" size="s" inputMode="numeric" placeholder={operators.quantity} /></TableFilterCell>
+          <TableFilterCell columnId={sourceColumnIds.status} action={<FilterOperatorAction column="Статус" value={operators.status} options={selectFilterOperators} onChange={(value) => setOperators((current) => ({ ...current, status: value }))} />}><Select className="ds-table-filter-field" label="Фильтр по статусу" size="s" options={statusOptions} defaultValue="all" /></TableFilterCell>
+          <TableFilterCell columnId={sourceColumnIds.file} action={<FilterOperatorAction column="Файл" value={operators.file} options={textFilterOperators} onChange={(value) => setOperators((current) => ({ ...current, file: value }))} />}><TextField className="ds-table-filter-field" label="Фильтр по файлу" size="s" placeholder={operators.file} /></TableFilterCell>
         </TableFilterRow> : null}
       </TableHead>
       <TableBody>
         {orderedRows.map((row, index) => <TableRow key={row.id} rowId={String(row.id)} reorderId={mode === 'edit' ? String(row.id) : undefined} selected={selected.includes(row.id)}>
-          <TableDragCell><TableDragHandle rowLabel={row.position} /></TableDragCell>
-          <TableIndexCell>{index + 1}</TableIndexCell>
-          <TableSelectionCell label={`Выбрать строку ${row.id}`} checked={selected.includes(row.id)} onCheckedChange={(checked) => setSelected((current) => checked ? [...current, row.id] : current.filter((id) => id !== row.id))} />
-          <TableCell editable state={editingCell === row.id ? 'editing' : 'default'} aria-label={editingCell === row.id ? `Редактирование позиции ${row.position}` : undefined} onEditStart={() => setEditingCell(row.id)} onBlur={() => setEditingCell(null)} onKeyDown={(event) => { if (editingCell !== row.id) return; if (event.key === 'Enter') { event.preventDefault(); event.currentTarget.blur(); } if (event.key === 'Escape') { event.preventDefault(); setEditingCell(null); event.currentTarget.blur(); } }}>{row.position}</TableCell>
-          <TableCell state={row.id === 3 ? 'error' : 'default'}>{row.name}</TableCell>
-          <TableCell align="end">{row.quantity}</TableCell><TableCell><Badge tone={row.tone}>{row.status}</Badge></TableCell>
-          <TableFileCell fileName={row.file} fileSize={row.size} fileType={row.type} />
+          <TableDragCell columnId={sourceColumnIds.drag}><TableDragHandle rowLabel={row.position} /></TableDragCell>
+          <TableIndexCell columnId={sourceColumnIds.index}>{index + 1}</TableIndexCell>
+          <TableSelectionCell columnId={sourceColumnIds.selection} label={`Выбрать строку ${row.id}`} checked={selected.includes(row.id)} onCheckedChange={(checked) => setSelected((current) => checked ? [...current, row.id] : current.filter((id) => id !== row.id))} />
+          <TableCell columnId={sourceColumnIds.position} editable state={editingCell === row.id ? 'editing' : 'default'} aria-label={editingCell === row.id ? `Редактирование позиции ${row.position}` : undefined} onEditStart={() => setEditingCell(row.id)} onBlur={() => setEditingCell(null)} onKeyDown={(event) => { if (editingCell !== row.id) return; if (event.key === 'Enter') { event.preventDefault(); event.currentTarget.blur(); } if (event.key === 'Escape') { event.preventDefault(); setEditingCell(null); event.currentTarget.blur(); } }}>{row.position}</TableCell>
+          <TableCell columnId={sourceColumnIds.name} state={row.id === 3 ? 'error' : 'default'}>{row.name}</TableCell>
+          <TableCell columnId={sourceColumnIds.quantity} align="end">{row.quantity}</TableCell><TableCell columnId={sourceColumnIds.status}><Badge tone={row.tone}>{row.status}</Badge></TableCell>
+          <TableFileCell columnId={sourceColumnIds.file} fileName={row.file} fileSize={row.size} fileType={row.type} />
         </TableRow>)}
-        <TableRow><TableSummaryCell kind="empty" colSpan={mode === 'edit' ? 3 : 2} /><TableSummaryCell kind="label" colSpan={2}>Итого</TableSummaryCell><TableSummaryCell kind="value" align="end">504</TableSummaryCell><TableSummaryCell kind="value">4 позиции</TableSummaryCell><TableSummaryCell kind="value">4 файла</TableSummaryCell></TableRow>
+        <TableRow>{mode === 'edit' ? <TableSummaryCell columnId={sourceColumnIds.drag} className="cometal-table__drag-cell" kind="empty" /> : null}<TableSummaryCell columnId={sourceColumnIds.index} className="cometal-table__index-cell" kind="empty" /><TableSummaryCell columnId={sourceColumnIds.selection} className="cometal-table__selection-cell" kind="empty" /><TableSummaryCell columnId={sourceColumnIds.position} kind="empty" /><TableSummaryCell columnId={sourceColumnIds.name} kind="label">Итого</TableSummaryCell><TableSummaryCell columnId={sourceColumnIds.quantity} kind="value" align="end">504</TableSummaryCell><TableSummaryCell columnId={sourceColumnIds.status} kind="value">4 позиции</TableSummaryCell><TableSummaryCell columnId={sourceColumnIds.file} kind="value">4 файла</TableSummaryCell></TableRow>
       </TableBody>
     </Table>
   );
@@ -245,10 +248,16 @@ export const Overview: Story = {
   render: () => <OverviewPage />,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    const readTable = canvas.getByRole('table', { name: 'Позиции закупки · чтение' });
     const table = canvas.getByRole('table', { name: 'Позиции закупки · редактирование' });
     await expect(within(table).getAllByRole('row')).toHaveLength(7);
     await expect(within(table).getByRole('row', { name: /Фильтры таблицы/i })).toBeVisible();
     await expect(canvas.getByRole('navigation', { name: 'Пагинация таблицы' })).toBeVisible();
+    await expect(readTable.querySelector('[data-kind="drag"]')).toBeNull();
+    await userEvent.click(within(readTable).getByRole('button', { name: 'Действия колонки Наименование' }));
+    await userEvent.click(within(document.body).getByRole('menuitem', { name: 'Закрепить слева' }));
+    await waitFor(() => expect(readTable.querySelectorAll('[data-column-id="name"][data-column-pinned]')).toHaveLength(7));
+    await expect(readTable.querySelector('th[data-column-id="name"]')).toHaveAttribute('data-column-pinned-last', 'true');
 
     const tableCanvas = within(table);
     const contextAction = tableCanvas.getByRole('button', { name: 'Действия колонки Позиция' });
