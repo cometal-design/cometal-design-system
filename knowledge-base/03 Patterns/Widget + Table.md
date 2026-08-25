@@ -19,6 +19,7 @@
 - два явных режима: Read с построчным hover и Edit с hover/editing отдельной ячейки;
 - Read не изменяет данные, не включает reorder и полностью исключает drag-column, а не показывает disabled-заглушку;
 - Edit показывает drag-column, разрешает controlled reorder и переводит eligible TableCell в `editing`;
+- функциональная панель Widget включает и скрывает всю строку итогов системной IconButton с канонической Outline-иконкой;
 - в Edit сама TableCell автоматически становится `td[contenteditable][role=textbox]` без вложенного Input.
 
 ## Граница

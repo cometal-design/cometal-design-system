@@ -16,6 +16,7 @@
 
 - Toolbar filter action toggles the whole second header floor without reconstructing Widget.
 - Text/status filters alter rows; density changes body geometry while preserving selection and query state.
+- The Widget toolbar exposes a system `IconButton` that shows or hides the complete summary row without changing filters, selection, density, pinning or row data.
 - Sort, selection, column context actions and paginator retain their component-owned keyboard behavior.
 - Table overflow remains inside the labelled scroll region; Widget does not clip focus rings or overlays.
 - Pattern documentation always exposes two explicit compositions: `Read` and `Edit`.

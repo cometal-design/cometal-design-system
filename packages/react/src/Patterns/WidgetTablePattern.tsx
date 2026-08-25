@@ -19,6 +19,7 @@ import DownloadIcon from '../icons/generated/components/outline/general/download
 import FilterIcon from '../icons/generated/components/outline/general/filter';
 import PlusIcon from '../icons/generated/components/outline/general/plus-01';
 import FlexRowsIcon from '../icons/generated/components/outline/layout/flex-rows';
+import CalculatorIcon from '../icons/generated/components/outline/charts/calculator-02';
 import './widget-table-pattern.css';
 
 export interface WidgetTablePatternProps {
@@ -108,6 +109,7 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode 
   const [orderedRows, setOrderedRows] = useState<ReviewRow[]>(() => rows.map((row) => [...row] as ReviewRow));
   const [density, setDensity] = useState<TableDensity>(initialDensity);
   const [filters, setFilters] = useState(true);
+  const [summaryVisible, setSummaryVisible] = useState(true);
   const [selected, setSelected] = useState<string[]>([]);
   const [sort, setSort] = useState<TableSortDirection>('none');
   const [page, setPage] = useState(1);
@@ -194,6 +196,14 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode 
       onClick={() => setDensity((value) => value === 'comfortable' ? 'compact' : 'comfortable')}
     />
     <IconButton size="m" variant="secondary" aria-label={filters ? 'Скрыть фильтры' : 'Показать фильтры'} icon={<FilterIcon />} onClick={() => setFilters((value) => !value)} />
+    <IconButton
+      size="m"
+      variant="secondary"
+      aria-label={summaryVisible ? 'Скрыть итоги' : 'Показать итоги'}
+      aria-pressed={summaryVisible}
+      icon={<CalculatorIcon />}
+      onClick={() => setSummaryVisible((value) => !value)}
+    />
     <IconButton size="m" variant="secondary" aria-label="Обновить" icon={<RefreshIcon />} />
     <IconButton size="m" variant="secondary" aria-label="Экспорт" icon={<DownloadIcon />} />
     {mode === 'edit' ? <Button size="m" startIcon={<PlusIcon />}>Добавить запись</Button> : null}
@@ -253,7 +263,7 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode 
               <TableCell columnId={reviewColumnIds.status}><Badge tone={toneForStatus(row[8])}>{row[8]}</Badge></TableCell>{editableCell(row, 9, `Контроль ${row[0]}`)}{editableCell(row, 10, `Поставщик ${row[0]}`)}
             </TableRow>;
           })}
-          <TableRow>
+          {summaryVisible ? <TableRow>
             {mode === 'edit' ? <TableSummaryCell columnId={reviewColumnIds.drag} className="cometal-table__drag-cell" kind="empty" /> : null}
             <TableSummaryCell columnId={reviewColumnIds.index} className="cometal-table__index-cell" kind="empty" />
             <TableSummaryCell columnId={reviewColumnIds.selection} className="cometal-table__selection-cell" kind="empty" />
@@ -270,7 +280,7 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode 
             <TableSummaryCell columnId={reviewColumnIds.status} kind="empty" />
             <TableSummaryCell columnId={reviewColumnIds.control} kind="empty" />
             <TableSummaryCell columnId={reviewColumnIds.supplier} kind="empty" />
-          </TableRow>
+          </TableRow> : null}
         </TableBody>
       </Table>
     </WidgetTablePattern>

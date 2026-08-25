@@ -6,8 +6,9 @@ import { definition as downloadIconDefinition } from '@cometal/react/icons/outli
 import { definition as filterIconDefinition } from '@cometal/react/icons/outline/general/filter';
 import { definition as plusIconDefinition } from '@cometal/react/icons/outline/general/plus-01';
 import { definition as flexRowsIconDefinition } from '@cometal/react/icons/outline/layout/flex-rows';
+import { definition as calculatorIconDefinition } from '@cometal/react/icons/outline/charts/calculator-02';
 
-const patternToolbarIcons = [flexRowsIconDefinition, filterIconDefinition, refreshIconDefinition, downloadIconDefinition, plusIconDefinition];
+const patternToolbarIcons = [flexRowsIconDefinition, filterIconDefinition, calculatorIconDefinition, refreshIconDefinition, downloadIconDefinition, plusIconDefinition];
 
 function definitionPathData(body: string) {
   return Array.from(body.matchAll(/<path d="([^"]+)"/g), (match) => match[1]);
@@ -44,15 +45,17 @@ export const Overview: Story = {
     const editToolbarButtons = within(editToolbar!).getAllByRole('button');
     const editToolbarIcons = Array.from(editToolbar!.querySelectorAll<SVGSVGElement>('svg[data-cometal-icon]'));
     await expect(getComputedStyle(readToolbar!).gap).toBe('8px');
-    await expect(readToolbarButtons).toHaveLength(4);
-    await expect(editToolbarButtons).toHaveLength(5);
-    await expect(editToolbarIcons).toHaveLength(5);
-    for (const button of editToolbarButtons.slice(0, 4)) {
+    await expect(readToolbarButtons).toHaveLength(5);
+    await expect(editToolbarButtons).toHaveLength(6);
+    await expect(editToolbarIcons).toHaveLength(6);
+    await expect(within(readToolbar!).getByRole('button', { name: 'Скрыть итоги' })).toHaveAttribute('aria-pressed', 'true');
+    await expect(within(editToolbar!).getByRole('button', { name: 'Скрыть итоги' })).toHaveAttribute('aria-pressed', 'true');
+    for (const button of editToolbarButtons.slice(0, 5)) {
       await expect(button).toHaveAttribute('data-variant', 'secondary');
       await expect(button.getBoundingClientRect().width).toBe(40);
       await expect(button.getBoundingClientRect().height).toBe(40);
     }
-    await expect(editToolbarButtons[4]).toHaveAttribute('data-variant', 'primary');
+    await expect(editToolbarButtons[5]).toHaveAttribute('data-variant', 'primary');
     for (const [index, icon] of editToolbarIcons.entries()) {
       await expect(icon.getBoundingClientRect().width).toBe(16);
       await expect(icon.getBoundingClientRect().height).toBe(16);
@@ -158,6 +161,16 @@ export const Overview: Story = {
     await userEvent.click(within(readToolbar!).getByRole('button', { name: 'Скрыть фильтры' }));
     await expect(within(readTable).queryByRole('row', { name: /Фильтры таблицы/ })).not.toBeInTheDocument();
     await userEvent.click(within(readToolbar!).getByRole('button', { name: 'Показать фильтры' }));
+    const summaryToggle = within(readToolbar!).getByRole('button', { name: 'Скрыть итоги' });
+    await expect(summaryToggle).toHaveAttribute('aria-pressed', 'true');
+    await expect(within(readTable).getByText('Итого')).toBeVisible();
+    await userEvent.click(summaryToggle);
+    await expect(within(readTable).queryByText('Итого')).not.toBeInTheDocument();
+    await expect(within(readTable).getAllByRole('row')).toHaveLength(12);
+    const showSummary = within(readToolbar!).getByRole('button', { name: 'Показать итоги' });
+    await expect(showSummary).toHaveAttribute('aria-pressed', 'false');
+    await userEvent.click(showSummary);
+    await expect(within(readTable).getByText('Итого')).toBeVisible();
   },
 };
 
