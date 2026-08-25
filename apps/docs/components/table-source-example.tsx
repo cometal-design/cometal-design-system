@@ -5,7 +5,7 @@ import {
   Badge, ContextMenuDivider, ContextMenuItem, Select, Table, TableBody, TableCell,
   TableContextAction, TableDragCell, TableDragHandle, TableFileCell, TableFilterCell,
   TableFilterRow, TableHeaderCell, TableHead, TableIndexCell, TablePaginator, TableRow,
-  TableSelectionCell, TableSelectionHeader, TableSummaryCell, TextField,
+  TableSelectionCell, TableSelectionHeader, TableSummaryCell, TextField, reorderTableRows,
 } from '@cometal/react';
 import type { TableDensity, TableSortDirection } from '@cometal/react';
 
@@ -22,15 +22,16 @@ function Action({ column }: { column: string }) {
 }
 
 export function TableSourceExample({ density = 'comfortable', filters = true }: { density?: TableDensity; filters?: boolean }) {
+  const [orderedRows, setOrderedRows] = useState(() => [...rows]);
   const [selected, setSelected] = useState([2]); const [sort, setSort] = useState<TableSortDirection>('ascending');
-  return <Table density={density} aria-label="Позиции закупки" className="docs-table-source">
+  return <Table density={density} aria-label="Позиции закупки" className="docs-table-source" onRowReorder={(event) => setOrderedRows((current) => reorderTableRows(current, event, (row) => String(row.id)))}>
     <TableHead><TableRow>
       <TableHeaderCell kind="drag"><span className="visually-hidden">Перемещение</span></TableHeaderCell><TableHeaderCell kind="index">№</TableHeaderCell>
-      <TableSelectionHeader selectedCount={selected.length} totalCount={rows.length} onSelectionChange={(checked) => setSelected(checked ? rows.map((row) => row.id) : [])} />
+      <TableSelectionHeader selectedCount={selected.length} totalCount={orderedRows.length} onSelectionChange={(checked) => setSelected(checked ? orderedRows.map((row) => row.id) : [])} />
       <TableHeaderCell style={{ width: 156 }} sort={sort} onSortChange={setSort} action={<Action column="Позиция" />}>Позиция</TableHeaderCell>
       <TableHeaderCell action={<Action column="Наименование" />}>Наименование</TableHeaderCell><TableHeaderCell style={{ width: 136 }}>Количество</TableHeaderCell><TableHeaderCell style={{ width: 160 }}>Статус</TableHeaderCell><TableHeaderCell style={{ width: 220 }}>Файл</TableHeaderCell>
     </TableRow>{filters ? <TableFilterRow aria-label="Фильтры таблицы"><TableFilterCell kind="drag" /><TableFilterCell kind="index" /><TableFilterCell kind="selection" /><TableFilterCell><TextField className="docs-table-filter" label="Фильтр по позиции" size="s" placeholder="Найти" /></TableFilterCell><TableFilterCell><TextField className="docs-table-filter" label="Фильтр по наименованию" size="s" placeholder="Найти" /></TableFilterCell><TableFilterCell><TextField className="docs-table-filter" label="Фильтр по количеству" size="s" placeholder="0" /></TableFilterCell><TableFilterCell><Select className="docs-table-filter" label="Фильтр по статусу" size="s" options={statusOptions} defaultValue="all" /></TableFilterCell><TableFilterCell><TextField className="docs-table-filter" label="Фильтр по файлу" size="s" placeholder="Найти" /></TableFilterCell></TableFilterRow> : null}</TableHead>
-    <TableBody>{rows.map((row) => <TableRow key={row.id} selected={selected.includes(row.id)}><TableDragCell><TableDragHandle rowLabel={String(row.id)} /></TableDragCell><TableIndexCell>{row.id}</TableIndexCell><TableSelectionCell label={`Выбрать строку ${row.id}`} checked={selected.includes(row.id)} onCheckedChange={(checked) => setSelected((current) => checked ? [...current, row.id] : current.filter((id) => id !== row.id))} /><TableCell>{row.position}</TableCell><TableCell state={row.id === 3 ? 'error' : 'default'}>{row.name}</TableCell><TableCell align="end">{row.quantity}</TableCell><TableCell><Badge tone={row.tone}>{row.status}</Badge></TableCell><TableFileCell fileName={row.file} fileSize={row.size} fileType={row.type} /></TableRow>)}<TableRow><TableSummaryCell kind="empty" colSpan={3} /><TableSummaryCell kind="label" colSpan={2}>Итого</TableSummaryCell><TableSummaryCell kind="value" align="end">504</TableSummaryCell><TableSummaryCell kind="value">4 позиции</TableSummaryCell><TableSummaryCell kind="value">4 файла</TableSummaryCell></TableRow></TableBody>
+    <TableBody>{orderedRows.map((row, index) => <TableRow key={row.id} reorderId={String(row.id)} selected={selected.includes(row.id)}><TableDragCell><TableDragHandle rowLabel={row.position} /></TableDragCell><TableIndexCell>{index + 1}</TableIndexCell><TableSelectionCell label={`Выбрать строку ${row.id}`} checked={selected.includes(row.id)} onCheckedChange={(checked) => setSelected((current) => checked ? [...current, row.id] : current.filter((id) => id !== row.id))} /><TableCell>{row.position}</TableCell><TableCell state={row.id === 3 ? 'error' : 'default'}>{row.name}</TableCell><TableCell align="end">{row.quantity}</TableCell><TableCell><Badge tone={row.tone}>{row.status}</Badge></TableCell><TableFileCell fileName={row.file} fileSize={row.size} fileType={row.type} /></TableRow>)}<TableRow><TableSummaryCell kind="empty" colSpan={3} /><TableSummaryCell kind="label" colSpan={2}>Итого</TableSummaryCell><TableSummaryCell kind="value" align="end">504</TableSummaryCell><TableSummaryCell kind="value">4 позиции</TableSummaryCell><TableSummaryCell kind="value">4 файла</TableSummaryCell></TableRow></TableBody>
   </Table>;
 }
 

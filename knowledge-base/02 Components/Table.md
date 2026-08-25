@@ -27,6 +27,7 @@
 - Усечённый контент переиспользует `Tooltip`; header actions переиспользуют `ContextMenu`; периодный фильтр строится на `DateRangePicker`.
 - 16 source families и все их утверждённые states/densities документируются внутри одной Table family, а не разбрасываются по верхнему каталогу.
 - Summary row, paginator и reorder handle собираются композиционно и не экспортируют Figma row counts как props.
+- Reorder управляется потребителем: `Table.onRowReorder` + стабильный `TableRow.reorderId`; pointer/touch и клавиатура используют одну модель `activeId / overId / before|after`, а выбор строки сохраняется по бизнес-ID после смены позиции.
 
 ## Ownership
 

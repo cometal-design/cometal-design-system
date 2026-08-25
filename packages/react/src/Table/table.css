@@ -256,6 +256,16 @@
   color: var(--cometal-component-table-header-icon-context-action);
 }
 
+.cometal-table[data-reorderable='true'] .cometal-table__drag-handle[data-reorder-handle='true'] {
+  cursor: grab;
+  touch-action: none;
+}
+
+.cometal-table[data-reorderable='true'] .cometal-table__drag-handle:active,
+.cometal-table__row[data-row-dragging] .cometal-table__drag-handle {
+  cursor: grabbing;
+}
+
 .cometal-table__filter-cell {
   border-top: 0;
 }
@@ -355,6 +365,19 @@
 .cometal-table__row[data-row-selected] > .cometal-table__cell,
 .cometal-table__cell[data-state='active'] {
   background: var(--cometal-table-active);
+}
+
+.cometal-table__row[data-row-dragging] > .cometal-table__cell {
+  background: var(--cometal-table-selected);
+  color: var(--cometal-table-selected-text);
+}
+
+.cometal-table__row[data-drop-position='before'] > .cometal-table__cell {
+  box-shadow: inset 0 var(--cometal-primitive-stroke-200) var(--cometal-semantic-color-global-state-focus-ring);
+}
+
+.cometal-table__row[data-drop-position='after'] > .cometal-table__cell {
+  box-shadow: inset 0 calc(var(--cometal-primitive-stroke-200) * -1) var(--cometal-semantic-color-global-state-focus-ring);
 }
 
 .cometal-table__cell:not([data-state='disabled']):hover {

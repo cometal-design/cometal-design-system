@@ -7,7 +7,7 @@ import {
   TableFileCell, TableFileIcon, TableFilterCell, TableFilterRow, TableHeaderCell, TableHead,
   TableIndexCell, TablePaginator, TableRow, TableSelectionCell, TableSelectionHeader,
   TableSummaryCell, TextField, tableDensities, tableDocumentationSections, tableFileTypes,
-  tableFigmaSources, tableSourceFamilies, tableStandaloneSources,
+  tableFigmaSources, tableSourceFamilies, tableStandaloneSources, reorderTableRows,
 } from '@cometal/react';
 import type { TableCellState, TableDensity, TableFileType, TableSortDirection } from '@cometal/react';
 import { ComponentCodeExample } from './ComponentCodeExample';
@@ -92,16 +92,17 @@ function HeaderAction({ column, visualState }: { column: string; visualState?: '
 }
 
 function SourceTable({ density = 'comfortable', filters = true, ariaLabel = 'Позиции закупки' }: { density?: TableDensity; filters?: boolean; ariaLabel?: string }) {
+  const [orderedRows, setOrderedRows] = useState(() => [...sourceRows]);
   const [selected, setSelected] = useState<number[]>([2]);
   const [sort, setSort] = useState<TableSortDirection>('ascending');
-  const toggleAll = (checked: boolean) => setSelected(checked ? sourceRows.map((row) => row.id) : []);
+  const toggleAll = (checked: boolean) => setSelected(checked ? orderedRows.map((row) => row.id) : []);
   return (
-    <Table density={density} aria-label={ariaLabel} className="ds-table-source-example">
+    <Table density={density} aria-label={ariaLabel} className="ds-table-source-example" onRowReorder={(event) => setOrderedRows((current) => reorderTableRows(current, event, (row) => String(row.id)))}>
       <TableHead>
         <TableRow>
           <TableHeaderCell kind="drag"><span className="sr-only">Перемещение</span></TableHeaderCell>
           <TableHeaderCell kind="index">№</TableHeaderCell>
-          <TableSelectionHeader selectedCount={selected.length} totalCount={sourceRows.length} onSelectionChange={toggleAll} />
+          <TableSelectionHeader selectedCount={selected.length} totalCount={orderedRows.length} onSelectionChange={toggleAll} />
           <TableHeaderCell style={{ width: 156 }} sort={sort} onSortChange={setSort} action={<HeaderAction column="Позиция" />}>Позиция</TableHeaderCell>
           <TableHeaderCell action={<HeaderAction column="Наименование" />}>Наименование</TableHeaderCell>
           <TableHeaderCell style={{ width: 136 }} action={<HeaderAction column="Количество" />}>Количество</TableHeaderCell>
@@ -118,9 +119,9 @@ function SourceTable({ density = 'comfortable', filters = true, ariaLabel = 'П�
         </TableFilterRow> : null}
       </TableHead>
       <TableBody>
-        {sourceRows.map((row) => <TableRow key={row.id} selected={selected.includes(row.id)}>
-          <TableDragCell><TableDragHandle rowLabel={String(row.id)} /></TableDragCell>
-          <TableIndexCell>{row.id}</TableIndexCell>
+        {orderedRows.map((row, index) => <TableRow key={row.id} reorderId={String(row.id)} selected={selected.includes(row.id)}>
+          <TableDragCell><TableDragHandle rowLabel={row.position} /></TableDragCell>
+          <TableIndexCell>{index + 1}</TableIndexCell>
           <TableSelectionCell label={`Выбрать строку ${row.id}`} checked={selected.includes(row.id)} onCheckedChange={(checked) => setSelected((current) => checked ? [...current, row.id] : current.filter((id) => id !== row.id))} />
           <TableCell state={row.id === 2 ? 'selected' : 'default'}>{row.position}</TableCell>
           <TableCell state={row.id === 3 ? 'error' : 'default'}>{row.name}</TableCell>
@@ -242,7 +243,8 @@ export const Overview: Story = {
     const contextAction = canvas.getByRole('button', { name: 'Действия колонки Позиция' });
     const contextIcon = contextAction.querySelector('svg');
     const contextGlyphs = Array.from(contextAction.querySelectorAll('path'));
-    const dragIcon = canvas.getByRole('button', { name: 'Переместить строку 1' }).querySelector('svg');
+    const dragHandle = canvas.getByRole('button', { name: 'Переместить строку POS-00127' });
+    const dragIcon = dragHandle.querySelector('svg');
     await expect(contextAction.getBoundingClientRect().width).toBe(24);
     await expect(contextAction.getBoundingClientRect().height).toBe(24);
     await expect(contextIcon?.getBoundingClientRect().width).toBe(16);
@@ -253,6 +255,13 @@ export const Overview: Story = {
     await expect(Math.round((firstDot?.height ?? 0) * 1000) / 1000).toBe(3.333);
     await expect(dragIcon).toHaveAttribute('data-cometal-table-icon', 'drag-handle');
     await expect(dragIcon?.querySelector('path')).toHaveAttribute('d', 'M6 9H18M6 15H18');
+    dragHandle.focus();
+    await userEvent.keyboard('{Space}');
+    await expect(dragHandle).toHaveAttribute('aria-pressed', 'true');
+    await expect(table.querySelector('tr[data-reorder-id="1"]')).toHaveAttribute('data-row-dragging', 'true');
+    await userEvent.keyboard('{ArrowDown}{Space}');
+    await expect(Array.from(table.querySelectorAll('tbody tr[data-reorder-id]')).map((row) => row.getAttribute('data-reorder-id'))).toEqual(['2', '1', '3', '4']);
+    await expect(dragHandle).not.toHaveAttribute('aria-pressed');
     await expect(canvasElement.querySelectorAll('[data-cometal-icon]').length).toBeGreaterThan(0);
     await expect(canvasElement.querySelectorAll('.cometal-selection').length).toBeGreaterThan(0);
     await expectTableSurfaceTypography(canvasElement);

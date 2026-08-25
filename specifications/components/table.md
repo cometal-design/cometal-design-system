@@ -37,6 +37,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - `TableFileIcon` рендерит канонический inline SVG и передаёт ref как `SVGSVGElement`; при миграции с прежнего image API необходимо удалить `src`/`alt` и использовать `aria-label` только для смысловой standalone-иконки либо `aria-hidden` для декоративной.
 - Header actions переиспользуют `ContextMenu`; Table не владеет отдельным menu API.
 - Date range filter переиспользует `DateRangePicker`; paginator, summary row и reorder handle собираются как composition primitives вокруг таблицы.
+- Row reorder остаётся controlled: `Table.onRowReorder` сообщает `activeId`, `overId` и `before | after`, `TableRow.reorderId` связывает DOM со стабильной бизнес-сущностью, а `reorderTableRows` иммутабельно обновляет consumer-owned данные.
 - Selection относится к строке, selected/editing/error относятся к конкретной ячейке.
 
 ## Плотность
@@ -63,6 +64,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - Error cells публикуют `aria-invalid`; disabled cells публикуют `aria-disabled`.
 - Встроенные Checkbox сохраняют нативную input-семантику и видимое либо скрытое доступное имя.
 - Reorder handle, paginator и header menu остаются клавиатурно достижимыми и не ломают табличный фокус-порядок.
+- Reorder начинается только с drag handle. Pointer/touch показывает active row и before/after insertion marker; Space/Enter поднимает или отпускает строку, Arrow Up/Down меняют порядок, Escape завершает режим, изменения озвучиваются через polite live region.
 
 ## Acceptance criteria
 

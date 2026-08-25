@@ -20,6 +20,7 @@ import {
   TableSelectionHeader,
   TableSummaryCell,
   getNextTableSortDirection,
+  reorderTableRows,
   tableFileTypes,
 } from './Table';
 import { ContextMenuItem } from '../ContextMenu/ContextMenu';
@@ -104,6 +105,33 @@ describe('Table', () => {
     expect(html).toContain('d="M6 9H18M6 15H18"');
     expect(html).toContain('stroke-width="1.4"');
     expect(html).toContain('data-summary-kind="empty"');
+  });
+
+  it('publishes the controlled row-reorder contract only when enabled', () => {
+    const html = renderToStaticMarkup(
+      <Table aria-label="Порядок позиций" onRowReorder={() => undefined}>
+        <TableBody>
+          <TableRow reorderId="POS-001">
+            <TableDragCell><TableDragHandle rowLabel="POS-001" /></TableDragCell>
+            <TableCell>Лист</TableCell>
+          </TableRow>
+        </TableBody>
+      </Table>,
+    );
+
+    expect(html).toContain('data-reorderable="true"');
+    expect(html).toContain('data-reorder-id="POS-001"');
+    expect(html).toContain('data-reorder-handle="true"');
+    expect(html).toContain('Нажмите Пробел или Enter');
+    expect(html).toContain('aria-live="polite"');
+  });
+
+  it('moves immutable business rows before or after the target', () => {
+    const rows = [{ id: 'a' }, { id: 'b' }, { id: 'c' }, { id: 'd' }];
+
+    expect(reorderTableRows(rows, { activeId: 'a', overId: 'c', position: 'after' }, (row) => row.id).map((row) => row.id)).toEqual(['b', 'c', 'a', 'd']);
+    expect(reorderTableRows(rows, { activeId: 'd', overId: 'b', position: 'before' }, (row) => row.id).map((row) => row.id)).toEqual(['a', 'd', 'b', 'c']);
+    expect(rows.map((row) => row.id)).toEqual(['a', 'b', 'c', 'd']);
   });
 
   it('renders canonical currentColor icons without data URL masks', () => {

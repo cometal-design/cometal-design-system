@@ -1,7 +1,9 @@
-import { forwardRef } from 'react';
+import { createContext, forwardRef, useContext, useId, useMemo, useState } from 'react';
 import type {
   ButtonHTMLAttributes,
   HTMLAttributes,
+  KeyboardEvent as ReactKeyboardEvent,
+  PointerEvent as ReactPointerEvent,
   ReactNode,
   SVGAttributes,
   TableHTMLAttributes,
@@ -34,28 +36,186 @@ export const tableFileTypes = ['word', 'excel', 'file', 'doc', 'sheets', 'adobe'
 export type TableDensity = (typeof tableDensities)[number];
 export type TableCellState = (typeof tableCellStates)[number];
 export type TableFileType = (typeof tableFileTypes)[number];
+export type TableRowDropPosition = 'before' | 'after';
+
+export interface TableRowReorderEvent {
+  activeId: string;
+  overId: string;
+  position: TableRowDropPosition;
+}
+
+/** Applies a controlled reorder event to immutable business rows. */
+export function reorderTableRows<Row>(
+  rows: readonly Row[],
+  event: TableRowReorderEvent,
+  getRowId: (row: Row) => string,
+): Row[] {
+  const sourceIndex = rows.findIndex((row) => getRowId(row) === event.activeId);
+  const targetIndex = rows.findIndex((row) => getRowId(row) === event.overId);
+  if (sourceIndex < 0 || targetIndex < 0 || sourceIndex === targetIndex) return [...rows];
+
+  const next = [...rows];
+  const [moved] = next.splice(sourceIndex, 1);
+  const resolvedTarget = next.findIndex((row) => getRowId(row) === event.overId);
+  next.splice(resolvedTarget + (event.position === 'after' ? 1 : 0), 0, moved);
+  return next;
+}
+
+interface TableReorderContextValue {
+  activeId: string | null;
+  interaction: 'pointer' | 'keyboard' | null;
+  overId: string | null;
+  position: TableRowDropPosition | null;
+  instructionId: string;
+  startPointerDrag: (rowId: string, rowLabel: string) => void;
+  movePointerDrag: (event: ReactPointerEvent<HTMLElement>) => void;
+  endPointerDrag: () => void;
+  handleKeyboard: (event: ReactKeyboardEvent<HTMLButtonElement>, rowId: string, rowLabel: string) => void;
+}
+
+const TableReorderContext = createContext<TableReorderContextValue | null>(null);
+const TableRowReorderIdContext = createContext<string | null>(null);
 
 export interface TableProps extends TableHTMLAttributes<HTMLTableElement> {
   density?: TableDensity;
   /** Accessible label for the internally scrollable table region. */
   'aria-label': string;
+  /** Controlled row-order mutation. Rows participate when they expose a stable `reorderId`. */
+  onRowReorder?: (event: TableRowReorderEvent) => void;
 }
 
 export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
-  { density = 'comfortable', className, 'aria-label': ariaLabel, ...tableProps },
+  { density = 'comfortable', className, 'aria-label': ariaLabel, onRowReorder, ...tableProps },
   ref,
 ) {
+  const instructionId = useId();
+  const [activeId, setActiveId] = useState<string | null>(null);
+  const [interaction, setInteraction] = useState<'pointer' | 'keyboard' | null>(null);
+  const [overId, setOverId] = useState<string | null>(null);
+  const [position, setPosition] = useState<TableRowDropPosition | null>(null);
+  const [announcement, setAnnouncement] = useState('');
+
+  const resetReorder = () => {
+    setActiveId(null);
+    setInteraction(null);
+    setOverId(null);
+    setPosition(null);
+  };
+
+  const reorderContext = useMemo<TableReorderContextValue | null>(() => {
+    if (!onRowReorder) return null;
+
+    return {
+      activeId,
+      interaction,
+      overId,
+      position,
+      instructionId,
+      startPointerDrag(rowId, rowLabel) {
+        setActiveId(rowId);
+        setInteraction('pointer');
+        setOverId(null);
+        setPosition(null);
+        setAnnouncement(`Строка ${rowLabel} поднята для перемещения.`);
+      },
+      movePointerDrag(event) {
+        if (!activeId || interaction !== 'pointer') return;
+        const target = event.currentTarget.ownerDocument.elementFromPoint(event.clientX, event.clientY)?.closest<HTMLTableRowElement>('tr[data-reorder-id]');
+        const targetId = target?.dataset.reorderId;
+        const belongsToCurrentTable = target?.closest('.cometal-table-scroll') === event.currentTarget;
+        if (!target || !targetId || targetId === activeId || !belongsToCurrentTable) {
+          setOverId(null);
+          setPosition(null);
+          return;
+        }
+        const bounds = target.getBoundingClientRect();
+        const nextPosition = event.clientY < bounds.top + bounds.height / 2 ? 'before' : 'after';
+        setOverId(targetId);
+        setPosition(nextPosition);
+      },
+      endPointerDrag() {
+        if (!activeId || interaction !== 'pointer' || !overId || !position) {
+          resetReorder();
+          return;
+        }
+        onRowReorder({ activeId, overId, position });
+        setAnnouncement(`Строка ${activeId} перемещена ${position === 'before' ? 'перед' : 'после'} строки ${overId}.`);
+        resetReorder();
+      },
+      handleKeyboard(event, rowId, rowLabel) {
+        if (event.key === ' ' || event.key === 'Space' || event.key === 'Spacebar' || event.key === 'Enter') {
+          event.preventDefault();
+          if (activeId === rowId && interaction === 'keyboard') {
+            setAnnouncement(`Перемещение строки ${rowLabel} завершено.`);
+            resetReorder();
+          } else {
+            setActiveId(rowId);
+            setInteraction('keyboard');
+            setOverId(null);
+            setPosition(null);
+            setAnnouncement(`Строка ${rowLabel} выбрана. Используйте стрелки вверх и вниз для перемещения.`);
+          }
+          return;
+        }
+
+        if (event.key === 'Escape' && activeId === rowId && interaction === 'keyboard') {
+          event.preventDefault();
+          setAnnouncement(`Перемещение строки ${rowLabel} завершено.`);
+          resetReorder();
+          return;
+        }
+
+        if ((event.key === 'ArrowUp' || event.key === 'ArrowDown') && activeId === rowId && interaction === 'keyboard') {
+          const rows = Array.from(event.currentTarget.closest('table')?.querySelectorAll<HTMLTableRowElement>('tbody tr[data-reorder-id]') ?? []);
+          const currentIndex = rows.findIndex((row) => row.dataset.reorderId === rowId);
+          const targetIndex = currentIndex + (event.key === 'ArrowUp' ? -1 : 1);
+          const targetId = rows[targetIndex]?.dataset.reorderId;
+          event.preventDefault();
+          if (!targetId) {
+            setAnnouncement(`Строка ${rowLabel} уже находится у края таблицы.`);
+            return;
+          }
+          const nextPosition: TableRowDropPosition = event.key === 'ArrowUp' ? 'before' : 'after';
+          onRowReorder({ activeId: rowId, overId: targetId, position: nextPosition });
+          setAnnouncement(`Строка ${rowLabel} перемещена ${event.key === 'ArrowUp' ? 'выше' : 'ниже'}.`);
+        }
+      },
+    };
+  }, [activeId, instructionId, interaction, onRowReorder, overId, position]);
+
   return (
-    <div className="cometal-table-scroll" data-cometal-component="table-scroll" role="region" aria-label={`Прокрутка: ${ariaLabel}`} tabIndex={0}>
-      <table
-        {...tableProps}
-        ref={ref}
-        aria-label={ariaLabel}
-        className={['cometal-table', className].filter(Boolean).join(' ')}
-        data-cometal-component="table"
-        data-density={density}
-      />
-    </div>
+    <TableReorderContext.Provider value={reorderContext}>
+      <div
+        className="cometal-table-scroll"
+        data-cometal-component="table-scroll"
+        role="region"
+        aria-label={`Прокрутка: ${ariaLabel}`}
+        tabIndex={0}
+        onPointerMove={(event) => reorderContext?.movePointerDrag(event)}
+        onPointerUp={(event) => {
+          if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+          reorderContext?.endPointerDrag();
+        }}
+        onPointerCancel={(event) => {
+          if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+          reorderContext?.endPointerDrag();
+        }}
+      >
+        <table
+          {...tableProps}
+          ref={ref}
+          aria-label={ariaLabel}
+          className={['cometal-table', className].filter(Boolean).join(' ')}
+          data-cometal-component="table"
+          data-density={density}
+          data-reorderable={onRowReorder ? true : undefined}
+        />
+        {onRowReorder ? <>
+          <span id={instructionId} className="cometal-table__visually-hidden">Нажмите Пробел или Enter, затем используйте стрелки вверх и вниз. Повторное нажатие завершает перемещение.</span>
+          <span className="cometal-table__visually-hidden" aria-live="polite" aria-atomic="true">{announcement}</span>
+        </> : null}
+      </div>
+    </TableReorderContext.Provider>
   );
 });
 
@@ -74,13 +234,28 @@ export const TableBody = forwardRef<HTMLTableSectionElement, HTMLAttributes<HTML
 export interface TableRowProps extends HTMLAttributes<HTMLTableRowElement> {
   /** Row selection is distinct from the current keyboard-selected cell. */
   selected?: boolean;
+  /** Stable business identifier used by controlled row reordering. */
+  reorderId?: string;
 }
 
 export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(function TableRow(
-  { selected = false, className, ...props },
+  { selected = false, reorderId, className, children, ...props },
   ref,
 ) {
-  return <tr {...props} ref={ref} className={['cometal-table__row', className].filter(Boolean).join(' ')} data-row-selected={selected || undefined} />;
+  const reorder = useContext(TableReorderContext);
+  const dragging = Boolean(reorderId && reorder?.activeId === reorderId);
+  const dropPosition = reorderId && reorder?.overId === reorderId ? reorder.position : null;
+  return <TableRowReorderIdContext.Provider value={reorderId ?? null}>
+    <tr
+      {...props}
+      ref={ref}
+      className={['cometal-table__row', className].filter(Boolean).join(' ')}
+      data-row-selected={selected || undefined}
+      data-reorder-id={reorderId}
+      data-row-dragging={dragging || undefined}
+      data-drop-position={dropPosition ?? undefined}
+    >{children}</tr>
+  </TableRowReorderIdContext.Provider>;
 });
 
 export type TableSortDirection = 'none' | 'ascending' | 'descending';
@@ -226,8 +401,33 @@ export interface TableDragHandleProps extends ButtonHTMLAttributes<HTMLButtonEle
 }
 
 export const TableDragHandle = forwardRef<HTMLButtonElement, TableDragHandleProps>(
-  function TableDragHandle({ rowLabel, className, ...props }, ref) {
-    return <button {...props} ref={ref} type="button" className={['cometal-table__drag-handle', className].filter(Boolean).join(' ')} aria-label={`Переместить строку ${rowLabel}`}><TableDragHandleIcon /></button>;
+  function TableDragHandle({ rowLabel, className, draggable, onPointerDown, onKeyDown, ...props }, ref) {
+    const reorder = useContext(TableReorderContext);
+    const rowId = useContext(TableRowReorderIdContext);
+    return <button
+      {...props}
+      ref={ref}
+      type="button"
+      className={['cometal-table__drag-handle', className].filter(Boolean).join(' ')}
+      aria-label={`Переместить строку ${rowLabel}`}
+      aria-describedby={reorder?.instructionId}
+      aria-pressed={reorder?.activeId === rowId ? true : undefined}
+      aria-roledescription={reorder ? 'ручка перемещения строки' : undefined}
+      data-reorder-handle={reorder ? true : undefined}
+      draggable={draggable}
+      onPointerDown={(event) => {
+        onPointerDown?.(event);
+        if (!rowId || !reorder || event.defaultPrevented || event.button !== 0) return;
+        event.preventDefault();
+        event.currentTarget.focus();
+        event.currentTarget.closest<HTMLElement>('.cometal-table-scroll')?.setPointerCapture(event.pointerId);
+        reorder.startPointerDrag(rowId, rowLabel);
+      }}
+      onKeyDown={(event) => {
+        onKeyDown?.(event);
+        if (rowId && !event.defaultPrevented) reorder?.handleKeyboard(event, rowId, rowLabel);
+      }}
+    ><TableDragHandleIcon /></button>;
   },
 );
 
