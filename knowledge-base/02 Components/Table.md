@@ -34,6 +34,7 @@
 - 16 source families и все их утверждённые states/densities документируются внутри одной Table family, а не разбрасываются по верхнему каталогу.
 - Summary row, paginator и reorder handle собираются композиционно и не экспортируют Figma row counts как props.
 - Reorder управляется потребителем: `Table.onRowReorder` + стабильный `TableRow.reorderId`; pointer/touch и клавиатура используют одну модель `activeId / overId / before|after`, а выбор строки сохраняется по бизнес-ID после смены позиции.
+- В Read и Edit длинное «Наименование» остаётся однострочным. Системный Tooltip показывает полное значение только когда изменение ширины колонки реально обрезало текст; при достаточной ширине и в editing state он отключён.
 - Успешный pointer-drop примерно на секунду сохраняет ту же selected-подсветку, что видна во время drag, под контентом перемещённой строки в новом месте и затем мягко убирает её; keyboard reorder не анимируется.
 - Закрепление колонок тоже controlled: consumer хранит `Table.pinnedColumnIds`, `TableColumnPinAction` вызывает `onPinnedColumnIdsChange`, а результат всегда нормализуется по DOM/визуальному порядку, не по порядку кликов.
 - Одинаковый `columnId` связывает header, filter, body и summary одной колонки. Table измеряет фактические header widths через `ResizeObserver`, накапливает left offsets и сохраняет sticky layering для default/selected/editing/error surfaces в обеих плотностях.

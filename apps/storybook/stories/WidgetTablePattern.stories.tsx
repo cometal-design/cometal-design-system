@@ -92,6 +92,30 @@ export const Overview: Story = {
     await expect(within(readTable).getByRole('separator', { name: 'Изменить ширину колонки Позиция' })).toBeVisible();
     await expect(within(readTable).queryByRole('separator', { name: /Перемещение|№|Выбрать/ })).toBeNull();
 
+    const readNameHeader = readTable.querySelector<HTMLTableCellElement>('thead th[data-column-id="name"]')!;
+    const readNameResizer = within(readTable).getByRole('separator', { name: 'Изменить ширину колонки Наименование' });
+    const initialReadNameWidth = readNameHeader.getBoundingClientRect().width;
+    const minimumReadNameWidth = Number.parseFloat(getComputedStyle(readNameHeader).minWidth);
+    fireEvent.pointerDown(readNameResizer, { pointerId: 5, button: 0, clientX: 400 });
+    fireEvent.pointerMove(readNameResizer, { pointerId: 5, clientX: 400 + minimumReadNameWidth - initialReadNameWidth });
+    fireEvent.pointerUp(readNameResizer, { pointerId: 5, clientX: 400 + minimumReadNameWidth - initialReadNameWidth });
+
+    const readNameText = readTable.querySelector<HTMLElement>('tbody tr[data-row-id] td[data-column-id="name"] .cometal-widget-table-pattern__overflow-text')!;
+    await waitFor(() => expect(readNameText).toHaveAttribute('data-overflowing', 'true'));
+    await userEvent.hover(readNameText);
+    const nameTooltip = await within(document.body).findByRole('tooltip');
+    await expect(nameTooltip).toHaveTextContent('Лист горячекатаный г/к 10×1500×6000 мм ГОСТ 19903-2015');
+    await userEvent.unhover(readNameText);
+    await waitFor(() => expect(within(document.body).queryByRole('tooltip')).not.toBeInTheDocument());
+
+    fireEvent.pointerDown(readNameResizer, { pointerId: 5, button: 0, clientX: 400 });
+    fireEvent.pointerMove(readNameResizer, { pointerId: 5, clientX: 1200 });
+    fireEvent.pointerUp(readNameResizer, { pointerId: 5, clientX: 1200 });
+    await waitFor(() => expect(readNameText).not.toHaveAttribute('data-overflowing'));
+    await userEvent.hover(readNameText);
+    await expect(within(document.body).queryByRole('tooltip')).not.toBeInTheDocument();
+    await userEvent.unhover(readNameText);
+
     const editRow = editTable.querySelector<HTMLTableRowElement>('tbody tr[data-row-id]')!;
     const editCells = Array.from(editRow.querySelectorAll<HTMLElement>('td[data-state="default"]'));
     await expect(editTable.querySelector('[data-kind="drag"]')).not.toBeNull();

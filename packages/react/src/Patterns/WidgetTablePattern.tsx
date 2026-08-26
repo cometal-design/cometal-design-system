@@ -1,4 +1,4 @@
-import { useMemo, useState } from 'react';
+import { useLayoutEffect, useMemo, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
 import { Badge } from '../Badge/Badge';
 import { Button, IconButton } from '../Button/Button';
@@ -13,6 +13,7 @@ import {
   TableSummaryCell, reorderTableRows,
 } from '../Table/Table';
 import type { TableDensity, TableMode, TableSortDirection } from '../Table/Table';
+import { Tooltip } from '../Tooltip/Tooltip';
 import { Widget } from '../Widget/Widget';
 import RefreshIcon from '../icons/generated/components/outline/arrows/arrow-refresh-01';
 import DownloadIcon from '../icons/generated/components/outline/general/download-01';
@@ -53,17 +54,45 @@ type ReviewRow = [string, string, string, number, string, number, string, string
 type EditableColumn = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 | 10;
 
 const rows: readonly ReviewRow[] = [
-  ['POS-001', 'Лист горячекатаный', '09Г2С', 24, 'т', 86400, '21.08.2026', 'Вх. 233-500', 'Согласован', 'Комплектность', 'Северсталь'],
-  ['POS-002', 'Труба профильная', 'Ст3сп5', 18, 'т', 94800, '24.08.2026', 'Вх. 234-501', 'На проверке', 'Качество', 'ЕВРАЗ Маркет'],
-  ['POS-003', 'Швеллер 20П', '10ХСНД', 12, 'т', 78200, '26.08.2026', 'Вх. 235-502', 'В работе', 'Срок поставки', 'Мечел-Сервис'],
-  ['POS-004', 'Балка двутавровая', 'S355J2', 8, 'шт', 142000, '28.08.2026', 'Вх. 236-503', 'Согласован', 'Цена', 'ОМК'],
-  ['POS-005', 'Арматура А500С', 'А500С', 32, 'т', 71500, '31.08.2026', 'Вх. 237-504', 'Черновик', 'Документы', 'Металлоинвест'],
-  ['POS-006', 'Уголок 75×75×6', 'Ст3сп', 16, 'т', 82100, '02.09.2026', 'Вх. 238-505', 'В работе', 'Объём', 'А ГРУПП'],
-  ['POS-007', 'Лист оцинкованный', '08пс', 20, 'т', 109300, '04.09.2026', 'Вх. 239-506', 'На проверке', 'Маркировка', 'НЛМК'],
-  ['POS-008', 'Круг стальной', '40Х', 14, 'т', 96700, '07.09.2026', 'Вх. 240-507', 'Отклонен', 'Сертификат', 'ТМК'],
-  ['POS-009', 'Полоса 50×5', 'Ст3', 28, 'т', 74900, '09.09.2026', 'Вх. 241-508', 'Согласован', 'Упаковка', 'Сталепромышленная'],
-  ['POS-010', 'Труба электросварная', 'Ст20', 10, 'т', 88600, '11.09.2026', 'Вх. 242-509', 'В работе', 'Приёмка', 'МЕТАЛЛСЕРВИС'],
+  ['POS-001', 'Лист горячекатаный г/к 10×1500×6000 мм ГОСТ 19903-2015', '09Г2С', 24, 'т', 86400, '21.08.2026', 'Вх. 233-500', 'Согласован', 'Комплектность', 'Северсталь'],
+  ['POS-002', 'Труба профильная электросварная 80×40×3 мм ГОСТ 8645-68', 'Ст3сп5', 18, 'т', 94800, '24.08.2026', 'Вх. 234-501', 'На проверке', 'Качество', 'ЕВРАЗ Маркет'],
+  ['POS-003', 'Швеллер стальной горячекатаный 20П длина 12 м ГОСТ 8240-97', '10ХСНД', 12, 'т', 78200, '26.08.2026', 'Вх. 235-502', 'В работе', 'Срок поставки', 'Мечел-Сервис'],
+  ['POS-004', 'Балка двутавровая нормальная 30Б1 S355J2 длина 12 м', 'S355J2', 8, 'шт', 142000, '28.08.2026', 'Вх. 236-503', 'Согласован', 'Цена', 'ОМК'],
+  ['POS-005', 'Арматура рифлёная А500С Ø16 мм бухта ГОСТ 34028-2016', 'А500С', 32, 'т', 71500, '31.08.2026', 'Вх. 237-504', 'Черновик', 'Документы', 'Металлоинвест'],
+  ['POS-006', 'Уголок равнополочный 75×75×6 мм длина 12 м ГОСТ 8509-93', 'Ст3сп', 16, 'т', 82100, '02.09.2026', 'Вх. 238-505', 'В работе', 'Объём', 'А ГРУПП'],
+  ['POS-007', 'Лист оцинкованный 0,7×1250×2500 мм Z275 ГОСТ 14918-2020', '08пс', 20, 'т', 109300, '04.09.2026', 'Вх. 239-506', 'На проверке', 'Маркировка', 'НЛМК'],
+  ['POS-008', 'Круг стальной горячекатаный Ø45 мм 40Х ГОСТ 2590-2006', '40Х', 14, 'т', 96700, '07.09.2026', 'Вх. 240-507', 'Отклонен', 'Сертификат', 'ТМК'],
+  ['POS-009', 'Полоса стальная горячекатаная 50×5 мм длина 6 м', 'Ст3', 28, 'т', 74900, '09.09.2026', 'Вх. 241-508', 'Согласован', 'Упаковка', 'Сталепромышленная'],
+  ['POS-010', 'Труба электросварная прямошовная 108×4 мм Ст20 ГОСТ 10704-91', 'Ст20', 10, 'т', 88600, '11.09.2026', 'Вх. 242-509', 'В работе', 'Приёмка', 'МЕТАЛЛСЕРВИС'],
 ];
+
+function OverflowTooltipText({ text, disabled = false }: { text: string; disabled?: boolean }) {
+  const textRef = useRef<HTMLSpanElement | null>(null);
+  const [overflowing, setOverflowing] = useState(false);
+
+  useLayoutEffect(() => {
+    const element = textRef.current;
+    if (!element) return;
+    const measure = () => setOverflowing(element.scrollWidth > element.clientWidth);
+    measure();
+    if (typeof ResizeObserver === 'undefined') return;
+    const observer = new ResizeObserver(measure);
+    observer.observe(element);
+    return () => observer.disconnect();
+  }, [text]);
+
+  return (
+    <Tooltip
+      className="cometal-widget-table-pattern__overflow-tooltip"
+      content={text}
+      disabled={disabled || !overflowing}
+      placement="top-start"
+      size="wide"
+    >
+      <span ref={textRef} className="cometal-widget-table-pattern__overflow-text" data-overflowing={overflowing || undefined}>{text}</span>
+    </Tooltip>
+  );
+}
 
 function toneForStatus(status: string): 'green' | 'blue' | 'yellow' | 'red' {
   if (status === 'Согласован') return 'green';
@@ -183,7 +212,9 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode 
           event.currentTarget.blur();
         }
       }}
-    >{displayValue}</TableCell>;
+    >{column === 1
+      ? <OverflowTooltipText text={String(displayValue)} disabled={isEditing} />
+      : displayValue}</TableCell>;
   };
 
   const toolbar = <>
