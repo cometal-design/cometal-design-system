@@ -124,6 +124,22 @@ export const Overview: Story = {
     await userEvent.hover(readNameText);
     await expect(within(document.body).queryByRole('tooltip')).not.toBeInTheDocument();
     await userEvent.unhover(readNameText);
+    const expandedReadNameWidth = readNameHeader.getBoundingClientRect().width;
+    fireEvent.pointerDown(readNameResizer, { pointerId: 6, button: 0, clientX: 400 });
+    fireEvent.pointerMove(readNameResizer, { pointerId: 6, clientX: 400 + minimumReadNameWidth - expandedReadNameWidth });
+    fireEvent.pointerUp(readNameResizer, { pointerId: 6, clientX: 400 + minimumReadNameWidth - expandedReadNameWidth });
+    await userEvent.click(within(readTable).getByRole('button', { name: 'Действия колонки Наименование' }));
+    await userEvent.click(within(document.body).getByRole('menuitem', { name: 'Закрепить слева' }));
+    const readScrollRegion = readTable.closest<HTMLElement>('.cometal-table-scroll')!;
+    readScrollRegion.scrollLeft = 800;
+    fireEvent.scroll(readScrollRegion);
+    await waitFor(() => expect(Math.round(readNameHeader.getBoundingClientRect().left)).toBe(Math.round(readScrollRegion.getBoundingClientRect().left)));
+    const pinnedReadNameCell = readTable.querySelector<HTMLTableCellElement>('tbody tr[data-row-id] td[data-column-id="name"]')!;
+    const pinnedReadNameCellRect = pinnedReadNameCell.getBoundingClientRect();
+    const pinnedReadHitTarget = document.elementFromPoint(pinnedReadNameCellRect.left + 16, pinnedReadNameCellRect.top + pinnedReadNameCellRect.height / 2);
+    await expect(pinnedReadHitTarget?.closest('td')?.dataset.columnId).toBe('name');
+    await expect(getComputedStyle(pinnedReadNameCell).isolation).toBe('isolate');
+    await expect(getComputedStyle(pinnedReadNameCell).backgroundColor).not.toBe('rgba(0, 0, 0, 0)');
 
     const editRow = editTable.querySelector<HTMLTableRowElement>('tbody tr[data-row-id]')!;
     const editCells = Array.from(editRow.querySelectorAll<HTMLElement>('td[data-state="default"]'));
@@ -169,6 +185,12 @@ export const Overview: Story = {
     await waitFor(() => expect(Math.round(positionHeader.getBoundingClientRect().left)).toBe(Math.round(scrollRegion.getBoundingClientRect().left)));
     await expect(Math.round(nameHeader.getBoundingClientRect().left)).toBe(Math.round(positionHeader.getBoundingClientRect().right));
     await expect(gradeHeader.getBoundingClientRect().left).toBeLessThan(gradeBeforeScroll);
+    const pinnedNameCell = editTable.querySelector<HTMLTableCellElement>('tbody tr[data-row-id] td[data-column-id="name"]')!;
+    const pinnedNameCellRect = pinnedNameCell.getBoundingClientRect();
+    const pinnedNameHitTarget = document.elementFromPoint(pinnedNameCellRect.left + 16, pinnedNameCellRect.top + pinnedNameCellRect.height / 2);
+    await expect(pinnedNameHitTarget?.closest('td')?.dataset.columnId).toBe('name');
+    await expect(getComputedStyle(pinnedNameCell).isolation).toBe('isolate');
+    await expect(getComputedStyle(pinnedNameCell).backgroundColor).not.toBe('rgba(0, 0, 0, 0)');
 
     await userEvent.click(editTableCanvas.getByRole('button', { name: 'Действия колонки Позиция' }));
     await userEvent.click(within(document.body).getByRole('menuitemcheckbox', { name: 'Открепить слева' }));

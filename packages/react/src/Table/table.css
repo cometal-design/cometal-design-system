@@ -73,6 +73,7 @@
 .cometal-table__filter-cell,
 .cometal-table__cell {
   position: relative;
+  isolation: isolate;
   box-sizing: border-box;
   min-width: var(--cometal-component-table-cell-min-width-base);
   padding: 0;
