@@ -28,8 +28,12 @@
 
 .cometal-tooltip__panel[data-size='wide'] {
   --cometal-tooltip-surface-width: calc(var(--cometal-primitive-spacing-750) * 2);
-  --cometal-tooltip-surface-height: var(--cometal-primitive-size-44);
   --cometal-tooltip-arrow-offset: var(--cometal-primitive-spacing-100);
+  width: max-content;
+  min-width: var(--cometal-tooltip-surface-width);
+  max-width: min(calc(var(--cometal-primitive-spacing-1000) * 3), calc(100vw - var(--cometal-primitive-spacing-100)));
+  height: auto;
+  min-height: var(--cometal-primitive-size-44);
   padding: var(--cometal-primitive-spacing-75) var(--cometal-primitive-spacing-100);
 }
 
@@ -48,11 +52,15 @@
 }
 
 .cometal-tooltip__panel[data-size='wide'] .cometal-tooltip__content {
+  overflow: visible;
   font-family: var(--cometal-typography-body-m-default-font-family);
   font-size: var(--cometal-typography-body-m-default-font-size);
   font-weight: var(--cometal-typography-body-m-default-font-weight);
   line-height: var(--cometal-typography-body-m-default-line-height);
   letter-spacing: var(--cometal-typography-body-m-default-letter-spacing);
+  overflow-wrap: anywhere;
+  text-overflow: clip;
+  white-space: normal;
 }
 
 .cometal-tooltip__arrow {

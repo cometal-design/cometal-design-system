@@ -106,6 +106,10 @@ export const Overview: Story = {
     const nameTooltip = await within(document.body).findByRole('tooltip');
     await expect(nameTooltip).toHaveTextContent('Лист горячекатаный г/к 10×1500×6000 мм ГОСТ 19903-2015');
     await expect(nameTooltip.parentElement).toBe(document.body);
+    const nameTooltipContent = nameTooltip.querySelector<HTMLElement>('.cometal-tooltip__content')!;
+    await expect(getComputedStyle(nameTooltipContent).textOverflow).toBe('clip');
+    await expect(getComputedStyle(nameTooltipContent).whiteSpace).toBe('normal');
+    await expect(nameTooltipContent.scrollWidth).toBeLessThanOrEqual(nameTooltipContent.clientWidth);
     const readNameRect = readNameText.getBoundingClientRect();
     const nameTooltipRect = nameTooltip.getBoundingClientRect();
     await expect(Math.abs(nameTooltipRect.left - readNameRect.left)).toBeLessThan(1);

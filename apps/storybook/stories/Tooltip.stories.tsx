@@ -41,7 +41,7 @@ export const Overview: Story = {
     const canvas = within(canvasElement);
     const trigger = canvas.getByRole('button', { name: 'Наведи или сфокусируй' });
     await userEvent.hover(trigger);
-    const tooltip = await canvas.findByRole('tooltip');
+    const tooltip = await within(document.body).findByRole('tooltip');
     await expect(tooltip).toBeVisible();
     await expect(tooltip).toHaveAttribute('data-placement', 'bottom-center');
     const geometry = getRenderedGeometry(tooltip);
@@ -54,12 +54,12 @@ export const Overview: Story = {
     await expect(getComputedStyle(tooltip).padding).toBe('8px 12px');
     await expect(getComputedStyle(tooltip.querySelector<HTMLElement>('.cometal-tooltip__content')!).lineHeight).toBe('16px');
     await userEvent.keyboard('{Escape}');
-    await waitFor(() => expect(canvas.queryByRole('tooltip')).not.toBeInTheDocument());
+    await waitFor(() => expect(within(document.body).queryByRole('tooltip')).not.toBeInTheDocument());
     await userEvent.unhover(trigger);
     trigger.focus();
-    await waitFor(() => expect(canvas.getByRole('tooltip')).toBeVisible());
+    await waitFor(() => expect(within(document.body).getByRole('tooltip')).toBeVisible());
     trigger.blur();
-    await waitFor(() => expect(canvas.queryByRole('tooltip')).not.toBeInTheDocument());
+    await waitFor(() => expect(within(document.body).queryByRole('tooltip')).not.toBeInTheDocument());
   },
 };
 
@@ -103,7 +103,7 @@ export const Wide: Story = {
     defaultOpen: true,
   },
   play: async ({ canvasElement }) => {
-    const tooltip = within(canvasElement).getByRole('tooltip');
+    const tooltip = within(document.body).getByRole('tooltip');
     await expect(tooltip).toHaveAttribute('data-placement', 'right');
     const geometry = getRenderedGeometry(tooltip);
     await expect(geometry.surface.width).toBe(240);

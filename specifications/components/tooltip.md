@@ -20,6 +20,7 @@ Tooltip публикует bounded overlay для короткой подска�
 ## Contract
 
 - Sizes: `compact`, `wide`
+- `compact` остаётся однострочным; `wide` растёт по контенту до bounded max-width и переносит длинный текст без ellipsis
 - Placements: `top-start`, `top-center`, `top-end`, `bottom-start`, `bottom-center`, `bottom-end`, `left`, `right`
 - Trigger: hover + focus
 - Dismiss: blur + pointer leave
