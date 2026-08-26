@@ -8,7 +8,7 @@ import { Select, TextField } from '../Field/Field';
 import {
   Table, TableBody, TableCell, TableContextAction, TableDragCell, TableDragHandle,
   TableColumnPinAction,
-  TableFileCell, TableFilterAction, TableFilterCell, TableFilterRow, TableHeaderCell, TableHead,
+  TableFileCell, TableFilterCell, TableFilterRow, TableHeaderCell, TableHead,
   TableIndexCell, TablePaginator, TableRow, TableSelectionCell, TableSelectionHeader,
   TableSummaryCell, reorderTableRows,
 } from '../Table/Table';
@@ -21,6 +21,8 @@ import FilterIcon from '../icons/generated/components/outline/general/filter';
 import PlusIcon from '../icons/generated/components/outline/general/plus-01';
 import FlexRowsIcon from '../icons/generated/components/outline/layout/flex-rows';
 import CalculatorIcon from '../icons/generated/components/outline/charts/calculator-02';
+import ChevronLeftIcon from '../icons/generated/components/outline/arrows/chevron-left';
+import ChevronRightIcon from '../icons/generated/components/outline/arrows/chevron-right';
 import './widget-table-pattern.css';
 
 export interface WidgetTablePatternProps {
@@ -53,7 +55,7 @@ const statusOptions = [
 type ReviewRow = [string, string, string, number, string, number, string, string, string, string, string];
 type EditableColumn = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 | 10;
 
-const rows: readonly ReviewRow[] = [
+const baseRows: readonly ReviewRow[] = [
   ['POS-001', 'Лист горячекатаный г/к 10×1500×6000 мм ГОСТ 19903-2015', '09Г2С', 24, 'т', 86400, '21.08.2026', 'Вх. 233-500', 'Согласован', 'Комплектность', 'Северсталь'],
   ['POS-002', 'Труба профильная электросварная 80×40×3 мм ГОСТ 8645-68', 'Ст3сп5', 18, 'т', 94800, '24.08.2026', 'Вх. 234-501', 'На проверке', 'Качество', 'ЕВРАЗ Маркет'],
   ['POS-003', 'Швеллер стальной горячекатаный 20П длина 12 м ГОСТ 8240-97', '10ХСНД', 12, 'т', 78200, '26.08.2026', 'Вх. 235-502', 'В работе', 'Срок поставки', 'Мечел-Сервис'],
@@ -65,6 +67,19 @@ const rows: readonly ReviewRow[] = [
   ['POS-009', 'Полоса стальная горячекатаная 50×5 мм длина 6 м', 'Ст3', 28, 'т', 74900, '09.09.2026', 'Вх. 241-508', 'Согласован', 'Упаковка', 'Сталепромышленная'],
   ['POS-010', 'Труба электросварная прямошовная 108×4 мм Ст20 ГОСТ 10704-91', 'Ст20', 10, 'т', 88600, '11.09.2026', 'Вх. 242-509', 'В работе', 'Приёмка', 'МЕТАЛЛСЕРВИС'],
 ];
+
+const rows: readonly ReviewRow[] = Array.from({ length: 12 }, (_, batchIndex) => (
+  baseRows.map((sourceRow, rowIndex) => {
+    const sequence = (batchIndex * baseRows.length) + rowIndex + 1;
+    const row = [...sourceRow] as ReviewRow;
+    row[0] = `POS-${String(sequence).padStart(3, '0')}`;
+    if (batchIndex > 0) row[1] = `${sourceRow[1]} · партия ${batchIndex + 1}`;
+    row[3] = sourceRow[3] + (batchIndex * 2);
+    row[5] = sourceRow[5] + (batchIndex * 1250);
+    row[7] = `Вх. ${233 + sequence - 1}-${500 + sequence - 1}`;
+    return row;
+  })
+)).flat();
 
 function OverflowTooltipText({ text, disabled = false }: { text: string; disabled?: boolean }) {
   const textRef = useRef<HTMLSpanElement | null>(null);
@@ -101,12 +116,50 @@ function toneForStatus(status: string): 'green' | 'blue' | 'yellow' | 'red' {
   return 'blue';
 }
 
-function HeaderMenu({ columnId }: { columnId: string }) {
-  return <><TableColumnPinAction columnId={columnId} /><ContextMenuItem>Скрыть колонку</ContextMenuItem><ContextMenuDivider /><ContextMenuItem tone="danger">Сбросить фильтр</ContextMenuItem></>;
-}
+type FilterOperatorType = 'text' | 'number' | 'date' | 'select';
 
-function HeaderAction({ columnId, label }: { columnId: string; label: string }) {
-  return <TableContextAction label={`Действия колонки ${label}`} menuLabel={`Действия колонки ${label}`} menu={<HeaderMenu columnId={columnId} />} />;
+function HeaderMenu({
+  columnId,
+  type,
+  value,
+  onValueChange,
+  onReset,
+}: {
+  columnId: string;
+  type: FilterOperatorType;
+  value: string;
+  onValueChange: (value: string) => void;
+  onReset: () => void;
+}) {
+  const [level, setLevel] = useState<'main' | 'filter'>('main');
+  if (level === 'filter') {
+    return <>
+      <ContextMenuItem
+        startIcon={<ChevronLeftIcon />}
+        onClick={(event) => {
+          event.preventDefault();
+          setLevel('main');
+        }}
+      >Фильтр</ContextMenuItem>
+      <ContextMenuDivider />
+      {filterOperators[type].map((option) => (
+        <ContextMenuItem key={option} selected={option === value} onClick={() => onValueChange(option)}>{option}</ContextMenuItem>
+      ))}
+      <ContextMenuDivider />
+      <ContextMenuItem tone="danger" onClick={onReset}>Сбросить фильтр</ContextMenuItem>
+    </>;
+  }
+  return <>
+    <TableColumnPinAction columnId={columnId} />
+    <ContextMenuItem>Скрыть колонку</ContextMenuItem>
+    <ContextMenuItem
+      endIcon={<ChevronRightIcon />}
+      onClick={(event) => {
+        event.preventDefault();
+        setLevel('filter');
+      }}
+    >Фильтр</ContextMenuItem>
+  </>;
 }
 
 const reviewColumnIds = {
@@ -114,6 +167,52 @@ const reviewColumnIds = {
   grade: 'grade', quantity: 'quantity', unit: 'unit', price: 'price', sum: 'sum', delivery: 'delivery',
   document: 'document', file: 'file', status: 'status', control: 'control', supplier: 'supplier',
 } as const;
+
+type ReviewSortableColumnId =
+  | typeof reviewColumnIds.position
+  | typeof reviewColumnIds.name
+  | typeof reviewColumnIds.grade
+  | typeof reviewColumnIds.quantity
+  | typeof reviewColumnIds.unit
+  | typeof reviewColumnIds.price
+  | typeof reviewColumnIds.sum
+  | typeof reviewColumnIds.delivery
+  | typeof reviewColumnIds.document
+  | typeof reviewColumnIds.file
+  | typeof reviewColumnIds.status
+  | typeof reviewColumnIds.control
+  | typeof reviewColumnIds.supplier;
+
+type ActiveReviewSortDirection = Exclude<TableSortDirection, 'none'>;
+type ReviewSortState = { columnId: ReviewSortableColumnId; direction: ActiveReviewSortDirection } | null;
+
+const reviewRowCollator = new Intl.Collator('ru-RU', { numeric: true, sensitivity: 'base' });
+
+function reviewDateValue(value: string): number {
+  const [day = 0, month = 0, year = 0] = value.split('.').map(Number);
+  return year * 10000 + month * 100 + day;
+}
+
+function reviewSortValue(row: ReviewRow, columnId: ReviewSortableColumnId): string | number {
+  if (columnId === reviewColumnIds.position) return row[0];
+  if (columnId === reviewColumnIds.name) return row[1];
+  if (columnId === reviewColumnIds.grade) return row[2];
+  if (columnId === reviewColumnIds.quantity) return row[3];
+  if (columnId === reviewColumnIds.unit) return row[4];
+  if (columnId === reviewColumnIds.price) return row[5];
+  if (columnId === reviewColumnIds.sum) return row[3] * row[5];
+  if (columnId === reviewColumnIds.delivery) return reviewDateValue(row[6]);
+  if (columnId === reviewColumnIds.document) return row[7];
+  if (columnId === reviewColumnIds.file) return 'Спецификация.pdf';
+  if (columnId === reviewColumnIds.status) return row[8];
+  if (columnId === reviewColumnIds.control) return row[9];
+  return row[10];
+}
+
+function compareReviewSortValues(left: string | number, right: string | number): number {
+  if (typeof left === 'number' && typeof right === 'number') return left - right;
+  return reviewRowCollator.compare(String(left), String(right));
+}
 
 const editableColumnIds: Record<EditableColumn, string> = {
   0: reviewColumnIds.position, 1: reviewColumnIds.name, 2: reviewColumnIds.grade,
@@ -140,7 +239,7 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode 
   const [filters, setFilters] = useState(true);
   const [summaryVisible, setSummaryVisible] = useState(true);
   const [selected, setSelected] = useState<string[]>([]);
-  const [sort, setSort] = useState<TableSortDirection>('none');
+  const [sort, setSort] = useState<ReviewSortState>(null);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
   const [query, setQuery] = useState('');
@@ -149,16 +248,58 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode 
   const [editingCell, setEditingCell] = useState<{ rowId: string; column: EditableColumn } | null>(null);
   const [pinnedColumnIds, setPinnedColumnIds] = useState<string[]>([]);
   const [columnWidths, setColumnWidths] = useState<Record<string, number>>({});
-  const operatorAction = (column: string, type: keyof typeof filterOperators) => {
-    const options = filterOperators[type];
-    const value = operators[column] ?? options[0];
-    return <TableFilterAction label={column} menu={options.map((option) => <ContextMenuItem key={option} selected={option === value} onClick={() => setOperators((current) => ({ ...current, [column]: option }))}>{option}</ContextMenuItem>)} />;
+  const headerAction = (columnId: string, label: string, type: FilterOperatorType) => {
+    const value = operators[columnId] ?? filterOperators[type][0];
+    return <TableContextAction
+      label={`Действия колонки ${label}`}
+      menuLabel={`Действия колонки ${label}`}
+      menu={<HeaderMenu
+        columnId={columnId}
+        type={type}
+        value={value}
+        onValueChange={(nextValue) => setOperators((current) => ({ ...current, [columnId]: nextValue }))}
+        onReset={() => {
+          setOperators((current) => {
+            const next = { ...current };
+            delete next[columnId];
+            return next;
+          });
+          if (columnId === reviewColumnIds.position) setQuery('');
+          if (columnId === reviewColumnIds.status) setStatus('all');
+        }}
+      />}
+    />;
   };
-  const visibleRows = useMemo(() => orderedRows.filter((row) => {
-    const matchesText = `${row[0]} ${row[1]} ${row[2]} ${row[10]}`.toLowerCase().includes(query.toLowerCase());
-    const matchesStatus = status === 'all' || (status === 'approved' && row[8] === 'Согласован') || (status === 'review' && row[8] === 'На проверке') || (status === 'working' && row[8] === 'В работе') || (status === 'draft' && row[8] === 'Черновик');
-    return matchesText && matchesStatus;
-  }), [orderedRows, query, status]);
+  const sortableHeaderProps = (columnId: ReviewSortableColumnId) => ({
+    sort: sort?.columnId === columnId ? sort.direction : 'none' as TableSortDirection,
+    onSortChange: (direction: TableSortDirection) => setSort(direction === 'none' ? null : { columnId, direction }),
+  });
+  const filteredRows = useMemo(() => {
+    const filteredRows = orderedRows.filter((row) => {
+      const matchesText = `${row[0]} ${row[1]} ${row[2]} ${row[10]}`.toLowerCase().includes(query.toLowerCase());
+      const matchesStatus = status === 'all' || (status === 'approved' && row[8] === 'Согласован') || (status === 'review' && row[8] === 'На проверке') || (status === 'working' && row[8] === 'В работе') || (status === 'draft' && row[8] === 'Черновик');
+      return matchesText && matchesStatus;
+    });
+    if (!sort) return filteredRows;
+    const direction = sort.direction === 'ascending' ? 1 : -1;
+    return filteredRows
+      .map((row, originalIndex) => ({ row, originalIndex }))
+      .sort((left, right) => {
+        const comparison = compareReviewSortValues(
+          reviewSortValue(left.row, sort.columnId),
+          reviewSortValue(right.row, sort.columnId),
+        );
+        return comparison === 0 ? left.originalIndex - right.originalIndex : comparison * direction;
+      })
+      .map(({ row }) => row);
+  }, [orderedRows, query, sort, status]);
+  const pageCount = Math.max(1, Math.ceil(filteredRows.length / pageSize));
+  const safePage = Math.min(page, pageCount);
+  const visibleRows = useMemo(() => {
+    const start = (safePage - 1) * pageSize;
+    return filteredRows.slice(start, start + pageSize);
+  }, [filteredRows, pageSize, safePage]);
+  const selectedVisibleRows = visibleRows.filter((row) => selected.includes(row[0]));
   const totalQuantity = visibleRows.reduce((total, row) => total + row[3], 0);
   const totalSum = visibleRows.reduce((total, row) => total + row[3] * row[5], 0);
 
@@ -241,42 +382,72 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode 
   </>;
 
   return (
-    <WidgetTablePattern title={`Спецификация позиций · ${mode === 'read' ? 'Read' : 'Edit'}`} description={`${visibleRows.length} строк · ${mode === 'read' ? 'построчное чтение' : 'редактирование ячеек'} · фильтры ${filters ? 'включены' : 'выключены'}`} toolbar={toolbar} footer={<TablePaginator aria-label={`Пагинация таблицы · ${mode === 'read' ? 'Read' : 'Edit'}`} page={page} pageCount={9} onPageChange={setPage} pageSize={pageSize} onPageSizeChange={setPageSize} />}>
+    <WidgetTablePattern
+      className={[
+        pageSize > 10 && 'cometal-widget-table-pattern--row-scroll',
+        filters && 'cometal-widget-table-pattern--filters-visible',
+        summaryVisible && 'cometal-widget-table-pattern--summary-visible',
+        density === 'compact' && 'cometal-widget-table-pattern--density-compact',
+      ].filter(Boolean).join(' ')}
+      title={`Спецификация позиций · ${mode === 'read' ? 'Read' : 'Edit'}`}
+      description={`${visibleRows.length} из ${filteredRows.length} строк · ${mode === 'read' ? 'построчное чтение' : 'редактирование ячеек'} · фильтры ${filters ? 'включены' : 'выключены'}`}
+      toolbar={toolbar}
+      footer={<TablePaginator
+        aria-label={`Пагинация таблицы · ${mode === 'read' ? 'Read' : 'Edit'}`}
+        page={safePage}
+        pageCount={pageCount}
+        onPageChange={setPage}
+        pageSize={pageSize}
+        onPageSizeChange={(nextPageSize) => {
+          setPageSize(nextPageSize);
+          setPage(1);
+        }}
+      />}
+    >
       <Table density={density} mode={mode} aria-label={`Спецификация позиций · ${mode === 'read' ? 'Read' : 'Edit'}`} pinnedColumnIds={pinnedColumnIds} onPinnedColumnIdsChange={setPinnedColumnIds} columnWidths={columnWidths} onColumnWidthsChange={setColumnWidths} onRowReorder={mode === 'edit' ? (event) => setOrderedRows((current) => reorderTableRows(current, event, (row) => row[0])) : undefined} rowContextMenu={(rowId) => <><ContextMenuItem onClick={() => setSelected((current) => current.includes(rowId) ? current : [...current, rowId])}>Выбрать строку</ContextMenuItem><ContextMenuItem>Открыть позицию</ContextMenuItem>{mode === 'edit' ? <><ContextMenuDivider /><ContextMenuItem tone="danger">Удалить строку</ContextMenuItem></> : null}</>}>
         <TableHead>
           <TableRow>
             <TableHeaderCell columnId={reviewColumnIds.drag} kind="drag"><span className="cometal-widget-table-pattern__sr-only">Перемещение</span></TableHeaderCell>
             <TableHeaderCell columnId={reviewColumnIds.index} kind="index">№</TableHeaderCell>
-            <TableSelectionHeader columnId={reviewColumnIds.selection} selectedCount={selected.length} totalCount={orderedRows.length} onSelectionChange={(checked) => setSelected(checked ? orderedRows.map((row) => row[0]) : [])} />
-            <TableHeaderCell columnId={reviewColumnIds.position} sort={sort} onSortChange={setSort} action={<HeaderAction columnId={reviewColumnIds.position} label="Позиция" />}>Позиция</TableHeaderCell>
-            <TableHeaderCell columnId={reviewColumnIds.name} action={<HeaderAction columnId={reviewColumnIds.name} label="Наименование" />}>Наименование</TableHeaderCell>
-            <TableHeaderCell columnId={reviewColumnIds.grade} action={<HeaderAction columnId={reviewColumnIds.grade} label="Марка стали" />}>Марка стали</TableHeaderCell>
-            <TableHeaderCell columnId={reviewColumnIds.quantity} action={<HeaderAction columnId={reviewColumnIds.quantity} label="Количество" />}>Количество</TableHeaderCell>
-            <TableHeaderCell columnId={reviewColumnIds.unit} action={<HeaderAction columnId={reviewColumnIds.unit} label="Единица" />}>Ед.</TableHeaderCell>
-            <TableHeaderCell columnId={reviewColumnIds.price} action={<HeaderAction columnId={reviewColumnIds.price} label="Цена" />}>Цена, ₽</TableHeaderCell>
-            <TableHeaderCell columnId={reviewColumnIds.sum} action={<HeaderAction columnId={reviewColumnIds.sum} label="Сумма" />}>Сумма, ₽</TableHeaderCell>
-            <TableHeaderCell columnId={reviewColumnIds.delivery} action={<HeaderAction columnId={reviewColumnIds.delivery} label="Дата поставки" />}>Дата поставки</TableHeaderCell>
-            <TableHeaderCell columnId={reviewColumnIds.document} action={<HeaderAction columnId={reviewColumnIds.document} label="Документ" />}>Документ</TableHeaderCell>
-            <TableHeaderCell columnId={reviewColumnIds.file} action={<HeaderAction columnId={reviewColumnIds.file} label="Файл" />}>Файл</TableHeaderCell>
-            <TableHeaderCell columnId={reviewColumnIds.status} action={<HeaderAction columnId={reviewColumnIds.status} label="Статус" />}>Статус</TableHeaderCell>
-            <TableHeaderCell columnId={reviewColumnIds.control} action={<HeaderAction columnId={reviewColumnIds.control} label="Контроль" />}>Контроль</TableHeaderCell>
-            <TableHeaderCell columnId={reviewColumnIds.supplier} action={<HeaderAction columnId={reviewColumnIds.supplier} label="Поставщик" />}>Поставщик</TableHeaderCell>
+            <TableSelectionHeader
+              columnId={reviewColumnIds.selection}
+              selectedCount={selectedVisibleRows.length}
+              totalCount={visibleRows.length}
+              onSelectionChange={(checked) => setSelected((current) => {
+                const visibleIds = new Set(visibleRows.map((row) => row[0]));
+                if (checked) return [...new Set([...current, ...visibleIds])];
+                return current.filter((rowId) => !visibleIds.has(rowId));
+              })}
+            />
+            <TableHeaderCell columnId={reviewColumnIds.position} {...sortableHeaderProps(reviewColumnIds.position)} action={headerAction(reviewColumnIds.position, 'Позиция', 'text')}>Позиция</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.name} {...sortableHeaderProps(reviewColumnIds.name)} action={headerAction(reviewColumnIds.name, 'Наименование', 'text')}>Наименование</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.grade} {...sortableHeaderProps(reviewColumnIds.grade)} action={headerAction(reviewColumnIds.grade, 'Марка стали', 'text')}>Марка стали</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.quantity} {...sortableHeaderProps(reviewColumnIds.quantity)} action={headerAction(reviewColumnIds.quantity, 'Количество', 'number')}>Количество</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.unit} {...sortableHeaderProps(reviewColumnIds.unit)} action={headerAction(reviewColumnIds.unit, 'Единица', 'select')}>Ед.</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.price} {...sortableHeaderProps(reviewColumnIds.price)} action={headerAction(reviewColumnIds.price, 'Цена', 'number')}>Цена, ₽</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.sum} {...sortableHeaderProps(reviewColumnIds.sum)} action={headerAction(reviewColumnIds.sum, 'Сумма', 'number')}>Сумма, ₽</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.delivery} {...sortableHeaderProps(reviewColumnIds.delivery)} action={headerAction(reviewColumnIds.delivery, 'Дата поставки', 'date')}>Дата поставки</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.document} {...sortableHeaderProps(reviewColumnIds.document)} action={headerAction(reviewColumnIds.document, 'Документ', 'text')}>Документ</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.file} {...sortableHeaderProps(reviewColumnIds.file)} action={headerAction(reviewColumnIds.file, 'Файл', 'text')}>Файл</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.status} {...sortableHeaderProps(reviewColumnIds.status)} action={headerAction(reviewColumnIds.status, 'Статус', 'select')}>Статус</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.control} {...sortableHeaderProps(reviewColumnIds.control)} action={headerAction(reviewColumnIds.control, 'Контроль', 'select')}>Контроль</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.supplier} {...sortableHeaderProps(reviewColumnIds.supplier)} action={headerAction(reviewColumnIds.supplier, 'Поставщик', 'select')}>Поставщик</TableHeaderCell>
           </TableRow>
           {filters ? <TableFilterRow aria-label="Фильтры таблицы">
             <TableFilterCell columnId={reviewColumnIds.drag} kind="drag" /><TableFilterCell columnId={reviewColumnIds.index} kind="index" /><TableFilterCell columnId={reviewColumnIds.selection} kind="selection" />
-            <TableFilterCell columnId={reviewColumnIds.position} action={operatorAction('Позиция', 'text')}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по позиции" size="s" placeholder={operators.Позиция ?? 'Содержит'} value={query} onChange={(event) => setQuery(event.currentTarget.value)} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.name} action={operatorAction('Наименование', 'text')}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по наименованию" size="s" placeholder={operators.Наименование ?? 'Содержит'} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.grade} action={operatorAction('Марка', 'text')}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по марке" size="s" placeholder={operators.Марка ?? 'Содержит'} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.quantity} action={operatorAction('Количество', 'number')}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по количеству" size="s" placeholder={operators.Количество ?? 'Равно'} inputMode="numeric" /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.unit} action={operatorAction('Единица', 'select')}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по единице" size="s" placeholder={operators.Единица ?? 'Равно'} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.price} action={operatorAction('Цена', 'number')}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по цене" size="s" placeholder={operators.Цена ?? 'Равно'} inputMode="numeric" /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.sum} action={operatorAction('Сумма', 'number')}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по сумме" size="s" placeholder={operators.Сумма ?? 'Равно'} inputMode="numeric" /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.delivery} action={operatorAction('Дата поставки', 'date')}><DatePicker className="cometal-widget-table-pattern__filter" label="Фильтр по дате" size="s" placeholder={operators['Дата поставки'] ?? 'Дата равна'} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.document} action={operatorAction('Документ', 'text')}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по документу" size="s" placeholder={operators.Документ ?? 'Содержит'} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.file} action={operatorAction('Файл', 'text')}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по файлу" size="s" placeholder={operators.Файл ?? 'Содержит'} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.status} action={operatorAction('Статус', 'select')}><Select className="cometal-widget-table-pattern__filter" label="Фильтр по статусу" size="s" options={statusOptions} value={status} onValueChange={setStatus} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.control} action={operatorAction('Контроль', 'select')}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по контролю" size="s" placeholder={operators.Контроль ?? 'Равно'} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.supplier} action={operatorAction('Поставщик', 'select')}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по поставщику" size="s" placeholder={operators.Поставщик ?? 'Равно'} /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.position}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по позиции" size="s" placeholder={operators[reviewColumnIds.position] ?? 'Содержит'} value={query} onChange={(event) => setQuery(event.currentTarget.value)} /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.name}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по наименованию" size="s" placeholder={operators[reviewColumnIds.name] ?? 'Содержит'} /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.grade}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по марке" size="s" placeholder={operators[reviewColumnIds.grade] ?? 'Содержит'} /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.quantity}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по количеству" size="s" placeholder={operators[reviewColumnIds.quantity] ?? 'Равно'} inputMode="numeric" /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.unit}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по единице" size="s" placeholder={operators[reviewColumnIds.unit] ?? 'Равно'} /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.price}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по цене" size="s" placeholder={operators[reviewColumnIds.price] ?? 'Равно'} inputMode="numeric" /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.sum}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по сумме" size="s" placeholder={operators[reviewColumnIds.sum] ?? 'Равно'} inputMode="numeric" /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.delivery}><DatePicker className="cometal-widget-table-pattern__filter" label="Фильтр по дате" size="s" placeholder={operators[reviewColumnIds.delivery] ?? 'Дата равна'} /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.document}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по документу" size="s" placeholder={operators[reviewColumnIds.document] ?? 'Содержит'} /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.file}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по файлу" size="s" placeholder={operators[reviewColumnIds.file] ?? 'Содержит'} /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.status}><Select className="cometal-widget-table-pattern__filter" label="Фильтр по статусу" size="s" options={statusOptions} value={status} onValueChange={setStatus} /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.control}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по контролю" size="s" placeholder={operators[reviewColumnIds.control] ?? 'Равно'} /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.supplier}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по поставщику" size="s" placeholder={operators[reviewColumnIds.supplier] ?? 'Равно'} /></TableFilterCell>
           </TableFilterRow> : null}
         </TableHead>
         <TableBody>
@@ -284,7 +455,7 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode 
             const sum = row[3] * row[5];
             return <TableRow key={row[0]} rowId={row[0]} reorderId={mode === 'edit' ? row[0] : undefined} selected={selected.includes(row[0])}>
               <TableDragCell columnId={reviewColumnIds.drag}><TableDragHandle rowLabel={row[0]} /></TableDragCell>
-              <TableIndexCell columnId={reviewColumnIds.index}>{index + 1}</TableIndexCell>
+              <TableIndexCell columnId={reviewColumnIds.index}>{((safePage - 1) * pageSize) + index + 1}</TableIndexCell>
               <TableSelectionCell columnId={reviewColumnIds.selection} label={`Выбрать ${row[0]}`} checked={selected.includes(row[0])} onCheckedChange={(checked) => setSelected((current) => checked ? [...current, row[0]] : current.filter((value) => value !== row[0]))} />
               {editableCell(row, 0, `Позиция ${row[0]}`)}{editableCell(row, 1, `Наименование ${row[0]}`)}{editableCell(row, 2, `Марка стали ${row[0]}`)}
               {editableCell(row, 3, `Количество ${row[0]}`, 'end')}{editableCell(row, 4, `Единица ${row[0]}`)}

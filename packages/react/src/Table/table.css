@@ -1,11 +1,96 @@
+.cometal-table-scroll-shell {
+  --cometal-table-density-size: var(--cometal-component-table-cell-height-density-comfortable);
+  --cometal-table-scrollbar-safe-inset: var(--cometal-table-density-size);
+  --cometal-table-scrollbar-thumb: color-mix(
+    in srgb,
+    var(--cometal-semantic-color-global-icon-secondary) 24%,
+    transparent
+  );
+  position: relative;
+  width: 100%;
+  max-width: 100%;
+  min-width: 0;
+}
+
+.cometal-table-scroll-shell[data-density='compact'] {
+  --cometal-table-density-size: var(--cometal-component-table-cell-height-density-compact);
+}
+
 .cometal-table-scroll {
+  position: relative;
   width: 100%;
   max-width: 100%;
   contain: inline-size paint;
   overflow-x: auto;
   overflow-y: visible;
-  overscroll-behavior-inline: contain;
-  scrollbar-gutter: stable;
+  overscroll-behavior: none;
+  scrollbar-gutter: auto;
+  scrollbar-width: none;
+}
+
+.cometal-table-scroll::-webkit-scrollbar {
+  display: none;
+  width: 0;
+  height: 0;
+}
+
+.cometal-table-scrollbar {
+  position: absolute;
+  z-index: 8;
+  border-radius: var(--cometal-primitive-radius-100);
+  opacity: 0;
+  pointer-events: none;
+  touch-action: none;
+  transition: opacity var(--cometal-motion-duration-state) var(--cometal-motion-easing-standard);
+  user-select: none;
+}
+
+.cometal-table-scrollbar--horizontal {
+  right: var(--cometal-table-scrollbar-safe-inset);
+  bottom: 1px;
+  left: var(--cometal-table-scrollbar-safe-inset);
+  height: 6px;
+}
+
+.cometal-table-scrollbar--vertical {
+  top: var(--cometal-table-scrollbar-safe-inset);
+  right: 1px;
+  bottom: var(--cometal-table-scrollbar-safe-inset);
+  width: 6px;
+}
+
+.cometal-table-scrollbar__thumb {
+  position: absolute;
+  border-radius: var(--cometal-primitive-radius-100);
+  background: var(--cometal-table-scrollbar-thumb);
+  cursor: grab;
+}
+
+.cometal-table-scrollbar--horizontal .cometal-table-scrollbar__thumb {
+  top: 1px;
+  left: 0;
+  height: 4px;
+}
+
+.cometal-table-scrollbar--vertical .cometal-table-scrollbar__thumb {
+  top: 0;
+  left: 1px;
+  width: 4px;
+}
+
+.cometal-table-scroll-shell[data-scroll-active] .cometal-table-scrollbar,
+.cometal-table-scrollbar:focus-visible {
+  opacity: 1;
+  pointer-events: auto;
+}
+
+.cometal-table-scroll-shell[data-scrollbar-dragging] .cometal-table-scrollbar__thumb {
+  cursor: grabbing;
+}
+
+.cometal-table-scrollbar:focus-visible {
+  outline: var(--cometal-primitive-stroke-200) solid var(--cometal-semantic-color-global-state-focus-ring);
+  outline-offset: var(--cometal-primitive-spacing-25);
 }
 
 .cometal-table-scroll:focus-visible {
@@ -13,8 +98,15 @@
   outline-offset: var(--cometal-primitive-spacing-25);
 }
 
+@media (prefers-reduced-motion: reduce) {
+  .cometal-table-scrollbar {
+    transition: none;
+  }
+}
+
 .cometal-table {
-  --cometal-table-cell-height: var(--cometal-component-table-cell-height-density-comfortable);
+  --cometal-table-cell-height: var(--cometal-table-density-size);
+  --cometal-table-filter-inset: calc((var(--cometal-table-cell-height) - var(--cometal-semantic-size-global-control-s)) / 2);
   --cometal-table-cell-inset-x: var(--cometal-component-table-cell-inset-horizontal);
   --cometal-table-cell-inset-y: var(--cometal-component-table-cell-inset-vertical-density-comfortable);
   --cometal-table-cell-gap: var(--cometal-component-table-cell-gap);
@@ -32,8 +124,9 @@
   --cometal-table-disabled-text: var(--cometal-component-table-text-disabled);
   --cometal-table-header-surface: var(--cometal-component-table-header-surface-default);
   --cometal-table-header-hover: var(--cometal-component-table-header-surface-hover);
+  --cometal-table-header-selected: var(--cometal-component-table-header-surface-selected);
   --cometal-table-header-text: var(--cometal-component-table-text-secondary);
-  --cometal-table-selected-icon: var(--cometal-component-table-icon-selected);
+  --cometal-table-header-sort-icon-selected: var(--cometal-component-table-header-icon-sort-selected);
   --cometal-table-file-metadata: var(--cometal-component-table-file-metadata);
   --cometal-table-icon-size: var(--cometal-component-table-icon-size);
   --cometal-table-file-icon-size: var(--cometal-primitive-size-24);
@@ -65,7 +158,6 @@
 }
 
 .cometal-table[data-density='compact'] {
-  --cometal-table-cell-height: var(--cometal-component-table-cell-height-density-compact);
   --cometal-table-cell-inset-y: var(--cometal-component-table-cell-inset-vertical-density-compact);
 }
 
@@ -110,15 +202,18 @@
   z-index: 3;
 }
 
-.cometal-table [data-column-pinned-last]::after {
+.cometal-table-scroll[data-horizontal-scrolled] .cometal-table [data-column-pinned-last]::after {
   position: absolute;
   z-index: 1;
   top: 0;
-  right: calc(var(--cometal-table-border-width) * -1);
+  right: calc(var(--cometal-primitive-spacing-100) * -1);
   bottom: 0;
-  width: var(--cometal-table-border-width);
-  background: var(--cometal-table-divider);
-  box-shadow: var(--cometal-primitive-spacing-100) 0 var(--cometal-primitive-spacing-150) var(--cometal-semantic-color-global-effect-shadow-default);
+  width: var(--cometal-primitive-spacing-100);
+  background: linear-gradient(
+    90deg,
+    var(--cometal-semantic-color-global-effect-shadow-subtle),
+    transparent
+  );
   content: '';
   pointer-events: none;
 }
@@ -135,7 +230,7 @@
 
 .cometal-table__header-cell,
 .cometal-table__filter-cell {
-  height: var(--cometal-component-table-header-height);
+  height: var(--cometal-table-cell-height);
   background: var(--cometal-table-header-surface);
   color: var(--cometal-table-header-text);
 }
@@ -147,6 +242,12 @@
   font-weight: var(--cometal-typography-body-s-accent-font-weight);
   line-height: var(--cometal-typography-body-s-accent-line-height);
   letter-spacing: var(--cometal-typography-body-s-accent-letter-spacing);
+}
+
+.cometal-table__header-cell[data-sort='ascending'],
+.cometal-table__header-cell[data-sort='descending'] {
+  background: var(--cometal-table-header-selected);
+  color: var(--cometal-table-selected-text);
 }
 
 .cometal-table__column-resize-handle {
@@ -166,8 +267,18 @@
   right: calc((var(--cometal-primitive-spacing-50) - var(--cometal-table-border-width)) / 2);
   bottom: 0;
   width: var(--cometal-table-border-width);
-  background: var(--cometal-table-divider);
+  background: transparent;
   content: '';
+}
+
+/* The final resize target stays inside the table so its hit area cannot extend
+   the horizontal scroll range past the last column. */
+.cometal-table__header-cell:last-child .cometal-table__column-resize-handle {
+  right: 0;
+}
+
+.cometal-table__header-cell:last-child .cometal-table__column-resize-handle::after {
+  right: 0;
 }
 
 .cometal-table__column-resize-handle:hover::after,
@@ -212,7 +323,7 @@
 }
 
 .cometal-table__header-main {
-  min-height: calc(var(--cometal-component-table-header-height) - (var(--cometal-table-border-width) * 2));
+  min-height: calc(var(--cometal-table-cell-height) - (var(--cometal-table-border-width) * 2));
   padding-inline: var(--cometal-component-table-header-inset-start) var(--cometal-component-table-header-inset-end);
   gap: var(--cometal-component-table-header-gap);
 }
@@ -252,6 +363,7 @@
 
 .cometal-table__sort-button {
   display: flex;
+  height: var(--cometal-primitive-size-24);
   min-width: 0;
   flex: 1 1 auto;
   align-items: center;
@@ -288,7 +400,11 @@
 }
 
 .cometal-table__sort-icon {
-  color: var(--cometal-table-selected-icon);
+  color: var(--cometal-table-header-sort-icon-selected);
+}
+
+.cometal-table__sort-icon [data-cometal-stroke-scale] {
+  vector-effect: non-scaling-stroke;
 }
 
 .cometal-table__header-action {
@@ -349,9 +465,9 @@
   position: relative;
   display: flex;
   min-width: 0;
-  min-height: calc(var(--cometal-component-table-header-height) - var(--cometal-table-border-width));
+  min-height: calc(var(--cometal-table-cell-height) - var(--cometal-table-border-width));
   align-items: center;
-  padding-inline: var(--cometal-component-table-header-inset-start) var(--cometal-component-table-header-inset-end);
+  padding-inline: var(--cometal-table-filter-inset);
 }
 
 .cometal-table__filter-control[data-has-action] .cometal-field__control,
@@ -363,7 +479,7 @@
 .cometal-table__filter-action {
   position: absolute;
   top: 50%;
-  right: calc(var(--cometal-component-table-header-inset-end) + var(--cometal-primitive-spacing-50));
+  right: calc(var(--cometal-table-filter-inset) + var(--cometal-primitive-spacing-50));
   display: inline-flex;
   width: var(--cometal-primitive-size-24);
   height: var(--cometal-primitive-size-24);
@@ -471,16 +587,23 @@
 
 .cometal-table__checkbox {
   display: inline-grid;
+  box-sizing: border-box;
   width: var(--cometal-primitive-size-20);
   height: var(--cometal-primitive-size-20);
   padding: 0;
+  align-items: center;
   grid-template-columns: var(--cometal-primitive-size-20);
+  justify-items: center;
   gap: 0;
+  line-height: 0;
+  vertical-align: middle;
 }
 
 .cometal-table__checkbox .cometal-selection__control {
   box-sizing: border-box;
   margin-top: 0;
+  align-self: center;
+  justify-self: center;
 }
 
 .cometal-table__row[data-row-selected] > .cometal-table__cell,
@@ -534,11 +657,21 @@
 }
 
 .cometal-table__cell[data-state='editing'][contenteditable='true'] {
-  outline: var(--cometal-primitive-stroke-200) solid var(--cometal-semantic-color-global-state-focus-ring);
-  outline-offset: calc(var(--cometal-primitive-stroke-100) * -1);
+  z-index: 2;
+  outline: none;
+  box-shadow: none;
   caret-color: currentColor;
   cursor: text;
   user-select: text;
+}
+
+.cometal-table__cell[data-state='editing'][contenteditable='true'] .cometal-table__cell-content::after {
+  position: absolute;
+  z-index: 2;
+  inset: calc(var(--cometal-table-border-width) * -1);
+  border: var(--cometal-table-border-width) solid var(--cometal-semantic-color-global-state-focus-ring);
+  content: '';
+  pointer-events: none;
 }
 
 .cometal-table__cell[data-state='hover'] {
@@ -629,6 +762,9 @@
 }
 
 .cometal-table__summary-cell {
+  position: sticky;
+  z-index: 4;
+  bottom: 0;
   border-top-color: var(--cometal-component-table-summary-border-divider);
   background: var(--cometal-component-table-summary-surface-default);
   color: var(--cometal-component-table-summary-text-primary);
@@ -637,6 +773,10 @@
   font-weight: var(--cometal-typography-body-m-accent-font-weight);
   line-height: var(--cometal-typography-body-m-accent-line-height);
   letter-spacing: var(--cometal-typography-body-m-accent-letter-spacing);
+}
+
+.cometal-table__summary-cell[data-column-pinned] {
+  z-index: 5;
 }
 
 .cometal-table__paginator {
@@ -798,8 +938,7 @@
     border-color: CanvasText;
   }
 
-  .cometal-table [data-column-pinned-last]::after {
+  .cometal-table-scroll[data-horizontal-scrolled] .cometal-table [data-column-pinned-last]::after {
     background: CanvasText;
-    box-shadow: none;
   }
 }

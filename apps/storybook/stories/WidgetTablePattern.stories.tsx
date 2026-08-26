@@ -218,7 +218,11 @@ export const Overview: Story = {
     await userEvent.click(within(readToolbar!).getByRole('button', { name: 'Показать фильтры' }));
     const summaryToggle = within(readToolbar!).getByRole('button', { name: 'Скрыть итоги' });
     await expect(summaryToggle).toHaveAttribute('aria-pressed', 'true');
-    await expect(within(readTable).getByText('Итого')).toBeVisible();
+    const summaryLabel = within(readTable).getByText('Итого');
+    await expect(summaryLabel).toBeVisible();
+    const summaryCell = summaryLabel.closest<HTMLElement>('.cometal-table__summary-cell')!;
+    await expect(getComputedStyle(summaryCell).position).toBe('sticky');
+    await expect(getComputedStyle(summaryCell).bottom).toBe('0px');
     await userEvent.click(summaryToggle);
     await expect(within(readTable).queryByText('Итого')).not.toBeInTheDocument();
     await expect(within(readTable).getAllByRole('row')).toHaveLength(12);

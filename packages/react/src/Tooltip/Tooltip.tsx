@@ -137,6 +137,30 @@ function clampPosition(top: number, left: number, width: number, height: number)
   };
 }
 
+function fitWideTooltipPanel(panel: HTMLSpanElement) {
+  panel.style.removeProperty('--cometal-tooltip-fitted-width');
+  const content = panel.querySelector<HTMLElement>('.cometal-tooltip__content');
+  if (!content) return;
+
+  const range = document.createRange();
+  range.selectNodeContents(content);
+  const lineWidths = Array.from(range.getClientRects())
+    .filter((rect) => rect.width > 0 && rect.height > 0)
+    .map((rect) => rect.width);
+  range.detach();
+  if (!lineWidths.length) return;
+
+  const panelStyle = getComputedStyle(panel);
+  const padding = Number.parseFloat(panelStyle.paddingLeft) + Number.parseFloat(panelStyle.paddingRight);
+  const borders = Number.parseFloat(panelStyle.borderLeftWidth) + Number.parseFloat(panelStyle.borderRightWidth);
+  const maxWidth = Number.parseFloat(panelStyle.maxWidth);
+  const fittedWidth = Math.ceil(Math.max(...lineWidths) + padding + borders);
+  panel.style.setProperty(
+    '--cometal-tooltip-fitted-width',
+    `${Number.isFinite(maxWidth) ? Math.min(fittedWidth, maxWidth) : fittedWidth}px`,
+  );
+}
+
 export const Tooltip = forwardRef<HTMLSpanElement, TooltipProps>(function Tooltip(
   {
     content,
@@ -172,6 +196,8 @@ export const Tooltip = forwardRef<HTMLSpanElement, TooltipProps>(function Toolti
 
   useLayoutEffect(() => {
     if (!isOpen || !triggerRef.current || !panelRef.current) return;
+    if (size === 'wide') fitWideTooltipPanel(panelRef.current);
+    else panelRef.current.style.removeProperty('--cometal-tooltip-fitted-width');
     const triggerRect = triggerRef.current.getBoundingClientRect();
     const panelRect = panelRef.current.getBoundingClientRect();
     let resolvedPlacement = placement;
@@ -208,8 +234,9 @@ export const Tooltip = forwardRef<HTMLSpanElement, TooltipProps>(function Toolti
 
   useEffect(() => {
     if (!isOpen) return;
-    const handleWindowChange = () => {
+    const handleWindowChange = (event: Event) => {
       if (!triggerRef.current || !panelRef.current) return;
+      if (event.type === 'resize' && size === 'wide') fitWideTooltipPanel(panelRef.current);
       const triggerRect = triggerRef.current.getBoundingClientRect();
       const panelRect = panelRef.current.getBoundingClientRect();
       const clamped = clampPosition(position.top, position.left, panelRect.width, panelRect.height);
@@ -227,7 +254,7 @@ export const Tooltip = forwardRef<HTMLSpanElement, TooltipProps>(function Toolti
       window.removeEventListener('resize', handleWindowChange);
       window.removeEventListener('scroll', handleWindowChange, true);
     };
-  }, [isOpen, position.left, position.placement, position.top]);
+  }, [isOpen, position.left, position.placement, position.top, size]);
 
   const child = children;
   const describedBy = isOpen && hydrated ? tooltipId : undefined;

@@ -19,7 +19,7 @@
 - Нативная table-семантика с независимыми Cells, Headers, Columns и Paginator.
 - Первый header row содержит названия колонок; второй отдельный Filter Row содержит поля и контролы фильтрации.
 - Filter Row использует `TableFilterAction` с канонической filter icon и общим Context Menu для смены оператора поля; оператор и значение фильтра остаются consumer-owned state.
-- Comfortable 48px и Compact 40px; Header всегда 48px.
+- Плотность применяется ко всей Table: Comfortable 48px и Compact 40px для header, filter row, body, summary и квадратных utility cells. Обычные data-column widths остаются content/user-resized; существующие S filters — 32px.
 - Плотность не должна сбрасывать значения, badge settings или file metadata.
 - Строка может быть selected; отдельная ячейка может быть active, selected/editing, error или disabled.
 - Read и Edit — разные interaction modes: Read подсвечивает строку целиком, Edit подсвечивает ячейку и запускает controlled editing по click/Enter/F2. В editing сама `td` является редактируемой поверхностью; вложенный Field/Input запрещён.

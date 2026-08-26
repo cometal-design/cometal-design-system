@@ -218,11 +218,6 @@
   color: var(--cometal-semantic-color-global-text-inverse);
 }
 
-.cometal-date-picker[data-open] .cometal-field__control {
-  outline: var(--cometal-semantic-stroke-global-state-focus) solid var(--cometal-semantic-color-global-state-focus-ring);
-  outline-offset: var(--cometal-primitive-spacing-12);
-}
-
 .cometal-date-picker__day[data-selected]:hover {
   border-color: var(--cometal-semantic-color-global-action-brand-hover);
   background: var(--cometal-semantic-color-global-action-brand-hover);

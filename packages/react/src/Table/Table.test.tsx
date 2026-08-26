@@ -246,4 +246,22 @@ describe('Table', () => {
     expect(html).toContain('cometal-field__native-select');
     expect(html).not.toContain('<label class="cometal-table__page-size"');
   });
+
+  it('paginates in windows of nine and reveals the next numbered window after page nine', () => {
+    const firstWindow = renderToStaticMarkup(
+      <TablePaginator page={1} pageCount={12} pageSize={10} onPageChange={() => undefined} onPageSizeChange={() => undefined} />,
+    );
+    const secondWindow = renderToStaticMarkup(
+      <TablePaginator page={10} pageCount={12} pageSize={10} onPageChange={() => undefined} onPageSizeChange={() => undefined} />,
+    );
+
+    expect(firstWindow).toContain('aria-label="Страница 9"');
+    expect(firstWindow).not.toContain('aria-label="Страница 10"');
+    expect(firstWindow).toContain('cometal-table__page-ellipsis');
+    expect(secondWindow).toContain('aria-label="Страница 10"');
+    expect(secondWindow).toContain('aria-label="Страница 11"');
+    expect(secondWindow).toContain('aria-label="Страница 12"');
+    expect(secondWindow).not.toContain('aria-label="Страница 9"');
+    expect(secondWindow).toContain('cometal-table__page-ellipsis');
+  });
 });

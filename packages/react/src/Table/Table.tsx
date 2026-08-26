@@ -105,6 +105,58 @@ const EMPTY_TABLE_COLUMN_IDS: readonly string[] = [];
 const EMPTY_TABLE_COLUMN_WIDTHS: Readonly<Record<string, number>> = {};
 const TABLE_DROP_CONFIRMATION_HOLD_MS = 500;
 const TABLE_DROP_CONFIRMATION_FADE_MS = 600;
+const TABLE_SCROLL_IDLE_MS = 2000;
+const TABLE_SCROLL_EDGE_REVEAL_PX = 24;
+const TABLE_SCROLLBAR_MIN_THUMB_PX = 32;
+
+type TableScrollAxis = 'horizontal' | 'vertical';
+
+interface TableScrollMetrics {
+  clientWidth: number;
+  clientHeight: number;
+  scrollWidth: number;
+  scrollHeight: number;
+  scrollLeft: number;
+  scrollTop: number;
+  safeInset: number;
+}
+
+interface TableScrollbarDrag {
+  axis: TableScrollAxis;
+  pointerId: number;
+  pointerStart: number;
+  scrollStart: number;
+  trackLength: number;
+  thumbLength: number;
+}
+
+const EMPTY_TABLE_SCROLL_METRICS: TableScrollMetrics = {
+  clientWidth: 0,
+  clientHeight: 0,
+  scrollWidth: 0,
+  scrollHeight: 0,
+  scrollLeft: 0,
+  scrollTop: 0,
+  safeInset: 0,
+};
+
+function getTableScrollbarGeometry(axis: TableScrollAxis, metrics: TableScrollMetrics) {
+  const horizontal = axis === 'horizontal';
+  const viewportLength = horizontal ? metrics.clientWidth : metrics.clientHeight;
+  const contentLength = horizontal ? metrics.scrollWidth : metrics.scrollHeight;
+  const scrollPosition = horizontal ? metrics.scrollLeft : metrics.scrollTop;
+  const maxScroll = Math.max(0, contentLength - viewportLength);
+  const trackLength = Math.max(
+    0,
+    viewportLength - (metrics.safeInset * 2),
+  );
+  const thumbLength = contentLength > 0
+    ? Math.max(TABLE_SCROLLBAR_MIN_THUMB_PX, Math.min(trackLength, (viewportLength / contentLength) * trackLength))
+    : trackLength;
+  const maxThumbOffset = Math.max(0, trackLength - thumbLength);
+  const thumbOffset = maxScroll > 0 ? (scrollPosition / maxScroll) * maxThumbOffset : 0;
+  return { viewportLength, trackLength, maxScroll, thumbLength, maxThumbOffset, thumbOffset };
+}
 
 type TableColumnCellStyle = CSSProperties & {
   '--cometal-table-pinned-left'?: string;
@@ -189,8 +241,10 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
   ref,
 ) {
   const tableRef = useRef<HTMLTableElement | null>(null);
+  const scrollRef = useRef<HTMLDivElement | null>(null);
   const reorderEnabled = mode === 'edit' && Boolean(onRowReorder);
   const instructionId = useId();
+  const scrollRegionId = useId();
   const [activeId, setActiveId] = useState<string | null>(null);
   const [interaction, setInteraction] = useState<'pointer' | 'keyboard' | null>(null);
   const [overId, setOverId] = useState<string | null>(null);
@@ -198,9 +252,15 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
   const [dropConfirmation, setDropConfirmation] = useState<{ rowId: string; phase: 'hold' | 'fade' } | null>(null);
   const [announcement, setAnnouncement] = useState('');
   const [rowMenu, setRowMenu] = useState<TableRowMenuState | null>(null);
+  const [horizontalScrolled, setHorizontalScrolled] = useState(false);
+  const [scrollActive, setScrollActive] = useState(false);
+  const [scrollMetrics, setScrollMetrics] = useState<TableScrollMetrics>(EMPTY_TABLE_SCROLL_METRICS);
+  const [scrollbarDragging, setScrollbarDragging] = useState<TableScrollAxis | null>(null);
   const [columnLayout, setColumnLayout] = useState<{ order: string[]; offsets: Record<string, number> }>({ order: [], offsets: {} });
   const columnWidthsRef = useRef(columnWidths);
   const dropConfirmationTimersRef = useRef<number[]>([]);
+  const scrollIdleTimerRef = useRef<number | null>(null);
+  const scrollbarDragRef = useRef<TableScrollbarDrag | null>(null);
   columnWidthsRef.current = columnWidths;
 
   const clearDropConfirmationTimers = useCallback(() => {
@@ -223,6 +283,138 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
   }, [clearDropConfirmationTimers]);
 
   useEffect(() => clearDropConfirmationTimers, [clearDropConfirmationTimers]);
+
+  useEffect(() => () => {
+    if (scrollIdleTimerRef.current !== null) window.clearTimeout(scrollIdleTimerRef.current);
+    scrollbarDragRef.current = null;
+  }, []);
+
+  const markScrollActive = useCallback(() => {
+    setScrollActive(true);
+    if (scrollIdleTimerRef.current !== null) window.clearTimeout(scrollIdleTimerRef.current);
+    scrollIdleTimerRef.current = window.setTimeout(() => {
+      if (scrollbarDragRef.current) return;
+      setScrollActive(false);
+      scrollIdleTimerRef.current = null;
+    }, TABLE_SCROLL_IDLE_MS);
+  }, []);
+
+  const updateScrollMetrics = useCallback(() => {
+    const scroll = scrollRef.current;
+    if (!scroll) return;
+    const next: TableScrollMetrics = {
+      clientWidth: scroll.clientWidth,
+      clientHeight: scroll.clientHeight,
+      scrollWidth: scroll.scrollWidth,
+      scrollHeight: scroll.scrollHeight,
+      scrollLeft: scroll.scrollLeft,
+      scrollTop: scroll.scrollTop,
+      safeInset: Number.parseFloat(getComputedStyle(scroll.parentElement ?? scroll).getPropertyValue('--cometal-table-density-size')) || 0,
+    };
+    setScrollMetrics((current) => (
+      current.clientWidth === next.clientWidth
+      && current.clientHeight === next.clientHeight
+      && current.scrollWidth === next.scrollWidth
+      && current.scrollHeight === next.scrollHeight
+      && current.scrollLeft === next.scrollLeft
+      && current.scrollTop === next.scrollTop
+      && current.safeInset === next.safeInset
+        ? current
+        : next
+    ));
+  }, []);
+
+  useLayoutEffect(() => {
+    updateScrollMetrics();
+    const scroll = scrollRef.current;
+    const table = tableRef.current;
+    if (!scroll || typeof ResizeObserver === 'undefined') return;
+    const observer = new ResizeObserver(updateScrollMetrics);
+    observer.observe(scroll);
+    if (table) observer.observe(table);
+    return () => observer.disconnect();
+  }, [updateScrollMetrics]);
+
+  useLayoutEffect(() => {
+    updateScrollMetrics();
+  });
+
+  const moveScrollFromScrollbar = useCallback((axis: TableScrollAxis, scrollPosition: number) => {
+    const scroll = scrollRef.current;
+    if (!scroll) return;
+    if (axis === 'horizontal') scroll.scrollLeft = scrollPosition;
+    else scroll.scrollTop = scrollPosition;
+    updateScrollMetrics();
+    markScrollActive();
+  }, [markScrollActive, updateScrollMetrics]);
+
+  const handleScrollbarPointerDown = useCallback((axis: TableScrollAxis, event: ReactPointerEvent<HTMLDivElement>) => {
+    const scroll = scrollRef.current;
+    if (!scroll) return;
+    event.preventDefault();
+    event.stopPropagation();
+    const geometry = getTableScrollbarGeometry(axis, scrollMetrics);
+    if (geometry.maxScroll <= 0) return;
+    const trackBounds = event.currentTarget.getBoundingClientRect();
+    const pointer = axis === 'horizontal' ? event.clientX : event.clientY;
+    const trackStart = axis === 'horizontal' ? trackBounds.left : trackBounds.top;
+    const pressedThumb = (event.target as HTMLElement).classList.contains('cometal-table-scrollbar__thumb');
+    let scrollStart = axis === 'horizontal' ? scroll.scrollLeft : scroll.scrollTop;
+    if (!pressedThumb) {
+      const nextThumbOffset = Math.max(0, Math.min(geometry.maxThumbOffset, pointer - trackStart - geometry.thumbLength / 2));
+      scrollStart = geometry.maxThumbOffset > 0 ? (nextThumbOffset / geometry.maxThumbOffset) * geometry.maxScroll : 0;
+      moveScrollFromScrollbar(axis, scrollStart);
+    }
+    scrollbarDragRef.current = {
+      axis,
+      pointerId: event.pointerId,
+      pointerStart: pointer,
+      scrollStart,
+      trackLength: geometry.trackLength,
+      thumbLength: geometry.thumbLength,
+    };
+    setScrollbarDragging(axis);
+    if (scrollIdleTimerRef.current !== null) window.clearTimeout(scrollIdleTimerRef.current);
+    setScrollActive(true);
+    event.currentTarget.setPointerCapture(event.pointerId);
+  }, [moveScrollFromScrollbar, scrollMetrics]);
+
+  const handleScrollbarPointerMove = useCallback((event: ReactPointerEvent<HTMLDivElement>) => {
+    const drag = scrollbarDragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    event.preventDefault();
+    const pointer = drag.axis === 'horizontal' ? event.clientX : event.clientY;
+    const geometry = getTableScrollbarGeometry(drag.axis, scrollMetrics);
+    const thumbTravel = Math.max(1, drag.trackLength - drag.thumbLength);
+    moveScrollFromScrollbar(drag.axis, drag.scrollStart + ((pointer - drag.pointerStart) / thumbTravel) * geometry.maxScroll);
+  }, [moveScrollFromScrollbar, scrollMetrics]);
+
+  const endScrollbarDrag = useCallback((event: ReactPointerEvent<HTMLDivElement>) => {
+    const drag = scrollbarDragRef.current;
+    if (!drag || drag.pointerId !== event.pointerId) return;
+    if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
+    scrollbarDragRef.current = null;
+    setScrollbarDragging(null);
+    markScrollActive();
+  }, [markScrollActive]);
+
+  const handleScrollbarKeyDown = useCallback((axis: TableScrollAxis, event: ReactKeyboardEvent<HTMLDivElement>) => {
+    const scroll = scrollRef.current;
+    if (!scroll) return;
+    const geometry = getTableScrollbarGeometry(axis, scrollMetrics);
+    const current = axis === 'horizontal' ? scroll.scrollLeft : scroll.scrollTop;
+    const pageStep = geometry.viewportLength * 0.8;
+    let next: number | null = null;
+    if (event.key === 'Home') next = 0;
+    else if (event.key === 'End') next = geometry.maxScroll;
+    else if (event.key === 'PageUp') next = current - pageStep;
+    else if (event.key === 'PageDown') next = current + pageStep;
+    else if (event.key === (axis === 'horizontal' ? 'ArrowLeft' : 'ArrowUp')) next = current - 40;
+    else if (event.key === (axis === 'horizontal' ? 'ArrowRight' : 'ArrowDown')) next = current + 40;
+    if (next === null) return;
+    event.preventDefault();
+    moveScrollFromScrollbar(axis, next);
+  }, [moveScrollFromScrollbar, scrollMetrics]);
 
   const setTableRef = useCallback((node: HTMLTableElement | null) => {
     tableRef.current = node;
@@ -406,17 +598,44 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
     setRowMenu({ rowId, x: event.clientX, y: event.clientY });
   };
 
+  const horizontalScrollbar = getTableScrollbarGeometry('horizontal', scrollMetrics);
+  const verticalScrollbar = getTableScrollbarGeometry('vertical', scrollMetrics);
+  const hasHorizontalScrollbar = horizontalScrollbar.maxScroll > 0;
+  const hasVerticalScrollbar = verticalScrollbar.maxScroll > 0;
+
   return (
     <TableModeContext.Provider value={mode}>
     <TableColumnPinningContext.Provider value={pinningContext}>
     <TableColumnSizingContext.Provider value={sizingContext}>
     <TableReorderContext.Provider value={reorderContext}>
       <div
+        className="cometal-table-scroll-shell"
+        data-cometal-component="table-scroll-shell"
+        data-density={density}
+        data-scroll-active={scrollActive || undefined}
+        data-scrollbar-dragging={scrollbarDragging ?? undefined}
+        onPointerMove={(event) => {
+          const bounds = event.currentTarget.getBoundingClientRect();
+          if (
+            (hasHorizontalScrollbar && bounds.bottom - event.clientY <= TABLE_SCROLL_EDGE_REVEAL_PX)
+            || (hasVerticalScrollbar && bounds.right - event.clientX <= TABLE_SCROLL_EDGE_REVEAL_PX)
+          ) markScrollActive();
+        }}
+      >
+      <div
+        ref={scrollRef}
+        id={scrollRegionId}
         className="cometal-table-scroll"
         data-cometal-component="table-scroll"
+        data-horizontal-scrolled={horizontalScrolled || undefined}
         role="region"
         aria-label={`Прокрутка: ${ariaLabel}`}
         tabIndex={0}
+        onScroll={(event) => {
+          setHorizontalScrolled(event.currentTarget.scrollLeft > 0);
+          updateScrollMetrics();
+          markScrollActive();
+        }}
         onPointerMove={(event) => reorderContext?.movePointerDrag(event)}
         onPointerUp={(event) => {
           if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
@@ -457,6 +676,61 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
             {rowContextMenu(rowMenu.rowId)}
           </ContextMenu>
         ) : null}
+      </div>
+      {hasHorizontalScrollbar ? (
+        <div
+          className="cometal-table-scrollbar cometal-table-scrollbar--horizontal"
+          role="scrollbar"
+          aria-label="Горизонтальная прокрутка таблицы"
+          aria-controls={scrollRegionId}
+          aria-orientation="horizontal"
+          aria-valuemin={0}
+          aria-valuemax={Math.round(horizontalScrollbar.maxScroll)}
+          aria-valuenow={Math.round(scrollMetrics.scrollLeft)}
+          tabIndex={0}
+          onFocus={markScrollActive}
+          onKeyDown={(event) => handleScrollbarKeyDown('horizontal', event)}
+          onPointerDown={(event) => handleScrollbarPointerDown('horizontal', event)}
+          onPointerMove={handleScrollbarPointerMove}
+          onPointerUp={endScrollbarDrag}
+          onPointerCancel={endScrollbarDrag}
+        >
+          <span
+            className="cometal-table-scrollbar__thumb"
+            style={{
+              width: `${horizontalScrollbar.thumbLength}px`,
+              transform: `translate3d(${horizontalScrollbar.thumbOffset}px, 0, 0)`,
+            }}
+          />
+        </div>
+      ) : null}
+      {hasVerticalScrollbar ? (
+        <div
+          className="cometal-table-scrollbar cometal-table-scrollbar--vertical"
+          role="scrollbar"
+          aria-label="Вертикальная прокрутка таблицы"
+          aria-controls={scrollRegionId}
+          aria-orientation="vertical"
+          aria-valuemin={0}
+          aria-valuemax={Math.round(verticalScrollbar.maxScroll)}
+          aria-valuenow={Math.round(scrollMetrics.scrollTop)}
+          tabIndex={0}
+          onFocus={markScrollActive}
+          onKeyDown={(event) => handleScrollbarKeyDown('vertical', event)}
+          onPointerDown={(event) => handleScrollbarPointerDown('vertical', event)}
+          onPointerMove={handleScrollbarPointerMove}
+          onPointerUp={endScrollbarDrag}
+          onPointerCancel={endScrollbarDrag}
+        >
+          <span
+            className="cometal-table-scrollbar__thumb"
+            style={{
+              height: `${verticalScrollbar.thumbLength}px`,
+              transform: `translate3d(0, ${verticalScrollbar.thumbOffset}px, 0)`,
+            }}
+          />
+        </div>
+      ) : null}
       </div>
     </TableReorderContext.Provider>
     </TableColumnSizingContext.Provider>
@@ -995,14 +1269,14 @@ export interface TablePaginatorProps extends HTMLAttributes<HTMLElement> {
 }
 
 function getPaginatorItems(page: number, pageCount: number): Array<number | 'ellipsis-start' | 'ellipsis-end'> {
-  if (pageCount <= 7) return Array.from({ length: pageCount }, (_, index) => index + 1);
-  const items: Array<number | 'ellipsis-start' | 'ellipsis-end'> = [1];
-  if (page > 4) items.push('ellipsis-start');
-  const start = Math.max(2, Math.min(page - 1, pageCount - 4));
-  const end = Math.min(pageCount - 1, Math.max(page + 1, 5));
-  for (let value = start; value <= end; value += 1) items.push(value);
-  if (page < pageCount - 3) items.push('ellipsis-end');
-  items.push(pageCount);
+  const windowSize = 9;
+  if (pageCount <= windowSize) return Array.from({ length: pageCount }, (_, index) => index + 1);
+  const windowStart = Math.floor((page - 1) / windowSize) * windowSize + 1;
+  const windowEnd = Math.min(pageCount, windowStart + windowSize - 1);
+  const items: Array<number | 'ellipsis-start' | 'ellipsis-end'> = [];
+  if (windowStart > 1) items.push('ellipsis-start');
+  for (let value = windowStart; value <= windowEnd; value += 1) items.push(value);
+  if (windowEnd < pageCount) items.push('ellipsis-end');
   return items;
 }
 

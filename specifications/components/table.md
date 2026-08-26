@@ -64,7 +64,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 
 - `comfortable`: ячейка 48px; file metadata видимы.
 - `compact`: ячейка 40px; file metadata визуально скрыты, но не удаляются из DOM и данных.
-- Column Header остаётся 48px в обеих плотностях.
+- Плотность применяется ко всей Table: Comfortable — 48px, Compact — 40px для header, filter row, body, summary и квадратных utility cells. Обычные data columns сохраняют content/user-resized ширины, а существующие S filters остаются 32px.
 - Index и selection columns меняют ширину синхронно с высотой ячейки: 48px или 40px.
 
 ## Контент
@@ -92,7 +92,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 ## Acceptance criteria
 
 - [x] Comfortable и Compact меняют плотность без потери пользовательского контента.
-- [x] Header остаётся 48px; index/selection columns меняют ширину 48px → 40px.
+- [x] Comfortable/Compact применяют 48px → 40px ко всей Table (header, filter row, body, summary и квадратным utility cells); обычные data-column widths остаются content/user-resized, S filters — 32px.
 - [x] File metadata отображаются только в Comfortable и сохраняются в Compact.
 - [x] Все outline SVG используют Stroke/140 = 1.4px.
 - [x] Component/Table и Semantic color variables опубликованы в token source.

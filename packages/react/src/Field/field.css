@@ -54,6 +54,8 @@
 .cometal-field:focus-within .cometal-field__control {
   border-color: var(--cometal-component-input-border-default);
   background: var(--cometal-component-input-surface-default);
+}
+.cometal-field[data-focus-visible] .cometal-field__control {
   outline: var(--cometal-semantic-stroke-global-state-focus) solid var(--cometal-semantic-color-global-state-focus-ring);
   outline-offset: var(--cometal-primitive-spacing-12);
 }

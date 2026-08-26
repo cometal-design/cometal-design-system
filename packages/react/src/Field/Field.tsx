@@ -66,6 +66,14 @@ export function FieldChrome({
   disabled = false,
   children,
 }: FieldChromeProps) {
+  const pointerFocusRef = useRef(false);
+  const pointerResetRef = useRef<ReturnType<typeof setTimeout> | null>(null);
+  const [keyboardFocusVisible, setKeyboardFocusVisible] = useState(false);
+
+  useEffect(() => () => {
+    if (pointerResetRef.current) clearTimeout(pointerResetRef.current);
+  }, []);
+
   if (mode === 'read') {
     return (
       <div className={['cometal-field-read', className].filter(Boolean).join(' ')} data-cometal-component="field" data-size={size} data-multiline={multilineRead || undefined}>
@@ -76,7 +84,33 @@ export function FieldChrome({
   }
 
   return (
-    <div className={['cometal-field', className].filter(Boolean).join(' ')} data-cometal-component="field" data-size={size} data-invalid={Boolean(error) || undefined} data-disabled={disabled || undefined} aria-disabled={disabled || undefined}>
+    <div
+      className={['cometal-field', className].filter(Boolean).join(' ')}
+      data-cometal-component="field"
+      data-size={size}
+      data-invalid={Boolean(error) || undefined}
+      data-disabled={disabled || undefined}
+      data-focus-visible={keyboardFocusVisible || undefined}
+      aria-disabled={disabled || undefined}
+      onPointerDownCapture={() => {
+        pointerFocusRef.current = true;
+        setKeyboardFocusVisible(false);
+        if (pointerResetRef.current) clearTimeout(pointerResetRef.current);
+        pointerResetRef.current = setTimeout(() => {
+          pointerFocusRef.current = false;
+          pointerResetRef.current = null;
+        }, 0);
+      }}
+      onFocusCapture={() => {
+        setKeyboardFocusVisible(!pointerFocusRef.current);
+        pointerFocusRef.current = false;
+      }}
+      onBlurCapture={(event) => {
+        if (!event.currentTarget.contains(event.relatedTarget as Node | null)) {
+          setKeyboardFocusVisible(false);
+        }
+      }}
+    >
       <div className="cometal-field__body">
         <span className="cometal-field__label-row">
           <label className="cometal-field__label" htmlFor={controlId}>{label}</label>
