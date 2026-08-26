@@ -305,10 +305,6 @@ code, pre, kbd, samp {
 .ds-table-utility-matrices > article { display: grid; min-width: 0; gap: var(--cometal-primitive-spacing-100); }
 .ds-table-utility-matrices .cometal-table { min-width: 720px; }
 .ds-table-standalone-title { margin: 0; color: var(--ds-text-secondary); font-family: var(--ds-font-code); font-size: var(--cometal-typography-caption-label-label-font-size); font-weight: var(--cometal-typography-caption-label-label-font-weight); line-height: var(--cometal-typography-caption-label-label-line-height); }
-.ds-table-header-force-hover,
-.ds-table-header-force-hover .cometal-checkbox__control { background: var(--cometal-component-table-header-surface-hover); }
-.ds-table-context-force-hover { background: var(--cometal-component-table-header-surface-hover); color: var(--cometal-semantic-color-global-text-primary); }
-.ds-table-context-force-open { background: var(--cometal-semantic-color-global-surface-selected); color: var(--cometal-semantic-color-global-text-primary); }
 .ds-table-filter-contract-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--cometal-primitive-spacing-150); }
 .ds-table-filter-contract-grid article { display: grid; min-width: 0; gap: var(--cometal-primitive-spacing-75); }
 .ds-table-filter-contract-grid article > code { color: var(--ds-text-muted); font-family: var(--ds-font-code); font-size: var(--cometal-typography-caption-label-label-font-size); }

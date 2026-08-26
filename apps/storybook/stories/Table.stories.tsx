@@ -10,6 +10,8 @@ import {
   tableFigmaSources, tableSourceFamilies, tableStandaloneSources, reorderTableRows,
 } from '@cometal/react';
 import type { TableCellState, TableDensity, TableFileType, TableMode, TableSortDirection } from '@cometal/react';
+import { definition as arrowUpSmallDefinition } from '@cometal/react/icons/outline/arrows/arrow-up-sm';
+import { definition as arrowDownSmallDefinition } from '@cometal/react/icons/outline/arrows/down-arrow-sm';
 import { ComponentCodeExample } from './ComponentCodeExample';
 
 const SOURCE_URL = 'https://github.com/cometal-design/cometal-design-system/blob/main/packages/react/src/Table/Table.tsx';
@@ -49,6 +51,44 @@ async function expectTypography(element: HTMLElement, contract: TypographyContra
   await expect(actual.weight).toBe(contract.weight);
   await expect(actual.lineHeight).toBe(contract.lineHeight);
   await expect(actual.letterSpacing).toBe(contract.letterSpacing);
+}
+
+type SortIconDefinition = {
+  body: string;
+  canonicalName: string;
+  componentKey: string;
+  nodeId: string;
+};
+
+function definitionPathData(body: string) {
+  return Array.from(body.matchAll(/<path d="([^"]+)"/g), (match) => match[1]);
+}
+
+async function expectSortIconContract(button: HTMLButtonElement, definition: SortIconDefinition) {
+  const icon = button.querySelector<SVGSVGElement>('.cometal-table__sort-icon');
+  if (!icon) throw new Error(`Expected ${definition.canonicalName} sort icon`);
+  const paths = Array.from(icon.querySelectorAll<SVGPathElement>('path'));
+  await expect(icon.getBoundingClientRect().width).toBe(16);
+  await expect(icon.getBoundingClientRect().height).toBe(16);
+  await expect(icon).toHaveAttribute('data-cometal-icon-library', 'outline');
+  await expect(icon).toHaveAttribute('data-cometal-icon-paint', 'currentColor');
+  await expect(icon).toHaveAttribute('data-cometal-icon-stroke-scaling', 'marked-elements');
+  await expect(getComputedStyle(icon).transform).toBe('none');
+  await expect(icon.querySelector('[transform]')).toBeNull();
+  await expect(paths.map((path) => path.getAttribute('d'))).toEqual(definitionPathData(definition.body));
+  await expect(paths).toHaveLength(1);
+  await expect(paths[0]).toHaveAttribute('stroke', 'currentColor');
+  await expect(paths[0]).toHaveAttribute('stroke-width', '1.4');
+  await expect(paths[0]).toHaveAttribute('data-cometal-stroke-scale', '');
+  await expect(getComputedStyle(paths[0]!).vectorEffect).toBe('non-scaling-stroke');
+}
+
+async function expectFocusContract(element: HTMLElement) {
+  element.focus();
+  const style = getComputedStyle(element);
+  await expect(style.outlineStyle).toBe('solid');
+  await expect(style.outlineWidth).toBe('2px');
+  await expect(style.outlineOffset).toBe('4px');
 }
 
 async function expectTypographyFor(root: Element, selector: string, contract: TypographyContract, minimum = 1) {
@@ -124,9 +164,24 @@ async function expectM1TableGeometry(table: HTMLTableElement, expectedFloor: 40 
 function ColumnMenu({ columnId }: { columnId: string }) {
   return <><TableColumnPinAction columnId={columnId} /><ContextMenuItem>Скрыть колонку</ContextMenuItem><ContextMenuDivider /><ContextMenuItem tone="danger">Сбросить фильтр</ContextMenuItem></>;
 }
-function HeaderAction({ columnId, column, visualState }: { columnId?: string; column: string; visualState?: 'hover' | 'open' }) {
-  const stateClass = visualState === 'hover' ? 'ds-table-context-force-hover' : visualState === 'open' ? 'ds-table-context-force-open' : undefined;
-  return <TableContextAction className={stateClass} defaultOpen={visualState === 'open'} label={`Действия колонки ${column}`} menuLabel={`Действия колонки ${column}`} menu={<ColumnMenu columnId={columnId ?? column.toLowerCase()} />} />;
+function HeaderAction({ columnId, column }: { columnId?: string; column: string }) {
+  return <TableContextAction label={`Действия колонки ${column}`} menuLabel={`Действия колонки ${column}`} menu={<ColumnMenu columnId={columnId ?? column.toLowerCase()} />} />;
+}
+
+function HeaderContractTable({ density }: { density: TableDensity }) {
+  const [sort, setSort] = useState<TableSortDirection>('none');
+  const [columnWidths, setColumnWidths] = useState<Record<string, number>>({});
+  return <Table
+    density={density}
+    aria-label={`Интерактивный контракт заголовка · ${density}`}
+    columnWidths={columnWidths}
+    onColumnWidthsChange={setColumnWidths}
+  >
+    <TableHead><TableRow>
+      <TableHeaderCell columnId="position" sort={sort} onSortChange={setSort} action={<HeaderAction columnId="position" column={`Позиция ${density}`} />}>Позиция</TableHeaderCell>
+      <TableHeaderCell columnId="status" action={<HeaderAction columnId="status" column={`Статус ${density}`} />}>Статус</TableHeaderCell>
+    </TableRow></TableHead>
+  </Table>;
 }
 
 const sourceColumnIds = { drag: 'drag', index: 'index', selection: 'selection', position: 'position', name: 'name', quantity: 'quantity', status: 'status', file: 'file' } as const;
@@ -299,12 +354,10 @@ function CellMatrix() {
 }
 
 function HeaderMatrix() {
-  const [sort, setSort] = useState<TableSortDirection>('none');
   return <main className="ds-component-page ds-table-page"><header className="ds-component-hero"><div><span className="ds-eyebrow">TABLE · HEADERS</span><h1>Headers</h1><p>Column Header и Filter Header — два отдельных синхронных уровня. Selection и actions используют общие компоненты.</p></div><a href={tableFigmaSources.headers} target="_blank" rel="noreferrer">Header Source в Figma ↗</a></header>
-    <section className="ds-component-section"><div className="ds-component-section__intro"><span>01</span><div><h2>Sort и context actions</h2><p>Сортировка циклично проходит none → ascending → descending; действия открываются отдельной кнопкой.</p></div></div><div className="ds-table-demo"><Table density="comfortable" aria-label="Состояния заголовка"><TableHead><TableRow><TableHeaderCell sort={sort} onSortChange={setSort} action={<HeaderAction column="Позиция" />}>Позиция</TableHeaderCell><TableHeaderCell sort="ascending">По возрастанию</TableHeaderCell><TableHeaderCell sort="descending">По убыванию</TableHeaderCell></TableRow><TableFilterRow><TableFilterCell><TextField label="Текстовый фильтр" size="s" placeholder="Найти" /></TableFilterCell><TableFilterCell><DatePicker label="Дата" size="s" /></TableFilterCell><TableFilterCell><DateRangePicker label="Период" size="m" /></TableFilterCell></TableFilterRow></TableHead></Table></div></section>
-    <section className="ds-component-section"><div className="ds-component-section__intro"><span>02</span><div><h2>Column Header · 2 states × 3 sort</h2><p>Все шесть утверждённых комбинаций показаны принудительно, а не только через реальный hover.</p></div></div><Table density="comfortable" aria-label="Column Header matrix"><TableHead>{(['default', 'hover'] as const).map((state) => <TableRow key={state}><TableHeaderCell scope="row">{state}</TableHeaderCell>{(['none', 'ascending', 'descending'] as const).map((sortValue) => <TableHeaderCell key={sortValue} sort={sortValue} className={state === 'hover' ? 'ds-table-header-force-hover' : undefined}>{sortValue}</TableHeaderCell>)}</TableRow>)}</TableHead></Table></section>
-    <section className="ds-component-section"><div className="ds-component-section__intro"><span>03</span><div><h2>Context Action · 3 states</h2><p>Default, Hover и Open используют точный Table icon и общий Context Menu.</p></div></div><Table density="comfortable" aria-label="Context Action matrix"><TableHead><TableRow>{(['default', 'hover', 'open'] as const).map((state) => <TableHeaderCell key={state} action={<HeaderAction column={state} visualState={state === 'default' ? undefined : state} />}>{state}</TableHeaderCell>)}</TableRow></TableHead></Table></section>
-    <section className="ds-component-section"><div className="ds-component-section__intro"><span>04</span><div><h2>Selection Header · 3×3×2</h2><p>Unchecked, Mixed и Checked в Default, Hover и Disabled; обе плотности имеют свою матрицу.</p></div></div><div className="ds-table-density-pair">{tableDensities.map((density) => <section key={density}><h3>{density}</h3><Table density={density} aria-label={`Selection Header ${density}`}><TableHead>{(['default', 'hover', 'disabled'] as const).map((state) => <TableRow key={state}><TableHeaderCell scope="row">{state}</TableHeaderCell><TableSelectionHeader className={state === 'hover' ? 'ds-table-header-force-hover' : undefined} selectedCount={0} totalCount={2} disabled={state === 'disabled'} onSelectionChange={() => undefined} label={`${state} unchecked`} /><TableSelectionHeader className={state === 'hover' ? 'ds-table-header-force-hover' : undefined} selectedCount={1} totalCount={2} disabled={state === 'disabled'} onSelectionChange={() => undefined} label={`${state} mixed`} /><TableSelectionHeader className={state === 'hover' ? 'ds-table-header-force-hover' : undefined} selectedCount={2} totalCount={2} disabled={state === 'disabled'} onSelectionChange={() => undefined} label={`${state} checked`} /></TableRow>)}</TableHead></Table></section>)}</div></section>
+    <section className="ds-component-section"><div className="ds-component-section__intro"><span>01</span><div><h2>Sort, context action и resize</h2><p>Обе плотности используют реальные none → ascending → descending → none, focus-visible и separator states без forced CSS.</p></div></div><div className="ds-table-density-pair">{tableDensities.map((density) => <section key={density}><h3>{density}</h3><HeaderContractTable density={density} /></section>)}</div></section>
+    <section className="ds-component-section"><div className="ds-component-section__intro"><span>02</span><div><h2>Column Header · 3 sort × 2 density</h2><p>Default не имеет отдельного Hover/Active surface; Ascending и Descending сохраняют selected surface и точные generated icons.</p></div></div><div className="ds-table-density-pair">{tableDensities.map((density) => <section key={density}><h3>{density}</h3><Table density={density} aria-label={`Column Header matrix ${density}`}><TableHead><TableRow>{(['none', 'ascending', 'descending'] as const).map((sortValue) => <TableHeaderCell key={sortValue} sort={sortValue}>{sortValue}</TableHeaderCell>)}</TableRow></TableHead></Table></section>)}</div></section>
+    <section className="ds-component-section"><div className="ds-component-section__intro"><span>03</span><div><h2>Selection Header · alignment × 2 density</h2><p>Unchecked, Mixed и Checked проверяют только выравнивание и disabled contract; cross-page scope остаётся вне M2.</p></div></div><div className="ds-table-density-pair">{tableDensities.map((density) => <section key={density}><h3>{density}</h3><Table density={density} aria-label={`Selection Header ${density}`}><TableHead>{(['default', 'disabled'] as const).map((state) => <TableRow key={state}><TableHeaderCell scope="row">{state}</TableHeaderCell><TableSelectionHeader selectedCount={0} totalCount={2} disabled={state === 'disabled'} onSelectionChange={() => undefined} label={`${state} unchecked`} /><TableSelectionHeader selectedCount={1} totalCount={2} disabled={state === 'disabled'} onSelectionChange={() => undefined} label={`${state} mixed`} /><TableSelectionHeader selectedCount={2} totalCount={2} disabled={state === 'disabled'} onSelectionChange={() => undefined} label={`${state} checked`} /></TableRow>)}</TableHead></Table></section>)}</div></section>
     <section className="ds-component-section"><div className="ds-component-section__intro"><span>05</span><div><h2>Filter Row · 10 variants</h2><p>Empty, Text, Number, Date, Period, Select и Boolean в Default; Active существует только для Date, Period и Select.</p></div></div><div className="ds-table-filter-contract-grid">{(['Empty:default','Text:default','Number:default','Date:default','Period:default','Select:default','Boolean:default','Date:active','Period:active','Select:active'] as const).map((variant) => { const [type, state] = variant.split(':'); return <article key={variant} data-visual-state={state}><code>{type} · {state}</code><Table density="comfortable" aria-label={`Filter ${variant}`}><TableHead><TableFilterRow><TableFilterCell>{type === 'Empty' ? null : type === 'Date' ? <DatePicker label={variant} size="s" /> : type === 'Period' ? <DateRangePicker label={variant} size="m" /> : type === 'Select' ? <Select label={variant} size="s" options={statusOptions} defaultValue="all" /> : <TextField label={variant} size="s" inputMode={type === 'Number' ? 'numeric' : undefined} defaultValue={type === 'Boolean' ? 'Да' : undefined} />}</TableFilterCell></TableFilterRow></TableHead></Table></article>; })}</div></section>
   </main>;
 }
@@ -460,21 +513,97 @@ export const Headers: Story = {
   render: () => <HeaderMatrix />,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const sortButton = canvas.getByRole('button', { name: /Сортировать Позиция/ });
-    await userEvent.click(sortButton);
-    await expect(canvas.getByRole('columnheader', { name: /Позиция/ })).toHaveAttribute('aria-sort', 'ascending');
-
-    const contextAction = canvas.getByRole('button', { name: 'Действия колонки Позиция' });
-    await expect(contextAction).toHaveAttribute('aria-expanded', 'false');
-    await userEvent.click(contextAction);
-    await expect(contextAction).toHaveAttribute('aria-expanded', 'true');
     const documentCanvas = within(canvasElement.ownerDocument.body);
-    await expect(documentCanvas.getByRole('menu', { name: 'Действия колонки Позиция' })).toBeVisible();
-    await userEvent.keyboard('{Escape}');
-    await expect(contextAction).toHaveAttribute('aria-expanded', 'false');
-    await expect(contextAction).toHaveFocus();
+    const stateProbe = document.createElement('span');
+    stateProbe.style.setProperty('--m2-context-open', 'var(--cometal-component-table-header-surface-context-action-open)');
+    stateProbe.style.setProperty('--m2-focus', 'var(--cometal-semantic-color-global-state-focus-ring)');
+    stateProbe.style.color = 'var(--m2-focus)';
+    canvasElement.append(stateProbe);
+    const expectedFocusColor = getComputedStyle(stateProbe).color;
+    stateProbe.style.backgroundColor = 'var(--m2-context-open)';
+    const expectedContextOpen = getComputedStyle(stateProbe).backgroundColor;
+
+    for (const [density, expectedHeight] of [['comfortable', 48], ['compact', 40]] as const) {
+      const table = canvas.getByRole('table', { name: `Интерактивный контракт заголовка · ${density}` });
+      const tableCanvas = within(table);
+      const header = table.querySelector<HTMLTableCellElement>('th[data-column-id="position"]')!;
+      const sortButton = tableCanvas.getByRole('button', { name: 'Сортировать Позиция: по возрастанию' }) as HTMLButtonElement;
+      const contextAction = tableCanvas.getByRole('button', { name: `Действия колонки Позиция ${density}` }) as HTMLButtonElement;
+      const resizeHandle = tableCanvas.getByRole('separator', { name: 'Изменить ширину колонки Позиция' });
+      const defaultHeaderStyle = getComputedStyle(header);
+      const defaultHeaderSurface = defaultHeaderStyle.backgroundColor;
+      const defaultHeaderText = defaultHeaderStyle.color;
+      const defaultSortSurface = getComputedStyle(sortButton).backgroundColor;
+
+      await expect(header.getBoundingClientRect().height).toBe(expectedHeight);
+      await expect(header).not.toHaveAttribute('aria-sort');
+      await userEvent.hover(sortButton);
+      await expect(getComputedStyle(header).backgroundColor).toBe(defaultHeaderSurface);
+      await expect(getComputedStyle(header).color).toBe(defaultHeaderText);
+      await expect(getComputedStyle(sortButton).backgroundColor).toBe(defaultSortSurface);
+      fireEvent.pointerDown(sortButton, { button: 0 });
+      await expect(getComputedStyle(header).backgroundColor).toBe(defaultHeaderSurface);
+      await expect(getComputedStyle(header).color).toBe(defaultHeaderText);
+      await expect(getComputedStyle(sortButton).backgroundColor).toBe(defaultSortSurface);
+      fireEvent.pointerUp(sortButton, { button: 0 });
+      await userEvent.unhover(sortButton);
+
+      await expectFocusContract(sortButton);
+      await expect(getComputedStyle(sortButton).outlineColor).toBe(expectedFocusColor);
+      await userEvent.click(sortButton);
+      await expect(header).toHaveAttribute('aria-sort', 'ascending');
+      await expect(sortButton).toHaveAccessibleName('Сортировать Позиция: по убыванию');
+      await expect(getComputedStyle(header).backgroundColor).not.toBe(defaultHeaderSurface);
+      await expectSortIconContract(sortButton, arrowUpSmallDefinition);
+
+      sortButton.focus();
+      await userEvent.keyboard('{Enter}');
+      await expect(header).toHaveAttribute('aria-sort', 'descending');
+      await expect(sortButton).toHaveAccessibleName('Сортировать Позиция: отключить сортировку');
+      await expectSortIconContract(sortButton, arrowDownSmallDefinition);
+
+      sortButton.focus();
+      await userEvent.keyboard(' ');
+      await expect(header).not.toHaveAttribute('aria-sort');
+      await expect(sortButton).toHaveAccessibleName('Сортировать Позиция: по возрастанию');
+      await expect(sortButton.querySelector('.cometal-table__sort-icon')).toBeNull();
+
+      await expect(contextAction).toHaveAttribute('aria-expanded', 'false');
+      await expect(getComputedStyle(contextAction).backgroundColor).toBe('rgba(0, 0, 0, 0)');
+      await userEvent.hover(contextAction);
+      await expect(contextAction.className).not.toMatch(/force-(hover|open)/);
+      await userEvent.unhover(contextAction);
+      await expectFocusContract(contextAction);
+      await expect(getComputedStyle(contextAction).outlineColor).toBe(expectedFocusColor);
+      await userEvent.click(contextAction);
+      await expect(contextAction).toHaveAttribute('aria-expanded', 'true');
+      await expect(getComputedStyle(contextAction).backgroundColor).toBe(expectedContextOpen);
+      await expect(documentCanvas.getByRole('menu', { name: `Действия колонки Позиция ${density}` })).toBeVisible();
+      await userEvent.keyboard('{Escape}');
+      await expect(contextAction).toHaveAttribute('aria-expanded', 'false');
+      await expect(contextAction).toHaveFocus();
+
+      await userEvent.hover(sortButton);
+      const defaultResizeLine = getComputedStyle(resizeHandle, '::after');
+      await expect(resizeHandle.getBoundingClientRect().width).toBe(8);
+      await expect(getComputedStyle(resizeHandle).cursor).toBe('col-resize');
+      await expect(defaultResizeLine.width).toBe('1px');
+      await expect(defaultResizeLine.backgroundColor).toBe('rgba(0, 0, 0, 0)');
+      fireEvent.pointerDown(resizeHandle, { pointerId: 31, button: 0, clientX: 400 });
+      await expect(resizeHandle).toHaveAttribute('data-resizing');
+      const resizingLine = getComputedStyle(resizeHandle, '::after');
+      await expect(resizingLine.width).toBe('2px');
+      await expect(resizingLine.backgroundColor).toBe(expectedFocusColor);
+      fireEvent.pointerUp(resizeHandle, { pointerId: 31, clientX: 400 });
+      resizeHandle.focus();
+      const focusResizeLine = getComputedStyle(resizeHandle, '::after');
+      await expect(focusResizeLine.width).toBe('2px');
+      await expect(focusResizeLine.backgroundColor).toBe(expectedFocusColor);
+      await expect(getComputedStyle(resizeHandle).outlineStyle).toBe('none');
+    }
+
+    stateProbe.remove();
     await expectTypographyFor(canvasElement, headerValueSelector, tableTypography.header);
-    await expectTypographyFor(canvasElement, '.cometal-table__filter-cell .cometal-field__input, .cometal-table__filter-cell .cometal-field__select-trigger', tableTypography.body);
   },
 };
 export const Columns: Story = {

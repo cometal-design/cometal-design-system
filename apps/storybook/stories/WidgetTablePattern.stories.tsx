@@ -10,6 +10,27 @@ import { definition as calculatorIconDefinition } from '@cometal/react/icons/out
 
 const patternToolbarIcons = [flexRowsIconDefinition, filterIconDefinition, calculatorIconDefinition, refreshIconDefinition, downloadIconDefinition, plusIconDefinition];
 
+const sortableColumnContracts = [
+  { id: 'position', label: 'Позиция', ascending: ['POS-001', 'POS-002', 'POS-003', 'POS-004', 'POS-005', 'POS-006', 'POS-007', 'POS-008', 'POS-009', 'POS-010'], descending: ['POS-120', 'POS-119', 'POS-118', 'POS-117', 'POS-116', 'POS-115', 'POS-114', 'POS-113', 'POS-112', 'POS-111'] },
+  { id: 'name', label: 'Наименование', ascending: ['POS-005', 'POS-015', 'POS-025', 'POS-035', 'POS-045', 'POS-055', 'POS-065', 'POS-075', 'POS-085', 'POS-095'], descending: ['POS-113', 'POS-103', 'POS-093', 'POS-083', 'POS-073', 'POS-063', 'POS-053', 'POS-043', 'POS-033', 'POS-023'] },
+  { id: 'grade', label: 'Марка стали', ascending: ['POS-007', 'POS-017', 'POS-027', 'POS-037', 'POS-047', 'POS-057', 'POS-067', 'POS-077', 'POS-087', 'POS-097'], descending: ['POS-004', 'POS-014', 'POS-024', 'POS-034', 'POS-044', 'POS-054', 'POS-064', 'POS-074', 'POS-084', 'POS-094'] },
+  { id: 'quantity', label: 'Количество', ascending: ['POS-004', 'POS-010', 'POS-014', 'POS-003', 'POS-020', 'POS-024', 'POS-008', 'POS-013', 'POS-030', 'POS-034'], descending: ['POS-115', 'POS-105', 'POS-095', 'POS-119', 'POS-085', 'POS-109', 'POS-075', 'POS-099', 'POS-111', 'POS-065'] },
+  { id: 'unit', label: 'Ед.', ascending: ['POS-001', 'POS-002', 'POS-003', 'POS-005', 'POS-006', 'POS-007', 'POS-008', 'POS-009', 'POS-010', 'POS-011'], descending: ['POS-004', 'POS-014', 'POS-024', 'POS-034', 'POS-044', 'POS-054', 'POS-064', 'POS-074', 'POS-084', 'POS-094'] },
+  { id: 'price', label: 'Цена, ₽', ascending: ['POS-005', 'POS-015', 'POS-025', 'POS-009', 'POS-035', 'POS-019', 'POS-045', 'POS-029', 'POS-055', 'POS-003'], descending: ['POS-114', 'POS-104', 'POS-094', 'POS-084', 'POS-074', 'POS-064', 'POS-054', 'POS-044', 'POS-034', 'POS-024'] },
+  { id: 'sum', label: 'Сумма, ₽', ascending: ['POS-010', 'POS-003', 'POS-020', 'POS-013', 'POS-004', 'POS-030', 'POS-023', 'POS-006', 'POS-008', 'POS-014'], descending: ['POS-117', 'POS-107', 'POS-114', 'POS-111', 'POS-115', 'POS-097', 'POS-119', 'POS-105', 'POS-101', 'POS-112'] },
+  { id: 'delivery', label: 'Дата поставки', ascending: ['POS-001', 'POS-011', 'POS-021', 'POS-031', 'POS-041', 'POS-051', 'POS-061', 'POS-071', 'POS-081', 'POS-091'], descending: ['POS-010', 'POS-020', 'POS-030', 'POS-040', 'POS-050', 'POS-060', 'POS-070', 'POS-080', 'POS-090', 'POS-100'] },
+  { id: 'document', label: 'Документ', ascending: ['POS-001', 'POS-002', 'POS-003', 'POS-004', 'POS-005', 'POS-006', 'POS-007', 'POS-008', 'POS-009', 'POS-010'], descending: ['POS-120', 'POS-119', 'POS-118', 'POS-117', 'POS-116', 'POS-115', 'POS-114', 'POS-113', 'POS-112', 'POS-111'] },
+  { id: 'status', label: 'Статус', ascending: ['POS-003', 'POS-006', 'POS-010', 'POS-013', 'POS-016', 'POS-020', 'POS-023', 'POS-026', 'POS-030', 'POS-033'], descending: ['POS-005', 'POS-015', 'POS-025', 'POS-035', 'POS-045', 'POS-055', 'POS-065', 'POS-075', 'POS-085', 'POS-095'] },
+  { id: 'control', label: 'Контроль', ascending: ['POS-005', 'POS-015', 'POS-025', 'POS-035', 'POS-045', 'POS-055', 'POS-065', 'POS-075', 'POS-085', 'POS-095'], descending: ['POS-004', 'POS-014', 'POS-024', 'POS-034', 'POS-044', 'POS-054', 'POS-064', 'POS-074', 'POS-084', 'POS-094'] },
+  { id: 'supplier', label: 'Поставщик', ascending: ['POS-006', 'POS-016', 'POS-026', 'POS-036', 'POS-046', 'POS-056', 'POS-066', 'POS-076', 'POS-086', 'POS-096'], descending: ['POS-008', 'POS-018', 'POS-028', 'POS-038', 'POS-048', 'POS-058', 'POS-068', 'POS-078', 'POS-088', 'POS-098'] },
+] as const;
+
+const initialVisibleRowIds = ['POS-001', 'POS-002', 'POS-003', 'POS-004', 'POS-005', 'POS-006', 'POS-007', 'POS-008', 'POS-009', 'POS-010'];
+
+function visibleRowIds(table: HTMLElement) {
+  return Array.from(table.querySelectorAll<HTMLTableRowElement>('tbody tr[data-row-id]'), (row) => row.dataset.rowId);
+}
+
 function definitionPathData(body: string) {
   return Array.from(body.matchAll(/<path d="([^"]+)"/g), (match) => match[1]);
 }
@@ -277,6 +298,71 @@ export const Overview: Story = {
     await expect(showSummary).toHaveAttribute('aria-pressed', 'false');
     await userEvent.click(showSummary);
     await expect(within(readTable).getByText('Итого')).toBeVisible();
+  },
+};
+
+export const SortingContract: Story = {
+  name: 'M2/Сортировка заголовков',
+  render: () => <main className="ds-story-canvas ds-widget-table-pattern-story"><WidgetTableReviewExample mode="read" /><WidgetTableReviewExample mode="edit" /></main>,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const readTable = canvas.getByRole('table', { name: 'Спецификация позиций · Read' });
+    const editTable = canvas.getByRole('table', { name: 'Спецификация позиций · Edit' });
+    await expect(readTable.querySelectorAll('thead .cometal-table__sort-button')).toHaveLength(12);
+    await expect(editTable.querySelectorAll('thead .cometal-table__sort-button')).toHaveLength(12);
+
+    for (const contract of sortableColumnContracts) {
+      const header = readTable.querySelector<HTMLTableCellElement>(`thead th[data-column-id="${contract.id}"]`)!;
+      const headerCanvas = within(header);
+      const sortButton = headerCanvas.getByRole('button', { name: `Сортировать ${contract.label}: по возрастанию` });
+      await expect(header).not.toHaveAttribute('aria-sort');
+      await expect(readTable.querySelectorAll('thead th[aria-sort]')).toHaveLength(0);
+
+      fireEvent.click(sortButton);
+      await expect(header).toHaveAttribute('aria-sort', 'ascending');
+      await expect(readTable.querySelectorAll('thead th[aria-sort]')).toHaveLength(1);
+      await expect(sortButton).toHaveAccessibleName(`Сортировать ${contract.label}: по убыванию`);
+      await expect(visibleRowIds(readTable)).toEqual(contract.ascending);
+
+      sortButton.focus();
+      await userEvent.keyboard('{Enter}');
+      await expect(header).toHaveAttribute('aria-sort', 'descending');
+      await expect(sortButton).toHaveAccessibleName(`Сортировать ${contract.label}: отключить сортировку`);
+      await expect(visibleRowIds(readTable)).toEqual(contract.descending);
+
+      sortButton.focus();
+      await userEvent.keyboard(' ');
+      await expect(header).not.toHaveAttribute('aria-sort');
+      await expect(readTable.querySelectorAll('thead th[aria-sort]')).toHaveLength(0);
+      await expect(sortButton).toHaveAccessibleName(`Сортировать ${contract.label}: по возрастанию`);
+      await expect(visibleRowIds(readTable)).toEqual(initialVisibleRowIds);
+    }
+
+    const fileHeader = readTable.querySelector<HTMLTableCellElement>('thead th[data-column-id="file"]')!;
+    await expect(fileHeader).not.toHaveAttribute('aria-sort');
+    await expect(fileHeader.querySelector('.cometal-table__sort-button')).toBeNull();
+    await expect(within(fileHeader).getByRole('button', { name: 'Действия колонки Файл' })).toBeVisible();
+    await expect(within(readTable).getByRole('separator', { name: 'Изменить ширину колонки Файл' })).toBeVisible();
+    await expect(within(readTable).getByRole('textbox', { name: 'Фильтр по файлу' })).toBeVisible();
+    await expect(readTable.querySelector('tbody td[data-column-id="file"] .cometal-table__file-name')).toHaveTextContent('Спецификация.pdf');
+
+    const editTableCanvas = within(editTable);
+    const firstDragHandle = editTableCanvas.getByRole('button', { name: 'Переместить строку POS-001' });
+    firstDragHandle.focus();
+    await userEvent.keyboard('{Space}{ArrowDown}{Space}');
+    const consumerOrder = ['POS-002', 'POS-001', 'POS-003', 'POS-004', 'POS-005', 'POS-006', 'POS-007', 'POS-008', 'POS-009', 'POS-010'];
+    await expect(visibleRowIds(editTable)).toEqual(consumerOrder);
+    const editPositionHeader = editTable.querySelector<HTMLTableCellElement>('thead th[data-column-id="position"]')!;
+    const editPositionSort = within(editPositionHeader).getByRole('button', { name: 'Сортировать Позиция: по возрастанию' });
+    fireEvent.click(editPositionSort);
+    await expect(visibleRowIds(editTable)).toEqual(initialVisibleRowIds);
+    editPositionSort.focus();
+    await userEvent.keyboard('{Enter}');
+    await expect(visibleRowIds(editTable)).toEqual(sortableColumnContracts[0].descending);
+    editPositionSort.focus();
+    await userEvent.keyboard(' ');
+    await expect(editPositionHeader).not.toHaveAttribute('aria-sort');
+    await expect(visibleRowIds(editTable)).toEqual(consumerOrder);
   },
 };
 

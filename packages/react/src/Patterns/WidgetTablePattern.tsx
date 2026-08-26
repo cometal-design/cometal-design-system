@@ -178,7 +178,6 @@ type ReviewSortableColumnId =
   | typeof reviewColumnIds.sum
   | typeof reviewColumnIds.delivery
   | typeof reviewColumnIds.document
-  | typeof reviewColumnIds.file
   | typeof reviewColumnIds.status
   | typeof reviewColumnIds.control
   | typeof reviewColumnIds.supplier;
@@ -203,7 +202,6 @@ function reviewSortValue(row: ReviewRow, columnId: ReviewSortableColumnId): stri
   if (columnId === reviewColumnIds.sum) return row[3] * row[5];
   if (columnId === reviewColumnIds.delivery) return reviewDateValue(row[6]);
   if (columnId === reviewColumnIds.document) return row[7];
-  if (columnId === reviewColumnIds.file) return 'Спецификация.pdf';
   if (columnId === reviewColumnIds.status) return row[8];
   if (columnId === reviewColumnIds.control) return row[9];
   return row[10];
@@ -428,7 +426,7 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode 
             <TableHeaderCell columnId={reviewColumnIds.sum} {...sortableHeaderProps(reviewColumnIds.sum)} action={headerAction(reviewColumnIds.sum, 'Сумма', 'number')}>Сумма, ₽</TableHeaderCell>
             <TableHeaderCell columnId={reviewColumnIds.delivery} {...sortableHeaderProps(reviewColumnIds.delivery)} action={headerAction(reviewColumnIds.delivery, 'Дата поставки', 'date')}>Дата поставки</TableHeaderCell>
             <TableHeaderCell columnId={reviewColumnIds.document} {...sortableHeaderProps(reviewColumnIds.document)} action={headerAction(reviewColumnIds.document, 'Документ', 'text')}>Документ</TableHeaderCell>
-            <TableHeaderCell columnId={reviewColumnIds.file} {...sortableHeaderProps(reviewColumnIds.file)} action={headerAction(reviewColumnIds.file, 'Файл', 'text')}>Файл</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.file} action={headerAction(reviewColumnIds.file, 'Файл', 'text')}>Файл</TableHeaderCell>
             <TableHeaderCell columnId={reviewColumnIds.status} {...sortableHeaderProps(reviewColumnIds.status)} action={headerAction(reviewColumnIds.status, 'Статус', 'select')}>Статус</TableHeaderCell>
             <TableHeaderCell columnId={reviewColumnIds.control} {...sortableHeaderProps(reviewColumnIds.control)} action={headerAction(reviewColumnIds.control, 'Контроль', 'select')}>Контроль</TableHeaderCell>
             <TableHeaderCell columnId={reviewColumnIds.supplier} {...sortableHeaderProps(reviewColumnIds.supplier)} action={headerAction(reviewColumnIds.supplier, 'Поставщик', 'select')}>Поставщик</TableHeaderCell>

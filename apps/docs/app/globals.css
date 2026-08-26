@@ -915,10 +915,6 @@ code, pre, kbd, samp {
 .docs-table-utility-matrices .cometal-table { min-width: 720px; }
 .docs-table-density-pair { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--cometal-primitive-spacing-200); }
 .docs-table-density-pair > article { display: grid; min-width: 0; gap: var(--cometal-primitive-spacing-100); }
-.docs-table-header-force-hover,
-.docs-table-header-force-hover .cometal-checkbox__control,
-.docs-table-context-force-hover { background: var(--cometal-component-table-header-surface-hover); }
-.docs-table-context-force-open { background: var(--cometal-semantic-color-global-surface-selected); }
 .docs-table-filter-contract-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--cometal-primitive-spacing-150); }
 .docs-table-filter-contract-grid article { display: grid; min-width: 0; gap: var(--cometal-primitive-spacing-75); }
 .docs-table-filter-contract-grid article > code { color: var(--portal-muted); font: var(--portal-code-xs-size)/var(--portal-code-line-height) var(--portal-font-code); }
