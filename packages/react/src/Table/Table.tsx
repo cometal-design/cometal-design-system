@@ -71,6 +71,7 @@ interface TableReorderContextValue {
   interaction: 'pointer' | 'keyboard' | null;
   overId: string | null;
   position: TableRowDropPosition | null;
+  dropConfirmation: { rowId: string; phase: 'hold' | 'fade' } | null;
   instructionId: string;
   startPointerDrag: (rowId: string, rowLabel: string) => void;
   movePointerDrag: (event: ReactPointerEvent<HTMLElement>) => void;
@@ -102,6 +103,8 @@ interface TableColumnSizingContextValue {
 const TableColumnSizingContext = createContext<TableColumnSizingContextValue | null>(null);
 const EMPTY_TABLE_COLUMN_IDS: readonly string[] = [];
 const EMPTY_TABLE_COLUMN_WIDTHS: Readonly<Record<string, number>> = {};
+const TABLE_DROP_CONFIRMATION_HOLD_MS = 650;
+const TABLE_DROP_CONFIRMATION_FADE_MS = 280;
 
 type TableColumnCellStyle = CSSProperties & {
   '--cometal-table-pinned-left'?: string;
@@ -192,11 +195,34 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
   const [interaction, setInteraction] = useState<'pointer' | 'keyboard' | null>(null);
   const [overId, setOverId] = useState<string | null>(null);
   const [position, setPosition] = useState<TableRowDropPosition | null>(null);
+  const [dropConfirmation, setDropConfirmation] = useState<{ rowId: string; phase: 'hold' | 'fade' } | null>(null);
   const [announcement, setAnnouncement] = useState('');
   const [rowMenu, setRowMenu] = useState<TableRowMenuState | null>(null);
   const [columnLayout, setColumnLayout] = useState<{ order: string[]; offsets: Record<string, number> }>({ order: [], offsets: {} });
   const columnWidthsRef = useRef(columnWidths);
+  const dropConfirmationTimersRef = useRef<number[]>([]);
   columnWidthsRef.current = columnWidths;
+
+  const clearDropConfirmationTimers = useCallback(() => {
+    dropConfirmationTimersRef.current.forEach((timer) => window.clearTimeout(timer));
+    dropConfirmationTimersRef.current = [];
+  }, []);
+
+  const clearDropConfirmation = useCallback(() => {
+    clearDropConfirmationTimers();
+    setDropConfirmation(null);
+  }, [clearDropConfirmationTimers]);
+
+  const confirmPointerDrop = useCallback((rowId: string) => {
+    clearDropConfirmationTimers();
+    setDropConfirmation({ rowId, phase: 'hold' });
+    dropConfirmationTimersRef.current = [
+      window.setTimeout(() => setDropConfirmation({ rowId, phase: 'fade' }), TABLE_DROP_CONFIRMATION_HOLD_MS),
+      window.setTimeout(() => setDropConfirmation(null), TABLE_DROP_CONFIRMATION_HOLD_MS + TABLE_DROP_CONFIRMATION_FADE_MS),
+    ];
+  }, [clearDropConfirmationTimers]);
+
+  useEffect(() => clearDropConfirmationTimers, [clearDropConfirmationTimers]);
 
   const setTableRef = useCallback((node: HTMLTableElement | null) => {
     tableRef.current = node;
@@ -294,8 +320,10 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
       interaction,
       overId,
       position,
+      dropConfirmation,
       instructionId,
       startPointerDrag(rowId, rowLabel) {
+        clearDropConfirmation();
         setActiveId(rowId);
         setInteraction('pointer');
         setOverId(null);
@@ -323,6 +351,7 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
           return;
         }
         onRowReorder({ activeId, overId, position });
+        confirmPointerDrop(activeId);
         setAnnouncement(`Строка ${activeId} перемещена ${position === 'before' ? 'перед' : 'после'} строки ${overId}.`);
         resetReorder();
       },
@@ -365,7 +394,7 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
         }
       },
     };
-  }, [activeId, instructionId, interaction, onRowReorder, overId, position, reorderEnabled]);
+  }, [activeId, clearDropConfirmation, confirmPointerDrop, dropConfirmation, instructionId, interaction, onRowReorder, overId, position, reorderEnabled]);
 
   const openRowMenu = (event: ReactMouseEvent<HTMLTableElement>) => {
     onContextMenu?.(event);
@@ -466,6 +495,7 @@ export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(function 
   const effectiveReorderId = mode === 'edit' && reorder ? reorderId : undefined;
   const dragging = Boolean(effectiveReorderId && reorder?.activeId === effectiveReorderId);
   const dropPosition = effectiveReorderId && reorder?.overId === effectiveReorderId ? reorder.position : null;
+  const dropConfirmation = effectiveReorderId && reorder?.dropConfirmation?.rowId === effectiveReorderId ? reorder.dropConfirmation.phase : null;
   const resolvedRowId = rowId ?? effectiveReorderId;
   return <TableRowReorderIdContext.Provider value={effectiveReorderId ?? null}>
     <tr
@@ -477,6 +507,7 @@ export const TableRow = forwardRef<HTMLTableRowElement, TableRowProps>(function 
       data-row-id={resolvedRowId}
       data-row-dragging={dragging || undefined}
       data-drop-position={dropPosition ?? undefined}
+      data-drop-confirmation={dropConfirmation ?? undefined}
     >{children}</tr>
   </TableRowReorderIdContext.Provider>;
 });
@@ -813,7 +844,7 @@ export const TableDragHandle = forwardRef<HTMLButtonElement, TableDragHandleProp
         onPointerDown?.(event);
         if (!rowId || !reorder || event.defaultPrevented || event.button !== 0) return;
         event.preventDefault();
-        event.currentTarget.closest<HTMLElement>('.cometal-table-scroll')?.setPointerCapture(event.pointerId);
+        try { event.currentTarget.closest<HTMLElement>('.cometal-table-scroll')?.setPointerCapture(event.pointerId); } catch { /* Synthetic pointer events may not own an active browser pointer. */ }
         reorder.startPointerDrag(rowId, rowLabel);
       }}
       onKeyDown={(event) => {

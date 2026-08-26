@@ -302,6 +302,26 @@ export const Overview: Story = {
     await userEvent.keyboard('{ArrowDown}{Space}');
     await expect(Array.from(table.querySelectorAll('tbody tr[data-reorder-id]')).map((row) => row.getAttribute('data-reorder-id'))).toEqual(['2', '1', '3', '4']);
     await expect(dragHandle).not.toHaveAttribute('aria-pressed');
+    await expect(table.querySelector('[data-drop-confirmation]')).toBeNull();
+
+    const scrollRegion = table.closest<HTMLElement>('.cometal-table-scroll');
+    const targetRow = table.querySelector<HTMLTableRowElement>('tr[data-reorder-id="3"]');
+    if (!scrollRegion || !targetRow) throw new Error('Expected reorder surface and target row');
+    const targetBounds = targetRow.getBoundingClientRect();
+    fireEvent.pointerDown(dragHandle, { pointerId: 19, button: 0, clientX: targetBounds.left + 8, clientY: targetBounds.top - 8 });
+    fireEvent.pointerMove(scrollRegion, { pointerId: 19, clientX: targetBounds.left + 8, clientY: targetBounds.bottom - 2 });
+    await waitFor(() => expect(targetRow).toHaveAttribute('data-drop-position', 'after'));
+    fireEvent.pointerUp(scrollRegion, { pointerId: 19, clientX: targetBounds.left + 8, clientY: targetBounds.bottom - 2 });
+    await waitFor(() => expect(Array.from(table.querySelectorAll('tbody tr[data-reorder-id]')).map((row) => row.getAttribute('data-reorder-id'))).toEqual(['2', '3', '1', '4']));
+    const confirmedRow = table.querySelector<HTMLTableRowElement>('tr[data-reorder-id="1"]');
+    if (!confirmedRow) throw new Error('Expected moved row in its new position');
+    await expect(confirmedRow).toHaveAttribute('data-drop-confirmation', 'hold');
+    const confirmedCell = confirmedRow.querySelector<HTMLTableCellElement>('.cometal-table__cell');
+    if (!confirmedCell) throw new Error('Expected moved row cell');
+    await expect(getComputedStyle(confirmedCell, '::before').opacity).toBe('1');
+    await waitFor(() => expect(confirmedRow).toHaveAttribute('data-drop-confirmation', 'fade'), { timeout: 1_000 });
+    await expect(getComputedStyle(confirmedCell, '::before').transitionDuration).toBe('0.28s');
+    await waitFor(() => expect(confirmedRow).not.toHaveAttribute('data-drop-confirmation'), { timeout: 1_000 });
     await expect(canvasElement.querySelectorAll('[data-cometal-icon]').length).toBeGreaterThan(0);
     await expect(canvasElement.querySelectorAll('.cometal-selection').length).toBeGreaterThan(0);
     await expectTableSurfaceTypography(canvasElement);
