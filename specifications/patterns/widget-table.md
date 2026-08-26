@@ -26,6 +26,14 @@
 - Pinning never creates a drag placeholder in `Read`; `Edit` keeps the real drag column, and pinned header/filter/body/summary cells remain synchronized across density changes and horizontal scrolling.
 - Both `Read` and `Edit` keep a controlled `columnWidths` record. Header separators resize the complete column with pointer or keyboard; the same width survives density and pin/unpin changes, while Table recalculates pinned offsets from the resized geometry.
 
+## M2 sorting contract
+
+- In the accepted Widget data, exactly 12 headers are sortable: `position`, `name`, `grade`, `quantity`, `unit`, `price`, `sum`, `delivery`, `document`, `status`, `control`, `supplier`. `file` is explicitly non-sortable because every accepted row has the same `Спецификация.pdf` value; it keeps its label, filter cell, file cell, Context Action, pinning and resize surface.
+- `WidgetTableReviewExample` owns sort direction, comparator semantics and stable row ordering. A header requests only `none → ascending → descending → none`; `none` exposes the current consumer-owned filtered `orderedRows`, not an immutable module seed, so prior reorder or consumer edits remain intact.
+- `position`, `name`, `grade`, `unit`, `document` and `supplier` use `Intl.Collator('ru-RU', { numeric: true, sensitivity: 'base' })`; `quantity` and `price` use numeric subtraction; `sum` compares derived `quantity × price`; `delivery` parses accepted `DD.MM.YYYY` values as numeric `YYYYMMDD`; `status` and `control` use the same lexical `ru-RU` collation without invented domain ranking.
+- Sorting operates on the filtered copy of current `orderedRows`. Equal values retain that current order via `originalIndex`; direction inversion applies only to nonzero comparison results, so ties remain stable in both directions.
+- M2 changes no filter operator/reset/listbox behavior, row menu, Read/Edit cells, new pinning or resize behavior, pagination, totals, scroll window or Widget toolbar work; those remain M3+ pending.
+
 ## Exclusions
 
 - Widget does not receive Table-specific props or state machine.

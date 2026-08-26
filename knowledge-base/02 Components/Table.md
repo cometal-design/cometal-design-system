@@ -42,6 +42,9 @@
 - Последняя pinned column показывает separator/shadow; при horizontal scroll остальные колонки проходят под закреплёнными. Read по-прежнему не рендерит drag-column, Edit сохраняет её.
 - Ширина колонки — отдельное controlled состояние `columnWidths`, связанное тем же `columnId`. Separator заголовка поддерживает pointer drag и клавиатуру; utility columns остаются фиксированными. Изменение ширины синхронно применяется ко всем этажам и пересчитывает offsets pinned columns.
 - Table намеренно не владеет storage. Consumer хранит record в React state и при необходимости персистит его в пользовательских настройках; поэтому pin/unpin, density и rerender не должны менять заданный размер.
+- M2 Header source: `Column Header` `2353:10896`, `Selection Header` `2353:10934`, `Context Action` `2482:5611`, `Resize Separator` `3305:39754`. Header atom публикует controlled cycle `none → ascending → descending → none`, native sort button и `aria-sort`; consumer владеет comparator и row ordering.
+- Ascending/Descending используют exact generated `arrow-up-sm` `700:14369` / `down-arrow-sm` `700:14384` в `16×16`, `currentColor`, Stroke/140 `1.4px`, без transforms. Header 48px/40px не имеет отличимого full-cell Hover/Active; сортировка и Context Action имеют focus ring `2px` с offset `4px`.
+- Resize Separator — внутренний 8px visual source: transparent 1px default line, одинаковая 2px focus-ring line для Hover/Resizing/Focus-visible. Его механика, а также M3+ filter/menu/row/pinning/pagination work, не входят в M2.
 
 ## Ownership
 

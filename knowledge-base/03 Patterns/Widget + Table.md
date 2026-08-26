@@ -21,6 +21,9 @@
 - Edit показывает drag-column, разрешает controlled reorder и переводит eligible TableCell в `editing`;
 - функциональная панель Widget включает и скрывает всю строку итогов системной IconButton с канонической Outline-иконкой;
 - в Edit сама TableCell автоматически становится `td[contenteditable][role=textbox]` без вложенного Input.
+- M2 sorting: consumer-owned `WidgetTableReviewExample` сортирует ровно 12 headers — `position`, `name`, `grade`, `quantity`, `unit`, `price`, `sum`, `delivery`, `document`, `status`, `control`, `supplier`; `file` не sortable для однородного `Спецификация.pdf`, но сохраняет остальные Table surfaces.
+- Header запрашивает `none → ascending → descending → none`; ties стабильны относительно текущего filtered `orderedRows` через `originalIndex`, а `none` возвращает текущий consumer order, сохраняя reorder/edits. Strings/status/control используют lexical `ru-RU` collation; quantity/price — numeric, sum — `quantity × price`, delivery — accepted `DD.MM.YYYY → YYYYMMDD`.
+- M2 не расширяет filter operator/reset/listbox, row-menu, Read/Edit, pinning/resize mechanics, pagination, totals, scroll window или Widget toolbar: это M3+ pending.
 
 ## Граница
 

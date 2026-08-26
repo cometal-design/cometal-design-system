@@ -67,6 +67,16 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - Плотность применяется ко всей Table: Comfortable — 48px, Compact — 40px для header, filter row, body, summary и квадратных utility cells. Обычные data columns сохраняют content/user-resized ширины, а существующие S filters остаются 32px.
 - Index и selection columns меняют ширину синхронно с высотой ячейки: 48px или 40px.
 
+## M2: Column Header и sorting
+
+- Канонические M2 sources: `Column Header` `2353:10896`, `Selection Header` `2353:10934`, `Context Action` `2482:5611` и внутренний `Resize Separator` `3305:39754` в `Header Source` `2353:10891`.
+- `TableHeaderCell` — controlled atom: он публикует native sort button, `aria-sort` только для активного направления, доступное имя следующего действия и запрос цикла `none → ascending → descending → none`; сравнение и изменение порядка строк остаются consumer-owned.
+- Ascending использует сгенерированный `Outline/arrows/arrow-up-sm` (`700:14369`), Descending — `Outline/arrows/down-arrow-sm` (`700:14384`). Обе иконки рендерятся в slot `16×16` с `currentColor`, центрированным круглым Stroke/140 = `1.4px` и выбранным sort color role; запрещены transform, rotation, redraw и подмена иконки.
+- Density применяется к header: Comfortable `48px`, Compact `40px`. Unsorted full-cell Hover является compatibility alias Default и пиксельно от него не отличается; отдельного Active/Pressed visual state нет. Sorted Ascending/Descending сохраняют selected surface, text и icon roles.
+- Focus-visible охватывает полный control `Label + Sort` и Context Action: `2px` Global State Focus Ring с прозрачным offset `4px`, без clipping в обеих плотностях. Context Action сохраняет только свои общие Default/Hover/Open states.
+- Resize Separator — исключительно визуальный внутренний source: full-height hit-area `8px`; в Default центральная внутренняя линия `1px` прозрачна и оставляет видимым grid divider, а Hover, Resizing и Focus-visible используют одинаковую центральную `2px` Global State Focus Ring line. Pointer/keyboard resize, min-width, persistence, sticky offsets и final-column mechanics не меняются в M2.
+- Filter operator/reset/listbox/DatePicker, row context menu, Read/Edit cell behavior, column hide/pinning/resize behavior, pagination и toolbar work относятся к M3+ и не меняются этим контрактом.
+
 ## Контент
 
 - Текст выравнивается влево, числовые значения вправо, служебные index/selection cells по центру.
@@ -80,6 +90,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 
 - Используются нативные `table`, `thead`, `tbody`, `tr`, `th`, `td`.
 - Сортировка публикуется через `aria-sort` на column header.
+- Sort button поддерживает pointer, Enter и Space; `aria-sort` описывает только текущее активное направление, а его доступное имя сообщает следующее действие в цикле `none → ascending → descending → none`.
 - Таблица без видимого caption получает `aria-label`.
 - Error cells публикуют `aria-invalid`; disabled cells публикуют `aria-disabled`.
 - Встроенные Checkbox сохраняют нативную input-семантику и видимое либо скрытое доступное имя.
