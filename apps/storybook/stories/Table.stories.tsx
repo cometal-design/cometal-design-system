@@ -186,6 +186,56 @@ function SourceTable({ density = 'comfortable', filters = true, ariaLabel = 'П�
   );
 }
 
+type TableSectionComposition = {
+  label: string;
+  head: boolean;
+  filters: boolean;
+  body: 'absent' | 'empty' | 'populated';
+  summary: boolean;
+};
+
+const tableSectionCompositions = [
+  { label: 'Head only · filters off', head: true, filters: false, body: 'absent', summary: false },
+  { label: 'Head only · filters on', head: true, filters: true, body: 'absent', summary: false },
+  { label: 'Body only', head: false, filters: false, body: 'populated', summary: false },
+  { label: 'Body only · empty', head: false, filters: false, body: 'empty', summary: false },
+  { label: 'Head + empty body · filters off', head: true, filters: false, body: 'empty', summary: false },
+  { label: 'Head + empty body · filters on', head: true, filters: true, body: 'empty', summary: false },
+  { label: 'Populated body · filters off · no summary', head: true, filters: false, body: 'populated', summary: false },
+  { label: 'Populated body · filters on · no summary', head: true, filters: true, body: 'populated', summary: false },
+  { label: 'Populated body · filters off · summary', head: true, filters: false, body: 'populated', summary: true },
+  { label: 'Populated body · filters on · summary', head: true, filters: true, body: 'populated', summary: true },
+] as const satisfies readonly TableSectionComposition[];
+
+function TableSectionCompositionFixture({ composition }: { composition: TableSectionComposition }) {
+  return <Table density="comfortable" aria-label={composition.label}>
+    {composition.head ? <TableHead>
+      <TableRow data-composition-row="header"><TableHeaderCell>Позиция</TableHeaderCell><TableHeaderCell>Наименование</TableHeaderCell></TableRow>
+      {composition.filters ? <TableFilterRow data-composition-row="filter"><TableFilterCell><TextField label="Фильтр по позиции" size="s" /></TableFilterCell><TableFilterCell><TextField label="Фильтр по наименованию" size="s" /></TableFilterCell></TableFilterRow> : null}
+    </TableHead> : null}
+    {composition.body === 'absent' ? null : <TableBody>
+      {composition.body === 'populated' ? <TableRow data-composition-row="body"><TableCell>POS-00127</TableCell><TableCell>Лист стальной</TableCell></TableRow> : null}
+      {composition.summary ? <TableRow data-composition-row="summary"><TableSummaryCell kind="label">Итого</TableSummaryCell><TableSummaryCell kind="value">1 позиция</TableSummaryCell></TableRow> : null}
+    </TableBody>}
+  </Table>;
+}
+
+async function expectCanonicalSectionEdges(table: HTMLTableElement) {
+  const shell = table.closest<HTMLElement>('.cometal-table-scroll-shell')!;
+  const shellStyle = getComputedStyle(shell);
+  await expect([shellStyle.borderTopWidth, shellStyle.borderRightWidth, shellStyle.borderBottomWidth, shellStyle.borderLeftWidth]).toEqual(['1px', '1px', '1px', '1px']);
+  const visibleRows = Array.from(table.rows).filter((row) => row.cells.length > 0);
+  for (const [rowIndex, row] of visibleRows.entries()) {
+    const cells = Array.from(row.cells);
+    await expect(cells.length).toBe(2);
+    for (const cell of cells) {
+      await expect(getComputedStyle(cell).borderBottomWidth).toBe(rowIndex === visibleRows.length - 1 ? '0px' : '1px');
+    }
+    await expect(getComputedStyle(cells[0]!).borderRightWidth).toBe('1px');
+    await expect(getComputedStyle(cells[1]!).borderRightWidth).toBe('0px');
+  }
+}
+
 function OverviewPage() {
   const [page, setPage] = useState(1); const [pageSize, setPageSize] = useState(10);
   return <main className="ds-component-page ds-table-page">
@@ -476,6 +526,21 @@ export const Paginator: Story = {
     await expect(pageSizeOutput).toHaveAttribute('data-page-size-type', 'number');
     await userEvent.click(paginator.getByRole('button', { name: 'Следующая страница' }));
     await expect(paginator.getByRole('button', { name: 'Страница 2' })).toHaveAttribute('aria-current', 'page');
+  },
+};
+export const SectionCompositions: Story = {
+  name: 'Секции/Terminal edges',
+  render: () => <main className="ds-story-canvas ds-table-density-pair">{tableSectionCompositions.map((composition) => <section key={composition.label}><h2>{composition.label}</h2><TableSectionCompositionFixture composition={composition} /></section>)}</main>,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    for (const composition of tableSectionCompositions) {
+      const table = canvas.getByRole('table', { name: composition.label }) as HTMLTableElement;
+      await expectCanonicalSectionEdges(table);
+      await expect(table.querySelectorAll('.cometal-table__filter-row')).toHaveLength(composition.filters ? 1 : 0);
+      await expect(table.querySelectorAll('.cometal-table__body')).toHaveLength(composition.body === 'absent' ? 0 : 1);
+      await expect(table.querySelectorAll('.cometal-table__body > tr')).toHaveLength(composition.body === 'populated' ? composition.summary ? 2 : 1 : 0);
+      await expect(table.querySelectorAll('[data-composition-row="summary"]')).toHaveLength(composition.summary ? 1 : 0);
+    }
   },
 };
 export const Density: Story = {

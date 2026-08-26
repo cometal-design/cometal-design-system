@@ -223,13 +223,14 @@
   pointer-events: none;
 }
 
-.cometal-table__row > :last-child {
+.cometal-table__row > :last-child,
+.cometal-table__filter-row > :last-child {
   border-right: 0;
 }
 
-.cometal-table__head:last-child .cometal-table__row:last-child > .cometal-table__header-cell,
-.cometal-table__head:last-child .cometal-table__row:last-child > .cometal-table__filter-cell,
-.cometal-table__body:last-child .cometal-table__row:last-child > .cometal-table__cell {
+.cometal-table__body:has(> tr):not(:has(~ .cometal-table__body > tr)) > tr:last-child > .cometal-table__cell,
+.cometal-table:not(:has(> .cometal-table__body > tr)) > .cometal-table__head:last-of-type > tr:last-child > .cometal-table__header-cell,
+.cometal-table:not(:has(> .cometal-table__body > tr)) > .cometal-table__head:last-of-type > tr:last-child > .cometal-table__filter-cell {
   border-bottom: 0;
 }
 
