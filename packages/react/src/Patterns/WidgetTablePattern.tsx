@@ -435,19 +435,19 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode 
           </TableRow>
           {filters ? <TableFilterRow aria-label="Фильтры таблицы">
             <TableFilterCell columnId={reviewColumnIds.drag} kind="drag" /><TableFilterCell columnId={reviewColumnIds.index} kind="index" /><TableFilterCell columnId={reviewColumnIds.selection} kind="selection" />
-            <TableFilterCell columnId={reviewColumnIds.position}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по позиции" size="s" placeholder={operators[reviewColumnIds.position] ?? 'Содержит'} value={query} onChange={(event) => setQuery(event.currentTarget.value)} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.name}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по наименованию" size="s" placeholder={operators[reviewColumnIds.name] ?? 'Содержит'} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.grade}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по марке" size="s" placeholder={operators[reviewColumnIds.grade] ?? 'Содержит'} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.quantity}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по количеству" size="s" placeholder={operators[reviewColumnIds.quantity] ?? 'Равно'} inputMode="numeric" /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.unit}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по единице" size="s" placeholder={operators[reviewColumnIds.unit] ?? 'Равно'} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.price}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по цене" size="s" placeholder={operators[reviewColumnIds.price] ?? 'Равно'} inputMode="numeric" /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.sum}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по сумме" size="s" placeholder={operators[reviewColumnIds.sum] ?? 'Равно'} inputMode="numeric" /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.delivery}><DatePicker className="cometal-widget-table-pattern__filter" label="Фильтр по дате" size="s" placeholder={operators[reviewColumnIds.delivery] ?? 'Дата равна'} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.document}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по документу" size="s" placeholder={operators[reviewColumnIds.document] ?? 'Содержит'} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.file}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по файлу" size="s" placeholder={operators[reviewColumnIds.file] ?? 'Содержит'} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.status}><Select className="cometal-widget-table-pattern__filter" label="Фильтр по статусу" size="s" options={statusOptions} value={status} onValueChange={setStatus} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.control}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по контролю" size="s" placeholder={operators[reviewColumnIds.control] ?? 'Равно'} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.supplier}><TextField className="cometal-widget-table-pattern__filter" label="Фильтр по поставщику" size="s" placeholder={operators[reviewColumnIds.supplier] ?? 'Равно'} /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.position}><TextField label="Фильтр по позиции" size="s" placeholder={operators[reviewColumnIds.position] ?? 'Содержит'} value={query} onChange={(event) => setQuery(event.currentTarget.value)} /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.name}><TextField label="Фильтр по наименованию" size="s" placeholder={operators[reviewColumnIds.name] ?? 'Содержит'} /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.grade}><TextField label="Фильтр по марке" size="s" placeholder={operators[reviewColumnIds.grade] ?? 'Содержит'} /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.quantity}><TextField label="Фильтр по количеству" size="s" placeholder={operators[reviewColumnIds.quantity] ?? 'Равно'} inputMode="numeric" /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.unit}><TextField label="Фильтр по единице" size="s" placeholder={operators[reviewColumnIds.unit] ?? 'Равно'} /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.price}><TextField label="Фильтр по цене" size="s" placeholder={operators[reviewColumnIds.price] ?? 'Равно'} inputMode="numeric" /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.sum}><TextField label="Фильтр по сумме" size="s" placeholder={operators[reviewColumnIds.sum] ?? 'Равно'} inputMode="numeric" /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.delivery}><DatePicker label="Фильтр по дате" size="s" placeholder={operators[reviewColumnIds.delivery] ?? 'Дата равна'} /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.document}><TextField label="Фильтр по документу" size="s" placeholder={operators[reviewColumnIds.document] ?? 'Содержит'} /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.file}><TextField label="Фильтр по файлу" size="s" placeholder={operators[reviewColumnIds.file] ?? 'Содержит'} /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.status}><Select label="Фильтр по статусу" size="s" options={statusOptions} value={status} onValueChange={setStatus} /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.control}><TextField label="Фильтр по контролю" size="s" placeholder={operators[reviewColumnIds.control] ?? 'Равно'} /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.supplier}><TextField label="Фильтр по поставщику" size="s" placeholder={operators[reviewColumnIds.supplier] ?? 'Равно'} /></TableFilterCell>
           </TableFilterRow> : null}
         </TableHead>
         <TableBody>

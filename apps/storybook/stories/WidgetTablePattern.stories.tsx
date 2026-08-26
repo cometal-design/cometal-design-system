@@ -14,6 +14,27 @@ function definitionPathData(body: string) {
   return Array.from(body.matchAll(/<path d="([^"]+)"/g), (match) => match[1]);
 }
 
+async function expectM1Floors(table: HTMLElement, expectedFloor: 40 | 48) {
+  const shell = table.closest<HTMLElement>('.cometal-table-scroll-shell')!;
+  const shellBottom = Number.parseFloat(getComputedStyle(shell).borderBottomWidth);
+  const header = table.querySelector<HTMLElement>('thead tr:first-child')!;
+  const filter = table.querySelector<HTMLElement>('.cometal-table__filter-row')!;
+  const body = table.querySelector<HTMLElement>('tbody tr[data-row-id]')!;
+  const summary = table.querySelector<HTMLElement>('tbody tr:last-child')!;
+  const utility = body.querySelector<HTMLElement>('.cometal-table__selection-cell')!;
+  const summaryUtility = summary.querySelector<HTMLElement>('.cometal-table__selection-cell')!;
+  const filterControl = filter.querySelector<HTMLElement>('.cometal-field__control')!;
+  await expect(header.getBoundingClientRect().height).toBe(expectedFloor);
+  await expect(filter.getBoundingClientRect().height).toBe(expectedFloor);
+  await expect(body.getBoundingClientRect().height).toBe(expectedFloor);
+  await expect(summary.getBoundingClientRect().height + shellBottom).toBe(expectedFloor);
+  await expect(utility.getBoundingClientRect().width).toBe(expectedFloor);
+  await expect(utility.getBoundingClientRect().height).toBe(expectedFloor);
+  await expect(summaryUtility.getBoundingClientRect().width).toBe(expectedFloor);
+  await expect(summaryUtility.getBoundingClientRect().height + shellBottom).toBe(expectedFloor);
+  await expect(filterControl.getBoundingClientRect().height).toBe(32);
+}
+
 const meta = {
   title: 'Patterns/Widget with Table',
   component: WidgetTablePattern,
@@ -32,6 +53,7 @@ export const Overview: Story = {
     const readTable = canvas.getByRole('table', { name: 'Спецификация позиций · Read' });
     const editTable = canvas.getByRole('table', { name: 'Спецификация позиций · Edit' });
     const tableWrappers = Array.from(canvasElement.querySelectorAll<HTMLElement>('.cometal-widget-table-pattern__table'));
+    const tableShells = Array.from(canvasElement.querySelectorAll<HTMLElement>('.cometal-table-scroll-shell'));
     const footers = Array.from(canvasElement.querySelectorAll<HTMLElement>('.cometal-widget-table-pattern__footer'));
     await expect(readTable).toHaveAttribute('data-mode', 'read');
     await expect(editTable).toHaveAttribute('data-mode', 'edit');
@@ -68,18 +90,36 @@ export const Overview: Story = {
     canvasElement.append(borderProbe);
     const probeStyle = getComputedStyle(borderProbe);
     await expect(tableWrappers).toHaveLength(2);
+    await expect(tableShells).toHaveLength(2);
     await expect(footers).toHaveLength(2);
     for (const [index, tableWrapper] of tableWrappers.entries()) {
       const wrapperStyle = getComputedStyle(tableWrapper);
-      await expect(wrapperStyle.borderTopWidth).toBe('1px');
-      await expect(wrapperStyle.borderTopStyle).toBe('solid');
-      await expect(wrapperStyle.borderTopColor).toBe(probeStyle.color);
-      await expect(wrapperStyle.borderRadius).toBe('8px');
-      await expect(wrapperStyle.backgroundColor).toBe(probeStyle.backgroundColor);
-      await expect(wrapperStyle.overflow).toBe('hidden');
+      await expect(wrapperStyle.borderTopWidth).toBe('0px');
+      await expect(wrapperStyle.borderRadius).toBe('0px');
+      await expect(wrapperStyle.backgroundColor).toBe('rgba(0, 0, 0, 0)');
+      await expect(wrapperStyle.overflow).toBe('visible');
+      const tableShell = tableShells[index]!;
+      const shellStyle = getComputedStyle(tableShell);
+      await expect(shellStyle.boxSizing).toBe('border-box');
+      await expect([shellStyle.borderTopWidth, shellStyle.borderRightWidth, shellStyle.borderBottomWidth, shellStyle.borderLeftWidth]).toEqual(['1px', '1px', '1px', '1px']);
+      await expect(shellStyle.borderTopStyle).toBe('solid');
+      await expect(shellStyle.borderTopColor).toBe(probeStyle.color);
+      await expect(shellStyle.borderRadius).toBe('8px');
+      await expect(shellStyle.backgroundColor).toBe(probeStyle.backgroundColor);
+      await expect(shellStyle.overflow).toBe('hidden');
+      await expect(tableWrapper.getBoundingClientRect().width).toBe(tableShell.getBoundingClientRect().width);
+      await expect(tableWrapper.getBoundingClientRect().height).toBe(tableShell.getBoundingClientRect().height);
       await expect(tableWrapper.contains(footers[index]!)).toBe(false);
+      await expect(tableShell.contains(footers[index]!)).toBe(false);
     }
     borderProbe.remove();
+    await expectM1Floors(readTable, 48);
+    await expectM1Floors(editTable, 48);
+    await expect(within(readTable).getByRole('textbox', { name: 'Фильтр по позиции' })).toBeVisible();
+    const filterLabelRow = readTable.querySelector<HTMLElement>('.cometal-table__filter-control .cometal-field__label-row')!;
+    await expect(getComputedStyle(filterLabelRow).position).toBe('absolute');
+    await expect(getComputedStyle(filterLabelRow).width).toBe('1px');
+    await expect(readTable.querySelector('.cometal-widget-table-pattern__filter')).toBeNull();
     await expect(canvasElement.querySelector('.cometal-widget-table-pattern__density')).toBeNull();
 
     const readRow = readTable.querySelector<HTMLTableRowElement>('tbody tr[data-row-id]')!;
@@ -205,14 +245,21 @@ export const Overview: Story = {
     await expect(editableCell).toHaveAttribute('role', 'textbox');
     await expect(editableCell.querySelector('input')).toBeNull();
 
+    const readNameWidthBeforeDensity = readNameHeader.getBoundingClientRect().width;
     const densityToggle = within(readToolbar!).getByRole('button', { name: 'Включить компактную плотность' });
     await expect(densityToggle).toHaveAttribute('aria-pressed', 'false');
     await userEvent.click(densityToggle);
     await expect(readTable).toHaveAttribute('data-density', 'compact');
+    await expectM1Floors(readTable, 40);
+    await expect(readNameHeader).toHaveAttribute('data-column-pinned-last', 'true');
+    await expect(readNameHeader.getBoundingClientRect().width).toBe(readNameWidthBeforeDensity);
     const comfortableToggle = within(readToolbar!).getByRole('button', { name: 'Включить комфортную плотность' });
     await expect(comfortableToggle).toHaveAttribute('aria-pressed', 'true');
     await userEvent.click(comfortableToggle);
     await expect(readTable).toHaveAttribute('data-density', 'comfortable');
+    await expectM1Floors(readTable, 48);
+    await expect(readNameHeader).toHaveAttribute('data-column-pinned-last', 'true');
+    await expect(readNameHeader.getBoundingClientRect().width).toBe(readNameWidthBeforeDensity);
     await userEvent.click(within(readToolbar!).getByRole('button', { name: 'Скрыть фильтры' }));
     await expect(within(readTable).queryByRole('row', { name: /Фильтры таблицы/ })).not.toBeInTheDocument();
     await userEvent.click(within(readToolbar!).getByRole('button', { name: 'Показать фильтры' }));

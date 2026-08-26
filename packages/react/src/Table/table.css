@@ -7,9 +7,14 @@
     transparent
   );
   position: relative;
+  box-sizing: border-box;
   width: 100%;
   max-width: 100%;
   min-width: 0;
+  overflow: hidden;
+  border: var(--cometal-component-table-border-width) solid var(--cometal-semantic-color-global-border-default);
+  border-radius: var(--cometal-primitive-radius-100);
+  background: var(--cometal-semantic-color-global-surface-raised);
 }
 
 .cometal-table-scroll-shell[data-density='compact'] {
@@ -218,14 +223,14 @@
   pointer-events: none;
 }
 
-.cometal-table__header-cell:first-child,
-.cometal-table__filter-cell:first-child,
-.cometal-table__cell:first-child {
-  border-left: var(--cometal-table-border-width) solid var(--cometal-table-divider);
+.cometal-table__row > :last-child {
+  border-right: 0;
 }
 
-.cometal-table__head:first-child .cometal-table__row:first-child .cometal-table__header-cell {
-  border-top: var(--cometal-table-border-width) solid var(--cometal-table-divider);
+.cometal-table__head:last-child .cometal-table__row:last-child > .cometal-table__header-cell,
+.cometal-table__head:last-child .cometal-table__row:last-child > .cometal-table__filter-cell,
+.cometal-table__body:last-child .cometal-table__row:last-child > .cometal-table__cell {
+  border-bottom: 0;
 }
 
 .cometal-table__header-cell,
@@ -516,6 +521,19 @@
 .cometal-table__filter-control > :not(.cometal-table__filter-action) {
   width: 100%;
   min-width: 0;
+}
+
+.cometal-table__filter-control .cometal-field__label-row {
+  position: absolute;
+  overflow: hidden;
+  width: 1px;
+  height: 1px;
+  margin: -1px;
+  padding: 0;
+  border: 0;
+  clip: rect(0 0 0 0);
+  clip-path: inset(50%);
+  white-space: nowrap;
 }
 
 .cometal-table .cometal-field__select-trigger {
