@@ -43,7 +43,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - Header actions переиспользуют `ContextMenu`; Table не владеет отдельным menu API.
 - Date range filter переиспользует `DateRangePicker`; paginator, summary row и reorder handle собираются как composition primitives вокруг таблицы.
 - Row reorder остаётся controlled: `Table.onRowReorder` сообщает `activeId`, `overId` и `before | after`, `TableRow.reorderId` связывает DOM со стабильной бизнес-сущностью, а `reorderTableRows` иммутабельно обновляет consumer-owned данные.
-- После успешного pointer-drop перемещённая строка кратко сохраняет каноническую active-поверхность под читаемым контентом в новой позиции и плавно гасит её; insertion marker исчезает сразу, keyboard reorder остаётся мгновенным.
+- После успешного pointer-drop перемещённая строка кратко сохраняет ту же каноническую selected-поверхность, что видна во время drag, под читаемым контентом в новой позиции и плавно гасит её; insertion marker исчезает сразу, keyboard reorder остаётся мгновенным.
 - Selection относится к строке, selected/editing/error относятся к конкретной ячейке.
 - `Table.mode="read"` задаёт hover всей строки, исключает cell edit entry и принудительно отключает reorder. Drag header, drag filter cell и drag body cell в Read не рендерятся: пустая либо disabled drag-колонка запрещена.
 - `Table.mode="edit"` задаёт hover отдельной ячейки, разрешает controlled row reorder и переводит `TableCell.editable` в `editing` по click/Enter/F2.

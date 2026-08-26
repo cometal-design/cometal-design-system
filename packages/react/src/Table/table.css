@@ -496,7 +496,7 @@
   position: absolute;
   z-index: 0;
   inset: 0;
-  background: var(--cometal-table-active);
+  background: var(--cometal-table-selected);
   content: '';
   opacity: 1;
   pointer-events: none;
