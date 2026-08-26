@@ -331,7 +331,7 @@ export const Overview: Story = {
     await expect(confirmationStyle.zIndex).toBe('0');
     await expect(getComputedStyle(confirmedContent).zIndex).toBe('1');
     await waitFor(() => expect(confirmedRow).toHaveAttribute('data-drop-confirmation', 'fade'), { timeout: 1_000 });
-    await expect(getComputedStyle(confirmedCell, '::before').transitionDuration).toBe('0.28s');
+    await expect(getComputedStyle(confirmedCell, '::before').transitionDuration).toBe('0.6s');
     await waitFor(() => expect(confirmedRow).not.toHaveAttribute('data-drop-confirmation'), { timeout: 1_000 });
     await expect(canvasElement.querySelectorAll('[data-cometal-icon]').length).toBeGreaterThan(0);
     await expect(canvasElement.querySelectorAll('.cometal-selection').length).toBeGreaterThan(0);

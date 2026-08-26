@@ -103,8 +103,8 @@ interface TableColumnSizingContextValue {
 const TableColumnSizingContext = createContext<TableColumnSizingContextValue | null>(null);
 const EMPTY_TABLE_COLUMN_IDS: readonly string[] = [];
 const EMPTY_TABLE_COLUMN_WIDTHS: Readonly<Record<string, number>> = {};
-const TABLE_DROP_CONFIRMATION_HOLD_MS = 650;
-const TABLE_DROP_CONFIRMATION_FADE_MS = 280;
+const TABLE_DROP_CONFIRMATION_HOLD_MS = 500;
+const TABLE_DROP_CONFIRMATION_FADE_MS = 600;
 
 type TableColumnCellStyle = CSSProperties & {
   '--cometal-table-pinned-left'?: string;
