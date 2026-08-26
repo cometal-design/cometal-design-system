@@ -411,6 +411,8 @@
 }
 
 .cometal-table__cell-content {
+  position: relative;
+  z-index: 1;
   box-sizing: border-box;
   height: calc(var(--cometal-table-cell-height) - var(--cometal-table-border-width));
   min-height: calc(var(--cometal-table-cell-height) - var(--cometal-table-border-width));
@@ -492,8 +494,9 @@
 
 .cometal-table__row[data-drop-confirmation] > .cometal-table__cell::before {
   position: absolute;
+  z-index: 0;
   inset: 0;
-  background: var(--cometal-table-hover);
+  background: var(--cometal-table-active);
   content: '';
   opacity: 1;
   pointer-events: none;
