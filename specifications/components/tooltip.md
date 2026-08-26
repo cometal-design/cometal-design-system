@@ -23,3 +23,4 @@ Tooltip публикует bounded overlay для короткой подска�
 - Placements: `top-start`, `top-center`, `top-end`, `bottom-start`, `bottom-center`, `bottom-end`, `left`, `right`
 - Trigger: hover + focus
 - Dismiss: blur + pointer leave
+- Floating panel: portal в `document.body`, чтобы viewport-координаты не искажались `overflow`, `contain`, transform или scroll-контейнерами потребителя

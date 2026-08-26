@@ -105,6 +105,11 @@ export const Overview: Story = {
     await userEvent.hover(readNameText);
     const nameTooltip = await within(document.body).findByRole('tooltip');
     await expect(nameTooltip).toHaveTextContent('Лист горячекатаный г/к 10×1500×6000 мм ГОСТ 19903-2015');
+    await expect(nameTooltip.parentElement).toBe(document.body);
+    const readNameRect = readNameText.getBoundingClientRect();
+    const nameTooltipRect = nameTooltip.getBoundingClientRect();
+    await expect(Math.abs(nameTooltipRect.left - readNameRect.left)).toBeLessThan(1);
+    await expect(nameTooltipRect.bottom).toBeLessThanOrEqual(readNameRect.top - 9);
     await userEvent.unhover(readNameText);
     await waitFor(() => expect(within(document.body).queryByRole('tooltip')).not.toBeInTheDocument());
 

@@ -14,3 +14,4 @@ Tooltip — системная bounded подсказка для коротки�
 
 - самостоятельная component story
 - help text над действиями и иконками
+- Table, Widget и другие scroll/contain surfaces: panel портируется в `document.body` и остаётся привязан к актуальному trigger bounds

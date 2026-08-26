@@ -10,6 +10,7 @@ import {
   useState,
 } from 'react';
 import type { HTMLAttributes, ReactElement, ReactNode } from 'react';
+import { createPortal } from 'react-dom';
 import { useControllableOpen, useEscapeDismiss, useHydrated } from '../internal/overlay';
 import './tooltip.css';
 
@@ -162,6 +163,7 @@ export const Tooltip = forwardRef<HTMLSpanElement, TooltipProps>(function Toolti
     placement,
   });
   const isOpen = !disabled && openState;
+  const hydrated = useHydrated();
   useEscapeDismiss(isOpen, () => setOpen(false));
 
   useEffect(() => {
@@ -202,7 +204,7 @@ export const Tooltip = forwardRef<HTMLSpanElement, TooltipProps>(function Toolti
       left: resolvedLeft,
       placement: resolvedPlacement,
     });
-  }, [content, isOpen, placement, size]);
+  }, [content, hydrated, isOpen, placement, size]);
 
   useEffect(() => {
     if (!isOpen) return;
@@ -228,7 +230,6 @@ export const Tooltip = forwardRef<HTMLSpanElement, TooltipProps>(function Toolti
   }, [isOpen, position.left, position.placement, position.top]);
 
   const child = children;
-  const hydrated = useHydrated();
   const describedBy = isOpen && hydrated ? tooltipId : undefined;
   const trigger = useMemo(() => {
     if (!isValidElement(child)) return child;
@@ -238,6 +239,20 @@ export const Tooltip = forwardRef<HTMLSpanElement, TooltipProps>(function Toolti
       'aria-describedby': mergedDescribedBy,
     });
   }, [child, describedBy]);
+  const panel = isOpen ? (
+    <span
+      ref={panelRef}
+      id={tooltipId}
+      role="tooltip"
+      className="cometal-tooltip__panel"
+      data-size={size}
+      data-placement={position.placement}
+      style={{ top: `${position.top}px`, left: `${position.left}px` }}
+    >
+      <span className="cometal-tooltip__arrow" aria-hidden="true" />
+      <span className="cometal-tooltip__content">{content}</span>
+    </span>
+  ) : null;
 
   return (
     <span
@@ -260,20 +275,7 @@ export const Tooltip = forwardRef<HTMLSpanElement, TooltipProps>(function Toolti
       <span className="cometal-tooltip__trigger" data-cometal-tooltip-trigger>
         {trigger}
       </span>
-      {isOpen ? (
-        <span
-          ref={panelRef}
-          id={tooltipId}
-          role="tooltip"
-          className="cometal-tooltip__panel"
-          data-size={size}
-          data-placement={position.placement}
-          style={{ top: `${position.top}px`, left: `${position.left}px` }}
-        >
-          <span className="cometal-tooltip__arrow" aria-hidden="true" />
-          <span className="cometal-tooltip__content">{content}</span>
-        </span>
-      ) : null}
+      {panel && hydrated ? createPortal(panel, document.body) : panel}
     </span>
   );
 });
