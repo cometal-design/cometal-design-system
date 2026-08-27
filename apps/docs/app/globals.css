@@ -919,7 +919,6 @@ code, pre, kbd, samp {
 .docs-table-filter-contract-grid article { display: grid; min-width: 0; gap: var(--cometal-primitive-spacing-75); }
 .docs-table-filter-contract-grid article > code { color: var(--portal-muted); font: var(--portal-code-xs-size)/var(--portal-code-line-height) var(--portal-font-code); }
 .docs-table-filter-contract-grid .cometal-table { min-width: 320px; }
-.docs-table-filter-contract-grid [data-visual-state='active'] .cometal-field__control { outline: var(--cometal-semantic-stroke-global-state-focus) solid var(--cometal-semantic-color-global-state-focus-ring); outline-offset: var(--cometal-primitive-spacing-12); }
 .docs-table-column-contract-grid { grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--cometal-primitive-spacing-200); }
 .docs-table-column-contract-grid > article { display: grid; min-width: 0; padding: var(--cometal-primitive-spacing-150); gap: var(--cometal-primitive-spacing-150); border: var(--portal-hairline) solid var(--portal-line); border-radius: var(--portal-radius-l); }
 .docs-table-column-contract-grid article > div { display: grid; gap: var(--cometal-primitive-spacing-75); }
@@ -940,7 +939,6 @@ code, pre, kbd, samp {
 .field-size-board { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--cometal-primitive-spacing-300); }
 .field-size-board article { display: grid; min-width: 0; align-content: start; gap: var(--cometal-primitive-spacing-200); }
 .field-size-board article > code { color: var(--portal-muted); font: var(--portal-code-s-size)/var(--portal-code-line-height) var(--portal-font-code); }
-.docs-field--focus .cometal-field__control { outline: var(--cometal-semantic-stroke-global-state-focus) solid var(--cometal-semantic-color-global-state-focus-ring); outline-offset: var(--cometal-primitive-spacing-12); }
 .selection-value-board { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--portal-sidebar-width)), 1fr)); column-gap: var(--cometal-primitive-spacing-250); row-gap: var(--cometal-primitive-spacing-200); }
 .selection-value-board article { min-width: 0; padding: 0; }
 .selection-size-row { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); }

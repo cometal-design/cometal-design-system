@@ -24,4 +24,11 @@ describe('DateRangePicker contract', () => {
       <DateRangePicker ref={inputRef} label="Период поставки" />,
     )).not.toThrow();
   });
+
+  it('accepts the canonical S size and defers its open portal until hydration', () => {
+    const html = renderToStaticMarkup(<DateRangePicker label="Период поставки" size="s" open />);
+    expect(html).toContain('data-size="s"');
+    expect(html).toContain('aria-expanded="true"');
+    expect(html).not.toContain('role="dialog"');
+  });
 });

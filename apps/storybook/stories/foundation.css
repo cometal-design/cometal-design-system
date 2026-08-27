@@ -309,7 +309,6 @@ code, pre, kbd, samp {
 .ds-table-filter-contract-grid article { display: grid; min-width: 0; gap: var(--cometal-primitive-spacing-75); }
 .ds-table-filter-contract-grid article > code { color: var(--ds-text-muted); font-family: var(--ds-font-code); font-size: var(--cometal-typography-caption-label-label-font-size); }
 .ds-table-filter-contract-grid .cometal-table { min-width: 320px; }
-.ds-table-filter-contract-grid [data-visual-state='active'] .cometal-field__control { outline: var(--cometal-semantic-stroke-global-state-focus) solid var(--cometal-semantic-color-global-state-focus-ring); outline-offset: var(--cometal-primitive-spacing-12); }
 .ds-table-column-contract-grid { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--cometal-primitive-spacing-200); }
 .ds-table-column-contract-grid > article { display: grid; min-width: 0; padding: var(--cometal-primitive-spacing-150); gap: var(--cometal-primitive-spacing-150); border: var(--cometal-primitive-stroke-100) solid var(--ds-border-default); border-radius: var(--cometal-primitive-radius-150); }
 .ds-table-column-contract-grid article > div { display: grid; gap: var(--cometal-primitive-spacing-75); }

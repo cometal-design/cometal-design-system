@@ -44,7 +44,7 @@ export const Overview: Story = {
     trigger.focus();
     await userEvent.keyboard('{Enter}');
     await waitFor(() => expect(body.getByRole('menu')).toBeVisible());
-    await expect(body.getByRole('menuitem', { name: 'Открыть' })).toHaveFocus();
+    await waitFor(() => expect(body.getByRole('menuitem', { name: 'Открыть' })).toHaveFocus());
     await userEvent.keyboard('{ArrowDown}');
     await expect(body.getByRole('menuitem', { name: 'Переименовать' })).toHaveFocus();
     await userEvent.keyboard('{End}');

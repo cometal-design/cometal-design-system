@@ -1,4 +1,5 @@
 import { forwardRef, useEffect, useId, useImperativeHandle, useRef, useState } from 'react';
+import { createPortal } from 'react-dom';
 import type {
   ButtonHTMLAttributes,
   KeyboardEvent,
@@ -7,7 +8,12 @@ import type {
   SelectHTMLAttributes,
   TextareaHTMLAttributes,
 } from 'react';
-import { useControllableOpen as usePopupState, useOutsidePointerDismiss } from '../internal/overlay';
+import {
+  useAnchoredOverlay,
+  useControllableOpen as usePopupState,
+  useHydrated,
+  useOutsidePointerDismiss,
+} from '../internal/overlay';
 import OutlineChevronDownIcon from '../icons/generated/components/outline/arrows/chevron-down';
 import OutlineChevronUpIcon from '../icons/generated/components/outline/arrows/chevron-up';
 import OutlineClearIcon from '../icons/generated/components/outline/general/x-02';
@@ -290,6 +296,9 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
   const supportingId = helperText || error ? `${controlId}-supporting` : undefined;
   const nativeRef = useRef<HTMLSelectElement | null>(null);
   const popupRef = useRef<HTMLSpanElement | null>(null);
+  const selectTriggerRef = useRef<HTMLButtonElement | null>(null);
+  const listboxRef = useRef<HTMLDivElement | null>(null);
+  const hydrated = useHydrated();
   useImperativeHandle(forwardedRef, () => nativeRef.current as HTMLSelectElement);
   const [isExpanded, setExpanded] = usePopupState(expanded, defaultExpanded, onExpandedChange);
   const [internalValue, setInternalValue] = useState(String(defaultValue ?? ''));
@@ -299,7 +308,16 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
   const typeaheadTimerRef = useRef<ReturnType<typeof setTimeout> | undefined>(undefined);
   const selectedValue = String(value ?? internalValue);
   const selectedLabel = options.find((option) => option.value === selectedValue)?.label;
-  useOutsidePointerDismiss(isExpanded, [popupRef], () => setExpanded(false));
+  const listboxOverlay = useAnchoredOverlay({
+    open: hydrated && isExpanded,
+    anchorRef: selectTriggerRef,
+    surfaceRef: listboxRef,
+    gap: 6,
+    viewportInset: 8,
+    matchAnchorWidth: true,
+    onLostAnchor: () => setExpanded(false),
+  });
+  useOutsidePointerDismiss(isExpanded, [popupRef, listboxRef], () => setExpanded(false));
   useActiveOptionVisibility(listboxId, activeIndex, isExpanded);
   const commitValue = (nextValue: string) => {
     if (value === undefined) setInternalValue(nextValue);
@@ -372,18 +390,54 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
     const selectedIndex = options.findIndex((option) => option.value === selectedValue && !option.disabled);
     if (selectedIndex >= 0) setActiveIndex(selectedIndex);
   }, [options, selectedValue]);
+  const listbox = hydrated && isExpanded ? createPortal(
+    <div
+      ref={listboxRef}
+      className="cometal-field__listbox"
+      id={listboxId}
+      role="listbox"
+      aria-label={`${label}: варианты`}
+      data-size={size}
+      data-motion={listboxMotion ? 'enter' : undefined}
+      data-placement={listboxOverlay.placement}
+      style={listboxOverlay.style}
+    >
+      {options.map((option, index) => (
+        <div
+          id={`${listboxId}-option-${index}`}
+          className="cometal-field__option"
+          role="option"
+          aria-selected={option.value === selectedValue}
+          aria-disabled={option.disabled || undefined}
+          tabIndex={-1}
+          data-selected={option.value === selectedValue || undefined}
+          data-active={index === activeIndex || undefined}
+          key={option.value}
+          onPointerEnter={() => { if (!option.disabled) setActiveIndex(index); }}
+          onPointerLeave={() => setActiveIndex(-1)}
+          onPointerDown={(event) => event.preventDefault()}
+          onClick={() => { if (!option.disabled) commitValue(option.value); }}
+        >
+          <span>{option.label}</span>
+        </div>
+      ))}
+    </div>,
+    selectTriggerRef.current?.ownerDocument.body ?? document.body,
+  ) : null;
   return (
     <FieldChrome className={className} label={label} helperText={helperText} optional={optional} error={error} size={size} mode={mode} readValue={readValue} controlId={controlId} supportingId={supportingId} disabled={disabled}>
+      <>
       <span
         className="cometal-field__trigger-stack"
         ref={popupRef}
         onBlur={(event) => {
           const nextTarget = event.relatedTarget;
-          if (nextTarget && popupRef.current?.contains(nextTarget)) return;
+          if (nextTarget && (popupRef.current?.contains(nextTarget) || listboxRef.current?.contains(nextTarget))) return;
           setExpanded(false);
         }}
       >
         <button
+          ref={selectTriggerRef}
           id={controlId}
           type="button"
           role="combobox"
@@ -404,7 +458,7 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
           onKeyDown={handleKeyDown}
           onBlur={(event) => {
             const nextTarget = event.relatedTarget;
-            if (!(nextTarget instanceof Node) || !popupRef.current?.contains(nextTarget)) setExpanded(false);
+            if (!(nextTarget instanceof Node) || (!popupRef.current?.contains(nextTarget) && !listboxRef.current?.contains(nextTarget))) setExpanded(false);
           }}
         >
           <span className={selectedLabel ? 'cometal-field__value' : 'cometal-field__placeholder'}>{selectedLabel ?? placeholder}</span>
@@ -424,30 +478,9 @@ export const Select = forwardRef<HTMLSelectElement, SelectProps>(function Select
           <option value="" disabled>{placeholder}</option>
           {options.map((option) => <option key={option.value} value={option.value} disabled={option.disabled}>{option.label}</option>)}
         </select>
-        {isExpanded ? (
-          <div className="cometal-field__listbox" id={listboxId} role="listbox" aria-label={`${label}: варианты`} data-size={size} data-motion={listboxMotion ? 'enter' : undefined}>
-            {options.map((option, index) => (
-              <div
-                id={`${listboxId}-option-${index}`}
-                className="cometal-field__option"
-                role="option"
-                aria-selected={option.value === selectedValue}
-                aria-disabled={option.disabled || undefined}
-                tabIndex={-1}
-                data-selected={option.value === selectedValue || undefined}
-                data-active={index === activeIndex || undefined}
-                key={option.value}
-                onPointerEnter={() => { if (!option.disabled) setActiveIndex(index); }}
-                onPointerLeave={() => setActiveIndex(-1)}
-                onPointerDown={(event) => event.preventDefault()}
-                onClick={() => { if (!option.disabled) commitValue(option.value); }}
-              >
-                <span>{option.label}</span>
-              </div>
-            ))}
-          </div>
-        ) : null}
       </span>
+      {listbox}
+      </>
     </FieldChrome>
   );
 });

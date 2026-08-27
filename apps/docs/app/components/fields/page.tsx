@@ -70,7 +70,7 @@ export default function FieldsPage() {
         <div className="field-state-board">
           <article><code>Default</code><TextField label="Название поля" placeholder="Введите значение" /></article>
           <article><code>Filled</code><TextField label="Название поля" defaultValue="Договор поставки" /></article>
-          <article><code>Focus visible</code><TextField className="docs-field--focus" label="Название поля" defaultValue="Договор поставки" /></article>
+          <article><code>Focus visible · Tab</code><TextField label="Название поля" defaultValue="Договор поставки" /></article>
           <article><code>Error</code><TextField label="Название поля" defaultValue="123" error="Проверьте значение" /></article>
           <article><code>Disabled</code><TextField label="Название поля" placeholder="Недоступно" disabled /></article>
         </div>

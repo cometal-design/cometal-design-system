@@ -20,7 +20,7 @@
 
 .cometal-field[data-size='s'] {
   --cometal-field-height: var(--cometal-semantic-size-global-control-s);
-  --cometal-field-inset: var(--cometal-semantic-spacing-global-input-m-inset);
+  --cometal-field-inset: var(--cometal-primitive-spacing-50);
   --cometal-field-icon-size: var(--cometal-primitive-size-14);
 }
 
@@ -57,7 +57,7 @@
 }
 .cometal-field[data-focus-visible] .cometal-field__control {
   outline: var(--cometal-semantic-stroke-global-state-focus) solid var(--cometal-semantic-color-global-state-focus-ring);
-  outline-offset: var(--cometal-primitive-spacing-12);
+  outline-offset: var(--cometal-primitive-spacing-25);
 }
 .cometal-field[data-invalid] .cometal-field__control { border-color: var(--cometal-component-input-border-error); background: var(--cometal-component-input-surface-error); }
 .cometal-field[data-disabled] .cometal-field__control { border-color: var(--cometal-component-input-border-disabled); background: var(--cometal-component-input-surface-disabled); }
@@ -131,14 +131,13 @@
 .cometal-field__native-select { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); clip-path: inset(50%); white-space: nowrap; }
 .cometal-field__listbox {
   --cometal-listbox-option-height: var(--cometal-semantic-size-global-control-l);
-  position: absolute;
+  position: fixed;
   z-index: 20;
-  top: calc(var(--cometal-field-height) + 6px);
-  left: 0;
   display: flex;
+  box-sizing: border-box;
   width: 100%;
   height: auto;
-  max-height: calc((var(--cometal-listbox-option-height) * 5) + (var(--cometal-primitive-spacing-50) * 6) + 2px);
+  max-height: calc((var(--cometal-listbox-option-height) * 5) + (var(--cometal-primitive-spacing-50) * 6));
   padding: var(--cometal-primitive-spacing-50);
   flex-direction: column;
   gap: var(--cometal-primitive-spacing-50);

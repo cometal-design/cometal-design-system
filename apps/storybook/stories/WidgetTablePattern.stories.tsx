@@ -366,6 +366,103 @@ export const SortingContract: Story = {
   },
 };
 
+export const FilteringContract: Story = {
+  name: 'M3/Фильтры и overlay',
+  render: () => <main className="ds-story-canvas ds-widget-table-pattern-story"><WidgetTableReviewExample mode="read" /><WidgetTableReviewExample mode="edit" /></main>,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(canvasElement.ownerDocument.body);
+    const readTable = canvas.getByRole('table', { name: 'Спецификация позиций · Read' });
+    const editTable = canvas.getByRole('table', { name: 'Спецификация позиций · Edit' });
+    const read = within(readTable);
+    const filterLabels = [
+      'Фильтр по позиции', 'Фильтр по наименованию', 'Фильтр по марке', 'Фильтр по количеству',
+      'Фильтр по единице', 'Фильтр по цене', 'Фильтр по сумме', 'Фильтр по дате',
+      'Фильтр по документу', 'Фильтр по файлу', 'Фильтр по статусу', 'Фильтр по контролю',
+      'Фильтр по поставщику',
+    ];
+    for (const table of [readTable, editTable]) {
+      const tableCanvas = within(table);
+      for (const label of filterLabels) await expect(tableCanvas.getByRole(/единице|статусу|контролю|поставщику/.test(label) ? 'combobox' : 'textbox', { name: label })).toBeVisible();
+    }
+
+    const resetColumn = async (label: string) => {
+      await userEvent.click(read.getByRole('button', { name: `Действия колонки ${label}` }));
+      await userEvent.click(body.getByRole('menuitem', { name: 'Фильтр' }));
+      await userEvent.click(body.getByRole('menuitem', { name: 'Сбросить фильтр' }));
+      await waitFor(() => expect(visibleRowIds(readTable)).toEqual(initialVisibleRowIds));
+    };
+    const filterText = async (label: string, query: string, expectedFirst: string | null) => {
+      const input = read.getByRole('textbox', { name: label });
+      await userEvent.clear(input);
+      await userEvent.type(input, query);
+      await waitFor(() => expectedFirst === null
+        ? expect(visibleRowIds(readTable)).toHaveLength(0)
+        : expect(visibleRowIds(readTable)[0]).toBe(expectedFirst));
+      await userEvent.clear(input);
+      await waitFor(() => expect(visibleRowIds(readTable)).toEqual(initialVisibleRowIds));
+    };
+    const filterSelect = async (label: string, option: string, expectedFirst: string, actionLabel: string) => {
+      const trigger = read.getByRole('combobox', { name: label });
+      await userEvent.click(trigger);
+      const listbox = await body.findByRole('listbox');
+      await expect(listbox.parentElement).toBe(canvasElement.ownerDocument.body);
+      await expect(getComputedStyle(listbox).position).toBe('fixed');
+      await userEvent.click(within(listbox).getByRole('option', { name: option }));
+      await waitFor(() => expect(visibleRowIds(readTable)[0]).toBe(expectedFirst));
+      await resetColumn(actionLabel);
+    };
+
+    await filterText('Фильтр по позиции', 'POS-002', 'POS-002');
+    await filterText('Фильтр по наименованию', 'Труба профильная', 'POS-002');
+    await filterText('Фильтр по марке', '10ХСНД', 'POS-003');
+    await filterText('Фильтр по количеству', '18', 'POS-002');
+    await filterSelect('Фильтр по единице', 'шт', 'POS-004', 'Единица');
+    await filterText('Фильтр по цене', '94800', 'POS-002');
+    await filterText('Фильтр по сумме', '1706400', 'POS-002');
+    const delivery = read.getByRole('textbox', { name: 'Фильтр по дате' });
+    await userEvent.clear(delivery);
+    await userEvent.type(delivery, '24.08.2026');
+    await userEvent.tab();
+    await waitFor(() => expect(visibleRowIds(readTable)[0]).toBe('POS-002'));
+    await resetColumn('Дата поставки');
+    await filterText('Фильтр по документу', '234-501', 'POS-002');
+    await filterText('Фильтр по файлу', 'нет-файла', null);
+    await filterSelect('Фильтр по статусу', 'На проверке', 'POS-002', 'Статус');
+    await filterSelect('Фильтр по контролю', 'Качество', 'POS-002', 'Контроль');
+    await filterSelect('Фильтр по поставщику', 'ЕВРАЗ Маркет', 'POS-002', 'Поставщик');
+
+    await userEvent.click(read.getByRole('button', { name: 'Действия колонки Позиция' }));
+    await userEvent.click(body.getByRole('menuitem', { name: 'Фильтр' }));
+    await userEvent.click(body.getByRole('menuitem', { name: 'Не содержит' }));
+    const position = read.getByRole('textbox', { name: 'Фильтр по позиции' });
+    await userEvent.type(position, 'POS-001');
+    await waitFor(() => expect(visibleRowIds(readTable)[0]).toBe('POS-002'));
+    await expect(visibleRowIds(readTable)).not.toContain('POS-001');
+    await resetColumn('Позиция');
+
+    const paginator = canvas.getByRole('navigation', { name: 'Пагинация таблицы · Read' });
+    await userEvent.click(within(paginator).getByRole('button', { name: 'Следующая страница' }));
+    await expect(within(paginator).getByRole('button', { name: 'Страница 2' })).toHaveAttribute('aria-current', 'page');
+    const quantityHeader = readTable.querySelector<HTMLTableCellElement>('thead th[data-column-id="quantity"]')!;
+    await userEvent.click(within(quantityHeader).getByRole('button', { name: 'Сортировать Количество: по возрастанию' }));
+    await userEvent.type(position, 'POS-02');
+    await expect(within(paginator).getByRole('button', { name: 'Страница 1' })).toHaveAttribute('aria-current', 'page');
+    await expect(quantityHeader).toHaveAttribute('aria-sort', 'ascending');
+    await userEvent.clear(position);
+
+    await userEvent.click(read.getByRole('button', { name: 'Действия колонки Дата поставки' }));
+    const menu = body.getByRole('menu');
+    const beforeHeight = menu.getBoundingClientRect().height;
+    await userEvent.click(within(menu).getByRole('menuitem', { name: 'Фильтр' }));
+    await waitFor(() => expect(body.getByRole('menu').getBoundingClientRect().height).not.toBe(beforeHeight));
+    await expect(body.getByRole('menuitem', { name: 'Фильтр' })).toHaveFocus();
+    await userEvent.keyboard('{ArrowLeft}');
+    await expect(body.getByRole('menuitem', { name: 'Фильтр' })).toHaveFocus();
+    await userEvent.keyboard('{Escape}');
+  },
+};
+
 export const Compact: Story = {
   render: () => <main className="ds-story-canvas ds-widget-table-pattern-story"><WidgetTableReviewExample mode="read" initialDensity="compact" /></main>,
   play: async ({ canvasElement }) => {

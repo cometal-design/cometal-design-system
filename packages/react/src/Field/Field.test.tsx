@@ -119,10 +119,10 @@ describe('Fields', () => {
     expect(html).not.toContain('cometal-field__clear');
   });
 
-  it('keeps listbox options out of the Tab sequence', () => {
+  it('keeps hydrated Select portal content out of SSR while preserving the native form value', () => {
     const select = renderToStaticMarkup(<Select label="Статус" expanded options={[{ value: 'active', label: 'Активный' }]} />);
     const combobox = renderToStaticMarkup(<Combobox label="Контрагент" defaultValue="north" expanded options={[{ value: 'north', label: 'Северсталь' }]} />);
-    expect(select).toContain('role="option"');
+    expect(select).not.toContain('role="option"');
     expect(combobox).toContain('role="option"');
     expect(select).toContain('tabindex="-1"');
     expect(combobox).toContain('tabindex="-1"');

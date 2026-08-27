@@ -30,7 +30,7 @@ export default function DatePickerPage() {
         <div className="field-family-board"><article><header><code>input.date-picker</code><h3>Single date</h3></header><div className="field-family-board__examples"><DatePicker label="Дата поставки" defaultValue="2026-07-15" helperText="Выберите дату" /><DatePicker label="Дата поставки" value="2026-07-15" mode="read" /></div></article><article><header><code>input.date-range-picker · family-child alias</code><h3>Date range</h3></header><div className="field-family-board__examples"><DateRangePicker label="Период поставки" helperText="Выберите период" defaultValue={{ start: new Date(2026, 6, 15), end: new Date(2026, 6, 23) }} /><DateRangePicker label="Период поставки" size="m" mode="read" defaultValue={{ start: new Date(2026, 6, 15), end: new Date(2026, 6, 23) }} /></div></article></div>
       </section>
       <section className="content-section" data-component-phase="visual-contract" id="states">
-        <SectionHeading title="Размеры и состояния" description="Single date поддерживает L, M и S; Date Range — L и M. Error, disabled, read и open сохраняют один value contract." />
+        <SectionHeading title="Размеры и состояния" description="Single date и Date Range поддерживают L, M и S. Error, disabled, read и open сохраняют один value contract." />
         <div className="field-size-board">
           {(['l', 'm', 's'] as const).map((size) => <article key={size}><code>Single · {size.toUpperCase()}</code><DatePicker label="Дата" size={size} defaultValue="2026-07-15" /></article>)}
         </div>
@@ -57,7 +57,7 @@ export default function DatePickerPage() {
           <div className="api-table__head"><span>Prop</span><span>Тип</span><span>Назначение</span></div>
           <div><code>value / defaultValue</code><code>string | DateRangeValue</code><span>Controlled или начальное значение.</span></div>
           <div><code>onValueChange / onChange</code><code>callback</code><span>Изменение single date или range.</span></div>
-          <div><code>size</code><code>l | m | s</code><span>Date Range ограничен L/M; default L.</span></div>
+          <div><code>size</code><code>l | m | s</code><span>Единая шкала Single и Date Range; default L.</span></div>
           <div><code>mode</code><code>edit | read</code><span>Интерактивное поле или неинтерактивное отображение.</span></div>
           <div><code>min / max / required</code><code>date bounds</code><span>Доступность и validation.</span></div>
           <div><code>open / defaultOpen / onOpenChange</code><code>boolean / callback</code><span>Controlled или uncontrolled calendar panel.</span></div>

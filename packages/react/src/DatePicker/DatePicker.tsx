@@ -7,9 +7,10 @@ import {
   useState,
 } from 'react';
 import type { ChangeEvent, KeyboardEvent } from 'react';
+import { createPortal } from 'react-dom';
 import { FieldChrome } from '../Field/Field';
 import type { FieldMode, FieldSize } from '../Field/Field';
-import { useControllableOpen, useOutsidePointerDismiss } from '../internal/overlay';
+import { useAnchoredOverlay, useControllableOpen, useHydrated, useOutsidePointerDismiss } from '../internal/overlay';
 import ChevronLeftIcon from '../icons/generated/components/outline/arrows/chevron-left';
 import ChevronRightIcon from '../icons/generated/components/outline/arrows/chevron-right';
 import CalendarIcon from '../icons/generated/components/outline/time/calendar-02';
@@ -197,6 +198,15 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(function
   const minDate = parseIsoDate(min);
   const maxDate = parseIsoDate(max);
   const effectiveError = error ?? inputError;
+  const hydrated = useHydrated();
+  const calendarOverlay = useAnchoredOverlay({
+    open: hydrated && isOpen,
+    anchorRef: rootRef,
+    surfaceRef: calendarRef,
+    gap: 8,
+    viewportInset: 8,
+    onLostAnchor: () => setIsOpen(false),
+  });
 
   useEffect(() => {
     setInputValue(formatDisplayDate(selectedValue));
@@ -208,17 +218,17 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(function
     inputRef.current?.setCustomValidity(effectiveError ?? '');
   }, [effectiveError]);
 
-  useOutsidePointerDismiss(isOpen, [rootRef], () => setIsOpen(false));
+  useOutsidePointerDismiss(isOpen, [rootRef, calendarRef], () => setIsOpen(false));
 
   useEffect(() => {
-    if (!isOpen || !focusTarget) return;
-    requestAnimationFrame(() => {
-      const day = calendarRef.current?.querySelector<HTMLButtonElement>(`[data-date="${focusTarget}"]:not(:disabled)`)
-        ?? calendarRef.current?.querySelector<HTMLButtonElement>('.cometal-date-picker__day:not(:disabled)');
-      day?.focus();
-      setFocusTarget(undefined);
-    });
-  }, [focusTarget, isOpen]);
+    if (!isOpen || !focusTarget || !calendarOverlay.positioned) return undefined;
+    const calendar = calendarRef.current;
+    if (!calendar) return undefined;
+    const day = calendar.querySelector<HTMLButtonElement>(`[data-date="${focusTarget}"]:not(:disabled)`)
+      ?? calendar.querySelector<HTMLButtonElement>('.cometal-date-picker__day:not(:disabled)');
+    day?.focus();
+    return undefined;
+  }, [calendarOverlay.positioned, focusTarget, isOpen]);
 
   useEffect(() => {
     if (!monthMotionDirection) return undefined;
@@ -242,6 +252,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(function
 
   const closeAndRestoreFocus = () => {
     setPanelMotion(false);
+    setFocusTarget(undefined);
     setIsOpen(false);
     requestAnimationFrame(() => triggerRef.current?.focus());
   };
@@ -280,6 +291,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(function
     const date = parseIsoDate(target) ?? todayDate;
     setVisibleMonth(startOfMonth(date));
     if (moveFocusToCalendar) setFocusTarget(target);
+    else setFocusTarget(undefined);
     setPanelMotion(animate);
     setIsOpen(true);
   };
@@ -359,6 +371,70 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(function
     );
   }
 
+  const calendarPanel = hydrated && isOpen ? createPortal(
+    <div
+      ref={calendarRef}
+      className="cometal-date-picker__panel"
+      id={dialogId}
+      role="dialog"
+      aria-modal="false"
+      aria-labelledby={headingId}
+      data-motion={panelMotion ? 'enter' : undefined}
+      data-placement={calendarOverlay.placement}
+      style={calendarOverlay.style}
+      onKeyDown={onCalendarKeyDown}
+    >
+      <div className="cometal-date-picker__month-header">
+        <h2 data-month-motion={monthMotionDirection || undefined} id={headingId} aria-live="polite">{monthLabel(visibleMonth, locale)}</h2>
+        <div className="cometal-date-picker__month-actions">
+          <button type="button" className="cometal-date-picker__month-control" aria-label="Предыдущий месяц" onClick={(event) => changeVisibleMonth(-1, event.detail !== 0)}>
+            <ChevronLeftIcon />
+          </button>
+          <button type="button" className="cometal-date-picker__month-control" aria-label="Следующий месяц" onClick={(event) => changeVisibleMonth(1, event.detail !== 0)}>
+            <ChevronRightIcon />
+          </button>
+        </div>
+      </div>
+
+      <div data-month-motion={monthMotionDirection || undefined} className="cometal-date-picker__calendar" role="grid" aria-labelledby={headingId}>
+        <div className="cometal-date-picker__weekdays" role="row">
+          {WEEKDAYS.map((weekday) => <span key={weekday} role="columnheader" aria-label={weekday}>{weekday}</span>)}
+        </div>
+        {Array.from({ length: days.length / 7 }, (_, rowIndex) => (
+          <div className="cometal-date-picker__day-row" role="row" key={`week-${rowIndex}`}>
+          {days.slice(rowIndex * 7, rowIndex * 7 + 7).map((date) => {
+            const iso = toIsoDate(date);
+            const selected = Boolean(selectedDate && sameDay(date, selectedDate));
+            const current = sameDay(date, todayDate);
+            const outside = date.getMonth() !== visibleMonth.getMonth();
+            const unavailable = isUnavailable(date);
+            return (
+              <span key={iso} role="gridcell" aria-label={fullDateLabel(date, locale)} aria-selected={selected}>
+                <button
+                  type="button"
+                  className="cometal-date-picker__day"
+                  data-date={iso}
+                  data-selected={selected || undefined}
+                  data-today={current || undefined}
+                  data-outside={outside || undefined}
+                  disabled={unavailable}
+                  aria-label={fullDateLabel(date, locale)}
+                  aria-current={current ? 'date' : undefined}
+                  tabIndex={selected || (!selectedDate && current) ? 0 : -1}
+                  onClick={() => selectDate(date)}
+                >
+                  {date.getDate()}
+                </button>
+              </span>
+            );
+          })}
+          </div>
+        ))}
+      </div>
+    </div>,
+    rootRef.current?.ownerDocument.body ?? document.body,
+  ) : null;
+
   return (
     <div ref={rootRef} className={['cometal-date-picker', className].filter(Boolean).join(' ')} data-cometal-component="date-picker" data-mode="edit" data-size={size} data-open={isOpen || undefined}>
       <FieldChrome
@@ -402,7 +478,10 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(function
             aria-haspopup="dialog"
             aria-expanded={isOpen}
             aria-controls={dialogId}
-            onClick={(event) => (isOpen ? closeAndRestoreFocus() : openCalendar(false, event.detail !== 0))}
+            onClick={(event) => {
+              if (isOpen) closeAndRestoreFocus();
+              else openCalendar(event.detail === 0, event.detail !== 0);
+            }}
             onKeyDown={(event) => {
               if (isOpen && event.key === 'Escape') {
                 event.preventDefault();
@@ -420,67 +499,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(function
         </span>
       </FieldChrome>
       {name ? <input type="hidden" name={name} value={selectedValue ?? ''} disabled={disabled} /> : null}
-
-      {isOpen ? (
-        <div
-          ref={calendarRef}
-          className="cometal-date-picker__panel"
-          id={dialogId}
-          role="dialog"
-          aria-modal="false"
-          aria-labelledby={headingId}
-          data-motion={panelMotion ? 'enter' : undefined}
-          onKeyDown={onCalendarKeyDown}
-        >
-          <div className="cometal-date-picker__month-header">
-            <h2 data-month-motion={monthMotionDirection || undefined} id={headingId} aria-live="polite">{monthLabel(visibleMonth, locale)}</h2>
-            <div className="cometal-date-picker__month-actions">
-              <button type="button" className="cometal-date-picker__month-control" aria-label="Предыдущий месяц" onClick={(event) => changeVisibleMonth(-1, event.detail !== 0)}>
-                <ChevronLeftIcon />
-              </button>
-              <button type="button" className="cometal-date-picker__month-control" aria-label="Следующий месяц" onClick={(event) => changeVisibleMonth(1, event.detail !== 0)}>
-                <ChevronRightIcon />
-              </button>
-            </div>
-          </div>
-
-          <div data-month-motion={monthMotionDirection || undefined} className="cometal-date-picker__calendar" role="grid" aria-labelledby={headingId}>
-            <div className="cometal-date-picker__weekdays" role="row">
-              {WEEKDAYS.map((weekday) => <span key={weekday} role="columnheader" aria-label={weekday}>{weekday}</span>)}
-            </div>
-            {Array.from({ length: days.length / 7 }, (_, rowIndex) => (
-              <div className="cometal-date-picker__day-row" role="row" key={`week-${rowIndex}`}>
-              {days.slice(rowIndex * 7, rowIndex * 7 + 7).map((date) => {
-                const iso = toIsoDate(date);
-                const selected = Boolean(selectedDate && sameDay(date, selectedDate));
-                const current = sameDay(date, todayDate);
-                const outside = date.getMonth() !== visibleMonth.getMonth();
-                const unavailable = isUnavailable(date);
-                return (
-                  <span key={iso} role="gridcell" aria-label={fullDateLabel(date, locale)} aria-selected={selected}>
-                    <button
-                      type="button"
-                      className="cometal-date-picker__day"
-                      data-date={iso}
-                      data-selected={selected || undefined}
-                      data-today={current || undefined}
-                      data-outside={outside || undefined}
-                      disabled={unavailable}
-                      aria-label={fullDateLabel(date, locale)}
-                      aria-current={current ? 'date' : undefined}
-                      tabIndex={selected || (!selectedDate && current) ? 0 : -1}
-                      onClick={() => selectDate(date)}
-                    >
-                      {date.getDate()}
-                    </button>
-                  </span>
-                );
-              })}
-              </div>
-            ))}
-          </div>
-        </div>
-      ) : null}
+      {calendarPanel}
     </div>
   );
 });

@@ -43,7 +43,7 @@ function useContextMenuContext() {
 
 type ContextMenuPosition = { top: number; left: number };
 
-function resolveMenuPosition(anchor: ContextMenuAnchor, menuRect: DOMRect, triggerRect?: DOMRect, pointer?: { x: number; y: number }): ContextMenuPosition {
+function resolveMenuPosition(ownerWindow: Window, anchor: ContextMenuAnchor, menuRect: DOMRect, triggerRect?: DOMRect, pointer?: { x: number; y: number }): ContextMenuPosition {
   const viewportInset = 8;
   const gap = 8;
   let top = pointer?.y ?? 0;
@@ -52,20 +52,20 @@ function resolveMenuPosition(anchor: ContextMenuAnchor, menuRect: DOMRect, trigg
   if (anchor === 'trigger' && triggerRect) {
     top = triggerRect.bottom + gap;
     left = triggerRect.left;
-    if (left + menuRect.width > window.innerWidth - viewportInset) {
+    if (left + menuRect.width > ownerWindow.innerWidth - viewportInset) {
       left = triggerRect.right - menuRect.width;
     }
-    if (top + menuRect.height > window.innerHeight - viewportInset) {
+    if (top + menuRect.height > ownerWindow.innerHeight - viewportInset) {
       top = triggerRect.top - menuRect.height - gap;
     }
   }
 
   if (anchor === 'pointer' && pointer) {
-    if (left + menuRect.width > window.innerWidth - viewportInset) {
-      left = window.innerWidth - menuRect.width - viewportInset;
+    if (left + menuRect.width > ownerWindow.innerWidth - viewportInset) {
+      left = ownerWindow.innerWidth - menuRect.width - viewportInset;
     }
-    if (top + menuRect.height > window.innerHeight - viewportInset) {
-      top = window.innerHeight - menuRect.height - viewportInset;
+    if (top + menuRect.height > ownerWindow.innerHeight - viewportInset) {
+      top = ownerWindow.innerHeight - menuRect.height - viewportInset;
     }
   }
 
@@ -148,25 +148,34 @@ export const ContextMenu = forwardRef<HTMLSpanElement, ContextMenuProps>(functio
 
   useEffect(() => {
     if (!isOpen) return;
-    const handleScroll = () => {
+    let frame = 0;
+    const ownerWindow = triggerRef.current?.ownerDocument.defaultView ?? window;
+    const visualViewport = ownerWindow.visualViewport;
+    const updatePosition = () => {
+      frame = 0;
       if (!menuRef.current) return;
       const triggerRect = triggerRef.current?.getBoundingClientRect();
-      setPosition(resolveMenuPosition(anchor, menuRef.current.getBoundingClientRect(), triggerRect, resolvedPointerAnchor));
+      setPosition(resolveMenuPosition(ownerWindow, anchor, menuRef.current.getBoundingClientRect(), triggerRect, resolvedPointerAnchor));
     };
-    const handleResize = () => closeMenu(false);
-    window.addEventListener('resize', handleResize);
-    window.addEventListener('scroll', handleScroll, true);
+    const schedulePosition = () => {
+      if (frame) return;
+      frame = requestAnimationFrame(updatePosition);
+    };
+    const observer = typeof ResizeObserver === 'undefined' ? undefined : new ResizeObserver(schedulePosition);
+    if (menuRef.current) observer?.observe(menuRef.current);
+    ownerWindow.addEventListener('resize', schedulePosition);
+    ownerWindow.addEventListener('scroll', schedulePosition, true);
+    visualViewport?.addEventListener('resize', schedulePosition);
+    visualViewport?.addEventListener('scroll', schedulePosition);
+    schedulePosition();
     return () => {
-      window.removeEventListener('resize', handleResize);
-      window.removeEventListener('scroll', handleScroll, true);
+      if (frame) cancelAnimationFrame(frame);
+      observer?.disconnect();
+      ownerWindow.removeEventListener('resize', schedulePosition);
+      ownerWindow.removeEventListener('scroll', schedulePosition, true);
+      visualViewport?.removeEventListener('resize', schedulePosition);
+      visualViewport?.removeEventListener('scroll', schedulePosition);
     };
-  }, [anchor, isOpen, resolvedPointerAnchor]);
-
-  useEffect(() => {
-    if (!isOpen || !menuRef.current) return;
-    const triggerRect = triggerRef.current?.getBoundingClientRect();
-    const next = resolveMenuPosition(anchor, menuRef.current.getBoundingClientRect(), triggerRect, resolvedPointerAnchor);
-    setPosition(next);
   }, [anchor, isOpen, resolvedPointerAnchor]);
 
   useEffect(() => {
@@ -336,7 +345,7 @@ export const ContextMenu = forwardRef<HTMLSpanElement, ContextMenuProps>(functio
         >
           {triggerNode}
         </span>
-        {mounted && menuSurface ? createPortal(menuSurface, document.body) : null}
+        {mounted && menuSurface ? createPortal(menuSurface, rootRef.current?.ownerDocument.body ?? document.body) : null}
       </span>
     </ContextMenuContext.Provider>
   );

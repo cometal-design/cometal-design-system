@@ -4,6 +4,8 @@ import { Badge } from '../Badge/Badge';
 import { Button, IconButton } from '../Button/Button';
 import { ContextMenuDivider, ContextMenuItem } from '../ContextMenu/ContextMenu';
 import { DatePicker } from '../DatePicker/DatePicker';
+import { DateRangePicker } from '../DatePicker/DateRangePicker';
+import type { DateRangeValue } from '../DatePicker/DateRangePicker';
 import { Select, TextField } from '../Field/Field';
 import {
   Table, TableBody, TableCell, TableContextAction, TableDragCell, TableDragHandle,
@@ -43,14 +45,6 @@ export function WidgetTablePattern({ title, description, toolbar, children, foot
     </Widget>
   );
 }
-
-const statusOptions = [
-  { value: 'all', label: 'Все' },
-  { value: 'approved', label: 'Согласован' },
-  { value: 'review', label: 'На проверке' },
-  { value: 'working', label: 'В работе' },
-  { value: 'draft', label: 'Черновик' },
-];
 
 type ReviewRow = [string, string, string, number, string, number, string, string, string, string, string];
 type EditableColumn = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 | 10;
@@ -116,34 +110,98 @@ function toneForStatus(status: string): 'green' | 'blue' | 'yellow' | 'red' {
   return 'blue';
 }
 
-type FilterOperatorType = 'text' | 'number' | 'date' | 'select';
+type FilterKind = 'text' | 'number' | 'date' | 'select';
+type TextFilterOperator = 'contains' | 'notContains' | 'startsWith' | 'empty';
+type NumberFilterOperator = 'equals' | 'notEquals' | 'greaterThan' | 'lessThan';
+type DateFilterOperator = 'equals' | 'before' | 'after' | 'period';
+type SelectFilterOperator = 'equals' | 'notEquals' | 'selected' | 'notSelected';
+type ReviewFilterOperator = TextFilterOperator | NumberFilterOperator | DateFilterOperator | SelectFilterOperator;
+
+const filterOperators = {
+  text: [
+    { value: 'contains', label: 'Содержит' },
+    { value: 'notContains', label: 'Не содержит' },
+    { value: 'startsWith', label: 'Начинается с' },
+    { value: 'empty', label: 'Пусто' },
+  ],
+  number: [
+    { value: 'equals', label: 'Равно' },
+    { value: 'notEquals', label: 'Не равно' },
+    { value: 'greaterThan', label: 'Больше' },
+    { value: 'lessThan', label: 'Меньше' },
+  ],
+  date: [
+    { value: 'equals', label: 'Дата равна' },
+    { value: 'before', label: 'До даты' },
+    { value: 'after', label: 'После даты' },
+    { value: 'period', label: 'Период' },
+  ],
+  select: [
+    { value: 'equals', label: 'Равно' },
+    { value: 'notEquals', label: 'Не равно' },
+    { value: 'selected', label: 'Выбрано' },
+    { value: 'notSelected', label: 'Не выбрано' },
+  ],
+} as const;
+
+function operatorLabel(kind: FilterKind, operator: ReviewFilterOperator) {
+  return filterOperators[kind].find((option) => option.value === operator)?.label
+    ?? filterOperators[kind][0].label;
+}
+
+function isUnaryOperator(operator: ReviewFilterOperator) {
+  return operator === 'empty' || operator === 'selected' || operator === 'notSelected';
+}
 
 function HeaderMenu({
   columnId,
-  type,
+  kind,
   value,
   onValueChange,
   onReset,
 }: {
   columnId: string;
-  type: FilterOperatorType;
-  value: string;
-  onValueChange: (value: string) => void;
+  kind: FilterKind;
+  value: ReviewFilterOperator;
+  onValueChange: (value: ReviewFilterOperator) => void;
   onReset: () => void;
 }) {
   const [level, setLevel] = useState<'main' | 'filter'>('main');
+  const backRef = useRef<HTMLButtonElement | null>(null);
+  const filterItemRef = useRef<HTMLButtonElement | null>(null);
+  const restoreFilterFocusRef = useRef(false);
+  useLayoutEffect(() => {
+    const frame = requestAnimationFrame(() => {
+      if (level === 'filter') backRef.current?.focus();
+      else if (restoreFilterFocusRef.current) {
+        restoreFilterFocusRef.current = false;
+        filterItemRef.current?.focus();
+      }
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [level]);
+  const showMainLevel = () => {
+    restoreFilterFocusRef.current = true;
+    setLevel('main');
+  };
   if (level === 'filter') {
     return <>
       <ContextMenuItem
+        ref={backRef}
         startIcon={<ChevronLeftIcon />}
         onClick={(event) => {
           event.preventDefault();
-          setLevel('main');
+          showMainLevel();
+        }}
+        onKeyDown={(event) => {
+          if (event.key !== 'ArrowLeft') return;
+          event.preventDefault();
+          showMainLevel();
         }}
       >Фильтр</ContextMenuItem>
       <ContextMenuDivider />
-      {filterOperators[type].map((option) => (
-        <ContextMenuItem key={option} selected={option === value} onClick={() => onValueChange(option)}>{option}</ContextMenuItem>
+      {filterOperators[kind].map((option) => (
+        <ContextMenuItem key={option.value} selected={option.value === value} onClick={() => onValueChange(option.value)}>{option.label}</ContextMenuItem>
       ))}
       <ContextMenuDivider />
       <ContextMenuItem tone="danger" onClick={onReset}>Сбросить фильтр</ContextMenuItem>
@@ -153,8 +211,14 @@ function HeaderMenu({
     <TableColumnPinAction columnId={columnId} />
     <ContextMenuItem>Скрыть колонку</ContextMenuItem>
     <ContextMenuItem
+      ref={filterItemRef}
       endIcon={<ChevronRightIcon />}
       onClick={(event) => {
+        event.preventDefault();
+        setLevel('filter');
+      }}
+      onKeyDown={(event) => {
+        if (event.key !== 'ArrowRight') return;
         event.preventDefault();
         setLevel('filter');
       }}
@@ -167,6 +231,161 @@ const reviewColumnIds = {
   grade: 'grade', quantity: 'quantity', unit: 'unit', price: 'price', sum: 'sum', delivery: 'delivery',
   document: 'document', file: 'file', status: 'status', control: 'control', supplier: 'supplier',
 } as const;
+
+const reviewFilterColumnIds = [
+  reviewColumnIds.position,
+  reviewColumnIds.name,
+  reviewColumnIds.grade,
+  reviewColumnIds.quantity,
+  reviewColumnIds.unit,
+  reviewColumnIds.price,
+  reviewColumnIds.sum,
+  reviewColumnIds.delivery,
+  reviewColumnIds.document,
+  reviewColumnIds.file,
+  reviewColumnIds.status,
+  reviewColumnIds.control,
+  reviewColumnIds.supplier,
+] as const;
+type ReviewFilterColumnId = (typeof reviewFilterColumnIds)[number];
+
+type ReviewFilterDefinition = {
+  kind: FilterKind;
+  defaultOperator: ReviewFilterOperator;
+  getValue: (row: ReviewRow) => string | number;
+  options?: readonly { value: string; label: string }[];
+};
+
+function stableValueOptions(values: readonly string[]) {
+  return [...new Set(values)].map((value) => ({ value, label: value }));
+}
+
+const reviewFilterRegistry = {
+  position: { kind: 'text', defaultOperator: 'contains', getValue: (row) => row[0] },
+  name: { kind: 'text', defaultOperator: 'contains', getValue: (row) => row[1] },
+  grade: { kind: 'text', defaultOperator: 'contains', getValue: (row) => row[2] },
+  quantity: { kind: 'number', defaultOperator: 'equals', getValue: (row) => row[3] },
+  unit: { kind: 'select', defaultOperator: 'equals', getValue: (row) => row[4], options: stableValueOptions(rows.map((row) => row[4])) },
+  price: { kind: 'number', defaultOperator: 'equals', getValue: (row) => row[5] },
+  sum: { kind: 'number', defaultOperator: 'equals', getValue: (row) => row[3] * row[5] },
+  delivery: { kind: 'date', defaultOperator: 'equals', getValue: (row) => row[6] },
+  document: { kind: 'text', defaultOperator: 'contains', getValue: (row) => row[7] },
+  file: { kind: 'text', defaultOperator: 'contains', getValue: () => 'Спецификация.pdf' },
+  status: { kind: 'select', defaultOperator: 'equals', getValue: (row) => row[8], options: stableValueOptions(rows.map((row) => row[8])) },
+  control: { kind: 'select', defaultOperator: 'equals', getValue: (row) => row[9], options: stableValueOptions(rows.map((row) => row[9])) },
+  supplier: { kind: 'select', defaultOperator: 'equals', getValue: (row) => row[10], options: stableValueOptions(rows.map((row) => row[10])) },
+} satisfies Record<ReviewFilterColumnId, ReviewFilterDefinition>;
+
+type ReviewFilterValue = {
+  operator: ReviewFilterOperator;
+  value: string;
+  range: DateRangeValue;
+};
+type ReviewFilterState = Record<ReviewFilterColumnId, ReviewFilterValue>;
+
+function emptyDateRange(): DateRangeValue {
+  return { start: null, end: null };
+}
+
+function createReviewFilterState(): ReviewFilterState {
+  return {
+    position: { operator: 'contains', value: '', range: emptyDateRange() },
+    name: { operator: 'contains', value: '', range: emptyDateRange() },
+    grade: { operator: 'contains', value: '', range: emptyDateRange() },
+    quantity: { operator: 'equals', value: '', range: emptyDateRange() },
+    unit: { operator: 'equals', value: '', range: emptyDateRange() },
+    price: { operator: 'equals', value: '', range: emptyDateRange() },
+    sum: { operator: 'equals', value: '', range: emptyDateRange() },
+    delivery: { operator: 'equals', value: '', range: emptyDateRange() },
+    document: { operator: 'contains', value: '', range: emptyDateRange() },
+    file: { operator: 'contains', value: '', range: emptyDateRange() },
+    status: { operator: 'equals', value: '', range: emptyDateRange() },
+    control: { operator: 'equals', value: '', range: emptyDateRange() },
+    supplier: { operator: 'equals', value: '', range: emptyDateRange() },
+  };
+}
+
+function normalizeReviewText(value: string | number) {
+  return String(value).trim().toLocaleLowerCase('ru-RU');
+}
+
+function parseReviewNumber(value: string | number) {
+  if (typeof value === 'number') return Number.isFinite(value) ? value : null;
+  const normalized = value.trim().replace(/[\u0020\u00a0\u202f]/g, '');
+  if (!/^[+-]?\d+(?:[.,]\d+)?$/.test(normalized)) return null;
+  const parsed = Number(normalized.replace(',', '.'));
+  return Number.isFinite(parsed) ? parsed : null;
+}
+
+function validReviewDateKey(year: number, month: number, day: number) {
+  const date = new Date(year, month - 1, day, 12);
+  if (date.getFullYear() !== year || date.getMonth() !== month - 1 || date.getDate() !== day) return null;
+  return (year * 10000) + (month * 100) + day;
+}
+
+function parseReviewDisplayDateKey(value: string | number) {
+  const match = /^(\d{2})\.(\d{2})\.(\d{4})$/.exec(String(value).trim());
+  return match ? validReviewDateKey(Number(match[3]), Number(match[2]), Number(match[1])) : null;
+}
+
+function parseReviewIsoDateKey(value: string) {
+  const match = /^(\d{4})-(\d{2})-(\d{2})$/.exec(value.trim());
+  return match ? validReviewDateKey(Number(match[1]), Number(match[2]), Number(match[3])) : null;
+}
+
+function dateValueKey(value: Date | null) {
+  return value ? validReviewDateKey(value.getFullYear(), value.getMonth() + 1, value.getDate()) : null;
+}
+
+function matchesFilterValue(kind: FilterKind, filter: ReviewFilterValue, rowValue: string | number) {
+  if (kind === 'text') {
+    const row = normalizeReviewText(rowValue);
+    const query = normalizeReviewText(filter.value);
+    if (filter.operator === 'empty') return row.length === 0;
+    if (!query) return true;
+    if (filter.operator === 'notContains') return !row.includes(query);
+    if (filter.operator === 'startsWith') return row.startsWith(query);
+    return row.includes(query);
+  }
+  if (kind === 'number') {
+    const row = parseReviewNumber(rowValue);
+    const query = parseReviewNumber(filter.value);
+    if (query === null) return true;
+    if (row === null) return false;
+    if (filter.operator === 'notEquals') return row !== query;
+    if (filter.operator === 'greaterThan') return row > query;
+    if (filter.operator === 'lessThan') return row < query;
+    return row === query;
+  }
+  if (kind === 'date') {
+    const row = parseReviewDisplayDateKey(rowValue);
+    if (filter.operator === 'period') {
+      const start = dateValueKey(filter.range.start);
+      const end = dateValueKey(filter.range.end);
+      if (start === null || end === null || start > end) return true;
+      return row !== null && row >= start && row <= end;
+    }
+    const query = parseReviewIsoDateKey(filter.value);
+    if (query === null) return true;
+    if (row === null) return false;
+    if (filter.operator === 'before') return row < query;
+    if (filter.operator === 'after') return row > query;
+    return row === query;
+  }
+  const row = normalizeReviewText(rowValue);
+  const query = normalizeReviewText(filter.value);
+  if (filter.operator === 'selected') return row.length > 0;
+  if (filter.operator === 'notSelected') return row.length === 0;
+  if (!query) return true;
+  return filter.operator === 'notEquals' ? row !== query : row === query;
+}
+
+function matchesReviewFilters(row: ReviewRow, filters: ReviewFilterState) {
+  return reviewFilterColumnIds.every((columnId) => {
+    const definition = reviewFilterRegistry[columnId];
+    return matchesFilterValue(definition.kind, filters[columnId], definition.getValue(row));
+  });
+}
 
 type ReviewSortableColumnId =
   | typeof reviewColumnIds.position
@@ -212,18 +431,43 @@ function compareReviewSortValues(left: string | number, right: string | number):
   return reviewRowCollator.compare(String(left), String(right));
 }
 
+function filterAndSortReviewRows(
+  orderedRows: readonly ReviewRow[],
+  filters: ReviewFilterState,
+  sort: ReviewSortState,
+) {
+  const filteredRows = orderedRows.filter((row) => matchesReviewFilters(row, filters));
+  if (!sort) return filteredRows;
+  const direction = sort.direction === 'ascending' ? 1 : -1;
+  return filteredRows
+    .map((row, originalIndex) => ({ row, originalIndex }))
+    .sort((left, right) => {
+      const comparison = compareReviewSortValues(
+        reviewSortValue(left.row, sort.columnId),
+        reviewSortValue(right.row, sort.columnId),
+      );
+      return comparison === 0 ? left.originalIndex - right.originalIndex : comparison * direction;
+    })
+    .map(({ row }) => row);
+}
+
+/** Internal executable predicate surface; not exported from the package root. */
+export const widgetTableFilterTestApi = {
+  createState: createReviewFilterState,
+  filterAndSort: filterAndSortReviewRows,
+  matchesValue: matchesFilterValue,
+  matchesRow: matchesReviewFilters,
+  parseNumber: parseReviewNumber,
+  parseDisplayDate: parseReviewDisplayDateKey,
+  parseIsoDate: parseReviewIsoDateKey,
+  rows,
+};
+
 const editableColumnIds: Record<EditableColumn, string> = {
   0: reviewColumnIds.position, 1: reviewColumnIds.name, 2: reviewColumnIds.grade,
   3: reviewColumnIds.quantity, 4: reviewColumnIds.unit, 5: reviewColumnIds.price,
   6: reviewColumnIds.delivery, 7: reviewColumnIds.document, 9: reviewColumnIds.control, 10: reviewColumnIds.supplier,
 };
-
-const filterOperators = {
-  text: ['Содержит', 'Не содержит', 'Начинается с', 'Пусто'],
-  number: ['Равно', 'Не равно', 'Больше', 'Меньше'],
-  date: ['Дата равна', 'До даты', 'После даты', 'Период'],
-  select: ['Равно', 'Не равно', 'Выбрано', 'Не выбрано'],
-} as const;
 
 export interface WidgetTableReviewExampleProps {
   initialDensity?: TableDensity;
@@ -240,31 +484,35 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode 
   const [sort, setSort] = useState<ReviewSortState>(null);
   const [page, setPage] = useState(1);
   const [pageSize, setPageSize] = useState(10);
-  const [query, setQuery] = useState('');
-  const [status, setStatus] = useState('all');
-  const [operators, setOperators] = useState<Record<string, string>>({});
+  const [filterState, setFilterState] = useState<ReviewFilterState>(createReviewFilterState);
   const [editingCell, setEditingCell] = useState<{ rowId: string; column: EditableColumn } | null>(null);
   const [pinnedColumnIds, setPinnedColumnIds] = useState<string[]>([]);
   const [columnWidths, setColumnWidths] = useState<Record<string, number>>({});
-  const headerAction = (columnId: string, label: string, type: FilterOperatorType) => {
-    const value = operators[columnId] ?? filterOperators[type][0];
+  const updateColumnFilter = (columnId: ReviewFilterColumnId, update: (current: ReviewFilterValue) => ReviewFilterValue) => {
+    setFilterState((current) => ({ ...current, [columnId]: update(current[columnId]) }));
+    setPage(1);
+  };
+  const headerAction = (columnId: ReviewFilterColumnId, label: string) => {
+    const definition = reviewFilterRegistry[columnId];
+    const currentFilter = filterState[columnId];
     return <TableContextAction
       label={`Действия колонки ${label}`}
       menuLabel={`Действия колонки ${label}`}
       menu={<HeaderMenu
         columnId={columnId}
-        type={type}
-        value={value}
-        onValueChange={(nextValue) => setOperators((current) => ({ ...current, [columnId]: nextValue }))}
-        onReset={() => {
-          setOperators((current) => {
-            const next = { ...current };
-            delete next[columnId];
-            return next;
-          });
-          if (columnId === reviewColumnIds.position) setQuery('');
-          if (columnId === reviewColumnIds.status) setStatus('all');
-        }}
+        kind={definition.kind}
+        value={currentFilter.operator}
+        onValueChange={(nextOperator) => updateColumnFilter(columnId, (current) => ({
+          ...current,
+          operator: nextOperator,
+          value: isUnaryOperator(nextOperator) || nextOperator === 'period' ? '' : current.value,
+          range: nextOperator === 'period' ? current.range : emptyDateRange(),
+        }))}
+        onReset={() => updateColumnFilter(columnId, () => ({
+          operator: definition.defaultOperator,
+          value: '',
+          range: emptyDateRange(),
+        }))}
       />}
     />;
   };
@@ -273,24 +521,8 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode 
     onSortChange: (direction: TableSortDirection) => setSort(direction === 'none' ? null : { columnId, direction }),
   });
   const filteredRows = useMemo(() => {
-    const filteredRows = orderedRows.filter((row) => {
-      const matchesText = `${row[0]} ${row[1]} ${row[2]} ${row[10]}`.toLowerCase().includes(query.toLowerCase());
-      const matchesStatus = status === 'all' || (status === 'approved' && row[8] === 'Согласован') || (status === 'review' && row[8] === 'На проверке') || (status === 'working' && row[8] === 'В работе') || (status === 'draft' && row[8] === 'Черновик');
-      return matchesText && matchesStatus;
-    });
-    if (!sort) return filteredRows;
-    const direction = sort.direction === 'ascending' ? 1 : -1;
-    return filteredRows
-      .map((row, originalIndex) => ({ row, originalIndex }))
-      .sort((left, right) => {
-        const comparison = compareReviewSortValues(
-          reviewSortValue(left.row, sort.columnId),
-          reviewSortValue(right.row, sort.columnId),
-        );
-        return comparison === 0 ? left.originalIndex - right.originalIndex : comparison * direction;
-      })
-      .map(({ row }) => row);
-  }, [orderedRows, query, sort, status]);
+    return filterAndSortReviewRows(orderedRows, filterState, sort);
+  }, [filterState, orderedRows, sort]);
   const pageCount = Math.max(1, Math.ceil(filteredRows.length / pageSize));
   const safePage = Math.min(page, pageCount);
   const visibleRows = useMemo(() => {
@@ -356,6 +588,32 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode 
       : displayValue}</TableCell>;
   };
 
+  const filterControl = (columnId: ReviewFilterColumnId, label: string) => {
+    const definition = reviewFilterRegistry[columnId];
+    const current = filterState[columnId];
+    const setValue = (value: string) => updateColumnFilter(columnId, (filter) => ({
+      ...filter,
+      value: isUnaryOperator(filter.operator) ? '' : value,
+    }));
+    if (definition.kind === 'date') {
+      return current.operator === 'period'
+        ? <DateRangePicker label={label} size="s" value={current.range} onChange={(range) => updateColumnFilter(columnId, (filter) => ({ ...filter, range }))} />
+        : <DatePicker label={label} size="s" placeholder={operatorLabel(definition.kind, current.operator)} value={current.value || null} onValueChange={(value) => setValue(value ?? '')} />;
+    }
+    if (definition.kind === 'select') {
+      const options = 'options' in definition ? [...definition.options] : [];
+      return <Select label={label} size="s" placeholder="Все" options={options} value={current.value} onValueChange={setValue} />;
+    }
+    return <TextField
+      label={label}
+      size="s"
+      placeholder={operatorLabel(definition.kind, current.operator)}
+      inputMode={definition.kind === 'number' ? 'decimal' : undefined}
+      value={current.value}
+      onChange={(event) => setValue(event.currentTarget.value)}
+    />;
+  };
+
   const toolbar = <>
     <IconButton
       size="m"
@@ -417,35 +675,35 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode 
                 return current.filter((rowId) => !visibleIds.has(rowId));
               })}
             />
-            <TableHeaderCell columnId={reviewColumnIds.position} {...sortableHeaderProps(reviewColumnIds.position)} action={headerAction(reviewColumnIds.position, 'Позиция', 'text')}>Позиция</TableHeaderCell>
-            <TableHeaderCell columnId={reviewColumnIds.name} {...sortableHeaderProps(reviewColumnIds.name)} action={headerAction(reviewColumnIds.name, 'Наименование', 'text')}>Наименование</TableHeaderCell>
-            <TableHeaderCell columnId={reviewColumnIds.grade} {...sortableHeaderProps(reviewColumnIds.grade)} action={headerAction(reviewColumnIds.grade, 'Марка стали', 'text')}>Марка стали</TableHeaderCell>
-            <TableHeaderCell columnId={reviewColumnIds.quantity} {...sortableHeaderProps(reviewColumnIds.quantity)} action={headerAction(reviewColumnIds.quantity, 'Количество', 'number')}>Количество</TableHeaderCell>
-            <TableHeaderCell columnId={reviewColumnIds.unit} {...sortableHeaderProps(reviewColumnIds.unit)} action={headerAction(reviewColumnIds.unit, 'Единица', 'select')}>Ед.</TableHeaderCell>
-            <TableHeaderCell columnId={reviewColumnIds.price} {...sortableHeaderProps(reviewColumnIds.price)} action={headerAction(reviewColumnIds.price, 'Цена', 'number')}>Цена, ₽</TableHeaderCell>
-            <TableHeaderCell columnId={reviewColumnIds.sum} {...sortableHeaderProps(reviewColumnIds.sum)} action={headerAction(reviewColumnIds.sum, 'Сумма', 'number')}>Сумма, ₽</TableHeaderCell>
-            <TableHeaderCell columnId={reviewColumnIds.delivery} {...sortableHeaderProps(reviewColumnIds.delivery)} action={headerAction(reviewColumnIds.delivery, 'Дата поставки', 'date')}>Дата поставки</TableHeaderCell>
-            <TableHeaderCell columnId={reviewColumnIds.document} {...sortableHeaderProps(reviewColumnIds.document)} action={headerAction(reviewColumnIds.document, 'Документ', 'text')}>Документ</TableHeaderCell>
-            <TableHeaderCell columnId={reviewColumnIds.file} action={headerAction(reviewColumnIds.file, 'Файл', 'text')}>Файл</TableHeaderCell>
-            <TableHeaderCell columnId={reviewColumnIds.status} {...sortableHeaderProps(reviewColumnIds.status)} action={headerAction(reviewColumnIds.status, 'Статус', 'select')}>Статус</TableHeaderCell>
-            <TableHeaderCell columnId={reviewColumnIds.control} {...sortableHeaderProps(reviewColumnIds.control)} action={headerAction(reviewColumnIds.control, 'Контроль', 'select')}>Контроль</TableHeaderCell>
-            <TableHeaderCell columnId={reviewColumnIds.supplier} {...sortableHeaderProps(reviewColumnIds.supplier)} action={headerAction(reviewColumnIds.supplier, 'Поставщик', 'select')}>Поставщик</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.position} {...sortableHeaderProps(reviewColumnIds.position)} action={headerAction(reviewColumnIds.position, 'Позиция')}>Позиция</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.name} {...sortableHeaderProps(reviewColumnIds.name)} action={headerAction(reviewColumnIds.name, 'Наименование')}>Наименование</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.grade} {...sortableHeaderProps(reviewColumnIds.grade)} action={headerAction(reviewColumnIds.grade, 'Марка стали')}>Марка стали</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.quantity} {...sortableHeaderProps(reviewColumnIds.quantity)} action={headerAction(reviewColumnIds.quantity, 'Количество')}>Количество</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.unit} {...sortableHeaderProps(reviewColumnIds.unit)} action={headerAction(reviewColumnIds.unit, 'Единица')}>Ед.</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.price} {...sortableHeaderProps(reviewColumnIds.price)} action={headerAction(reviewColumnIds.price, 'Цена')}>Цена, ₽</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.sum} {...sortableHeaderProps(reviewColumnIds.sum)} action={headerAction(reviewColumnIds.sum, 'Сумма')}>Сумма, ₽</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.delivery} {...sortableHeaderProps(reviewColumnIds.delivery)} action={headerAction(reviewColumnIds.delivery, 'Дата поставки')}>Дата поставки</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.document} {...sortableHeaderProps(reviewColumnIds.document)} action={headerAction(reviewColumnIds.document, 'Документ')}>Документ</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.file} action={headerAction(reviewColumnIds.file, 'Файл')}>Файл</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.status} {...sortableHeaderProps(reviewColumnIds.status)} action={headerAction(reviewColumnIds.status, 'Статус')}>Статус</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.control} {...sortableHeaderProps(reviewColumnIds.control)} action={headerAction(reviewColumnIds.control, 'Контроль')}>Контроль</TableHeaderCell>
+            <TableHeaderCell columnId={reviewColumnIds.supplier} {...sortableHeaderProps(reviewColumnIds.supplier)} action={headerAction(reviewColumnIds.supplier, 'Поставщик')}>Поставщик</TableHeaderCell>
           </TableRow>
           {filters ? <TableFilterRow aria-label="Фильтры таблицы">
             <TableFilterCell columnId={reviewColumnIds.drag} kind="drag" /><TableFilterCell columnId={reviewColumnIds.index} kind="index" /><TableFilterCell columnId={reviewColumnIds.selection} kind="selection" />
-            <TableFilterCell columnId={reviewColumnIds.position}><TextField label="Фильтр по позиции" size="s" placeholder={operators[reviewColumnIds.position] ?? 'Содержит'} value={query} onChange={(event) => setQuery(event.currentTarget.value)} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.name}><TextField label="Фильтр по наименованию" size="s" placeholder={operators[reviewColumnIds.name] ?? 'Содержит'} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.grade}><TextField label="Фильтр по марке" size="s" placeholder={operators[reviewColumnIds.grade] ?? 'Содержит'} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.quantity}><TextField label="Фильтр по количеству" size="s" placeholder={operators[reviewColumnIds.quantity] ?? 'Равно'} inputMode="numeric" /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.unit}><TextField label="Фильтр по единице" size="s" placeholder={operators[reviewColumnIds.unit] ?? 'Равно'} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.price}><TextField label="Фильтр по цене" size="s" placeholder={operators[reviewColumnIds.price] ?? 'Равно'} inputMode="numeric" /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.sum}><TextField label="Фильтр по сумме" size="s" placeholder={operators[reviewColumnIds.sum] ?? 'Равно'} inputMode="numeric" /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.delivery}><DatePicker label="Фильтр по дате" size="s" placeholder={operators[reviewColumnIds.delivery] ?? 'Дата равна'} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.document}><TextField label="Фильтр по документу" size="s" placeholder={operators[reviewColumnIds.document] ?? 'Содержит'} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.file}><TextField label="Фильтр по файлу" size="s" placeholder={operators[reviewColumnIds.file] ?? 'Содержит'} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.status}><Select label="Фильтр по статусу" size="s" options={statusOptions} value={status} onValueChange={setStatus} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.control}><TextField label="Фильтр по контролю" size="s" placeholder={operators[reviewColumnIds.control] ?? 'Равно'} /></TableFilterCell>
-            <TableFilterCell columnId={reviewColumnIds.supplier}><TextField label="Фильтр по поставщику" size="s" placeholder={operators[reviewColumnIds.supplier] ?? 'Равно'} /></TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.position}>{filterControl(reviewColumnIds.position, 'Фильтр по позиции')}</TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.name}>{filterControl(reviewColumnIds.name, 'Фильтр по наименованию')}</TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.grade}>{filterControl(reviewColumnIds.grade, 'Фильтр по марке')}</TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.quantity}>{filterControl(reviewColumnIds.quantity, 'Фильтр по количеству')}</TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.unit}>{filterControl(reviewColumnIds.unit, 'Фильтр по единице')}</TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.price}>{filterControl(reviewColumnIds.price, 'Фильтр по цене')}</TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.sum}>{filterControl(reviewColumnIds.sum, 'Фильтр по сумме')}</TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.delivery}>{filterControl(reviewColumnIds.delivery, 'Фильтр по дате')}</TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.document}>{filterControl(reviewColumnIds.document, 'Фильтр по документу')}</TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.file}>{filterControl(reviewColumnIds.file, 'Фильтр по файлу')}</TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.status}>{filterControl(reviewColumnIds.status, 'Фильтр по статусу')}</TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.control}>{filterControl(reviewColumnIds.control, 'Фильтр по контролю')}</TableFilterCell>
+            <TableFilterCell columnId={reviewColumnIds.supplier}>{filterControl(reviewColumnIds.supplier, 'Фильтр по поставщику')}</TableFilterCell>
           </TableFilterRow> : null}
         </TableHead>
         <TableBody>

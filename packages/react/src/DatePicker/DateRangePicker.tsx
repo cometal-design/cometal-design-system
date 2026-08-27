@@ -7,9 +7,10 @@ import {
   useState,
 } from 'react';
 import type { ChangeEvent, KeyboardEvent } from 'react';
+import { createPortal } from 'react-dom';
 import { FieldChrome } from '../Field/Field';
 import type { FieldMode, FieldSize } from '../Field/Field';
-import { useControllableOpen, useOutsidePointerDismiss } from '../internal/overlay';
+import { useAnchoredOverlay, useControllableOpen, useHydrated, useOutsidePointerDismiss } from '../internal/overlay';
 import ChevronLeftIcon from '../icons/generated/components/outline/arrows/chevron-left';
 import ChevronRightIcon from '../icons/generated/components/outline/arrows/chevron-right';
 import CalendarIcon from '../icons/generated/components/outline/time/calendar-02';
@@ -183,7 +184,7 @@ export interface DateRangePickerProps {
   value?: DateRangeValue;
   defaultValue?: DateRangeValue;
   onChange?: (value: DateRangeValue) => void;
-  size?: Extract<FieldSize, 'l' | 'm'>;
+  size?: FieldSize;
   mode?: FieldMode;
   helperText?: string;
   error?: string;
@@ -250,6 +251,15 @@ export const DateRangePicker = forwardRef<HTMLInputElement, DateRangePickerProps
   const minDate = normalizeDate(min);
   const maxDate = normalizeDate(max);
   const effectiveError = error ?? inputError;
+  const hydrated = useHydrated();
+  const calendarOverlay = useAnchoredOverlay({
+    open: hydrated && isOpen,
+    anchorRef: rootRef,
+    surfaceRef: calendarRef,
+    gap: 8,
+    viewportInset: 8,
+    onLostAnchor: () => setIsOpen(false),
+  });
 
   useEffect(() => {
     const normalized = normalizeRangeValue(rangeValue);
@@ -263,17 +273,17 @@ export const DateRangePicker = forwardRef<HTMLInputElement, DateRangePickerProps
     inputRef.current?.setCustomValidity(effectiveError ?? '');
   }, [effectiveError]);
 
-  useOutsidePointerDismiss(isOpen, [rootRef], () => setIsOpen(false));
+  useOutsidePointerDismiss(isOpen, [rootRef, calendarRef], () => setIsOpen(false));
 
   useEffect(() => {
-    if (!isOpen || !focusTarget) return;
-    requestAnimationFrame(() => {
-      const day = calendarRef.current?.querySelector<HTMLButtonElement>(`[data-date="${focusTarget}"]:not(:disabled)`)
-        ?? calendarRef.current?.querySelector<HTMLButtonElement>('.cometal-date-picker__day:not(:disabled)');
-      day?.focus();
-      setFocusTarget(undefined);
-    });
-  }, [focusTarget, isOpen]);
+    if (!isOpen || !focusTarget || !calendarOverlay.positioned) return undefined;
+    const calendar = calendarRef.current;
+    if (!calendar) return undefined;
+    const day = calendar.querySelector<HTMLButtonElement>(`[data-date="${focusTarget}"]:not(:disabled)`)
+      ?? calendar.querySelector<HTMLButtonElement>('.cometal-date-picker__day:not(:disabled)');
+    day?.focus();
+    return undefined;
+  }, [calendarOverlay.positioned, focusTarget, isOpen]);
 
   useEffect(() => {
     if (!monthMotionDirection) return undefined;
@@ -297,6 +307,7 @@ export const DateRangePicker = forwardRef<HTMLInputElement, DateRangePickerProps
 
   const closeAndRestoreFocus = () => {
     setPanelMotion(false);
+    setFocusTarget(undefined);
     setIsOpen(false);
     requestAnimationFrame(() => triggerRef.current?.focus());
   };
@@ -328,6 +339,7 @@ export const DateRangePicker = forwardRef<HTMLInputElement, DateRangePickerProps
     const anchor = rangeValue.start ?? rangeValue.end ?? todayDate;
     setVisibleMonth(startOfMonth(anchor));
     if (moveFocusToCalendar) setFocusTarget(toIsoDate(anchor));
+    else setFocusTarget(undefined);
     setPanelMotion(animate);
     setIsOpen(true);
   };
@@ -470,7 +482,10 @@ export const DateRangePicker = forwardRef<HTMLInputElement, DateRangePickerProps
             aria-haspopup="dialog"
             aria-expanded={isOpen}
             aria-controls={dialogId}
-            onClick={(event) => (isOpen ? closeAndRestoreFocus() : openCalendar(false, event.detail !== 0))}
+            onClick={(event) => {
+              if (isOpen) closeAndRestoreFocus();
+              else openCalendar(event.detail === 0, event.detail !== 0);
+            }}
             onKeyDown={(event) => {
               if (isOpen && event.key === 'Escape') {
                 event.preventDefault();
@@ -496,15 +511,17 @@ export const DateRangePicker = forwardRef<HTMLInputElement, DateRangePickerProps
         />
       ) : null}
 
-      {isOpen ? (
+      {hydrated && isOpen ? createPortal(
         <div
           ref={calendarRef}
-          className="cometal-date-picker__panel"
+          className="cometal-date-picker__panel cometal-date-range-picker__panel"
           id={dialogId}
           role="dialog"
           aria-modal="false"
           aria-labelledby={headingId}
           data-motion={panelMotion ? 'enter' : undefined}
+          data-placement={calendarOverlay.placement}
+          style={calendarOverlay.style}
           onKeyDown={onCalendarKeyDown}
         >
           <div className="cometal-date-picker__month-header">
@@ -572,7 +589,8 @@ export const DateRangePicker = forwardRef<HTMLInputElement, DateRangePickerProps
               </div>
             ))}
           </div>
-        </div>
+        </div>,
+        rootRef.current?.ownerDocument.body ?? document.body,
       ) : null}
     </div>
   );

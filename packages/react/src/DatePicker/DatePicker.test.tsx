@@ -23,16 +23,14 @@ describe('DatePicker date model', () => {
     expect(html).toContain('data-cometal-icon-library="outline"');
   });
 
-  it('renders the open calendar as a labelled grid with the complete visible weeks', () => {
+  it('defers the open calendar portal until hydration without accessing document during SSR', () => {
     const html = renderToStaticMarkup(
       <DatePicker label="Дата поставки" value="2026-07-15" today="2026-07-31" open />,
     );
-    expect(html).toContain('role="dialog"');
-    expect(html).toContain('role="grid"');
-    expect(html).toContain('Июль 2026');
-    expect((html.match(/role="gridcell"/g) ?? [])).toHaveLength(35);
-    expect(html).toContain('data-selected="true"');
-    expect(html).toContain('data-today="true"');
+    expect(html).toContain('aria-expanded="true"');
+    expect(html).toContain('aria-controls=');
+    expect(html).not.toContain('role="dialog"');
+    expect(html).not.toContain('role="grid"');
   });
 
   it('renders read mode without any interactive controls', () => {

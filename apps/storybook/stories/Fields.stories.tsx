@@ -1,6 +1,6 @@
 import { useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, userEvent, within } from 'storybook/test';
+import { expect, userEvent, waitFor, within } from 'storybook/test';
 import { Button, Combobox, MultiSelect, Select, TextArea, TextField, fieldSizes } from '@cometal/react';
 import { ComponentCodeExample } from './ComponentCodeExample';
 
@@ -38,6 +38,15 @@ function SelectInteractionExample() {
     <div className="ds-field-story-shell">
       <Select label="Статус" options={options} value={value} onValueChange={setValue} />
       <output aria-live="polite">Выбрано: {value || '—'}</output>
+    </div>
+  );
+}
+
+function SelectPortalContractExample() {
+  const [value, setValue] = useState('');
+  return (
+    <div style={{ width: 224, height: 96, overflow: 'hidden' }} data-overlay-clip-root>
+      <Select label="Статус" size="s" options={options} value={value} onValueChange={setValue} />
     </div>
   );
 }
@@ -236,7 +245,7 @@ export const SelectActive: Story = {
   play: async ({ canvasElement }) => {
     const trigger = within(canvasElement).getByRole('combobox', { name: 'Статус' });
     const chevron = trigger.querySelector<SVGSVGElement>('[data-chevron-direction]')!;
-    const listbox = within(canvasElement).getByRole('listbox');
+    const listbox = await within(canvasElement.ownerDocument.body).findByRole('listbox');
     await expect(trigger).toHaveAttribute('aria-expanded', 'true');
     await expect(chevron).toHaveAttribute('data-chevron-direction', 'up');
     await expect(chevron.getBoundingClientRect().width).toBe(20);
@@ -252,7 +261,7 @@ export const SelectLongList: Story = {
   parameters: { controls: { disable: true } },
   render: () => <div className="ds-field-story-shell"><Select label="Статус" options={longOptions} expanded /></div>,
   play: async ({ canvasElement }) => {
-    const listbox = within(canvasElement).getByRole('listbox');
+    const listbox = await within(canvasElement.ownerDocument.body).findByRole('listbox');
     const listboxOptions = within(listbox).getAllByRole('option');
     await expect(listboxOptions).toHaveLength(16);
     await expect(listbox.scrollHeight).toBeGreaterThan(listbox.clientHeight);
@@ -293,6 +302,7 @@ export const SelectInteraction: Story = {
   render: () => <SelectInteractionExample />,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    const body = within(canvasElement.ownerDocument.body);
     const trigger = canvas.getByRole('combobox', { name: 'Статус' });
     const getChevron = () => trigger.querySelector<SVGSVGElement>('[data-chevron-direction]')!;
     await expect(getChevron()).toHaveAttribute('data-chevron-direction', 'down');
@@ -302,16 +312,16 @@ export const SelectInteraction: Story = {
     await expect(trigger).toHaveAttribute('aria-expanded', 'false');
     trigger.focus();
     await userEvent.keyboard('{Home}');
-    await expect(canvas.getByRole('option', { name: 'Новый' })).toHaveAttribute('data-active');
+    await expect(body.getByRole('option', { name: 'Новый' })).toHaveAttribute('data-active');
     await userEvent.keyboard('{End}');
-    await expect(canvas.getByRole('option', { name: 'Просрочен' })).toHaveAttribute('data-active');
+    await expect(body.getByRole('option', { name: 'Просрочен' })).toHaveAttribute('data-active');
     await userEvent.keyboard('з');
-    await expect(canvas.getByRole('option', { name: 'Завершён' })).toHaveAttribute('data-active');
+    await expect(body.getByRole('option', { name: 'Завершён' })).toHaveAttribute('data-active');
     await userEvent.keyboard('{Escape}');
     await userEvent.click(trigger);
     await expect(trigger).toHaveAttribute('aria-expanded', 'true');
     await expect(getChevron()).toHaveAttribute('data-chevron-direction', 'up');
-    const motion = getComputedStyle(canvas.getByRole('listbox'));
+    const motion = getComputedStyle(body.getByRole('listbox'));
     const reducedMotion = canvasElement.ownerDocument.defaultView?.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reducedMotion) {
       await expect(motion.transitionProperty).toBe('none');
@@ -337,7 +347,7 @@ export const SelectInteraction: Story = {
       focusSurface: resolveColorToken('--cometal-component-option-surface-focus'),
       focusContent: resolveColorToken('--cometal-component-option-content-focus'),
     };
-    const hoverOption = canvas.getByRole('option', { name: 'Активный' });
+    const hoverOption = body.getByRole('option', { name: 'Активный' });
     await userEvent.hover(hoverOption);
     await expect(hoverOption).toHaveAttribute('data-active');
     const optionStateRules = Array.from(canvasElement.ownerDocument.styleSheets)
@@ -363,13 +373,13 @@ export const SelectInteraction: Story = {
     await userEvent.unhover(hoverOption);
     await expect(hoverOption).not.toHaveAttribute('data-active');
 
-    const selectedOption = canvas.getByRole('option', { name: 'На согласовании' });
+    const selectedOption = body.getByRole('option', { name: 'На согласовании' });
     await userEvent.hover(selectedOption);
     expect(getComputedStyle(selectedOption).backgroundColor).toBe(optionColors.selectedSurface);
     expect(getComputedStyle(selectedOption).color).toBe(optionColors.selectedContent);
     await userEvent.unhover(selectedOption);
 
-    const disabledOption = canvas.getByRole('option', { name: 'Архивный' });
+    const disabledOption = body.getByRole('option', { name: 'Архивный' });
     await userEvent.hover(disabledOption);
     expect(getComputedStyle(disabledOption).backgroundColor).toBe(optionColors.disabledSurface);
     expect(getComputedStyle(disabledOption).color).toBe(optionColors.disabledContent);
@@ -377,7 +387,7 @@ export const SelectInteraction: Story = {
 
     trigger.focus();
     await userEvent.keyboard('{ArrowDown}');
-    const keyboardOption = canvas.getByRole('option', { name: 'Новый' });
+    const keyboardOption = body.getByRole('option', { name: 'Новый' });
     await expect(keyboardOption).toHaveAttribute('data-active');
     expect(keyboardOption.matches(':hover')).toBe(false);
     expect(getComputedStyle(keyboardOption).backgroundColor).toBe(optionColors.focusSurface);
@@ -387,6 +397,35 @@ export const SelectInteraction: Story = {
     await userEvent.click(trigger);
     await userEvent.tab();
     await expect(trigger).toHaveAttribute('aria-expanded', 'false');
+  },
+};
+export const SelectPortalContract: Story = {
+  name: 'Select · Portal, geometry & focus modality',
+  parameters: { controls: { disable: true } },
+  render: () => <SelectPortalContractExample />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(canvasElement.ownerDocument.body);
+    const trigger = canvas.getByRole('combobox', { name: 'Статус' });
+    const root = trigger.closest<HTMLElement>('.cometal-field')!;
+    await userEvent.click(trigger);
+    const listbox = await body.findByRole('listbox');
+    await expect(listbox.parentElement).toBe(canvasElement.ownerDocument.body);
+    await expect(getComputedStyle(listbox).position).toBe('fixed');
+    await expect(listbox.getBoundingClientRect().width).toBeCloseTo(trigger.getBoundingClientRect().width, 0);
+    await expect(listbox.getBoundingClientRect().height).toBe(208);
+    await expect(root).not.toHaveAttribute('data-focus-visible');
+    const listboxRect = listbox.getBoundingClientRect();
+    await expect(canvasElement.ownerDocument.elementFromPoint(listboxRect.left + 12, listboxRect.top + 12)?.closest('[role="listbox"]')).toBe(listbox);
+    await userEvent.click(within(listbox).getByRole('option', { name: 'Активный' }));
+    await expect(trigger).toHaveTextContent('Активный');
+    await expect(body.queryByRole('listbox')).not.toBeInTheDocument();
+    trigger.blur();
+    trigger.focus();
+    await waitFor(() => expect(root).toHaveAttribute('data-focus-visible'));
+    const controlStyle = getComputedStyle(root.querySelector<HTMLElement>('.cometal-field__control')!);
+    await expect(controlStyle.outlineWidth).toBe('2px');
+    await expect(controlStyle.outlineOffset).toBe('4px');
   },
 };
 export const ComboboxInteraction: Story = {
