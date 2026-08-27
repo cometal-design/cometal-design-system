@@ -20,6 +20,8 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - Состояния: default, hover, filled, error, disabled и независимый focus-visible.
 - Label обязателен в API; helper и optional-marker опциональны.
 - В режиме `read` значение остаётся текстом и не попадает в tab-порядок.
+- M3 source foundation — `Field Base` `1098:242`: every S control surface uses the existing `spacing-50` `8px` horizontal inset. Table supplies only external filter-cell inset; it must not override Field internal padding.
+- `FieldChrome` — единственный owner focus modality: keyboard или programmatic focus показывает один `2px` ring с `4px` offset, pointer activation не показывает wrapper focus ring. Этот contract общий для всех FieldChrome consumers.
 
 ## Accessibility
 

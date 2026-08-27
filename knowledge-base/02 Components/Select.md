@@ -34,6 +34,8 @@ Pointer-открытие использует системный motion: кор�
 - Chevron показывает вниз при `aria-expanded=false` и вверх при `aria-expanded=true`.
 - До пяти options listbox растёт по контенту; дальше включает внутренний scroll.
 - Pointer open использует current popover motion + Soft effect; keyboard open остаётся мгновенным.
+- M3 sources: `Select Base` `1326:2405`, Listbox `1107:847`, Option `1100:141`. S trigger остаётся `32px` с existing `spacing-50` `8px` inset; focus ring `2px` / `4px` появляется только для keyboard/programmatic focus.
+- Listbox использует shared body portal: existing `6px` gap, anchor width, flip/shift в viewport inset `8px`, follow scroll/resize; он остаётся внутри ARIA/outside-dismiss boundary и не требует ослабления Table clipping.
 
 ## Storybook stories
 

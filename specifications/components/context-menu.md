@@ -22,3 +22,6 @@ Context Menu публикует самостоятельный overlay-комп�
 - Item tones: `default`, `danger`
 - Item states: `default`, `selected`, `disabled`
 - Divider size inherits menu size
+- M3 Table filters use the existing header ContextMenu as a nested `m → m` operator level; no Table-specific menu primitive or public API is created. Operator selection and per-column Reset belong to this nested level.
+- Enter or ArrowRight from Filters focuses Back; Back or ArrowLeft restores focus to the originating Filters item; Escape closes the menu and restores the header trigger. The existing focus-visible visual is a compatibility alias of Hover.
+- ContextMenu keeps its body portal and remeasures collision placement after nested-level size changes. Parent and child levels remain size `m`.

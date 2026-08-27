@@ -16,6 +16,7 @@
 - Размеры: `l / m / s` = `48 / 40 / 32`.
 - Edit и Read — разные visual contracts, а не disabled-режим одного и того же input.
 - Сам Text Field не имеет popup/elevation effect.
+- M3: `Field Base` `1098:242` задаёт S control `32px` и existing `spacing-50` `8px` internal horizontal inset. `FieldChrome` — единый owner focus modality: keyboard/programmatic focus — `2px` ring с `4px` offset, pointer не добавляет ring.
 
 ## Storybook stories
 

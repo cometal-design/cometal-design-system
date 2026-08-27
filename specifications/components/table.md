@@ -75,7 +75,16 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - Density применяется к header: Comfortable `48px`, Compact `40px`. Unsorted full-cell Hover является compatibility alias Default и пиксельно от него не отличается; отдельного Active/Pressed visual state нет. Sorted Ascending/Descending сохраняют selected surface, text и icon roles.
 - Focus-visible охватывает полный control `Label + Sort` и Context Action: `2px` Global State Focus Ring с прозрачным offset `4px`, без clipping в обеих плотностях. Context Action сохраняет только свои общие Default/Hover/Open states.
 - Resize Separator — исключительно визуальный внутренний source: full-height hit-area `8px`; в Default центральная внутренняя линия `1px` прозрачна и оставляет видимым grid divider, а Hover, Resizing и Focus-visible используют одинаковую центральную `2px` Global State Focus Ring line. Pointer/keyboard resize, min-width, persistence, sticky offsets и final-column mechanics не меняются в M2.
-- Filter operator/reset/listbox/DatePicker, row context menu, Read/Edit cell behavior, column hide/pinning/resize behavior, pagination и toolbar work относятся к M3+ и не меняются этим контрактом.
+- M2 сам не менял filter operator/reset/listbox/DatePicker; их M3 contract приведён ниже. Row context menu, Read/Edit cell behavior, column hide/pinning/resize behavior, pagination и toolbar work остаются M4+.
+
+## M3: Filter Row и shared controls
+
+- Канонический `Filter Row` — `2530:5631`. `TableFilterRow` содержит ровно 13 typed filter cells: `position`, `name`, `grade`, `quantity`, `unit`, `price`, `sum`, `delivery`, `document`, `file`, `status`, `control`, `supplier`; видимый filter не может быть inert или presentation-only.
+- Внешняя geometry принадлежит Table: Comfortable row `48px` с inset `8px` вокруг S control `32px`; Compact row `40px` с vertical inset `4px` и тем же horizontal inset `8px`. Внутренний S inset принадлежит Field/Select и использует существующий `spacing-50` (`8px`), без локального Table padding override.
+- Text filters обслуживают Position, Name, Grade, Document и File; Number `TextField` с numeric input mode — Quantity, Price и derived Sum; `Select` — Unit, Status, Control и Supplier; Delivery использует `DatePicker`, Period — `DateRangePicker`. Text/number controls не получают duplicate filter icon; Select использует shared chevron, date/period — shared calendar icon.
+- Operator selection и per-column Reset принадлежат nested level существующего header `ContextMenu`, не самому input. Reset атомарно очищает значение (и range при наличии), возвращает default operator конкретного kind и page 1, не меняя sort или другие columns.
+- Consumer/pattern combines active predicates with logical AND before the M2 stable sort. Sort then operates on filtered current consumer order; filter reset does not reset sort.
+- Table не меняет clipping/scroll/sticky ownership ради overlay: Select, DatePicker и DateRangePicker используют shared body-portal behavior. Открытая surface остаётся частью interaction boundary и следует anchor; listbox/calendar не клипуются shell или scroll container.
 
 ## Контент
 
@@ -91,6 +100,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - Используются нативные `table`, `thead`, `tbody`, `tr`, `th`, `td`.
 - Сортировка публикуется через `aria-sort` на column header.
 - Sort button поддерживает pointer, Enter и Space; `aria-sort` описывает только текущее активное направление, а его доступное имя сообщает следующее действие в цикле `none → ascending → descending → none`.
+- Filter controls сохраняют собственную keyboard/ARIA семантику; keyboard/programmatic focus показывает один shared `2px` ring с offset `4px`, pointer activation wrapper ring не показывает.
 - Таблица без видимого caption получает `aria-label`.
 - Error cells публикуют `aria-invalid`; disabled cells публикуют `aria-disabled`.
 - Встроенные Checkbox сохраняют нативную input-семантику и видимое либо скрытое доступное имя.

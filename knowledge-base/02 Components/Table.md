@@ -44,7 +44,9 @@
 - Table намеренно не владеет storage. Consumer хранит record в React state и при необходимости персистит его в пользовательских настройках; поэтому pin/unpin, density и rerender не должны менять заданный размер.
 - M2 Header source: `Column Header` `2353:10896`, `Selection Header` `2353:10934`, `Context Action` `2482:5611`, `Resize Separator` `3305:39754`. Header atom публикует controlled cycle `none → ascending → descending → none`, native sort button и `aria-sort`; consumer владеет comparator и row ordering.
 - Ascending/Descending используют exact generated `arrow-up-sm` `700:14369` / `down-arrow-sm` `700:14384` в `16×16`, `currentColor`, Stroke/140 `1.4px`, без transforms. Header 48px/40px не имеет отличимого full-cell Hover/Active; сортировка и Context Action имеют focus ring `2px` с offset `4px`.
-- Resize Separator — внутренний 8px visual source: transparent 1px default line, одинаковая 2px focus-ring line для Hover/Resizing/Focus-visible. Его механика, а также M3+ filter/menu/row/pinning/pagination work, не входят в M2.
+- Resize Separator — внутренний 8px visual source: transparent 1px default line, одинаковая 2px focus-ring line для Hover/Resizing/Focus-visible. M2 не менял filters; их M3 contract ниже. Row/pinning/pagination work остаётся M4+.
+- M3 Filter Row `2530:5631`: 13 typed controlled filters принадлежат Widget pattern; operator и per-column Reset живут в header ContextMenu. Table задаёт external `48/40` geometry (`8/4` vertical inset вокруг 32px S control), Field/Select — внутренний `spacing-50` `8px` inset.
+- Filtering идёт AND-before-stable-sort и не сбрасывает M2 sort; Select/Date/DateRange overlays используют shared portal и не требуют изменения Table clipping/scroll. Keyboard focus controls — один `2px` ring с `4px` offset; pointer не добавляет wrapper ring.
 
 ## Ownership
 

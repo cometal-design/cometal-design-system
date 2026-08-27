@@ -19,13 +19,15 @@
 ## Контракт
 
 - Single date и period picker живут в одном модуле и одном визуальном контракте.
-- Edit/Read, размеры L/M, Closed/Open; Read + Open запрещён.
+- Edit/Read, размеры L/M/S, Closed/Open; Read + Open запрещён. `DateRangePicker` остаётся family-child alias, а не новой registry identity.
 - В React дата хранится как ISO `YYYY-MM-DD`, показывается как `ДД.ММ.ГГГГ`.
 - Диапазон хранится как `{ start: Date | null, end: Date | null }`; промежуточные дни рендерятся через canonical classes start / middle / end.
 - Table header filters переиспользуют `DateRangePicker`, а не создают отдельный локальный overlay.
 - Form contract Date Range: `name` создаёт одно hidden-поле со значением `YYYY-MM-DD/YYYY-MM-DD`; незавершённый период даёт пустую строку, disabled control исключается из submission.
 - Date range рисует `start / middle / end` как непрерывный 32px selected-track за сеткой 44×44px; начало и конец — отдельные полностью скруглённые 40×40px brand endpoints.
 - Figma владеет визуальной моделью; спецификация — правилами; React — поведением/API; Storybook — исполняемыми состояниями и проверками.
+- M3 sources: Date `1764:10502`, DateRange `2614:2723`, Date trigger `1754:84`, DateRange trigger `2612:2309`, calendar `1754:167`, range panel `2611:2115`; public S variants `3333:3842`, `3333:3873`, `3333:4068`, `3333:4075`, `3333:4106`, `3333:4308` reuse canonical sources.
+- Calendar/range uses shared body portal with existing `8px` gap and anchor-following placement; keyboard/programmatic focus has one FieldChrome `2px` / `4px` ring, pointer adds no duplicate trigger ring.
 
 ## Motion
 

@@ -32,7 +32,15 @@
 - `WidgetTableReviewExample` owns sort direction, comparator semantics and stable row ordering. A header requests only `none → ascending → descending → none`; `none` exposes the current consumer-owned filtered `orderedRows`, not an immutable module seed, so prior reorder or consumer edits remain intact.
 - `position`, `name`, `grade`, `unit`, `document` and `supplier` use `Intl.Collator('ru-RU', { numeric: true, sensitivity: 'base' })`; `quantity` and `price` use numeric subtraction; `sum` compares derived `quantity × price`; `delivery` parses accepted `DD.MM.YYYY` values as numeric `YYYYMMDD`; `status` and `control` use the same lexical `ru-RU` collation without invented domain ranking.
 - Sorting operates on the filtered copy of current `orderedRows`. Equal values retain that current order via `originalIndex`; direction inversion applies only to nonzero comparison results, so ties remain stable in both directions.
-- M2 changes no filter operator/reset/listbox behavior, row menu, Read/Edit cells, new pinning or resize behavior, pagination, totals, scroll window or Widget toolbar work; those remain M3+ pending.
+- M2 itself changed no filter operator/reset/listbox behavior. M3 fixes that bounded contract below; row menu, Read/Edit cells, pinning/resize mechanics, pagination, totals, scroll window and Widget toolbar remain M4+ pending.
+
+## M3 filter contract
+
+- `WidgetTablePattern` owns one exhaustive typed filter registry and controlled state for all 13 visible columns: `position`, `name`, `grade`, `quantity`, `unit`, `price`, `sum`, `delivery`, `document`, `file`, `status`, `control`, `supplier`. State survives filter-row hide/show and ordinary rerenders; each active-filter change or per-column Reset returns pagination to page 1 without mutating selection, density, pinning, widths or sort state.
+- Text operators are `contains`, `notContains`, `startsWith`, `empty`; Number: `equals`, `notEquals`, `greaterThan`, `lessThan`; Date: `equals`, `before`, `after`, `period`; Select: `equals`, `notEquals`, `selected`, `notSelected`. Unary operators ignore their control value; empty/invalid binary input is inactive. Date period is inclusive only for two valid ordered endpoints.
+- Active predicates compose with logical AND before the M2 stable sort. Sorting runs on filtered current `orderedRows`; ties preserve that current order through `originalIndex`, and a filter reset does not reset sorting.
+- Position reads only its position value. Text is normalized by trim plus `toLocaleLowerCase('ru-RU')`; numeric input accepts one decimal comma after stripping ordinary/NBSP/narrow-NBSP grouping separators; Delivery parses only `DD.MM.YYYY` to a calendar-day key; Sum remains derived `quantity × price`; Select options are finite deduplicated source-order values.
+- Read and Edit use the same filter predicates and controller. Header ContextMenu owns the nested operator level and Reset; shared Select/Date overlays portal outside the Table shell without changing Table scroll or clipping ownership.
 
 ## Exclusions
 

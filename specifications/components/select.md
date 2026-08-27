@@ -27,6 +27,8 @@ form-value и совместимость с HTML-формами.
 - Listbox растёт по количеству вариантов до максимальной высоты: до пяти options
   помещаются без пустого пространства, более длинный список прокручивается внутри.
 - Pointer-раскрытие не предвыбирает active option: hover-заливка появляется только после реального наведения. Keyboard active появляется после Arrow Up/Down.
+- M3 canonical sources: `Select Base` `1326:2405`, public Select `1103:535`, Listbox `1107:847`, Option `1100:141`. S trigger keeps the canonical `32px` height, existing `spacing-50` `8px` internal horizontal inset and shared `2px` / `4px` FieldChrome focus-visible geometry; pointer opening does not show that ring.
+- Open Listbox uses shared internal body-portal behavior with anchor-width matching, existing `6px` gap, viewport flip/shift within `8px` inset and position updates on anchor/surface resize and scroll. The portalled listbox remains inside outside-dismiss and ARIA interaction boundaries; Table shell/clipping is unchanged.
 
 ## Accessibility
 

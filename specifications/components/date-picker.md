@@ -19,13 +19,14 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 ## Визуальная модель
 
 - Режимы: `edit`, `read`.
-- Размеры: `l` — control 48px, `m` — control 40px.
+- Размеры: `l` — control 48px, `m` — control 40px, `s` — control 32px для DatePicker и DateRangePicker.
 - Раскрытие: `closed`, `open`; сочетание `read + open` запрещено.
 - Поле заполняет ширину родителя. Календарь имеет базовую ширину 364px, выравнивается по левому краю поля, располагается через 8px и не изменяет высоту layout.
 - Календарь: понедельник — первый день недели; день занимает 44×44px.
 - Состояния дня: default, hover, selected, today, outside, disabled; focus-visible независим.
 - Для периода используются canonical range states: `start`, `middle`, `end`. За датами проходит непрерывный track высотой 32px, перекрывающий горизонтальный gap 4px; endpoints — полностью скруглённые brand-поверхности 40×40px.
 - Стили, размеры, цвета, типографика, радиусы и stroke используют токены Cometal.
+- M3 canonical sources: Date trigger `1754:84`, DateRange trigger `2612:2309`, Calendar panel `1754:167`, Range panel `2611:2115`, public DatePicker `1764:10502`, public DateRangePicker `2614:2723`. Public S variants are Date `3333:3842` / `3333:3873` / `3333:4068` and DateRange `3333:4075` / `3333:4106` / `3333:4308`; they reuse canonical Field S and panels, with no detached/local master.
 
 ## React API
 
@@ -49,6 +50,8 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - `Arrow Left/Right/Up/Down` перемещают фокус на день/неделю; `Home/End` — начало/конец недели; `Page Up/Down` — месяц; `Shift + Page Up/Down` — год; `Enter/Space` выбирают день.
 - `read` выводит форматированное значение обычным текстом без input, button и tab-stop.
 - Disabled блокирует ручной ввод, раскрытие и выбор.
+- Open calendar/range panel uses shared internal body-portal behavior: Date/Range retain dialog, keyboard, outside-dismiss and focus-return contracts while the panel follows its anchor, flips/shifts within an `8px` viewport inset and is not clipped by a Table shell. Existing canonical panel gap remains `8px`.
+- FieldChrome remains the only wrapper focus owner: keyboard/programmatic focus has one `2px` ring with `4px` offset; pointer activation does not add a duplicate Date trigger ring.
 
 ## Motion
 
