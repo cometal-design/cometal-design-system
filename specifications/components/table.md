@@ -132,7 +132,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - [x] Все outline SVG используют Stroke/140 = 1.4px.
 - [x] Component/Table и Semantic color variables опубликованы в token source.
 - [x] Tooltip, Context Menu, Date Range filter, summary row, paginator и reorder handle переиспользуют общие primitives.
-- [ ] Unit и Storybook interaction checks пройдены на итоговом локальном SHA.
+- [x] Unit и Storybook interaction checks пройдены на exact released SHA `3823dc97de75eff3ab3a0a4635c8fb75e5d17080`.
 - [ ] Независимый Visual QA подтвердил полное совпадение с пятью canonical source nodes.
 - [x] Registry, specification, Storybook и knowledge base связаны стабильным ID.
 - [x] Read полностью исключает drag-column и не активирует `onRowReorder`; Edit сохраняет drag-column и reorder.
@@ -140,3 +140,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - [x] Controlled pinning синхронизирует header/filter/body/summary, использует фактические widths и DOM-порядок.
 - [x] Controlled resizing синхронизирует все этажи колонки и сохраняет keyboard/pointer contract независимо от pinning.
 - [ ] Frontend Lead acceptance подтверждён.
+
+## M9 production evidence
+
+`3823dc97de75eff3ab3a0a4635c8fb75e5d17080` is published through deployment `dpl_2iARNdGJ5vLZW7894BQWkLdNxPUy` at [the public portal](https://cometal-design-system-storybook.vercel.app/), [Table portal route](https://cometal-design-system-storybook.vercel.app/components/table/) and [Table Storybook overview](https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-table--overview). Role 60 records `RELEASED`; Role 40 records `PRODUCTION_VERIFIED` after exact metadata, two fresh Table overview sessions and public route/story checks. Registry test and accessibility evidence is updated for this exact release; `visualMatch` and `status` remain unchanged because this registry schema has no exact visual-matrix or `LIBRARY_READY_INTERNAL` evidence field.

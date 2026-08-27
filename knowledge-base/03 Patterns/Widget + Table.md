@@ -31,3 +31,7 @@
 ## Граница
 
 Widget может содержать не только Table. Table может использоваться без Widget. Их связка появляется только на уровне Pattern.
+
+## M9 production evidence
+
+The unregistered composition is published from exact SHA `3823dc97de75eff3ab3a0a4635c8fb75e5d17080`, deployment `dpl_2iARNdGJ5vLZW7894BQWkLdNxPUy`: [portal](https://cometal-design-system-storybook.vercel.app/patterns/widget-table/) and [Storybook](https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/patterns-widget-with-table--overview). Role 40 independently verified both production surfaces. Publication does not create `pattern.widget-table` or publish `@cometal/examples`.

@@ -51,6 +51,10 @@
 - Toolbar order is Density, Filters, Summary, Refresh, Download, then Edit-only Add. Each action uses shared Button/IconButton and an exact generated icon; toggles expose `aria-pressed`, while demo actions are bounded callbacks or explicitly disabled.
 - Widget + Table remains a documented unregistered composition. No `pattern.widget-table` registry record or schema change is created in this wave.
 
+## M9 production evidence
+
+The documented unregistered composition is live from exact SHA `3823dc97de75eff3ab3a0a4635c8fb75e5d17080`, deployment `dpl_2iARNdGJ5vLZW7894BQWkLdNxPUy`: [portal route](https://cometal-design-system-storybook.vercel.app/patterns/widget-table/) and [Storybook overview](https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/patterns-widget-with-table--overview). Role 40 verified the public route and direct story; this publication does not create a registry identity or an npm package publication.
+
 ## Exclusions
 
 - Widget does not receive Table-specific props or state machine.

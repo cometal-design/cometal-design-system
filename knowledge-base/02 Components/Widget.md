@@ -36,3 +36,7 @@ Registry ID `template.widget` оставлен временно, чтобы не
 `Widget`, `WidgetContent` и `WidgetToolbar` образуют публичную component family. `WidgetToolbarIcon` сохранён только как deprecated compatibility export: новые toolbar actions собираются из `Button`/`IconButton` и generated icons. `WidgetTablePattern` относится к слою Pattern и не является вариантом Widget.
 
 M8: `2702:2190` is Widget source context, `2702:2238` Main, `2702:3` Toolbar and `2702:21` Content slot. Generic Widget owns only shell and toolbar placement; the private source-only `@cometal/examples/widget-table` controller owns the 120-row demo and Table state outside the Widget API, registry identity and public package release.
+
+## M9 production evidence
+
+Exact released SHA `3823dc97de75eff3ab3a0a4635c8fb75e5d17080`, deployment `dpl_2iARNdGJ5vLZW7894BQWkLdNxPUy`: [Widget portal](https://cometal-design-system-storybook.vercel.app/components/widget/) and live Storybook ID `components-widget--overview`. The public Widget + Table runtime is independently production-verified. Registry test/accessibility evidence is updated; this does not turn the private examples boundary into a public package or create a pattern ID.

@@ -53,3 +53,7 @@
 ## Ownership
 
 Figma владеет визуальной моделью, составом ячеек и плотностями. Tokens владеют значениями. React владеет API, DOM и поведением. Storybook подтверждает состояния, плотность, доступность и computed styles.
+
+## M9 production evidence
+
+Exact released SHA `3823dc97de75eff3ab3a0a4635c8fb75e5d17080`, deployment `dpl_2iARNdGJ5vLZW7894BQWkLdNxPUy`: [Table portal](https://cometal-design-system-storybook.vercel.app/components/table/) and [Storybook overview](https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-table--overview). Role 40 independently verified exact public provenance and two fresh completed Table overview sessions. Registry test/accessibility evidence is now true for this release; visual match and status remain separately gated.

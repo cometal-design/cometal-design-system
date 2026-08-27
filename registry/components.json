@@ -60,8 +60,8 @@
       "checks": {
         "visualMatch": false,
         "specificationMatch": true,
-        "testsPassed": false,
-        "accessibilityPassed": false,
+        "testsPassed": true,
+        "accessibilityPassed": true,
         "knowledgeUpdated": true
       }
     },
@@ -258,8 +258,8 @@
       "checks": {
         "visualMatch": false,
         "specificationMatch": true,
-        "testsPassed": false,
-        "accessibilityPassed": false,
+        "testsPassed": true,
+        "accessibilityPassed": true,
         "knowledgeUpdated": true
       }
     }

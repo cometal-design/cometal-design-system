@@ -59,3 +59,7 @@ Widget is a generic named region that composes required title/content, optional 
 ## Evidence gate
 
 Unit and Storybook interaction checks must pass locally. `visualMatch` remains false until independent QA compares localhost/preview with all canonical Figma sources.
+
+## M9 production evidence
+
+Exact SHA `3823dc97de75eff3ab3a0a4635c8fb75e5d17080` is released as deployment `dpl_2iARNdGJ5vLZW7894BQWkLdNxPUy` at [the public portal](https://cometal-design-system-storybook.vercel.app/) and [Widget route](https://cometal-design-system-storybook.vercel.app/components/widget/). The public Storybook ID `components-widget--overview` is live. Role 40 production verification records the released provenance and Widget + Table runtime evidence; registry test/accessibility evidence is updated, while `visualMatch` and the in-review status remain unchanged pending their distinct contract evidence. This does not publish an npm package.
