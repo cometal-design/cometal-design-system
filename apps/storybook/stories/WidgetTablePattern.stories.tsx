@@ -170,6 +170,16 @@ export const Overview: Story = {
 
     const readNameText = readTable.querySelector<HTMLElement>('tbody tr[data-row-id] td[data-column-id="name"] [data-widget-table-overflow-text]')!;
     await waitFor(() => expect(readNameText).toHaveAttribute('data-overflowing', 'true'));
+    const readScrollRegion = readTable.closest<HTMLElement>('.cometal-table-scroll')!;
+    const readNameCell = readNameText.closest<HTMLTableCellElement>('td')!;
+    readScrollRegion.scrollTo({ left: readNameCell.offsetLeft, behavior: 'auto' });
+    await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+    await waitFor(() => {
+      const anchorRect = readNameText.getBoundingClientRect();
+      const scrollRect = readScrollRegion.getBoundingClientRect();
+      expect(anchorRect.left).toBeGreaterThanOrEqual(scrollRect.left);
+      expect(anchorRect.right).toBeLessThanOrEqual(scrollRect.right);
+    });
     await userEvent.hover(readNameText);
     const nameTooltip = await within(document.body).findByRole('tooltip');
     await expect(nameTooltip).toHaveTextContent('Лист горячекатаный г/к 10×1500×6000 мм ГОСТ 19903-2015');
@@ -200,7 +210,6 @@ export const Overview: Story = {
     fireEvent.pointerUp(readNameResizer, { pointerId: 6, clientX: 400 + minimumReadNameWidth - expandedReadNameWidth });
     await userEvent.click(within(readTable).getByRole('button', { name: 'Действия колонки Наименование' }));
     await userEvent.click(within(document.body).getByRole('menuitem', { name: 'Закрепить слева' }));
-    const readScrollRegion = readTable.closest<HTMLElement>('.cometal-table-scroll')!;
     readScrollRegion.scrollLeft = 800;
     fireEvent.scroll(readScrollRegion);
     await waitFor(() => expect(Math.round(readNameHeader.getBoundingClientRect().left)).toBe(Math.round(readScrollRegion.getBoundingClientRect().left)));
@@ -256,6 +265,24 @@ export const Overview: Story = {
     await expect(Math.round(nameHeader.getBoundingClientRect().left)).toBe(Math.round(positionHeader.getBoundingClientRect().right));
     await expect(gradeHeader.getBoundingClientRect().left).toBeLessThan(gradeBeforeScroll);
     const pinnedNameCell = editTable.querySelector<HTMLTableCellElement>('tbody tr[data-row-id] td[data-column-id="name"]')!;
+    if (pinnedNameCell.getBoundingClientRect().left + 16 >= scrollRegion.getBoundingClientRect().right) {
+      const minimumPositionWidth = Number(positionResizer.getAttribute('aria-valuemin'));
+      positionResizer.focus();
+      await userEvent.keyboard('{Home}');
+      await waitFor(() => expect(positionHeader).toHaveAttribute('data-column-width', String(minimumPositionWidth)));
+      await waitFor(() => expect(pinnedNameCell.getBoundingClientRect().left + 16).toBeLessThan(scrollRegion.getBoundingClientRect().right));
+    }
+    const pinnedNameCellBeforeScroll = pinnedNameCell.getBoundingClientRect();
+    window.scrollTo({
+      top: window.scrollY + pinnedNameCellBeforeScroll.top - (window.innerHeight - pinnedNameCellBeforeScroll.height) / 2,
+      behavior: 'auto',
+    });
+    await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+    await waitFor(() => {
+      const cellRect = pinnedNameCell.getBoundingClientRect();
+      expect(cellRect.top).toBeGreaterThanOrEqual(0);
+      expect(cellRect.bottom).toBeLessThanOrEqual(window.innerHeight);
+    });
     const pinnedNameCellRect = pinnedNameCell.getBoundingClientRect();
     const pinnedNameHitTarget = document.elementFromPoint(pinnedNameCellRect.left + 16, pinnedNameCellRect.top + pinnedNameCellRect.height / 2);
     await expect(pinnedNameHitTarget?.closest('td')?.dataset.columnId).toBe('name');
