@@ -38,7 +38,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - `editing` и `error` не применяются к Read Cell. `dragging` принадлежит служебному Drag Handle Cell, а не основной Read/Edit Cell.
 - `TableFileCell` хранит имя и размер файла в одном источнике; Compact скрывает только вторичную строку размера.
 - `TableSelectionHeader` и `TableSelectionCell` используют общий Checkbox.
-- `TableIndexCell`, `TableDragCell`, `TableDragHandle`, `TableContextAction`, `TableSummaryCell` и `TablePaginator` остаются композиционными кирпичиками.
+- `TableIndexCell`, `TableDragCell`, `TableDragHandle`, `TableContextAction`, `TableSummaryCell` и `TablePaginator` остаются композиционными кирпичиками. `TableSummaryCell.kind` is exactly `empty | label | value | index | selection | drag`; `index`, `selection` and `drag` are Table utility summary families, not consumer column-ID conventions.
 - `TableFileCell` использует один из девяти утверждённых file assets: word, excel, file, doc, sheets, adobe, zip, pdf, image.
 - `TableFileIcon` рендерит канонический inline SVG и передаёт ref как `SVGSVGElement`; при миграции с прежнего image API необходимо удалить `src`/`alt` и использовать `aria-label` только для смысловой standalone-иконки либо `aria-hidden` для декоративной.
 - Header actions переиспользуют `ContextMenu`; Table не владеет отдельным menu API.
@@ -95,7 +95,8 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - Reorder remains controlled and stable-ID based: pointer and keyboard share one before/after model and polite live announcement; cancel/lost capture does not mutate order. Post-drop confirmation uses the existing selected surface and motion foundations. TW-017 is closed for this written contract: the Table-private Drag Handle master is `2778:8288`, its visible export proxy is `2778:8292`, and `packages/react/src/Table/assets/drag-handle.svg` has SHA-256 `8f81f24ef877dc08ff635cb35c82f39204fdec88db95a4eb209a7498eb3a32b2`. It is not a general icon export.
 - Column visibility is consumer-owned by stable column ID and applies consistently to header/filter/body/summary; the last visible data column is protected. Pin IDs and width record remain controlled: Table normalizes active visible pins by DOM order, measures actual header widths for sticky offsets, rejects invalid widths and synchronizes all floors. Resize pointer updates are rAF-coalesced; Arrow uses 8px, Shift 32px and Home the current minimum.
 - Native `.cometal-table-scroll` is the labelled horizontal/vertical scroll owner. Table-internal custom scrollbar projections preserve native wheel/trackpad/touch/keyboard scrolling, their own ARIA/capture cleanup and safe corner; Pattern never owns them.
-- `maxVisibleBodyRows?: number` is the sole M4–M8 public delta. Undefined preserves standalone uncapped body; a finite positive integer caps visible data body rows only. Table owns scrollport max block size and sticky header/filter/summary calculations; it receives neither data, totals, page state nor persistence API.
+- `maxVisibleBodyRows?: number` is the sole new Table root prop in M4–M8. Undefined preserves standalone uncapped body; a finite positive integer caps visible data body rows only. Table owns scrollport max block size and sticky header/filter/summary calculations; it receives neither data, totals, page state nor persistence API.
+- `TableSummaryCell.kind="index" | "selection" | "drag"` renders empty summary content for that Table utility family: supplied children are not rendered. Table owns the utility identity, its `48px` / `40px` density-sized width, summary semantics and accessible structural ownership; the consumer retains only stable `columnId` alignment. `empty`, `label` and `value` retain their existing behavior.
 - `TablePaginator` remains controlled through page/pageCount/pageSize callbacks and composes shared Button/IconButton/Select. Table renders consumer-supplied summary values only. In the accepted shared controller: page sizes `10/15/20/30`, a nine-page window with non-interactive ellipsis, current-visible-page summary, and summary visibility independent from filter/sort/selection.
 
 ## Контент
@@ -114,6 +115,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - Sort button поддерживает pointer, Enter и Space; `aria-sort` описывает только текущее активное направление, а его доступное имя сообщает следующее действие в цикле `none → ascending → descending → none`.
 - Filter controls сохраняют собственную keyboard/ARIA семантику; keyboard/programmatic focus показывает один shared `2px` ring с offset `4px`, pointer activation wrapper ring не показывает.
 - Таблица без видимого caption получает `aria-label`.
+- Table owns the semantic and accessible structural treatment of childless utility headers and utility summary families; consumers do not inject private Table classes or decorative substitute content to establish that contract.
 - Error cells публикуют `aria-invalid`; disabled cells публикуют `aria-disabled`.
 - Встроенные Checkbox сохраняют нативную input-семантику и видимое либо скрытое доступное имя.
 - Reorder handle, paginator и header menu остаются клавиатурно достижимыми и не ломают табличный фокус-порядок.
