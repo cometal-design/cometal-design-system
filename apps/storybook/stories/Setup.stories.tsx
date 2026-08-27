@@ -119,8 +119,12 @@ export const ReleasesPage: Story = {
 
     const candidate = canvas.getByRole('heading', { name: /^v0\.3\.0/ }).closest('article');
     await expect(candidate).toHaveTextContent('27 августа 2026');
-    await expect(candidate).toHaveTextContent('Кандидат');
-    await expect(candidate).toHaveTextContent('production publication pending');
+    await expect(candidate).toHaveTextContent('Опубликован');
+    await expect(candidate).toHaveTextContent('RELEASED');
+    await expect(candidate).toHaveTextContent('PRODUCTION_VERIFIED');
+    await expect(candidate).toHaveTextContent('3823dc97de75eff3ab3a0a4635c8fb75e5d17080');
+    await expect(candidate).toHaveTextContent('dpl_2iARNdGJ5vLZW7894BQWkLdNxPUy');
+    await expect(candidate).toHaveTextContent('https://cometal-design-system-storybook.vercel.app/');
   },
   parameters: {
     controls: { disable: true },

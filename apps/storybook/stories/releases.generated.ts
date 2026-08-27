@@ -19,9 +19,9 @@ export type DesignSystemRelease = {
 export const releases: DesignSystemRelease[] = [
   {
     version: 'v0.3.0',
-    title: 'Table + Widget Candidate Synchronization',
-    description: '27 августа 2026 · Синхронизация источников Table + Widget с exact candidate a3b1b354f0a94e6951904db8e6b2e19b6549a939. Статус: candidate; production publication pending.',
-    status: 'Кандидат',
+    title: 'Table + Widget Production Release',
+    description: '27 августа 2026 · Table + Widget опубликованы и независимо проверены в production на exact SHA 3823dc97de75eff3ab3a0a4635c8fb75e5d17080. Статус: RELEASED · PRODUCTION_VERIFIED.',
+    status: 'Опубликован',
     sections: [
       { title: 'Foundation Sync', changes: [
         'Зафиксирован контракт из 627 Variables: 402 Primitive, 155 Semantic и 70 Component.',
@@ -38,19 +38,19 @@ export const releases: DesignSystemRelease[] = [
       { title: 'Component Match', changes: [
         'Синхронизированы canonical sources Table, Widget, Tooltip и Context Menu.',
         'Синхронизирована композиция паттерна Widget + Table.',
-        'Table Read/Edit, плотности 48/40, фильтры, resize, pinning, pagination и summary синхронизированы как candidate.',
-        'Exact candidate SHA a3b1b354f0a94e6951904db8e6b2e19b6549a939; запись относится только к delivery_candidate и не является production evidence.',
+        'Table Read/Edit, плотности 48/40, фильтры, resize, pinning, pagination и summary опубликованы в production.',
+        'Exact published SHA: 3823dc97de75eff3ab3a0a4635c8fb75e5d17080.',
       ] },
-      { title: 'Candidate delivery', changes: [
-        'Exact candidate SHA: a3b1b354f0a94e6951904db8e6b2e19b6549a939.',
-        'Production publication pending; публичные поверхности не являются evidence для этого candidate.',
-        'Эта release entry не заявляет CODE_APPROVED или QA_PASSED.',
-        'Deploy ID и production verification отложены до отдельного release и smoke.',
+      { title: 'Production release', changes: [
+        'GitHub main опубликован на exact SHA: 3823dc97de75eff3ab3a0a4635c8fb75e5d17080.',
+        'Публичные Storybook и portal: https://cometal-design-system-storybook.vercel.app/.',
+        'Вердикты: RELEASED; независимый PRODUCTION_VERIFIED.',
+        'Vercel deployment: dpl_2iARNdGJ5vLZW7894BQWkLdNxPUy.',
       ] },
       { title: 'Deferred', changes: [
         'Icons заблокированы до утверждения canonical SVG source и React API.',
         'Tabs остаётся Figma draft до утверждения slot/count-контракта.',
-        'Table + Widget больше не отложены: canonical sources синхронизированы с exact candidate.',
+        'Table + Widget не отложены: exact published SHA 3823dc97de75eff3ab3a0a4635c8fb75e5d17080 подтверждён в production.',
         'npm packages остаются private 0.0.0 до отдельного решения о versioning и registry.',
         'Компоненты остаются in-review до Frontend Lead review и продуктового пилота.',
       ] },
