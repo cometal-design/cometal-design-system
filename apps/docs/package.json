@@ -10,6 +10,7 @@
     "typecheck": "tsc --noEmit"
   },
   "dependencies": {
+    "@cometal/examples": "workspace:*",
     "@cometal/react": "workspace:*",
     "@cometal/tokens": "workspace:*",
     "@mdx-js/loader": "3.1.1",

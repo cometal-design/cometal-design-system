@@ -139,7 +139,7 @@ async function expectM1TableGeometry(table: HTMLTableElement, expectedFloor: 40 
   const body = table.querySelector<HTMLElement>('tbody tr[data-row-id]')!;
   const summary = table.querySelector<HTMLElement>('tbody tr:last-child')!;
   const utility = body.querySelector<HTMLElement>('.cometal-table__selection-cell')!;
-  const summaryUtility = summary.querySelector<HTMLElement>('.cometal-table__selection-cell')!;
+  const summaryUtility = summary.querySelector<HTMLElement>('[data-kind="selection"]')!;
   const filterControl = filter.querySelector<HTMLElement>('.cometal-field__control')!;
   await expect(header.getBoundingClientRect().height).toBe(expectedFloor);
   await expect(filter.getBoundingClientRect().height).toBe(expectedFloor);
@@ -235,7 +235,7 @@ function SourceTable({ density = 'comfortable', filters = true, ariaLabel = 'П�
           <TableCell columnId={sourceColumnIds.quantity} align="end">{row.quantity}</TableCell><TableCell columnId={sourceColumnIds.status}><Badge tone={row.tone}>{row.status}</Badge></TableCell>
           <TableFileCell columnId={sourceColumnIds.file} fileName={row.file} fileSize={row.size} fileType={row.type} />
         </TableRow>)}
-        <TableRow>{mode === 'edit' ? <TableSummaryCell columnId={sourceColumnIds.drag} className="cometal-table__drag-cell" kind="empty" /> : null}<TableSummaryCell columnId={sourceColumnIds.index} className="cometal-table__index-cell" kind="empty" /><TableSummaryCell columnId={sourceColumnIds.selection} className="cometal-table__selection-cell" kind="empty" /><TableSummaryCell columnId={sourceColumnIds.position} kind="empty" /><TableSummaryCell columnId={sourceColumnIds.name} kind="label">Итого</TableSummaryCell><TableSummaryCell columnId={sourceColumnIds.quantity} kind="value" align="end">504</TableSummaryCell><TableSummaryCell columnId={sourceColumnIds.status} kind="value">4 позиции</TableSummaryCell><TableSummaryCell columnId={sourceColumnIds.file} kind="value">4 файла</TableSummaryCell></TableRow>
+        <TableRow>{mode === 'edit' ? <TableSummaryCell columnId={sourceColumnIds.drag} kind="drag" /> : null}<TableSummaryCell columnId={sourceColumnIds.index} kind="index" /><TableSummaryCell columnId={sourceColumnIds.selection} kind="selection" /><TableSummaryCell columnId={sourceColumnIds.position} kind="empty" /><TableSummaryCell columnId={sourceColumnIds.name} kind="label">Итого</TableSummaryCell><TableSummaryCell columnId={sourceColumnIds.quantity} kind="value" align="end">504</TableSummaryCell><TableSummaryCell columnId={sourceColumnIds.status} kind="value">4 позиции</TableSummaryCell><TableSummaryCell columnId={sourceColumnIds.file} kind="value">4 файла</TableSummaryCell></TableRow>
       </TableBody>
     </Table>
   );
@@ -482,6 +482,25 @@ export const Overview: Story = {
     await waitFor(() => expect(confirmedRow).toHaveAttribute('data-drop-confirmation', 'fade'), { timeout: 1_000 });
     await expect(getComputedStyle(confirmedCell, '::before').transitionDuration).toBe('0.12s');
     await waitFor(() => expect(confirmedRow).not.toHaveAttribute('data-drop-confirmation'), { timeout: 1_000 });
+
+    const committedOrder = ['2', '3', '1', '4'];
+    const cancellationTarget = table.querySelector<HTMLTableRowElement>('tr[data-reorder-id="4"]');
+    if (!cancellationTarget) throw new Error('Expected pointer cancellation target');
+    const cancellationBounds = cancellationTarget.getBoundingClientRect();
+    fireEvent.pointerDown(dragHandle, { pointerId: 20, button: 0, clientX: cancellationBounds.left + 8, clientY: cancellationBounds.top - 8 });
+    fireEvent.pointerMove(scrollRegion, { pointerId: 20, clientX: cancellationBounds.left + 8, clientY: cancellationBounds.bottom - 2 });
+    await waitFor(() => expect(cancellationTarget).toHaveAttribute('data-drop-position', 'after'));
+    fireEvent.pointerCancel(scrollRegion, { pointerId: 20 });
+    await expect(Array.from(table.querySelectorAll('tbody tr[data-reorder-id]')).map((row) => row.getAttribute('data-reorder-id'))).toEqual(committedOrder);
+    await expect(table.querySelector('[data-row-dragging], [data-drop-position], [data-drop-confirmation]')).toBeNull();
+
+    fireEvent.pointerDown(dragHandle, { pointerId: 21, button: 0, clientX: cancellationBounds.left + 8, clientY: cancellationBounds.top - 8 });
+    fireEvent.pointerMove(scrollRegion, { pointerId: 21, clientX: cancellationBounds.left + 8, clientY: cancellationBounds.top + 2 });
+    await waitFor(() => expect(cancellationTarget).toHaveAttribute('data-drop-position', 'before'));
+    fireEvent.lostPointerCapture(scrollRegion, { pointerId: 21 });
+    await expect(Array.from(table.querySelectorAll('tbody tr[data-reorder-id]')).map((row) => row.getAttribute('data-reorder-id'))).toEqual(committedOrder);
+    await expect(table.querySelector('[data-row-dragging], [data-drop-position], [data-drop-confirmation]')).toBeNull();
+
     await expect(canvasElement.querySelectorAll('[data-cometal-icon]').length).toBeGreaterThan(0);
     await expect(canvasElement.querySelectorAll('.cometal-selection').length).toBeGreaterThan(0);
     await expectTableSurfaceTypography(canvasElement);

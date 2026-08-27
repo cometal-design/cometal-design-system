@@ -53,12 +53,46 @@ export const Overview: Story = {
     await expect(geometry.totalHeight).toBe(37);
     await expect(getComputedStyle(tooltip).padding).toBe('8px 12px');
     await expect(getComputedStyle(tooltip.querySelector<HTMLElement>('.cometal-tooltip__content')!).lineHeight).toBe('16px');
+
+    const triggerAnchor = trigger.closest<HTMLElement>('[data-cometal-tooltip-trigger]');
+    if (!triggerAnchor) throw new Error('Tooltip trigger anchor is missing');
+    const originalTriggerRect = triggerAnchor.getBoundingClientRect.bind(triggerAnchor);
+    const originalTooltipRect = tooltip.getBoundingClientRect.bind(tooltip);
+    let idleLayoutReads = 0;
+    triggerAnchor.getBoundingClientRect = () => {
+      idleLayoutReads += 1;
+      return originalTriggerRect();
+    };
+    tooltip.getBoundingClientRect = () => {
+      idleLayoutReads += 1;
+      return originalTooltipRect();
+    };
+    await new Promise((resolve) => setTimeout(resolve, 80));
+    idleLayoutReads = 0;
+    await new Promise((resolve) => setTimeout(resolve, 80));
+    await expect(idleLayoutReads).toBe(0);
+    window.dispatchEvent(new Event('scroll'));
+    await waitFor(() => expect(idleLayoutReads).toBeGreaterThan(0));
+    triggerAnchor.getBoundingClientRect = originalTriggerRect;
+    tooltip.getBoundingClientRect = originalTooltipRect;
+
     await userEvent.keyboard('{Escape}');
     await waitFor(() => expect(within(document.body).queryByRole('tooltip')).not.toBeInTheDocument());
     await userEvent.unhover(trigger);
+
+    await userEvent.hover(trigger);
+    trigger.focus();
+    await userEvent.unhover(trigger);
+    await expect(within(document.body).getByRole('tooltip')).toBeVisible();
+    trigger.blur();
+    await waitFor(() => expect(within(document.body).queryByRole('tooltip')).not.toBeInTheDocument());
+
     trigger.focus();
     await waitFor(() => expect(within(document.body).getByRole('tooltip')).toBeVisible());
+    await userEvent.hover(trigger);
     trigger.blur();
+    await expect(within(document.body).getByRole('tooltip')).toBeVisible();
+    await userEvent.unhover(trigger);
     await waitFor(() => expect(within(document.body).queryByRole('tooltip')).not.toBeInTheDocument());
   },
 };

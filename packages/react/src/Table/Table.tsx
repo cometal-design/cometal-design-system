@@ -77,6 +77,7 @@ interface TableReorderContextValue {
   startPointerDrag: (rowId: string, rowLabel: string) => void;
   movePointerDrag: (event: ReactPointerEvent<HTMLElement>) => void;
   endPointerDrag: () => void;
+  cancelPointerDrag: () => void;
   handleKeyboard: (event: ReactKeyboardEvent<HTMLButtonElement>, rowId: string, rowLabel: string) => void;
 }
 
@@ -607,6 +608,12 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
         setAnnouncement(`Строка ${activeId} перемещена ${position === 'before' ? 'перед' : 'после'} строки ${overId}.`);
         resetReorder();
       },
+      cancelPointerDrag() {
+        if (interaction !== 'pointer') return;
+        clearDropConfirmation();
+        setAnnouncement('Перемещение строки отменено.');
+        resetReorder();
+      },
       handleKeyboard(event, rowId, rowLabel) {
         if (event.key === ' ' || event.key === 'Space' || event.key === 'Spacebar' || event.key === 'Enter') {
           event.preventDefault();
@@ -718,13 +725,10 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
         }}
         onPointerMove={(event) => reorderContext?.movePointerDrag(event)}
         onPointerUp={(event) => {
-          if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
           reorderContext?.endPointerDrag();
         }}
-        onPointerCancel={(event) => {
-          if (event.currentTarget.hasPointerCapture(event.pointerId)) event.currentTarget.releasePointerCapture(event.pointerId);
-          reorderContext?.endPointerDrag();
-        }}
+        onPointerCancel={() => reorderContext?.cancelPointerDrag()}
+        onLostPointerCapture={() => reorderContext?.cancelPointerDrag()}
       >
         <table
           {...tableProps}
@@ -1018,7 +1022,7 @@ function TableColumnResizeHandle({ columnId, label, headerRef }: TableColumnResi
 
 export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellProps>(
   function TableHeaderCell(
-    { sort = 'none', onSortChange, action, kind = 'default', columnId, resizable = true, children, className, scope = 'col', style, ...props },
+    { sort = 'none', onSortChange, action, kind = 'default', columnId, resizable = true, children, className, scope = 'col', style, 'aria-label': ariaLabel, ...props },
     ref,
   ) {
     const mode = useContext(TableModeContext);
@@ -1027,17 +1031,30 @@ export const TableHeaderCell = forwardRef<HTMLTableCellElement, TableHeaderCellP
     const columnLayout = useTableColumnLayout(columnId, style);
     if (kind === 'drag' && mode === 'read') return null;
     const label = typeof children === 'string' ? children : 'колонку';
+    const utilityHeaderFallback = kind === 'drag'
+      ? 'Перемещение строк'
+      : kind === 'index'
+        ? 'Номер строки'
+        : kind === 'selection'
+          ? 'Выбор строк'
+          : null;
+    const hiddenUtilityLabel = children == null && utilityHeaderFallback
+      ? (typeof ariaLabel === 'string' && ariaLabel.trim() ? ariaLabel : utilityHeaderFallback)
+      : null;
     const nextSort = getNextTableSortDirection(sort);
     const content = (
       <>
         {sort === 'ascending' ? <ArrowUpSmallIcon className="cometal-table__asset-icon cometal-table__sort-icon" width={16} height={16} /> : null}
         {sort === 'descending' ? <ArrowDownSmallIcon className="cometal-table__asset-icon cometal-table__sort-icon" width={16} height={16} /> : null}
-        <span className="cometal-table__header-label">{children}</span>
+        <span className="cometal-table__header-label">
+          {children}
+          {hiddenUtilityLabel ? <span className="cometal-table__visually-hidden">{hiddenUtilityLabel}</span> : null}
+        </span>
       </>
     );
 
     return (
-      <th {...props} {...columnLayout} ref={(node) => { headerRef.current = node; if (typeof ref === 'function') ref(node); else if (ref) ref.current = node; }} scope={scope} aria-sort={sort === 'none' ? undefined : sort} className={['cometal-table__header-cell', className].filter(Boolean).join(' ')} data-kind={kind} data-sort={sort} data-column-resizable={kind === 'default' && columnId && resizable && sizing?.canChange || undefined}>
+      <th {...props} {...columnLayout} ref={(node) => { headerRef.current = node; if (typeof ref === 'function') ref(node); else if (ref) ref.current = node; }} scope={scope} aria-label={ariaLabel} aria-sort={sort === 'none' ? undefined : sort} className={['cometal-table__header-cell', className].filter(Boolean).join(' ')} data-kind={kind} data-sort={sort} data-column-resizable={kind === 'default' && columnId && resizable && sizing?.canChange || undefined}>
         <div className="cometal-table__header-main">
           {onSortChange ? (
             <button className="cometal-table__sort-button" type="button" onClick={() => onSortChange(nextSort)} aria-label={`Сортировать ${label}: ${nextSort === 'ascending' ? 'по возрастанию' : nextSort === 'descending' ? 'по убыванию' : 'отключить сортировку'}`}>
@@ -1354,12 +1371,14 @@ export function FileIcon() {
 }
 
 export interface TableSummaryCellProps extends TableCellProps {
-  kind?: 'empty' | 'label' | 'value';
+  kind?: 'empty' | 'label' | 'value' | 'index' | 'selection' | 'drag';
 }
 
 export const TableSummaryCell = forwardRef<HTMLTableCellElement, TableSummaryCellProps>(
   function TableSummaryCell({ kind = 'value', className, children, ...props }, ref) {
-    return <TableCell {...props} ref={ref} className={['cometal-table__summary-cell', className].filter(Boolean).join(' ')} data-summary-kind={kind}>{kind === 'empty' ? null : children}</TableCell>;
+    const utilityKind = kind === 'index' || kind === 'selection' || kind === 'drag' ? kind : undefined;
+    const summaryKind = utilityKind ? 'empty' : kind;
+    return <TableCell {...props} ref={ref} className={['cometal-table__summary-cell', className].filter(Boolean).join(' ')} data-kind={utilityKind} data-summary-kind={summaryKind}>{summaryKind === 'empty' ? null : children}</TableCell>;
   },
 );
 

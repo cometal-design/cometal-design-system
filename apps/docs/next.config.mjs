@@ -8,7 +8,7 @@ const config = {
   trailingSlash: true,
   pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
   images: { unoptimized: true },
-  transpilePackages: ['@cometal/react', '@cometal/tokens'],
+  transpilePackages: ['@cometal/examples', '@cometal/react', '@cometal/tokens'],
 };
 
 export default withMDX(config);

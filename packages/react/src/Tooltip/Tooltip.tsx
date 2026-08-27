@@ -154,6 +154,8 @@ export const Tooltip = forwardRef<HTMLSpanElement, TooltipProps>(function Toolti
   const wrapperRef = useRef<HTMLSpanElement | null>(null);
   const triggerRef = useRef<HTMLSpanElement | null>(null);
   const panelRef = useRef<HTMLSpanElement | null>(null);
+  const hoverOwnedRef = useRef(false);
+  const focusOwnedRef = useRef(false);
   const [openState, setOpen] = useControllableOpen(open, defaultOpen, onOpenChange);
   const [position, setPosition] = useState<TooltipPosition>({
     top: -9999,
@@ -201,7 +203,6 @@ export const Tooltip = forwardRef<HTMLSpanElement, TooltipProps>(function Toolti
         next = { ...clampPosition(coordinates.top, coordinates.left, panelRect.width, panelRect.height, viewportInset, ownerWindow), placement };
       }
       setPosition((current) => current.top === next.top && current.left === next.left && current.placement === next.placement ? current : next);
-      frame = requestAnimationFrame(updatePosition);
     };
     const schedulePosition = () => {
       if (!frame) frame = requestAnimationFrame(updatePosition);
@@ -213,7 +214,7 @@ export const Tooltip = forwardRef<HTMLSpanElement, TooltipProps>(function Toolti
     ownerWindow.addEventListener('scroll', schedulePosition, true);
     visualViewport?.addEventListener('resize', schedulePosition);
     visualViewport?.addEventListener('scroll', schedulePosition);
-    updatePosition();
+    schedulePosition();
     return () => {
       if (frame) cancelAnimationFrame(frame);
       observer?.disconnect();
@@ -259,12 +260,22 @@ export const Tooltip = forwardRef<HTMLSpanElement, TooltipProps>(function Toolti
         else if (ref) ref.current = node;
       }}
       className={['cometal-tooltip', className].filter(Boolean).join(' ')}
-      onMouseEnter={() => setOpen(true)}
-      onMouseLeave={() => setOpen(false)}
-      onFocus={() => setOpen(true)}
+      onMouseEnter={() => {
+        hoverOwnedRef.current = true;
+        setOpen(true);
+      }}
+      onMouseLeave={() => {
+        hoverOwnedRef.current = false;
+        if (!focusOwnedRef.current) setOpen(false);
+      }}
+      onFocus={() => {
+        focusOwnedRef.current = true;
+        setOpen(true);
+      }}
       onBlur={(event) => {
         if (event.currentTarget.contains(event.relatedTarget as Node | null)) return;
-        setOpen(false);
+        focusOwnedRef.current = false;
+        if (!hoverOwnedRef.current) setOpen(false);
       }}
     >
       <span className="cometal-tooltip__trigger" data-cometal-tooltip-trigger>

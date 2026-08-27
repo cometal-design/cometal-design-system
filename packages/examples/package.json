@@ -1,0 +1,32 @@
+{
+  "name": "@cometal/examples",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "sideEffects": false,
+  "exports": {
+    "./widget-table": {
+      "types": "./src/widget-table/index.ts",
+      "import": "./src/widget-table/index.ts"
+    }
+  },
+  "scripts": {
+    "test": "vitest run src/widget-table/widget-table-controller.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@cometal/react": "workspace:*"
+  },
+  "peerDependencies": {
+    "react": ">=18 <20",
+    "react-dom": ">=18 <20"
+  },
+  "devDependencies": {
+    "@types/react": "19.2.17",
+    "@types/react-dom": "19.2.3",
+    "react": "19.2.8",
+    "react-dom": "19.2.8",
+    "typescript": "6.0.3",
+    "vitest": "4.1.10"
+  }
+}

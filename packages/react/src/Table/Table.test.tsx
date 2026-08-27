@@ -137,6 +137,54 @@ describe('Table', () => {
     expect(html).toContain('data-summary-kind="empty"');
   });
 
+  it('keeps utility summary identity Table-owned and suppresses accidental children', () => {
+    const html = renderToStaticMarkup(
+      <Table aria-label="Итоги">
+        <TableBody>
+          <TableRow>
+            <TableSummaryCell kind="drag">Не показывать drag</TableSummaryCell>
+            <TableSummaryCell kind="index">Не показывать index</TableSummaryCell>
+            <TableSummaryCell kind="selection">Не показывать selection</TableSummaryCell>
+            <TableSummaryCell kind="empty">Не показывать empty</TableSummaryCell>
+            <TableSummaryCell kind="label">Итого</TableSummaryCell>
+            <TableSummaryCell kind="value">12</TableSummaryCell>
+          </TableRow>
+        </TableBody>
+      </Table>,
+    );
+
+    expect(html).toContain('data-kind="drag" data-summary-kind="empty"');
+    expect(html).toContain('data-kind="index" data-summary-kind="empty"');
+    expect(html).toContain('data-kind="selection" data-summary-kind="empty"');
+    expect(html).toContain('data-summary-kind="empty"');
+    expect(html).toContain('data-summary-kind="label"');
+    expect(html).toContain('data-summary-kind="value"');
+    expect(html).not.toContain('Не показывать');
+    expect(html).toContain('Итого');
+    expect(html).toContain('12');
+  });
+
+  it('renders structural text for empty utility headers without duplicating visible labels', () => {
+    const html = renderToStaticMarkup(
+      <Table mode="edit" aria-label="Заголовки">
+        <TableHead>
+          <TableRow>
+            <TableHeaderCell kind="drag" aria-label="Перемещение" />
+            <TableHeaderCell kind="index" />
+            <TableHeaderCell kind="selection">Выбрать</TableHeaderCell>
+          </TableRow>
+        </TableHead>
+      </Table>,
+    );
+
+    expect(html).toContain('data-kind="drag"');
+    expect(html).toContain('aria-label="Перемещение"');
+    expect(html).toContain('<span class="cometal-table__visually-hidden">Перемещение</span>');
+    expect(html).toContain('<span class="cometal-table__visually-hidden">Номер строки</span>');
+    expect(html).toContain('<span class="cometal-table__header-label">Выбрать</span>');
+    expect(html).not.toContain('Выбор строк');
+  });
+
   it('publishes the controlled row-reorder contract only when enabled', () => {
     const html = renderToStaticMarkup(
       <Table mode="edit" aria-label="Порядок позиций" onRowReorder={() => undefined}>

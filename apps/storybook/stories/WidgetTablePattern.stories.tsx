@@ -1,7 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, fireEvent, userEvent, waitFor, within } from 'storybook/test';
 import { WidgetTablePattern } from '@cometal/react';
-import { WidgetTableReviewExample } from '../../shared/widget-table/WidgetTableReviewExample';
+import { WidgetTableReviewExample } from '@cometal/examples/widget-table';
 import { definition as refreshIconDefinition } from '@cometal/react/icons/outline/arrows/arrow-refresh-01';
 import { definition as downloadIconDefinition } from '@cometal/react/icons/outline/general/download-01';
 import { definition as filterIconDefinition } from '@cometal/react/icons/outline/general/filter';
@@ -46,17 +46,20 @@ async function expectM1Floors(table: HTMLElement, expectedFloor: 40 | 48) {
   const filter = table.querySelector<HTMLElement>('.cometal-table__filter-row')!;
   const body = table.querySelector<HTMLElement>('tbody tr[data-row-id]')!;
   const summary = table.querySelector<HTMLElement>('tbody tr:last-child')!;
-  const utility = body.querySelector<HTMLElement>('.cometal-table__selection-cell')!;
-  const summaryUtility = summary.querySelector<HTMLElement>('.cometal-table__selection-cell')!;
   const filterControl = filter.querySelector<HTMLElement>('.cometal-field__control')!;
   await expect(header.getBoundingClientRect().height).toBe(expectedFloor);
   await expect(filter.getBoundingClientRect().height).toBe(expectedFloor);
   await expect(body.getBoundingClientRect().height).toBe(expectedFloor);
   await expect(summary.getBoundingClientRect().height + shellBottom).toBe(expectedFloor);
-  await expect(utility.getBoundingClientRect().width).toBe(expectedFloor);
-  await expect(utility.getBoundingClientRect().height).toBe(expectedFloor);
-  await expect(summaryUtility.getBoundingClientRect().width).toBe(expectedFloor);
-  await expect(summaryUtility.getBoundingClientRect().height + shellBottom).toBe(expectedFloor);
+  const utilityColumnIds = table.getAttribute('data-mode') === 'edit' ? ['drag', 'index', 'selection'] : ['index', 'selection'];
+  for (const columnId of utilityColumnIds) {
+    const utility = body.querySelector<HTMLElement>(`[data-column-id="${columnId}"]`)!;
+    const summaryUtility = summary.querySelector<HTMLElement>(`[data-column-id="${columnId}"]`)!;
+    await expect(utility.getBoundingClientRect().width).toBe(expectedFloor);
+    await expect(utility.getBoundingClientRect().height).toBe(expectedFloor);
+    await expect(summaryUtility.getBoundingClientRect().width).toBe(expectedFloor);
+    await expect(summaryUtility.getBoundingClientRect().height + shellBottom).toBe(expectedFloor);
+  }
   await expect(filterControl.getBoundingClientRect().height).toBe(32);
 }
 
@@ -176,9 +179,11 @@ export const Overview: Story = {
     await expect(getComputedStyle(nameTooltipContent).whiteSpace).toBe('normal');
     await expect(nameTooltipContent.scrollWidth).toBeLessThanOrEqual(nameTooltipContent.clientWidth);
     const readNameRect = readNameText.getBoundingClientRect();
-    const nameTooltipRect = nameTooltip.getBoundingClientRect();
-    await expect(Math.abs(nameTooltipRect.left - readNameRect.left)).toBeLessThan(1);
-    await expect(nameTooltipRect.bottom).toBeLessThanOrEqual(readNameRect.top - 9);
+    await waitFor(() => {
+      const nameTooltipRect = nameTooltip.getBoundingClientRect();
+      expect(Math.abs(nameTooltipRect.left - readNameRect.left)).toBeLessThan(1);
+      expect(nameTooltipRect.bottom).toBeLessThanOrEqual(readNameRect.top - 9);
+    });
     await userEvent.unhover(readNameText);
     await waitFor(() => expect(within(document.body).queryByRole('tooltip')).not.toBeInTheDocument());
 

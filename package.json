@@ -23,7 +23,7 @@
     "dev:storybook": "pnpm build:tokens && pnpm build:react && pnpm --filter @cometal/storybook dev",
     "test": "pnpm test:unit && pnpm test:provenance && pnpm test:storybook",
     "test:provenance": "node --test ./scripts/build-provenance.test.mjs",
-    "test:unit": "pnpm --filter @cometal/react test",
+    "test:unit": "pnpm --filter @cometal/react test && pnpm --filter @cometal/examples test",
     "test:storybook": "pnpm --filter @cometal/storybook test",
     "typecheck": "pnpm -r typecheck",
     "validate:sources": "node ./scripts/validate-sources.mjs",

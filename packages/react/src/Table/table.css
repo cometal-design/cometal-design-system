@@ -324,6 +324,9 @@
 .cometal-table__filter-cell[data-kind='index'],
 .cometal-table__filter-cell[data-kind='selection'],
 .cometal-table__filter-cell[data-kind='drag'],
+.cometal-table__summary-cell[data-kind='index'],
+.cometal-table__summary-cell[data-kind='selection'],
+.cometal-table__summary-cell[data-kind='drag'],
 .cometal-table__index-cell,
 .cometal-table__drag-cell,
 .cometal-table__selection-cell {

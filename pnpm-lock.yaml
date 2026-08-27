@@ -10,6 +10,9 @@ importers:
 
   apps/docs:
     dependencies:
+      '@cometal/examples':
+        specifier: workspace:*
+        version: link:../../packages/examples
       '@cometal/react':
         specifier: workspace:*
         version: link:../../packages/react
@@ -53,6 +56,9 @@ importers:
 
   apps/storybook:
     dependencies:
+      '@cometal/examples':
+        specifier: workspace:*
+        version: link:../../packages/examples
       '@cometal/react':
         specifier: workspace:*
         version: link:../../packages/react
@@ -105,6 +111,31 @@ importers:
       vite:
         specifier: 8.1.5
         version: 8.1.5(@types/node@26.1.1)(esbuild@0.28.1)
+      vitest:
+        specifier: 4.1.10
+        version: 4.1.10(@types/node@26.1.1)(@vitest/browser-playwright@4.1.10)(vite@8.1.5(@types/node@26.1.1)(esbuild@0.28.1))
+
+  packages/examples:
+    dependencies:
+      '@cometal/react':
+        specifier: workspace:*
+        version: link:../react
+    devDependencies:
+      '@types/react':
+        specifier: 19.2.17
+        version: 19.2.17
+      '@types/react-dom':
+        specifier: 19.2.3
+        version: 19.2.3(@types/react@19.2.17)
+      react:
+        specifier: 19.2.8
+        version: 19.2.8
+      react-dom:
+        specifier: 19.2.8
+        version: 19.2.8(react@19.2.8)
+      typescript:
+        specifier: 6.0.3
+        version: 6.0.3
       vitest:
         specifier: 4.1.10
         version: 4.1.10(@types/node@26.1.1)(@vitest/browser-playwright@4.1.10)(vite@8.1.5(@types/node@26.1.1)(esbuild@0.28.1))
