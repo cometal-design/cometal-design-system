@@ -294,6 +294,27 @@ export const Overview: Story = {
     await waitFor(() => expect(editableCell).toHaveAttribute('data-state', 'default'));
     await expect(editableCell).toHaveTextContent(committedDraft);
 
+    const invalidQuantityCell = editTable.querySelector<HTMLElement>('tbody tr[data-row-id] td[data-column-id="quantity"]')!;
+    const committedQuantity = invalidQuantityCell.textContent?.trim() ?? '';
+    const invalidQuantityDraft = 'не число';
+    await userEvent.click(invalidQuantityCell);
+    await expect(invalidQuantityCell).toHaveAttribute('data-state', 'editing');
+    await expect(invalidQuantityCell).toHaveFocus();
+    await userEvent.clear(invalidQuantityCell);
+    await userEvent.type(invalidQuantityCell, invalidQuantityDraft);
+    await expect(invalidQuantityCell).toHaveTextContent(invalidQuantityDraft);
+    await userEvent.tab();
+    await waitFor(() => expect(invalidQuantityCell).toHaveAttribute('data-state', 'error'));
+    await expect(invalidQuantityCell).toHaveAttribute('aria-invalid', 'true');
+    await expect(invalidQuantityCell).toHaveTextContent(invalidQuantityDraft);
+
+    await userEvent.click(invalidQuantityCell);
+    await expect(invalidQuantityCell).toHaveAttribute('data-state', 'editing');
+    await userEvent.keyboard('{Escape}');
+    await waitFor(() => expect(invalidQuantityCell).toHaveAttribute('data-state', 'default'));
+    await expect(invalidQuantityCell).not.toHaveAttribute('aria-invalid');
+    await expect(invalidQuantityCell).toHaveTextContent(committedQuantity);
+
     const readNameWidthBeforeDensity = readNameHeader.getBoundingClientRect().width;
     const densityToggle = within(readToolbar!).getByRole('button', { name: 'Включить компактную плотность' });
     await expect(densityToggle).toHaveAttribute('aria-pressed', 'false');
