@@ -180,6 +180,11 @@ export const OpenCalendar: Story = {
     await expect(getComputedStyle(panel!).position).toBe('fixed');
     await expect(panel?.getBoundingClientRect().width).toBe(expectedPanelWidth);
     const panelRect = panel!.getBoundingClientRect();
+    if (viewportWidth === 320) {
+      await expect(panelRect.left).toBeGreaterThanOrEqual(8);
+      await expect(panelRect.right).toBeLessThanOrEqual(viewportWidth - 8);
+      await expect(panelRect.width).toBe(viewportWidth - 16);
+    }
     await expect(canvasElement.ownerDocument.elementFromPoint(panelRect.left + 16, panelRect.top + 16)?.closest('[role="dialog"]')).toBe(panel);
     await expect(firstCell?.getBoundingClientRect().width).toBe(44);
     await expect(selectedDay?.getBoundingClientRect().width).toBe(40);
@@ -228,6 +233,13 @@ export const DateRangeOpen: Story = {
     const middleDays = canvasElement.ownerDocument.body.querySelectorAll('[data-range-middle="true"]');
     await expect(middleDays.length).toBeGreaterThan(0);
     const panel = canvasElement.ownerDocument.body.querySelector<HTMLElement>('.cometal-date-picker__panel');
+    const viewportWidth = canvasElement.ownerDocument.defaultView?.innerWidth ?? 364;
+    const panelRect = panel!.getBoundingClientRect();
+    if (viewportWidth === 320) {
+      await expect(panelRect.left).toBeGreaterThanOrEqual(8);
+      await expect(panelRect.right).toBeLessThanOrEqual(viewportWidth - 8);
+      await expect(panelRect.width).toBe(viewportWidth - 16);
+    }
     const start = panel!.querySelector<HTMLElement>('[role="gridcell"][data-range-start="true"]')!;
     const middle = panel!.querySelector<HTMLElement>('[role="gridcell"][data-range-middle="true"]')!;
     const end = panel!.querySelector<HTMLElement>('[role="gridcell"][data-range-end="true"]')!;
@@ -347,7 +359,7 @@ export const PointerMotion: Story = {
     const canvas = within(canvasElement);
     const body = within(canvasElement.ownerDocument.body);
     await userEvent.click(canvas.getByRole('button', { name: 'Открыть календарь' }));
-    const panel = body.getByRole('dialog', { name: 'Июль 2026' });
+    const panel = await body.findByRole('dialog', { name: 'Июль 2026' });
     const motion = getComputedStyle(panel);
     const reducedMotion = canvasElement.ownerDocument.defaultView?.matchMedia('(prefers-reduced-motion: reduce)').matches;
     if (reducedMotion) {
