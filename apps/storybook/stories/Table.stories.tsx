@@ -406,7 +406,7 @@ export const Overview: Story = {
     const contextIcon = contextAction.querySelector('svg');
     const contextGlyphs = Array.from(contextAction.querySelectorAll('path'));
     const dragHandle = tableCanvas.getByRole('button', { name: 'Переместить строку POS-00127' });
-    const dragIcon = dragHandle.querySelector('svg');
+    const dragIcon = dragHandle.querySelector<HTMLElement>('[data-cometal-table-icon="drag-handle"]');
     await expect(contextAction.getBoundingClientRect().width).toBe(24);
     await expect(contextAction.getBoundingClientRect().height).toBe(24);
     await expect(contextIcon?.getBoundingClientRect().width).toBe(16);
@@ -416,7 +416,8 @@ export const Overview: Story = {
     await expect(Math.round(((lastDot?.right ?? 0) - (firstDot?.left ?? 0)) * 1000) / 1000).toBe(12.667);
     await expect(Math.round((firstDot?.height ?? 0) * 1000) / 1000).toBe(3.333);
     await expect(dragIcon).toHaveAttribute('data-cometal-table-icon', 'drag-handle');
-    await expect(dragIcon?.querySelector('path')).toHaveAttribute('d', 'M6 9H18M6 15H18');
+    await expect(dragIcon?.querySelector('svg, path, line')).toBeNull();
+    await expect(getComputedStyle(dragIcon!).maskImage).not.toBe('none');
     const filterAction = tableCanvas.getByRole('button', { name: 'Параметры фильтра: Позиция' });
     await expect(filterAction.getBoundingClientRect().width).toBe(24);
     await expect(filterAction.getBoundingClientRect().height).toBe(24);
@@ -512,6 +513,27 @@ export const Cells: Story = {
     for (const handle of dragHandles) {
       await expect(handle).toHaveAttribute('aria-label');
       await expect(handle.textContent).toBe('');
+    }
+    const colorProbe = document.createElement('span');
+    colorProbe.style.color = 'var(--cometal-component-table-header-icon-context-action)';
+    canvasElement.append(colorProbe);
+    const expectedDefaultColor = getComputedStyle(colorProbe).color;
+    colorProbe.style.color = 'var(--cometal-component-table-icon-selected)';
+    const expectedDraggingColor = getComputedStyle(colorProbe).color;
+    colorProbe.remove();
+    for (const density of ['comfortable', 'compact'] as const) {
+      const table = canvasElement.querySelector<HTMLTableElement>(`table[aria-label="Drag Handle Cell · ${density}"]`)!;
+      const defaultHandle = within(table).getByRole('button', { name: 'Переместить строку default' });
+      const draggingHandle = within(table).getByRole('button', { name: 'Переместить строку dragging' });
+      for (const handle of [defaultHandle, draggingHandle]) {
+        const marker = handle.querySelector<HTMLElement>('[data-cometal-table-icon="drag-handle"]')!;
+        await expect(marker.getBoundingClientRect().width).toBe(24);
+        await expect(marker.getBoundingClientRect().height).toBe(24);
+        await expect(getComputedStyle(marker).maskImage).not.toBe('none');
+        await expect(marker.querySelector('svg, path, line')).toBeNull();
+      }
+      await expect(getComputedStyle(defaultHandle).color).toBe(expectedDefaultColor);
+      await expect(getComputedStyle(draggingHandle).color).toBe(expectedDraggingColor);
     }
   },
 };

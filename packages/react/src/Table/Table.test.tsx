@@ -1,3 +1,5 @@
+import { createHash } from 'node:crypto';
+import { readFileSync } from 'node:fs';
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import {
@@ -27,6 +29,16 @@ import {
 import { ContextMenuItem } from '../ContextMenu/ContextMenu';
 
 describe('Table', () => {
+  it('binds the Table-local drag marker to the exact Figma 2778:8288 export proxy 2778:8292', () => {
+    const asset = readFileSync(new URL('./assets/drag-handle.svg', import.meta.url));
+    const source = asset.toString('utf8');
+
+    expect(createHash('sha256').update(asset).digest('hex')).toBe('8f81f24ef877dc08ff635cb35c82f39204fdec88db95a4eb209a7498eb3a32b2');
+    expect(source).toContain('<line x1="6.7" y1="8.3" x2="17.3" y2="8.3"');
+    expect(source).toContain('<line x1="6.7" y1="14.3" x2="17.3" y2="14.3"');
+    expect(source).not.toContain('M6 9H18M6 15H18');
+  });
+
   it('keeps file content and the exact icon swap in the DOM across densities', () => {
     const renderFile = (density: 'comfortable' | 'compact') => renderToStaticMarkup(
       <Table density={density} aria-label="Документы">
@@ -120,8 +132,8 @@ describe('Table', () => {
     expect(html).toContain('Переместить строку 1');
     expect(html).toContain('cometal-table__selection-cell');
     expect(html).toContain('data-cometal-table-icon="drag-handle"');
-    expect(html).toContain('d="M6 9H18M6 15H18"');
-    expect(html).toContain('stroke-width="1.4"');
+    expect(html).toContain('<span class="cometal-table__asset-icon cometal-table__drag-icon" data-cometal-table-icon="drag-handle" aria-hidden="true"></span>');
+    expect(html).not.toContain('M6 9H18M6 15H18');
     expect(html).toContain('data-summary-kind="empty"');
   });
 

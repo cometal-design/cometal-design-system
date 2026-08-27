@@ -417,6 +417,12 @@
   height: var(--cometal-primitive-size-24);
 }
 
+.cometal-table__drag-icon {
+  background-color: currentColor;
+  -webkit-mask: url('./assets/drag-handle.svg') center / contain no-repeat;
+  mask: url('./assets/drag-handle.svg') center / contain no-repeat;
+}
+
 .cometal-table__page-control .cometal-table__paginator-icon {
   width: var(--cometal-primitive-size-24);
   height: var(--cometal-primitive-size-24);
@@ -478,6 +484,13 @@
 .cometal-table[data-reorderable='true'] .cometal-table__drag-handle:active,
 .cometal-table__row[data-row-dragging] .cometal-table__drag-handle {
   cursor: grabbing;
+}
+
+.cometal-table[data-reorderable='true'] .cometal-table__drag-handle:active,
+.cometal-table__drag-handle[aria-pressed='true'],
+.cometal-table__drag-cell[data-state='dragging'] .cometal-table__drag-handle,
+.cometal-table__row[data-row-dragging] .cometal-table__drag-handle {
+  color: var(--cometal-component-table-icon-selected);
 }
 
 .cometal-table__filter-cell {

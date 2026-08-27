@@ -1415,9 +1415,5 @@ export const TablePaginator = forwardRef<HTMLElement, TablePaginatorProps>(funct
 });
 
 function TableDragHandleIcon() {
-  return (
-    <svg className="cometal-table__asset-icon cometal-table__drag-icon" width="24" height="24" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg" data-cometal-table-icon="drag-handle" aria-hidden="true" focusable="false">
-      <path d="M6 9H18M6 15H18" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" />
-    </svg>
-  );
+  return <span className="cometal-table__asset-icon cometal-table__drag-icon" data-cometal-table-icon="drag-handle" aria-hidden="true" />;
 }
