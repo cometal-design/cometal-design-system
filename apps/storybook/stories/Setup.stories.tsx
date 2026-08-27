@@ -1,4 +1,5 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
+import { expect, within } from 'storybook/test';
 import { releases, releasesSource } from './releases.generated';
 
 function Welcome() {
@@ -112,6 +113,15 @@ export const FoundationSynchronized: Story = {
 export const ReleasesPage: Story = {
   name: 'Релизы',
   render: () => <Releases />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    await expect(canvas.getByLabelText('Источник данных')).toHaveTextContent('Синхронизировано: 27 августа 2026');
+
+    const candidate = canvas.getByRole('heading', { name: /^v0\.3\.0/ }).closest('article');
+    await expect(candidate).toHaveTextContent('27 августа 2026');
+    await expect(candidate).toHaveTextContent('Кандидат');
+    await expect(candidate).toHaveTextContent('production publication pending');
+  },
   parameters: {
     controls: { disable: true },
     options: { showPanel: false },
