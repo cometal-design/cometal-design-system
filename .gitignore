@@ -4,6 +4,7 @@ storybook-static/
 site-static/
 .next/
 out/
+/apps/docs/next-env.d.ts
 *.tsbuildinfo
 coverage/
 *.log
