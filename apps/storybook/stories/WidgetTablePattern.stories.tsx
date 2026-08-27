@@ -375,6 +375,11 @@ export const FilteringContract: Story = {
     const readTable = canvas.getByRole('table', { name: 'Спецификация позиций · Read' });
     const editTable = canvas.getByRole('table', { name: 'Спецификация позиций · Edit' });
     const read = within(readTable);
+    const edit = within(editTable);
+    const readWidget = readTable.closest<HTMLElement>('.cometal-widget-table-pattern')!;
+    const editWidget = editTable.closest<HTMLElement>('.cometal-widget-table-pattern')!;
+    const readToolbar = within(readWidget).getByRole('toolbar', { name: 'Действия виджета' });
+    const editToolbar = within(editWidget).getByRole('toolbar', { name: 'Действия виджета' });
     const filterLabels = [
       'Фильтр по позиции', 'Фильтр по наименованию', 'Фильтр по марке', 'Фильтр по количеству',
       'Фильтр по единице', 'Фильтр по цене', 'Фильтр по сумме', 'Фильтр по дате',
@@ -385,6 +390,20 @@ export const FilteringContract: Story = {
       const tableCanvas = within(table);
       for (const label of filterLabels) await expect(tableCanvas.getByRole(/единице|статусу|контролю|поставщику/.test(label) ? 'combobox' : 'textbox', { name: label })).toBeVisible();
     }
+
+    const expectDateInsets = async (table: HTMLElement) => {
+      const input = within(table).getByRole('textbox', { name: 'Фильтр по дате' });
+      const control = input.closest<HTMLElement>('.cometal-date-picker__control')!;
+      const controlStyle = getComputedStyle(control);
+      await expect([controlStyle.paddingLeft, controlStyle.paddingRight]).toEqual(['8px', '8px']);
+    };
+    await expectDateInsets(readTable);
+    await userEvent.click(within(readToolbar).getByRole('button', { name: 'Включить компактную плотность' }));
+    await expect(readTable).toHaveAttribute('data-density', 'compact');
+    await expectDateInsets(readTable);
+    await userEvent.click(within(readToolbar).getByRole('button', { name: 'Включить комфортную плотность' }));
+    await expect(readTable).toHaveAttribute('data-density', 'comfortable');
+    await expectDateInsets(readTable);
 
     const resetColumn = async (label: string) => {
       await userEvent.click(read.getByRole('button', { name: `Действия колонки ${label}` }));
@@ -432,6 +451,17 @@ export const FilteringContract: Story = {
     await filterSelect('Фильтр по контролю', 'Качество', 'POS-002', 'Контроль');
     await filterSelect('Фильтр по поставщику', 'ЕВРАЗ Маркет', 'POS-002', 'Поставщик');
 
+    const editPosition = edit.getByRole('textbox', { name: 'Фильтр по позиции' });
+    await userEvent.type(editPosition, 'POS-003');
+    await waitFor(() => expect(visibleRowIds(editTable)).toEqual(['POS-003']));
+    await userEvent.click(within(editToolbar).getByRole('button', { name: 'Скрыть фильтры' }));
+    await expect(edit.queryByRole('row', { name: /Фильтры таблицы/ })).not.toBeInTheDocument();
+    await expect(visibleRowIds(editTable)).toEqual(['POS-003']);
+    await userEvent.click(within(editToolbar).getByRole('button', { name: 'Показать фильтры' }));
+    await expect(edit.getByRole('textbox', { name: 'Фильтр по позиции' })).toHaveValue('POS-003');
+    await userEvent.clear(edit.getByRole('textbox', { name: 'Фильтр по позиции' }));
+    await waitFor(() => expect(visibleRowIds(editTable)).toEqual(initialVisibleRowIds));
+
     await userEvent.click(read.getByRole('button', { name: 'Действия колонки Позиция' }));
     await userEvent.click(body.getByRole('menuitem', { name: 'Фильтр' }));
     await userEvent.click(body.getByRole('menuitem', { name: 'Не содержит' }));
@@ -449,7 +479,45 @@ export const FilteringContract: Story = {
     await userEvent.type(position, 'POS-02');
     await expect(within(paginator).getByRole('button', { name: 'Страница 1' })).toHaveAttribute('aria-current', 'page');
     await expect(quantityHeader).toHaveAttribute('aria-sort', 'ascending');
-    await userEvent.clear(position);
+    await userEvent.click(within(readToolbar).getByRole('button', { name: 'Скрыть фильтры' }));
+    await expect(read.queryByRole('row', { name: /Фильтры таблицы/ })).not.toBeInTheDocument();
+    await expect(visibleRowIds(readTable).every((rowId) => rowId?.startsWith('POS-02'))).toBe(true);
+    await userEvent.click(within(readToolbar).getByRole('button', { name: 'Показать фильтры' }));
+    await expect(read.getByRole('textbox', { name: 'Фильтр по позиции' })).toHaveValue('POS-02');
+    await userEvent.clear(read.getByRole('textbox', { name: 'Фильтр по позиции' }));
+    await waitFor(() => expect(visibleRowIds(readTable)).toEqual(sortableColumnContracts[3].ascending));
+
+    await userEvent.click(read.getByRole('button', { name: 'Действия колонки Дата поставки' }));
+    await userEvent.click(body.getByRole('menuitem', { name: 'Фильтр' }));
+    await userEvent.click(body.getByRole('menuitem', { name: 'Период' }));
+    const period = read.getByRole('textbox', { name: 'Фильтр по дате' });
+    await expect(period.closest<HTMLElement>('.cometal-field')).toHaveAttribute('data-size', 's');
+    await expectDateInsets(readTable);
+    await userEvent.click(within(readToolbar).getByRole('button', { name: 'Включить компактную плотность' }));
+    await expectDateInsets(readTable);
+    await userEvent.click(within(readToolbar).getByRole('button', { name: 'Включить комфортную плотность' }));
+    await userEvent.clear(period);
+    await userEvent.type(period, '21.08.2026 — 24.08.2026');
+    await userEvent.tab();
+    await waitFor(() => {
+      const ids = visibleRowIds(readTable);
+      expect(ids).toContain('POS-001');
+      expect(ids).toContain('POS-002');
+      expect(ids).not.toContain('POS-003');
+    });
+    await expect(quantityHeader).toHaveAttribute('aria-sort', 'ascending');
+    await userEvent.click(read.getByRole('button', { name: 'Действия колонки Дата поставки' }));
+    await userEvent.click(body.getByRole('menuitem', { name: 'Фильтр' }));
+    await userEvent.click(body.getByRole('menuitem', { name: 'Сбросить фильтр' }));
+    const resetDate = read.getByRole('textbox', { name: 'Фильтр по дате' });
+    await expect(resetDate).toHaveValue('');
+    await expect(resetDate).toHaveAttribute('placeholder', 'Дата равна');
+    await expect(quantityHeader).toHaveAttribute('aria-sort', 'ascending');
+    await waitFor(() => expect(visibleRowIds(readTable)).toEqual(sortableColumnContracts[3].ascending));
+    await userEvent.click(read.getByRole('button', { name: 'Действия колонки Дата поставки' }));
+    await userEvent.click(body.getByRole('menuitem', { name: 'Фильтр' }));
+    await expect(body.getByRole('menuitemcheckbox', { name: 'Дата равна' })).toHaveAttribute('aria-checked', 'true');
+    await userEvent.keyboard('{Escape}');
 
     await userEvent.click(read.getByRole('button', { name: 'Действия колонки Дата поставки' }));
     const menu = body.getByRole('menu');

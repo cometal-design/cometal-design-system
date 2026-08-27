@@ -1,8 +1,38 @@
 import { renderToStaticMarkup } from 'react-dom/server';
 import { describe, expect, it } from 'vitest';
 import { Combobox, MultiSelect, Select, TextArea, TextField } from './Field';
+import { computeAnchoredOverlayPosition } from '../internal/overlay';
 
 describe('Fields', () => {
+  it.each([320, 768, 1440])('keeps anchored overlays shifted and flipped inside a %ipx viewport', (viewportWidth) => {
+    const width = Math.min(296, viewportWidth - 16);
+    const anchorRect = {
+      left: viewportWidth - 28,
+      right: viewportWidth - 8,
+      top: 550,
+      bottom: 582,
+      width: 20,
+      height: 32,
+    };
+    const position = computeAnchoredOverlayPosition({
+      anchorRect,
+      surfaceWidth: width,
+      surfaceHeight: 240,
+      viewportLeft: 0,
+      viewportTop: 0,
+      viewportWidth,
+      viewportHeight: 640,
+      gap: 4,
+      viewportInset: 8,
+      matchAnchorWidth: false,
+    });
+
+    expect(position.placement).toBe('top-start');
+    expect(position.left).toBe(viewportWidth - 8 - width);
+    expect(position.left).toBeGreaterThanOrEqual(8);
+    expect(position.top).toBe(306);
+    expect(position.top + 240).toBeLessThanOrEqual(632);
+  });
   it('renders a native text input with its visible label and error semantics', () => {
     const html = renderToStaticMarkup(<TextField label="ИНН" error="Проверьте значение" name="inn" />);
 

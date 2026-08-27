@@ -1,6 +1,23 @@
 import { useCallback, useEffect, useRef, useState } from 'react';
 import type { CSSProperties, RefObject } from 'react';
 
+const pointerFocusOrigins = new WeakSet<HTMLElement>();
+
+/** Bridges pointer modality across a portal without adding a public field prop or DOM attribute. */
+export function markFieldPointerFocusOrigin(field: HTMLElement | null) {
+  if (field) pointerFocusOrigins.add(field);
+}
+
+export function clearFieldPointerFocusOrigin(field: HTMLElement | null) {
+  if (field) pointerFocusOrigins.delete(field);
+}
+
+export function consumeFieldPointerFocusOrigin(field: HTMLElement) {
+  const pointerOrigin = pointerFocusOrigins.has(field);
+  pointerFocusOrigins.delete(field);
+  return pointerOrigin;
+}
+
 export function useControllableOpen(
   controlled: boolean | undefined,
   defaultValue: boolean,
@@ -30,6 +47,55 @@ type AnchoredOverlayPosition = {
   placement: AnchoredOverlayPlacement;
   positioned: boolean;
 };
+
+type OverlayRect = Pick<DOMRect, 'left' | 'top' | 'right' | 'bottom' | 'width' | 'height'>;
+
+/** Pure geometry seam for executable viewport coverage; remains internal to the React package. */
+export function computeAnchoredOverlayPosition({
+  anchorRect,
+  surfaceWidth,
+  surfaceHeight,
+  viewportLeft,
+  viewportTop,
+  viewportWidth,
+  viewportHeight,
+  gap,
+  viewportInset,
+  matchAnchorWidth,
+}: {
+  anchorRect: OverlayRect;
+  surfaceWidth: number;
+  surfaceHeight: number;
+  viewportLeft: number;
+  viewportTop: number;
+  viewportWidth: number;
+  viewportHeight: number;
+  gap: number;
+  viewportInset: number;
+  matchAnchorWidth: boolean;
+}): AnchoredOverlayPosition {
+  const resolvedWidth = matchAnchorWidth ? anchorRect.width : surfaceWidth;
+  const viewportRight = viewportLeft + viewportWidth;
+  const viewportBottom = viewportTop + viewportHeight;
+  const minLeft = viewportLeft + viewportInset;
+  const maxLeft = Math.max(minLeft, viewportRight - viewportInset - resolvedWidth);
+  const minTop = viewportTop + viewportInset;
+  const maxTop = Math.max(minTop, viewportBottom - viewportInset - surfaceHeight);
+  const bottomTop = anchorRect.bottom + gap;
+  const topTop = anchorRect.top - gap - surfaceHeight;
+  const bottomSpace = viewportBottom - viewportInset - bottomTop;
+  const topSpace = anchorRect.top - gap - minTop;
+  const placement: AnchoredOverlayPlacement = surfaceHeight > bottomSpace && topSpace > bottomSpace
+    ? 'top-start'
+    : 'bottom-start';
+  return {
+    left: Math.min(Math.max(anchorRect.left, minLeft), maxLeft),
+    top: Math.min(Math.max(placement === 'top-start' ? topTop : bottomTop, minTop), maxTop),
+    width: matchAnchorWidth ? anchorRect.width : undefined,
+    placement,
+    positioned: true,
+  };
+}
 
 export type AnchoredOverlayOptions = {
   open: boolean;
@@ -102,26 +168,18 @@ export function useAnchoredOverlay({
       }
 
       const surfaceRect = surface.getBoundingClientRect();
-      const surfaceWidth = matchAnchorWidth ? anchorRect.width : surfaceRect.width;
-      const surfaceHeight = surfaceRect.height;
-      const minLeft = viewportLeft + viewportInset;
-      const maxLeft = Math.max(minLeft, viewportRight - viewportInset - surfaceWidth);
-      const minTop = viewportTop + viewportInset;
-      const maxTop = Math.max(minTop, viewportBottom - viewportInset - surfaceHeight);
-      const bottomTop = anchorRect.bottom + gap;
-      const topTop = anchorRect.top - gap - surfaceHeight;
-      const bottomSpace = viewportBottom - viewportInset - bottomTop;
-      const topSpace = anchorRect.top - gap - (viewportTop + viewportInset);
-      const placement: AnchoredOverlayPlacement = surfaceHeight > bottomSpace && topSpace > bottomSpace
-        ? 'top-start'
-        : 'bottom-start';
-      const next: AnchoredOverlayPosition = {
-        left: Math.min(Math.max(anchorRect.left, minLeft), maxLeft),
-        top: Math.min(Math.max(placement === 'top-start' ? topTop : bottomTop, minTop), maxTop),
-        width: matchAnchorWidth ? anchorRect.width : undefined,
-        placement,
-        positioned: true,
-      };
+      const next = computeAnchoredOverlayPosition({
+        anchorRect,
+        surfaceWidth: surfaceRect.width,
+        surfaceHeight: surfaceRect.height,
+        viewportLeft,
+        viewportTop,
+        viewportWidth,
+        viewportHeight,
+        gap,
+        viewportInset,
+        matchAnchorWidth,
+      });
       setPosition((current) => (
         current.left === next.left
         && current.top === next.top

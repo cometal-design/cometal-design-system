@@ -9,6 +9,7 @@ import type {
   TextareaHTMLAttributes,
 } from 'react';
 import {
+  consumeFieldPointerFocusOrigin,
   useAnchoredOverlay,
   useControllableOpen as usePopupState,
   useHydrated,
@@ -107,8 +108,9 @@ export function FieldChrome({
           pointerResetRef.current = null;
         }, 0);
       }}
-      onFocusCapture={() => {
-        setKeyboardFocusVisible(!pointerFocusRef.current);
+      onFocusCapture={(event) => {
+        const pointerOrigin = pointerFocusRef.current || consumeFieldPointerFocusOrigin(event.currentTarget);
+        setKeyboardFocusVisible(!pointerOrigin);
         pointerFocusRef.current = false;
       }}
       onBlurCapture={(event) => {

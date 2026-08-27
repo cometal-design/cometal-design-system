@@ -6,10 +6,6 @@
   font-family: var(--cometal-typography-body-l-default-font-family);
 }
 
-.cometal-date-picker__control {
-  padding-right: var(--cometal-semantic-spacing-global-input-m-inset);
-}
-
 .cometal-date-picker__trigger,
 .cometal-date-picker__month-control,
 .cometal-date-picker__day {

@@ -10,7 +10,14 @@ import type { ChangeEvent, KeyboardEvent } from 'react';
 import { createPortal } from 'react-dom';
 import { FieldChrome } from '../Field/Field';
 import type { FieldMode, FieldSize } from '../Field/Field';
-import { useAnchoredOverlay, useControllableOpen, useHydrated, useOutsidePointerDismiss } from '../internal/overlay';
+import {
+  clearFieldPointerFocusOrigin,
+  markFieldPointerFocusOrigin,
+  useAnchoredOverlay,
+  useControllableOpen,
+  useHydrated,
+  useOutsidePointerDismiss,
+} from '../internal/overlay';
 import ChevronLeftIcon from '../icons/generated/components/outline/arrows/chevron-left';
 import ChevronRightIcon from '../icons/generated/components/outline/arrows/chevron-right';
 import CalendarIcon from '../icons/generated/components/outline/time/calendar-02';
@@ -183,6 +190,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(function
   const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const restoreFocusFrameRef = useRef<{ id: number; ownerWindow: Window } | null>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
   const [selectedValue, setSelectedValue] = useControllableDate(controlledValue, defaultValue, onValueChange);
   const [isOpen, setIsOpen] = useControllableOpen(controlledOpen, defaultOpen, onOpenChange);
@@ -220,6 +228,12 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(function
 
   useOutsidePointerDismiss(isOpen, [rootRef, calendarRef], () => setIsOpen(false));
 
+  useEffect(() => () => {
+    const frame = restoreFocusFrameRef.current;
+    if (frame) frame.ownerWindow.cancelAnimationFrame(frame.id);
+    clearFieldPointerFocusOrigin(triggerRef.current?.closest<HTMLElement>('.cometal-field') ?? null);
+  }, []);
+
   useEffect(() => {
     if (!isOpen || !focusTarget || !calendarOverlay.positioned) return undefined;
     const calendar = calendarRef.current;
@@ -250,20 +264,31 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(function
     return Boolean((minDate && time < minDate.getTime()) || (maxDate && time > maxDate.getTime()));
   };
 
-  const closeAndRestoreFocus = () => {
+  const closeAndRestoreFocus = (origin: 'keyboard' | 'pointer' = 'keyboard') => {
     setPanelMotion(false);
     setFocusTarget(undefined);
     setIsOpen(false);
-    requestAnimationFrame(() => triggerRef.current?.focus());
+    const trigger = triggerRef.current;
+    const field = trigger?.closest<HTMLElement>('.cometal-field') ?? null;
+    if (origin === 'pointer') markFieldPointerFocusOrigin(field);
+    else clearFieldPointerFocusOrigin(field);
+    const ownerWindow = trigger?.ownerDocument.defaultView ?? window;
+    const currentFrame = restoreFocusFrameRef.current;
+    if (currentFrame) currentFrame.ownerWindow.cancelAnimationFrame(currentFrame.id);
+    const id = ownerWindow.requestAnimationFrame(() => {
+      restoreFocusFrameRef.current = null;
+      triggerRef.current?.focus();
+    });
+    restoreFocusFrameRef.current = { id, ownerWindow };
   };
 
-  const selectDate = (date: Date) => {
+  const selectDate = (date: Date, origin: 'keyboard' | 'pointer') => {
     if (isUnavailable(date)) return;
     const next = toIsoDate(date);
     setInputError(undefined);
     setSelectedValue(next);
     setInputValue(formatDisplayDate(next));
-    closeAndRestoreFocus();
+    closeAndRestoreFocus(origin);
   };
 
   const commitInput = () => {
@@ -421,7 +446,7 @@ export const DatePicker = forwardRef<HTMLInputElement, DatePickerProps>(function
                   aria-label={fullDateLabel(date, locale)}
                   aria-current={current ? 'date' : undefined}
                   tabIndex={selected || (!selectedDate && current) ? 0 : -1}
-                  onClick={() => selectDate(date)}
+                  onClick={(event) => selectDate(date, event.detail === 0 ? 'keyboard' : 'pointer')}
                 >
                   {date.getDate()}
                 </button>

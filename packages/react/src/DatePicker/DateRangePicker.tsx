@@ -10,7 +10,14 @@ import type { ChangeEvent, KeyboardEvent } from 'react';
 import { createPortal } from 'react-dom';
 import { FieldChrome } from '../Field/Field';
 import type { FieldMode, FieldSize } from '../Field/Field';
-import { useAnchoredOverlay, useControllableOpen, useHydrated, useOutsidePointerDismiss } from '../internal/overlay';
+import {
+  clearFieldPointerFocusOrigin,
+  markFieldPointerFocusOrigin,
+  useAnchoredOverlay,
+  useControllableOpen,
+  useHydrated,
+  useOutsidePointerDismiss,
+} from '../internal/overlay';
 import ChevronLeftIcon from '../icons/generated/components/outline/arrows/chevron-left';
 import ChevronRightIcon from '../icons/generated/components/outline/arrows/chevron-right';
 import CalendarIcon from '../icons/generated/components/outline/time/calendar-02';
@@ -168,7 +175,11 @@ function useControllableRange(
   onChange?: (value: DateRangeValue) => void,
 ) {
   const [internal, setInternal] = useState(() => normalizeRangeValue(defaultValue));
-  const value = controlled ? normalizeRangeValue(controlled) : internal;
+  const normalizedControlled = useMemo(
+    () => controlled === undefined ? undefined : normalizeRangeValue(controlled),
+    [controlled?.start?.getTime(), controlled?.end?.getTime()],
+  );
+  const value = normalizedControlled ?? internal;
   const setValue = (next: DateRangeValue) => {
     const normalized = normalizeRangeValue(next);
     if (controlled === undefined) setInternal(normalized);
@@ -236,6 +247,7 @@ export const DateRangePicker = forwardRef<HTMLInputElement, DateRangePickerProps
   const rootRef = useRef<HTMLDivElement>(null);
   const inputRef = useRef<HTMLInputElement>(null);
   const triggerRef = useRef<HTMLButtonElement>(null);
+  const restoreFocusFrameRef = useRef<{ id: number; ownerWindow: Window } | null>(null);
   const calendarRef = useRef<HTMLDivElement>(null);
   const [rangeValue, setRangeValue] = useControllableRange(controlledValue, defaultValue, onChange);
   const [isOpen, setIsOpen] = useControllableOpen(controlledOpen, defaultOpen, onOpenChange);
@@ -275,6 +287,12 @@ export const DateRangePicker = forwardRef<HTMLInputElement, DateRangePickerProps
 
   useOutsidePointerDismiss(isOpen, [rootRef, calendarRef], () => setIsOpen(false));
 
+  useEffect(() => () => {
+    const frame = restoreFocusFrameRef.current;
+    if (frame) frame.ownerWindow.cancelAnimationFrame(frame.id);
+    clearFieldPointerFocusOrigin(triggerRef.current?.closest<HTMLElement>('.cometal-field') ?? null);
+  }, []);
+
   useEffect(() => {
     if (!isOpen || !focusTarget || !calendarOverlay.positioned) return undefined;
     const calendar = calendarRef.current;
@@ -305,11 +323,22 @@ export const DateRangePicker = forwardRef<HTMLInputElement, DateRangePickerProps
     return Boolean((minDate && time < minDate.getTime()) || (maxDate && time > maxDate.getTime()));
   };
 
-  const closeAndRestoreFocus = () => {
+  const closeAndRestoreFocus = (origin: 'keyboard' | 'pointer' = 'keyboard') => {
     setPanelMotion(false);
     setFocusTarget(undefined);
     setIsOpen(false);
-    requestAnimationFrame(() => triggerRef.current?.focus());
+    const trigger = triggerRef.current;
+    const field = trigger?.closest<HTMLElement>('.cometal-field') ?? null;
+    if (origin === 'pointer') markFieldPointerFocusOrigin(field);
+    else clearFieldPointerFocusOrigin(field);
+    const ownerWindow = trigger?.ownerDocument.defaultView ?? window;
+    const currentFrame = restoreFocusFrameRef.current;
+    if (currentFrame) currentFrame.ownerWindow.cancelAnimationFrame(currentFrame.id);
+    const id = ownerWindow.requestAnimationFrame(() => {
+      restoreFocusFrameRef.current = null;
+      triggerRef.current?.focus();
+    });
+    restoreFocusFrameRef.current = { id, ownerWindow };
   };
 
   const commitInput = () => {
@@ -349,7 +378,7 @@ export const DateRangePicker = forwardRef<HTMLInputElement, DateRangePickerProps
     setVisibleMonth((month) => addMonths(month, amount));
   };
 
-  const selectDate = (date: Date) => {
+  const selectDate = (date: Date, origin: 'keyboard' | 'pointer') => {
     if (isUnavailable(date)) return;
     if (!rangeValue.start || (rangeValue.start && rangeValue.end) || selectionPhase === 'start') {
       setInputError(undefined);
@@ -367,7 +396,7 @@ export const DateRangePicker = forwardRef<HTMLInputElement, DateRangePickerProps
     setRangeValue(next);
     setInputValue(formatRangeInput(next));
     setSelectionPhase('start');
-    closeAndRestoreFocus();
+    closeAndRestoreFocus(origin);
   };
 
   const onCalendarKeyDown = (event: KeyboardEvent<HTMLDivElement>) => {
@@ -392,7 +421,7 @@ export const DateRangePicker = forwardRef<HTMLInputElement, DateRangePickerProps
     if (event.key === 'PageDown') next = event.shiftKey ? addCalendarYears(current, 1) : addCalendarMonths(current, 1);
     if (event.key === 'Enter' || event.key === ' ') {
       event.preventDefault();
-      selectDate(current);
+      selectDate(current, 'keyboard');
       return;
     }
     if (event.key === 'Escape') {
@@ -579,7 +608,7 @@ export const DateRangePicker = forwardRef<HTMLInputElement, DateRangePickerProps
                         aria-label={fullDateLabel(date, locale)}
                         aria-current={current ? 'date' : undefined}
                         tabIndex={selected || (!start && current) ? 0 : -1}
-                        onClick={() => selectDate(date)}
+                        onClick={(event) => selectDate(date, event.detail === 0 ? 'keyboard' : 'pointer')}
                       >
                         {date.getDate()}
                       </button>

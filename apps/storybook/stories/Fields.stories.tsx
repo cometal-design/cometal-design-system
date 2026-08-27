@@ -1,7 +1,7 @@
-import { useState } from 'react';
+import { StrictMode, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
-import { expect, userEvent, waitFor, within } from 'storybook/test';
-import { Button, Combobox, MultiSelect, Select, TextArea, TextField, fieldSizes } from '@cometal/react';
+import { expect, fireEvent, userEvent, waitFor, within } from 'storybook/test';
+import { Button, Combobox, DatePicker, DateRangePicker, MultiSelect, Select, TextArea, TextField, fieldSizes } from '@cometal/react';
 import { ComponentCodeExample } from './ComponentCodeExample';
 
 const FIGMA_URL = 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1096-42';
@@ -49,6 +49,22 @@ function SelectPortalContractExample() {
       <Select label="Статус" size="s" options={options} value={value} onValueChange={setValue} />
     </div>
   );
+}
+
+function FocusModalityMatrixExample() {
+  const [mounted, setMounted] = useState(true);
+  return <>
+    <Button size="s" variant="secondary" onClick={() => setMounted(false)}>Unmount modality matrix</Button>
+    {mounted ? <StrictMode><div className="ds-fields-playground" data-modality-matrix>
+      <TextField label="Modality TextField" />
+      <TextArea label="Modality TextArea" />
+      <Select label="Modality Select" options={options} />
+      <Combobox label="Modality Combobox" options={contractorOptions} />
+      <MultiSelect label="Modality MultiSelect" options={contractorOptions} />
+      <DatePicker label="Modality Date" />
+      <DateRangePicker label="Modality Range" />
+    </div></StrictMode> : null}
+  </>;
 }
 
 function MultiSelectInteractionExample() {
@@ -406,17 +422,26 @@ export const SelectPortalContract: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const body = within(canvasElement.ownerDocument.body);
+    const ownerWindow = canvasElement.ownerDocument.defaultView!;
+    const clipRoot = canvasElement.querySelector<HTMLElement>('[data-overlay-clip-root]')!;
+    Object.assign(clipRoot.style, { position: 'fixed', right: '0px', bottom: '0px', width: '224px' });
     const trigger = canvas.getByRole('combobox', { name: 'Статус' });
     const root = trigger.closest<HTMLElement>('.cometal-field')!;
     await userEvent.click(trigger);
     const listbox = await body.findByRole('listbox');
     await expect(listbox.parentElement).toBe(canvasElement.ownerDocument.body);
     await expect(getComputedStyle(listbox).position).toBe('fixed');
+    await expect(listbox).toHaveAttribute('data-placement', 'top-start');
     await expect(listbox.getBoundingClientRect().width).toBeCloseTo(trigger.getBoundingClientRect().width, 0);
     await expect(listbox.getBoundingClientRect().height).toBe(208);
     await expect(root).not.toHaveAttribute('data-focus-visible');
     const listboxRect = listbox.getBoundingClientRect();
+    await expect(listboxRect.left).toBeGreaterThanOrEqual(8);
+    await expect(listboxRect.right).toBeLessThanOrEqual(ownerWindow.innerWidth - 8);
     await expect(canvasElement.ownerDocument.elementFromPoint(listboxRect.left + 12, listboxRect.top + 12)?.closest('[role="listbox"]')).toBe(listbox);
+    clipRoot.style.bottom = '48px';
+    fireEvent.scroll(ownerWindow);
+    await waitFor(() => expect(listbox.getBoundingClientRect().top).not.toBeCloseTo(listboxRect.top, 0));
     await userEvent.click(within(listbox).getByRole('option', { name: 'Активный' }));
     await expect(trigger).toHaveTextContent('Активный');
     await expect(body.queryByRole('listbox')).not.toBeInTheDocument();
@@ -426,6 +451,54 @@ export const SelectPortalContract: Story = {
     const controlStyle = getComputedStyle(root.querySelector<HTMLElement>('.cometal-field__control')!);
     await expect(controlStyle.outlineWidth).toBe('2px');
     await expect(controlStyle.outlineOffset).toBe('4px');
+    await userEvent.keyboard('{Enter}');
+    await expect(await body.findByRole('listbox')).toBeVisible();
+    await userEvent.keyboard('{Escape}');
+    await expect(body.queryByRole('listbox')).not.toBeInTheDocument();
+    await expect(trigger).toHaveFocus();
+    await expect(root).toHaveAttribute('data-focus-visible');
+    await userEvent.click(trigger);
+    await expect(await body.findByRole('listbox')).toBeVisible();
+    fireEvent.pointerDown(canvasElement);
+    await waitFor(() => expect(body.queryByRole('listbox')).not.toBeInTheDocument());
+  },
+};
+export const SharedFocusModalityContract: Story = {
+  name: 'Shared pointer / keyboard modality matrix',
+  parameters: { controls: { disable: true } },
+  render: () => <FocusModalityMatrixExample />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(canvasElement.ownerDocument.body);
+    const controls = [
+      canvas.getByRole('textbox', { name: 'Modality TextField' }),
+      canvas.getByRole('textbox', { name: 'Modality TextArea' }),
+      canvas.getByRole('combobox', { name: 'Modality Select' }),
+      canvas.getByRole('combobox', { name: 'Modality Combobox' }),
+      canvas.getByRole('combobox', { name: 'Modality MultiSelect' }),
+      canvas.getByRole('textbox', { name: 'Modality Date' }),
+      canvas.getByRole('textbox', { name: 'Modality Range' }),
+    ];
+    for (const control of controls) {
+      const root = control.closest<HTMLElement>('.cometal-field')!;
+      await userEvent.click(control);
+      await expect(root).not.toHaveAttribute('data-focus-visible');
+      if (control.getAttribute('aria-expanded') === 'true') await userEvent.keyboard('{Escape}');
+      control.blur();
+      control.focus();
+      await waitFor(() => expect(root).toHaveAttribute('data-focus-visible'));
+      const controlStyle = getComputedStyle(root.querySelector<HTMLElement>('.cometal-field__control')!);
+      await expect(controlStyle.outlineWidth).toBe('2px');
+      await expect(controlStyle.outlineOffset).toBe('4px');
+      control.blur();
+    }
+    await userEvent.click(canvas.getByRole('combobox', { name: 'Modality Select' }));
+    await expect(await body.findByRole('listbox', { name: 'Modality Select: варианты' })).toBeVisible();
+    await userEvent.click(canvas.getByRole('button', { name: 'Unmount modality matrix' }));
+    await waitFor(() => expect(body.queryByRole('listbox', { name: 'Modality Select: варианты' })).not.toBeInTheDocument());
+    fireEvent.scroll(canvasElement.ownerDocument.defaultView!);
+    fireEvent.resize(canvasElement.ownerDocument.defaultView!);
+    await expect(canvasElement.querySelector('[data-modality-matrix]')).not.toBeInTheDocument();
   },
 };
 export const ComboboxInteraction: Story = {

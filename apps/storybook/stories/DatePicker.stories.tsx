@@ -1,3 +1,4 @@
+import { StrictMode, useState } from 'react';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, fireEvent, userEvent, waitFor, within } from 'storybook/test';
 import { DatePicker, DateRangePicker } from '@cometal/react';
@@ -8,6 +9,30 @@ const sourceUrl = 'https://github.com/cometal-design/cometal-design-system/blob/
 
 function SectionIntro({ number, title, children }: { number: string; title: string; children: string }) {
   return <div className="ds-component-section__intro"><span>{number}</span><div><h2>{title}</h2><p>{children}</p></div></div>;
+}
+
+function DateSizingExample() {
+  return (
+    <div className="ds-date-picker-states">
+      {(['l', 'm', 's'] as const).flatMap((size) => [
+        <article key={`date-${size}`} data-date-sizing="date" data-size={size}><DatePicker label={`Дата ${size.toUpperCase()}`} size={size} value="2026-07-15" /></article>,
+        <article key={`range-${size}`} data-date-sizing="range" data-size={size}><DateRangePicker label={`Период ${size.toUpperCase()}`} size={size} defaultValue={{ start: new Date(2026, 6, 15), end: new Date(2026, 6, 23) }} /></article>,
+      ])}
+    </div>
+  );
+}
+
+function DateStrictModeCleanupExample() {
+  const [mounted, setMounted] = useState(true);
+  return (
+    <StrictMode>
+      <button type="button" onClick={() => setMounted(false)}>Unmount date overlays</button>
+      {mounted ? <>
+        <DatePicker label="Strict date" value="2026-07-15" today="2026-07-31" open />
+        <DateRangePicker label="Strict range" defaultValue={{ start: new Date(2026, 6, 15), end: new Date(2026, 6, 23) }} today={new Date(2026, 6, 31)} open />
+      </> : null}
+    </StrictMode>
+  );
 }
 
 function OverviewPage() {
@@ -53,7 +78,7 @@ function OverviewPage() {
 
       <section className="ds-component-section">
         <SectionIntro number="05" title="Внутренняя архитектура">Композиция публична целиком; внутренние части не экспортируются и не создают дополнительные продуктовые контракты.</SectionIntro>
-        <div className="ds-rule-list"><article><code>Date Field Trigger</code><p>Label, форматированный input, helper/error и кнопка раскрытия. Повторно использует общий Field Chrome.</p></article><article><code>Calendar Panel</code><p>Абсолютный overlay шириной 364px, отступ 8px, заголовок месяца, навигация и Monday-first grid.</p></article><article><code>Calendar Day</code><p>44×44px; default, hover, selected, today, outside, disabled и независимый focus-visible.</p></article><article><code>Range semantics</code><p>Начало, середина и конец периода рендерятся отдельными canonical classes без выноса календарных частей в публичные props.</p></article></div>
+        <div className="ds-rule-list"><article><code>Date Field Trigger</code><p>Label, форматированный input, helper/error и кнопка раскрытия. Повторно использует общий Field Chrome.</p></article><article><code>Calendar Panel</code><p>Фиксированный anchored overlay в body portal шириной 364px, отступ 8px, заголовок месяца, навигация и Monday-first grid.</p></article><article><code>Calendar Day</code><p>44×44px; default, hover, selected, today, outside, disabled и независимый focus-visible.</p></article><article><code>Range semantics</code><p>Начало, середина и конец периода рендерятся отдельными canonical classes без выноса календарных частей в публичные props.</p></article></div>
       </section>
 
       <section className="ds-component-section">
@@ -222,6 +247,98 @@ export const DateRangeOpen: Story = {
   },
 };
 
+export const DateSizingContract: Story = {
+  name: 'L/M/S inherited insets',
+  parameters: { controls: { disable: true } },
+  render: () => <DateSizingExample />,
+  play: async ({ canvasElement }) => {
+    for (const size of ['l', 'm', 's'] as const) {
+      for (const kind of ['date', 'range'] as const) {
+        const host = canvasElement.querySelector<HTMLElement>(`[data-date-sizing="${kind}"][data-size="${size}"]`)!;
+        const control = host.querySelector<HTMLElement>('.cometal-date-picker__control')!;
+        const style = getComputedStyle(control);
+        const inheritedInset = getComputedStyle(control.closest<HTMLElement>('.cometal-field')!).getPropertyValue('--cometal-field-inset').trim();
+        await expect(style.paddingLeft).toBe(inheritedInset);
+        await expect(style.paddingRight).toBe(inheritedInset);
+        if (size === 's') await expect([style.paddingLeft, style.paddingRight]).toEqual(['8px', '8px']);
+      }
+    }
+  },
+};
+
+export const PointerSelectionModality: Story = {
+  name: 'Pointer selection restores focus without ring',
+  parameters: { controls: { disable: true } },
+  render: () => <div className="ds-date-picker-states">
+    <DatePicker label="Pointer date" value="2026-07-15" today="2026-07-31" />
+    <DateRangePicker label="Pointer range" defaultValue={{ start: null, end: null }} today={new Date(2026, 6, 31)} />
+  </div>,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(canvasElement.ownerDocument.body);
+    const ownerWindow = canvasElement.ownerDocument.defaultView!;
+    const dateTrigger = canvas.getByRole('button', { name: 'Открыть календарь' });
+    const dateRoot = dateTrigger.closest<HTMLElement>('.cometal-field')!;
+    const dateComponent = dateTrigger.closest<HTMLElement>('.cometal-date-picker')!;
+    Object.assign(dateComponent.style, { position: 'fixed', right: '0px', bottom: '0px', width: '240px' });
+    await userEvent.click(dateTrigger);
+    const datePanel = await body.findByRole('dialog', { name: 'Июль 2026' });
+    await waitFor(() => expect(datePanel).toHaveAttribute('data-placement', 'top-start'));
+    const initialDateRect = datePanel.getBoundingClientRect();
+    await expect(getComputedStyle(datePanel).position).toBe('fixed');
+    await expect(initialDateRect.left).toBeGreaterThanOrEqual(8);
+    await expect(initialDateRect.right).toBeLessThanOrEqual(ownerWindow.innerWidth - 8);
+    dateComponent.style.bottom = '48px';
+    fireEvent.scroll(ownerWindow);
+    await waitFor(() => expect(datePanel.getBoundingClientRect().top).not.toBeCloseTo(initialDateRect.top, 0));
+    fireEvent.pointerDown(canvasElement);
+    await waitFor(() => expect(body.queryByRole('dialog')).not.toBeInTheDocument());
+    await userEvent.click(dateTrigger);
+    await userEvent.click(await body.findByRole('button', { name: /среда, 15 июля 2026/ }));
+    await waitFor(() => expect(dateTrigger).toHaveFocus());
+    await expect(dateRoot).not.toHaveAttribute('data-focus-visible');
+    await expect(getComputedStyle(dateRoot.querySelector<HTMLElement>('.cometal-field__control')!).outlineStyle).toBe('none');
+
+    const rangeTrigger = canvas.getByRole('button', { name: 'Открыть календарь периода' });
+    const rangeRoot = rangeTrigger.closest<HTMLElement>('.cometal-field')!;
+    const rangeComponent = rangeTrigger.closest<HTMLElement>('.cometal-date-picker')!;
+    Object.assign(rangeComponent.style, { position: 'fixed', left: '0px', bottom: '0px', width: '240px' });
+    await userEvent.click(rangeTrigger);
+    const rangePanel = await body.findByRole('dialog', { name: 'Июль 2026' });
+    await waitFor(() => expect(rangePanel).toHaveAttribute('data-placement', 'top-start'));
+    const rangeRect = rangePanel.getBoundingClientRect();
+    await expect(getComputedStyle(rangePanel).position).toBe('fixed');
+    await expect(rangeRect.left).toBeGreaterThanOrEqual(8);
+    await expect(rangeRect.right).toBeLessThanOrEqual(ownerWindow.innerWidth - 8);
+    rangeComponent.style.display = 'none';
+    fireEvent.scroll(ownerWindow);
+    await waitFor(() => expect(body.queryByRole('dialog')).not.toBeInTheDocument());
+    rangeComponent.style.display = '';
+    await userEvent.click(rangeTrigger);
+    await userEvent.click(await body.findByRole('button', { name: /среда, 15 июля 2026/ }));
+    await userEvent.click(body.getByRole('button', { name: /четверг, 23 июля 2026/ }));
+    await waitFor(() => expect(rangeTrigger).toHaveFocus());
+    await expect(rangeRoot).not.toHaveAttribute('data-focus-visible');
+    await expect(getComputedStyle(rangeRoot.querySelector<HTMLElement>('.cometal-field__control')!).outlineStyle).toBe('none');
+  },
+};
+
+export const DateStrictModeCleanup: Story = {
+  name: 'StrictMode overlay cleanup',
+  parameters: { controls: { disable: true } },
+  render: () => <DateStrictModeCleanupExample />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const body = within(canvasElement.ownerDocument.body);
+    await waitFor(() => expect(body.getAllByRole('dialog')).toHaveLength(2));
+    await userEvent.click(canvas.getByRole('button', { name: 'Unmount date overlays' }));
+    await waitFor(() => expect(body.queryAllByRole('dialog')).toHaveLength(0));
+    fireEvent.scroll(canvasElement.ownerDocument.defaultView!);
+    fireEvent.resize(canvasElement.ownerDocument.defaultView!);
+    await expect(body.queryAllByRole('dialog')).toHaveLength(0);
+  },
+};
+
 export const PointerMotion: Story = {
   name: 'Motion',
   parameters: { controls: { disable: true } },
@@ -271,6 +388,12 @@ export const KeyboardNavigation: Story = {
     await expect(body.getByRole('button', { name: /четверг, 16 июля 2026/ })).toHaveFocus();
     await userEvent.keyboard('{Enter}');
     await expect(canvas.getByRole('textbox', { name: 'Дата поставки' })).toHaveValue('16.07.2026');
+    const trigger = canvas.getByRole('button', { name: 'Открыть календарь' });
+    const root = trigger.closest<HTMLElement>('.cometal-field')!;
+    await waitFor(() => expect(trigger).toHaveFocus());
+    await expect(root).toHaveAttribute('data-focus-visible');
+    await expect(getComputedStyle(root.querySelector<HTMLElement>('.cometal-field__control')!).outlineWidth).toBe('2px');
+    await expect(getComputedStyle(root.querySelector<HTMLElement>('.cometal-field__control')!).outlineOffset).toBe('4px');
   },
 };
 
@@ -294,6 +417,9 @@ export const TriggerKeyboardDismissal: Story = {
     await userEvent.keyboard('{Escape}');
     await waitFor(() => expect(body.queryByRole('dialog')).not.toBeInTheDocument());
     await waitFor(() => expect(trigger).toHaveFocus());
+    await expect(root).toHaveAttribute('data-focus-visible');
+    await expect(getComputedStyle(control).outlineWidth).toBe('2px');
+    await expect(getComputedStyle(control).outlineOffset).toBe('4px');
   },
 };
 
@@ -318,6 +444,11 @@ export const DateRangeKeyboardDismissal: Story = {
     await userEvent.keyboard('{Escape}');
     await waitFor(() => expect(body.queryByRole('dialog')).not.toBeInTheDocument());
     await waitFor(() => expect(trigger).toHaveFocus());
+    const root = trigger.closest<HTMLElement>('.cometal-field')!;
+    const control = root.querySelector<HTMLElement>('.cometal-field__control')!;
+    await expect(root).toHaveAttribute('data-focus-visible');
+    await expect(getComputedStyle(control).outlineWidth).toBe('2px');
+    await expect(getComputedStyle(control).outlineOffset).toBe('4px');
     await expect(canvasElement.querySelector<HTMLInputElement>('input[type="hidden"][name="deliveryPeriod"]')).toHaveValue('2026-07-15/2026-07-23');
   },
 };
