@@ -19,9 +19,9 @@ export type DesignSystemRelease = {
 export const releases: DesignSystemRelease[] = [
   {
     version: 'v0.3.0',
-    title: 'Figma ↔ Storybook Synchronization',
-    description: '13 августа 2026 · Синхронизированы Figma DS Core, tokens, React, Storybook, registry и Obsidian. Статус: опубликован.',
-    status: 'Опубликован',
+    title: 'Table + Widget Candidate Synchronization',
+    description: '27 августа 2026 · Синхронизация источников Table + Widget с exact candidate a3b1b354f0a94e6951904db8e6b2e19b6549a939. Статус: candidate; production publication pending.',
+    status: 'Кандидат',
     sections: [
       { title: 'Foundation Sync', changes: [
         'Зафиксирован контракт из 627 Variables: 402 Primitive, 155 Semantic и 70 Component.',
@@ -36,21 +36,21 @@ export const releases: DesignSystemRelease[] = [
         'Компонент добавлен в React, Storybook, registry, specifications и Obsidian.',
       ] },
       { title: 'Component Match', changes: [
-        'Синхронизированы Button, Fields, Date Picker, Checkbox, Radio Button и Switch.',
-        'Проверены размеры controls 32/40/48, иконки 14/16/20 и focus visible.',
-        'Все 11 registry-компонентов получили visualMatch=true после desktop/mobile QA.',
-        'Figma, specs, source и Storybook links сведены к единому контракту.',
+        'Синхронизированы canonical sources Table, Widget, Tooltip и Context Menu.',
+        'Синхронизирована композиция паттерна Widget + Table.',
+        'Table Read/Edit, плотности 48/40, фильтры, resize, pinning, pagination и summary синхронизированы как candidate.',
+        'Exact candidate SHA a3b1b354f0a94e6951904db8e6b2e19b6549a939; запись относится только к delivery_candidate и не является production evidence.',
       ] },
-      { title: 'Publication', changes: [
-        'Базовый sync-коммит ce2ec57 опубликован в GitHub main.',
-        'Storybook и documentation portal опубликованы в Vercel production.',
-        'Пройдено 28 unit tests, 57 Storybook tests и сборка 32 portal routes.',
-        'Production QA пройден на desktop 1440 × 900 и mobile 390 × 844.',
+      { title: 'Candidate delivery', changes: [
+        'Exact candidate SHA: a3b1b354f0a94e6951904db8e6b2e19b6549a939.',
+        'Production publication pending; публичные поверхности не являются evidence для этого candidate.',
+        'Эта release entry не заявляет CODE_APPROVED или QA_PASSED.',
+        'Deploy ID и production verification отложены до отдельного release и smoke.',
       ] },
       { title: 'Deferred', changes: [
         'Icons заблокированы до утверждения canonical SVG source и React API.',
         'Tabs остаётся Figma draft до утверждения slot/count-контракта.',
-        'Tables остаются в Figma до утверждения public Table component set и React API.',
+        'Table + Widget больше не отложены: canonical sources синхронизированы с exact candidate.',
         'npm packages остаются private 0.0.0 до отдельного решения о versioning и registry.',
         'Компоненты остаются in-review до Frontend Lead review и продуктового пилота.',
       ] },
