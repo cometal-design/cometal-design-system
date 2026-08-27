@@ -428,12 +428,12 @@ export const Overview: Story = {
     const firstRow = table.querySelector<HTMLTableRowElement>('tbody tr[data-row-id="1"]');
     if (!firstRow) throw new Error('Expected row 1');
     fireEvent.contextMenu(firstRow, { clientX: 320, clientY: 420 });
-    await expect(within(document.body).getByRole('menuitem', { name: 'Открыть позицию' })).toBeDisabled();
+    await expect(await within(document.body).findByRole('menuitem', { name: 'Открыть позицию' })).toBeDisabled();
     within(document.body).getByRole('menuitem', { name: 'Переключить выбор строки' }).focus();
     await userEvent.keyboard('{Escape}');
     await waitFor(() => expect(document.activeElement).toBe(firstRow));
     fireEvent.keyDown(firstRow, { key: 'F10', shiftKey: true });
-    await expect(within(document.body).getByRole('menuitem', { name: 'Открыть позицию' })).toBeVisible();
+    await expect(await within(document.body).findByRole('menuitem', { name: 'Открыть позицию' })).toBeVisible();
     await waitFor(() => expect(document.activeElement).toBe(within(document.body).getByRole('menuitem', { name: 'Переключить выбор строки' })));
     await userEvent.keyboard('{Escape}');
     await waitFor(() => expect(document.activeElement).toBe(firstRow));
@@ -458,8 +458,11 @@ export const Overview: Story = {
     if (!scrollRegion || !targetRow) throw new Error('Expected reorder surface and target row');
     const targetBounds = targetRow.getBoundingClientRect();
     fireEvent.pointerDown(dragHandle, { pointerId: 19, button: 0, clientX: targetBounds.left + 8, clientY: targetBounds.top - 8 });
-    fireEvent.pointerMove(scrollRegion, { pointerId: 19, clientX: targetBounds.left + 8, clientY: targetBounds.bottom - 2 });
-    await waitFor(() => expect(targetRow).toHaveAttribute('data-drop-position', 'after'));
+    await waitFor(() => expect(table.querySelector('tr[data-reorder-id="1"]')).toHaveAttribute('data-row-dragging', 'true'));
+    await waitFor(() => {
+      fireEvent.pointerMove(scrollRegion, { pointerId: 19, buttons: 1, clientX: targetBounds.left + 8, clientY: targetBounds.bottom - 2 });
+      expect(targetRow).toHaveAttribute('data-drop-position', 'after');
+    });
     fireEvent.pointerUp(scrollRegion, { pointerId: 19, clientX: targetBounds.left + 8, clientY: targetBounds.bottom - 2 });
     await waitFor(() => expect(Array.from(table.querySelectorAll('tbody tr[data-reorder-id]')).map((row) => row.getAttribute('data-reorder-id'))).toEqual(['2', '3', '1', '4']));
     const confirmedRow = table.querySelector<HTMLTableRowElement>('tr[data-reorder-id="1"]');
@@ -488,18 +491,22 @@ export const Overview: Story = {
     if (!cancellationTarget) throw new Error('Expected pointer cancellation target');
     const cancellationBounds = cancellationTarget.getBoundingClientRect();
     fireEvent.pointerDown(dragHandle, { pointerId: 20, button: 0, clientX: cancellationBounds.left + 8, clientY: cancellationBounds.top - 8 });
-    fireEvent.pointerMove(scrollRegion, { pointerId: 20, clientX: cancellationBounds.left + 8, clientY: cancellationBounds.bottom - 2 });
-    await waitFor(() => expect(cancellationTarget).toHaveAttribute('data-drop-position', 'after'));
+    await waitFor(() => {
+      fireEvent.pointerMove(scrollRegion, { pointerId: 20, buttons: 1, clientX: cancellationBounds.left + 8, clientY: cancellationBounds.bottom - 2 });
+      expect(cancellationTarget).toHaveAttribute('data-drop-position', 'after');
+    });
     fireEvent.pointerCancel(scrollRegion, { pointerId: 20 });
     await expect(Array.from(table.querySelectorAll('tbody tr[data-reorder-id]')).map((row) => row.getAttribute('data-reorder-id'))).toEqual(committedOrder);
-    await expect(table.querySelector('[data-row-dragging], [data-drop-position], [data-drop-confirmation]')).toBeNull();
+    await waitFor(() => expect(table.querySelector('[data-row-dragging], [data-drop-position], [data-drop-confirmation]')).toBeNull());
 
     fireEvent.pointerDown(dragHandle, { pointerId: 21, button: 0, clientX: cancellationBounds.left + 8, clientY: cancellationBounds.top - 8 });
-    fireEvent.pointerMove(scrollRegion, { pointerId: 21, clientX: cancellationBounds.left + 8, clientY: cancellationBounds.top + 2 });
-    await waitFor(() => expect(cancellationTarget).toHaveAttribute('data-drop-position', 'before'));
+    await waitFor(() => {
+      fireEvent.pointerMove(scrollRegion, { pointerId: 21, buttons: 1, clientX: cancellationBounds.left + 8, clientY: cancellationBounds.top + 2 });
+      expect(cancellationTarget).toHaveAttribute('data-drop-position', 'before');
+    });
     fireEvent.lostPointerCapture(scrollRegion, { pointerId: 21 });
     await expect(Array.from(table.querySelectorAll('tbody tr[data-reorder-id]')).map((row) => row.getAttribute('data-reorder-id'))).toEqual(committedOrder);
-    await expect(table.querySelector('[data-row-dragging], [data-drop-position], [data-drop-confirmation]')).toBeNull();
+    await waitFor(() => expect(table.querySelector('[data-row-dragging], [data-drop-position], [data-drop-confirmation]')).toBeNull());
 
     await expect(canvasElement.querySelectorAll('[data-cometal-icon]').length).toBeGreaterThan(0);
     await expect(canvasElement.querySelectorAll('.cometal-selection').length).toBeGreaterThan(0);
