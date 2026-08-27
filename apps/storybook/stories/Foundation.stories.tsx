@@ -422,6 +422,7 @@ export const Icons: Story = {
   render: () => <StrictMode><IconsPage /></StrictMode>,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    const body = within(canvasElement.ownerDocument.body);
     const search = canvas.getByRole('combobox', { name: 'Поиск по каноническому имени' }) as HTMLInputElement;
     const filterLabels = ['Библиотека', 'Семейство', 'Размер превью'] as const;
     const selects = filterLabels.map((label) => canvas.getByRole('combobox', { name: label }) as HTMLButtonElement);
@@ -436,7 +437,7 @@ export const Icons: Story = {
     const selectFilter = async (label: typeof filterLabels[number], optionName: string | RegExp) => {
       const trigger = canvas.getByRole('combobox', { name: label });
       await userEvent.click(trigger);
-      const listbox = await canvas.findByRole('listbox', { name: `${label}: варианты` });
+      const listbox = await body.findByRole('listbox', { name: `${label}: варианты` });
       const option = within(listbox).getByRole('option', { name: optionName });
       await userEvent.click(option);
       await waitFor(() => expect(trigger).toHaveTextContent(optionName));
