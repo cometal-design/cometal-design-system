@@ -20,7 +20,7 @@
 |---|---|---|
 | Figma DS Core | [DS Core](https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs) | Подключено |
 | Git repository | [cometal-design/cometal-design-system](https://github.com/cometal-design/cometal-design-system) | Подключено, private |
-| Storybook | `http://localhost:6006`; Production URL в Vercel пока не создан | Работает локально |
+| Storybook | `http://localhost:6006`; public portal `https://cometal-design-system-storybook.vercel.app/`; public Storybook `https://cometal-design-system-storybook.vercel.app/storybook/` | Public production baseline: `0551bb03662397087480a8ae66916b170402f18b`, Storybook index has 59 entries; this is separate from the M4–M8 delivery candidate. |
 | Obsidian Vault | `knowledge-base/` | Готов локально |
 
 ## Правило синхронизации

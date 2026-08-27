@@ -18,8 +18,8 @@
 | Сервис | Предлагаемое имя | Административный владелец | Где лежит секрет | Статус |
 |---|---|---|---|---|
 | GitHub | Organization `cometal-design`; private repo `cometal-design-system` | `dyuminvadim-stack`, Organization Owner; Company Owner будет добавлен позже | `Cometal DS / GitHub recovery` в Apple Passwords | Подключено |
-| Vercel | Team/Project `cometal-design-system` | Infrastructure Owner + Company Owner | OAuth; recovery в Apple Passwords | Не настроено |
-| Storybook viewer | Production URL и пароль определяются при деплое | Design System Lead | `Cometal DS / Storybook viewer` в Apple Passwords | Не настроено |
+| Vercel | Team/Project `cometal-design-system` | Infrastructure Owner + Company Owner | OAuth; recovery в Apple Passwords | Operational: public deployment is available |
+| Storybook viewer | Public portal and `/storybook/` are available from the Vercel deployment | Design System Lead | `Cometal DS / Storybook viewer` в Apple Passwords | Operational/public |
 | Obsidian | Vault `Cometal Design System` → папка `knowledge-base` | Git-доступ определяет доступ к базе | Отдельного секрета нет; Obsidian Sync — только если будет выбран | Локально готово |
 | Figma | DS Core `KKNGucImxFAtQLBhPy8tLs` | Design System Lead | Вход управляется Figma | Подключено |
 

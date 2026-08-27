@@ -3,7 +3,7 @@
 - ID: `template.widget` — legacy registry identity retained for compatibility
 - Статус: In review
 - Слой: Component
-- Figma: Main `2702:2173`, Toolbar `2702:3`, Content slot `2702:21`
+- Figma: Main `2702:2238`, Toolbar `2702:3`, Content slot `2702:21`
 - Storybook: `components-widget--overview`
 
 ## Что это
@@ -35,4 +35,4 @@ Registry ID `template.widget` оставлен временно, чтобы не
 
 `Widget`, `WidgetContent` и `WidgetToolbar` образуют публичную component family. `WidgetToolbarIcon` сохранён только как deprecated compatibility export: новые toolbar actions собираются из `Button`/`IconButton` и generated icons. `WidgetTablePattern` относится к слою Pattern и не является вариантом Widget.
 
-M8: `2702:2190` is Widget source context, `2702:2238` Main, `2702:3` Toolbar and `2702:21` Content slot. Generic Widget owns only shell and toolbar placement; the app-shared 120-row demo/controller and all Table state remain outside its API.
+M8: `2702:2190` is Widget source context, `2702:2238` Main, `2702:3` Toolbar and `2702:21` Content slot. Generic Widget owns only shell and toolbar placement; the private source-only `@cometal/examples/widget-table` controller owns the 120-row demo and Table state outside the Widget API, registry identity and public package release.

@@ -4,6 +4,7 @@
 - Статус: In review
 - Слой: Component
 - Storybook: `components-context-menu--overview`
+- Figma: Main `2668:243`; Sources/Item `2664:228`; review context `2663:77`
 
 ## Что это
 

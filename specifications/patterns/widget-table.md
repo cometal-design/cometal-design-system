@@ -1,7 +1,7 @@
 # Widget + Table pattern
 
 - Status: `in-review`
-- Figma evidence: `2702:2265`
+- Figma canonical composition: `3346:21724`; review evidence: `2702:2265`
 - Storybook: `patterns-widget-with-table--overview`
 - React source: `packages/react/src/Patterns/WidgetTablePattern.tsx`
 
@@ -45,7 +45,7 @@
 ## M4–M8 composition contract
 
 - `WidgetTablePattern` is a thin public composition of title, description, toolbar, Table payload and footer slots. Its CSS styles only its own slots and must not target Table, Field, Tooltip, ContextMenu or Button internals.
-- The shared app evidence module `apps/shared/widget-table/WidgetTableReviewExample.tsx` is the sole owner of 120-row fixture, typed filters/sort, edit/reorder, global-by-ID selection, visibility, pin/width state, pagination, totals and toolbar callbacks. Both Storybook and Portal consume it; it is not exported by `@cometal/react` and is not a new public pattern identity.
+- The private source-only controller `packages/examples/src/widget-table/WidgetTableReviewExample.tsx`, consumed as `@cometal/examples/widget-table`, is the sole owner of the 120-row fixture, typed filters/sort, edit/reorder, global-by-ID selection, visibility, pin/width state, pagination, totals and toolbar callbacks. Storybook and Portal consume the same boundary; it is not a Widget API, a public package release or a new pattern identity.
 - Read has row-wide hover, no drag/edit affordance and current-visible-page header selection scope while off-page selections persist. Edit has cell-local hover, controlled edit/reorder and the canonical Drag Column. Both preserve M1–M3 density/filter/sort contracts.
 - `maxVisibleBodyRows={10}` delegates row-window, sticky head/filter/summary and native scrollport geometry to Table. Controller owns page size (`10/15/20/30`), page clamp/reset and current-visible-page totals; hidden summary is absent, not visually suppressed.
 - Toolbar order is Density, Filters, Summary, Refresh, Download, then Edit-only Add. Each action uses shared Button/IconButton and an exact generated icon; toggles expose `aria-pressed`, while demo actions are bounded callbacks or explicitly disabled.

@@ -4,7 +4,7 @@ name: Context Menu
 status: in-review
 platform: web
 framework: react
-figma: "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2663-77"
+figma: "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2668-243"
 storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-context-menu--overview"
 ---
 
@@ -12,7 +12,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 
 React source: `packages/react/src/ContextMenu/ContextMenu.tsx`.
 
-Figma source roles: `2668:243` is Main and `2664:228` is Sources/Item; registry-linked `2663:77` is review/navigation context, not the canonical master.
+Figma source roles: `2668:243` is Main and `2664:228` is Sources/Item; `2663:77` remains review/navigation context, not the canonical master.
 
 ## Scope
 

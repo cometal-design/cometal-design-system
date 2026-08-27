@@ -33,7 +33,7 @@ Widget is a generic named region that composes required title/content, optional 
 
 - `Widget`, `WidgetContent` and `WidgetToolbar` are the current component-family exports.
 - `WidgetToolbarIcon` and `widgetToolbarIconTypes` are a deprecated compatibility layer. New composition uses generated icons from `@cometal/react/icons/*` inside `Button` or `IconButton`; the legacy export is not a second icon source.
-- `WidgetTablePattern` belongs to the separately documented unregistered Widget + Table composition and is not a Widget variant. `WidgetTableReviewExample` is app evidence/controller code, not a Widget or package export.
+- `WidgetTablePattern` belongs to the separately documented unregistered Widget + Table composition and is not a Widget variant. `WidgetTableReviewExample` belongs to the private source-only `@cometal/examples/widget-table` boundary, not to the Widget API, registry identity or a public package release.
 
 ## Token and geometry contract
 

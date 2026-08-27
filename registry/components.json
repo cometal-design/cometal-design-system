@@ -198,7 +198,7 @@
       "platform": "web",
       "version": "0.1.0-beta.1",
       "links": {
-        "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2663-77",
+        "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2668-243",
         "specification": "specifications/components/context-menu.md",
         "source": "packages/react/src/ContextMenu/ContextMenu.tsx",
         "storybook": "https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-context-menu--overview",
