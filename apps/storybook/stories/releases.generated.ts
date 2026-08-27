@@ -4,7 +4,7 @@
 export const releasesSource = {
   label: 'Figma DS Core · Releases',
   url: 'https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs/DS-Core?node-id=902-904',
-  syncedAt: '13 августа 2026',
+  syncedAt: '27 августа 2026',
 } as const;
 
 export type ReleaseSection = { title: string; changes: string[] };
