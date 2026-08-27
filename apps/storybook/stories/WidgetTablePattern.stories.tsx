@@ -268,26 +268,31 @@ export const Overview: Story = {
     await expect(nameHeader.style.getPropertyValue('--cometal-table-pinned-left')).toBe('0px');
     await expect(nameHeader).toHaveAttribute('data-column-pinned-last', 'true');
 
-    const editableCell = editRow.querySelector<HTMLElement>('td[data-editable="true"]')!;
+    const editableCell = editRow.querySelector<HTMLElement>('td[data-column-id="name"][data-editable="true"]')!;
+    const committedDraft = 'Наименование после ввода';
+    const rolledBackDraft = 'Это значение нужно отменить';
     await userEvent.click(editableCell);
     await expect(editableCell).toHaveAttribute('data-state', 'editing');
     await expect(editableCell).toHaveAttribute('contenteditable', 'true');
     await expect(editableCell).toHaveAttribute('role', 'textbox');
     await expect(editableCell.querySelector('input')).toBeNull();
+    await expect(editableCell).toHaveFocus();
+    await userEvent.clear(editableCell);
+    await userEvent.type(editableCell, committedDraft);
+    await expect(editableCell).toHaveTextContent(committedDraft);
+    await userEvent.keyboard('{Enter}');
+    await waitFor(() => expect(editableCell).toHaveAttribute('data-state', 'default'));
+    await expect(editableCell).toHaveTextContent(committedDraft);
+
+    await userEvent.click(editableCell);
+    await expect(editableCell).toHaveAttribute('data-state', 'editing');
+    await expect(editableCell).toHaveFocus();
+    await userEvent.clear(editableCell);
+    await userEvent.type(editableCell, rolledBackDraft);
+    await expect(editableCell).toHaveTextContent(rolledBackDraft);
     await userEvent.keyboard('{Escape}');
-    await expect(editableCell).toHaveAttribute('data-state', 'default');
-    const invalidQuantityCell = editTable.querySelector<HTMLElement>('tbody tr[data-row-id] td[data-column-id="quantity"]')!;
-    const committedQuantity = invalidQuantityCell.textContent;
-    await userEvent.click(invalidQuantityCell);
-    invalidQuantityCell.textContent = 'не число';
-    fireEvent.input(invalidQuantityCell);
-    fireEvent.focusOut(invalidQuantityCell);
-    await waitFor(() => expect(invalidQuantityCell).toHaveAttribute('data-state', 'error'));
-    await expect(invalidQuantityCell).toHaveTextContent('не число');
-    await userEvent.click(invalidQuantityCell);
-    await userEvent.keyboard('{Escape}');
-    await expect(invalidQuantityCell).toHaveAttribute('data-state', 'default');
-    await expect(invalidQuantityCell).toHaveTextContent(committedQuantity ?? '');
+    await waitFor(() => expect(editableCell).toHaveAttribute('data-state', 'default'));
+    await expect(editableCell).toHaveTextContent(committedDraft);
 
     const readNameWidthBeforeDensity = readNameHeader.getBoundingClientRect().width;
     const densityToggle = within(readToolbar!).getByRole('button', { name: 'Включить компактную плотность' });

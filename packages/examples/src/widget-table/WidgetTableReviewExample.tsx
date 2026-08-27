@@ -315,7 +315,10 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode 
         setInvalidCell(null);
         setEditingCell({ rowId: row.entityId, column });
       }}
-      onInput={(event) => setCellDrafts((current) => ({ ...current, [draftKey]: event.currentTarget.textContent ?? '' }))}
+      onInput={(event) => {
+        const draftValue = event.currentTarget.textContent ?? '';
+        setCellDrafts((current) => ({ ...current, [draftKey]: draftValue }));
+      }}
       onBlur={(event) => {
         if (!isEditing) return;
         if (event.currentTarget.dataset.editCancelled) {
