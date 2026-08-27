@@ -47,6 +47,8 @@
 - Resize Separator — внутренний 8px visual source: transparent 1px default line, одинаковая 2px focus-ring line для Hover/Resizing/Focus-visible. M2 не менял filters; их M3 contract ниже. Row/pinning/pagination work остаётся M4+.
 - M3 Filter Row `2530:5631`: 13 typed controlled filters принадлежат Widget pattern; operator и per-column Reset живут в header ContextMenu. Table задаёт external `48/40` geometry (`8/4` vertical inset вокруг 32px S control), Field/Select — внутренний `spacing-50` `8px` inset.
 - Filtering идёт AND-before-stable-sort и не сбрасывает M2 sort; Select/Date/DateRange overlays используют shared portal и не требуют изменения Table clipping/scroll. Keyboard focus controls — один `2px` ring с `4px` offset; pointer не добавляет wrapper ring.
+- M4–M8 visual sources: Read/Edit `2353:9506` / `2353:9656`, Drag `2778:8307`, Summary `2760:8131`, Paginator `2371:29654` + `2851:11088`; `3346:21724` is the four-variant Widget Table composition source, not an identity.
+- Table owns Read/Edit boundaries, current-page header selection scope, controlled pin/width/visibility behavior, native scrollport/custom projections, `maxVisibleBodyRows`, paginator primitives and sticky summary rendering. Consumer/controller owns stable IDs, data, filtering/sort, page state and supplied current-page totals. TW-017 generated Drag Handle provenance remains unresolved.
 
 ## Ownership
 

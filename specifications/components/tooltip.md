@@ -25,3 +25,5 @@ Tooltip публикует bounded overlay для короткой подска�
 - Trigger: hover + focus
 - Dismiss: blur + pointer leave
 - Floating panel: portal в `document.body`, чтобы viewport-координаты не искажались `overflow`, `contain`, transform или scroll-контейнерами потребителя
+- M4 source role: `2871:43` is the canonical component set; `2866:2` remains documentation/navigation context only. Table supplies only real text-overflow detection (`scrollWidth > clientWidth`) and disables Tooltip while editing or when text fits.
+- Shared component owns hover/focus concurrency, `aria-describedby` only while open, Escape/blur/pointer-leave dismissal, SSR-safe hydration, anchor/content resize and scroll/visualViewport following, collision flip/shift and lost-anchor closure. Wide geometry uses intrinsic wrapping plus canonical bounded max-width; synchronous Range measurement and raw character-width heuristics are forbidden.

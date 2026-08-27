@@ -12,8 +12,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 
 - Registry ID: `template.widget` is a legacy stable identity retained for compatibility; canonical layer is Component.
 - Figma page: `Widgets`, `2702:2`
-- Canonical artboards: `2702:2190`, `2702:2238`
-- Sources: Toolbar `2702:3`, Content slot `2702:21`, Table payload `2702:23`, Main `2702:2173`
+- Source context `2702:2190`; Main `2702:2238`; Toolbar `2702:3`; Content slot `2702:21`. `2702:23` is the retained Read/Comfortable Table payload variant within composition set `3346:21724`; Widget + Table review `2702:2265` is replay/evidence context, not a generic Widget master.
 - React: `packages/react/src/Widget/Widget.tsx`
 - Storybook: `components-widget--overview`
 
@@ -34,7 +33,7 @@ Widget is a generic named region that composes required title/content, optional 
 
 - `Widget`, `WidgetContent` and `WidgetToolbar` are the current component-family exports.
 - `WidgetToolbarIcon` and `widgetToolbarIconTypes` are a deprecated compatibility layer. New composition uses generated icons from `@cometal/react/icons/*` inside `Button` or `IconButton`; the legacy export is not a second icon source.
-- `WidgetTablePattern` and `WidgetTableReviewExample` belong to the separately documented `pattern.widget-table` composition and are not Widget variants.
+- `WidgetTablePattern` belongs to the separately documented unregistered Widget + Table composition and is not a Widget variant. `WidgetTableReviewExample` is app evidence/controller code, not a Widget or package export.
 
 ## Token and geometry contract
 
@@ -55,6 +54,7 @@ Widget is a generic named region that composes required title/content, optional 
 - Widget does not intercept descendant keyboard or pointer behavior.
 - Width is fluid, height is content-driven; actions wrap instead of being hidden.
 - Nested content owns its state and semantics.
+- M8 toolbar placement uses shared Button/IconButton and generated icons; controls preserve consumer callbacks and `aria-pressed` where they toggle density, filters or summary. Widget receives no Table page/filter/selection/business callback state.
 
 ## Evidence gate
 

@@ -32,7 +32,7 @@
 - `WidgetTableReviewExample` owns sort direction, comparator semantics and stable row ordering. A header requests only `none → ascending → descending → none`; `none` exposes the current consumer-owned filtered `orderedRows`, not an immutable module seed, so prior reorder or consumer edits remain intact.
 - `position`, `name`, `grade`, `unit`, `document` and `supplier` use `Intl.Collator('ru-RU', { numeric: true, sensitivity: 'base' })`; `quantity` and `price` use numeric subtraction; `sum` compares derived `quantity × price`; `delivery` parses accepted `DD.MM.YYYY` values as numeric `YYYYMMDD`; `status` and `control` use the same lexical `ru-RU` collation without invented domain ranking.
 - Sorting operates on the filtered copy of current `orderedRows`. Equal values retain that current order via `originalIndex`; direction inversion applies only to nonzero comparison results, so ties remain stable in both directions.
-- M2 itself changed no filter operator/reset/listbox behavior. M3 fixes that bounded contract below; row menu, Read/Edit cells, pinning/resize mechanics, pagination, totals, scroll window and Widget toolbar remain M4+ pending.
+- M2 itself changed no filter operator/reset/listbox behavior. M3 fixes that bounded contract below; final M4–M8 composition is recorded after the M3 section.
 
 ## M3 filter contract
 
@@ -41,6 +41,15 @@
 - Active predicates compose with logical AND before the M2 stable sort. Sorting runs on filtered current `orderedRows`; ties preserve that current order through `originalIndex`, and a filter reset does not reset sorting.
 - Position reads only its position value. Text is normalized by trim plus `toLocaleLowerCase('ru-RU')`; numeric input accepts one decimal comma after stripping ordinary/NBSP/narrow-NBSP grouping separators; Delivery parses only `DD.MM.YYYY` to a calendar-day key; Sum remains derived `quantity × price`; Select options are finite deduplicated source-order values.
 - Read and Edit use the same filter predicates and controller. Header ContextMenu owns the nested operator level and Reset; shared Select/Date overlays portal outside the Table shell without changing Table scroll or clipping ownership.
+
+## M4–M8 composition contract
+
+- `WidgetTablePattern` is a thin public composition of title, description, toolbar, Table payload and footer slots. Its CSS styles only its own slots and must not target Table, Field, Tooltip, ContextMenu or Button internals.
+- The shared app evidence module `apps/shared/widget-table/WidgetTableReviewExample.tsx` is the sole owner of 120-row fixture, typed filters/sort, edit/reorder, global-by-ID selection, visibility, pin/width state, pagination, totals and toolbar callbacks. Both Storybook and Portal consume it; it is not exported by `@cometal/react` and is not a new public pattern identity.
+- Read has row-wide hover, no drag/edit affordance and current-visible-page header selection scope while off-page selections persist. Edit has cell-local hover, controlled edit/reorder and the canonical Drag Column. Both preserve M1–M3 density/filter/sort contracts.
+- `maxVisibleBodyRows={10}` delegates row-window, sticky head/filter/summary and native scrollport geometry to Table. Controller owns page size (`10/15/20/30`), page clamp/reset and current-visible-page totals; hidden summary is absent, not visually suppressed.
+- Toolbar order is Density, Filters, Summary, Refresh, Download, then Edit-only Add. Each action uses shared Button/IconButton and an exact generated icon; toggles expose `aria-pressed`, while demo actions are bounded callbacks or explicitly disabled.
+- Widget + Table remains a documented unregistered composition. No `pattern.widget-table` registry record or schema change is created in this wave.
 
 ## Exclusions
 

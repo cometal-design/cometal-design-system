@@ -24,6 +24,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - Header Source: `2353:10891`.
 - Main Components: `2353:9824`.
 - Review `2353:10833` используется только как презентационное evidence и не определяет реализацию.
+- M4–M8 leaf roles: Read Cell `2353:9506`, Edit Cell `2353:9656`, Selection Cell `2353:9766`, Index Cell `2353:9799`, Drag Cell `2778:8307`, Summary `2760:8131`, Read/Edit Columns `2353:9830` / `2353:10334`, Paginator component/control `2371:29654` / `2851:11088`. New Widget Table content set `3346:21724` is a canonical composition source with `Mode=Read|Edit` and `Density=Comfortable|Compact`, not a new registry identity.
 
 ## Архитектура
 
@@ -85,6 +86,17 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - Operator selection и per-column Reset принадлежат nested level существующего header `ContextMenu`, не самому input. Reset атомарно очищает значение (и range при наличии), возвращает default operator конкретного kind и page 1, не меняя sort или другие columns.
 - Consumer/pattern combines active predicates with logical AND before the M2 stable sort. Sort then operates on filtered current consumer order; filter reset does not reset sort.
 - Table не меняет clipping/scroll/sticky ownership ради overlay: Select, DatePicker и DateRangePicker используют shared body-portal behavior. Открытая surface остаётся частью interaction boundary и следует anchor; listbox/calendar не клипуются shell или scroll container.
+
+## M4–M8: reusable Table boundary
+
+- `mode="read"` исключает drag columns и edit entry даже при supplied reorder/edit callbacks. Row-wide hover и selection различны: selection consumer-owned by stable `rowId`, инициируется только Checkbox/header/menu action, сохраняется через filter/sort/page/density; header Checkbox считает и меняет только current visible page slice.
+- `rowContextMenu` остаётся neutral API по stable `rowId`: pointer context-click и `Shift+F10`/ContextMenu key открывают один shared menu, keyboard dismissal возвращает exact originating focus target. Table не создаёт business navigation, deletion или confirmation workflow.
+- `mode="edit"` даёт только cell-local hover. Eligible cell enters through click/Enter/F2; `td[contenteditable][role=textbox][aria-multiline=false]` остаётся единственной editing surface. Consumer owns draft, validation, persistence and blur rule; invalid draft stays visible with `state="error"`/`aria-invalid`, Enter commits valid data, Escape restores previous value. Displayed Position is not entity identity.
+- Reorder remains controlled and stable-ID based: pointer and keyboard share one before/after model and polite live announcement; cancel/lost capture does not mutate order. Post-drop confirmation uses the existing selected surface and motion foundations. Exact generated Drag Handle provenance remains an unresolved upstream dependency (TW-017); this specification does not claim its closure.
+- Column visibility is consumer-owned by stable column ID and applies consistently to header/filter/body/summary; the last visible data column is protected. Pin IDs and width record remain controlled: Table normalizes active visible pins by DOM order, measures actual header widths for sticky offsets, rejects invalid widths and synchronizes all floors. Resize pointer updates are rAF-coalesced; Arrow uses 8px, Shift 32px and Home the current minimum.
+- Native `.cometal-table-scroll` is the labelled horizontal/vertical scroll owner. Table-internal custom scrollbar projections preserve native wheel/trackpad/touch/keyboard scrolling, their own ARIA/capture cleanup and safe corner; Pattern never owns them.
+- `maxVisibleBodyRows?: number` is the sole M4–M8 public delta. Undefined preserves standalone uncapped body; a finite positive integer caps visible data body rows only. Table owns scrollport max block size and sticky header/filter/summary calculations; it receives neither data, totals, page state nor persistence API.
+- `TablePaginator` remains controlled through page/pageCount/pageSize callbacks and composes shared Button/IconButton/Select. Table renders consumer-supplied summary values only. In the accepted shared controller: page sizes `10/15/20/30`, a nine-page window with non-interactive ellipsis, current-visible-page summary, and summary visibility independent from filter/sort/selection.
 
 ## Контент
 
