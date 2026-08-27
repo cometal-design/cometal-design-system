@@ -82,5 +82,5 @@ export type { WidgetContentProps, WidgetElement, WidgetProps, WidgetToolbarProps
 export { WidgetToolbarIcon, widgetToolbarIconTypes } from './Widget/WidgetToolbarIcon';
 export type { WidgetToolbarIconProps, WidgetToolbarIconType } from './Widget/WidgetToolbarIcon';
 export { widgetFigmaLinks, widgetGeometry } from './Widget/widget.docs';
-export { WidgetTablePattern, WidgetTableReviewExample } from './Patterns/WidgetTablePattern';
-export type { WidgetTablePatternProps, WidgetTableReviewExampleProps } from './Patterns/WidgetTablePattern';
+export { WidgetTablePattern } from './Patterns/WidgetTablePattern';
+export type { WidgetTablePatternProps } from './Patterns/WidgetTablePattern';

@@ -1,11 +1,11 @@
 .cometal-table-scroll-shell {
   --cometal-table-density-size: var(--cometal-component-table-cell-height-density-comfortable);
   --cometal-table-scrollbar-safe-inset: var(--cometal-table-density-size);
-  --cometal-table-scrollbar-thumb: color-mix(
-    in srgb,
-    var(--cometal-semantic-color-global-icon-secondary) 24%,
-    transparent
-  );
+  --cometal-table-scrollbar-thumb: var(--cometal-primitive-color-neutral-500-24);
+  --cometal-table-scrollbar-track-size: calc(var(--cometal-primitive-spacing-75) / 2);
+  --cometal-table-scrollbar-thumb-size: var(--cometal-primitive-spacing-25);
+  --cometal-table-scrollbar-edge-reveal: var(--cometal-primitive-size-24);
+  --cometal-table-scrollbar-min-thumb: var(--cometal-primitive-size-32);
   position: relative;
   box-sizing: border-box;
   width: 100%;
@@ -33,6 +33,10 @@
   scrollbar-width: none;
 }
 
+.cometal-table-scroll[data-row-window] {
+  overflow-y: auto;
+}
+
 .cometal-table-scroll::-webkit-scrollbar {
   display: none;
   width: 0;
@@ -52,16 +56,16 @@
 
 .cometal-table-scrollbar--horizontal {
   right: var(--cometal-table-scrollbar-safe-inset);
-  bottom: 1px;
+  bottom: var(--cometal-primitive-stroke-100);
   left: var(--cometal-table-scrollbar-safe-inset);
-  height: 6px;
+  height: var(--cometal-table-scrollbar-track-size);
 }
 
 .cometal-table-scrollbar--vertical {
   top: var(--cometal-table-scrollbar-safe-inset);
-  right: 1px;
+  right: var(--cometal-primitive-stroke-100);
   bottom: var(--cometal-table-scrollbar-safe-inset);
-  width: 6px;
+  width: var(--cometal-table-scrollbar-track-size);
 }
 
 .cometal-table-scrollbar__thumb {
@@ -72,15 +76,15 @@
 }
 
 .cometal-table-scrollbar--horizontal .cometal-table-scrollbar__thumb {
-  top: 1px;
+  top: var(--cometal-primitive-stroke-100);
   left: 0;
-  height: 4px;
+  height: var(--cometal-table-scrollbar-thumb-size);
 }
 
 .cometal-table-scrollbar--vertical .cometal-table-scrollbar__thumb {
   top: 0;
-  left: 1px;
-  width: 4px;
+  left: var(--cometal-primitive-stroke-100);
+  width: var(--cometal-table-scrollbar-thumb-size);
 }
 
 .cometal-table-scroll-shell[data-scroll-active] .cometal-table-scrollbar,
@@ -242,12 +246,20 @@
 }
 
 .cometal-table__header-cell {
-  position: relative;
+  position: sticky;
+  z-index: 3;
+  top: 0;
   font-family: var(--cometal-typography-body-s-accent-font-family);
   font-size: var(--cometal-typography-body-s-accent-font-size);
   font-weight: var(--cometal-typography-body-s-accent-font-weight);
   line-height: var(--cometal-typography-body-s-accent-line-height);
   letter-spacing: var(--cometal-typography-body-s-accent-letter-spacing);
+}
+
+.cometal-table__filter-cell {
+  position: sticky;
+  z-index: 2;
+  top: var(--cometal-table-cell-height);
 }
 
 .cometal-table__header-cell[data-sort='ascending'],
@@ -401,6 +413,11 @@
 
 .cometal-table__drag-icon,
 .cometal-table__paginator-icon {
+  width: var(--cometal-primitive-size-24);
+  height: var(--cometal-primitive-size-24);
+}
+
+.cometal-table__page-control .cometal-table__paginator-icon {
   width: var(--cometal-primitive-size-24);
   height: var(--cometal-primitive-size-24);
 }
@@ -647,7 +664,7 @@
 
 .cometal-table__row[data-drop-confirmation='fade'] > .cometal-table__cell::before {
   opacity: 0;
-  transition: opacity 600ms cubic-bezier(0.23, 1, 0.32, 1);
+  transition: opacity var(--cometal-motion-duration-state) var(--cometal-motion-easing-standard);
 }
 
 .cometal-table__row[data-drop-position='before'] > .cometal-table__cell {
@@ -699,7 +716,7 @@
 
 @media (prefers-reduced-motion: reduce) {
   .cometal-table__row[data-drop-confirmation='fade'] > .cometal-table__cell::before {
-    transition-duration: 120ms;
+    transition: none;
   }
 }
 

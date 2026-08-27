@@ -204,7 +204,7 @@ function SourceTable({ density = 'comfortable', filters = true, ariaLabel = 'П�
   const [operators, setOperators] = useState({ position: 'Содержит', name: 'Содержит', quantity: 'Равно', status: 'Равно', file: 'Содержит' });
   const toggleAll = (checked: boolean) => setSelected(checked ? orderedRows.map((row) => row.id) : []);
   return (
-    <Table density={density} mode={mode} aria-label={ariaLabel} className="ds-table-source-example" pinnedColumnIds={pinnedColumnIds} onPinnedColumnIdsChange={setPinnedColumnIds} columnWidths={columnWidths} onColumnWidthsChange={setColumnWidths} onRowReorder={mode === 'edit' ? (event) => setOrderedRows((current) => reorderTableRows(current, event, (row) => String(row.id))) : undefined} rowContextMenu={(rowId) => <><ContextMenuItem onClick={() => setSelected((current) => current.includes(Number(rowId)) ? current : [...current, Number(rowId)])}>Выбрать строку</ContextMenuItem><ContextMenuItem>Открыть позицию</ContextMenuItem>{mode === 'edit' ? <><ContextMenuDivider /><ContextMenuItem tone="danger">Удалить строку</ContextMenuItem></> : null}</>}>
+    <Table density={density} mode={mode} aria-label={ariaLabel} className="ds-table-source-example" pinnedColumnIds={pinnedColumnIds} onPinnedColumnIdsChange={setPinnedColumnIds} columnWidths={columnWidths} onColumnWidthsChange={setColumnWidths} onRowReorder={mode === 'edit' ? (event) => setOrderedRows((current) => reorderTableRows(current, event, (row) => String(row.id))) : undefined} rowContextMenu={(rowId) => <><ContextMenuItem onClick={() => setSelected((current) => current.includes(Number(rowId)) ? current.filter((id) => id !== Number(rowId)) : [...current, Number(rowId)])}>Переключить выбор строки</ContextMenuItem><ContextMenuItem disabled>Открыть позицию</ContextMenuItem>{mode === 'edit' ? <><ContextMenuDivider /><ContextMenuItem tone="danger" onClick={() => { setOrderedRows((current) => current.filter((row) => row.id !== Number(rowId))); setSelected((current) => current.filter((id) => id !== Number(rowId))); }}>Удалить строку</ContextMenuItem></> : null}</>}>
       <TableHead>
         <TableRow>
           <TableHeaderCell columnId={sourceColumnIds.drag} kind="drag"><span className="sr-only">Перемещение</span></TableHeaderCell>
@@ -427,8 +427,15 @@ export const Overview: Story = {
     const firstRow = table.querySelector<HTMLTableRowElement>('tbody tr[data-row-id="1"]');
     if (!firstRow) throw new Error('Expected row 1');
     fireEvent.contextMenu(firstRow, { clientX: 320, clientY: 420 });
+    await expect(within(document.body).getByRole('menuitem', { name: 'Открыть позицию' })).toBeDisabled();
+    within(document.body).getByRole('menuitem', { name: 'Переключить выбор строки' }).focus();
+    await userEvent.keyboard('{Escape}');
+    await waitFor(() => expect(document.activeElement).toBe(firstRow));
+    fireEvent.keyDown(firstRow, { key: 'F10', shiftKey: true });
     await expect(within(document.body).getByRole('menuitem', { name: 'Открыть позицию' })).toBeVisible();
-    await userEvent.click(within(document.body).getByRole('menuitem', { name: 'Открыть позицию' }));
+    await waitFor(() => expect(document.activeElement).toBe(within(document.body).getByRole('menuitem', { name: 'Переключить выбор строки' })));
+    await userEvent.keyboard('{Escape}');
+    await waitFor(() => expect(document.activeElement).toBe(firstRow));
     const editableCell = firstRow.querySelector<HTMLElement>('td[data-editable="true"]');
     if (!editableCell) throw new Error('Expected editable cell');
     await userEvent.click(editableCell);
@@ -472,7 +479,7 @@ export const Overview: Story = {
     await expect(confirmationStyle.zIndex).toBe('0');
     await expect(getComputedStyle(confirmedContent).zIndex).toBe('1');
     await waitFor(() => expect(confirmedRow).toHaveAttribute('data-drop-confirmation', 'fade'), { timeout: 1_000 });
-    await expect(getComputedStyle(confirmedCell, '::before').transitionDuration).toBe('0.6s');
+    await expect(getComputedStyle(confirmedCell, '::before').transitionDuration).toBe('0.12s');
     await waitFor(() => expect(confirmedRow).not.toHaveAttribute('data-drop-confirmation'), { timeout: 1_000 });
     await expect(canvasElement.querySelectorAll('[data-cometal-icon]').length).toBeGreaterThan(0);
     await expect(canvasElement.querySelectorAll('.cometal-selection').length).toBeGreaterThan(0);

@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import Link from 'next/link';
-import { Badge, WidgetTableReviewExample } from '@cometal/react';
+import { Badge } from '@cometal/react';
+import { WidgetTableReviewExample } from '../../../shared/widget-table/WidgetTableReviewExample';
 import { MetadataStrip } from '../../components/metadata-strip';
 import { PageHeader } from '../../components/page-header';
 

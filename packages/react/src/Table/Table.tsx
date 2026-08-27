@@ -13,6 +13,7 @@ import type {
   ThHTMLAttributes,
 } from 'react';
 import { Checkbox } from '../Selection/Selection';
+import { Button, IconButton } from '../Button/Button';
 import { ContextMenu, ContextMenuItem } from '../ContextMenu/ContextMenu';
 import type { ContextMenuItemProps } from '../ContextMenu/ContextMenu';
 import { Select } from '../Field/Field';
@@ -104,10 +105,8 @@ const TableColumnSizingContext = createContext<TableColumnSizingContextValue | n
 const EMPTY_TABLE_COLUMN_IDS: readonly string[] = [];
 const EMPTY_TABLE_COLUMN_WIDTHS: Readonly<Record<string, number>> = {};
 const TABLE_DROP_CONFIRMATION_HOLD_MS = 500;
-const TABLE_DROP_CONFIRMATION_FADE_MS = 600;
+const TABLE_DROP_CONFIRMATION_FADE_MS = 120;
 const TABLE_SCROLL_IDLE_MS = 2000;
-const TABLE_SCROLL_EDGE_REVEAL_PX = 24;
-const TABLE_SCROLLBAR_MIN_THUMB_PX = 32;
 
 type TableScrollAxis = 'horizontal' | 'vertical';
 
@@ -119,6 +118,8 @@ interface TableScrollMetrics {
   scrollLeft: number;
   scrollTop: number;
   safeInset: number;
+  edgeReveal: number;
+  minThumb: number;
 }
 
 interface TableScrollbarDrag {
@@ -138,6 +139,8 @@ const EMPTY_TABLE_SCROLL_METRICS: TableScrollMetrics = {
   scrollLeft: 0,
   scrollTop: 0,
   safeInset: 0,
+  edgeReveal: 0,
+  minThumb: 0,
 };
 
 function getTableScrollbarGeometry(axis: TableScrollAxis, metrics: TableScrollMetrics) {
@@ -151,7 +154,7 @@ function getTableScrollbarGeometry(axis: TableScrollAxis, metrics: TableScrollMe
     viewportLength - (metrics.safeInset * 2),
   );
   const thumbLength = contentLength > 0
-    ? Math.max(TABLE_SCROLLBAR_MIN_THUMB_PX, Math.min(trackLength, (viewportLength / contentLength) * trackLength))
+    ? Math.max(metrics.minThumb, Math.min(trackLength, (viewportLength / contentLength) * trackLength))
     : trackLength;
   const maxThumbOffset = Math.max(0, trackLength - thumbLength);
   const thumbOffset = maxScroll > 0 ? (scrollPosition / maxScroll) * maxThumbOffset : 0;
@@ -199,7 +202,7 @@ function useTableColumnLayout(columnId: string | undefined, style: CSSProperties
   };
 }
 
-type TableRowMenuState = { rowId: string; x: number; y: number };
+type TableRowMenuState = { rowId: string; x: number; y: number; focusMenu: boolean };
 
 export interface TableProps extends TableHTMLAttributes<HTMLTableElement> {
   density?: TableDensity;
@@ -220,6 +223,8 @@ export interface TableProps extends TableHTMLAttributes<HTMLTableElement> {
   columnWidths?: Readonly<Record<string, number>>;
   /** Receives the complete next controlled width record after pointer or keyboard resizing. */
   onColumnWidthsChange?: (columnWidths: Record<string, number>) => void;
+  /** Caps visible data rows while preserving sticky table head and summary geometry. */
+  maxVisibleBodyRows?: number;
 }
 
 export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
@@ -235,7 +240,9 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
     onPinnedColumnIdsChange,
     columnWidths = EMPTY_TABLE_COLUMN_WIDTHS,
     onColumnWidthsChange,
+    maxVisibleBodyRows,
     onContextMenu,
+    onKeyDown,
     ...tableProps
   },
   ref,
@@ -256,12 +263,18 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
   const [scrollActive, setScrollActive] = useState(false);
   const [scrollMetrics, setScrollMetrics] = useState<TableScrollMetrics>(EMPTY_TABLE_SCROLL_METRICS);
   const [scrollbarDragging, setScrollbarDragging] = useState<TableScrollAxis | null>(null);
+  const [maxScrollBlockSize, setMaxScrollBlockSize] = useState<number | null>(null);
   const [columnLayout, setColumnLayout] = useState<{ order: string[]; offsets: Record<string, number> }>({ order: [], offsets: {} });
   const columnWidthsRef = useRef(columnWidths);
   const dropConfirmationTimersRef = useRef<number[]>([]);
   const scrollIdleTimerRef = useRef<number | null>(null);
   const scrollbarDragRef = useRef<TableScrollbarDrag | null>(null);
+  const rowMenuOriginRef = useRef<HTMLElement | null>(null);
   columnWidthsRef.current = columnWidths;
+
+  const resolvedMaxVisibleBodyRows = Number.isFinite(maxVisibleBodyRows) && Number.isInteger(maxVisibleBodyRows) && (maxVisibleBodyRows ?? 0) > 0
+    ? maxVisibleBodyRows as number
+    : null;
 
   const clearDropConfirmationTimers = useCallback(() => {
     dropConfirmationTimersRef.current.forEach((timer) => window.clearTimeout(timer));
@@ -289,6 +302,17 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
     scrollbarDragRef.current = null;
   }, []);
 
+  useEffect(() => {
+    if (!rowMenu?.focusMenu) return;
+    const frame = requestAnimationFrame(() => {
+      const trigger = tableRef.current?.parentElement?.querySelector<HTMLElement>('[aria-controls][aria-expanded="true"]');
+      const menuId = trigger?.getAttribute('aria-controls');
+      const menu = menuId ? trigger?.ownerDocument.getElementById(menuId) : null;
+      menu?.querySelector<HTMLElement>('[data-cometal-menu-item]:not([data-disabled])')?.focus({ preventScroll: true });
+    });
+    return () => cancelAnimationFrame(frame);
+  }, [rowMenu]);
+
   const markScrollActive = useCallback(() => {
     setScrollActive(true);
     if (scrollIdleTimerRef.current !== null) window.clearTimeout(scrollIdleTimerRef.current);
@@ -302,6 +326,7 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
   const updateScrollMetrics = useCallback(() => {
     const scroll = scrollRef.current;
     if (!scroll) return;
+    const shellStyle = getComputedStyle(scroll.parentElement ?? scroll);
     const next: TableScrollMetrics = {
       clientWidth: scroll.clientWidth,
       clientHeight: scroll.clientHeight,
@@ -309,7 +334,9 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
       scrollHeight: scroll.scrollHeight,
       scrollLeft: scroll.scrollLeft,
       scrollTop: scroll.scrollTop,
-      safeInset: Number.parseFloat(getComputedStyle(scroll.parentElement ?? scroll).getPropertyValue('--cometal-table-density-size')) || 0,
+      safeInset: Number.parseFloat(shellStyle.getPropertyValue('--cometal-table-density-size')) || 0,
+      edgeReveal: Number.parseFloat(shellStyle.getPropertyValue('--cometal-table-scrollbar-edge-reveal')) || 0,
+      minThumb: Number.parseFloat(shellStyle.getPropertyValue('--cometal-table-scrollbar-min-thumb')) || 0,
     };
     setScrollMetrics((current) => (
       current.clientWidth === next.clientWidth
@@ -319,6 +346,8 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
       && current.scrollLeft === next.scrollLeft
       && current.scrollTop === next.scrollTop
       && current.safeInset === next.safeInset
+      && current.edgeReveal === next.edgeReveal
+      && current.minThumb === next.minThumb
         ? current
         : next
     ));
@@ -334,6 +363,36 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
     if (table) observer.observe(table);
     return () => observer.disconnect();
   }, [updateScrollMetrics]);
+
+  useLayoutEffect(() => {
+    const table = tableRef.current;
+    if (!table || resolvedMaxVisibleBodyRows === null) {
+      setMaxScrollBlockSize(null);
+      return;
+    }
+    let frame = 0;
+    const measure = () => {
+      cancelAnimationFrame(frame);
+      frame = requestAnimationFrame(() => {
+        const headHeight = Array.from(table.tHead?.rows ?? []).reduce((total, row) => total + row.getBoundingClientRect().height, 0);
+        const bodyRows = Array.from(table.tBodies).flatMap((body) => Array.from(body.rows));
+        const summaryRows = bodyRows.filter((row) => row.querySelector('.cometal-table__summary-cell'));
+        const dataRows = bodyRows.filter((row) => !row.querySelector('.cometal-table__summary-cell'));
+        const dataHeight = dataRows.slice(0, resolvedMaxVisibleBodyRows).reduce((total, row) => total + row.getBoundingClientRect().height, 0);
+        const summaryHeight = summaryRows.reduce((total, row) => total + row.getBoundingClientRect().height, 0);
+        setMaxScrollBlockSize(headHeight + dataHeight + summaryHeight);
+      });
+    };
+    measure();
+    if (typeof ResizeObserver === 'undefined') return () => cancelAnimationFrame(frame);
+    const observer = new ResizeObserver(measure);
+    observer.observe(table);
+    Array.from(table.rows).forEach((row) => observer.observe(row));
+    return () => {
+      cancelAnimationFrame(frame);
+      observer.disconnect();
+    };
+  }, [resolvedMaxVisibleBodyRows, tableProps.children]);
 
   useLayoutEffect(() => {
     updateScrollMetrics();
@@ -404,13 +463,14 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
     const geometry = getTableScrollbarGeometry(axis, scrollMetrics);
     const current = axis === 'horizontal' ? scroll.scrollLeft : scroll.scrollTop;
     const pageStep = geometry.viewportLength * 0.8;
+    const densityStep = scrollMetrics.safeInset;
     let next: number | null = null;
     if (event.key === 'Home') next = 0;
     else if (event.key === 'End') next = geometry.maxScroll;
     else if (event.key === 'PageUp') next = current - pageStep;
     else if (event.key === 'PageDown') next = current + pageStep;
-    else if (event.key === (axis === 'horizontal' ? 'ArrowLeft' : 'ArrowUp')) next = current - 40;
-    else if (event.key === (axis === 'horizontal' ? 'ArrowRight' : 'ArrowDown')) next = current + 40;
+    else if (event.key === (axis === 'horizontal' ? 'ArrowLeft' : 'ArrowUp')) next = current - densityStep;
+    else if (event.key === (axis === 'horizontal' ? 'ArrowRight' : 'ArrowDown')) next = current + densityStep;
     if (next === null) return;
     event.preventDefault();
     moveScrollFromScrollbar(axis, next);
@@ -595,7 +655,25 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
     const rowId = row?.dataset.rowId;
     if (!rowId || row?.closest('table') !== event.currentTarget) return;
     event.preventDefault();
-    setRowMenu({ rowId, x: event.clientX, y: event.clientY });
+    const origin = event.target as HTMLElement;
+    if (origin === row) {
+      row.tabIndex = -1;
+      row.focus({ preventScroll: true });
+    }
+    rowMenuOriginRef.current = origin;
+    setRowMenu({ rowId, x: event.clientX, y: event.clientY, focusMenu: false });
+  };
+
+  const openRowMenuFromKeyboard = (event: ReactKeyboardEvent<HTMLTableElement>) => {
+    onKeyDown?.(event);
+    if (!rowContextMenu || event.defaultPrevented || (event.key !== 'ContextMenu' && !(event.shiftKey && event.key === 'F10'))) return;
+    const row = (event.target as Element).closest<HTMLTableRowElement>('tbody tr[data-row-id]');
+    const rowId = row?.dataset.rowId;
+    if (!row || !rowId || row.closest('table') !== event.currentTarget) return;
+    event.preventDefault();
+    const bounds = row.getBoundingClientRect();
+    rowMenuOriginRef.current = event.target as HTMLElement;
+    setRowMenu({ rowId, x: bounds.left, y: bounds.bottom, focusMenu: true });
   };
 
   const horizontalScrollbar = getTableScrollbarGeometry('horizontal', scrollMetrics);
@@ -617,8 +695,8 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
         onPointerMove={(event) => {
           const bounds = event.currentTarget.getBoundingClientRect();
           if (
-            (hasHorizontalScrollbar && bounds.bottom - event.clientY <= TABLE_SCROLL_EDGE_REVEAL_PX)
-            || (hasVerticalScrollbar && bounds.right - event.clientX <= TABLE_SCROLL_EDGE_REVEAL_PX)
+            (hasHorizontalScrollbar && bounds.bottom - event.clientY <= scrollMetrics.edgeReveal)
+            || (hasVerticalScrollbar && bounds.right - event.clientX <= scrollMetrics.edgeReveal)
           ) markScrollActive();
         }}
       >
@@ -626,11 +704,13 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
         ref={scrollRef}
         id={scrollRegionId}
         className="cometal-table-scroll"
+        data-row-window={resolvedMaxVisibleBodyRows ?? undefined}
         data-cometal-component="table-scroll"
         data-horizontal-scrolled={horizontalScrolled || undefined}
         role="region"
         aria-label={`Прокрутка: ${ariaLabel}`}
         tabIndex={0}
+        style={maxScrollBlockSize === null ? undefined : { maxBlockSize: `${maxScrollBlockSize}px` }}
         onScroll={(event) => {
           setHorizontalScrolled(event.currentTarget.scrollLeft > 0);
           updateScrollMetrics();
@@ -657,6 +737,7 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
           data-reorderable={reorderEnabled || undefined}
           data-row-context-menu={rowContextMenu ? true : undefined}
           onContextMenu={openRowMenu}
+          onKeyDown={openRowMenuFromKeyboard}
         />
         {reorderEnabled ? <>
           <span id={instructionId} className="cometal-table__visually-hidden">Нажмите Пробел или Enter, затем используйте стрелки вверх и вниз. Повторное нажатие завершает перемещение.</span>
@@ -667,7 +748,11 @@ export const Table = forwardRef<HTMLTableElement, TableProps>(function Table(
             anchor="pointer"
             pointerPosition={{ x: rowMenu.x, y: rowMenu.y }}
             open
-            onOpenChange={(open) => { if (!open) setRowMenu(null); }}
+            onOpenChange={(open) => {
+              if (open) return;
+              setRowMenu(null);
+              requestAnimationFrame(() => rowMenuOriginRef.current?.focus());
+            }}
             clickOpens={false}
             contextOpens={false}
             size="s"
@@ -828,6 +913,8 @@ function TableColumnResizeHandle({ columnId, label, headerRef }: TableColumnResi
   const sizing = useContext(TableColumnSizingContext);
   const handleRef = useRef<HTMLSpanElement | null>(null);
   const dragRef = useRef<{ pointerId: number; startX: number; startWidth: number; startWidths: Readonly<Record<string, number>> } | null>(null);
+  const resizeFrameRef = useRef<number | null>(null);
+  const pendingWidthRef = useRef<number | null>(null);
   const [dragging, setDragging] = useState(false);
   const controlledWidth = sizing?.columnWidths[columnId];
   const [measuredWidth, setMeasuredWidth] = useState(controlledWidth ?? 0);
@@ -844,11 +931,27 @@ function TableColumnResizeHandle({ columnId, label, headerRef }: TableColumnResi
     return () => observer.disconnect();
   }, [controlledWidth, headerRef]);
 
+  useEffect(() => () => {
+    if (resizeFrameRef.current !== null) cancelAnimationFrame(resizeFrameRef.current);
+  }, []);
+
+  const flushPendingWidth = () => {
+    if (resizeFrameRef.current !== null) cancelAnimationFrame(resizeFrameRef.current);
+    resizeFrameRef.current = null;
+    if (pendingWidthRef.current !== null) sizing?.setColumnWidth(columnId, pendingWidthRef.current);
+    pendingWidthRef.current = null;
+  };
+
   const finishPointerResize = (restore: boolean) => {
     const drag = dragRef.current;
     const handle = handleRef.current;
     if (!drag) return;
-    if (restore) sizing?.replaceColumnWidths(drag.startWidths);
+    if (restore) {
+      if (resizeFrameRef.current !== null) cancelAnimationFrame(resizeFrameRef.current);
+      resizeFrameRef.current = null;
+      pendingWidthRef.current = null;
+      sizing?.replaceColumnWidths(drag.startWidths);
+    } else flushPendingWidth();
     if (handle?.hasPointerCapture(drag.pointerId)) handle.releasePointerCapture(drag.pointerId);
     dragRef.current = null;
     setDragging(false);
@@ -877,7 +980,8 @@ function TableColumnResizeHandle({ columnId, label, headerRef }: TableColumnResi
       const drag = dragRef.current;
       const cell = headerRef.current;
       if (!drag || drag.pointerId !== event.pointerId || !cell) return;
-      sizing?.setColumnWidth(columnId, clampTableColumnWidth(drag.startWidth + event.clientX - drag.startX, getTableColumnMinWidth(cell)));
+      pendingWidthRef.current = clampTableColumnWidth(drag.startWidth + event.clientX - drag.startX, getTableColumnMinWidth(cell));
+      if (resizeFrameRef.current === null) resizeFrameRef.current = requestAnimationFrame(flushPendingWidth);
     }}
     onPointerUp={(event) => {
       if (dragRef.current?.pointerId === event.pointerId) finishPointerResize(false);
@@ -1291,11 +1395,11 @@ export const TablePaginator = forwardRef<HTMLElement, TablePaginatorProps>(funct
     <nav {...props} ref={ref} className={['cometal-table__paginator', className].filter(Boolean).join(' ')} aria-label={ariaLabel}>
       <div className="cometal-table__paginator-spacer" aria-hidden="true" />
       <div className="cometal-table__paginator-controls">
-        <button type="button" className="cometal-table__page-control" disabled={safePage === 1} onClick={() => onPageChange(safePage - 1)} aria-label="Предыдущая страница"><ArrowLeftIcon className="cometal-table__asset-icon cometal-table__paginator-icon" width={24} height={24} /></button>
+        <IconButton variant="ghost" size="m" className="cometal-table__page-control" disabled={safePage === 1} onClick={() => onPageChange(safePage - 1)} aria-label="Предыдущая страница" icon={<ArrowLeftIcon className="cometal-table__asset-icon cometal-table__paginator-icon" />} />
         {getPaginatorItems(safePage, safePageCount).map((item) => typeof item === 'number' ? (
-          <button key={item} type="button" className="cometal-table__page-control" data-current={item === safePage || undefined} aria-current={item === safePage ? 'page' : undefined} onClick={() => onPageChange(item)} aria-label={`Страница ${item}`}>{item}</button>
+          <Button key={item} variant="ghost" size="m" className="cometal-table__page-control" data-current={item === safePage || undefined} aria-current={item === safePage ? 'page' : undefined} onClick={() => onPageChange(item)} aria-label={`Страница ${item}`}>{item}</Button>
         ) : <span key={item} className="cometal-table__page-ellipsis" aria-hidden="true">…</span>)}
-        <button type="button" className="cometal-table__page-control" disabled={safePage === safePageCount} onClick={() => onPageChange(safePage + 1)} aria-label="Следующая страница"><ArrowRightIcon className="cometal-table__asset-icon cometal-table__paginator-icon" width={24} height={24} /></button>
+        <IconButton variant="ghost" size="m" className="cometal-table__page-control" disabled={safePage === safePageCount} onClick={() => onPageChange(safePage + 1)} aria-label="Следующая страница" icon={<ArrowRightIcon className="cometal-table__asset-icon cometal-table__paginator-icon" />} />
       </div>
       <Select
         className="cometal-table__page-size"

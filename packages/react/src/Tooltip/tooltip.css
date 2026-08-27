@@ -11,6 +11,8 @@
   --cometal-tooltip-surface-width: 185px;
   --cometal-tooltip-surface-height: var(--cometal-primitive-size-32);
   --cometal-tooltip-arrow-offset: var(--cometal-primitive-spacing-75);
+  --cometal-tooltip-gap: calc(var(--cometal-primitive-spacing-50) + var(--cometal-primitive-spacing-12));
+  --cometal-tooltip-viewport-inset: var(--cometal-primitive-spacing-50);
   position: fixed;
   z-index: 80;
   display: inline-flex;
@@ -28,9 +30,9 @@
 
 .cometal-tooltip__panel[data-size='wide'] {
   --cometal-tooltip-arrow-offset: var(--cometal-primitive-spacing-100);
-  width: var(--cometal-tooltip-fitted-width, fit-content);
+  width: min(calc(var(--cometal-primitive-size-48) * 5), calc(100vw - var(--cometal-primitive-spacing-100)));
   min-width: 0;
-  max-width: min(30ch, calc(100vw - var(--cometal-primitive-spacing-100)));
+  max-width: min(calc(var(--cometal-primitive-size-48) * 5), calc(100vw - var(--cometal-primitive-spacing-100)));
   height: auto;
   min-height: var(--cometal-primitive-size-44);
   padding: var(--cometal-primitive-spacing-75) var(--cometal-primitive-spacing-100);

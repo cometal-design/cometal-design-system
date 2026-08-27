@@ -46,9 +46,6 @@ export interface TooltipProps extends Omit<HTMLAttributes<HTMLSpanElement>, 'con
   disabled?: boolean;
 }
 
-const GAP = 10;
-const VIEWPORT_INSET = 8;
-
 function getPlacementFallbacks(placement: TooltipPlacement): TooltipPlacement[] {
   switch (placement) {
     case 'top-start':
@@ -76,89 +73,66 @@ function getCoordinates(
   placement: TooltipPlacement,
   triggerRect: DOMRect,
   panelRect: DOMRect,
+  gap: number,
 ): { top: number; left: number } {
   switch (placement) {
     case 'top-start':
-      return { top: triggerRect.top - panelRect.height - GAP, left: triggerRect.left };
+      return { top: triggerRect.top - panelRect.height - gap, left: triggerRect.left };
     case 'top-center':
       return {
-        top: triggerRect.top - panelRect.height - GAP,
+        top: triggerRect.top - panelRect.height - gap,
         left: triggerRect.left + (triggerRect.width - panelRect.width) / 2,
       };
     case 'top-end':
       return {
-        top: triggerRect.top - panelRect.height - GAP,
+        top: triggerRect.top - panelRect.height - gap,
         left: triggerRect.right - panelRect.width,
       };
     case 'bottom-start':
-      return { top: triggerRect.bottom + GAP, left: triggerRect.left };
+      return { top: triggerRect.bottom + gap, left: triggerRect.left };
     case 'bottom-center':
       return {
-        top: triggerRect.bottom + GAP,
+        top: triggerRect.bottom + gap,
         left: triggerRect.left + (triggerRect.width - panelRect.width) / 2,
       };
     case 'bottom-end':
       return {
-        top: triggerRect.bottom + GAP,
+        top: triggerRect.bottom + gap,
         left: triggerRect.right - panelRect.width,
       };
     case 'left':
       return {
         top: triggerRect.top + (triggerRect.height - panelRect.height) / 2,
-        left: triggerRect.left - panelRect.width - GAP,
+        left: triggerRect.left - panelRect.width - gap,
       };
     case 'right':
       return {
         top: triggerRect.top + (triggerRect.height - panelRect.height) / 2,
-        left: triggerRect.right + GAP,
+        left: triggerRect.right + gap,
       };
   }
 }
 
-function fitsViewport(top: number, left: number, width: number, height: number) {
+function fitsViewport(top: number, left: number, width: number, height: number, viewportInset: number, ownerWindow: Window) {
   return (
-    top >= VIEWPORT_INSET &&
-    left >= VIEWPORT_INSET &&
-    top + height <= window.innerHeight - VIEWPORT_INSET &&
-    left + width <= window.innerWidth - VIEWPORT_INSET
+    top >= viewportInset &&
+    left >= viewportInset &&
+    top + height <= ownerWindow.innerHeight - viewportInset &&
+    left + width <= ownerWindow.innerWidth - viewportInset
   );
 }
 
-function clampPosition(top: number, left: number, width: number, height: number) {
+function clampPosition(top: number, left: number, width: number, height: number, viewportInset: number, ownerWindow: Window) {
   return {
     top: Math.min(
-      Math.max(top, VIEWPORT_INSET),
-      Math.max(VIEWPORT_INSET, window.innerHeight - height - VIEWPORT_INSET),
+      Math.max(top, viewportInset),
+      Math.max(viewportInset, ownerWindow.innerHeight - height - viewportInset),
     ),
     left: Math.min(
-      Math.max(left, VIEWPORT_INSET),
-      Math.max(VIEWPORT_INSET, window.innerWidth - width - VIEWPORT_INSET),
+      Math.max(left, viewportInset),
+      Math.max(viewportInset, ownerWindow.innerWidth - width - viewportInset),
     ),
   };
-}
-
-function fitWideTooltipPanel(panel: HTMLSpanElement) {
-  panel.style.removeProperty('--cometal-tooltip-fitted-width');
-  const content = panel.querySelector<HTMLElement>('.cometal-tooltip__content');
-  if (!content) return;
-
-  const range = document.createRange();
-  range.selectNodeContents(content);
-  const lineWidths = Array.from(range.getClientRects())
-    .filter((rect) => rect.width > 0 && rect.height > 0)
-    .map((rect) => rect.width);
-  range.detach();
-  if (!lineWidths.length) return;
-
-  const panelStyle = getComputedStyle(panel);
-  const padding = Number.parseFloat(panelStyle.paddingLeft) + Number.parseFloat(panelStyle.paddingRight);
-  const borders = Number.parseFloat(panelStyle.borderLeftWidth) + Number.parseFloat(panelStyle.borderRightWidth);
-  const maxWidth = Number.parseFloat(panelStyle.maxWidth);
-  const fittedWidth = Math.ceil(Math.max(...lineWidths) + padding + borders);
-  panel.style.setProperty(
-    '--cometal-tooltip-fitted-width',
-    `${Number.isFinite(maxWidth) ? Math.min(fittedWidth, maxWidth) : fittedWidth}px`,
-  );
 }
 
 export const Tooltip = forwardRef<HTMLSpanElement, TooltipProps>(function Tooltip(
@@ -196,65 +170,59 @@ export const Tooltip = forwardRef<HTMLSpanElement, TooltipProps>(function Toolti
 
   useLayoutEffect(() => {
     if (!isOpen || !triggerRef.current || !panelRef.current) return;
-    if (size === 'wide') fitWideTooltipPanel(panelRef.current);
-    else panelRef.current.style.removeProperty('--cometal-tooltip-fitted-width');
-    const triggerRect = triggerRef.current.getBoundingClientRect();
-    const panelRect = panelRef.current.getBoundingClientRect();
-    let resolvedPlacement = placement;
-    let resolvedTop = -9999;
-    let resolvedLeft = -9999;
-
-    for (const candidate of getPlacementFallbacks(placement)) {
-      const { top, left } = getCoordinates(candidate, triggerRect, panelRect);
-      if (fitsViewport(top, left, panelRect.width, panelRect.height)) {
-        resolvedPlacement = candidate;
-        resolvedTop = top;
-        resolvedLeft = left;
-        break;
+    const trigger = triggerRef.current;
+    const panel = panelRef.current;
+    const ownerWindow = trigger.ownerDocument.defaultView ?? window;
+    const visualViewport = ownerWindow.visualViewport;
+    let frame = 0;
+    const updatePosition = () => {
+      frame = 0;
+      if (!trigger.isConnected || !panel.isConnected) {
+        setOpen(false);
+        return;
       }
-    }
-
-    if (resolvedTop === -9999 || resolvedLeft === -9999) {
-      const clamped = clampPosition(
-        getCoordinates(placement, triggerRect, panelRect).top,
-        getCoordinates(placement, triggerRect, panelRect).left,
-        panelRect.width,
-        panelRect.height,
-      );
-      resolvedTop = clamped.top;
-      resolvedLeft = clamped.left;
-    }
-
-    setPosition({
-      top: resolvedTop,
-      left: resolvedLeft,
-      placement: resolvedPlacement,
-    });
-  }, [content, hydrated, isOpen, placement, size]);
-
-  useEffect(() => {
-    if (!isOpen) return;
-    const handleWindowChange = (event: Event) => {
-      if (!triggerRef.current || !panelRef.current) return;
-      if (event.type === 'resize' && size === 'wide') fitWideTooltipPanel(panelRef.current);
-      const triggerRect = triggerRef.current.getBoundingClientRect();
-      const panelRect = panelRef.current.getBoundingClientRect();
-      const clamped = clampPosition(position.top, position.left, panelRect.width, panelRect.height);
-      const nextCoords = getCoordinates(position.placement, triggerRect, panelRef.current.getBoundingClientRect());
-      const fits = fitsViewport(nextCoords.top, nextCoords.left, panelRect.width, panelRect.height);
-      setPosition({
-        top: fits ? nextCoords.top : clamped.top,
-        left: fits ? nextCoords.left : clamped.left,
-        placement: position.placement,
-      });
+      const panelStyle = getComputedStyle(panel);
+      const spacing50 = Number.parseFloat(panelStyle.getPropertyValue('--cometal-primitive-spacing-50')) || 0;
+      const spacing12 = Number.parseFloat(panelStyle.getPropertyValue('--cometal-primitive-spacing-12')) || 0;
+      const gap = spacing50 + spacing12;
+      const viewportInset = spacing50;
+      const triggerRect = trigger.getBoundingClientRect();
+      const panelRect = panel.getBoundingClientRect();
+      let next: TooltipPosition | null = null;
+      for (const candidate of getPlacementFallbacks(placement)) {
+        const coordinates = getCoordinates(candidate, triggerRect, panelRect, gap);
+        if (fitsViewport(coordinates.top, coordinates.left, panelRect.width, panelRect.height, viewportInset, ownerWindow)) {
+          next = { ...coordinates, placement: candidate };
+          break;
+        }
+      }
+      if (!next) {
+        const coordinates = getCoordinates(placement, triggerRect, panelRect, gap);
+        next = { ...clampPosition(coordinates.top, coordinates.left, panelRect.width, panelRect.height, viewportInset, ownerWindow), placement };
+      }
+      setPosition((current) => current.top === next.top && current.left === next.left && current.placement === next.placement ? current : next);
+      frame = requestAnimationFrame(updatePosition);
     };
-    window.addEventListener('resize', handleWindowChange);
-    window.addEventListener('scroll', handleWindowChange, true);
+    const schedulePosition = () => {
+      if (!frame) frame = requestAnimationFrame(updatePosition);
+    };
+    const observer = typeof ResizeObserver === 'undefined' ? undefined : new ResizeObserver(schedulePosition);
+    observer?.observe(trigger);
+    observer?.observe(panel);
+    ownerWindow.addEventListener('resize', schedulePosition);
+    ownerWindow.addEventListener('scroll', schedulePosition, true);
+    visualViewport?.addEventListener('resize', schedulePosition);
+    visualViewport?.addEventListener('scroll', schedulePosition);
+    updatePosition();
     return () => {
-      window.removeEventListener('resize', handleWindowChange);
-      window.removeEventListener('scroll', handleWindowChange, true);
+      if (frame) cancelAnimationFrame(frame);
+      observer?.disconnect();
+      ownerWindow.removeEventListener('resize', schedulePosition);
+      ownerWindow.removeEventListener('scroll', schedulePosition, true);
+      visualViewport?.removeEventListener('resize', schedulePosition);
+      visualViewport?.removeEventListener('scroll', schedulePosition);
     };
-  }, [isOpen, position.left, position.placement, position.top, size]);
+  }, [content, hydrated, isOpen, placement, setOpen, size]);
 
   const child = children;
   const describedBy = isOpen && hydrated ? tooltipId : undefined;

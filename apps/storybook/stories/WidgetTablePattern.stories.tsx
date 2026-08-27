@@ -1,6 +1,7 @@
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, fireEvent, userEvent, waitFor, within } from 'storybook/test';
-import { WidgetTablePattern, WidgetTableReviewExample } from '@cometal/react';
+import { WidgetTablePattern } from '@cometal/react';
+import { WidgetTableReviewExample } from '../../shared/widget-table/WidgetTableReviewExample';
 import { definition as refreshIconDefinition } from '@cometal/react/icons/outline/arrows/arrow-refresh-01';
 import { definition as downloadIconDefinition } from '@cometal/react/icons/outline/general/download-01';
 import { definition as filterIconDefinition } from '@cometal/react/icons/outline/general/filter';
@@ -28,7 +29,10 @@ const sortableColumnContracts = [
 const initialVisibleRowIds = ['POS-001', 'POS-002', 'POS-003', 'POS-004', 'POS-005', 'POS-006', 'POS-007', 'POS-008', 'POS-009', 'POS-010'];
 
 function visibleRowIds(table: HTMLElement) {
-  return Array.from(table.querySelectorAll<HTMLTableRowElement>('tbody tr[data-row-id]'), (row) => row.dataset.rowId);
+  return Array.from(
+    table.querySelectorAll<HTMLTableRowElement>('tbody tr[data-row-id]'),
+    (row) => row.querySelector<HTMLElement>('td[data-column-id="position"]')?.textContent?.trim(),
+  );
 }
 
 function definitionPathData(body: string) {
@@ -161,7 +165,7 @@ export const Overview: Story = {
     fireEvent.pointerMove(readNameResizer, { pointerId: 5, clientX: 400 + minimumReadNameWidth - initialReadNameWidth });
     fireEvent.pointerUp(readNameResizer, { pointerId: 5, clientX: 400 + minimumReadNameWidth - initialReadNameWidth });
 
-    const readNameText = readTable.querySelector<HTMLElement>('tbody tr[data-row-id] td[data-column-id="name"] .cometal-widget-table-pattern__overflow-text')!;
+    const readNameText = readTable.querySelector<HTMLElement>('tbody tr[data-row-id] td[data-column-id="name"] [data-widget-table-overflow-text]')!;
     await waitFor(() => expect(readNameText).toHaveAttribute('data-overflowing', 'true'));
     await userEvent.hover(readNameText);
     const nameTooltip = await within(document.body).findByRole('tooltip');
@@ -265,6 +269,20 @@ export const Overview: Story = {
     await expect(editableCell).toHaveAttribute('contenteditable', 'true');
     await expect(editableCell).toHaveAttribute('role', 'textbox');
     await expect(editableCell.querySelector('input')).toBeNull();
+    await userEvent.keyboard('{Escape}');
+    await expect(editableCell).toHaveAttribute('data-state', 'default');
+    const invalidQuantityCell = editTable.querySelector<HTMLElement>('tbody tr[data-row-id] td[data-column-id="quantity"]')!;
+    const committedQuantity = invalidQuantityCell.textContent;
+    await userEvent.click(invalidQuantityCell);
+    invalidQuantityCell.textContent = 'не число';
+    fireEvent.input(invalidQuantityCell);
+    fireEvent.focusOut(invalidQuantityCell);
+    await waitFor(() => expect(invalidQuantityCell).toHaveAttribute('data-state', 'error'));
+    await expect(invalidQuantityCell).toHaveTextContent('не число');
+    await userEvent.click(invalidQuantityCell);
+    await userEvent.keyboard('{Escape}');
+    await expect(invalidQuantityCell).toHaveAttribute('data-state', 'default');
+    await expect(invalidQuantityCell).toHaveTextContent(committedQuantity ?? '');
 
     const readNameWidthBeforeDensity = readNameHeader.getBoundingClientRect().width;
     const densityToggle = within(readToolbar!).getByRole('button', { name: 'Включить компактную плотность' });
@@ -286,18 +304,53 @@ export const Overview: Story = {
     await userEvent.click(within(readToolbar!).getByRole('button', { name: 'Показать фильтры' }));
     const summaryToggle = within(readToolbar!).getByRole('button', { name: 'Скрыть итоги' });
     await expect(summaryToggle).toHaveAttribute('aria-pressed', 'true');
-    const summaryLabel = within(readTable).getByText('Итого');
+    const summaryLabel = within(readTable).getByText('Итоги текущей страницы');
     await expect(summaryLabel).toBeVisible();
     const summaryCell = summaryLabel.closest<HTMLElement>('.cometal-table__summary-cell')!;
     await expect(getComputedStyle(summaryCell).position).toBe('sticky');
     await expect(getComputedStyle(summaryCell).bottom).toBe('0px');
     await userEvent.click(summaryToggle);
-    await expect(within(readTable).queryByText('Итого')).not.toBeInTheDocument();
+    await expect(within(readTable).queryByText('Итоги текущей страницы')).not.toBeInTheDocument();
     await expect(within(readTable).getAllByRole('row')).toHaveLength(12);
     const showSummary = within(readToolbar!).getByRole('button', { name: 'Показать итоги' });
     await expect(showSummary).toHaveAttribute('aria-pressed', 'false');
     await userEvent.click(showSummary);
-    await expect(within(readTable).getByText('Итого')).toBeVisible();
+    await expect(within(readTable).getByText('Итоги текущей страницы')).toBeVisible();
+
+    const persistedNameWidth = readNameHeader.getBoundingClientRect().width;
+    await userEvent.click(within(readTable).getByRole('button', { name: 'Действия колонки Наименование' }));
+    await userEvent.click(within(document.body).getByRole('menuitem', { name: 'Скрыть колонку' }));
+    await expect(readTable.querySelectorAll('[data-column-id="name"]')).toHaveLength(0);
+    await userEvent.click(within(readToolbar!).getByRole('button', { name: 'Обновить' }));
+    const restoredNameHeader = await within(readTable).findByRole('columnheader', { name: /Наименование/ });
+    await expect(restoredNameHeader.getBoundingClientRect().width).toBe(persistedNameWidth);
+    await expect(restoredNameHeader).toHaveAttribute('data-column-pinned-last', 'true');
+
+    const readWidget = readTable.closest<HTMLElement>('.cometal-widget-table-pattern')!;
+    readScrollRegion.scrollLeft = 0;
+    fireEvent.scroll(readScrollRegion);
+    const pageSelection = within(readTable).getByRole('checkbox', { name: 'Выбрать все строки' });
+    const pageSelectionControl = pageSelection.closest<HTMLLabelElement>('label')!;
+    await userEvent.click(pageSelectionControl);
+    await expect(pageSelection).toBeChecked();
+    await userEvent.click(within(readWidget).getByRole('button', { name: 'Следующая страница' }));
+    await expect(pageSelection).not.toBeChecked();
+    await userEvent.click(pageSelectionControl);
+    await expect(pageSelection).toBeChecked();
+    await userEvent.click(within(readWidget).getByRole('button', { name: 'Предыдущая страница' }));
+    await userEvent.click(pageSelectionControl);
+    await expect(pageSelection).not.toBeChecked();
+    await userEvent.click(within(readWidget).getByRole('button', { name: 'Следующая страница' }));
+    await expect(pageSelection).toBeChecked();
+
+    const pageSizeTrigger = within(readWidget).getByRole('combobox', { name: 'Строк на странице' });
+    await userEvent.click(pageSizeTrigger);
+    await userEvent.click(within(document.body).getByRole('option', { name: '30' }));
+    const readRowWindow = readTable.closest<HTMLElement>('.cometal-table-scroll')!;
+    await expect(readRowWindow).toHaveAttribute('data-row-window', '10');
+    await waitFor(() => expect(readRowWindow.scrollHeight).toBeGreaterThan(readRowWindow.clientHeight));
+    await expect(getComputedStyle(readTable.querySelector<HTMLElement>('thead th')!).position).toBe('sticky');
+    await expect(getComputedStyle(within(readTable).getByText('Итоги текущей страницы').closest<HTMLElement>('.cometal-table__summary-cell')!).position).toBe('sticky');
   },
 };
 

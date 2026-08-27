@@ -1,5 +1,4 @@
 import {
-  Children,
   cloneElement,
   createContext,
   forwardRef,
@@ -287,10 +286,7 @@ export const ContextMenu = forwardRef<HTMLSpanElement, ContextMenuProps>(functio
         closeMenu(false);
       }}
     >
-      {Children.map(children, (child) => {
-        if (!isValidElement(child)) return child;
-        return cloneElement(child as ReactElement<{ size?: ContextMenuSize }>, { size });
-      })}
+      {children}
     </div>
   ) : null;
 

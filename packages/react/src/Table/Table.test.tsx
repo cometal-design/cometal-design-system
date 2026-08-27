@@ -185,6 +185,17 @@ describe('Table', () => {
     expect(html).not.toContain('data-reorder-id="POS-001"');
   });
 
+  it('declares the bounded body-row window on the native Table scroll region', () => {
+    const html = renderToStaticMarkup(
+      <Table aria-label="Окно строк" maxVisibleBodyRows={10}>
+        <TableHead><TableRow><TableHeaderCell>Позиция</TableHeaderCell></TableRow></TableHead>
+        <TableBody><TableRow><TableCell>POS-001</TableCell></TableRow></TableBody>
+      </Table>,
+    );
+
+    expect(html).toContain('data-row-window="10"');
+  });
+
   it('turns an editing TableCell into the textbox surface without a nested input', () => {
     const html = renderToStaticMarkup(
       <Table mode="edit" aria-label="Редактирование">
@@ -237,7 +248,7 @@ describe('Table', () => {
     expect(html).toContain('aria-current="page"');
     expect(html).toContain('aria-label="Предыдущая страница"');
     expect(html).toContain('cometal-table__paginator-icon');
-    expect(html).toContain('width="24" height="24"');
+    expect(html.match(/data-cometal-component="button"/g)?.length).toBeGreaterThan(2);
     expect(html).toContain('data-cometal-icon-library="outline"');
     expect(html).toContain('data-cometal-component="field"');
     expect(html).toContain('data-size="m"');
