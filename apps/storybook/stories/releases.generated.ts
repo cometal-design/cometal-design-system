@@ -50,7 +50,7 @@ export const releases: DesignSystemRelease[] = [
       { title: 'Deferred', changes: [
         'Icons заблокированы до утверждения canonical SVG source и React API.',
         'Tabs остаётся Figma draft до утверждения slot/count-контракта.',
-        'Table + Widget не отложены: exact published SHA 3823dc97de75eff3ab3a0a4635c8fb75e5d17080 подтверждён в production.',
+        'Table + Widget не отложены: exact published SHA подтверждён в production.',
         'npm packages остаются private 0.0.0 до отдельного решения о versioning и registry.',
         'Компоненты остаются in-review до Frontend Lead review и продуктового пилота.',
       ] },
