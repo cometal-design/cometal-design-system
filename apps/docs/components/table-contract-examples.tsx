@@ -15,6 +15,7 @@ import {
   TableContextAction,
   TableDragCell,
   TableDragHandle,
+  TableFileCell,
   TableFileIcon,
   TableFilterCell,
   TableFilterRow,
@@ -46,10 +47,6 @@ const selectionStates = ['default', 'hover', 'disabled', 'error'] as const satis
 const indexStates = ['default', 'hover', 'active', 'selected', 'error', 'disabled'] as const satisfies readonly TableCellState[];
 const dragStates = ['default', 'hover', 'dragging', 'disabled', 'active'] as const satisfies readonly TableCellState[];
 
-function FileValue() {
-  return <span className="docs-table-matrix-file"><TableFileIcon type="pdf" aria-hidden="true" /><span>Спецификация.pdf<small>130 КБ</small></span></span>;
-}
-
 function ReadValue({ type }: { type: (typeof readTypes)[number] }) {
   if (type === 'Number') return <>12 450,00</>;
   if (type === 'Link') return <InlineLink href="#table-read-cell" onClick={(event) => event.preventDefault()}>Открыть позицию</InlineLink>;
@@ -57,12 +54,11 @@ function ReadValue({ type }: { type: (typeof readTypes)[number] }) {
   if (type === 'Text + Badge') return <>Значение <Badge tone="blue">Статус</Badge></>;
   if (type === 'Number + Badge') return <>12 450 <Badge tone="green">ОК</Badge></>;
   if (type === 'Badge + Text') return <><Badge tone="yellow">Новый</Badge> Значение</>;
-  if (type === 'File') return <FileValue />;
   return <>Текстовое значение</>;
 }
 
 function ReadCellMatrix({ density }: { density: TableDensity }) {
-  return <Table density={density} aria-label={`Read Cell · ${density}`} className="docs-table-contract-matrix"><TableHead><TableRow><TableHeaderCell>Type</TableHeaderCell>{readStates.map((state) => <TableHeaderCell key={state}>{state}</TableHeaderCell>)}</TableRow></TableHead><TableBody>{readTypes.map((type) => <TableRow key={type}><TableHeaderCell scope="row">{type}</TableHeaderCell>{readStates.map((state) => <TableCell key={state} state={state} align={type.includes('Number') ? 'end' : 'start'}><ReadValue type={type} /></TableCell>)}</TableRow>)}</TableBody></Table>;
+  return <Table density={density} aria-label={`Read Cell · ${density}`} className="docs-table-contract-matrix"><TableHead><TableRow><TableHeaderCell>Type</TableHeaderCell>{readStates.map((state) => <TableHeaderCell key={state}>{state}</TableHeaderCell>)}</TableRow></TableHead><TableBody>{readTypes.map((type) => <TableRow key={type}><TableHeaderCell scope="row">{type}</TableHeaderCell>{readStates.map((state) => type === 'File' ? <TableFileCell key={state} state={state} fileName="Спецификация.pdf" fileSize="130 КБ" fileType="pdf" /> : <TableCell key={state} state={state} align={type.includes('Number') ? 'end' : 'start'}><ReadValue type={type} /></TableCell>)}</TableRow>)}</TableBody></Table>;
 }
 
 function EditValue({ type, state }: { type: (typeof editTypes)[number]; state: (typeof editStates)[number] }) {
@@ -70,12 +66,11 @@ function EditValue({ type, state }: { type: (typeof editTypes)[number]; state: (
   const error = state === 'error' ? 'Ошибка' : undefined;
   if (type === 'Number') return <TextField className="docs-table-filter" label={`Number ${state}`} size="s" defaultValue="12450" inputMode="numeric" disabled={disabled} error={error} />;
   if (type === 'Dropdown') return <Select className="docs-table-filter" label={`Dropdown ${state}`} size="s" options={statusOptions} defaultValue="approved" disabled={disabled} />;
-  if (type === 'File') return <FileValue />;
   return <TextField className="docs-table-filter" label={`Text ${state}`} size="s" defaultValue="Значение" disabled={disabled} error={error} />;
 }
 
 function EditCellMatrix({ density }: { density: TableDensity }) {
-  return <Table density={density} aria-label={`Edit Cell · ${density}`} className="docs-table-contract-matrix"><TableHead><TableRow><TableHeaderCell>Type</TableHeaderCell>{editStates.map((state) => <TableHeaderCell key={state}>{state}</TableHeaderCell>)}</TableRow></TableHead><TableBody>{editTypes.map((type) => <TableRow key={type}><TableHeaderCell scope="row">{type}</TableHeaderCell>{editStates.map((state) => <TableCell key={state} state={state}><EditValue type={type} state={state} /></TableCell>)}</TableRow>)}</TableBody></Table>;
+  return <Table density={density} aria-label={`Edit Cell · ${density}`} className="docs-table-contract-matrix"><TableHead><TableRow><TableHeaderCell>Type</TableHeaderCell>{editStates.map((state) => <TableHeaderCell key={state}>{state}</TableHeaderCell>)}</TableRow></TableHead><TableBody>{editTypes.map((type) => <TableRow key={type}><TableHeaderCell scope="row">{type}</TableHeaderCell>{editStates.map((state) => type === 'File' ? <TableFileCell key={state} state={state} fileName="Спецификация.pdf" fileSize="130 КБ" fileType="pdf" /> : <TableCell key={state} state={state}><EditValue type={type} state={state} /></TableCell>)}</TableRow>)}</TableBody></Table>;
 }
 
 function UtilityCellMatrices({ density }: { density: TableDensity }) {

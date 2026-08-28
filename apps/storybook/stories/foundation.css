@@ -288,10 +288,6 @@ code, pre, kbd, samp {
 .ds-table-file-grid article { display: grid; min-height: 112px; place-items: center; gap: var(--cometal-primitive-spacing-50); border: 1px solid var(--ds-border-default); border-radius: var(--cometal-primitive-radius-150); background: var(--ds-surface-canvas); }
 .ds-table-file-grid .cometal-table__file-asset { width: var(--cometal-primitive-size-24); height: var(--cometal-primitive-size-24); }
 .ds-table-file-grid code { color: var(--ds-text-muted); }
-.ds-table-matrix-file { display: inline-flex; min-width: 0; align-items: center; gap: var(--cometal-primitive-spacing-50); }
-.ds-table-matrix-file .cometal-table__file-asset { width: var(--cometal-primitive-size-24); height: var(--cometal-primitive-size-24); flex: 0 0 auto; }
-.ds-table-matrix-file > span { display: grid; min-width: 0; font-family: var(--cometal-typography-caption-label-label-font-family); font-size: var(--cometal-typography-caption-label-label-font-size); font-weight: var(--cometal-typography-caption-label-label-font-weight); line-height: var(--cometal-typography-caption-label-label-line-height); letter-spacing: var(--cometal-typography-caption-label-label-letter-spacing); }
-.ds-table-matrix-file small { font-family: var(--cometal-typography-technical-s-default-font-family); font-size: var(--cometal-typography-technical-s-default-font-size); font-weight: var(--cometal-typography-technical-s-default-font-weight); line-height: var(--cometal-typography-technical-s-default-line-height); letter-spacing: var(--cometal-typography-technical-s-default-letter-spacing); }
 .ds-table-playground-controls { display: flex; margin: var(--cometal-primitive-spacing-300) var(--cometal-primitive-spacing-450); flex-wrap: wrap; gap: var(--cometal-primitive-spacing-75); }
 .ds-table-density-pair { display: grid; gap: var(--cometal-primitive-spacing-300); }
 .ds-table-density-pair section { min-width: 0; }

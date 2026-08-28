@@ -906,10 +906,6 @@ code, pre, kbd, samp {
 .docs-table-contract-matrix td { min-width: 136px; }
 .docs-table-contract-matrix th:first-child,
 .docs-table-contract-matrix td:first-child { min-width: 152px; }
-.docs-table-matrix-file { display: inline-flex; min-width: 0; align-items: center; gap: var(--cometal-primitive-spacing-50); }
-.docs-table-matrix-file .cometal-table__file-asset { width: var(--cometal-primitive-size-24); height: var(--cometal-primitive-size-24); flex: 0 0 auto; }
-.docs-table-matrix-file > span { display: grid; min-width: 0; font-family: var(--cometal-typography-caption-label-label-font-family); font-size: var(--cometal-typography-caption-label-label-font-size); font-weight: var(--cometal-typography-caption-label-label-font-weight); line-height: var(--cometal-typography-caption-label-label-line-height); letter-spacing: var(--cometal-typography-caption-label-label-letter-spacing); }
-.docs-table-matrix-file small { font-family: var(--cometal-typography-technical-s-default-font-family); font-size: var(--cometal-typography-technical-s-default-font-size); font-weight: var(--cometal-typography-technical-s-default-font-weight); line-height: var(--cometal-typography-technical-s-default-line-height); letter-spacing: var(--cometal-typography-technical-s-default-letter-spacing); }
 .docs-table-utility-matrices { gap: var(--cometal-primitive-spacing-250); }
 .docs-table-utility-matrices > article { display: grid; min-width: 0; gap: var(--cometal-primitive-spacing-100); }
 .docs-table-utility-matrices .cometal-table { min-width: 720px; }

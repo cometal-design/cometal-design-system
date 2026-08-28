@@ -4,7 +4,7 @@ import { expect, fireEvent, userEvent, waitFor, within } from 'storybook/test';
 import {
   Badge, Button, ContextMenuDivider, ContextMenuItem, DatePicker, DateRangePicker, Select,
   Table, TableBody, TableCell, TableColumnPinAction, TableContextAction, TableDragCell, TableDragHandle,
-  TableFileIcon, TableFilterCell, TableFilterRow, TableHeaderCell, TableHead,
+  TableFileCell, TableFileIcon, TableFilterCell, TableFilterRow, TableHeaderCell, TableHead,
   TableIndexCell, TablePaginator, TableRow, TableSelectionCell, TableSelectionHeader,
   TableSummaryCell, TextField, tableDensities, tableDocumentationSections, tableFileTypes,
   tableFigmaSources, tableSourceFamilies, tableStandaloneSources,
@@ -254,10 +254,6 @@ const selectionStates = ['default', 'hover', 'disabled', 'error'] as const satis
 const indexStates = ['default', 'hover', 'active', 'selected', 'error', 'disabled'] as const satisfies readonly TableCellState[];
 const dragStates = ['default', 'hover', 'dragging', 'disabled', 'active'] as const satisfies readonly TableCellState[];
 
-function FileValue() {
-  return <span className="ds-table-matrix-file"><TableFileIcon type="pdf" aria-hidden="true" /><span>Спецификация.pdf<small>130 КБ</small></span></span>;
-}
-
 function ReadValue({ type }: { type: (typeof readTypes)[number] }) {
   if (type === 'Number') return <>12 450,00</>;
   if (type === 'Link') return <a href="#read-cell-link" onClick={(event) => event.preventDefault()}>Открыть позицию</a>;
@@ -265,24 +261,22 @@ function ReadValue({ type }: { type: (typeof readTypes)[number] }) {
   if (type === 'Text + Badge') return <>Значение <Badge tone="blue">Статус</Badge></>;
   if (type === 'Number + Badge') return <>12 450 <Badge tone="green">ОК</Badge></>;
   if (type === 'Badge + Text') return <><Badge tone="yellow">Новый</Badge> Значение</>;
-  if (type === 'File') return <FileValue />;
   return <>Текстовое значение</>;
 }
 
 function ReadCellMatrix({ density }: { density: TableDensity }) {
-  return <Table density={density} aria-label={`Read Cell · ${density}`} className="ds-table-contract-matrix"><TableHead><TableRow><TableHeaderCell>Type</TableHeaderCell>{readStates.map((state) => <TableHeaderCell key={state}>{state}</TableHeaderCell>)}</TableRow></TableHead><TableBody>{readTypes.map((type) => <TableRow key={type}><TableHeaderCell scope="row">{type}</TableHeaderCell>{readStates.map((state) => <TableCell key={state} state={state} align={type.includes('Number') ? 'end' : 'start'}><ReadValue type={type} /></TableCell>)}</TableRow>)}</TableBody></Table>;
+  return <Table density={density} aria-label={`Read Cell · ${density}`} className="ds-table-contract-matrix"><TableHead><TableRow><TableHeaderCell>Type</TableHeaderCell>{readStates.map((state) => <TableHeaderCell key={state}>{state}</TableHeaderCell>)}</TableRow></TableHead><TableBody>{readTypes.map((type) => <TableRow key={type}><TableHeaderCell scope="row">{type}</TableHeaderCell>{readStates.map((state) => type === 'File' ? <TableFileCell key={state} state={state} fileName="Спецификация.pdf" fileSize="130 КБ" fileType="pdf" /> : <TableCell key={state} state={state} align={type.includes('Number') ? 'end' : 'start'}><ReadValue type={type} /></TableCell>)}</TableRow>)}</TableBody></Table>;
 }
 
 function EditValue({ type, state }: { type: (typeof editTypes)[number]; state: (typeof editStates)[number] }) {
   const disabled = state === 'disabled'; const error = state === 'error' ? 'Ошибка' : undefined;
   if (type === 'Number') return <TextField className="ds-table-filter-field" label={`Number ${state}`} size="s" defaultValue="12450" inputMode="numeric" disabled={disabled} error={error} />;
   if (type === 'Dropdown') return <Select className="ds-table-filter-field" label={`Dropdown ${state}`} size="s" options={statusOptions} defaultValue="approved" disabled={disabled} />;
-  if (type === 'File') return <FileValue />;
   return <TextField className="ds-table-filter-field" label={`Text ${state}`} size="s" defaultValue="Значение" disabled={disabled} error={error} />;
 }
 
 function EditCellMatrix({ density }: { density: TableDensity }) {
-  return <Table density={density} aria-label={`Edit Cell · ${density}`} className="ds-table-contract-matrix"><TableHead><TableRow><TableHeaderCell>Type</TableHeaderCell>{editStates.map((state) => <TableHeaderCell key={state}>{state}</TableHeaderCell>)}</TableRow></TableHead><TableBody>{editTypes.map((type) => <TableRow key={type}><TableHeaderCell scope="row">{type}</TableHeaderCell>{editStates.map((state) => <TableCell key={state} state={state}><EditValue type={type} state={state} /></TableCell>)}</TableRow>)}</TableBody></Table>;
+  return <Table density={density} aria-label={`Edit Cell · ${density}`} className="ds-table-contract-matrix"><TableHead><TableRow><TableHeaderCell>Type</TableHeaderCell>{editStates.map((state) => <TableHeaderCell key={state}>{state}</TableHeaderCell>)}</TableRow></TableHead><TableBody>{editTypes.map((type) => <TableRow key={type}><TableHeaderCell scope="row">{type}</TableHeaderCell>{editStates.map((state) => type === 'File' ? <TableFileCell key={state} state={state} fileName="Спецификация.pdf" fileSize="130 КБ" fileType="pdf" /> : <TableCell key={state} state={state}><EditValue type={type} state={state} /></TableCell>)}</TableRow>)}</TableBody></Table>;
 }
 
 function UtilityCellMatrices({ density }: { density: TableDensity }) {
@@ -420,15 +414,17 @@ export const Cells: Story = {
 
       const readCellTable = canvasElement.querySelector<HTMLTableElement>(`table[aria-label="Read Cell · ${density}"]`)!;
       const editCellTable = canvasElement.querySelector<HTMLTableElement>(`table[aria-label="Edit Cell · ${density}"]`)!;
-      const readFileValues = Array.from(readCellTable.querySelectorAll<HTMLElement>('.ds-table-matrix-file'));
-      const editFileValues = Array.from(editCellTable.querySelectorAll<HTMLElement>('.ds-table-matrix-file'));
-      await expect(readFileValues).toHaveLength(5);
-      await expect(editFileValues).toHaveLength(7);
+      const readFileCells = Array.from(readCellTable.querySelectorAll<HTMLTableCellElement>('.cometal-table__file-cell'));
+      const editFileCells = Array.from(editCellTable.querySelectorAll<HTMLTableCellElement>('.cometal-table__file-cell'));
+      await expect(readFileCells).toHaveLength(5);
+      await expect(editFileCells).toHaveLength(7);
       await expect(within(editCellTable).queryByRole('button', { name: 'Выбрать файл' })).toBeNull();
-      for (const fileValue of [...readFileValues, ...editFileValues]) {
-        await expect(fileValue).toHaveTextContent('Спецификация.pdf');
-        await expect(fileValue).toHaveTextContent('130 КБ');
-        const icon = fileValue.querySelector<SVGSVGElement>('svg.cometal-table__file-asset')!;
+      for (const fileCell of [...readFileCells, ...editFileCells]) {
+        await expect(fileCell.querySelector('.cometal-table__file-name')).toHaveTextContent('Спецификация.pdf');
+        const fileSize = fileCell.querySelector<HTMLElement>('.cometal-table__file-size')!;
+        await expect(fileSize).toHaveTextContent('130 КБ');
+        await expect(getComputedStyle(fileSize).display).toBe(density === 'comfortable' ? 'block' : 'none');
+        const icon = fileCell.querySelector<SVGSVGElement>('svg.cometal-table__file-asset')!;
         await expect(icon.getBoundingClientRect().width).toBe(24);
         await expect(icon.getBoundingClientRect().height).toBe(24);
       }
