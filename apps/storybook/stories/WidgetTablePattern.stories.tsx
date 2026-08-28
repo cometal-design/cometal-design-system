@@ -471,8 +471,15 @@ export const SortingContract: Story = {
     await expect(fileHeader.querySelector('.cometal-table__sort-button')).toBeNull();
     await expect(within(fileHeader).getByRole('button', { name: 'Действия колонки Файл' })).toBeVisible();
     await expect(within(readTable).getByRole('separator', { name: 'Изменить ширину колонки Файл' })).toBeVisible();
-    await expect(within(readTable).getByRole('textbox', { name: 'Фильтр по файлу' })).toBeVisible();
-    await expect(readTable.querySelector('tbody td[data-column-id="file"] .cometal-table__file-name')).toHaveTextContent('Спецификация.pdf');
+    await expect(within(readTable).getByRole('combobox', { name: 'Фильтр по файлу' })).toBeVisible();
+    const fileCells = Array.from(readTable.querySelectorAll<HTMLTableCellElement>('tbody td[data-column-id="file"]'));
+    await expect(fileCells[0]?.querySelector('.cometal-table__file-name')).toHaveTextContent('Спецификация POS-001.pdf');
+    await expect(fileCells[0]?.querySelector('.cometal-table__file-size')).toHaveTextContent('130 КБ');
+    await expect(fileCells[0]?.querySelector('.cometal-table__file-asset')).toHaveAttribute('data-file-type', 'pdf');
+    await expect(fileCells[1]?.querySelector('.cometal-table__file-name')).toHaveTextContent('Расчёт POS-002.xlsx');
+    await expect(fileCells[1]?.querySelector('.cometal-table__file-asset')).toHaveAttribute('data-file-type', 'excel');
+    await expect(fileCells[2]?.querySelector('.cometal-table__file-name')).toHaveTextContent('Техническое задание POS-003.doc');
+    await expect(fileCells[2]?.querySelector('.cometal-table__file-asset')).toHaveAttribute('data-file-type', 'doc');
 
     const editTableCanvas = within(editTable);
     const firstDragHandle = editTableCanvas.getByRole('button', { name: 'Переместить строку POS-001' });
@@ -516,7 +523,7 @@ export const FilteringContract: Story = {
     ];
     for (const table of [readTable, editTable]) {
       const tableCanvas = within(table);
-      for (const label of filterLabels) await expect(tableCanvas.getByRole(/единице|статусу|контролю|поставщику/.test(label) ? 'combobox' : 'textbox', { name: label })).toBeVisible();
+      for (const label of filterLabels) await expect(tableCanvas.getByRole(/единице|файлу|статусу|контролю|поставщику/.test(label) ? 'combobox' : 'textbox', { name: label })).toBeVisible();
     }
 
     const expectDateInsets = async (table: HTMLElement) => {
@@ -574,7 +581,7 @@ export const FilteringContract: Story = {
     await waitFor(() => expect(visibleRowIds(readTable)[0]).toBe('POS-002'));
     await resetColumn('Дата поставки');
     await filterText('Фильтр по документу', '234-501', 'POS-002');
-    await filterText('Фильтр по файлу', 'нет-файла', null);
+    await filterSelect('Фильтр по файлу', 'Excel', 'POS-002', 'Файл');
     await filterSelect('Фильтр по статусу', 'На проверке', 'POS-002', 'Статус');
     await filterSelect('Фильтр по контролю', 'Качество', 'POS-002', 'Контроль');
     await filterSelect('Фильтр по поставщику', 'ЕВРАЗ Маркет', 'POS-002', 'Поставщик');

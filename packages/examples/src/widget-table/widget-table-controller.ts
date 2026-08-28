@@ -1,7 +1,12 @@
-import type { DateRangeValue, TableSortDirection } from '@cometal/react';
+import type { DateRangeValue, TableFileType, TableSortDirection } from '@cometal/react';
 
 export type ReviewRowValues = [string, string, string, number, string, number, string, string, string, string, string];
-export type ReviewRow = ReviewRowValues & { readonly entityId: string };
+export type ReviewRow = ReviewRowValues & {
+  readonly entityId: string;
+  readonly fileName: string;
+  readonly fileSize: string;
+  readonly fileType: TableFileType;
+};
 export type EditableColumn = 0 | 1 | 2 | 3 | 4 | 5 | 6 | 7 | 9 | 10;
 export type FilterKind = 'text' | 'number' | 'date' | 'select';
 type TextFilterOperator = 'contains' | 'notContains' | 'startsWith' | 'empty';
@@ -23,6 +28,18 @@ const baseRows: readonly ReviewRowValues[] = [
   ['POS-010', 'Труба электросварная прямошовная 108×4 мм Ст20 ГОСТ 10704-91', 'Ст20', 10, 'т', 88600, '11.09.2026', 'Вх. 242-509', 'В работе', 'Приёмка', 'МЕТАЛЛСЕРВИС'],
 ];
 
+const reviewFilePresets = [
+  { type: 'pdf', stem: 'Спецификация', extension: 'pdf' },
+  { type: 'excel', stem: 'Расчёт', extension: 'xlsx' },
+  { type: 'doc', stem: 'Техническое задание', extension: 'doc' },
+] as const satisfies readonly { type: TableFileType; stem: string; extension: string }[];
+
+const reviewFileTypeOptions = [
+  { value: 'pdf', label: 'PDF' },
+  { value: 'excel', label: 'Excel' },
+  { value: 'doc', label: 'DOC' },
+] as const satisfies readonly { value: TableFileType; label: string }[];
+
 export const rows: readonly ReviewRow[] = Array.from({ length: 12 }, (_, batchIndex) => (
   baseRows.map((sourceRow, rowIndex) => {
     const sequence = (batchIndex * baseRows.length) + rowIndex + 1;
@@ -32,7 +49,13 @@ export const rows: readonly ReviewRow[] = Array.from({ length: 12 }, (_, batchIn
     row[3] = sourceRow[3] + (batchIndex * 2);
     row[5] = sourceRow[5] + (batchIndex * 1250);
     row[7] = `Вх. ${233 + sequence - 1}-${500 + sequence - 1}`;
-    return Object.assign(row, { entityId: `review-row-${sequence}` }) as ReviewRow;
+    const file = reviewFilePresets[(sequence - 1) % reviewFilePresets.length]!;
+    return Object.assign(row, {
+      entityId: `review-row-${sequence}`,
+      fileName: `${file.stem} ${row[0]}.${file.extension}`,
+      fileSize: `${130 + (((sequence - 1) * 17) % 871)} КБ`,
+      fileType: file.type,
+    }) as ReviewRow;
   })
 )).flat();
 
@@ -71,7 +94,7 @@ export const reviewFilterRegistry = {
   sum: { kind: 'number', defaultOperator: 'equals', getValue: (row) => row[3] * row[5] },
   delivery: { kind: 'date', defaultOperator: 'equals', getValue: (row) => row[6] },
   document: { kind: 'text', defaultOperator: 'contains', getValue: (row) => row[7] },
-  file: { kind: 'text', defaultOperator: 'contains', getValue: () => 'Спецификация.pdf' },
+  file: { kind: 'select', defaultOperator: 'equals', getValue: (row) => row.fileType, options: reviewFileTypeOptions },
   status: { kind: 'select', defaultOperator: 'equals', getValue: (row) => row[8], options: stableValueOptions(rows.map((row) => row[8])) },
   control: { kind: 'select', defaultOperator: 'equals', getValue: (row) => row[9], options: stableValueOptions(rows.map((row) => row[9])) },
   supplier: { kind: 'select', defaultOperator: 'equals', getValue: (row) => row[10], options: stableValueOptions(rows.map((row) => row[10])) },
@@ -95,7 +118,7 @@ export function createReviewFilterState(): ReviewFilterState {
     sum: { operator: 'equals', value: '', range: emptyDateRange() },
     delivery: { operator: 'equals', value: '', range: emptyDateRange() },
     document: { operator: 'contains', value: '', range: emptyDateRange() },
-    file: { operator: 'contains', value: '', range: emptyDateRange() },
+    file: { operator: 'equals', value: '', range: emptyDateRange() },
     status: { operator: 'equals', value: '', range: emptyDateRange() },
     control: { operator: 'equals', value: '', range: emptyDateRange() },
     supplier: { operator: 'equals', value: '', range: emptyDateRange() },
@@ -240,7 +263,12 @@ export function filterAndSortReviewRows(orderedRows: readonly ReviewRow[], filte
 }
 
 export function cloneReviewRow(row: ReviewRow): ReviewRow {
-  return Object.assign([...row] as ReviewRowValues, { entityId: row.entityId }) as ReviewRow;
+  return Object.assign([...row] as ReviewRowValues, {
+    entityId: row.entityId,
+    fileName: row.fileName,
+    fileSize: row.fileSize,
+    fileType: row.fileType,
+  }) as ReviewRow;
 }
 
 /** Package-internal executable predicate surface. It is intentionally absent from package exports. */

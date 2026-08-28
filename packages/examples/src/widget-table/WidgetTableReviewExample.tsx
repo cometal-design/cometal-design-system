@@ -523,7 +523,7 @@ export function WidgetTableReviewExample({
               {columnVisible(reviewColumnIds.sum) ? <TableCell columnId={reviewColumnIds.sum} align="end">{sum.toLocaleString('ru-RU')}</TableCell> : null}
               {columnVisible(reviewColumnIds.delivery) ? editableCell(row, 6, `Дата поставки ${row[0]}`) : null}
               {columnVisible(reviewColumnIds.document) ? editableCell(row, 7, `Документ ${row[0]}`) : null}
-              {columnVisible(reviewColumnIds.file) ? <TableFileCell columnId={reviewColumnIds.file} fileName="Спецификация.pdf" fileSize="130 КБ" fileType="pdf" /> : null}
+              {columnVisible(reviewColumnIds.file) ? <TableFileCell columnId={reviewColumnIds.file} fileName={row.fileName} fileSize={row.fileSize} fileType={row.fileType} /> : null}
               {columnVisible(reviewColumnIds.status) ? <TableCell columnId={reviewColumnIds.status}><Badge tone={toneForStatus(row[8])}>{row[8]}</Badge></TableCell> : null}
               {columnVisible(reviewColumnIds.control) ? editableCell(row, 9, `Контроль ${row[0]}`) : null}
               {columnVisible(reviewColumnIds.supplier) ? editableCell(row, 10, `Поставщик ${row[0]}`) : null}

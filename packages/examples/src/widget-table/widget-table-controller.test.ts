@@ -84,8 +84,11 @@ describe('WidgetTable M3 controller contract', () => {
     expect(widgetTableFilterTestApi.filterAndSort(widgetTableFilterTestApi.rows, scoped, null)).toHaveLength(0);
 
     const file = widgetTableFilterTestApi.createState();
-    file.file.value = 'xlsx';
-    expect(widgetTableFilterTestApi.filterAndSort(widgetTableFilterTestApi.rows, file, null)).toHaveLength(0);
+    file.file.value = 'excel';
+    const excelRows = widgetTableFilterTestApi.filterAndSort(widgetTableFilterTestApi.rows, file, null);
+    expect(excelRows).toHaveLength(40);
+    expect(excelRows[0]?.fileName).toBe('Расчёт POS-002.xlsx');
+    expect(excelRows.every((row) => row.fileType === 'excel')).toBe(true);
   });
 
   it('filters before stable M2 sorting and preserves current source order for ties', () => {
