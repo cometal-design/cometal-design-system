@@ -809,6 +809,10 @@
   white-space: nowrap;
 }
 
+.cometal-table__file-cell:is([data-state='selected'], [data-state='editing'], [data-state='dragging']) .cometal-table__file-size {
+  color: var(--cometal-table-selected-text);
+}
+
 .cometal-table[data-density='compact'] .cometal-table__file-size {
   display: none;
 }
