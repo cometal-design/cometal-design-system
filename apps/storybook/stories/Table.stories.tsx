@@ -254,6 +254,10 @@ const selectionStates = ['default', 'hover', 'disabled', 'error'] as const satis
 const indexStates = ['default', 'hover', 'active', 'selected', 'error', 'disabled'] as const satisfies readonly TableCellState[];
 const dragStates = ['default', 'hover', 'dragging', 'disabled', 'active'] as const satisfies readonly TableCellState[];
 
+function FileValue() {
+  return <span className="ds-table-matrix-file"><TableFileIcon type="pdf" aria-hidden="true" /><span>Спецификация.pdf<small>130 КБ</small></span></span>;
+}
+
 function ReadValue({ type }: { type: (typeof readTypes)[number] }) {
   if (type === 'Number') return <>12 450,00</>;
   if (type === 'Link') return <a href="#read-cell-link" onClick={(event) => event.preventDefault()}>Открыть позицию</a>;
@@ -261,7 +265,7 @@ function ReadValue({ type }: { type: (typeof readTypes)[number] }) {
   if (type === 'Text + Badge') return <>Значение <Badge tone="blue">Статус</Badge></>;
   if (type === 'Number + Badge') return <>12 450 <Badge tone="green">ОК</Badge></>;
   if (type === 'Badge + Text') return <><Badge tone="yellow">Новый</Badge> Значение</>;
-  if (type === 'File') return <span className="ds-table-matrix-file"><TableFileIcon type="pdf" /><span>Спецификация.pdf<small>130 КБ</small></span></span>;
+  if (type === 'File') return <FileValue />;
   return <>Текстовое значение</>;
 }
 
@@ -273,7 +277,7 @@ function EditValue({ type, state }: { type: (typeof editTypes)[number]; state: (
   const disabled = state === 'disabled'; const error = state === 'error' ? 'Ошибка' : undefined;
   if (type === 'Number') return <TextField className="ds-table-filter-field" label={`Number ${state}`} size="s" defaultValue="12450" inputMode="numeric" disabled={disabled} error={error} />;
   if (type === 'Dropdown') return <Select className="ds-table-filter-field" label={`Dropdown ${state}`} size="s" options={statusOptions} defaultValue="approved" disabled={disabled} />;
-  if (type === 'File') return <Button size="s" variant="secondary" disabled={disabled}>Выбрать файл</Button>;
+  if (type === 'File') return <FileValue />;
   return <TextField className="ds-table-filter-field" label={`Text ${state}`} size="s" defaultValue="Значение" disabled={disabled} error={error} />;
 }
 
@@ -413,6 +417,27 @@ export const Cells: Story = {
       }
       await expect(getComputedStyle(defaultHandle).color).toBe(expectedDefaultColor);
       await expect(getComputedStyle(draggingHandle).color).toBe(expectedDraggingColor);
+
+      const readCellTable = canvasElement.querySelector<HTMLTableElement>(`table[aria-label="Read Cell · ${density}"]`)!;
+      const editCellTable = canvasElement.querySelector<HTMLTableElement>(`table[aria-label="Edit Cell · ${density}"]`)!;
+      const readFileValues = Array.from(readCellTable.querySelectorAll<HTMLElement>('.ds-table-matrix-file'));
+      const editFileValues = Array.from(editCellTable.querySelectorAll<HTMLElement>('.ds-table-matrix-file'));
+      await expect(readFileValues).toHaveLength(5);
+      await expect(editFileValues).toHaveLength(7);
+      await expect(within(editCellTable).queryByRole('button', { name: 'Выбрать файл' })).toBeNull();
+      for (const fileValue of [...readFileValues, ...editFileValues]) {
+        await expect(fileValue).toHaveTextContent('Спецификация.pdf');
+        await expect(fileValue).toHaveTextContent('130 КБ');
+        const icon = fileValue.querySelector<SVGSVGElement>('svg.cometal-table__file-asset')!;
+        await expect(icon.getBoundingClientRect().width).toBe(24);
+        await expect(icon.getBoundingClientRect().height).toBe(24);
+      }
+    }
+    const standaloneFileIcons = Array.from(canvasElement.querySelectorAll<SVGSVGElement>('.ds-table-file-grid svg.cometal-table__file-asset'));
+    await expect(standaloneFileIcons).toHaveLength(9);
+    for (const icon of standaloneFileIcons) {
+      await expect(icon.getBoundingClientRect().width).toBe(24);
+      await expect(icon.getBoundingClientRect().height).toBe(24);
     }
   },
 };
