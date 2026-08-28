@@ -204,11 +204,11 @@
 }
 
 .cometal-table__filter-cell[data-column-pinned] {
-  z-index: 2;
+  z-index: 3;
 }
 
 .cometal-table__header-cell[data-column-pinned] {
-  z-index: 3;
+  z-index: 4;
 }
 
 .cometal-table-scroll[data-horizontal-scrolled] .cometal-table [data-column-pinned-last]::after {

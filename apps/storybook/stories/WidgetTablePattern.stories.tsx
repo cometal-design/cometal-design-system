@@ -210,9 +210,26 @@ export const Overview: Story = {
     fireEvent.pointerUp(readNameResizer, { pointerId: 6, clientX: 400 + minimumReadNameWidth - expandedReadNameWidth });
     await userEvent.click(within(readTable).getByRole('button', { name: 'Действия колонки Наименование' }));
     await userEvent.click(within(document.body).getByRole('menuitem', { name: 'Закрепить слева' }));
-    readScrollRegion.scrollLeft = 800;
+    const pinnedReadNameFilter = readTable.querySelector<HTMLTableCellElement>('.cometal-table__filter-cell[data-column-id="name"]')!;
+    const unpinnedReadGradeHeader = readTable.querySelector<HTMLTableCellElement>('.cometal-table__header-cell[data-column-id="grade"]')!;
+    const unpinnedReadGradeFilter = readTable.querySelector<HTMLTableCellElement>('.cometal-table__filter-cell[data-column-id="grade"]')!;
+    readScrollRegion.scrollLeft = unpinnedReadGradeHeader.offsetLeft;
     fireEvent.scroll(readScrollRegion);
     await waitFor(() => expect(Math.round(readNameHeader.getBoundingClientRect().left)).toBe(Math.round(readScrollRegion.getBoundingClientRect().left)));
+    await waitFor(() => {
+      const pinnedHeaderRect = readNameHeader.getBoundingClientRect();
+      const unpinnedHeaderRect = unpinnedReadGradeHeader.getBoundingClientRect();
+      expect(unpinnedHeaderRect.left).toBeLessThan(pinnedHeaderRect.right);
+      expect(unpinnedHeaderRect.right).toBeGreaterThan(pinnedHeaderRect.left);
+    });
+    await expect(Number(getComputedStyle(readNameHeader).zIndex)).toBeGreaterThan(Number(getComputedStyle(unpinnedReadGradeHeader).zIndex));
+    await expect(Number(getComputedStyle(pinnedReadNameFilter).zIndex)).toBeGreaterThan(Number(getComputedStyle(unpinnedReadGradeFilter).zIndex));
+    const pinnedReadNameHeaderRect = readNameHeader.getBoundingClientRect();
+    const pinnedReadHeaderHitTarget = document.elementFromPoint(pinnedReadNameHeaderRect.left + 16, pinnedReadNameHeaderRect.top + pinnedReadNameHeaderRect.height / 2);
+    await expect(pinnedReadHeaderHitTarget?.closest('[data-column-id]')).toHaveAttribute('data-column-id', 'name');
+    const pinnedReadNameFilterRect = pinnedReadNameFilter.getBoundingClientRect();
+    const pinnedReadFilterHitTarget = document.elementFromPoint(pinnedReadNameFilterRect.left + 16, pinnedReadNameFilterRect.top + pinnedReadNameFilterRect.height / 2);
+    await expect(pinnedReadFilterHitTarget?.closest('[data-column-id]')).toHaveAttribute('data-column-id', 'name');
     const pinnedReadNameCell = readTable.querySelector<HTMLTableCellElement>('tbody tr[data-row-id] td[data-column-id="name"]')!;
     const pinnedReadNameCellRect = pinnedReadNameCell.getBoundingClientRect();
     const pinnedReadHitTarget = document.elementFromPoint(pinnedReadNameCellRect.left + 16, pinnedReadNameCellRect.top + pinnedReadNameCellRect.height / 2);
