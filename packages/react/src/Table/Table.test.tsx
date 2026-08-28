@@ -27,6 +27,8 @@ import {
   tableFileTypes,
 } from './Table';
 import { ContextMenuItem } from '../ContextMenu/ContextMenu';
+import chevronLeftDefinition from '../icons/generated/definitions/outline/arrows/chevron-left';
+import chevronRightDefinition from '../icons/generated/definitions/outline/arrows/chevron-right';
 
 describe('Table', () => {
   it('binds the Table-local drag marker to the exact Figma 2778:8288 export proxy 2778:8292', () => {
@@ -308,6 +310,12 @@ describe('Table', () => {
     expect(html).toContain('aria-current="page"');
     expect(html).toContain('aria-label="Предыдущая страница"');
     expect(html).toContain('cometal-table__paginator-icon');
+    expect(chevronLeftDefinition.nodeId).toBe('700:14294');
+    expect(chevronRightDefinition.nodeId).toBe('700:14309');
+    expect(html).toContain('M14.5 17L9.5 12L14.5 7');
+    expect(html).toContain('M9.5 7L14.5 12L9.5 17');
+    expect(html).not.toContain('M10.6667 5L4 12L10.6667 19');
+    expect(html).not.toContain('M13.3333 19L20 12L13.3333 5');
     expect(html.match(/data-cometal-component="button"/g)?.length).toBeGreaterThan(2);
     expect(html).toContain('data-cometal-icon-library="outline"');
     expect(html).toContain('data-cometal-component="field"');

@@ -432,6 +432,10 @@
   height: var(--cometal-primitive-size-24);
 }
 
+.cometal-table__page-control[data-size='m'] .cometal-button__icon > .cometal-table__paginator-icon {
+  --cometal-icon-source-stroke: var(--cometal-primitive-stroke-140);
+}
+
 .cometal-table__sort-icon {
   color: var(--cometal-table-header-sort-icon-selected);
 }
@@ -885,7 +889,14 @@
   background: var(--cometal-component-table-header-surface-hover);
 }
 
-.cometal-table__page-control[data-current] {
+.cometal-table__page-control:hover:not(:disabled):not([data-current]),
+.cometal-table__page-control:active:not(:disabled):not([data-current]) {
+  color: var(--cometal-component-table-text-primary);
+}
+
+.cometal-table__page-control[data-current],
+.cometal-table__page-control[data-current]:hover:not(:disabled),
+.cometal-table__page-control[data-current]:active:not(:disabled) {
   color: var(--cometal-component-table-icon-selected);
 }
 

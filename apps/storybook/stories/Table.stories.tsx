@@ -12,6 +12,8 @@ import {
 import type { TableCellState, TableDensity, TableFileType, TableSortDirection } from '@cometal/react';
 import { definition as arrowUpSmallDefinition } from '@cometal/react/icons/outline/arrows/arrow-up-sm';
 import { definition as arrowDownSmallDefinition } from '@cometal/react/icons/outline/arrows/down-arrow-sm';
+import { definition as chevronLeftDefinition } from '@cometal/react/icons/outline/arrows/chevron-left';
+import { definition as chevronRightDefinition } from '@cometal/react/icons/outline/arrows/chevron-right';
 import { TableReviewExample } from '@cometal/examples/widget-table';
 import { ComponentCodeExample } from './ComponentCodeExample';
 
@@ -82,6 +84,26 @@ async function expectSortIconContract(button: HTMLButtonElement, definition: Sor
   await expect(paths[0]).toHaveAttribute('stroke-width', '1.4');
   await expect(paths[0]).toHaveAttribute('data-cometal-stroke-scale', '');
   await expect(getComputedStyle(paths[0]!).vectorEffect).toBe('non-scaling-stroke');
+}
+
+async function expectPaginatorIconContract(button: HTMLButtonElement, definition: SortIconDefinition) {
+  const icon = button.querySelector<SVGSVGElement>('svg.cometal-table__paginator-icon');
+  if (!icon) throw new Error(`Expected ${definition.canonicalName} paginator icon`);
+  const paths = Array.from(icon.querySelectorAll<SVGPathElement>('path'));
+  await expect(icon.getBoundingClientRect().width).toBe(24);
+  await expect(icon.getBoundingClientRect().height).toBe(24);
+  await expect(icon).toHaveAttribute('viewBox', '0 0 24 24');
+  await expect(icon).toHaveAttribute('data-cometal-icon-library', 'outline');
+  await expect(icon).toHaveAttribute('data-cometal-icon-paint', 'currentColor');
+  await expect(icon).toHaveAttribute('data-cometal-icon-stroke-scaling', 'marked-elements');
+  await expect(getComputedStyle(icon).transform).toBe('none');
+  await expect(icon.querySelector('[transform]')).toBeNull();
+  await expect(paths.map((path) => path.getAttribute('d'))).toEqual(definitionPathData(definition.body));
+  await expect(paths).toHaveLength(1);
+  await expect(paths[0]).toHaveAttribute('stroke', 'currentColor');
+  await expect(paths[0]).toHaveAttribute('stroke-width', '1.4');
+  await expect(paths[0]).toHaveAttribute('data-cometal-stroke-scale', '');
+  await expect(getComputedStyle(paths[0]!).strokeWidth).toBe('1.4px');
 }
 
 async function expectFocusContract(element: HTMLElement) {
@@ -591,16 +613,43 @@ export const Paginator: Story = {
     const canvas = within(canvasElement);
     const navigation = canvas.getByRole('navigation', { name: 'Интерактивная пагинация таблицы' });
     const paginator = within(navigation);
-    const previous = paginator.getByRole('button', { name: 'Предыдущая страница' });
-    const previousIcon = previous.querySelector('svg');
+    const previous = paginator.getByRole('button', { name: 'Предыдущая страница' }) as HTMLButtonElement;
+    const next = paginator.getByRole('button', { name: 'Следующая страница' }) as HTMLButtonElement;
+    const pageOne = paginator.getByRole('button', { name: 'Страница 1' });
+    const pageTwo = paginator.getByRole('button', { name: 'Страница 2' });
     const controls = navigation.querySelector('.cometal-table__paginator-controls');
     const pageSizeField = navigation.querySelector<HTMLElement>('.cometal-table__page-size')!;
     const pageSizeTrigger = paginator.getByRole('combobox', { name: 'Строк на странице' });
     const pageSizeAsset = pageSizeTrigger.querySelector<HTMLElement>('.cometal-field__asset')!;
     await expect(previous.getBoundingClientRect().width).toBe(40);
     await expect(previous.getBoundingClientRect().height).toBe(40);
-    await expect(previousIcon?.getBoundingClientRect().width).toBe(24);
-    await expect(previousIcon?.getBoundingClientRect().height).toBe(24);
+    await expectPaginatorIconContract(previous, chevronLeftDefinition);
+    await expectPaginatorIconContract(next, chevronRightDefinition);
+    const colorProbe = canvasElement.ownerDocument.createElement('span');
+    navigation.append(colorProbe);
+    colorProbe.style.color = 'var(--cometal-component-table-text-primary)';
+    const expectedPrimaryColor = getComputedStyle(colorProbe).color;
+    colorProbe.style.color = 'var(--cometal-component-table-icon-selected)';
+    const expectedCurrentColor = getComputedStyle(colorProbe).color;
+    colorProbe.style.color = 'var(--cometal-component-table-icon-disabled)';
+    const expectedDisabledColor = getComputedStyle(colorProbe).color;
+    colorProbe.remove();
+    await expect(getComputedStyle(pageTwo).color).toBe(expectedPrimaryColor);
+    await expect(getComputedStyle(pageOne).color).toBe(expectedCurrentColor);
+    await expect(getComputedStyle(previous).color).toBe(expectedDisabledColor);
+    await userEvent.hover(pageTwo);
+    await expect(getComputedStyle(pageTwo).color).toBe(expectedPrimaryColor);
+    await expect(getComputedStyle(pageTwo).color).not.toBe('rgb(255, 255, 255)');
+    await userEvent.pointer([{ keys: '[MouseLeft>]', target: pageTwo }]);
+    await expect(getComputedStyle(pageTwo).color).toBe(expectedPrimaryColor);
+    await userEvent.pointer([{ keys: '[/MouseLeft]', target: pageTwo }]);
+    await userEvent.click(pageTwo);
+    await waitFor(() => expect(pageTwo).toHaveAttribute('aria-current', 'page'));
+    await waitFor(() => expect(getComputedStyle(pageTwo).color).toBe(expectedCurrentColor));
+    await userEvent.click(previous);
+    await waitFor(() => expect(pageOne).toHaveAttribute('aria-current', 'page'));
+    await expect(previous).toBeDisabled();
+    await waitFor(() => expect(getComputedStyle(previous).color).toBe(expectedDisabledColor));
     await expect(controls ? getComputedStyle(controls).gap : '').toBe('4px');
     await expect(pageSizeField.getBoundingClientRect().width).toBe(96);
     await expect(pageSizeField.getBoundingClientRect().height).toBe(40);
@@ -622,7 +671,8 @@ export const Paginator: Story = {
     const pageSizeOutput = canvasElement.querySelector<HTMLOutputElement>('output[data-page-size]')!;
     await expect(pageSizeOutput).toHaveAttribute('data-page-size', '20');
     await expect(pageSizeOutput).toHaveAttribute('data-page-size-type', 'number');
-    await userEvent.click(paginator.getByRole('button', { name: 'Следующая страница' }));
+    next.focus();
+    await userEvent.keyboard('{Enter}');
     await expect(paginator.getByRole('button', { name: 'Страница 2' })).toHaveAttribute('aria-current', 'page');
   },
 };

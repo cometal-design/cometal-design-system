@@ -19,8 +19,8 @@ import type { ContextMenuItemProps } from '../ContextMenu/ContextMenu';
 import { Select } from '../Field/Field';
 import DotHorizontalFilledIcon from '../icons/generated/components/filled/general/dot-horizontal-filled';
 import FilterIcon from '../icons/generated/components/outline/general/filter';
-import ArrowLeftIcon from '../icons/generated/components/outline/arrows/arrow-left';
-import ArrowRightIcon from '../icons/generated/components/outline/arrows/arrow-right';
+import ChevronLeftIcon from '../icons/generated/components/outline/arrows/chevron-left';
+import ChevronRightIcon from '../icons/generated/components/outline/arrows/chevron-right';
 import ArrowUpSmallIcon from '../icons/generated/components/outline/arrows/arrow-up-sm';
 import ArrowDownSmallIcon from '../icons/generated/components/outline/arrows/down-arrow-sm';
 import WordFileIcon from '../icons/generated/components/feature-icons-and-logos/file-icon/word';
@@ -1414,11 +1414,11 @@ export const TablePaginator = forwardRef<HTMLElement, TablePaginatorProps>(funct
     <nav {...props} ref={ref} className={['cometal-table__paginator', className].filter(Boolean).join(' ')} aria-label={ariaLabel}>
       <div className="cometal-table__paginator-spacer" aria-hidden="true" />
       <div className="cometal-table__paginator-controls">
-        <IconButton variant="ghost" size="m" className="cometal-table__page-control" disabled={safePage === 1} onClick={() => onPageChange(safePage - 1)} aria-label="Предыдущая страница" icon={<ArrowLeftIcon className="cometal-table__asset-icon cometal-table__paginator-icon" />} />
+        <IconButton variant="ghost" size="m" className="cometal-table__page-control" disabled={safePage === 1} onClick={() => onPageChange(safePage - 1)} aria-label="Предыдущая страница" icon={<ChevronLeftIcon className="cometal-table__asset-icon cometal-table__paginator-icon" />} />
         {getPaginatorItems(safePage, safePageCount).map((item) => typeof item === 'number' ? (
           <Button key={item} variant="ghost" size="m" className="cometal-table__page-control" data-current={item === safePage || undefined} aria-current={item === safePage ? 'page' : undefined} onClick={() => onPageChange(item)} aria-label={`Страница ${item}`}>{item}</Button>
         ) : <span key={item} className="cometal-table__page-ellipsis" aria-hidden="true">…</span>)}
-        <IconButton variant="ghost" size="m" className="cometal-table__page-control" disabled={safePage === safePageCount} onClick={() => onPageChange(safePage + 1)} aria-label="Следующая страница" icon={<ArrowRightIcon className="cometal-table__asset-icon cometal-table__paginator-icon" />} />
+        <IconButton variant="ghost" size="m" className="cometal-table__page-control" disabled={safePage === safePageCount} onClick={() => onPageChange(safePage + 1)} aria-label="Следующая страница" icon={<ChevronRightIcon className="cometal-table__asset-icon cometal-table__paginator-icon" />} />
       </div>
       <Select
         className="cometal-table__page-size"
