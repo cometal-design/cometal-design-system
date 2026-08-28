@@ -8,7 +8,7 @@
 - Cells: [Table / Source / Cells `2353:9497`](https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-9497)
 - Headers: [Table / Source / Header `2353:10891`](https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-10891)
 - Columns: [Table / Source / Main Components `2353:9824`](https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-9824)
-- Paginator: [Table / Source / Paginator `2353:10882`](https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-10882)
+- Paginator documentation: [Table / Source / Paginator `2353:10882`](https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=2353-10882); canonical compound master `2371:29654`; internal Paginator Control master `2851:11088`. Example `2353:10886` is evidence, not a master.
 - Спецификация: [[../../specifications/components/table]]
 - React: `packages/react/src/Table/Table.tsx`
 - Storybook: https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-table--overview
@@ -49,6 +49,7 @@
 - M3 Filter Row `2530:5631`: 13 typed controlled filters принадлежат Widget pattern; operator и per-column Reset живут в header ContextMenu. Table задаёт external `48/40` geometry (`8/4` vertical inset вокруг 32px S control), Field/Select — внутренний `spacing-50` `8px` inset.
 - Filtering идёт AND-before-stable-sort и не сбрасывает M2 sort; Select/Date/DateRange overlays используют shared portal и не требуют изменения Table clipping/scroll. Keyboard focus controls — один `2px` ring с `4px` offset; pointer не добавляет wrapper ring.
 - M4–M8 visual sources: Read/Edit `2353:9506` / `2353:9656`, Drag `2778:8307`, Summary `2760:8131`, Paginator `2371:29654` + `2851:11088`; `3346:21724` is the four-variant Widget Table composition source, not an identity.
+- Pagination handoff: Previous is generated canonical `Outline/arrows/chevron-left` `700:14294`; Next is `Outline/arrows/chevron-right` `700:14309`. Both retain centered `24×24` boxes, `10×5` vectors and Stroke/140 `1.4px`, without transform/redraw/local SVG. Numeric Hover uses dark `Global/Text/Primary` `#111111` on the light secondary-container surface, never white; no Pagination API, state/variant, layout, accessibility or token-ownership change is introduced.
 - Table owns Read/Edit boundaries, current-page header selection scope, controlled pin/width/visibility behavior, native scrollport/custom projections, `maxVisibleBodyRows` as the sole new Table root prop, paginator primitives and sticky summary rendering. `TableSummaryCell.kind` is exactly `empty | label | value | index | selection | drag`; utility `index`/`selection`/`drag` render empty summary content, retain Table-owned 48px/40px utility identity and accessibility/structural ownership, and do not infer behavior from consumer IDs. Consumer/controller owns stable IDs, data, filtering/sort, page state and supplied current-page totals. TW-017 is closed for the written contract: Table-private Drag Handle master `2778:8288`, visible proxy `2778:8292`, and `packages/react/src/Table/assets/drag-handle.svg` SHA-256 `8f81f24ef877dc08ff635cb35c82f39204fdec88db95a4eb209a7498eb3a32b2`; it is not a general icon export.
 
 ## Ownership

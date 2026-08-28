@@ -20,7 +20,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - Cells: `2353:9497`.
 - Read Cell Component Set: `2353:9506`.
 - Edit Cell Component Set: `2353:9656`.
-- Paginator Source: `2353:10882`.
+- Paginator source documentation: `2353:10882`; its `2353:10886` Pagination example is evidence only. Canonical compound Paginator master is `2371:29654` and its canonical internal Paginator Control set is `2851:11088`.
 - Header Source: `2353:10891`.
 - Main Components: `2353:9824`.
 - Review `2353:10833` используется только как презентационное evidence и не определяет реализацию.
@@ -98,7 +98,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - Native `.cometal-table-scroll` is the labelled horizontal/vertical scroll owner. Table-internal custom scrollbar projections preserve native wheel/trackpad/touch/keyboard scrolling, their own ARIA/capture cleanup and safe corner; Pattern never owns them.
 - `maxVisibleBodyRows?: number` is the sole new Table root prop in M4–M8. Undefined preserves standalone uncapped body; a finite positive integer caps visible data body rows only. Table owns scrollport max block size and sticky header/filter/summary calculations; it receives neither data, totals, page state nor persistence API.
 - `TableSummaryCell.kind="index" | "selection" | "drag"` renders empty summary content for that Table utility family: supplied children are not rendered. Table owns the utility identity, its `48px` / `40px` density-sized width, summary semantics and accessible structural ownership; the consumer retains only stable `columnId` alignment. `empty`, `label` and `value` retain their existing behavior.
-- `TablePaginator` remains controlled through page/pageCount/pageSize callbacks and composes shared Button/IconButton/Select. Table renders consumer-supplied summary values only. In the accepted shared controller: page sizes `10/15/20/30`, a nine-page window with non-interactive ellipsis, current-visible-page summary, and summary visibility independent from filter/sort/selection.
+- `TablePaginator` remains controlled through page/pageCount/pageSize callbacks and composes shared Button/IconButton/Select. Previous maps only to generated `Outline/arrows/chevron-left` (`700:14294`); Next maps only to generated `Outline/arrows/chevron-right` (`700:14309`). Both keep a centered `24×24` box, `10×5` visible vector and centered Stroke/140 `1.4px`, with no transform, redraw or local SVG. Numeric page Hover uses dark `Global/Text/Primary` (`#111111`) on the existing light secondary-container surface and never white. This preserves the existing 14-variant `Content` / `Direction` / `State` contract: no API, variant, behavior, layout, size, accessibility or token-ownership change. Table renders consumer-supplied summary values only. In the accepted shared controller: page sizes `10/15/20/30`, a nine-page window with non-interactive ellipsis, current-visible-page summary, and summary visibility independent from filter/sort/selection.
 
 ## Контент
 
