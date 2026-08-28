@@ -268,15 +268,14 @@ function ReadCellMatrix({ density }: { density: TableDensity }) {
   return <Table density={density} aria-label={`Read Cell · ${density}`} className="ds-table-contract-matrix"><TableHead><TableRow><TableHeaderCell>Type</TableHeaderCell>{readStates.map((state) => <TableHeaderCell key={state}>{state}</TableHeaderCell>)}</TableRow></TableHead><TableBody>{readTypes.map((type) => <TableRow key={type}><TableHeaderCell scope="row">{type}</TableHeaderCell>{readStates.map((state) => type === 'File' ? <TableFileCell key={state} state={state} fileName="Спецификация.pdf" fileSize="130 КБ" fileType="pdf" /> : <TableCell key={state} state={state} align={type.includes('Number') ? 'end' : 'start'}><ReadValue type={type} /></TableCell>)}</TableRow>)}</TableBody></Table>;
 }
 
-function EditValue({ type, state }: { type: (typeof editTypes)[number]; state: (typeof editStates)[number] }) {
-  const disabled = state === 'disabled'; const error = state === 'error' ? 'Ошибка' : undefined;
-  if (type === 'Number') return <TextField className="ds-table-filter-field" label={`Number ${state}`} size="s" defaultValue="12450" inputMode="numeric" disabled={disabled} error={error} />;
-  if (type === 'Dropdown') return <Select className="ds-table-filter-field" label={`Dropdown ${state}`} size="s" options={statusOptions} defaultValue="approved" disabled={disabled} />;
-  return <TextField className="ds-table-filter-field" label={`Text ${state}`} size="s" defaultValue="Значение" disabled={disabled} error={error} />;
+function EditValue({ type }: { type: (typeof editTypes)[number] }) {
+  if (type === 'Number') return <>12 450</>;
+  if (type === 'Dropdown') return <>Согласовано</>;
+  return <>Значение</>;
 }
 
 function EditCellMatrix({ density }: { density: TableDensity }) {
-  return <Table density={density} aria-label={`Edit Cell · ${density}`} className="ds-table-contract-matrix"><TableHead><TableRow><TableHeaderCell>Type</TableHeaderCell>{editStates.map((state) => <TableHeaderCell key={state}>{state}</TableHeaderCell>)}</TableRow></TableHead><TableBody>{editTypes.map((type) => <TableRow key={type}><TableHeaderCell scope="row">{type}</TableHeaderCell>{editStates.map((state) => type === 'File' ? <TableFileCell key={state} state={state} fileName="Спецификация.pdf" fileSize="130 КБ" fileType="pdf" /> : <TableCell key={state} state={state}><EditValue type={type} state={state} /></TableCell>)}</TableRow>)}</TableBody></Table>;
+  return <Table density={density} mode="edit" aria-label={`Edit Cell · ${density}`} className="ds-table-contract-matrix"><TableHead><TableRow><TableHeaderCell>Type</TableHeaderCell>{editStates.map((state) => <TableHeaderCell key={state}>{state}</TableHeaderCell>)}</TableRow></TableHead><TableBody>{editTypes.map((type) => <TableRow key={type}><TableHeaderCell scope="row">{type}</TableHeaderCell>{editStates.map((state) => type === 'File' ? <TableFileCell key={state} state={state} fileName="Спецификация.pdf" fileSize="130 КБ" fileType="pdf" /> : <TableCell key={state} state={state} editable aria-label={`${type} · ${state}`}><EditValue type={type} /></TableCell>)}</TableRow>)}</TableBody></Table>;
 }
 
 function UtilityCellMatrices({ density }: { density: TableDensity }) {
@@ -300,7 +299,7 @@ function HeaderMatrix() {
     <section className="ds-component-section"><div className="ds-component-section__intro"><span>01</span><div><h2>Sort, context action и resize</h2><p>Обе плотности используют реальные none → ascending → descending → none, focus-visible и separator states без forced CSS.</p></div></div><div className="ds-table-density-pair">{tableDensities.map((density) => <section key={density}><h3>{density}</h3><HeaderContractTable density={density} /></section>)}</div></section>
     <section className="ds-component-section"><div className="ds-component-section__intro"><span>02</span><div><h2>Column Header · 3 sort × 2 density</h2><p>Default не имеет отдельного Hover/Active surface; Ascending и Descending сохраняют selected surface и точные generated icons.</p></div></div><div className="ds-table-density-pair">{tableDensities.map((density) => <section key={density}><h3>{density}</h3><Table density={density} aria-label={`Column Header matrix ${density}`}><TableHead><TableRow>{(['none', 'ascending', 'descending'] as const).map((sortValue) => <TableHeaderCell key={sortValue} sort={sortValue}>{sortValue}</TableHeaderCell>)}</TableRow></TableHead></Table></section>)}</div></section>
     <section className="ds-component-section"><div className="ds-component-section__intro"><span>03</span><div><h2>Selection Header · alignment × 2 density</h2><p>Unchecked, Mixed и Checked проверяют только выравнивание и disabled contract; cross-page scope остаётся вне M2.</p></div></div><div className="ds-table-density-pair">{tableDensities.map((density) => <section key={density}><h3>{density}</h3><Table density={density} aria-label={`Selection Header ${density}`}><TableHead>{(['default', 'disabled'] as const).map((state) => <TableRow key={state}><TableHeaderCell scope="row">{state}</TableHeaderCell><TableSelectionHeader selectedCount={0} totalCount={2} disabled={state === 'disabled'} onSelectionChange={() => undefined} label={`${state} unchecked`} /><TableSelectionHeader selectedCount={1} totalCount={2} disabled={state === 'disabled'} onSelectionChange={() => undefined} label={`${state} mixed`} /><TableSelectionHeader selectedCount={2} totalCount={2} disabled={state === 'disabled'} onSelectionChange={() => undefined} label={`${state} checked`} /></TableRow>)}</TableHead></Table></section>)}</div></section>
-    <section className="ds-component-section"><div className="ds-component-section__intro"><span>05</span><div><h2>Filter Row · 10 variants</h2><p>Empty, Text, Number, Date, Period, Select и Boolean в Default; Active существует только для Date, Period и Select.</p></div></div><div className="ds-table-filter-contract-grid">{(['Empty:default','Text:default','Number:default','Date:default','Period:default','Select:default','Boolean:default','Date:active','Period:active','Select:active'] as const).map((variant) => { const [type, state] = variant.split(':'); const active = state === 'active'; return <article key={variant} data-visual-state={state}><code>{type} · {state}</code><Table density="comfortable" aria-label={`Filter ${variant}`}><TableHead><TableFilterRow><TableFilterCell>{type === 'Empty' ? null : type === 'Date' ? <DatePicker label={variant} size="s" open={active} /> : type === 'Period' ? <DateRangePicker label={variant} size="s" open={active} /> : type === 'Select' ? <Select label={variant} size="s" options={statusOptions} defaultValue="all" expanded={active} /> : <TextField label={variant} size="s" inputMode={type === 'Number' ? 'numeric' : undefined} defaultValue={type === 'Boolean' ? 'Да' : undefined} />}</TableFilterCell></TableFilterRow></TableHead></Table></article>; })}</div></section>
+    <section className="ds-component-section"><div className="ds-component-section__intro"><span>05</span><div><h2>Filter Row · 7 default variants</h2><p>Empty, Text, Number, Date, Period, Select и Boolean не открывают overlays до явного взаимодействия.</p></div></div><div className="ds-table-filter-contract-grid">{(['Empty','Text','Number','Date','Period','Select','Boolean'] as const).map((type) => <article key={type} data-visual-state="default"><code>{type} · default</code><Table density="comfortable" aria-label={`Filter ${type}:default`}><TableHead><TableFilterRow><TableFilterCell>{type === 'Empty' ? null : type === 'Date' ? <DatePicker label={`${type}:default`} size="s" /> : type === 'Period' ? <DateRangePicker label={`${type}:default`} size="s" /> : type === 'Select' ? <Select label={`${type}:default`} size="s" options={statusOptions} defaultValue="all" /> : <TextField label={`${type}:default`} size="s" inputMode={type === 'Number' ? 'numeric' : undefined} defaultValue={type === 'Boolean' ? 'Да' : undefined} />}</TableFilterCell></TableFilterRow></TableHead></Table></article>)}</div></section>
   </main>;
 }
 
@@ -308,7 +307,7 @@ function ColumnMatrix() {
   const rowCounts = [10, 15, 20, 30] as const;
   const families = ['Read Column', 'Edit Column', 'Index Column', 'Selection Column', 'Drag Handle Column'] as const;
   return <main className="ds-component-page ds-table-page"><header className="ds-component-hero"><div><span className="ds-eyebrow">TABLE · COLUMNS</span><h1>Columns</h1><p>Пять самостоятельных Component Sets: Read, Edit, Index, Selection и Drag Handle. Каждая колонка синхронизирует header, filter, body и summary.</p></div><a href={tableFigmaSources.mainComponents} target="_blank" rel="noreferrer">Main Components в Figma ↗</a></header>
-    {tableDensities.map((density, densityIndex) => <section className="ds-component-section" key={density}><div className="ds-component-section__intro"><span>{String(densityIndex + 1).padStart(2, '0')}</span><div><h2>{density === 'comfortable' ? 'Comfortable · 48px' : 'Compact · 40px'}</h2><p>Каждое семейство показано отдельной вертикальной композицией.</p></div></div><Table density={density} mode="edit" aria-label={`Column families · ${density}`}><TableHead><TableRow><TableHeaderCell>Read Column</TableHeaderCell><TableHeaderCell>Edit Column</TableHeaderCell><TableHeaderCell kind="index">Index</TableHeaderCell><TableSelectionHeader selectedCount={1} totalCount={4} onSelectionChange={() => undefined} /><TableHeaderCell kind="drag">Drag</TableHeaderCell></TableRow><TableFilterRow><TableFilterCell><TextField label="Read filter" size="s" placeholder="Contains" /></TableFilterCell><TableFilterCell><Select label="Edit filter" size="s" options={statusOptions} defaultValue="all" /></TableFilterCell><TableFilterCell kind="index" /><TableFilterCell kind="selection" /><TableFilterCell kind="drag" /></TableFilterRow></TableHead><TableBody>{sourceRows.map((row, index) => <TableRow key={row.id}><TableCell>{row.position}</TableCell><TableCell><TextField className="ds-table-filter-field" label={`Edit ${row.id}`} size="s" defaultValue={row.name} /></TableCell><TableIndexCell>{index + 1}</TableIndexCell><TableSelectionCell label={`Select ${row.id}`} checked={index === 0} /><TableDragCell><TableDragHandle rowLabel={row.position} /></TableDragCell></TableRow>)}<TableRow><TableSummaryCell kind="label">Read summary</TableSummaryCell><TableSummaryCell kind="value">Edit summary</TableSummaryCell><TableSummaryCell kind="empty" /><TableSummaryCell kind="value">1 / 4</TableSummaryCell><TableSummaryCell kind="empty" /></TableRow></TableBody></Table></section>)}
+    {tableDensities.map((density, densityIndex) => <section className="ds-component-section" key={density}><div className="ds-component-section__intro"><span>{String(densityIndex + 1).padStart(2, '0')}</span><div><h2>{density === 'comfortable' ? 'Comfortable · 48px' : 'Compact · 40px'}</h2><p>Каждое семейство показано отдельной вертикальной композицией.</p></div></div><Table density={density} mode="edit" aria-label={`Column families · ${density}`}><TableHead><TableRow><TableHeaderCell>Read Column</TableHeaderCell><TableHeaderCell>Edit Column</TableHeaderCell><TableHeaderCell kind="index">Index</TableHeaderCell><TableSelectionHeader selectedCount={1} totalCount={4} onSelectionChange={() => undefined} /><TableHeaderCell kind="drag">Drag</TableHeaderCell></TableRow><TableFilterRow><TableFilterCell><TextField label="Read filter" size="s" placeholder="Contains" /></TableFilterCell><TableFilterCell><Select label="Edit filter" size="s" options={statusOptions} defaultValue="all" /></TableFilterCell><TableFilterCell kind="index" /><TableFilterCell kind="selection" /><TableFilterCell kind="drag" /></TableFilterRow></TableHead><TableBody>{sourceRows.map((row, index) => <TableRow key={row.id}><TableCell>{row.position}</TableCell><TableCell editable state={index === 0 ? 'editing' : 'default'} aria-label={`Edit ${row.position}`}>{row.name}</TableCell><TableIndexCell>{index + 1}</TableIndexCell><TableSelectionCell label={`Select ${row.id}`} checked={index === 0} /><TableDragCell><TableDragHandle rowLabel={row.position} /></TableDragCell></TableRow>)}<TableRow><TableSummaryCell kind="label">Read summary</TableSummaryCell><TableSummaryCell kind="value">Edit summary</TableSummaryCell><TableSummaryCell kind="empty" /><TableSummaryCell kind="value">1 / 4</TableSummaryCell><TableSummaryCell kind="empty" /></TableRow></TableBody></Table></section>)}
     <section className="ds-component-section"><div className="ds-component-section__intro"><span>03</span><div><h2>Rows evidence · 5×4×2</h2><p>10, 15, 20 и 30 строк — ось Figma documentation, а не runtime prop: Table не пересобирает контент при смене плотности.</p></div></div><div className="ds-table-column-contract-grid">{families.map((family) => <article key={family}><h3>{family}</h3>{tableDensities.map((density) => <div key={density}><code>{density}</code><div className="ds-table-row-counts">{rowCounts.map((count) => <span key={count}>{count} rows</span>)}</div></div>)}</article>)}</div></section>
   </main>;
 }
@@ -346,6 +345,10 @@ export const Overview: Story = {
     await expect(editTable.querySelectorAll('.cometal-table__filter-action')).toHaveLength(0);
     await expect(readTable.querySelectorAll('.cometal-table__context-action')).toHaveLength(13);
     await expect(editTable.querySelectorAll('.cometal-table__context-action')).toHaveLength(13);
+    const readScroll = readTable.closest<HTMLElement>('.cometal-table-scroll')!;
+    const readShell = readTable.closest<HTMLElement>('.cometal-table-scroll-shell')!;
+    await waitFor(() => expect(readScroll.scrollWidth).toBeGreaterThan(readScroll.clientWidth));
+    await waitFor(() => expect(readShell.querySelector('[role="scrollbar"][aria-orientation="horizontal"]')).toBeInTheDocument());
 
     await userEvent.click(within(readTable).getByRole('button', { name: 'Действия колонки Позиция' }));
     await expect(within(document.body).getByRole('menuitem', { name: 'Закрепить слева' })).toBeVisible();
@@ -364,6 +367,11 @@ export const Overview: Story = {
     await expectTableSurfaceTypography(canvasElement);
     await expectTypographyFor(canvasElement, '.cometal-table__page-control, .cometal-table__page-ellipsis', tableTypography.paginator);
     await expectPageSizeTypography(canvasElement);
+    const readPaginator = canvas.getAllByRole('navigation', { name: /Пагинация таблицы/ })[0]!;
+    await userEvent.click(within(readPaginator).getByRole('combobox', { name: 'Строк на странице' }));
+    await userEvent.click(within(document.body).getByRole('option', { name: '30' }));
+    await waitFor(() => expect(readScroll.scrollHeight).toBeGreaterThan(readScroll.clientHeight));
+    await waitFor(() => expect(readShell.querySelector('[role="scrollbar"][aria-orientation="vertical"]')).toBeInTheDocument());
   },
 };
 export const Cells: Story = {
@@ -375,7 +383,6 @@ export const Cells: Story = {
     await expectTypographyFor(canvasElement, "table[aria-label^='Index Cell'] tbody .cometal-table__cell-value", tableTypography.body, 12);
     await expectTypographyFor(canvasElement, "table[aria-label^='Summary Cell'] .cometal-table__summary-cell", tableTypography.summary, 6);
     await expectTypographyFor(canvasElement, '.cometal-table__header-cell .cometal-table__header-label', tableTypography.header);
-    await expectTypographyFor(canvasElement, "table[aria-label^='Edit Cell'] .cometal-field__input, table[aria-label^='Edit Cell'] .cometal-field__select-trigger", tableTypography.body, 42);
     await expectTypographyFor(canvasElement, "table[aria-label^='Read Cell'] .cometal-badge", tableTypography.badge, 30);
     const hiddenSelectionLabels = Array.from(canvasElement.querySelectorAll<HTMLElement>("table[aria-label^='Selection Cell'] .cometal-selection__content"));
     await expect(hiddenSelectionLabels).toHaveLength(16);
@@ -414,6 +421,12 @@ export const Cells: Story = {
 
       const readCellTable = canvasElement.querySelector<HTMLTableElement>(`table[aria-label="Read Cell · ${density}"]`)!;
       const editCellTable = canvasElement.querySelector<HTMLTableElement>(`table[aria-label="Edit Cell · ${density}"]`)!;
+      await expect(editCellTable).toHaveAttribute('data-mode', 'edit');
+      await expect(editCellTable.querySelectorAll('tbody .cometal-table__cell .cometal-field, tbody .cometal-table__cell input, tbody .cometal-table__cell [role="combobox"]')).toHaveLength(0);
+      const editingCells = Array.from(editCellTable.querySelectorAll<HTMLTableCellElement>('tbody td[data-state="editing"][contenteditable="true"][role="textbox"]'));
+      await expect(editingCells).toHaveLength(3);
+      for (const editingCell of editingCells) await expect(editingCell).toHaveAttribute('aria-multiline', 'false');
+      await expect(editCellTable.querySelectorAll('tbody td:not([data-state="editing"])[contenteditable="true"]')).toHaveLength(0);
       const readFileCells = Array.from(readCellTable.querySelectorAll<HTMLTableCellElement>('.cometal-table__file-cell'));
       const editFileCells = Array.from(editCellTable.querySelectorAll<HTMLTableCellElement>('.cometal-table__file-cell'));
       await expect(readFileCells).toHaveLength(5);
@@ -443,6 +456,8 @@ export const Headers: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     const documentCanvas = within(canvasElement.ownerDocument.body);
+    await expect(documentCanvas.queryAllByRole('dialog')).toHaveLength(0);
+    await expect(documentCanvas.queryAllByRole('listbox')).toHaveLength(0);
     const stateProbe = document.createElement('span');
     stateProbe.style.setProperty('--m2-context-open', 'var(--cometal-component-table-header-surface-context-action-open)');
     stateProbe.style.setProperty('--m2-focus', 'var(--cometal-semantic-color-global-state-focus-ring)');
@@ -459,12 +474,21 @@ export const Headers: Story = {
       const sortButton = tableCanvas.getByRole('button', { name: 'Сортировать Позиция: по возрастанию' }) as HTMLButtonElement;
       const contextAction = tableCanvas.getByRole('button', { name: `Действия колонки Позиция ${density}` }) as HTMLButtonElement;
       const resizeHandle = tableCanvas.getByRole('separator', { name: 'Изменить ширину колонки Позиция' });
+      const scroll = table.closest<HTMLElement>('.cometal-table-scroll')!;
+      const shell = table.closest<HTMLElement>('.cometal-table-scroll-shell')!;
+      const shellStyle = getComputedStyle(shell);
       const defaultHeaderStyle = getComputedStyle(header);
       const defaultHeaderSurface = defaultHeaderStyle.backgroundColor;
       const defaultHeaderText = defaultHeaderStyle.color;
       const defaultSortSurface = getComputedStyle(sortButton).backgroundColor;
 
       await expect(header.getBoundingClientRect().height).toBe(expectedHeight);
+      await expect(scroll.scrollWidth).toBeLessThanOrEqual(scroll.clientWidth);
+      await expect(shell.getBoundingClientRect().height).toBe(
+        table.getBoundingClientRect().height
+          + Number.parseFloat(shellStyle.borderTopWidth)
+          + Number.parseFloat(shellStyle.borderBottomWidth),
+      );
       await expect(header).not.toHaveAttribute('aria-sort');
       await userEvent.hover(sortButton);
       await expect(getComputedStyle(header).backgroundColor).toBe(defaultHeaderSurface);
@@ -542,6 +566,17 @@ export const Columns: Story = {
     await expectTableSurfaceTypography(canvasElement);
     await expectTypographyFor(canvasElement, "table[aria-label^='Column families'] .cometal-table__index-cell .cometal-table__cell-value", tableTypography.body, 8);
     await expectTypographyFor(canvasElement, "table[aria-label^='Column families'] .cometal-table__summary-cell", tableTypography.summary, 10);
+    for (const density of ['comfortable', 'compact'] as const) {
+      const table = canvasElement.querySelector<HTMLTableElement>(`table[aria-label="Column families · ${density}"]`)!;
+      const editableCells = Array.from(table.querySelectorAll<HTMLTableCellElement>('tbody td[data-editable="true"]'));
+      await expect(editableCells).toHaveLength(4);
+      for (const cell of editableCells) await expect(cell.querySelector('.cometal-field, input, [role="combobox"]')).toBeNull();
+      const editingCell = table.querySelector<HTMLTableCellElement>('tbody td[data-state="editing"]')!;
+      await expect(editingCell).toHaveAttribute('contenteditable', 'true');
+      await expect(editingCell).toHaveAttribute('role', 'textbox');
+      await expect(editingCell).toHaveAttribute('aria-multiline', 'false');
+      await expect(table.querySelectorAll('.cometal-table__filter-row .cometal-field')).toHaveLength(2);
+    }
   },
 };
 export const Paginator: Story = {
@@ -574,7 +609,7 @@ export const Paginator: Story = {
     await expectTypographyFor(canvasElement, '.cometal-table__page-control, .cometal-table__page-ellipsis', tableTypography.paginator);
     await expectPageSizeTypography(canvasElement, 4);
     await userEvent.click(pageSizeTrigger);
-    const listbox = within(canvasElement.ownerDocument.body).getByRole('listbox', { name: 'Строк на странице: варианты' });
+    const listbox = await within(canvasElement.ownerDocument.body).findByRole('listbox', { name: 'Строк на странице: варианты' });
     await expect(listbox.getBoundingClientRect().width).toBe(96);
     await expect(within(listbox).getAllByRole('option')[0]?.getBoundingClientRect().height).toBe(40);
     await userEvent.click(within(listbox).getByRole('option', { name: '20' }));

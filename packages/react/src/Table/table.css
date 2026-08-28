@@ -7,6 +7,7 @@
   --cometal-table-scrollbar-edge-reveal: var(--cometal-primitive-size-24);
   --cometal-table-scrollbar-min-thumb: var(--cometal-primitive-size-32);
   position: relative;
+  align-self: start;
   box-sizing: border-box;
   width: 100%;
   max-width: 100%;
