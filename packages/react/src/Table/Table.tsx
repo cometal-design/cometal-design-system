@@ -1394,12 +1394,11 @@ export interface TablePaginatorProps extends HTMLAttributes<HTMLElement> {
 function getPaginatorItems(page: number, pageCount: number): Array<number | 'ellipsis-start' | 'ellipsis-end'> {
   const windowSize = 9;
   if (pageCount <= windowSize) return Array.from({ length: pageCount }, (_, index) => index + 1);
-  const windowStart = Math.floor((page - 1) / windowSize) * windowSize + 1;
-  const windowEnd = Math.min(pageCount, windowStart + windowSize - 1);
-  const items: Array<number | 'ellipsis-start' | 'ellipsis-end'> = [];
-  if (windowStart > 1) items.push('ellipsis-start');
+  const windowEnd = page <= windowSize ? windowSize : page;
+  const windowStart = windowEnd - windowSize + 1;
+  const items: Array<number | 'ellipsis-start' | 'ellipsis-end'> = page <= windowSize ? [] : ['ellipsis-start'];
   for (let value = windowStart; value <= windowEnd; value += 1) items.push(value);
-  if (windowEnd < pageCount) items.push('ellipsis-end');
+  if (page <= windowSize) items.push('ellipsis-end');
   return items;
 }
 

@@ -335,8 +335,8 @@ function ColumnMatrix() {
 }
 
 function PaginatorDocumentation() {
-  const [page, setPage] = useState(1); const [pageSize, setPageSize] = useState(10);
-  return <main className="ds-component-page ds-table-page"><header className="ds-component-hero"><div><span className="ds-eyebrow">TABLE · PAGINATOR</span><h1>Paginator</h1><p>Paginator Control — 14 вариантов Content, Direction и State. Paginator — отдельный standalone source; Figma row counts не становятся API.</p></div><a href={tableFigmaSources.paginator} target="_blank" rel="noreferrer">Paginator Source в Figma ↗</a></header><section className="ds-component-section"><div className="ds-component-section__intro"><span>01</span><div><h2>Интерактивный пример</h2><p>Disabled края, current page, ellipsis и выбор размера страницы доступны с клавиатуры.</p></div></div><TablePaginator aria-label="Интерактивная пагинация таблицы" page={page} pageCount={12} onPageChange={setPage} pageSize={pageSize} onPageSizeChange={setPageSize} /><output className="ds-visually-hidden" data-page-size={pageSize} data-page-size-type={typeof pageSize}>{pageSize}</output></section><section className="ds-component-section"><div className="ds-component-section__intro"><span>02</span><div><h2>Control states</h2><p>Три реальные композиции показывают Previous/Next Default и Disabled, Page Default/Current, Ellipsis и page-size.</p></div></div><div className="ds-table-paginator-contract"><article><code>first page</code><TablePaginator aria-label="Пагинация на первой странице" page={1} pageCount={12} onPageChange={() => undefined} pageSize={10} /></article><article><code>middle · ellipsis both sides</code><TablePaginator aria-label="Пагинация в середине диапазона" page={6} pageCount={12} onPageChange={() => undefined} pageSize={15} /></article><article><code>last page</code><TablePaginator aria-label="Пагинация на последней странице" page={12} pageCount={12} onPageChange={() => undefined} pageSize={30} /></article></div></section></main>;
+  const [page, setPage] = useState(9); const [pageSize, setPageSize] = useState(10);
+  return <main className="ds-component-page ds-table-page"><header className="ds-component-hero"><div><span className="ds-eyebrow">TABLE · PAGINATOR</span><h1>Paginator</h1><p>Paginator Control — 14 вариантов Content, Direction и State. Paginator — отдельный standalone source; Figma row counts не становятся API.</p></div><a href={tableFigmaSources.paginator} target="_blank" rel="noreferrer">Paginator Source в Figma ↗</a></header><section className="ds-component-section"><div className="ds-component-section__intro"><span>01</span><div><h2>Интерактивный пример</h2><p>20 страниц показывают стабильный трек из девяти номеров и одного ellipsis при переходе 9 → 10 → 11.</p></div></div><TablePaginator aria-label="Интерактивная пагинация таблицы" page={page} pageCount={20} onPageChange={setPage} pageSize={pageSize} onPageSizeChange={setPageSize} /><output className="ds-visually-hidden" data-page-size={pageSize} data-page-size-type={typeof pageSize}>{pageSize}</output></section><section className="ds-component-section"><div className="ds-component-section__intro"><span>02</span><div><h2>Control states</h2><p>Три реальные композиции показывают Previous/Next Default и Disabled, Page Default/Current, Ellipsis и page-size.</p></div></div><div className="ds-table-paginator-contract"><article><code>first page</code><TablePaginator aria-label="Пагинация на первой странице" page={1} pageCount={12} onPageChange={() => undefined} pageSize={10} /></article><article><code>first window · trailing ellipsis</code><TablePaginator aria-label="Пагинация в середине диапазона" page={6} pageCount={12} onPageChange={() => undefined} pageSize={15} /></article><article><code>last page</code><TablePaginator aria-label="Пагинация на последней странице" page={12} pageCount={12} onPageChange={() => undefined} pageSize={30} /></article></div></section></main>;
 }
 
 function Playground() {
@@ -615,12 +615,29 @@ export const Paginator: Story = {
     const paginator = within(navigation);
     const previous = paginator.getByRole('button', { name: 'Предыдущая страница' }) as HTMLButtonElement;
     const next = paginator.getByRole('button', { name: 'Следующая страница' }) as HTMLButtonElement;
-    const pageOne = paginator.getByRole('button', { name: 'Страница 1' });
-    const pageTwo = paginator.getByRole('button', { name: 'Страница 2' });
-    const controls = navigation.querySelector('.cometal-table__paginator-controls');
+    const controls = navigation.querySelector<HTMLElement>('.cometal-table__paginator-controls')!;
     const pageSizeField = navigation.querySelector<HTMLElement>('.cometal-table__page-size')!;
     const pageSizeTrigger = paginator.getByRole('combobox', { name: 'Строк на странице' });
     const pageSizeAsset = pageSizeTrigger.querySelector<HTMLElement>('.cometal-field__asset')!;
+    const readTrack = () => Array.from(controls.children).slice(1, -1).map((item) => item.classList.contains('cometal-table__page-ellipsis') ? '…' : item.textContent?.trim());
+    const expectTrack = async (track: readonly string[], currentPage: number) => {
+      await waitFor(() => expect(readTrack()).toEqual(track));
+      await expect(controls.children).toHaveLength(12);
+      await expect(controls.querySelectorAll('button[aria-label^="Страница "]')).toHaveLength(9);
+      const ellipsis = controls.querySelector<HTMLElement>('.cometal-table__page-ellipsis')!;
+      await expect(ellipsis.tagName).toBe('SPAN');
+      await expect(ellipsis).toHaveAttribute('aria-hidden', 'true');
+      await expect(ellipsis).not.toHaveAttribute('role');
+      await expect(ellipsis).not.toHaveAttribute('tabindex');
+      await expect(controls.querySelectorAll('[aria-current="page"]')).toHaveLength(1);
+      await expect(paginator.getByRole('button', { name: `Страница ${currentPage}` })).toHaveAttribute('aria-current', 'page');
+    };
+    const readGeometry = () => {
+      const controlsRect = controls.getBoundingClientRect();
+      const previousRect = (paginator.getByRole('button', { name: 'Предыдущая страница' }) as HTMLButtonElement).getBoundingClientRect();
+      const nextRect = (paginator.getByRole('button', { name: 'Следующая страница' }) as HTMLButtonElement).getBoundingClientRect();
+      return { controlsWidth: controlsRect.width, previousLeft: previousRect.left, nextLeft: nextRect.left, nextRight: nextRect.right };
+    };
     await expect(previous.getBoundingClientRect().width).toBe(40);
     await expect(previous.getBoundingClientRect().height).toBe(40);
     await expectPaginatorIconContract(previous, chevronLeftDefinition);
@@ -634,23 +651,47 @@ export const Paginator: Story = {
     colorProbe.style.color = 'var(--cometal-component-table-icon-disabled)';
     const expectedDisabledColor = getComputedStyle(colorProbe).color;
     colorProbe.remove();
-    await expect(getComputedStyle(pageTwo).color).toBe(expectedPrimaryColor);
-    await expect(getComputedStyle(pageOne).color).toBe(expectedCurrentColor);
-    await expect(getComputedStyle(previous).color).toBe(expectedDisabledColor);
-    await userEvent.hover(pageTwo);
-    await expect(getComputedStyle(pageTwo).color).toBe(expectedPrimaryColor);
-    await expect(getComputedStyle(pageTwo).color).not.toBe('rgb(255, 255, 255)');
-    await userEvent.pointer([{ keys: '[MouseLeft>]', target: pageTwo }]);
-    await expect(getComputedStyle(pageTwo).color).toBe(expectedPrimaryColor);
-    await userEvent.pointer([{ keys: '[/MouseLeft]', target: pageTwo }]);
-    await userEvent.click(pageTwo);
-    await waitFor(() => expect(pageTwo).toHaveAttribute('aria-current', 'page'));
-    await waitFor(() => expect(getComputedStyle(pageTwo).color).toBe(expectedCurrentColor));
-    await userEvent.click(previous);
-    await waitFor(() => expect(pageOne).toHaveAttribute('aria-current', 'page'));
-    await expect(previous).toBeDisabled();
-    await waitFor(() => expect(getComputedStyle(previous).color).toBe(expectedDisabledColor));
-    await expect(controls ? getComputedStyle(controls).gap : '').toBe('4px');
+    const pageEight = paginator.getByRole('button', { name: 'Страница 8' });
+    const pageNine = paginator.getByRole('button', { name: 'Страница 9' });
+    await expect(getComputedStyle(pageEight).color).toBe(expectedPrimaryColor);
+    await expect(getComputedStyle(pageNine).color).toBe(expectedCurrentColor);
+    await userEvent.hover(pageEight);
+    await expect(getComputedStyle(pageEight).color).toBe(expectedPrimaryColor);
+    await expect(getComputedStyle(pageEight).color).not.toBe('rgb(255, 255, 255)');
+    await userEvent.pointer([{ keys: '[MouseLeft>]', target: pageEight }]);
+    await expect(getComputedStyle(pageEight).color).toBe(expectedPrimaryColor);
+    await userEvent.pointer([{ keys: '[/MouseLeft]', target: pageEight }]);
+
+    const pageNineTrack = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '…'] as const;
+    await expectTrack(pageNineTrack, 9);
+    const boundaryGeometry = readGeometry();
+    next.focus();
+    await userEvent.keyboard('{Enter}');
+    await expectTrack(['…', '2', '3', '4', '5', '6', '7', '8', '9', '10'], 10);
+    await expect(canvasElement.ownerDocument.activeElement).toBe(next);
+    await expect(readGeometry()).toEqual(boundaryGeometry);
+    await userEvent.click(paginator.getByRole('button', { name: 'Следующая страница' }));
+    await expectTrack(['…', '3', '4', '5', '6', '7', '8', '9', '10', '11'], 11);
+    await userEvent.click(paginator.getByRole('button', { name: 'Предыдущая страница' }));
+    await expectTrack(['…', '2', '3', '4', '5', '6', '7', '8', '9', '10'], 10);
+    await userEvent.click(paginator.getByRole('button', { name: 'Предыдущая страница' }));
+    await expectTrack(pageNineTrack, 9);
+
+    await userEvent.click(paginator.getByRole('button', { name: 'Страница 5' }));
+    await expectTrack(pageNineTrack, 5);
+    await userEvent.click(paginator.getByRole('button', { name: 'Страница 1' }));
+    await expectTrack(pageNineTrack, 1);
+    await expect(paginator.getByRole('button', { name: 'Предыдущая страница' })).toBeDisabled();
+    await waitFor(() => expect(getComputedStyle(paginator.getByRole('button', { name: 'Предыдущая страница' })).color).toBe(expectedDisabledColor));
+
+    await userEvent.click(paginator.getByRole('button', { name: 'Страница 9' }));
+    for (let page = 10; page <= 20; page += 1) {
+      await userEvent.click(paginator.getByRole('button', { name: 'Следующая страница' }));
+      await waitFor(() => expect(paginator.getByRole('button', { name: `Страница ${page}` })).toHaveAttribute('aria-current', 'page'));
+    }
+    await expectTrack(['…', '12', '13', '14', '15', '16', '17', '18', '19', '20'], 20);
+    await expect(paginator.getByRole('button', { name: 'Следующая страница' })).toBeDisabled();
+    await expect(getComputedStyle(controls).gap).toBe('4px');
     await expect(pageSizeField.getBoundingClientRect().width).toBe(96);
     await expect(pageSizeField.getBoundingClientRect().height).toBe(40);
     await expect(pageSizeTrigger.getBoundingClientRect().width).toBe(96);
@@ -671,9 +712,6 @@ export const Paginator: Story = {
     const pageSizeOutput = canvasElement.querySelector<HTMLOutputElement>('output[data-page-size]')!;
     await expect(pageSizeOutput).toHaveAttribute('data-page-size', '20');
     await expect(pageSizeOutput).toHaveAttribute('data-page-size-type', 'number');
-    next.focus();
-    await userEvent.keyboard('{Enter}');
-    await expect(paginator.getByRole('button', { name: 'Страница 2' })).toHaveAttribute('aria-current', 'page');
   },
 };
 export const SectionCompositions: Story = {

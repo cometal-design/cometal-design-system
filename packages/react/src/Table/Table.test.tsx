@@ -326,21 +326,58 @@ describe('Table', () => {
     expect(html).not.toContain('<label class="cometal-table__page-size"');
   });
 
-  it('paginates in windows of nine and reveals the next numbered window after page nine', () => {
-    const firstWindow = renderToStaticMarkup(
-      <TablePaginator page={1} pageCount={12} pageSize={10} onPageChange={() => undefined} onPageSizeChange={() => undefined} />,
+  it('renders the exact bounded and sliding paginator tracks', () => {
+    const renderPaginator = (page: number, pageCount: number) => renderToStaticMarkup(
+      <TablePaginator page={page} pageCount={pageCount} pageSize={10} onPageChange={() => undefined} onPageSizeChange={() => undefined} />,
     );
-    const secondWindow = renderToStaticMarkup(
-      <TablePaginator page={10} pageCount={12} pageSize={10} onPageChange={() => undefined} onPageSizeChange={() => undefined} />,
+    const getTrack = (html: string) => Array.from(
+      html.matchAll(/aria-label="Страница (\d+)"|class="cometal-table__page-ellipsis"/g),
+      (match) => match[1] ?? '…',
     );
+    const cases = [
+      { pageCount: 1, page: 1, track: ['1'] },
+      { pageCount: 9, page: 1, track: ['1', '2', '3', '4', '5', '6', '7', '8', '9'] },
+      { pageCount: 9, page: 9, track: ['1', '2', '3', '4', '5', '6', '7', '8', '9'] },
+      { pageCount: 10, page: 9, track: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '…'] },
+      { pageCount: 10, page: 10, track: ['…', '2', '3', '4', '5', '6', '7', '8', '9', '10'] },
+      { pageCount: 20, page: 9, track: ['1', '2', '3', '4', '5', '6', '7', '8', '9', '…'] },
+      { pageCount: 20, page: 10, track: ['…', '2', '3', '4', '5', '6', '7', '8', '9', '10'] },
+      { pageCount: 20, page: 11, track: ['…', '3', '4', '5', '6', '7', '8', '9', '10', '11'] },
+      { pageCount: 20, page: 20, track: ['…', '12', '13', '14', '15', '16', '17', '18', '19', '20'] },
+    ] as const;
 
-    expect(firstWindow).toContain('aria-label="Страница 9"');
-    expect(firstWindow).not.toContain('aria-label="Страница 10"');
-    expect(firstWindow).toContain('cometal-table__page-ellipsis');
-    expect(secondWindow).toContain('aria-label="Страница 10"');
-    expect(secondWindow).toContain('aria-label="Страница 11"');
-    expect(secondWindow).toContain('aria-label="Страница 12"');
-    expect(secondWindow).not.toContain('aria-label="Страница 9"');
-    expect(secondWindow).toContain('cometal-table__page-ellipsis');
+    for (const { page, pageCount, track } of cases) {
+      const html = renderPaginator(page, pageCount);
+      expect(getTrack(html)).toEqual(track);
+      expect(html.match(/aria-current="page"/g)).toHaveLength(1);
+      if (pageCount <= 9) {
+        expect(html).not.toContain('cometal-table__page-ellipsis');
+      } else {
+        expect(html.match(/aria-label="Страница \d+"/g)).toHaveLength(9);
+        expect(html.match(/cometal-table__page-ellipsis/g)).toHaveLength(1);
+      }
+    }
+  });
+
+  it('keeps paginator clamping, edges and ellipsis semantics intact', () => {
+    const renderPaginator = (page: number, pageCount: number) => renderToStaticMarkup(
+      <TablePaginator page={page} pageCount={pageCount} pageSize={10} onPageChange={() => undefined} onPageSizeChange={() => undefined} />,
+    );
+    const belowRange = renderPaginator(0, 20);
+    const aboveRange = renderPaginator(21, 20);
+    const reducedCount = renderPaginator(20, 8);
+
+    expect(belowRange).toMatch(/<button(?=[^>]*disabled="")(?=[^>]*aria-label="Предыдущая страница")[^>]*>/);
+    expect(belowRange).toMatch(/<button(?=[^>]*aria-current="page")(?=[^>]*aria-label="Страница 1")[^>]*>/);
+    expect(aboveRange).toMatch(/<button(?=[^>]*disabled="")(?=[^>]*aria-label="Следующая страница")[^>]*>/);
+    expect(aboveRange).toMatch(/<button(?=[^>]*aria-current="page")(?=[^>]*aria-label="Страница 20")[^>]*>/);
+    expect(reducedCount).toMatch(/<button(?=[^>]*aria-current="page")(?=[^>]*aria-label="Страница 8")[^>]*>/);
+    expect(reducedCount).not.toContain('cometal-table__page-ellipsis');
+
+    const ellipsis = belowRange.match(/<span class="cometal-table__page-ellipsis"[^>]*>…<\/span>/)?.[0];
+    expect(ellipsis).toContain('aria-hidden="true"');
+    expect(ellipsis).not.toContain('role=');
+    expect(ellipsis).not.toContain('tabindex=');
+    expect(belowRange).not.toMatch(/<button[^>]*cometal-table__page-ellipsis/);
   });
 });
