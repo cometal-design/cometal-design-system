@@ -20,7 +20,7 @@
 |---|---|---|
 | Figma DS Core | [DS Core](https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs) | Подключено |
 | Git repository | [cometal-design/cometal-design-system](https://github.com/cometal-design/cometal-design-system) | Подключено, private |
-| Storybook | `http://localhost:6006`; public portal `https://cometal-design-system-storybook.vercel.app/`; public Storybook `https://cometal-design-system-storybook.vercel.app/storybook/` | Current production: SHA `3823dc97de75eff3ab3a0a4635c8fb75e5d17080`, deployment `dpl_2iARNdGJ5vLZW7894BQWkLdNxPUy`, immutable `https://cometal-design-system-storybook-lx6qlrk5v.vercel.app`, public alias promoted; Storybook index has 91 entries. |
+| Storybook | `http://localhost:6006`; public portal `https://cometal-design-system-storybook.vercel.app/`; public Storybook `https://cometal-design-system-storybook.vercel.app/storybook/` | Current production: SHA `8f5156d6c2972f62ac395c18c18e87bb22268828`, deployment `dpl_BQKaMGcec2X95Yt3soyrczfDYUkw`, immutable `https://cometal-design-system-storybook-fffwftydg.vercel.app`, public alias promoted; Storybook index has 91 entries. |
 | Obsidian Vault | `knowledge-base/` | Готов локально |
 
 ## Правило синхронизации
