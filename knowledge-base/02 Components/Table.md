@@ -58,3 +58,11 @@ Figma владеет визуальной моделью, составом яч�
 ## M9 production evidence
 
 Exact released SHA `3823dc97de75eff3ab3a0a4635c8fb75e5d17080`, deployment `dpl_2iARNdGJ5vLZW7894BQWkLdNxPUy`: [Table portal](https://cometal-design-system-storybook.vercel.app/components/table/) and [Storybook overview](https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/components-table--overview). Role 40 independently verified exact public provenance and two fresh completed Table overview sessions. Registry test/accessibility evidence is now true for this release; visual match and status remain separately gated.
+
+## 2026-08-28 source synchronization
+
+- Implementation candidate: `d8590da0e807e8625be047b53f875fc9dea4d29b`.
+- Standalone Table and Widget + Table no longer maintain parallel demonstration controllers. Both primary Portal and Storybook surfaces use `TableReviewExample` from `@cometal/examples/widget-table` with the same 13 business columns, typed filters, sorting, pinning, resizing, pagination, summary and Read/Edit rules.
+- Filter value fields no longer render a separate local operator action. Operator selection and reset live in the second level of the canonical header `ContextMenu`.
+- Verified before source closure: Docs and Storybook production builds passed; component-page content audit passed `15/15`; primary Table and Widget + Table surfaces contain `0` `.cometal-table__filter-action` controls and `13` header context actions per table.
+- The public production references above still describe release `3823dc97…` until this candidate is published and independently rechecked. Do not treat this section as production evidence.

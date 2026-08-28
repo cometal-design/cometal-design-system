@@ -35,3 +35,11 @@ Widget может содержать не только Table. Table может �
 ## M9 production evidence
 
 The unregistered composition is published from exact SHA `3823dc97de75eff3ab3a0a4635c8fb75e5d17080`, deployment `dpl_2iARNdGJ5vLZW7894BQWkLdNxPUy`: [portal](https://cometal-design-system-storybook.vercel.app/patterns/widget-table/) and [Storybook](https://cometal-design-system-storybook.vercel.app/storybook/?path=/story/patterns-widget-with-table--overview). Role 40 independently verified both production surfaces. Publication does not create `pattern.widget-table` or publish `@cometal/examples`.
+
+## 2026-08-28 source synchronization
+
+- Implementation candidate: `d8590da0e807e8625be047b53f875fc9dea4d29b`.
+- The pattern and the standalone Table overview now consume one `WidgetTableReviewExample` / `TableReviewExample` controller instead of duplicating columns, filters and interaction rules inside their pages or stories.
+- Widget remains composition chrome only. The underlying Table contract is identical on both surfaces; the standalone variant omits Widget chrome without substituting a simplified local table.
+- Verified before source closure: Docs and Storybook production builds passed; the component-page content audit passed `15/15`; filter operator/reset are available through the header context menu and no longer appear as a second action icon inside filter fields.
+- Production remains the exact M9 release above until the new candidate is published and its public provenance is verified.
