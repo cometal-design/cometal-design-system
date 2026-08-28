@@ -4,14 +4,15 @@ import { expect, fireEvent, userEvent, waitFor, within } from 'storybook/test';
 import {
   Badge, Button, ContextMenuDivider, ContextMenuItem, DatePicker, DateRangePicker, Select,
   Table, TableBody, TableCell, TableColumnPinAction, TableContextAction, TableDragCell, TableDragHandle,
-  TableFileCell, TableFileIcon, TableFilterAction, TableFilterCell, TableFilterRow, TableHeaderCell, TableHead,
+  TableFileIcon, TableFilterCell, TableFilterRow, TableHeaderCell, TableHead,
   TableIndexCell, TablePaginator, TableRow, TableSelectionCell, TableSelectionHeader,
   TableSummaryCell, TextField, tableDensities, tableDocumentationSections, tableFileTypes,
-  tableFigmaSources, tableSourceFamilies, tableStandaloneSources, reorderTableRows,
+  tableFigmaSources, tableSourceFamilies, tableStandaloneSources,
 } from '@cometal/react';
-import type { TableCellState, TableDensity, TableFileType, TableMode, TableSortDirection } from '@cometal/react';
+import type { TableCellState, TableDensity, TableFileType, TableSortDirection } from '@cometal/react';
 import { definition as arrowUpSmallDefinition } from '@cometal/react/icons/outline/arrows/arrow-up-sm';
 import { definition as arrowDownSmallDefinition } from '@cometal/react/icons/outline/arrows/down-arrow-sm';
+import { TableReviewExample } from '@cometal/examples/widget-table';
 import { ComponentCodeExample } from './ComponentCodeExample';
 
 const SOURCE_URL = 'https://github.com/cometal-design/cometal-design-system/blob/main/packages/react/src/Table/Table.tsx';
@@ -184,62 +185,6 @@ function HeaderContractTable({ density }: { density: TableDensity }) {
   </Table>;
 }
 
-const sourceColumnIds = { drag: 'drag', index: 'index', selection: 'selection', position: 'position', name: 'name', quantity: 'quantity', status: 'status', file: 'file' } as const;
-
-const textFilterOperators = ['Содержит', 'Не содержит', 'Начинается с', 'Пусто'] as const;
-const numberFilterOperators = ['Равно', 'Не равно', 'Больше', 'Меньше'] as const;
-const selectFilterOperators = ['Равно', 'Не равно', 'Выбрано', 'Не выбрано'] as const;
-
-function FilterOperatorAction({ column, value, options, onChange }: { column: string; value: string; options: readonly string[]; onChange: (value: string) => void }) {
-  return <TableFilterAction label={column} menu={options.map((option) => <ContextMenuItem key={option} selected={option === value} onClick={() => onChange(option)}>{option}</ContextMenuItem>)} />;
-}
-
-function SourceTable({ density = 'comfortable', filters = true, ariaLabel = 'Позиции закупки', mode = 'read' }: { density?: TableDensity; filters?: boolean; ariaLabel?: string; mode?: TableMode }) {
-  const [orderedRows, setOrderedRows] = useState(() => [...sourceRows]);
-  const [selected, setSelected] = useState<number[]>([2]);
-  const [sort, setSort] = useState<TableSortDirection>('ascending');
-  const [editingCell, setEditingCell] = useState<number | null>(null);
-  const [pinnedColumnIds, setPinnedColumnIds] = useState<string[]>([]);
-  const [columnWidths, setColumnWidths] = useState<Record<string, number>>({});
-  const [operators, setOperators] = useState({ position: 'Содержит', name: 'Содержит', quantity: 'Равно', status: 'Равно', file: 'Содержит' });
-  const toggleAll = (checked: boolean) => setSelected(checked ? orderedRows.map((row) => row.id) : []);
-  return (
-    <Table density={density} mode={mode} aria-label={ariaLabel} className="ds-table-source-example" pinnedColumnIds={pinnedColumnIds} onPinnedColumnIdsChange={setPinnedColumnIds} columnWidths={columnWidths} onColumnWidthsChange={setColumnWidths} onRowReorder={mode === 'edit' ? (event) => setOrderedRows((current) => reorderTableRows(current, event, (row) => String(row.id))) : undefined} rowContextMenu={(rowId) => <><ContextMenuItem onClick={() => setSelected((current) => current.includes(Number(rowId)) ? current.filter((id) => id !== Number(rowId)) : [...current, Number(rowId)])}>Переключить выбор строки</ContextMenuItem><ContextMenuItem disabled>Открыть позицию</ContextMenuItem>{mode === 'edit' ? <><ContextMenuDivider /><ContextMenuItem tone="danger" onClick={() => { setOrderedRows((current) => current.filter((row) => row.id !== Number(rowId))); setSelected((current) => current.filter((id) => id !== Number(rowId))); }}>Удалить строку</ContextMenuItem></> : null}</>}>
-      <TableHead>
-        <TableRow>
-          <TableHeaderCell columnId={sourceColumnIds.drag} kind="drag"><span className="sr-only">Перемещение</span></TableHeaderCell>
-          <TableHeaderCell columnId={sourceColumnIds.index} kind="index">№</TableHeaderCell>
-          <TableSelectionHeader columnId={sourceColumnIds.selection} selectedCount={selected.length} totalCount={orderedRows.length} onSelectionChange={toggleAll} />
-          <TableHeaderCell columnId={sourceColumnIds.position} style={{ width: 156 }} sort={sort} onSortChange={setSort} action={<HeaderAction columnId={sourceColumnIds.position} column="Позиция" />}>Позиция</TableHeaderCell>
-          <TableHeaderCell columnId={sourceColumnIds.name} action={<HeaderAction columnId={sourceColumnIds.name} column="Наименование" />}>Наименование</TableHeaderCell>
-          <TableHeaderCell columnId={sourceColumnIds.quantity} style={{ width: 136 }} action={<HeaderAction columnId={sourceColumnIds.quantity} column="Количество" />}>Количество</TableHeaderCell>
-          <TableHeaderCell columnId={sourceColumnIds.status} style={{ width: 160 }} action={<HeaderAction columnId={sourceColumnIds.status} column="Статус" />}>Статус</TableHeaderCell>
-          <TableHeaderCell columnId={sourceColumnIds.file} style={{ width: 220 }} action={<HeaderAction columnId={sourceColumnIds.file} column="Файл" />}>Файл</TableHeaderCell>
-        </TableRow>
-        {filters ? <TableFilterRow aria-label="Фильтры таблицы">
-          <TableFilterCell columnId={sourceColumnIds.drag} kind="drag" /><TableFilterCell columnId={sourceColumnIds.index} kind="index" /><TableFilterCell columnId={sourceColumnIds.selection} kind="selection" />
-          <TableFilterCell columnId={sourceColumnIds.position} action={<FilterOperatorAction column="Позиция" value={operators.position} options={textFilterOperators} onChange={(value) => setOperators((current) => ({ ...current, position: value }))} />}><TextField label="Фильтр по позиции" size="s" placeholder={operators.position} /></TableFilterCell>
-          <TableFilterCell columnId={sourceColumnIds.name} action={<FilterOperatorAction column="Наименование" value={operators.name} options={textFilterOperators} onChange={(value) => setOperators((current) => ({ ...current, name: value }))} />}><TextField label="Фильтр по наименованию" size="s" placeholder={operators.name} /></TableFilterCell>
-          <TableFilterCell columnId={sourceColumnIds.quantity} action={<FilterOperatorAction column="Количество" value={operators.quantity} options={numberFilterOperators} onChange={(value) => setOperators((current) => ({ ...current, quantity: value }))} />}><TextField label="Фильтр по количеству" size="s" inputMode="numeric" placeholder={operators.quantity} /></TableFilterCell>
-          <TableFilterCell columnId={sourceColumnIds.status} action={<FilterOperatorAction column="Статус" value={operators.status} options={selectFilterOperators} onChange={(value) => setOperators((current) => ({ ...current, status: value }))} />}><Select label="Фильтр по статусу" size="s" options={statusOptions} defaultValue="all" /></TableFilterCell>
-          <TableFilterCell columnId={sourceColumnIds.file} action={<FilterOperatorAction column="Файл" value={operators.file} options={textFilterOperators} onChange={(value) => setOperators((current) => ({ ...current, file: value }))} />}><TextField label="Фильтр по файлу" size="s" placeholder={operators.file} /></TableFilterCell>
-        </TableFilterRow> : null}
-      </TableHead>
-      <TableBody>
-        {orderedRows.map((row, index) => <TableRow key={row.id} rowId={String(row.id)} reorderId={mode === 'edit' ? String(row.id) : undefined} selected={selected.includes(row.id)}>
-          <TableDragCell columnId={sourceColumnIds.drag}><TableDragHandle rowLabel={row.position} /></TableDragCell>
-          <TableIndexCell columnId={sourceColumnIds.index}>{index + 1}</TableIndexCell>
-          <TableSelectionCell columnId={sourceColumnIds.selection} label={`Выбрать строку ${row.id}`} checked={selected.includes(row.id)} onCheckedChange={(checked) => setSelected((current) => checked ? [...current, row.id] : current.filter((id) => id !== row.id))} />
-          <TableCell columnId={sourceColumnIds.position} editable state={editingCell === row.id ? 'editing' : 'default'} aria-label={editingCell === row.id ? `Редактирование позиции ${row.position}` : undefined} onEditStart={() => setEditingCell(row.id)} onBlur={() => setEditingCell(null)} onKeyDown={(event) => { if (editingCell !== row.id) return; if (event.key === 'Enter') { event.preventDefault(); event.currentTarget.blur(); } if (event.key === 'Escape') { event.preventDefault(); setEditingCell(null); event.currentTarget.blur(); } }}>{row.position}</TableCell>
-          <TableCell columnId={sourceColumnIds.name} state={row.id === 3 ? 'error' : 'default'}>{row.name}</TableCell>
-          <TableCell columnId={sourceColumnIds.quantity} align="end">{row.quantity}</TableCell><TableCell columnId={sourceColumnIds.status}><Badge tone={row.tone}>{row.status}</Badge></TableCell>
-          <TableFileCell columnId={sourceColumnIds.file} fileName={row.file} fileSize={row.size} fileType={row.type} />
-        </TableRow>)}
-        <TableRow>{mode === 'edit' ? <TableSummaryCell columnId={sourceColumnIds.drag} kind="drag" /> : null}<TableSummaryCell columnId={sourceColumnIds.index} kind="index" /><TableSummaryCell columnId={sourceColumnIds.selection} kind="selection" /><TableSummaryCell columnId={sourceColumnIds.position} kind="empty" /><TableSummaryCell columnId={sourceColumnIds.name} kind="label">Итого</TableSummaryCell><TableSummaryCell columnId={sourceColumnIds.quantity} kind="value" align="end">504</TableSummaryCell><TableSummaryCell columnId={sourceColumnIds.status} kind="value">4 позиции</TableSummaryCell><TableSummaryCell columnId={sourceColumnIds.file} kind="value">4 файла</TableSummaryCell></TableRow>
-      </TableBody>
-    </Table>
-  );
-}
 
 type TableSectionComposition = {
   label: string;
@@ -292,10 +237,9 @@ async function expectCanonicalSectionEdges(table: HTMLTableElement) {
 }
 
 function OverviewPage() {
-  const [page, setPage] = useState(1); const [pageSize, setPageSize] = useState(10);
   return <main className="ds-component-page ds-table-page">
     <header className="ds-component-hero"><div><span className="ds-eyebrow">COMPONENT FAMILY · WEB · IN REVIEW</span><h1>Table</h1><p>Семейство таблицы из 16 source families. Figma задаёт визуальный и композиционный контракт, React сохраняет нативную HTML table-семантику и минимальный поведенческий API.</p></div><a href={tableFigmaSources.sources} target="_blank" rel="noreferrer">Открыть Sources в Figma ↗</a></header>
-    <section className="ds-component-section"><div className="ds-component-section__intro"><span>01</span><div><h2>Read и Edit</h2><p>Read подсвечивает строку целиком. Edit подсвечивает ячейку, открывает controlled edit по click/Enter/F2 и разрешает reorder. Оба режима используют filter action и row context menu.</p></div></div><h3>Read</h3><div className="ds-table-demo"><SourceTable mode="read" ariaLabel="Позиции закупки · чтение" /></div><h3>Edit</h3><div className="ds-table-demo"><SourceTable mode="edit" ariaLabel="Позиции закупки · редактирование" /></div><TablePaginator page={page} pageCount={8} onPageChange={setPage} pageSize={pageSize} onPageSizeChange={setPageSize} /></section>
+    <section className="ds-component-section"><div className="ds-component-section__intro"><span>01</span><div><h2>Read и Edit</h2><p>Read подсвечивает строку целиком. Edit подсвечивает ячейку, открывает controlled edit по click/Enter/F2 и разрешает reorder. Это тот же executable Table-контракт, который используется внутри Widget + Table; оператор и сброс фильтра находятся в меню хедера.</p></div></div><h3>Read</h3><div className="ds-table-demo"><TableReviewExample mode="read" /></div><h3>Edit</h3><div className="ds-table-demo"><TableReviewExample mode="edit" /></div></section>
     <section className="ds-component-section"><div className="ds-component-section__intro"><span>02</span><div><h2>Состав источников</h2><p>Ровно 16 Figma Component Sets и 5 standalone sources. Каждое семейство показано в Cells, Headers, Columns и Paginator; variant count — evidence, а не React props.</p></div></div><div className="ds-table-source-grid">{tableSourceFamilies.map((family) => <article key={family.id}><code>{family.id}</code><h3>{family.label}</h3><p>{family.variants} variants</p><a href={family.source} target="_blank" rel="noreferrer">Figma source ↗</a></article>)}</div><h3 className="ds-table-standalone-title">5 standalone sources</h3><div className="ds-table-source-grid">{tableStandaloneSources.map((source) => <article key={source.id}><code>{source.id}</code><h3>{source.label}</h3><p>Standalone source</p><a href={source.source} target="_blank" rel="noreferrer">Figma source ↗</a></article>)}</div></section>
     <section className="ds-component-section"><div className="ds-component-section__intro"><span>03</span><div><h2>Разделы документации</h2><p>Cells, Headers, Columns и Paginator раскрываются самостоятельными stories; служебные primitives не теряются внутри одного большого стенда.</p></div></div><div className="ds-table-doc-index">{tableDocumentationSections.map((section, index) => <article key={section.id}><span>{String(index + 1).padStart(2, '0')}</span><strong>{section.label}</strong></article>)}</div></section>
     <section className="ds-component-section"><div className="ds-component-section__intro"><span>04</span><div><h2>Код</h2><p>Публичный API разделяет table, header/filter row, cell families, selection, file content, summary и paginator.</p></div></div><ComponentCodeExample componentId="data-display.table" componentName="Table" sourceHref={SOURCE_URL} /></section>
@@ -379,7 +323,7 @@ function PaginatorDocumentation() {
 function Playground() {
   const [density, setDensity] = useState<TableDensity>('comfortable'); const [filters, setFilters] = useState(true);
   const description = useMemo(() => density === 'comfortable' ? '48px body · metadata visible' : '40px body · metadata retained', [density]);
-  return <main className="ds-component-page ds-table-page"><header className="ds-component-hero"><div><span className="ds-eyebrow">TABLE · PLAYGROUND</span><h1>Table Playground</h1><p>{description}</p></div></header><div className="ds-table-playground-controls"><Button size="s" variant={density === 'comfortable' ? 'primary' : 'secondary'} onClick={() => setDensity('comfortable')}>Comfortable</Button><Button size="s" variant={density === 'compact' ? 'primary' : 'secondary'} onClick={() => setDensity('compact')}>Compact</Button><Button size="s" variant="secondary" onClick={() => setFilters((value) => !value)}>{filters ? 'Скрыть фильтры' : 'Показать фильтры'}</Button></div><div className="ds-table-demo"><SourceTable density={density} filters={filters} /></div></main>;
+  return <main className="ds-component-page ds-table-page"><header className="ds-component-hero"><div><span className="ds-eyebrow">TABLE · PLAYGROUND</span><h1>Table Playground</h1><p>{description}</p></div></header><div className="ds-table-playground-controls"><Button size="s" variant={density === 'comfortable' ? 'primary' : 'secondary'} onClick={() => setDensity('comfortable')}>Comfortable</Button><Button size="s" variant={density === 'compact' ? 'primary' : 'secondary'} onClick={() => setDensity('compact')}>Compact</Button><Button size="s" variant="secondary" onClick={() => setFilters((value) => !value)}>{filters ? 'Скрыть фильтры' : 'Показать фильтры'}</Button></div><div className="ds-table-demo"><TableReviewExample key={`${density}-${filters}`} initialDensity={density} initialFilters={filters} mode="read" /></div></main>;
 }
 
 const meta = { title: 'Components/Table', component: Table, args: { 'aria-label': 'Table example' }, parameters: { layout: 'fullscreen', controls: { disable: true } } } satisfies Meta<typeof Table>;
@@ -390,123 +334,32 @@ export const Overview: Story = {
   render: () => <OverviewPage />,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
-    const readTable = canvas.getByRole('table', { name: 'Позиции закупки · чтение' });
-    const table = canvas.getByRole('table', { name: 'Позиции закупки · редактирование' });
-    await expect(within(table).getAllByRole('row')).toHaveLength(7);
-    await expect(within(table).getByRole('row', { name: /Фильтры таблицы/i })).toBeVisible();
-    await expect(canvas.getByRole('navigation', { name: 'Пагинация таблицы' })).toBeVisible();
+    const readTable = canvas.getByRole('table', { name: 'Спецификация позиций · Read' });
+    const editTable = canvas.getByRole('table', { name: 'Спецификация позиций · Edit' });
+
+    await expect(within(readTable).getAllByRole('row')).toHaveLength(13);
+    await expect(within(editTable).getAllByRole('row')).toHaveLength(13);
+    await expect(within(readTable).getByRole('row', { name: /Фильтры таблицы/i })).toBeVisible();
+    await expect(within(editTable).getByRole('row', { name: /Фильтры таблицы/i })).toBeVisible();
+    await expect(canvas.getAllByRole('navigation', { name: /Пагинация таблицы/ })).toHaveLength(2);
     await expect(readTable.querySelector('[data-kind="drag"]')).toBeNull();
+    await expect(editTable.querySelector('[data-kind="drag"]')).not.toBeNull();
+    await expect(readTable.querySelectorAll('.cometal-table__filter-action')).toHaveLength(0);
+    await expect(editTable.querySelectorAll('.cometal-table__filter-action')).toHaveLength(0);
+    await expect(readTable.querySelectorAll('.cometal-table__context-action')).toHaveLength(13);
+    await expect(editTable.querySelectorAll('.cometal-table__context-action')).toHaveLength(13);
+
+    await userEvent.click(within(readTable).getByRole('button', { name: 'Действия колонки Позиция' }));
+    await expect(within(document.body).getByRole('menuitem', { name: 'Закрепить слева' })).toBeVisible();
+    await expect(within(document.body).getByRole('menuitem', { name: 'Скрыть колонку' })).toBeVisible();
+    await userEvent.click(within(document.body).getByRole('menuitem', { name: 'Фильтр' }));
+    await userEvent.click(within(document.body).getByRole('menuitem', { name: 'Не содержит' }));
+    await expect(within(readTable).getByRole('textbox', { name: 'Фильтр по позиции' })).toHaveAttribute('placeholder', 'Не содержит');
+
     await userEvent.click(within(readTable).getByRole('button', { name: 'Действия колонки Наименование' }));
     await userEvent.click(within(document.body).getByRole('menuitem', { name: 'Закрепить слева' }));
-    await waitFor(() => expect(readTable.querySelectorAll('[data-column-id="name"][data-column-pinned]')).toHaveLength(7));
+    await waitFor(() => expect(readTable.querySelectorAll('[data-column-id="name"][data-column-pinned]')).toHaveLength(13));
     await expect(readTable.querySelector('th[data-column-id="name"]')).toHaveAttribute('data-column-pinned-last', 'true');
-
-    const tableCanvas = within(table);
-    const contextAction = tableCanvas.getByRole('button', { name: 'Действия колонки Позиция' });
-    const contextIcon = contextAction.querySelector('svg');
-    const contextGlyphs = Array.from(contextAction.querySelectorAll('path'));
-    const dragHandle = tableCanvas.getByRole('button', { name: 'Переместить строку POS-00127' });
-    const dragIcon = dragHandle.querySelector<HTMLElement>('[data-cometal-table-icon="drag-handle"]');
-    await expect(contextAction.getBoundingClientRect().width).toBe(24);
-    await expect(contextAction.getBoundingClientRect().height).toBe(24);
-    await expect(contextIcon?.getBoundingClientRect().width).toBe(16);
-    await expect(contextIcon?.getBoundingClientRect().height).toBe(16);
-    const firstDot = contextGlyphs[0]?.getBoundingClientRect();
-    const lastDot = contextGlyphs[2]?.getBoundingClientRect();
-    await expect(Math.round(((lastDot?.right ?? 0) - (firstDot?.left ?? 0)) * 1000) / 1000).toBe(12.667);
-    await expect(Math.round((firstDot?.height ?? 0) * 1000) / 1000).toBe(3.333);
-    await expect(dragIcon).toHaveAttribute('data-cometal-table-icon', 'drag-handle');
-    await expect(dragIcon?.querySelector('svg, path, line')).toBeNull();
-    await expect(getComputedStyle(dragIcon!).maskImage).not.toBe('none');
-    const filterAction = tableCanvas.getByRole('button', { name: 'Параметры фильтра: Позиция' });
-    await expect(filterAction.getBoundingClientRect().width).toBe(24);
-    await expect(filterAction.getBoundingClientRect().height).toBe(24);
-    await expect(filterAction.querySelector('svg')?.getBoundingClientRect().width).toBe(12);
-    await userEvent.click(filterAction);
-    await userEvent.click(within(document.body).getByRole('menuitem', { name: 'Не содержит' }));
-    await expect(tableCanvas.getByRole('textbox', { name: 'Фильтр по позиции' })).toHaveAttribute('placeholder', 'Не содержит');
-    const firstRow = table.querySelector<HTMLTableRowElement>('tbody tr[data-row-id="1"]');
-    if (!firstRow) throw new Error('Expected row 1');
-    fireEvent.contextMenu(firstRow, { clientX: 320, clientY: 420 });
-    await expect(await within(document.body).findByRole('menuitem', { name: 'Открыть позицию' })).toBeDisabled();
-    within(document.body).getByRole('menuitem', { name: 'Переключить выбор строки' }).focus();
-    await userEvent.keyboard('{Escape}');
-    await waitFor(() => expect(document.activeElement).toBe(firstRow));
-    fireEvent.keyDown(firstRow, { key: 'F10', shiftKey: true });
-    await expect(await within(document.body).findByRole('menuitem', { name: 'Открыть позицию' })).toBeVisible();
-    await waitFor(() => expect(document.activeElement).toBe(within(document.body).getByRole('menuitem', { name: 'Переключить выбор строки' })));
-    await userEvent.keyboard('{Escape}');
-    await waitFor(() => expect(document.activeElement).toBe(firstRow));
-    const editableCell = firstRow.querySelector<HTMLElement>('td[data-editable="true"]');
-    if (!editableCell) throw new Error('Expected editable cell');
-    await userEvent.click(editableCell);
-    await expect(editableCell).toHaveAttribute('data-state', 'editing');
-    await expect(editableCell).toHaveAttribute('contenteditable', 'true');
-    await expect(editableCell.querySelector('input')).toBeNull();
-    dragHandle.focus();
-    await expect(getComputedStyle(dragHandle).outlineStyle).toBe('none');
-    await userEvent.keyboard('{Space}');
-    await expect(dragHandle).toHaveAttribute('aria-pressed', 'true');
-    await expect(table.querySelector('tr[data-reorder-id="1"]')).toHaveAttribute('data-row-dragging', 'true');
-    await userEvent.keyboard('{ArrowDown}{Space}');
-    await expect(Array.from(table.querySelectorAll('tbody tr[data-reorder-id]')).map((row) => row.getAttribute('data-reorder-id'))).toEqual(['2', '1', '3', '4']);
-    await expect(dragHandle).not.toHaveAttribute('aria-pressed');
-    await expect(table.querySelector('[data-drop-confirmation]')).toBeNull();
-
-    const scrollRegion = table.closest<HTMLElement>('.cometal-table-scroll');
-    const targetRow = table.querySelector<HTMLTableRowElement>('tr[data-reorder-id="3"]');
-    if (!scrollRegion || !targetRow) throw new Error('Expected reorder surface and target row');
-    const targetBounds = targetRow.getBoundingClientRect();
-    fireEvent.pointerDown(dragHandle, { pointerId: 19, button: 0, clientX: targetBounds.left + 8, clientY: targetBounds.top - 8 });
-    await waitFor(() => expect(table.querySelector('tr[data-reorder-id="1"]')).toHaveAttribute('data-row-dragging', 'true'));
-    await waitFor(() => {
-      fireEvent.pointerMove(scrollRegion, { pointerId: 19, buttons: 1, clientX: targetBounds.left + 8, clientY: targetBounds.bottom - 2 });
-      expect(targetRow).toHaveAttribute('data-drop-position', 'after');
-    });
-    fireEvent.pointerUp(scrollRegion, { pointerId: 19, clientX: targetBounds.left + 8, clientY: targetBounds.bottom - 2 });
-    await waitFor(() => expect(Array.from(table.querySelectorAll('tbody tr[data-reorder-id]')).map((row) => row.getAttribute('data-reorder-id'))).toEqual(['2', '3', '1', '4']));
-    const confirmedRow = table.querySelector<HTMLTableRowElement>('tr[data-reorder-id="1"]');
-    if (!confirmedRow) throw new Error('Expected moved row in its new position');
-    await expect(confirmedRow).toHaveAttribute('data-drop-confirmation', 'hold');
-    const confirmedCell = confirmedRow.querySelector<HTMLTableCellElement>('.cometal-table__cell');
-    if (!confirmedCell) throw new Error('Expected moved row cell');
-    const confirmedContent = confirmedCell.querySelector<HTMLElement>('.cometal-table__cell-content');
-    if (!confirmedContent) throw new Error('Expected moved row content');
-    const selectedProbe = document.createElement('span');
-    selectedProbe.style.background = 'var(--cometal-table-selected)';
-    confirmedCell.append(selectedProbe);
-    const expectedSelectedSurface = getComputedStyle(selectedProbe).backgroundColor;
-    selectedProbe.remove();
-    const confirmationStyle = getComputedStyle(confirmedCell, '::before');
-    await expect(confirmationStyle.opacity).toBe('1');
-    await expect(confirmationStyle.backgroundColor).toBe(expectedSelectedSurface);
-    await expect(confirmationStyle.zIndex).toBe('0');
-    await expect(getComputedStyle(confirmedContent).zIndex).toBe('1');
-    await waitFor(() => expect(confirmedRow).toHaveAttribute('data-drop-confirmation', 'fade'), { timeout: 1_000 });
-    await expect(getComputedStyle(confirmedCell, '::before').transitionDuration).toBe('0.12s');
-    await waitFor(() => expect(confirmedRow).not.toHaveAttribute('data-drop-confirmation'), { timeout: 1_000 });
-
-    const committedOrder = ['2', '3', '1', '4'];
-    const cancellationTarget = table.querySelector<HTMLTableRowElement>('tr[data-reorder-id="4"]');
-    if (!cancellationTarget) throw new Error('Expected pointer cancellation target');
-    const cancellationBounds = cancellationTarget.getBoundingClientRect();
-    fireEvent.pointerDown(dragHandle, { pointerId: 20, button: 0, clientX: cancellationBounds.left + 8, clientY: cancellationBounds.top - 8 });
-    await waitFor(() => {
-      fireEvent.pointerMove(scrollRegion, { pointerId: 20, buttons: 1, clientX: cancellationBounds.left + 8, clientY: cancellationBounds.bottom - 2 });
-      expect(cancellationTarget).toHaveAttribute('data-drop-position', 'after');
-    });
-    fireEvent.pointerCancel(scrollRegion, { pointerId: 20 });
-    await expect(Array.from(table.querySelectorAll('tbody tr[data-reorder-id]')).map((row) => row.getAttribute('data-reorder-id'))).toEqual(committedOrder);
-    await waitFor(() => expect(table.querySelector('[data-row-dragging], [data-drop-position], [data-drop-confirmation]')).toBeNull());
-
-    fireEvent.pointerDown(dragHandle, { pointerId: 21, button: 0, clientX: cancellationBounds.left + 8, clientY: cancellationBounds.top - 8 });
-    await waitFor(() => {
-      fireEvent.pointerMove(scrollRegion, { pointerId: 21, buttons: 1, clientX: cancellationBounds.left + 8, clientY: cancellationBounds.top + 2 });
-      expect(cancellationTarget).toHaveAttribute('data-drop-position', 'before');
-    });
-    fireEvent.lostPointerCapture(scrollRegion, { pointerId: 21 });
-    await expect(Array.from(table.querySelectorAll('tbody tr[data-reorder-id]')).map((row) => row.getAttribute('data-reorder-id'))).toEqual(committedOrder);
-    await waitFor(() => expect(table.querySelector('[data-row-dragging], [data-drop-position], [data-drop-confirmation]')).toBeNull());
 
     await expect(canvasElement.querySelectorAll('[data-cometal-icon]').length).toBeGreaterThan(0);
     await expect(canvasElement.querySelectorAll('.cometal-selection').length).toBeGreaterThan(0);
@@ -729,7 +582,7 @@ export const SectionCompositions: Story = {
 };
 export const Density: Story = {
   name: 'Плотность',
-  render: () => <div className="ds-story-canvas ds-table-density-pair"><section><h2>Comfortable · 48px</h2><SourceTable density="comfortable" mode="edit" ariaLabel="Позиции закупки · Comfortable" /></section><section><h2>Compact · 40px</h2><SourceTable density="compact" mode="edit" ariaLabel="Позиции закупки · Compact" /></section></div>,
+  render: () => <div className="ds-story-canvas ds-table-density-pair"><section><h2>Comfortable · 48px</h2><TableReviewExample ariaLabel="Спецификация позиций · Comfortable" initialDensity="comfortable" mode="edit" /></section><section><h2>Compact · 40px</h2><TableReviewExample ariaLabel="Спецификация позиций · Compact" initialDensity="compact" mode="edit" /></section></div>,
   play: async ({ canvasElement }) => {
     const tables = Array.from(canvasElement.querySelectorAll<HTMLTableElement>('.cometal-table'));
     const frameProbe = document.createElement('span');
@@ -763,7 +616,7 @@ export const TablePlayground: Story = {
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
     await userEvent.click(canvas.getByRole('button', { name: 'Compact' }));
-    await expect(canvas.getByRole('table', { name: 'Позиции закупки' })).toHaveAttribute('data-density', 'compact');
+    await expect(canvas.getByRole('table', { name: 'Спецификация позиций · Read' })).toHaveAttribute('data-density', 'compact');
     await expectTableSurfaceTypography(canvasElement);
   },
 };

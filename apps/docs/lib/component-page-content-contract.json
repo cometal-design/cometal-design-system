@@ -236,7 +236,7 @@
       "requirements": {
         "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>data-display\\.table</code>"] }] } },
         "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["figmaHref=\\{table\\.links\\.figma\\}"] }] } },
-        "real-example": { "evidence": { "clauses": [{ "scope": "content", "all": ["<TableSourceExample\\b", "<TablePaginatorExample\\b"] }] } }
+        "real-example": { "evidence": { "clauses": [{ "scope": "content", "all": ["<TableSourceExample\\b"] }] } }
       }
     },
     {

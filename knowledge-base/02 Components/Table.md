@@ -18,7 +18,7 @@
 
 - Нативная table-семантика с независимыми Cells, Headers, Columns и Paginator.
 - Первый header row содержит названия колонок; второй отдельный Filter Row содержит поля и контролы фильтрации.
-- Filter Row использует `TableFilterAction` с канонической filter icon и общим Context Menu для смены оператора поля; оператор и значение фильтра остаются consumer-owned state.
+- Filter Row содержит только системные controls значения. В полном Table-примере оператор и сброс фильтра находятся на втором уровне общего Context Menu хедера; отдельная action-иконка внутри поля не используется. Оператор и значение фильтра остаются consumer-owned state.
 - Плотность применяется ко всей Table: Comfortable 48px и Compact 40px для header, filter row, body, summary и квадратных utility cells. Обычные data-column widths остаются content/user-resized; существующие S filters — 32px.
 - Плотность не должна сбрасывать значения, badge settings или file metadata.
 - Строка может быть selected; отдельная ячейка может быть active, selected/editing, error или disabled.
@@ -33,6 +33,7 @@
 - Усечённый контент переиспользует `Tooltip`; header actions переиспользуют `ContextMenu`; периодный фильтр строится на `DateRangePicker`.
 - 16 source families и все их утверждённые states/densities документируются внутри одной Table family, а не разбрасываются по верхнему каталогу.
 - Summary row, paginator и reorder handle собираются композиционно и не экспортируют Figma row counts как props.
+- Основной Table-пример и Widget + Table используют один `TableReviewExample` controller из `@cometal/examples/widget-table`: одинаковые 13 filter columns, сортировка, Read/Edit, pin/resize, pagination и summary. Отдельные Storybook matrices показывают атомарные families, но не определяют параллельный бизнес-контракт.
 - Reorder управляется потребителем: `Table.onRowReorder` + стабильный `TableRow.reorderId`; pointer/touch и клавиатура используют одну модель `activeId / overId / before|after`, а выбор строки сохраняется по бизнес-ID после смены позиции.
 - В Read и Edit длинное «Наименование» остаётся однострочным. Системный Tooltip показывает полное значение только когда изменение ширины колонки реально обрезало текст; при достаточной ширине и в editing state он отключён.
 - Успешный pointer-drop примерно на секунду сохраняет ту же selected-подсветку, что видна во время drag, под контентом перемещённой строки в новом месте и затем мягко убирает её; keyboard reorder не анимируется.

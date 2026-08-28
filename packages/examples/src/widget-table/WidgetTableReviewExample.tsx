@@ -205,15 +205,25 @@ const editableColumnIds: Record<EditableColumn, string> = {
 };
 
 export interface WidgetTableReviewExampleProps {
+  ariaLabel?: string;
   initialDensity?: TableDensity;
+  initialFilters?: boolean;
   mode?: TableMode;
+  surface?: 'table' | 'widget';
 }
 
-/** Shared documentation evidence for the approved Widget + Table composition. */
-export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode = 'read' }: WidgetTableReviewExampleProps) {
+/** Shared documentation evidence for the approved Table contract and Widget + Table composition. */
+export function WidgetTableReviewExample({
+  ariaLabel,
+  initialDensity = 'comfortable',
+  initialFilters = true,
+  mode = 'read',
+  surface = 'widget',
+}: WidgetTableReviewExampleProps) {
+  const tableLabel = ariaLabel ?? `Спецификация позиций · ${mode === 'read' ? 'Read' : 'Edit'}`;
   const [orderedRows, setOrderedRows] = useState<ReviewRow[]>(() => rows.map(cloneReviewRow));
   const [density, setDensity] = useState<TableDensity>(initialDensity);
-  const [filters, setFilters] = useState(true);
+  const [filters, setFilters] = useState(initialFilters);
   const [summaryVisible, setSummaryVisible] = useState(true);
   const [selected, setSelected] = useState<string[]>([]);
   const [sort, setSort] = useState<ReviewSortState>(null);
@@ -421,28 +431,23 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode 
     {mode === 'edit' ? <Button size="m" startIcon={<PlusIcon />} disabled>Добавить запись</Button> : null}
   </>;
 
-  return (
-    <WidgetTablePattern
-      title={`Спецификация позиций · ${mode === 'read' ? 'Read' : 'Edit'}`}
-      description={`${visibleRows.length} из ${filteredRows.length} строк · ${mode === 'read' ? 'построчное чтение' : 'редактирование ячеек'} · фильтры ${filters ? 'включены' : 'выключены'}`}
-      toolbar={toolbar}
-      footer={<TablePaginator
-        aria-label={`Пагинация таблицы · ${mode === 'read' ? 'Read' : 'Edit'}`}
-        page={safePage}
-        pageCount={pageCount}
-        onPageChange={setPage}
-        pageSize={pageSize}
-        onPageSizeChange={(nextPageSize) => {
-          setPageSize(nextPageSize);
-          setPage(1);
-        }}
-      />}
-    >
-      <Table
+  const paginator = <TablePaginator
+    aria-label={ariaLabel ? `Пагинация: ${ariaLabel}` : `Пагинация таблицы · ${mode === 'read' ? 'Read' : 'Edit'}`}
+    page={safePage}
+    pageCount={pageCount}
+    onPageChange={setPage}
+    pageSize={pageSize}
+    onPageSizeChange={(nextPageSize) => {
+      setPageSize(nextPageSize);
+      setPage(1);
+    }}
+  />;
+
+  const table = <Table
         density={density}
         mode={mode}
         maxVisibleBodyRows={10}
-        aria-label={`Спецификация позиций · ${mode === 'read' ? 'Read' : 'Edit'}`}
+        aria-label={tableLabel}
         pinnedColumnIds={pinnedColumnIds}
         onPinnedColumnIdsChange={setPinnedColumnIds}
         columnWidths={columnWidths}
@@ -543,7 +548,23 @@ export function WidgetTableReviewExample({ initialDensity = 'comfortable', mode 
             {columnVisible(reviewColumnIds.supplier) ? <TableSummaryCell columnId={reviewColumnIds.supplier} kind="empty" /> : null}
           </TableRow> : null}
         </TableBody>
-      </Table>
-    </WidgetTablePattern>
-  );
+      </Table>;
+
+  if (surface === 'table') return <>{table}{paginator}</>;
+
+  return <WidgetTablePattern
+    title={`Спецификация позиций · ${mode === 'read' ? 'Read' : 'Edit'}`}
+    description={`${visibleRows.length} из ${filteredRows.length} строк · ${mode === 'read' ? 'построчное чтение' : 'редактирование ячеек'} · фильтры ${filters ? 'включены' : 'выключены'}`}
+    toolbar={toolbar}
+    footer={paginator}
+  >
+    {table}
+  </WidgetTablePattern>;
+}
+
+export type TableReviewExampleProps = Omit<WidgetTableReviewExampleProps, 'surface'>;
+
+/** The same executable Table contract without Widget chrome. */
+export function TableReviewExample(props: TableReviewExampleProps) {
+  return <WidgetTableReviewExample {...props} surface="table" />;
 }

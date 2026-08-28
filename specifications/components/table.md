@@ -32,7 +32,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - `TableHead`, `TableBody` и `TableRow` сохраняют нативную структуру таблицы.
 - Первый ряд `TableHeaderCell` содержит названия колонок, сортировку и context action.
 - Второй независимый `TableFilterRow` содержит `TableFilterCell` с полями и контролами фильтрации; фильтры не передаются пропом в первый ряд.
-- Каждый непустой filter control может содержать `TableFilterAction`: canonical `Outline/general/filter` использует 12px glyph в 16px Figma slot и открывает общий `ContextMenu` выбора оператора (`Содержит`, `Равно`, date/select equivalents).
+- Каждый непустой filter cell содержит системный control значения. В полном Table-примере оператор (`Содержит`, `Равно`, date/select equivalents) и сброс фильтра открываются со второго уровня общего `ContextMenu` хедера; action-иконка внутри поля запрещена, чтобы не смешивать значение и функцию колонки.
 - Figma `Read Cell` (`2353:9506`) задаёт типы Text, Number, Link, Badge, Text + Badge, Badge + Text, Number + Badge и File; состояния Default, Hover, Active, Selected и Disabled; плотности Comfortable и Compact.
 - Figma `Edit Cell` (`2353:9656`) задаёт типы Text, Number, Dropdown и File; состояния Default, Hover, Active, Editing, Selected, Error и Disabled; плотности Comfortable и Compact.
 - `editing` и `error` не применяются к Read Cell. `dragging` принадлежит служебному Drag Handle Cell, а не основной Read/Edit Cell.
@@ -42,6 +42,7 @@ storybook: "https://cometal-design-system-storybook.vercel.app/storybook/?path=/
 - `TableFileCell` использует один из девяти утверждённых file assets: word, excel, file, doc, sheets, adobe, zip, pdf, image.
 - `TableFileIcon` рендерит канонический inline SVG и передаёт ref как `SVGSVGElement`; при миграции с прежнего image API необходимо удалить `src`/`alt` и использовать `aria-label` только для смысловой standalone-иконки либо `aria-hidden` для декоративной.
 - Header actions переиспользуют `ContextMenu`; Table не владеет отдельным menu API.
+- Основной Table-пример и Widget + Table обязаны импортировать один `TableReviewExample` controller из `@cometal/examples/widget-table`; самостоятельные fixture/controller для этих двух overview surfaces запрещены. Матрицы Cells, Headers, Columns и Paginator остаются отдельным атомарным evidence.
 - Date range filter переиспользует `DateRangePicker`; paginator, summary row и reorder handle собираются как composition primitives вокруг таблицы.
 - Row reorder остаётся controlled: `Table.onRowReorder` сообщает `activeId`, `overId` и `before | after`, `TableRow.reorderId` связывает DOM со стабильной бизнес-сущностью, а `reorderTableRows` иммутабельно обновляет consumer-owned данные.
 - Длинные значения, для которых критично прочитать полный текст, используют системный `Tooltip` только при фактическом визуальном truncation; пример Widget + Table демонстрирует это в колонке «Наименование» для Read и Edit, не показывая tooltip при свободном месте или во время редактирования.

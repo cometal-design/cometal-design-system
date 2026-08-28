@@ -1,2 +1,2 @@
-export { WidgetTableReviewExample } from './WidgetTableReviewExample';
-export type { WidgetTableReviewExampleProps } from './WidgetTableReviewExample';
+export { TableReviewExample, WidgetTableReviewExample } from './WidgetTableReviewExample';
+export type { TableReviewExampleProps, WidgetTableReviewExampleProps } from './WidgetTableReviewExample';
