@@ -19,9 +19,15 @@ implementation, QA or production claim.
   selection. No orientation, activation-mode, routing, lazy-mount, count,
   arbitrary slots or overflow-control API.
 - Tablist is a one-line intrinsic horizontal row; consumer owns any horizontal
-  overflow and keeps its 4px focus envelope visible.
+  overflow and keeps the native Button 4px focus envelope visible. Review
+  `1572:262`/`1572:304` shows outer Tab Item `Focus#1572:49=false` and nested
+  Button `Focus#1207:133=true`: Tabs does not suppress that Button ring or draw
+  a Tabs-owned outer ring.
 - Button L/M/S `48/40/32px` plus persistent indicator produce Tab Item
   `56/48/40px`; item gap `4px`, Button-to-indicator gap `6px`, indicator `2px`.
+- For M, Button `116×40` retains its native `x=-4`, `y=-4`, `124×48`, radius
+  `12`, `2px` inside-stroke ring; its bottom `y=44` leaves the approved `2px`
+  gap before indicator `y=46…48`.
 
 ## Источники и границы
 

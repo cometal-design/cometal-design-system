@@ -121,8 +121,15 @@ interactive descendants are excluded.
   composition `4px + 2px = 6px`, not a raw value or new token.
 - Selected indicator uses existing brand default/hover/pressed roles; disabled
   selected uses global text disabled. Selection does not restyle Button internals.
-- The Tabs-owned focus layer uses existing 2px focus stroke/ring and an external
-  4px envelope. List and wrappers keep `overflow: visible`.
+- Review nodes `1572:262` and `1572:304` prove the rendered focus contract:
+  outer Tab Item `Focus#1572:49` is `false`, while nested Button
+  `Focus#1207:133` is `true`. Tabs must preserve the existing native Button
+  focus ring; it must neither suppress Button focus nor add a Tabs-owned outer
+  ring.
+- For M Button `116×40`, the native ring is `x=-4`, `y=-4`, `124×48`, radius
+  `12`, with `2px` inside stroke. Its bottom is `y=44`; the indicator remains
+  at `y=46…48`, preserving the `2px` gap. List and wrappers keep
+  `overflow: visible` so this native 4px external Button envelope is not clipped.
 - The tablist is one intrinsic horizontal no-wrap row. Labels remain Button-owned
   and are not truncated or equalized. Consumer layout owns horizontal overflow
   and reserves the 4px focus envelope.
@@ -144,7 +151,8 @@ interactive descendants are excluded.
   SSR/ref behavior and no fixed four-item assumption.
 - Keyboard/manual activation, RTL direction, roving focus, native disabled and
   exact `tablist`/`tab`/`tabpanel` relationships.
-- L/M/S geometry, 4/6/2px composition, full 4px focus envelope, state colors,
-  no clipping, and long count at 320/768/1440.
+- L/M/S geometry, 4/6/2px composition, existing native Button 4px focus
+  envelope (without a Tabs outer ring), state colors, no clipping, and long
+  count at 320/768/1440.
 - Focused React/Storybook tests, `pnpm validate:sources`, CSS-variable check,
   direct visual comparison and later exact-SHA independent review/QA.
