@@ -20,6 +20,7 @@ type ComponentPageHeaderProps = {
   compactSummary?: boolean;
   identityAfterSummary?: boolean;
   linksAtEnd?: boolean;
+  toolbarStart?: ReactNode;
 };
 
 export function ComponentPageHeader({
@@ -40,6 +41,7 @@ export function ComponentPageHeader({
   compactSummary = false,
   identityAfterSummary = false,
   linksAtEnd = false,
+  toolbarStart,
 }: ComponentPageHeaderProps) {
   const links = (
     <div className="component-title__links">
@@ -61,7 +63,8 @@ export function ComponentPageHeader({
         <p>{summary}</p>
         {identityAfterSummary ? identity : null}
       </div>
-      <div className="component-title__toolbar" data-links-first={linksFirst || undefined} data-links-end={linksAtEnd || undefined}>
+      <div className="component-title__toolbar" data-links-first={linksFirst || undefined} data-links-end={linksAtEnd || undefined} data-has-start={toolbarStart ? true : undefined}>
+        {toolbarStart ? <div className="component-title__toolbar-start">{toolbarStart}</div> : null}
         {statusAtTop ? links : linksFirst ? links : statusBadge}
         {statusAtTop ? null : linksFirst ? statusBadge : links}
       </div>

@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Badge, Button } from '@cometal/react';
+import { Badge, Button, Tab, TabList, TabPanel, Tabs } from '@cometal/react';
 import type { ButtonVariant } from '@cometal/react';
 import { ButtonInteractiveDemo } from '../../../components/button-interactive-demo';
 import { ButtonUsageExample } from '../../../components/button-usage-example';
@@ -22,25 +22,35 @@ const documentedVariants: ButtonVariant[] = ['primary', 'secondary', 'link', 'da
 export default function ButtonPage() {
   return (
     <main className="content-page component-detail component-detail--button">
-      <div data-component-phase="identity">
-        <ComponentPageHeader
-          title="Button"
-          summary="Запускает одно понятное действие пользователя: сохранить, продолжить, создать, подтвердить или удалить."
-          status={component.status}
-          statusLabel={statusLabels[component.status]}
-          figmaHref={component.links.figma}
-          playgroundHref="/storybook/?path=/story/components-button--playground"
-          playgroundLabel="Storybook ↗"
-          sourceHref={sourceHref}
-          linkSize="m"
-          statusAtTop
-          hideEyebrow
-          identityLabel={<>ID: <code>action.button</code> · React: {component.name} · {usage.packageName}</>}
-          compactSummary
-          identityAfterSummary
-          linksAtEnd
-        />
-      </div>
+      <Tabs defaultValue="overview" size="m" className="button-page-tabs">
+        <div data-component-phase="identity">
+          <ComponentPageHeader
+            title="Button"
+            summary="Запускает одно понятное действие пользователя: сохранить, продолжить, создать, подтвердить или удалить."
+            status={component.status}
+            statusLabel={statusLabels[component.status]}
+            figmaHref={component.links.figma}
+            playgroundHref="/storybook/?path=/story/components-button--playground"
+            playgroundLabel="Storybook ↗"
+            sourceHref={sourceHref}
+            linkSize="m"
+            statusAtTop
+            hideEyebrow
+            identityLabel={<>ID: <code>action.button</code> · React: {component.name} · {usage.packageName}</>}
+            compactSummary
+            identityAfterSummary
+            linksAtEnd
+            toolbarStart={(
+              <TabList aria-label="Разделы документации Button">
+                <Tab value="overview">Overview</Tab>
+                <Tab value="react-api">React API</Tab>
+                <Tab value="accessibility">Accessibility</Tab>
+              </TabList>
+            )}
+          />
+        </div>
+
+        <TabPanel value="overview" className="button-page-tabs__panel">
 
       <section className="content-section" data-component-phase="overview" aria-labelledby="button-interactive-demo-title">
         <h2 className="visually-hidden" id="button-interactive-demo-title">Интерактивный пример Button</h2>
@@ -107,18 +117,20 @@ export default function ButtonPage() {
         <div className="state-board"><article><code>Default</code><Button>Продолжить</Button></article><article><code>Hover</code><Button className="docs-button--hover">Продолжить</Button></article><article><code>Focus visible</code><Button className="docs-button--focus">Продолжить</Button></article><article><code>Pressed</code><Button className="docs-button--pressed">Продолжить</Button></article><article><code>Disabled</code><Button disabled>Продолжить</Button></article><article><code>Loading</code><Button loading>Продолжить</Button></article></div>
       </section>
 
+          <div data-component-phase="adaptation">
+            <ComponentEnvironmentNotes
+              responsive="Button сохраняет intrinsic width и nowrap; перенос, растяжение или вертикальный stack задаёт родительская layout-композиция. На узкой ширине не сокращайте доступное имя до одной непонятной иконки."
+              theme="Primary, semantic и inverse variants используют component tokens активной темы. Inverse и inverse-ghost применяются только на контрастной тёмной поверхности."
+              edgeCases="Loading и disabled не вызывают действие; icon-only требует aria-label, а длинная подпись должна проверяться в доступной ширине без ручного уменьшения control height."
+            />
+          </div>
+        </TabPanel>
+
+        <TabPanel value="react-api" className="button-page-tabs__panel">
+
       <section className="content-section" data-component-phase="code" id="code">
         <SectionHeading title="Код" description="Скопируйте установку, импорт или минимальный рабочий пример. Все представления соответствуют публичному React API." />
         <CodeExample componentName={component.name} sourceHref={sourceHref} usage={usage} />
-      </section>
-
-      <section className="content-section" data-component-phase="behavior-a11y">
-        <SectionHeading title="Поведение и доступность" description="Button сохраняет нативную button-семантику и не превращает визуальный variant в отдельный interaction contract." />
-        <div className="definition-list">
-          <article><span>01</span><strong>Keyboard</strong><p>Tab переводит focus на Button, Enter и Space запускают нативное действие; focus-visible остаётся различимым.</p></article>
-          <article><span>02</span><strong>Loading</strong><p><code>loading</code> блокирует повторное действие через disabled и сообщает занятость через aria-busy, сохраняя ширину подписи.</p></article>
-          <article><span>03</span><strong>Accessible name</strong><p>Текст задаёт имя обычной кнопки. Для icon-only композиции обязателен <code>aria-label</code>; декоративные иконки скрыты от accessibility tree.</p></article>
-        </div>
       </section>
 
       <section className="content-section" data-component-phase="public-api" id="api">
@@ -127,14 +139,19 @@ export default function ButtonPage() {
           ['variant', "'primary' | 'secondary' | …", "'primary'"], ['size', "'l' | 'm' | 's'", "'l'"], ['loading', 'boolean', 'false'], ['disabled', 'boolean', 'false'], ['startIcon / endIcon', 'ReactNode', '—'], ['children', 'ReactNode', '—'],
         ].map(([name, type, value]) => <div key={name}><code>{name}</code><span>{type}</span><span>{value}</span></div>)}</div>
       </section>
+        </TabPanel>
 
-      <div data-component-phase="adaptation">
-        <ComponentEnvironmentNotes
-          responsive="Button сохраняет intrinsic width и nowrap; перенос, растяжение или вертикальный stack задаёт родительская layout-композиция. На узкой ширине не сокращайте доступное имя до одной непонятной иконки."
-          theme="Primary, semantic и inverse variants используют component tokens активной темы. Inverse и inverse-ghost применяются только на контрастной тёмной поверхности."
-          edgeCases="Loading и disabled не вызывают действие; icon-only требует aria-label, а длинная подпись должна проверяться в доступной ширине без ручного уменьшения control height."
-        />
-      </div>
+        <TabPanel value="accessibility" className="button-page-tabs__panel">
+          <section className="content-section" data-component-phase="behavior-a11y">
+            <SectionHeading title="Поведение и доступность" description="Button сохраняет нативную button-семантику и не превращает визуальный variant в отдельный interaction contract." />
+            <div className="definition-list">
+              <article><span>01</span><strong>Keyboard</strong><p>Tab переводит focus на Button, Enter и Space запускают нативное действие; focus-visible остаётся различимым.</p></article>
+              <article><span>02</span><strong>Loading</strong><p><code>loading</code> блокирует повторное действие через disabled и сообщает занятость через aria-busy, сохраняя ширину подписи.</p></article>
+              <article><span>03</span><strong>Accessible name</strong><p>Текст задаёт имя обычной кнопки. Для icon-only композиции обязателен <code>aria-label</code>; декоративные иконки скрыты от accessibility tree.</p></article>
+            </div>
+          </section>
+        </TabPanel>
+      </Tabs>
     </main>
   );
 }

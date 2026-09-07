@@ -417,7 +417,8 @@ code, pre, kbd, samp {
 .content-section { padding: var(--portal-space-section) 0; border-top: var(--portal-hairline) solid var(--portal-line); scroll-margin-top: calc(var(--portal-header-height) + var(--portal-space-block)); }
 .content-section--continuation { border-top: 0; }
 .foundation-tabs + .content-section { border-top: 0; }
-.component-detail--button > .content-section ~ .content-section { border-top: 0; }
+.component-detail--button > .content-section ~ .content-section,
+.button-page-tabs__panel > .content-section { border-top: 0; }
 .section-heading { display: grid; max-width: var(--portal-copy-section-width); margin-bottom: var(--portal-space-group); gap: var(--portal-space-copy); }
 .section-heading h2 { margin: 0; font-family: var(--cometal-typography-heading-l-font-family); font-size: var(--cometal-typography-heading-l-font-size); font-weight: var(--cometal-typography-heading-l-font-weight); line-height: var(--cometal-typography-heading-l-line-height); letter-spacing: var(--cometal-typography-heading-l-letter-spacing); }
 .section-heading p { max-width: var(--portal-copy-section-width); margin: 0; color: var(--portal-muted); font-family: var(--cometal-typography-body-m-default-font-family); font-size: var(--cometal-typography-body-m-default-font-size); font-weight: var(--cometal-typography-body-m-default-font-weight); line-height: var(--cometal-typography-body-m-default-line-height); letter-spacing: var(--cometal-typography-body-m-default-letter-spacing); }
@@ -811,7 +812,10 @@ code, pre, kbd, samp {
 .component-title[data-compact-summary] p { margin-top: var(--portal-space-related); font-family: var(--cometal-typography-body-s-default-font-family); font-size: var(--cometal-typography-body-s-default-font-size); line-height: var(--cometal-typography-body-s-default-line-height); letter-spacing: var(--cometal-typography-body-s-default-letter-spacing); }
 .component-title__toolbar { display: flex; margin-top: var(--portal-space-group); align-items: center; justify-content: space-between; flex-wrap: wrap; gap: var(--cometal-primitive-spacing-100); }
 .component-title__toolbar[data-links-end] { justify-content: flex-end; }
+.component-title__toolbar[data-has-start] { justify-content: space-between; }
+.component-title__toolbar-start { min-width: 0; flex: 1 1 auto; overflow-x: auto; }
 .component-title__links { display: flex; margin-left: auto; flex-wrap: wrap; gap: var(--cometal-primitive-spacing-50); }
+.component-title__toolbar[data-has-start] .component-title__links { flex: none; }
 .component-title__toolbar[data-links-first] .component-title__links { min-width: 0; margin-left: 0; }.component-title__toolbar[data-links-first] .component-title__status { margin-left: auto; }
 .guidance { display: grid; grid-template-columns: 1fr 1fr; gap: var(--cometal-primitive-spacing-100); }
 .guidance article { min-height: var(--cometal-documentation-layout-height-guidance); padding: var(--cometal-primitive-spacing-150); border-radius: var(--portal-radius-l); }
@@ -850,6 +854,9 @@ code, pre, kbd, samp {
 .button-best-practices-table :is(th, td):first-child { width: 16%; padding-right: var(--cometal-primitive-spacing-25); }.button-best-practices-table :is(th, td):nth-child(2) { width: 24%; padding-right: var(--cometal-primitive-spacing-50); }.button-best-practices-table tbody th { hyphens: auto; overflow-wrap: anywhere; }
 .button-composition-note { margin: var(--cometal-primitive-spacing-100) 0 0; color: var(--portal-muted); font-family: var(--cometal-typography-body-s-default-font-family); font-size: var(--cometal-typography-body-s-default-font-size); line-height: var(--cometal-typography-body-s-default-line-height); }.button-composition-note code { font-family: var(--portal-font-code); }
 .button-size-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--cometal-primitive-spacing-200); }.button-size-strip article { grid-template-columns: 1fr; justify-items: start; gap: var(--cometal-primitive-spacing-100); }
+.component-detail--button .component-title { padding-bottom: 0; }
+.component-detail--button .component-title__toolbar { border-bottom: var(--portal-hairline) solid var(--portal-line); }
+.button-page-tabs__panel { min-width: 0; }
 .api-table { border-top: var(--portal-hairline) solid var(--portal-line); }
 .api-table > div { display: grid; min-height: var(--cometal-documentation-layout-height-data-row); padding: var(--cometal-primitive-spacing-100) 0; grid-template-columns: var(--cometal-documentation-layout-width-definition-title) minmax(var(--portal-sidebar-width), 1fr) calc(var(--cometal-primitive-spacing-750) + var(--cometal-primitive-spacing-125)); align-items: center; gap: var(--cometal-primitive-spacing-150); border-bottom: var(--portal-hairline) solid var(--portal-line); font-family: var(--cometal-typography-body-s-default-font-family); font-size: var(--cometal-typography-body-s-default-font-size); line-height: var(--cometal-typography-body-s-default-line-height); }
 .api-table > div:last-child { border-bottom: 0; }
@@ -1014,6 +1021,8 @@ code, pre, kbd, samp {
   .home-hero__actions { align-items: center; flex-direction: row; flex-wrap: nowrap; }
   .content-page { padding: var(--cometal-primitive-spacing-300) var(--cometal-primitive-spacing-125) var(--cometal-primitive-spacing-450); }.page-header { padding-bottom: var(--cometal-primitive-spacing-300); }.page-header h1, .component-title h1 { font-family: var(--cometal-typography-display-s-font-family); font-size: var(--cometal-typography-display-s-font-size); line-height: var(--cometal-typography-display-s-line-height); letter-spacing: var(--cometal-typography-display-s-letter-spacing); }.page-header p, .component-title p { font-size: var(--cometal-typography-body-m-default-font-size); line-height: var(--cometal-typography-body-m-default-line-height); }
   .button-size-strip { grid-template-columns: 1fr; }
+  .component-detail--button .component-title__toolbar-start { order: 2; flex-basis: 100%; }
+  .component-detail--button .component-title__links { order: 1; width: 100%; margin-left: 0; overflow-x: auto; flex-wrap: nowrap; }
   .page-header--with-stat { align-items: flex-start; flex-direction: column; }.page-stat { align-items: flex-start; }
   .content-section { padding: var(--portal-space-section) 0; }
   .definition-list article { grid-template-columns: var(--cometal-documentation-layout-width-definition-index) 1fr; }.definition-list p { grid-column: 2; }
