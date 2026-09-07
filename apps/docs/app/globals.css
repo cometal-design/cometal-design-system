@@ -864,9 +864,10 @@ code, pre, kbd, samp {
   scroll-margin-inline: var(--cometal-primitive-spacing-25);
 }
 .button-page-tabs__panel { min-width: 0; }
-.component-detail--button .button-examples { display: grid; min-width: 0; gap: var(--portal-space-section); }
-.component-detail--button .button-example { min-width: 0; }
-.component-detail--button .button-example > h3 { margin: 0 0 var(--cometal-primitive-spacing-100); font-family: var(--cometal-typography-heading-m-font-family); font-size: var(--cometal-typography-heading-m-font-size); font-weight: var(--cometal-typography-heading-m-font-weight); line-height: var(--cometal-typography-heading-m-line-height); letter-spacing: var(--cometal-typography-heading-m-letter-spacing); }
+.component-detail--button .button-examples { display: grid; min-width: 0; }
+.component-detail--button .button-example { display: grid; min-width: 0; gap: var(--cometal-primitive-spacing-100); }
+.component-detail--button .button-example + .button-example { margin-top: var(--portal-space-section); padding-top: var(--portal-space-section); border-top: var(--portal-hairline) solid var(--portal-line); }
+.component-detail--button .button-example > h3 { margin: 0; font-family: var(--cometal-typography-heading-m-font-family); font-size: var(--cometal-typography-heading-m-font-size); font-weight: var(--cometal-typography-heading-m-font-weight); line-height: var(--cometal-typography-heading-m-line-height); letter-spacing: var(--cometal-typography-heading-m-letter-spacing); }
 .component-detail--button .button-example__preview { position: relative; display: grid; width: 100%; min-width: 0; min-height: calc(var(--cometal-documentation-layout-height-component-preview) + var(--cometal-primitive-spacing-450)); padding: var(--cometal-primitive-spacing-200); box-sizing: border-box; place-items: center; aspect-ratio: 16 / 9; border-radius: var(--portal-radius-l); background: var(--portal-canvas); }
 .component-detail--button .button-example__preview[data-surface='inverse'] { background: var(--portal-inverse); }
 .component-detail--button .button-variants-example { display: grid; width: 100%; height: 100%; min-width: 0; place-items: center; }
@@ -880,11 +881,8 @@ code, pre, kbd, samp {
 .component-detail--button .button-states-example .button-state-specimen--hover { background: var(--cometal-component-button-primary-surface-hover); color: var(--cometal-component-button-primary-content-hover); }
 .component-detail--button .button-states-example .button-state-specimen--pressed { background: var(--cometal-component-button-primary-surface-pressed); color: var(--cometal-component-button-primary-content-pressed); }
 .component-detail--button .button-states-example .button-state-specimen--focus { outline: var(--cometal-semantic-stroke-global-state-focus) solid var(--cometal-semantic-color-global-state-focus-ring); outline-offset: var(--cometal-primitive-spacing-12); }
-.component-detail--button .button-example__details { min-width: 0; margin-top: var(--cometal-primitive-spacing-100); }
-.component-detail--button .button-example__details-toolbar { width: 100%; min-width: 0; padding: var(--cometal-primitive-spacing-50) var(--cometal-primitive-spacing-50) 0; box-sizing: border-box; border-bottom: var(--portal-hairline) solid var(--portal-line-soft); background: var(--portal-surface-raised); }
-.component-detail--button .button-example__description { padding: var(--cometal-primitive-spacing-150); background: var(--portal-surface-raised); }
-.component-detail--button .button-example__description p { max-width: 72ch; margin: 0; color: var(--portal-text-secondary); }
-.component-detail--button .button-example__code { min-width: 0; }
+.component-detail--button .button-example__description { max-width: 72ch; margin: 0; color: var(--portal-text-secondary); }
+.component-detail--button .button-example__usage { min-width: 0; }
 .docs-code-block { display: grid; min-width: 0; overflow: hidden; border: var(--portal-hairline) solid var(--portal-line); border-radius: var(--portal-radius-l); background: color-mix(in srgb, var(--portal-blue) 4%, var(--portal-surface-raised)); }
 .docs-code-block__toolbar { display: flex; min-width: 0; min-height: var(--cometal-documentation-layout-height-code-toolbar); padding: var(--cometal-primitive-spacing-50); box-sizing: border-box; align-items: center; justify-content: flex-end; gap: var(--cometal-primitive-spacing-100); border-bottom: var(--portal-hairline) solid var(--portal-line-soft); background: var(--portal-surface-raised); }
 .docs-code-block__toolbar-start { min-width: 0; flex: 1; }

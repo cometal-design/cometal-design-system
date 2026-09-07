@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState } from 'react';
 import type { ReactNode } from 'react';
-import { Button, Tab, TabList, TabPanel, Tabs } from '@cometal/react';
+import { Button } from '@cometal/react';
 import type { ButtonVariant } from '@cometal/react';
 import ArrowRightIcon from '@cometal/react/icons/outline/arrows/arrow-right';
 import MoonIcon from '@cometal/react/icons/outline/weather/moon-01';
@@ -46,34 +46,6 @@ function useButtonLoading() {
   return { isLoading: (key: string) => loadingKeys.has(key), resetLoading, startLoading };
 }
 
-const buttonLoadingSource = `const loadingDuration = 1000;
-
-function useButtonLoading() {
-  const [loadingKeys, setLoadingKeys] = useState<ReadonlySet<string>>(() => new Set());
-  const timersRef = useRef<Map<string, number>>(new Map());
-
-  useEffect(() => () => {
-    timersRef.current.forEach((timer) => window.clearTimeout(timer));
-    timersRef.current.clear();
-  }, []);
-
-  function startLoading(key: string) {
-    if (timersRef.current.has(key)) return;
-    setLoadingKeys((current) => new Set(current).add(key));
-    const timer = window.setTimeout(() => {
-      timersRef.current.delete(key);
-      setLoadingKeys((current) => {
-        const next = new Set(current);
-        next.delete(key);
-        return next;
-      });
-    }, loadingDuration);
-    timersRef.current.set(key, timer);
-  }
-
-  return { isLoading: (key: string) => loadingKeys.has(key), startLoading };
-}`;
-
 const variants: ButtonVariant[] = [
   'primary', 'secondary', 'link', 'danger', 'success', 'warning', 'inverse-ghost', 'ghost', 'inverse',
 ];
@@ -83,146 +55,23 @@ const variantLabels: Record<ButtonVariant, string> = {
   ghost: 'Ghost', inverse: 'Inverse', 'inverse-ghost': 'Inverse Ghost',
 };
 
-const lightVariantsCode = `'use client';
+const lightVariantsCode = '<Button size="m" variant="primary">Primary</Button>';
+const darkVariantsCode = '<Button size="m" variant="ghost">Ghost</Button>';
+const sizesCode = '<Button size="l">Продолжить</Button>';
+const statesCode = '<Button size="m" loading>Сохранить</Button>';
+const iconsCode = `import ArrowRightIcon from '@cometal/react/icons/outline/arrows/arrow-right';
 
-import { useEffect, useRef, useState } from 'react';
-import { Button } from '@cometal/react';
-
-${buttonLoadingSource}
-
-export function LightButtonVariantsExample() {
-  const { isLoading, startLoading } = useButtonLoading();
-
-  return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 'var(--cometal-primitive-spacing-100)' }}>
-      <Button size="m" variant="primary" loading={isLoading('primary')} onClick={() => startLoading('primary')}>Primary</Button>
-      <Button size="m" variant="secondary" loading={isLoading('secondary')} onClick={() => startLoading('secondary')}>Secondary</Button>
-      <Button size="m" variant="link" loading={isLoading('link')} onClick={() => startLoading('link')}>Link</Button>
-      <Button size="m" variant="danger" loading={isLoading('danger')} onClick={() => startLoading('danger')}>Danger</Button>
-      <Button size="m" variant="success" loading={isLoading('success')} onClick={() => startLoading('success')}>Success</Button>
-      <Button size="m" variant="warning" loading={isLoading('warning')} onClick={() => startLoading('warning')}>Warning</Button>
-      <Button size="m" variant="inverse-ghost" loading={isLoading('inverse-ghost')} onClick={() => startLoading('inverse-ghost')}>Inverse Ghost</Button>
-    </div>
-  );
-}`;
-
-const darkVariantsCode = `'use client';
-
-import { useEffect, useRef, useState } from 'react';
-import { Button } from '@cometal/react';
-
-${buttonLoadingSource}
-
-export function DarkButtonVariantsExample() {
-  const { isLoading, startLoading } = useButtonLoading();
-
-  return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', justifyContent: 'center', gap: 'var(--cometal-primitive-spacing-100)', background: 'var(--cometal-semantic-color-global-surface-inverse)' }}>
-      <Button size="m" variant="ghost" loading={isLoading('ghost')} onClick={() => startLoading('ghost')}>Ghost</Button>
-      <Button size="m" variant="inverse" loading={isLoading('inverse')} onClick={() => startLoading('inverse')}>Inverse</Button>
-    </div>
-  );
-}`;
-
-const sizesCode = `'use client';
-
-import { useEffect, useRef, useState } from 'react';
-import { Button } from '@cometal/react';
-
-${buttonLoadingSource}
-
-export function ButtonSizesExample() {
-  const { isLoading, startLoading } = useButtonLoading();
-
-  return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--cometal-primitive-spacing-100)' }}>
-      <Button size="l" loading={isLoading('l')} onClick={() => startLoading('l')}>Продолжить</Button>
-      <Button size="m" loading={isLoading('m')} onClick={() => startLoading('m')}>Продолжить</Button>
-      <Button size="s" loading={isLoading('s')} onClick={() => startLoading('s')}>Продолжить</Button>
-    </div>
-  );
-}`;
-
-const statesCode = `import { Button } from '@cometal/react';
-
-export function ButtonStatesExample() {
-  return (
-    <div className="button-states-example" aria-hidden="true">
-      <Button size="m" tabIndex={-1}>Default</Button>
-      <Button size="m" tabIndex={-1} className="button-state-specimen--hover">Hover</Button>
-      <Button size="m" tabIndex={-1} className="button-state-specimen--pressed">Pressed</Button>
-      <Button size="m" tabIndex={-1} className="button-state-specimen--focus">Focus visible</Button>
-      <Button size="m" tabIndex={-1} disabled>Disabled</Button>
-      <Button size="m" tabIndex={-1} loading>Loading</Button>
-      <style>{\`.button-states-example {
-  display: grid;
-  grid-template-columns: repeat(3, calc(var(--cometal-primitive-size-112) + var(--cometal-primitive-size-48)));
-  justify-content: center;
-  gap: var(--cometal-primitive-spacing-150);
-}
-.button-states-example .cometal-button {
-  width: 100%;
-  pointer-events: none;
-}
-.button-states-example .button-state-specimen--hover {
-  background: var(--cometal-component-button-primary-surface-hover);
-  color: var(--cometal-component-button-primary-content-hover);
-}
-.button-states-example .button-state-specimen--pressed {
-  background: var(--cometal-component-button-primary-surface-pressed);
-  color: var(--cometal-component-button-primary-content-pressed);
-}
-.button-states-example .button-state-specimen--focus {
-  outline: var(--cometal-semantic-stroke-global-state-focus) solid var(--cometal-semantic-color-global-state-focus-ring);
-  outline-offset: var(--cometal-primitive-spacing-12);
-}
-@media (max-width: 680px) {
-  .button-states-example {
-    grid-template-columns: calc(var(--cometal-primitive-size-112) + var(--cometal-primitive-size-48));
-    gap: var(--cometal-primitive-spacing-50);
-  }
-}\`}</style>
-    </div>
-  );
-}`;
-
-const iconsCode = `'use client';
-
-import { useEffect, useRef, useState } from 'react';
-import { Button } from '@cometal/react';
-import ArrowRightIcon from '@cometal/react/icons/outline/arrows/arrow-right';
-
-${buttonLoadingSource}
-
-export function ButtonIconsExample() {
-  const { isLoading, startLoading } = useButtonLoading();
-
-  return (
-    <div style={{ display: 'flex', flexWrap: 'wrap', alignItems: 'center', gap: 'var(--cometal-primitive-spacing-100)' }}>
-      <Button size="m" startIcon={<ArrowRightIcon />} loading={isLoading('start')} onClick={() => startLoading('start')}>Продолжить</Button>
-      <Button size="m" endIcon={<ArrowRightIcon />} loading={isLoading('end')} onClick={() => startLoading('end')}>Продолжить</Button>
-      <Button size="m" startIcon={<ArrowRightIcon />} aria-label="Продолжить" loading={isLoading('icon-only')} onClick={() => startLoading('icon-only')} />
-    </div>
-  );
-}`;
+<Button size="m" endIcon={<ArrowRightIcon />}>Продолжить</Button>`;
 
 function ButtonExample({ title, description, code, preview, previewTone = 'default' }: { title: string; description: string; code: string; preview: ReactNode; previewTone?: 'default' | 'inverse' }) {
   return (
     <article className="button-example">
-      <h3>{title}</h3>
       <div className="button-example__preview" data-surface={previewTone}>{preview}</div>
-      <Tabs defaultValue="description" size="m" className="button-example__details">
-        <TabList aria-label={`${title}: описание и код`} className="button-example__details-toolbar">
-          <Tab value="description">Описание</Tab>
-          <Tab value="code">Код</Tab>
-        </TabList>
-        <TabPanel value="description" tabIndex={-1} className="button-example__description">
-          <p>{description}</p>
-        </TabPanel>
-        <TabPanel value="code" tabIndex={-1} className="button-example__code">
-          <CodeBlock code={code} copyName={`код примера «${title}»`} />
-        </TabPanel>
-      </Tabs>
+      <h3>{title}</h3>
+      <p className="button-example__description">{description}</p>
+      <div className="button-example__usage" aria-label={`${title}: пример использования`}>
+        <CodeBlock code={code} copyName={`код примера «${title}»`} compact />
+      </div>
     </article>
   );
 }
@@ -260,7 +109,7 @@ export function ButtonExamples() {
           })}
         </div>
       )} />
-      <ButtonExample title="Состояния" description="Шесть состояний Primary-кнопки показаны статично и не меняются при наведении или нажатии. В Loading отображается индикатор загрузки." code={statesCode} preview={(
+      <ButtonExample title="Состояния" description="Шесть состояний Primary-кнопки показаны как статичная галерея и не меняются при наведении или нажатии. Короткий пример ниже показывает реальный prop loading; Hover, Pressed и Focus visible возникают при взаимодействии с обычной кнопкой." code={statesCode} preview={(
         <div className="button-states-example" aria-hidden="true">
           <Button size="m" tabIndex={-1}>Default</Button>
           <Button size="m" tabIndex={-1} className="button-state-specimen--hover">Hover</Button>
