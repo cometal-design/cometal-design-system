@@ -66,6 +66,22 @@ describe('Tabs', () => {
     expect(html).toMatch(/role="tabpanel"[^>]*tabindex="0"[^>]*>Вложения/);
   });
 
+  it('honors the active panel tabIndex override and removes tabIndex while hidden', () => {
+    const html = renderToStaticMarkup(
+      <Tabs value="history">
+        <TabList aria-label="Panel focus contract"><Tab value="overview">Overview</Tab><Tab value="history">History</Tab></TabList>
+        <TabPanel value="overview" tabIndex={0}>Overview panel</TabPanel>
+        <TabPanel value="history" tabIndex={-1}>History panel</TabPanel>
+      </Tabs>,
+    );
+    const hiddenPanel = html.match(/<div[^>]*role="tabpanel"[^>]*hidden=""[^>]*>Overview panel<\/div>/)?.[0];
+    const activePanel = html.match(/<div[^>]*role="tabpanel"[^>]*>History panel<\/div>/)?.[0];
+
+    expect(hiddenPanel).toBeTruthy();
+    expect(hiddenPanel).not.toContain('tabindex=');
+    expect(activePanel).toContain('tabindex="-1"');
+  });
+
   it('renders no selected panel and no roving tab when every item is disabled', () => {
     const html = renderToStaticMarkup(
       <Tabs>

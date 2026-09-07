@@ -366,7 +366,7 @@ export const Tab = forwardRef<HTMLButtonElement, TabProps>(function Tab(
 });
 
 export const TabPanel = forwardRef<HTMLDivElement, TabPanelProps>(function TabPanel(
-  { value, className, children, ...panelProps },
+  { value, className, children, tabIndex, ...panelProps },
   ref,
 ) {
   const context = useTabsContext('TabPanel');
@@ -387,7 +387,7 @@ export const TabPanel = forwardRef<HTMLDivElement, TabPanelProps>(function TabPa
       id={ids.panelId}
       aria-labelledby={ids.tabId}
       hidden={!selected}
-      tabIndex={selected ? 0 : undefined}
+      tabIndex={selected ? tabIndex ?? 0 : undefined}
     >
       {children}
     </div>
