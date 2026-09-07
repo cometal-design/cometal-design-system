@@ -32,9 +32,9 @@ export function ProjectTabs() {
         <Tab value="history">История</Tab>
         <Tab value="files"${disabledLast ? ' disabled' : ''}>Файлы</Tab>
       </TabList>
-      <TabPanel value="overview">Основные сведения.</TabPanel>
-      <TabPanel value="history">История изменений.</TabPanel>
-      <TabPanel value="files">Связанные файлы.</TabPanel>
+      <TabPanel value="overview" tabIndex={-1}>{null}</TabPanel>
+      <TabPanel value="history" tabIndex={-1}>{null}</TabPanel>
+      <TabPanel value="files" tabIndex={-1}>{null}</TabPanel>
     </Tabs>
   );
 }`;
@@ -54,9 +54,9 @@ export function ProjectTabs() {
           <Tab value="history">История</Tab>
           <Tab value="files" disabled={disabledLast}>Файлы</Tab>
         </TabList>
-        <TabPanel value="overview">Основные сведения.</TabPanel>
-        <TabPanel value="history">История изменений.</TabPanel>
-        <TabPanel value="files">Связанные файлы.</TabPanel>
+        <TabPanel value="overview" tabIndex={-1}>{null}</TabPanel>
+        <TabPanel value="history" tabIndex={-1}>{null}</TabPanel>
+        <TabPanel value="files" tabIndex={-1}>{null}</TabPanel>
       </Tabs>
     </div>
   );

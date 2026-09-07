@@ -18,10 +18,10 @@ function ExampleTabs({ size = 'm' }: { size?: 'l' | 'm' | 's' }) {
         <Tab value="files">Файлы</Tab>
         <Tab value="access" disabled>Доступ</Tab>
       </TabList>
-      <TabPanel value="overview">Основные сведения и текущий статус.</TabPanel>
-      <TabPanel value="history">История изменений остаётся смонтированной.</TabPanel>
-      <TabPanel value="files">Связанные файлы.</TabPanel>
-      <TabPanel value="access">Настройки доступа.</TabPanel>
+      <TabPanel value="overview" tabIndex={-1}>{null}</TabPanel>
+      <TabPanel value="history" tabIndex={-1}>{null}</TabPanel>
+      <TabPanel value="files" tabIndex={-1}>{null}</TabPanel>
+      <TabPanel value="access" tabIndex={-1}>{null}</TabPanel>
     </Tabs>
   );
 }
@@ -37,10 +37,10 @@ export function ProjectTabs() {
         <Tab value="files">Файлы</Tab>
         <Tab value="access" disabled>Доступ</Tab>
       </TabList>
-      <TabPanel value="overview">Основные сведения.</TabPanel>
-      <TabPanel value="history">История изменений.</TabPanel>
-      <TabPanel value="files">Связанные файлы.</TabPanel>
-      <TabPanel value="access">Настройки доступа.</TabPanel>
+      <TabPanel value="overview" tabIndex={-1}>{null}</TabPanel>
+      <TabPanel value="history" tabIndex={-1}>{null}</TabPanel>
+      <TabPanel value="files" tabIndex={-1}>{null}</TabPanel>
+      <TabPanel value="access" tabIndex={-1}>{null}</TabPanel>
     </Tabs>
   );
 }`;
@@ -58,10 +58,10 @@ export function TabsSizes() {
             <Tab value="files">Файлы</Tab>
             <Tab value="access" disabled>Доступ</Tab>
           </TabList>
-          <TabPanel value="overview">Основные сведения и текущий статус.</TabPanel>
-          <TabPanel value="history">История изменений остаётся смонтированной.</TabPanel>
-          <TabPanel value="files">Связанные файлы.</TabPanel>
-          <TabPanel value="access">Настройки доступа.</TabPanel>
+          <TabPanel value="overview" tabIndex={-1}>{null}</TabPanel>
+          <TabPanel value="history" tabIndex={-1}>{null}</TabPanel>
+          <TabPanel value="files" tabIndex={-1}>{null}</TabPanel>
+          <TabPanel value="access" tabIndex={-1}>{null}</TabPanel>
         </Tabs>
       ))}
     </div>

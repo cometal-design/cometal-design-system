@@ -913,9 +913,11 @@ code, pre, kbd, samp {
 .component-standard-selection-sizes { width: min(100%, var(--portal-copy-section-width)); align-items: start; }
 .component-standard-selection-sizes article { display: grid; align-content: start; gap: var(--cometal-primitive-spacing-100); }
 .component-standard-tabs-preview { width: min(100%, var(--portal-copy-section-width)); min-width: 0; overflow-x: auto; padding: var(--cometal-primitive-spacing-25); margin: calc(var(--cometal-primitive-spacing-25) * -1); box-sizing: border-box; scroll-padding-inline: var(--cometal-primitive-spacing-25); }
+.component-standard-tabs-preview > .cometal-tabs { width: max-content; margin-inline: auto; }
 .component-standard-tabs-preview .cometal-tabs__list { width: max-content; }
-.component-standard-tabs-sizes { display: grid; width: 100%; min-width: 0; gap: var(--cometal-primitive-spacing-200); }
-.component-standard-tabs-sizes article { display: grid; min-width: 0; gap: var(--cometal-primitive-spacing-75); overflow-x: auto; padding: var(--cometal-primitive-spacing-25); margin: calc(var(--cometal-primitive-spacing-25) * -1); box-sizing: border-box; scroll-padding-inline: var(--cometal-primitive-spacing-25); }
+.component-standard-tabs-sizes { display: grid; width: 100%; min-width: 0; justify-items: center; gap: var(--cometal-primitive-spacing-200); }
+.component-standard-tabs-sizes article { display: grid; width: 100%; min-width: 0; justify-items: center; gap: var(--cometal-primitive-spacing-75); overflow-x: auto; padding: var(--cometal-primitive-spacing-25); margin: calc(var(--cometal-primitive-spacing-25) * -1); box-sizing: border-box; scroll-padding-inline: var(--cometal-primitive-spacing-25); }
+.component-standard-tabs-sizes article > .cometal-tabs { width: max-content; margin-inline: auto; }
 .component-standard-tabs-sizes .cometal-tabs__list { width: max-content; }
 .component-standard-menu-sizes { display: flex; width: 100%; align-items: center; justify-content: center; flex-wrap: wrap; gap: var(--cometal-primitive-spacing-200); }
 .component-standard-menu-sizes article { display: grid; justify-items: center; gap: var(--cometal-primitive-spacing-75); }
