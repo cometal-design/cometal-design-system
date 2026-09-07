@@ -143,24 +143,45 @@ export function ButtonSizesExample() {
   );
 }`;
 
-const statesCode = `'use client';
-
-import { useEffect, useRef, useState } from 'react';
-import { Button } from '@cometal/react';
-
-${buttonLoadingSource}
+const statesCode = `import { Button } from '@cometal/react';
 
 export function ButtonStatesExample() {
-  const { isLoading, startLoading } = useButtonLoading();
-
   return (
-    <div style={{ display: 'grid', gridTemplateColumns: 'repeat(auto-fit, minmax(180px, 1fr))', gap: 'var(--cometal-primitive-spacing-150)' }}>
-      <div><code>Default</code><Button size="m" loading={isLoading('default')} onClick={() => startLoading('default')}>Default</Button></div>
-      <div><code>Hover</code><Button size="m" loading={isLoading('hover')} onClick={() => startLoading('hover')}>Наведите курсор</Button></div>
-      <div><code>Pressed</code><Button size="m" loading={isLoading('pressed')} onClick={() => startLoading('pressed')}>Нажмите и удерживайте</Button></div>
-      <div><code>Focus visible</code><Button size="m" loading={isLoading('focus')} onClick={() => startLoading('focus')}>Перейдите клавишей Tab</Button></div>
-      <div><code>Disabled</code><Button size="m" disabled>Disabled</Button></div>
-      <div><code>Loading</code><Button size="m" loading>Loading</Button></div>
+    <div className="button-states-example" aria-hidden="true">
+      <Button size="m" tabIndex={-1}>Default</Button>
+      <Button size="m" tabIndex={-1} className="button-state-specimen--hover">Hover</Button>
+      <Button size="m" tabIndex={-1} className="button-state-specimen--pressed">Pressed</Button>
+      <Button size="m" tabIndex={-1} className="button-state-specimen--focus">Focus visible</Button>
+      <Button size="m" tabIndex={-1} disabled>Disabled</Button>
+      <Button size="m" tabIndex={-1} loading>Loading</Button>
+      <style>{\`.button-states-example {
+  display: grid;
+  grid-template-columns: repeat(3, calc(var(--cometal-primitive-size-112) + var(--cometal-primitive-size-48)));
+  justify-content: center;
+  gap: var(--cometal-primitive-spacing-150);
+}
+.button-states-example .cometal-button {
+  width: 100%;
+  pointer-events: none;
+}
+.button-states-example .button-state-specimen--hover {
+  background: var(--cometal-component-button-primary-surface-hover);
+  color: var(--cometal-component-button-primary-content-hover);
+}
+.button-states-example .button-state-specimen--pressed {
+  background: var(--cometal-component-button-primary-surface-pressed);
+  color: var(--cometal-component-button-primary-content-pressed);
+}
+.button-states-example .button-state-specimen--focus {
+  outline: var(--cometal-semantic-stroke-global-state-focus) solid var(--cometal-semantic-color-global-state-focus-ring);
+  outline-offset: var(--cometal-primitive-spacing-12);
+}
+@media (max-width: 680px) {
+  .button-states-example {
+    grid-template-columns: calc(var(--cometal-primitive-size-112) + var(--cometal-primitive-size-48));
+    gap: var(--cometal-primitive-spacing-50);
+  }
+}\`}</style>
     </div>
   );
 }`;
@@ -239,14 +260,14 @@ export function ButtonExamples() {
           })}
         </div>
       )} />
-      <ButtonExample title="Состояния" description="Default, Disabled и Loading заданы напрямую. Hover, Pressed и Focus visible появляются только от настоящего курсора, удержания и клавиатурной навигации по соответствующим кнопкам." code={statesCode} preview={(
-        <div className="button-states-example">
-          <div><code>Default</code><Button size="m" loading={isLoading('state:default')} onClick={() => startLoading('state:default')}>Default</Button></div>
-          <div><code>Hover</code><Button size="m" loading={isLoading('state:hover')} onClick={() => startLoading('state:hover')}>Наведите курсор</Button></div>
-          <div><code>Pressed</code><Button size="m" loading={isLoading('state:pressed')} onClick={() => startLoading('state:pressed')}>Нажмите и удерживайте</Button></div>
-          <div><code>Focus visible</code><Button size="m" loading={isLoading('state:focus')} onClick={() => startLoading('state:focus')}>Перейдите клавишей Tab</Button></div>
-          <div><code>Disabled</code><Button size="m" disabled>Disabled</Button></div>
-          <div><code>Loading</code><Button size="m" loading>Loading</Button></div>
+      <ButtonExample title="Состояния" description="Шесть состояний Primary-кнопки показаны статично и не меняются при наведении или нажатии. В Loading отображается индикатор загрузки." code={statesCode} preview={(
+        <div className="button-states-example" aria-hidden="true">
+          <Button size="m" tabIndex={-1}>Default</Button>
+          <Button size="m" tabIndex={-1} className="button-state-specimen--hover">Hover</Button>
+          <Button size="m" tabIndex={-1} className="button-state-specimen--pressed">Pressed</Button>
+          <Button size="m" tabIndex={-1} className="button-state-specimen--focus">Focus visible</Button>
+          <Button size="m" tabIndex={-1} disabled>Disabled</Button>
+          <Button size="m" tabIndex={-1} loading>Loading</Button>
         </div>
       )} />
       <ButtonExample title="Иконки" description="Используйте поддержанные startIcon и endIcon. Для icon-only Button обязательное доступное имя передаётся через aria-label." code={iconsCode} preview={(

@@ -875,9 +875,11 @@ code, pre, kbd, samp {
 .component-detail--button .button-icons-example { display: flex; min-width: 0; align-items: center; justify-content: center; flex-wrap: wrap; gap: var(--cometal-primitive-spacing-100); }
 .component-detail--button .button-variants-example__surface-controls { position: absolute; z-index: 1; top: var(--cometal-primitive-spacing-200); right: var(--cometal-primitive-spacing-200); display: flex; padding: var(--cometal-primitive-spacing-25); gap: var(--cometal-primitive-spacing-25); }
 .component-detail--button .button-variants-example__surface-controls .cometal-button[aria-pressed='true'] { background: var(--cometal-semantic-color-global-surface-selected); color: var(--cometal-semantic-color-global-text-primary); }
-.component-detail--button .button-states-example { display: grid; width: 100%; min-width: 0; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--cometal-primitive-spacing-150); }
-.component-detail--button .button-states-example > div { display: grid; min-width: 0; justify-items: center; gap: var(--cometal-primitive-spacing-75); }
-.component-detail--button .button-states-example code { color: var(--portal-text-secondary); font: var(--portal-code-xs-size)/var(--portal-code-line-height) var(--portal-font-code); }
+.component-detail--button .button-states-example { display: grid; width: 100%; min-width: 0; grid-template-columns: repeat(3, calc(var(--cometal-primitive-size-112) + var(--cometal-primitive-size-48))); justify-content: center; gap: var(--cometal-primitive-spacing-150); }
+.component-detail--button .button-states-example .cometal-button { width: 100%; pointer-events: none; }
+.component-detail--button .button-states-example .button-state-specimen--hover { background: var(--cometal-component-button-primary-surface-hover); color: var(--cometal-component-button-primary-content-hover); }
+.component-detail--button .button-states-example .button-state-specimen--pressed { background: var(--cometal-component-button-primary-surface-pressed); color: var(--cometal-component-button-primary-content-pressed); }
+.component-detail--button .button-states-example .button-state-specimen--focus { outline: var(--cometal-semantic-stroke-global-state-focus) solid var(--cometal-semantic-color-global-state-focus-ring); outline-offset: var(--cometal-primitive-spacing-12); }
 .component-detail--button .button-example__details { min-width: 0; margin-top: var(--cometal-primitive-spacing-100); }
 .component-detail--button .button-example__details-toolbar { width: 100%; min-width: 0; padding: var(--cometal-primitive-spacing-50) var(--cometal-primitive-spacing-50) 0; box-sizing: border-box; border-bottom: var(--portal-hairline) solid var(--portal-line-soft); background: var(--portal-surface-raised); }
 .component-detail--button .button-example__description { padding: var(--cometal-primitive-spacing-150); background: var(--portal-surface-raised); }
@@ -1064,10 +1066,8 @@ code, pre, kbd, samp {
   .content-page { padding: var(--cometal-primitive-spacing-300) var(--cometal-primitive-spacing-125) var(--cometal-primitive-spacing-450); }.page-header { padding-bottom: var(--cometal-primitive-spacing-300); }.page-header h1, .component-title h1 { font-family: var(--cometal-typography-display-s-font-family); font-size: var(--cometal-typography-display-s-font-size); line-height: var(--cometal-typography-display-s-line-height); letter-spacing: var(--cometal-typography-display-s-letter-spacing); }.page-header p, .component-title p { font-size: var(--cometal-typography-body-m-default-font-size); line-height: var(--cometal-typography-body-m-default-line-height); }
   .button-size-strip { grid-template-columns: 1fr; }
   .component-detail--button .button-variants-example__items { gap: var(--cometal-primitive-spacing-25); }
-  .component-detail--button .button-states-example { gap: var(--cometal-primitive-spacing-12); }
-  .component-detail--button .button-states-example > div { gap: 0; }
-  .component-detail--button .button-states-example code { position: absolute; overflow: hidden; width: 1px; height: 1px; clip: rect(0 0 0 0); white-space: nowrap; }
-  .component-detail--button .button-states-example { grid-template-columns: 1fr; }
+  .component-detail--button .button-states-example { gap: var(--cometal-primitive-spacing-50); }
+  .component-detail--button .button-states-example { grid-template-columns: calc(var(--cometal-primitive-size-112) + var(--cometal-primitive-size-48)); }
   .component-detail--button .component-title__toolbar-start { order: 2; flex-basis: 100%; }
   .component-detail--button .component-title__links {
     order: 1;
