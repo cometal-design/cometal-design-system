@@ -1,9 +1,9 @@
 # Стандарт страницы компонента
 
-Версия: `1.0`  
-Дата: `2026-09-07`  
+Версия: `1.0`
+Дата: `2026-09-07`
 Reference implementation: Button page at
-`45fdd5e404134321f0d54c4b2b07f7e198973a72`  
+`45fdd5e404134321f0d54c4b2b07f7e198973a72`
 Статус: living standard for portal documentation; не спецификация React API и
 не утверждение готовности компонента.
 
