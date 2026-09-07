@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
-import { Button } from '@cometal/react';
+import { Badge, Button } from '@cometal/react';
 import type { ButtonVariant } from '@cometal/react';
-import ArrowRightIcon from '@cometal/react/icons/outline/arrows/arrow-right';
+import { ButtonInteractiveDemo } from '../../../components/button-interactive-demo';
+import { ButtonUsageExample } from '../../../components/button-usage-example';
 import { CodeExample } from '../../../components/code-example';
 import { ComponentEnvironmentNotes } from '../../../components/component-environment-notes';
 import { ComponentPageHeader } from '../../../components/component-page-header';
@@ -20,20 +21,66 @@ const documentedVariants: ButtonVariant[] = ['primary', 'secondary', 'link', 'da
 
 export default function ButtonPage() {
   return (
-    <main className="content-page component-detail">
-      <ComponentPageHeader
-        title="Button"
-        summary="Запускает одно понятное действие пользователя: сохранить, продолжить, создать, подтвердить или удалить."
-        status={component.status}
-        statusLabel={statusLabels[component.status]}
-        figmaHref={component.links.figma}
-        playgroundHref="/storybook/?path=/story/components-button--playground"
-      />
-      <div className="metadata-strip" data-component-phase="identity" data-top-divider data-bottom-divider><span>Stable ID</span><code>action.button</code><span>React</span><strong>Button</strong></div>
+    <main className="content-page component-detail component-detail--button">
+      <div data-component-phase="identity">
+        <ComponentPageHeader
+          title="Button"
+          summary="Запускает одно понятное действие пользователя: сохранить, продолжить, создать, подтвердить или удалить."
+          status={component.status}
+          statusLabel={statusLabels[component.status]}
+          figmaHref={component.links.figma}
+          playgroundHref="/storybook/?path=/story/components-button--playground"
+          playgroundLabel="Storybook ↗"
+          sourceHref={sourceHref}
+          linkSize="m"
+          statusAtTop
+          hideEyebrow
+          identityLabel={<>ID: <code>action.button</code> · React: {component.name} · {usage.packageName}</>}
+          compactSummary
+          identityAfterSummary
+          linksAtEnd
+        />
+      </div>
 
-      <section className="content-section" data-component-phase="overview">
-        <SectionHeading title="Рабочий пример" description="Живая Primary-кнопка показывает базовую роль и реальное поведение публичного React-компонента." />
-        <Button endIcon={<ArrowRightIcon />}>Продолжить</Button>
+      <section className="content-section" data-component-phase="overview" aria-labelledby="button-interactive-demo-title">
+        <h2 className="visually-hidden" id="button-interactive-demo-title">Интерактивный пример Button</h2>
+        <ButtonInteractiveDemo />
+      </section>
+
+      <section className="content-section" aria-label="Использование Button">
+        <SectionHeading title="Использование" description="Импортируйте Button, задайте текст кнопки и обработчик нажатия." />
+        <ButtonUsageExample />
+      </section>
+
+      <section className="content-section" aria-label="Композиция Button" id="composition">
+        <header className="section-heading"><h2>Композиция</h2></header>
+        <table className="button-composition-table">
+          <caption className="visually-hidden">Элементы композиции Button</caption>
+          <thead><tr><th scope="col">Элемент</th><th scope="col">Описание</th></tr></thead>
+          <tbody>
+            <tr><th scope="row">Текст</th><td>Подпись, которая объясняет действие кнопки.</td></tr>
+            <tr><th scope="row">Иконка слева</th><td>Необязательная иконка перед текстом.</td></tr>
+            <tr><th scope="row">Иконка справа</th><td>Необязательная иконка после текста.</td></tr>
+            <tr><th scope="row">Индикатор загрузки</th><td>Показывается в состоянии loading; повторное нажатие недоступно.</td></tr>
+          </tbody>
+        </table>
+        <p className="button-composition-note">Для кнопки только с иконкой задайте доступное имя через <code>aria-label</code>.</p>
+      </section>
+
+      <section className="content-section" data-component-phase="usage" id="best-practices">
+        <header className="section-heading"><h2>Правила использования</h2></header>
+        <table className="button-composition-table button-best-practices-table">
+          <caption className="visually-hidden">Правила использования Button</caption>
+          <thead><tr><th scope="col">Статус</th><th scope="col">Тезис</th><th scope="col">Объяснение</th></tr></thead>
+          <tbody>
+            <tr><td><Badge tone="green">Do</Badge></td><th scope="row">Одно основное действие</th><td>Выделяйте Primary основное действие в группе.</td></tr>
+            <tr><td><Badge tone="green">Do</Badge></td><th scope="row">Понятная подпись</th><td>Пишите конкретное действие: «Сохранить изменения», «Отправить заявку».</td></tr>
+            <tr><td><Badge tone="green">Do</Badge></td><th scope="row">Разрушительные действия</th><td>Для разрушительных действий используйте Danger.</td></tr>
+            <tr><td><Badge tone="red">Don’t</Badge></td><th scope="row">Конкурирующие акценты</th><td>Не ставьте несколько конкурирующих Primary в одной группе.</td></tr>
+            <tr><td><Badge tone="red">Don’t</Badge></td><th scope="row">Необратимое удаление</th><td>Не выполняйте необратимое удаление без подтверждения.</td></tr>
+            <tr><td><Badge tone="red">Don’t</Badge></td><th scope="row">Навигация</th><td>Не используйте кнопку для перехода на другую страницу — используйте ссылку.</td></tr>
+          </tbody>
+        </table>
       </section>
 
       <section className="content-section" data-component-phase="visual-contract" id="variants">
@@ -44,17 +91,12 @@ export default function ButtonPage() {
       </section>
 
       <section className="content-section" id="sizes">
-        <SectionHeading title="Размеры и композиция" description="Каждый размер проверяется в четырёх композициях DS Core: текст, иконка слева, иконка справа и только иконка." />
-        <div className="size-list size-list--compositions">
+        <SectionHeading title="Размеры" description="Три размера: L — 48 px, M — 40 px и S — 32 px." />
+        <div className="size-list button-size-strip">
           {buttonSizes.map((size) => (
             <article key={size}>
               <div className="size-list__size"><strong>{size.toUpperCase()}</strong><span>{size === 'l' ? 48 : size === 'm' ? 40 : 32}px</span></div>
-              <div className="size-list__examples">
-                <div className="size-list__example"><span>Текст</span><Button size={size}>Продолжить</Button></div>
-                <div className="size-list__example"><span>Иконка слева</span><Button size={size} startIcon={<ArrowRightIcon />}>Продолжить</Button></div>
-                <div className="size-list__example"><span>Иконка справа</span><Button size={size} endIcon={<ArrowRightIcon />}>Продолжить</Button></div>
-                <div className="size-list__example"><span>Только иконка</span><Button size={size} startIcon={<ArrowRightIcon />} aria-label="Продолжить" /></div>
-              </div>
+              <Button size={size}>Продолжить</Button>
             </article>
           ))}
         </div>
@@ -68,11 +110,6 @@ export default function ButtonPage() {
       <section className="content-section" data-component-phase="code" id="code">
         <SectionHeading title="Код" description="Скопируйте установку, импорт или минимальный рабочий пример. Все представления соответствуют публичному React API." />
         <CodeExample componentName={component.name} sourceHref={sourceHref} usage={usage} />
-      </section>
-
-      <section className="content-section" data-component-phase="usage" id="usage">
-        <SectionHeading title="Использование" description="Кнопка выполняет действие. Для обычного перехода используйте ссылку, для переключения режима — Toggle." />
-        <div className="guidance"><article data-tone="positive"><strong>Используйте</strong><p>Один Primary на локальную область. Подпись начинается с глагола и объясняет результат.</p></article><article data-tone="negative"><strong>Не используйте</strong><p>Для навигации, выбора значения или нескольких равнозначных основных действий рядом.</p></article></div>
       </section>
 
       <section className="content-section" data-component-phase="behavior-a11y">
