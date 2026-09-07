@@ -45,7 +45,7 @@ export default function ButtonPage() {
           />
         </div>
 
-        <TabPanel value="overview" className="button-page-tabs__panel">
+        <TabPanel value="overview" className="button-page-tabs__panel" tabIndex={-1}>
 
       <section className="content-section" data-component-phase="overview" aria-labelledby="button-interactive-demo-title">
         <h2 className="visually-hidden" id="button-interactive-demo-title">Интерактивный пример Button</h2>
@@ -121,7 +121,7 @@ export default function ButtonPage() {
           </div>
         </TabPanel>
 
-        <TabPanel value="react-api" className="button-page-tabs__panel">
+        <TabPanel value="react-api" className="button-page-tabs__panel" tabIndex={-1}>
 
       <section className="content-section" data-component-phase="code" id="code">
         <SectionHeading title="Код" description="Скопируйте установку, импорт или минимальный рабочий пример. Все представления соответствуют публичному React API." />
@@ -136,7 +136,7 @@ export default function ButtonPage() {
       </section>
         </TabPanel>
 
-        <TabPanel value="accessibility" className="button-page-tabs__panel">
+        <TabPanel value="accessibility" className="button-page-tabs__panel" tabIndex={-1}>
           <section className="content-section" data-component-phase="behavior-a11y">
             <SectionHeading title="Поведение и доступность" description="Button сохраняет нативную button-семантику и не превращает визуальный variant в отдельный interaction contract." />
             <div className="definition-list">
