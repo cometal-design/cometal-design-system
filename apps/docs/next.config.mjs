@@ -9,6 +9,7 @@ const config = {
   pageExtensions: ['ts', 'tsx', 'md', 'mdx'],
   images: { unoptimized: true },
   transpilePackages: ['@cometal/examples', '@cometal/react', '@cometal/tokens'],
+  allowedDevOrigins: ['192.168.31.202'],
 };
 
 export default withMDX(config);
