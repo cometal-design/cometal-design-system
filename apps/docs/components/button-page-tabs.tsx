@@ -12,9 +12,9 @@ export function ButtonPageTabList() {
 
   return (
     <TabList aria-label="Разделы документации Button" onFocusCapture={keepFocusedTabVisible}>
-      <Tab value="overview">Overview</Tab>
-      <Tab value="react-api">React API</Tab>
-      <Tab value="accessibility">Accessibility</Tab>
+      <Tab value="overview">Обзор</Tab>
+      <Tab value="react-api">Настройки</Tab>
+      <Tab value="accessibility">Доступность</Tab>
     </TabList>
   );
 }

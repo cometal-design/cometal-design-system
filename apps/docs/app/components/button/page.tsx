@@ -1,11 +1,9 @@
 import type { Metadata } from 'next';
-import { Badge, Button, TabPanel, Tabs } from '@cometal/react';
-import type { ButtonVariant } from '@cometal/react';
+import { Badge, TabPanel, Tabs } from '@cometal/react';
 import { ButtonInteractiveDemo } from '../../../components/button-interactive-demo';
 import { ButtonPageTabList } from '../../../components/button-page-tabs';
 import { ButtonUsageExample } from '../../../components/button-usage-example';
 import { CodeExample } from '../../../components/code-example';
-import { ComponentEnvironmentNotes } from '../../../components/component-environment-notes';
 import { ComponentPageHeader } from '../../../components/component-page-header';
 import { components, statusLabels } from '../../../lib/registry';
 import { SectionHeading } from '../../../components/section-heading';
@@ -16,9 +14,6 @@ export const metadata: Metadata = { title: 'Button' };
 const component = components.find((item) => item.id === 'action.button')!;
 const usage = usageExamples[component.id];
 const sourceHref = `https://github.com/cometal-design/cometal-design-system/blob/main/${component.links.source}`;
-const buttonSizes = ['l', 'm', 's'] as const;
-const darkVariants = new Set(['ghost', 'inverse', 'inverse-ghost']);
-const documentedVariants: ButtonVariant[] = ['primary', 'secondary', 'link', 'danger', 'success', 'warning', 'ghost', 'inverse', 'inverse-ghost'];
 
 export default function ButtonPage() {
   return (
@@ -88,37 +83,6 @@ export default function ButtonPage() {
         </table>
       </section>
 
-      <section className="content-section" data-component-phase="visual-contract" id="variants">
-        <SectionHeading title="Варианты" description="Девять визуальных ролей синхронизированы с DS Core." />
-        <div className="variant-board">
-          {documentedVariants.map((variant) => <article key={variant} data-dark={darkVariants.has(variant) || undefined}><code>{variant}</code><Button variant={variant}>Продолжить</Button></article>)}
-        </div>
-      </section>
-
-      <section className="content-section" id="sizes">
-        <SectionHeading title="Размеры" description="Три размера: L — 48 px, M — 40 px и S — 32 px." />
-        <div className="size-list button-size-strip">
-          {buttonSizes.map((size) => (
-            <article key={size}>
-              <div className="size-list__size"><strong>{size.toUpperCase()}</strong><span>{size === 'l' ? 48 : size === 'm' ? 40 : 32}px</span></div>
-              <Button size={size}>Продолжить</Button>
-            </article>
-          ))}
-        </div>
-      </section>
-
-      <section className="content-section" id="states">
-        <SectionHeading title="Состояния" description="Hover, pressed и focus появляются от взаимодействия. Disabled и loading задаёт приложение." />
-        <div className="state-board"><article><code>Default</code><Button>Продолжить</Button></article><article><code>Hover</code><Button className="docs-button--hover">Продолжить</Button></article><article><code>Focus visible</code><Button className="docs-button--focus">Продолжить</Button></article><article><code>Pressed</code><Button className="docs-button--pressed">Продолжить</Button></article><article><code>Disabled</code><Button disabled>Продолжить</Button></article><article><code>Loading</code><Button loading>Продолжить</Button></article></div>
-      </section>
-
-          <div data-component-phase="adaptation">
-            <ComponentEnvironmentNotes
-              responsive="Button сохраняет intrinsic width и nowrap; перенос, растяжение или вертикальный stack задаёт родительская layout-композиция. На узкой ширине не сокращайте доступное имя до одной непонятной иконки."
-              theme="Primary, semantic и inverse variants используют component tokens активной темы. Inverse и inverse-ghost применяются только на контрастной тёмной поверхности."
-              edgeCases="Loading и disabled не вызывают действие; icon-only требует aria-label, а длинная подпись должна проверяться в доступной ширине без ручного уменьшения control height."
-            />
-          </div>
         </TabPanel>
 
         <TabPanel value="react-api" className="button-page-tabs__panel" tabIndex={-1}>
