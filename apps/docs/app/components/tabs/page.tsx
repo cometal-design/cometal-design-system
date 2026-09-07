@@ -1,15 +1,13 @@
 import type { Metadata } from 'next';
-import { Tab, TabList, TabPanel, Tabs } from '@cometal/react';
-import { CodeExample } from '../../../components/code-example';
-import { ComponentEnvironmentNotes } from '../../../components/component-environment-notes';
-import { ComponentPageHeader } from '../../../components/component-page-header';
-import { SectionHeading } from '../../../components/section-heading';
+import { Badge, InlineLink, Tab, TabList, TabPanel, Tabs } from '@cometal/react';
+import { CodeBlock } from '../../../components/code-block';
+import { ComponentPageExample } from '../../../components/component-page-example';
+import { ComponentPageStandard } from '../../../components/component-page-standard';
+import { TabsSettings } from '../../../components/tabs-settings';
 import { components, statusLabels } from '../../../lib/registry';
-import { usageExamples } from '../../../lib/usage-examples';
 
 export const metadata: Metadata = { title: 'Tabs' };
 const component = components.find((item) => item.id === 'navigation.tabs')!;
-const sourceHref = 'https://github.com/cometal-design/cometal-design-system/blob/main/packages/react/src/Tabs/Tabs.tsx';
 
 function ExampleTabs({ size = 'm' }: { size?: 'l' | 'm' | 's' }) {
   return (
@@ -28,59 +26,110 @@ function ExampleTabs({ size = 'm' }: { size?: 'l' | 'm' | 's' }) {
   );
 }
 
-export default function TabsPage() {
+const exampleCode = `import { Tab, TabList, TabPanel, Tabs } from '@cometal/react';
+
+export function ProjectTabs() {
   return (
-    <main className="content-page component-detail">
-      <ComponentPageHeader title="Tabs" summary="Переключает связанные persistent content panels внутри текущего контекста страницы." status={component.status} statusLabel={statusLabels[component.status]} figmaHref={component.links.figma} playgroundHref="/storybook/?path=/story/components-tabs--overview" />
-      <div className="metadata-strip" data-component-phase="identity" data-top-divider data-bottom-divider><span>Stable ID</span><code>navigation.tabs</code><span>React</span><strong>Tabs · TabList · Tab · TabPanel</strong></div>
-
-      <section className="content-section" data-component-phase="overview">
-        <SectionHeading title="Рабочий пример" description="Arrow keys перемещают focus, а Enter, Space или click явно активируют вкладку. Disabled item пропускается." />
-        <div className="component-inline-demo"><ExampleTabs /></div>
-      </section>
-
-      <section className="content-section" data-component-phase="visual-contract" id="visual-contract">
-        <SectionHeading title="Размеры и visual contract" description="L/M/S используют системный Button Inverse Ghost 48/40/32px, постоянный gap 6px и indicator 2px: итоговая высота 56/48/40px." />
-        <div className="size-list">
-          {(['l', 'm', 's'] as const).map((size) => <article key={size}><div className="size-list__size"><strong>{size.toUpperCase()}</strong><span>{size === 'l' ? 56 : size === 'm' ? 48 : 40}px</span></div><div className="component-inline-demo"><ExampleTabs size={size} /></div></article>)}
-        </div>
-        <div className="definition-list">
-          <article><span>01</span><strong>Composition</strong><p>Каждый Tab — text-only системный Button и отдельная persistent indicator row; interactive descendants и icon slots не входят в первый контракт.</p></article>
-          <article><span>02</span><strong>States</strong><p>Selected indicator использует brand default/hover/pressed; disabled selected — text disabled. Focus рисуется только через <code>:focus-visible</code>.</p></article>
-          <article><span>03</span><strong>Count</strong><p>Четыре Figma items — пример, не ограничение. Публичный compound API принимает произвольное число пар Tab/TabPanel.</p></article>
-        </div>
-      </section>
-
-      <section className="content-section" data-component-phase="code" id="code">
-        <SectionHeading title="Код" description="Установка, imports и минимальный пример используют только публичные @cometal/react exports." />
-        <CodeExample componentName="Tabs" sourceHref={sourceHref} usage={usageExamples['navigation.tabs']} />
-      </section>
-
-      <section className="content-section" data-component-phase="usage" id="usage">
-        <SectionHeading title="Использование" description="Tabs меняет раздел внутри одного контекста; навигация между URL остаётся ссылкой или router navigation." />
-        <div className="guidance"><article data-tone="positive"><strong>Используйте</strong><p>Для нескольких равноправных разделов одной карточки или локальной рабочей области, когда panel state нужно сохранять.</p></article><article data-tone="negative"><strong>Не используйте</strong><p>Для переходов между страницами, пошагового процесса, вертикального меню или набора, который требует встроенных scroll arrows и overflow menu.</p></article></div>
-      </section>
-
-      <section className="content-section" data-component-phase="behavior-a11y">
-        <SectionHeading title="Поведение и доступность" description="Compound contract следует horizontal WAI-ARIA Tabs с manual activation и persistent panels." />
-        <div className="definition-list">
-          <article><span>01</span><strong>Keyboard</strong><p>Left/Right с wrap и RTL поддержкой, Home/End и disabled skip перемещают roving focus. Enter/Space активируют; Up/Down и Tab не перехватываются.</p></article>
-          <article><span>02</span><strong>ARIA</strong><p>Named horizontal tablist связывает каждый tab и tabpanel через stable <code>id</code>, <code>aria-controls</code> и <code>aria-labelledby</code>.</p></article>
-          <article><span>03</span><strong>State</strong><p>Controlled value остаётся owner-owned. Inactive panels скрыты через <code>hidden</code>, но не размонтируются; dynamic removal выбирает ближайший enabled successor.</p></article>
-        </div>
-      </section>
-
-      <section className="content-section" data-component-phase="public-api" id="api">
-        <SectionHeading title="React API" description="Первый delivery намеренно исключает orientation, automatic activation, router links, lazy mount и overflow controls." />
-        <div className="api-table"><div className="api-table__head"><span>Surface</span><span>Props</span><span>Default / role</span></div>
-          <div><code>Tabs</code><span>value, defaultValue, onValueChange, size</span><span>size=l</span></div>
-          <div><code>TabList</code><span>aria-label xor aria-labelledby</span><span>horizontal tablist</span></div>
-          <div><code>Tab</code><span>value, disabled, children, className</span><span>Button role=tab</span></div>
-          <div><code>TabPanel</code><span>value, children, div attributes</span><span>persistent tabpanel</span></div>
-        </div>
-      </section>
-
-      <div data-component-phase="adaptation"><ComponentEnvironmentNotes responsive="Tabs сохраняет intrinsic nowrap row. Consumer предоставляет horizontal scroll и резервирует минимум 4px вокруг focus envelope; компонент не добавляет собственные arrows, fade или menu." theme="Button и indicator используют существующие semantic/component tokens активной темы; отдельного theme prop нет." edgeCases="Values должны быть непустыми и уникальными, каждой вкладке нужна ровно одна panel. Controlled missing value не вызывает synthetic fallback; disabled selected остаётся выбранной и показывает panel." /></div>
-    </main>
+    <Tabs defaultValue="overview" size="m">
+      <TabList aria-label="Разделы проекта">
+        <Tab value="overview">Обзор</Tab>
+        <Tab value="history">История</Tab>
+        <Tab value="files">Файлы</Tab>
+        <Tab value="access" disabled>Доступ</Tab>
+      </TabList>
+      <TabPanel value="overview">Основные сведения.</TabPanel>
+      <TabPanel value="history">История изменений.</TabPanel>
+      <TabPanel value="files">Связанные файлы.</TabPanel>
+      <TabPanel value="access">Настройки доступа.</TabPanel>
+    </Tabs>
   );
+}`;
+
+const sizesCode = `import { Tab, TabList, TabPanel, Tabs } from '@cometal/react';
+
+export function TabsSizes() {
+  return (
+    <div>
+      {(['l', 'm', 's'] as const).map((size) => (
+        <Tabs key={size} defaultValue="overview" size={size}>
+          <TabList aria-label={\`Разделы карточки \${size.toUpperCase()}\`}>
+            <Tab value="overview">Обзор</Tab>
+            <Tab value="history">История</Tab>
+            <Tab value="files">Файлы</Tab>
+            <Tab value="access" disabled>Доступ</Tab>
+          </TabList>
+          <TabPanel value="overview">Основные сведения и текущий статус.</TabPanel>
+          <TabPanel value="history">История изменений остаётся смонтированной.</TabPanel>
+          <TabPanel value="files">Связанные файлы.</TabPanel>
+          <TabPanel value="access">Настройки доступа.</TabPanel>
+        </Tabs>
+      ))}
+    </div>
+  );
+}`;
+
+const overview = (
+  <>
+    <section className="content-section" data-component-phase="overview" aria-labelledby="tabs-preview-title">
+        <div className="component-standard-presentation"><h2 className="visually-hidden" id="tabs-preview-title">Пример Tabs</h2><div className="component-standard-tabs-preview"><ExampleTabs /></div></div>
+    </section>
+    <section className="content-section" aria-labelledby="tabs-usage-title">
+      <header className="section-heading"><h2 id="tabs-usage-title">Использование</h2><p>Импортируйте compound-компоненты и сопоставьте каждой вкладке одну панель с тем же value.</p></header>
+      <CodeBlock code="import { Tab, TabList, TabPanel, Tabs } from '@cometal/react';" copyName="импорт Tabs" compact />
+      <p className="component-standard-settings__note">Исходник Tabs пока доступен только в локальной рабочей версии; ссылка GitHub появится после публикации.</p>
+    </section>
+    <section className="content-section" aria-labelledby="tabs-composition-title">
+      <header className="section-heading"><h2 id="tabs-composition-title">Композиция</h2></header>
+      <table className="component-standard-table"><caption className="visually-hidden">Элементы композиции Tabs</caption><thead><tr><th scope="col">Элемент</th><th scope="col">Назначение</th></tr></thead><tbody>
+        <tr><th scope="row">Tabs</th><td>Хранит controlled или uncontrolled выбранное значение и общий размер.</td></tr>
+        <tr><th scope="row">TabList</th><td>Именованная горизонтальная группа вкладок.</td></tr>
+        <tr><th scope="row">Tab</th><td>Text-only системная кнопка с role=tab и отдельным индикатором.</td></tr>
+        <tr><th scope="row">TabPanel</th><td>Связанная persistent панель; неактивные панели скрыты, но остаются смонтированными.</td></tr>
+      </tbody></table>
+    </section>
+    <section className="content-section" data-component-phase="usage" aria-labelledby="tabs-rules-title">
+      <header className="section-heading"><h2 id="tabs-rules-title">Правила использования</h2></header>
+      <table className="component-standard-table component-standard-practices-table"><caption className="visually-hidden">Правила использования Tabs</caption><thead><tr><th scope="col">Статус</th><th scope="col">Тезис</th><th scope="col">Объяснение</th></tr></thead><tbody>
+        <tr><td><Badge tone="green">Do</Badge></td><th scope="row">Один контекст</th><td>Используйте для равноправных разделов карточки или локальной рабочей области.</td></tr>
+        <tr><td><Badge tone="green">Do</Badge></td><th scope="row">Короткие подписи</th><td>Давайте вкладкам понятные text-only названия и сохраняйте одинаковый порядок.</td></tr>
+        <tr><td><Badge tone="red">Don’t</Badge></td><th scope="row">Навигация между страницами</th><td>Для разных URL используйте ссылки или router navigation.</td></tr>
+        <tr><td><Badge tone="red">Don’t</Badge></td><th scope="row">Слишком много вкладок</th><td>Текущий контракт не добавляет стрелки, fade или overflow menu.</td></tr>
+      </tbody></table>
+    </section>
+    <section className="content-section component-standard-examples-section" data-component-phase="visual-contract" aria-labelledby="tabs-examples-title">
+      <header className="section-heading"><h2 id="tabs-examples-title">Примеры</h2><p>Все примеры используют настоящие Tabs и сохраняют manual activation.</p></header>
+      <div className="component-standard-examples">
+        <ComponentPageExample title="Рабочий набор" description="Стрелки перемещают фокус, а Enter, Space или click активируют вкладку. Disabled пункт пропускается." code={exampleCode} preview={<div className="component-standard-tabs-preview"><ExampleTabs /></div>} />
+        <ComponentPageExample title="Размеры" description="L, M и S дают итоговую высоту 56, 48 и 40px при общей модели взаимодействия." code={sizesCode} preview={<div className="component-standard-tabs-sizes">{(['l', 'm', 's'] as const).map((size) => <article key={size}><code>{size.toUpperCase()}</code><ExampleTabs size={size} /></article>)}</div>} />
+      </div>
+    </section>
+  </>
+);
+
+const accessibility = (
+  <>
+    <section className="content-section component-standard-accessibility" data-component-phase="behavior-a11y" aria-labelledby="tabs-keyboard-title">
+      <header className="section-heading"><h2 id="tabs-keyboard-title">Клавиатура</h2><p>Контракт соответствует горизонтальным WAI-ARIA Tabs с ручной активацией.</p></header>
+      <table className="component-standard-table"><caption className="visually-hidden">Клавиатурное управление Tabs</caption><thead><tr><th scope="col">Клавиша</th><th scope="col">Результат</th></tr></thead><tbody>
+        <tr><th scope="row">Tab / Shift + Tab</th><td>Входит в tablist одной roving-focus остановкой и выходит к следующему элементу страницы.</td></tr>
+        <tr><th scope="row">Left / Right</th><td>Перемещает фокус с wrap, учитывает RTL и пропускает disabled вкладки.</td></tr>
+        <tr><th scope="row">Home / End</th><td>Фокусирует первую или последнюю доступную вкладку.</td></tr>
+        <tr><th scope="row">Enter / Space</th><td>Активирует вкладку в фокусе; стрелки сами по себе панель не переключают.</td></tr>
+      </tbody></table>
+    </section>
+    <section className="content-section component-standard-accessibility" aria-labelledby="tabs-semantics-title">
+      <header className="section-heading"><h2 id="tabs-semantics-title">Связи и состояние</h2><p>Компонент связывает tab и tabpanel стабильными id и ARIA-атрибутами.</p></header>
+      <table className="component-standard-table"><caption className="visually-hidden">Семантика Tabs</caption><thead><tr><th scope="col">Проверка</th><th scope="col">Контракт</th></tr></thead><tbody>
+        <tr><th scope="row">Доступное имя</th><td><code>TabList</code> требует <code>aria-label</code> или <code>aria-labelledby</code>.</td></tr>
+        <tr><th scope="row">Выбор</th><td><code>aria-selected</code> и roving <code>tabIndex</code> отражают выбранную вкладку и текущий фокус.</td></tr>
+        <tr><th scope="row">Панели</th><td><code>aria-controls</code> и <code>aria-labelledby</code> связывают пары; inactive panel получает <code>hidden</code>.</td></tr>
+        <tr><th scope="row">Видимый фокус</th><td>Оставляйте не менее 4px вокруг строки и не обрезайте системную рамку <code>:focus-visible</code>.</td></tr>
+      </tbody></table>
+      <p className="component-standard-sources"><InlineLink href="https://www.w3.org/WAI/ARIA/apg/patterns/tabs/" target="_blank" rel="noreferrer">WAI-ARIA APG: Tabs ↗</InlineLink><InlineLink href="https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html" target="_blank" rel="noreferrer">WCAG: видимый фокус ↗</InlineLink></p>
+    </section>
+  </>
+);
+
+export default function TabsPage() {
+  return <ComponentPageStandard title="Tabs" summary="Переключает связанные persistent content panels внутри текущего контекста страницы." status={component.status} statusLabel={statusLabels[component.status]} stableId="navigation.tabs" reactExport="Tabs · TabList · Tab · TabPanel" figmaHref={component.links.figma} storybookHref="/storybook/?path=/story/components-tabs--overview" overview={overview} settings={<TabsSettings />} accessibility={accessibility} />;
 }

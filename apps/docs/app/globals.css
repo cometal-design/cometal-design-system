@@ -858,6 +858,67 @@ code, pre, kbd, samp {
 .component-detail--button .button-accessibility-note { max-width: var(--portal-copy-section-width); margin: var(--cometal-primitive-spacing-150) 0 0; color: var(--portal-muted); font-family: var(--cometal-typography-body-s-default-font-family); font-size: var(--cometal-typography-body-s-default-font-size); line-height: var(--cometal-typography-body-s-default-line-height); }
 .component-detail--button .button-accessibility-note code { font-family: var(--portal-font-code); }
 .component-detail--button .button-accessibility-sources { display: flex; margin: var(--cometal-primitive-spacing-150) 0 0; align-items: center; flex-wrap: wrap; gap: var(--cometal-primitive-spacing-100) var(--cometal-primitive-spacing-150); }
+.component-detail--standard .component-title { padding-bottom: 0; }
+.component-detail--standard .component-title__toolbar { align-items: flex-start; border-bottom: var(--portal-hairline) solid var(--portal-line); }
+.component-detail--standard .component-title__toolbar-start { padding: var(--cometal-primitive-spacing-25); margin: calc(var(--cometal-primitive-spacing-25) * -1); box-sizing: border-box; scroll-padding-inline: var(--cometal-primitive-spacing-25); }
+.component-detail--standard .component-title__toolbar-start .cometal-tabs__item { scroll-margin-inline: var(--cometal-primitive-spacing-25); }
+.component-standard-tabs__panel { min-width: 0; }
+.component-standard-tabs__panel > .content-section { border-top: 0; }
+.component-standard-presentation,
+.component-standard-example__preview,
+.component-standard-settings__preview { position: relative; display: grid; width: 100%; min-width: 0; min-height: calc(var(--cometal-documentation-layout-height-component-preview) + var(--cometal-primitive-spacing-450)); padding: var(--cometal-primitive-spacing-200); box-sizing: border-box; place-items: center; aspect-ratio: 16 / 9; border-radius: var(--portal-radius-l); background: var(--portal-canvas); }
+.component-standard-example__preview[data-surface='inverse'],
+.component-standard-settings__preview[data-surface='inverse'] { background: var(--portal-inverse); }
+.component-standard-table { width: 100%; border-collapse: collapse; table-layout: fixed; font-family: var(--cometal-typography-body-s-default-font-family); font-size: var(--cometal-typography-body-s-default-font-size); line-height: var(--cometal-typography-body-s-default-line-height); }
+.component-standard-table th,
+.component-standard-table td { padding: var(--cometal-primitive-spacing-100) 0; text-align: left; vertical-align: top; overflow-wrap: anywhere; }
+.component-standard-table :is(th, td):first-child { width: 40%; padding-right: var(--cometal-primitive-spacing-150); }
+.component-standard-table thead th { border-bottom: var(--portal-hairline) solid var(--portal-line); color: var(--portal-muted); font: var(--portal-code-xs-size)/var(--portal-code-line-height) var(--portal-font-code); text-transform: uppercase; letter-spacing: var(--cometal-typography-caption-label-caption-letter-spacing); }
+.component-standard-table tbody th { color: var(--portal-ink); font-family: var(--cometal-typography-body-s-accent-font-family); font-weight: var(--cometal-typography-body-s-accent-font-weight); }
+.component-standard-table td { color: var(--portal-muted); }
+.component-standard-practices-table :is(th, td):first-child { width: 16%; padding-right: var(--cometal-primitive-spacing-25); }
+.component-standard-practices-table :is(th, td):nth-child(2) { width: 24%; padding-right: var(--cometal-primitive-spacing-50); }
+.component-standard-practices-table tbody th { hyphens: auto; overflow-wrap: anywhere; }
+.component-standard-examples { display: grid; min-width: 0; }
+.component-standard-example { display: grid; min-width: 0; gap: var(--cometal-primitive-spacing-100); }
+.component-standard-example + .component-standard-example { margin-top: var(--portal-space-section); padding-top: var(--portal-space-section); border-top: var(--portal-hairline) solid var(--portal-line); }
+.component-standard-example > h3 { margin: 0; font-family: var(--cometal-typography-heading-m-font-family); font-size: var(--cometal-typography-heading-m-font-size); font-weight: var(--cometal-typography-heading-m-font-weight); line-height: var(--cometal-typography-heading-m-line-height); letter-spacing: var(--cometal-typography-heading-m-letter-spacing); }
+.component-standard-example__description { max-width: var(--portal-copy-section-width); margin: 0; color: var(--portal-text-secondary); }
+.component-standard-example__usage { min-width: 0; }
+.component-standard-example__usage .docs-code-block__toolbar { align-items: flex-start; }
+.component-detail--standard .docs-code-block__toolbar { border-bottom: 0; background: transparent; }
+.component-detail--standard .docs-code-block[data-compact='true'] { align-items: start; }
+.component-standard-settings { display: grid; min-width: 0; gap: var(--portal-space-section); }
+.component-standard-settings__preview-section { display: grid; min-width: 0; gap: var(--cometal-primitive-spacing-100); }
+.component-standard-settings__code-toggle { position: absolute; z-index: 1; top: var(--cometal-primitive-spacing-200); right: var(--cometal-primitive-spacing-200); }
+.component-standard-settings__code { min-width: 0; }
+.component-standard-settings__properties { border-top: var(--portal-hairline) solid var(--portal-line); }
+.component-standard-settings__properties-heading { display: flex; padding: 0 0 var(--cometal-primitive-spacing-150); align-items: flex-end; justify-content: space-between; gap: var(--cometal-primitive-spacing-150); }
+.component-standard-settings__properties-heading h2 { margin: 0; font-family: var(--cometal-typography-heading-l-font-family); font-size: var(--cometal-typography-heading-l-font-size); font-weight: var(--cometal-typography-heading-l-font-weight); line-height: var(--cometal-typography-heading-l-line-height); letter-spacing: var(--cometal-typography-heading-l-letter-spacing); }
+.component-standard-settings__properties-heading p { max-width: var(--portal-copy-section-width); margin: var(--portal-space-related) 0 0; color: var(--portal-text-secondary); }
+.component-standard-settings__property { display: grid; min-width: 0; padding: var(--cometal-primitive-spacing-150) 0; grid-template-columns: minmax(0, 1fr) minmax(var(--portal-sidebar-width), 1fr); align-items: start; gap: var(--cometal-primitive-spacing-200); border-bottom: var(--portal-hairline) solid var(--portal-line); }
+.component-standard-settings__property-copy { display: grid; min-width: 0; gap: var(--cometal-primitive-spacing-25); }
+.component-standard-settings__property-copy strong { font-family: var(--cometal-typography-body-m-accent-font-family); font-size: var(--cometal-typography-body-m-accent-font-size); font-weight: var(--cometal-typography-body-m-accent-font-weight); line-height: var(--cometal-typography-body-m-accent-line-height); }
+.component-standard-settings__property-copy > span { color: var(--portal-muted); font: var(--portal-code-xs-size)/var(--portal-code-line-height) var(--portal-font-code); }
+.component-standard-settings__property-copy p { max-width: var(--portal-copy-section-width); margin: var(--cometal-primitive-spacing-25) 0 0; color: var(--portal-text-secondary); }
+.component-standard-settings__control { width: 100%; min-width: 0; max-width: var(--portal-copy-small-width); justify-self: end; }
+.component-standard-settings__control > .cometal-field { width: 100%; }
+.component-standard-settings__note { max-width: var(--portal-copy-section-width); margin: 0; color: var(--portal-text-secondary); }
+.component-standard-sources { display: flex; margin: var(--cometal-primitive-spacing-150) 0 0; align-items: center; flex-wrap: wrap; gap: var(--cometal-primitive-spacing-100) var(--cometal-primitive-spacing-150); }
+.component-standard-badge-tones { width: 100%; }
+.component-standard-example__preview .badge-composition-row { justify-content: center; }
+.component-standard-radio-group { display: grid; min-width: 0; margin: 0; padding: 0; gap: var(--cometal-primitive-spacing-100); border: 0; }
+.component-standard-radio-group legend { margin-bottom: var(--cometal-primitive-spacing-100); font-family: var(--cometal-typography-body-m-accent-font-family); font-size: var(--cometal-typography-body-m-accent-font-size); font-weight: var(--cometal-typography-body-m-accent-font-weight); line-height: var(--cometal-typography-body-m-accent-line-height); }
+.component-standard-selection-board { width: min(100%, var(--portal-copy-section-width)); }
+.component-standard-selection-sizes { width: min(100%, var(--portal-copy-section-width)); align-items: start; }
+.component-standard-selection-sizes article { display: grid; align-content: start; gap: var(--cometal-primitive-spacing-100); }
+.component-standard-tabs-preview { width: min(100%, var(--portal-copy-section-width)); min-width: 0; overflow-x: auto; padding: var(--cometal-primitive-spacing-25); margin: calc(var(--cometal-primitive-spacing-25) * -1); box-sizing: border-box; scroll-padding-inline: var(--cometal-primitive-spacing-25); }
+.component-standard-tabs-preview .cometal-tabs__list { width: max-content; }
+.component-standard-tabs-sizes { display: grid; width: 100%; min-width: 0; gap: var(--cometal-primitive-spacing-200); }
+.component-standard-tabs-sizes article { display: grid; min-width: 0; gap: var(--cometal-primitive-spacing-75); overflow-x: auto; padding: var(--cometal-primitive-spacing-25); margin: calc(var(--cometal-primitive-spacing-25) * -1); box-sizing: border-box; scroll-padding-inline: var(--cometal-primitive-spacing-25); }
+.component-standard-tabs-sizes .cometal-tabs__list { width: max-content; }
+.component-standard-menu-sizes { display: flex; width: 100%; align-items: center; justify-content: center; flex-wrap: wrap; gap: var(--cometal-primitive-spacing-200); }
+.component-standard-menu-sizes article { display: grid; justify-items: center; gap: var(--cometal-primitive-spacing-75); }
 .button-size-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--cometal-primitive-spacing-200); }.button-size-strip article { grid-template-columns: 1fr; justify-items: start; gap: var(--cometal-primitive-spacing-100); }
 .component-detail--button .component-title { padding-bottom: 0; }
 .component-detail--button .component-title__toolbar { align-items: flex-start; border-bottom: var(--portal-hairline) solid var(--portal-line); }
@@ -1098,6 +1159,18 @@ code, pre, kbd, samp {
   .component-detail--button .button-accessibility-table { table-layout: fixed; }
   .component-detail--button .button-accessibility-table--contrast :is(th, td):first-child { width: 28%; padding-right: var(--cometal-primitive-spacing-75); }
   .component-detail--button .button-accessibility-table--contrast :is(th, td):nth-child(2) { width: 27%; padding-right: var(--cometal-primitive-spacing-75); }
+  .component-standard-presentation,
+  .component-standard-example__preview,
+  .component-standard-settings__preview { padding: var(--cometal-primitive-spacing-150); }
+  .component-standard-example__preview { aspect-ratio: auto; }
+  .component-standard-settings__code-toggle { top: calc(var(--cometal-primitive-size-48) + var(--cometal-primitive-spacing-150)); right: var(--cometal-primitive-spacing-150); left: auto; }
+  .component-standard-settings__properties-heading { align-items: flex-start; flex-wrap: wrap; }
+  .component-standard-settings__properties-heading > div { min-width: 0; }
+  .component-standard-settings__properties-heading > .cometal-button { flex-shrink: 0; }
+  .component-standard-settings__property { grid-template-columns: minmax(0, 1fr); gap: var(--cometal-primitive-spacing-100); }
+  .component-standard-settings__control { max-width: none; justify-self: stretch; }
+  .component-detail--standard .component-title__toolbar-start { order: 2; flex-basis: 100%; }
+  .component-detail--standard .component-title__links { order: 1; width: 100%; padding: var(--cometal-primitive-spacing-25); margin: calc(var(--cometal-primitive-spacing-25) * -1); box-sizing: border-box; overflow-x: auto; flex-wrap: nowrap; scroll-padding-inline: var(--cometal-primitive-spacing-25); }
   .button-size-strip { grid-template-columns: 1fr; }
   .component-detail--button .button-variants-example__items { gap: var(--cometal-primitive-spacing-25); }
   .component-detail--button .button-states-example { gap: var(--cometal-primitive-spacing-50); }
