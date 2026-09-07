@@ -190,7 +190,7 @@ function ButtonExample({ title, description, code, preview, previewTone = 'defau
     <article className="button-example">
       <h3>{title}</h3>
       <div className="button-example__preview" data-surface={previewTone}>{preview}</div>
-      <Tabs defaultValue="description" size="s" className="button-example__details">
+      <Tabs defaultValue="description" size="m" className="button-example__details">
         <TabList aria-label={`${title}: описание и код`} className="button-example__details-toolbar">
           <Tab value="description">Описание</Tab>
           <Tab value="code">Код</Tab>

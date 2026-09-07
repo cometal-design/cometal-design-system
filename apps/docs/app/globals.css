@@ -879,7 +879,7 @@ code, pre, kbd, samp {
 .component-detail--button .button-states-example > div { display: grid; min-width: 0; justify-items: center; gap: var(--cometal-primitive-spacing-75); }
 .component-detail--button .button-states-example code { color: var(--portal-text-secondary); font: var(--portal-code-xs-size)/var(--portal-code-line-height) var(--portal-font-code); }
 .component-detail--button .button-example__details { min-width: 0; margin-top: var(--cometal-primitive-spacing-100); }
-.component-detail--button .button-example__details-toolbar { padding: var(--cometal-primitive-spacing-50); border-bottom: var(--portal-hairline) solid var(--portal-line-soft); background: var(--portal-surface-raised); }
+.component-detail--button .button-example__details-toolbar { width: 100%; min-width: 0; padding: var(--cometal-primitive-spacing-50) var(--cometal-primitive-spacing-50) 0; box-sizing: border-box; border-bottom: var(--portal-hairline) solid var(--portal-line-soft); background: var(--portal-surface-raised); }
 .component-detail--button .button-example__description { padding: var(--cometal-primitive-spacing-150); background: var(--portal-surface-raised); }
 .component-detail--button .button-example__description p { max-width: 72ch; margin: 0; color: var(--portal-text-secondary); }
 .component-detail--button .button-example__code { min-width: 0; }
