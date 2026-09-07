@@ -69,6 +69,13 @@
     "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport { Switch } from '@cometal/react';",
     "example": "<Switch\n  label=\"Получать уведомления\"\n  description=\"Изменение применяется сразу\"\n  defaultChecked\n/>"
   },
+  "navigation.tabs": {
+    "packageName": "@cometal/react",
+    "availability": "candidate-not-implemented",
+    "install": "Internal package only; no npm publication claim.",
+    "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport { Tabs, TabList, Tab, TabPanel } from '@cometal/react';",
+    "example": "<Tabs defaultValue=\"overview\" size=\"m\">\n  <TabList aria-label=\"Разделы карточки\">\n    <Tab value=\"overview\">Обзор</Tab>\n    <Tab value=\"history\">История</Tab>\n  </TabList>\n  <TabPanel value=\"overview\">Сводка</TabPanel>\n  <TabPanel value=\"history\">Изменения</TabPanel>\n</Tabs>"
+  },
   "template.widget": {
     "packageName": "@cometal/react",
     "availability": "beta-target",

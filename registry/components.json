@@ -243,6 +243,26 @@
       "checks": { "visualMatch": true, "specificationMatch": true, "testsPassed": true, "accessibilityPassed": true, "knowledgeUpdated": true }
     },
     {
+      "id": "navigation.tabs",
+      "name": "Tabs",
+      "status": "specified",
+      "platform": "web",
+      "links": {
+        "figma": "https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1572-181",
+        "specification": "specifications/components/tabs.md",
+        "source": "packages/react/src/Tabs/Tabs.tsx",
+        "storybook": "http://localhost:6006/?path=/story/components-tabs--overview",
+        "knowledge": "knowledge-base/02 Components/Tabs.md"
+      },
+      "checks": {
+        "visualMatch": false,
+        "specificationMatch": true,
+        "testsPassed": false,
+        "accessibilityPassed": false,
+        "knowledgeUpdated": true
+      }
+    },
+    {
       "id": "template.widget",
       "name": "Widget",
       "status": "in-review",
