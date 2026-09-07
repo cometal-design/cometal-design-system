@@ -95,7 +95,7 @@ export default function ButtonPage() {
 
       <section className="content-section" data-component-phase="code" id="code">
         <SectionHeading title="Код" description="Скопируйте установку, импорт или минимальный рабочий пример. Все представления соответствуют публичному React API." />
-        <CodeExample componentName={component.name} sourceHref={sourceHref} usage={usage} />
+        <CodeExample componentName={component.name} sourceHref={sourceHref} usage={usage} unified />
       </section>
 
       <section className="content-section" data-component-phase="public-api" id="api">

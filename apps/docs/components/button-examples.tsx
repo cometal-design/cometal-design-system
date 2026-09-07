@@ -7,8 +7,7 @@ import type { ButtonVariant } from '@cometal/react';
 import ArrowRightIcon from '@cometal/react/icons/outline/arrows/arrow-right';
 import MoonIcon from '@cometal/react/icons/outline/weather/moon-01';
 import SunIcon from '@cometal/react/icons/outline/weather/sun-02';
-
-type CopyState = 'idle' | 'copied' | 'failed';
+import { CodeBlock } from './code-block';
 
 const loadingDuration = 1000;
 
@@ -186,27 +185,7 @@ export function ButtonIconsExample() {
   );
 }`;
 
-function ButtonExample({ title, description, code, preview, previewTone = 'default', copyResetKey }: { title: string; description: string; code: string; preview: ReactNode; previewTone?: 'default' | 'inverse'; copyResetKey?: string }) {
-  const [copyState, setCopyState] = useState<CopyState>('idle');
-
-  useEffect(() => setCopyState('idle'), [copyResetKey]);
-
-  async function copyCode() {
-    try {
-      await navigator.clipboard.writeText(code);
-      setCopyState('copied');
-    } catch {
-      setCopyState('failed');
-    }
-  }
-
-  const copyLabel = copyState === 'copied' ? 'Скопировано' : copyState === 'failed' ? 'Повторить' : 'Копировать';
-  const copyAriaLabel = copyState === 'copied'
-    ? `Код примера «${title}» скопирован`
-    : copyState === 'failed'
-      ? `Повторить копирование кода примера «${title}»`
-      : `Скопировать код примера «${title}»`;
-
+function ButtonExample({ title, description, code, preview, previewTone = 'default' }: { title: string; description: string; code: string; preview: ReactNode; previewTone?: 'default' | 'inverse' }) {
   return (
     <article className="button-example">
       <h3>{title}</h3>
@@ -220,13 +199,7 @@ function ButtonExample({ title, description, code, preview, previewTone = 'defau
           <p>{description}</p>
         </TabPanel>
         <TabPanel value="code" tabIndex={-1} className="button-example__code">
-          <div className="button-example__code-toolbar">
-            <Button type="button" variant="secondary" size="s" onClick={copyCode} aria-label={copyAriaLabel}>{copyLabel}</Button>
-          </div>
-          <pre><code>{code}</code></pre>
-          <span className="visually-hidden" aria-live="polite">
-            {copyState === 'copied' ? `Код примера «${title}» скопирован` : copyState === 'failed' ? `Не удалось скопировать код примера «${title}»` : ''}
-          </span>
+          <CodeBlock code={code} copyName={`код примера «${title}»`} />
         </TabPanel>
       </Tabs>
     </article>
@@ -244,7 +217,7 @@ export function ButtonExamples() {
 
   return (
     <div className="button-examples">
-      <ButtonExample title="Варианты" description="Variant задаёт смысл и визуальный приоритет действия. Переключите поверхность: Inverse Ghost относится к светлой, Ghost и Inverse — к контрастной." code={variantSurface === 'light' ? lightVariantsCode : darkVariantsCode} previewTone={variantSurface === 'dark' ? 'inverse' : 'default'} copyResetKey={variantSurface} preview={(
+      <ButtonExample title="Варианты" description="Variant задаёт смысл и визуальный приоритет действия. Переключите поверхность: Inverse Ghost относится к светлой, Ghost и Inverse — к контрастной." code={variantSurface === 'light' ? lightVariantsCode : darkVariantsCode} previewTone={variantSurface === 'dark' ? 'inverse' : 'default'} preview={(
         <div className="button-variants-example">
           <div className="button-variants-example__surface-controls" role="group" aria-label="Поверхность примера вариантов">
             <Button type="button" size="s" variant="secondary" startIcon={<SunIcon />} aria-label="Светлый фон" title="Светлый фон" aria-pressed={variantSurface === 'light'} onClick={() => selectVariantSurface('light')} />
