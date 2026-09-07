@@ -2,16 +2,12 @@
 
 import { useEffect, useRef, useState } from 'react';
 import { Button } from '@cometal/react';
+import ArrowRightIcon from '@cometal/react/icons/outline/arrows/arrow-right';
+import HomeIcon from '@cometal/react/icons/outline/general/home-01';
+import TrashIcon from '@cometal/react/icons/outline/general/trash-01';
 
 const loadingDuration = 1000;
-const demoButtons = [
-  { variant: 'primary', label: 'Primary' },
-  { variant: 'secondary', label: 'Secondary' },
-  { variant: 'link', label: 'Link' },
-  { variant: 'danger', label: 'Danger' },
-] as const;
-
-type DemoVariant = (typeof demoButtons)[number]['variant'];
+type DemoVariant = 'primary' | 'secondary' | 'link' | 'danger';
 
 export function ButtonInteractiveDemo() {
   const [loadingVariants, setLoadingVariants] = useState<ReadonlySet<DemoVariant>>(() => new Set());
@@ -39,9 +35,10 @@ export function ButtonInteractiveDemo() {
   return (
     <div className="button-interactive-demo">
       <div className="button-interactive-demo__actions">
-        {demoButtons.map(({ variant, label }) => (
-          <Button key={variant} size="m" variant={variant} loading={loadingVariants.has(variant)} onClick={() => startLoading(variant)}>{label}</Button>
-        ))}
+        <Button size="m" variant="primary" startIcon={<HomeIcon />} loading={loadingVariants.has('primary')} onClick={() => startLoading('primary')}>Home</Button>
+        <Button size="m" variant="secondary" endIcon={<ArrowRightIcon />} loading={loadingVariants.has('secondary')} onClick={() => startLoading('secondary')}>Продолжить</Button>
+        <Button size="m" variant="link" loading={loadingVariants.has('link')} onClick={() => startLoading('link')}>Link</Button>
+        <Button size="m" variant="danger" startIcon={<TrashIcon />} aria-label="Удалить" title="Удалить" loading={loadingVariants.has('danger')} onClick={() => startLoading('danger')} />
       </div>
     </div>
   );
