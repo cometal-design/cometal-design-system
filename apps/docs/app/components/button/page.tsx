@@ -1,5 +1,5 @@
 import type { Metadata } from 'next';
-import { Badge, TabPanel, Tabs } from '@cometal/react';
+import { Badge, InlineLink, TabPanel, Tabs } from '@cometal/react';
 import { ButtonInteractiveDemo } from '../../../components/button-interactive-demo';
 import { ButtonExamples } from '../../../components/button-examples';
 import { ButtonPageTabList } from '../../../components/button-page-tabs';
@@ -98,13 +98,69 @@ export default function ButtonPage() {
         </TabPanel>
 
         <TabPanel value="accessibility" className="button-page-tabs__panel" tabIndex={-1}>
-          <section className="content-section" data-component-phase="behavior-a11y">
-            <SectionHeading title="Поведение и доступность" description="Button сохраняет нативную button-семантику и не превращает визуальный variant в отдельный interaction contract." />
-            <div className="definition-list">
-              <article><span>01</span><strong>Keyboard</strong><p>Tab переводит focus на Button, Enter и Space запускают нативное действие; focus-visible остаётся различимым.</p></article>
-              <article><span>02</span><strong>Loading</strong><p><code>loading</code> блокирует повторное действие через disabled и сообщает занятость через aria-busy, сохраняя ширину подписи.</p></article>
-              <article><span>03</span><strong>Accessible name</strong><p>Текст задаёт имя обычной кнопки. Для icon-only композиции обязателен <code>aria-label</code>; декоративные иконки скрыты от accessibility tree.</p></article>
-            </div>
+          <section className="content-section button-accessibility-section" data-component-phase="behavior-a11y" aria-labelledby="button-accessibility-contrast">
+            <header className="section-heading">
+              <h2 id="button-accessibility-contrast">Контраст</h2>
+              <p>Требования для проверки Button в вашем интерфейсе. Это не отчёт о соответствии всех вариантов COMETAL. Проверяйте фактические цвета после наложения на реальную поверхность, а не только названия токенов.</p>
+            </header>
+            <table className="button-composition-table button-accessibility-table button-accessibility-table--contrast">
+              <caption className="visually-hidden">Требования к контрасту Button</caption>
+              <thead><tr><th scope="col">Элемент</th><th scope="col">Требование</th><th scope="col">Что проверять</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Текст Button</th><td>Не менее 4.5:1</td><td>Контраст текста с фактическим фоном в состояниях default, hover и pressed.</td></tr>
+                <tr><th scope="row">Смысловая иконка</th><td>Не менее 3:1</td><td>Иконку в icon-only Button. Декоративную иконку рядом с равнозначным текстом отдельно измерять не требуется.</td></tr>
+                <tr><th scope="row">Рамка фокуса</th><td>Не менее 3:1</td><td>Пользовательскую рамку фокуса относительно соседней области; она не должна обрезаться или скрываться.</td></tr>
+                <tr><th scope="row">Видимая граница</th><td>Не менее 3:1, если необходима</td><td>Границу или поверхность, без которой нельзя распознать элемент управления.</td></tr>
+                <tr><th scope="row">Disabled</th><td>Исключение для неактивного элемента</td><td>Требование контраста WCAG не распространяется на неактивный элемент управления, но его состояние должно оставаться понятным.</td></tr>
+              </tbody>
+            </table>
+            <p className="button-accessibility-sources">
+              <InlineLink href="https://www.w3.org/WAI/WCAG22/Understanding/contrast-minimum.html" target="_blank" rel="noreferrer">WCAG: минимальный контраст ↗</InlineLink>
+              <InlineLink href="https://www.w3.org/WAI/WCAG22/Understanding/non-text-contrast.html" target="_blank" rel="noreferrer">WCAG: нетекстовый контраст ↗</InlineLink>
+            </p>
+          </section>
+
+          <section className="content-section button-accessibility-section" aria-labelledby="button-accessibility-keyboard">
+            <header className="section-heading">
+              <h2 id="button-accessibility-keyboard">Клавиатура</h2>
+              <p>Button использует нативное поведение HTML-кнопки и не добавляет навигацию стрелками, предназначенную для Tabs.</p>
+            </header>
+            <table className="button-composition-table button-accessibility-table">
+              <caption className="visually-hidden">Клавиатурное управление Button</caption>
+              <thead><tr><th scope="col">Клавиша</th><th scope="col">Результат</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Tab</th><td>Переводит фокус на следующий доступный интерактивный элемент.</td></tr>
+                <tr><th scope="row">Shift + Tab</th><td>Возвращает фокус на предыдущий доступный интерактивный элемент.</td></tr>
+                <tr><th scope="row">Enter / Space</th><td>Активирует кнопку, если она находится в фокусе и не отключена.</td></tr>
+                <tr><th scope="row">Disabled / loading</th><td>Кнопка исключается из последовательной Tab-навигации и не запускает действие повторно.</td></tr>
+              </tbody>
+            </table>
+            <p className="button-accessibility-note">Сохраняйте видимую рамку фокуса при клавиатурной навигации. Не переносите фокус на кнопку автоматически при загрузке и не удаляйте системный outline без равноценной замены.</p>
+            <p className="button-accessibility-sources">
+              <InlineLink href="https://www.w3.org/WAI/WCAG22/Understanding/focus-visible.html" target="_blank" rel="noreferrer">WCAG: видимый фокус ↗</InlineLink>
+              <InlineLink href="https://www.w3.org/WAI/ARIA/apg/patterns/button/" target="_blank" rel="noreferrer">WAI-ARIA APG: Button Pattern ↗</InlineLink>
+            </p>
+          </section>
+
+          <section className="content-section button-accessibility-section" aria-labelledby="button-accessibility-screenreader">
+            <header className="section-heading">
+              <h2 id="button-accessibility-screenreader">Скринридер и состояния</h2>
+              <p>Доступное имя объясняет действие, а состояния передаются через нативную семантику и поддержанные ARIA-атрибуты.</p>
+            </header>
+            <table className="button-composition-table button-accessibility-table">
+              <caption className="visually-hidden">Семантика и состояния Button для скринридера</caption>
+              <thead><tr><th scope="col">Случай</th><th scope="col">Контракт</th></tr></thead>
+              <tbody>
+                <tr><th scope="row">Кнопка с текстом</th><td>Нативный <code>button</code> задаёт роль, а видимый текст — доступное имя. Не заменяйте корректную подпись дублирующим <code>aria-label</code>.</td></tr>
+                <tr><th scope="row">Только иконка</th><td>Передайте осмысленный <code>aria-label</code>, например «Удалить строку», а не название иконки. Декоративные start/end-иконки скрыты от дерева доступности.</td></tr>
+                <tr><th scope="row">Disabled</th><td>Компонент использует нативный атрибут <code>disabled</code>.</td></tr>
+                <tr><th scope="row">Loading</th><td><code>aria-busy="true"</code> сочетается с <code>disabled</code>; подпись визуально скрыта, но сохраняет имя, индикатор загрузки остаётся декоративным.</td></tr>
+                <tr><th scope="row">Результат действия</th><td>Button не гарантирует голосовое объявление загрузки и не создаёт live region. Сообщение об успехе или ошибке обеспечивает использующее приложение.</td></tr>
+              </tbody>
+            </table>
+            <p className="button-accessibility-sources">
+              <InlineLink href="https://www.w3.org/WAI/ARIA/apg/patterns/button/" target="_blank" rel="noreferrer">WAI-ARIA APG: имя, роль и активация ↗</InlineLink>
+            </p>
           </section>
         </TabPanel>
       </Tabs>

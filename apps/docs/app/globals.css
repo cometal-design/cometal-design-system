@@ -851,6 +851,13 @@ code, pre, kbd, samp {
 .button-composition-table thead th { border-bottom: var(--portal-hairline) solid var(--portal-line); color: var(--portal-muted); font: var(--portal-code-xs-size)/var(--portal-code-line-height) var(--portal-font-code); text-transform: uppercase; letter-spacing: var(--cometal-typography-caption-label-caption-letter-spacing); }.button-composition-table tbody th { color: var(--portal-ink); font-family: var(--cometal-typography-body-s-accent-font-family); font-weight: var(--cometal-typography-body-s-accent-font-weight); }.button-composition-table td { color: var(--portal-muted); }
 .button-best-practices-table :is(th, td):first-child { width: 16%; padding-right: var(--cometal-primitive-spacing-25); }.button-best-practices-table :is(th, td):nth-child(2) { width: 24%; padding-right: var(--cometal-primitive-spacing-50); }.button-best-practices-table tbody th { hyphens: auto; overflow-wrap: anywhere; }
 .button-composition-note { margin: var(--cometal-primitive-spacing-100) 0 0; color: var(--portal-muted); font-family: var(--cometal-typography-body-s-default-font-family); font-size: var(--cometal-typography-body-s-default-font-size); line-height: var(--cometal-typography-body-s-default-line-height); }.button-composition-note code { font-family: var(--portal-font-code); }
+.component-detail--button .button-accessibility-table { table-layout: auto; }
+.component-detail--button .button-accessibility-table :is(th, td) { overflow-wrap: anywhere; }
+.component-detail--button .button-accessibility-table--contrast :is(th, td):first-child { width: 24%; }
+.component-detail--button .button-accessibility-table--contrast :is(th, td):nth-child(2) { width: 25%; padding-right: var(--cometal-primitive-spacing-150); }
+.component-detail--button .button-accessibility-note { max-width: var(--portal-copy-section-width); margin: var(--cometal-primitive-spacing-150) 0 0; color: var(--portal-muted); font-family: var(--cometal-typography-body-s-default-font-family); font-size: var(--cometal-typography-body-s-default-font-size); line-height: var(--cometal-typography-body-s-default-line-height); }
+.component-detail--button .button-accessibility-note code { font-family: var(--portal-font-code); }
+.component-detail--button .button-accessibility-sources { display: flex; margin: var(--cometal-primitive-spacing-150) 0 0; align-items: center; flex-wrap: wrap; gap: var(--cometal-primitive-spacing-100) var(--cometal-primitive-spacing-150); }
 .button-size-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--cometal-primitive-spacing-200); }.button-size-strip article { grid-template-columns: 1fr; justify-items: start; gap: var(--cometal-primitive-spacing-100); }
 .component-detail--button .component-title { padding-bottom: 0; }
 .component-detail--button .component-title__toolbar { align-items: flex-start; border-bottom: var(--portal-hairline) solid var(--portal-line); }
@@ -1088,6 +1095,9 @@ code, pre, kbd, samp {
   .component-detail--button .button-settings__properties-heading { align-items: flex-start; }
   .component-detail--button .button-settings__property { grid-template-columns: minmax(0, 1fr); gap: var(--cometal-primitive-spacing-100); }
   .component-detail--button .button-settings__control { max-width: none; justify-self: stretch; }
+  .component-detail--button .button-accessibility-table { table-layout: fixed; }
+  .component-detail--button .button-accessibility-table--contrast :is(th, td):first-child { width: 28%; padding-right: var(--cometal-primitive-spacing-75); }
+  .component-detail--button .button-accessibility-table--contrast :is(th, td):nth-child(2) { width: 27%; padding-right: var(--cometal-primitive-spacing-75); }
   .button-size-strip { grid-template-columns: 1fr; }
   .component-detail--button .button-variants-example__items { gap: var(--cometal-primitive-spacing-25); }
   .component-detail--button .button-states-example { gap: var(--cometal-primitive-spacing-50); }
