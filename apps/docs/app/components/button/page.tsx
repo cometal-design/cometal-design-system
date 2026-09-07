@@ -3,8 +3,8 @@ import { Badge, TabPanel, Tabs } from '@cometal/react';
 import { ButtonInteractiveDemo } from '../../../components/button-interactive-demo';
 import { ButtonExamples } from '../../../components/button-examples';
 import { ButtonPageTabList } from '../../../components/button-page-tabs';
+import { ButtonSettings } from '../../../components/button-settings';
 import { ButtonUsageExample } from '../../../components/button-usage-example';
-import { CodeExample } from '../../../components/code-example';
 import { ComponentPageHeader } from '../../../components/component-page-header';
 import { components, statusLabels } from '../../../lib/registry';
 import { SectionHeading } from '../../../components/section-heading';
@@ -92,18 +92,9 @@ export default function ButtonPage() {
         </TabPanel>
 
         <TabPanel value="react-api" className="button-page-tabs__panel" tabIndex={-1}>
-
-      <section className="content-section" data-component-phase="code" id="code">
-        <SectionHeading title="Код" description="Скопируйте установку, импорт или минимальный рабочий пример. Все представления соответствуют публичному React API." />
-        <CodeExample componentName={component.name} sourceHref={sourceHref} usage={usage} unified />
-      </section>
-
-      <section className="content-section" data-component-phase="public-api" id="api">
-        <SectionHeading title="React API" description="Публичный API остаётся минимальным. Интерактивные состояния не передаются props." />
-        <div className="api-table"><div className="api-table__head"><span>Prop</span><span>Тип</span><span>Default</span></div>{[
-          ['variant', "'primary' | 'secondary' | …", "'primary'"], ['size', "'l' | 'm' | 's'", "'l'"], ['loading', 'boolean', 'false'], ['disabled', 'boolean', 'false'], ['startIcon / endIcon', 'ReactNode', '—'], ['children', 'ReactNode', '—'],
-        ].map(([name, type, value]) => <div key={name}><code>{name}</code><span>{type}</span><span>{value}</span></div>)}</div>
-      </section>
+          <section className="content-section button-settings-section">
+            <ButtonSettings />
+          </section>
         </TabPanel>
 
         <TabPanel value="accessibility" className="button-page-tabs__panel" tabIndex={-1}>

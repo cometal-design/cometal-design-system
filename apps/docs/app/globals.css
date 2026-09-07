@@ -900,6 +900,24 @@ code, pre, kbd, samp {
 .docs-code-block[data-compact='true'] .docs-code-block__toolbar { grid-column: 2; grid-row: 1; min-height: auto; border-bottom: 0; background: transparent; }
 .docs-code-block[data-compact='true'] pre { grid-column: 1; grid-row: 1; max-height: none; white-space: nowrap; }
 .component-detail--button .docs-code-block[data-compact='true'] { align-items: start; }
+.component-detail--button .button-settings { display: grid; min-width: 0; gap: var(--portal-space-section); }
+.component-detail--button .button-settings__preview-section { display: grid; min-width: 0; gap: var(--cometal-primitive-spacing-100); }
+.component-detail--button .button-settings__preview { position: relative; display: grid; width: 100%; min-width: 0; min-height: calc(var(--cometal-documentation-layout-height-component-preview) + var(--cometal-primitive-spacing-450)); padding: var(--cometal-primitive-spacing-200); box-sizing: border-box; place-items: center; aspect-ratio: 16 / 9; border-radius: var(--portal-radius-l); background: var(--portal-canvas); }
+.component-detail--button .button-settings__preview[data-surface='inverse'] { background: var(--portal-inverse); }
+.component-detail--button .button-settings__code-toggle { position: absolute; z-index: 1; top: var(--cometal-primitive-spacing-200); right: var(--cometal-primitive-spacing-200); }
+.component-detail--button .button-settings__code { min-width: 0; }
+.component-detail--button .button-settings__properties { border-top: var(--portal-hairline) solid var(--portal-line); }
+.component-detail--button .button-settings__properties-heading { display: flex; padding: 0 0 var(--cometal-primitive-spacing-150); align-items: flex-end; justify-content: space-between; gap: var(--cometal-primitive-spacing-150); }
+.component-detail--button .button-settings__properties-heading h2 { margin: 0; font-family: var(--cometal-typography-heading-l-font-family); font-size: var(--cometal-typography-heading-l-font-size); font-weight: var(--cometal-typography-heading-l-font-weight); line-height: var(--cometal-typography-heading-l-line-height); letter-spacing: var(--cometal-typography-heading-l-letter-spacing); }
+.component-detail--button .button-settings__properties-heading p { max-width: 72ch; margin: var(--portal-space-related) 0 0; color: var(--portal-text-secondary); }
+.component-detail--button .button-settings__property { display: grid; min-width: 0; padding: var(--cometal-primitive-spacing-150) 0; grid-template-columns: minmax(0, 1fr) minmax(var(--portal-sidebar-width), 1fr); align-items: start; gap: var(--cometal-primitive-spacing-200); border-bottom: var(--portal-hairline) solid var(--portal-line); }
+.component-detail--button .button-settings__property-copy { display: grid; min-width: 0; gap: var(--cometal-primitive-spacing-25); }
+.component-detail--button .button-settings__property-copy strong { font-family: var(--cometal-typography-body-m-accent-font-family); font-size: var(--cometal-typography-body-m-accent-font-size); font-weight: var(--cometal-typography-body-m-accent-font-weight); line-height: var(--cometal-typography-body-m-accent-line-height); }
+.component-detail--button .button-settings__property-copy > span { color: var(--portal-muted); font: var(--portal-code-xs-size)/var(--portal-code-line-height) var(--portal-font-code); }
+.component-detail--button .button-settings__property-copy p { max-width: 72ch; margin: var(--cometal-primitive-spacing-25) 0 0; color: var(--portal-text-secondary); }
+.component-detail--button .button-settings__control { width: 100%; min-width: 0; max-width: var(--portal-copy-small-width); justify-self: end; }
+.component-detail--button .button-settings__control > .cometal-field { width: 100%; }
+.component-detail--button .button-settings__note { max-width: 72ch; margin: 0; color: var(--portal-text-secondary); }
 .api-table { border-top: var(--portal-hairline) solid var(--portal-line); }
 .api-table > div { display: grid; min-height: var(--cometal-documentation-layout-height-data-row); padding: var(--cometal-primitive-spacing-100) 0; grid-template-columns: var(--cometal-documentation-layout-width-definition-title) minmax(var(--portal-sidebar-width), 1fr) calc(var(--cometal-primitive-spacing-750) + var(--cometal-primitive-spacing-125)); align-items: center; gap: var(--cometal-primitive-spacing-150); border-bottom: var(--portal-hairline) solid var(--portal-line); font-family: var(--cometal-typography-body-s-default-font-family); font-size: var(--cometal-typography-body-s-default-font-size); line-height: var(--cometal-typography-body-s-default-line-height); }
 .api-table > div:last-child { border-bottom: 0; }
@@ -1065,6 +1083,11 @@ code, pre, kbd, samp {
   .home-hero__description { font-size: var(--cometal-typography-body-s-default-font-size); line-height: var(--cometal-typography-body-s-default-line-height); }
   .home-hero__actions { align-items: center; flex-direction: row; flex-wrap: nowrap; }
   .content-page { padding: var(--cometal-primitive-spacing-300) var(--cometal-primitive-spacing-125) var(--cometal-primitive-spacing-450); }.page-header { padding-bottom: var(--cometal-primitive-spacing-300); }.page-header h1, .component-title h1 { font-family: var(--cometal-typography-display-s-font-family); font-size: var(--cometal-typography-display-s-font-size); line-height: var(--cometal-typography-display-s-line-height); letter-spacing: var(--cometal-typography-display-s-letter-spacing); }.page-header p, .component-title p { font-size: var(--cometal-typography-body-m-default-font-size); line-height: var(--cometal-typography-body-m-default-line-height); }
+  .component-detail--button .button-settings__preview { padding: var(--cometal-primitive-spacing-150); }
+  .component-detail--button .button-settings__code-toggle { top: var(--cometal-primitive-spacing-150); right: var(--cometal-primitive-spacing-150); }
+  .component-detail--button .button-settings__properties-heading { align-items: flex-start; }
+  .component-detail--button .button-settings__property { grid-template-columns: minmax(0, 1fr); gap: var(--cometal-primitive-spacing-100); }
+  .component-detail--button .button-settings__control { max-width: none; justify-self: stretch; }
   .button-size-strip { grid-template-columns: 1fr; }
   .component-detail--button .button-variants-example__items { gap: var(--cometal-primitive-spacing-25); }
   .component-detail--button .button-states-example { gap: var(--cometal-primitive-spacing-50); }
