@@ -36,13 +36,16 @@ implementation, QA or production claim.
   `ARCHITECTURE_APPROVED`, MANUAL contract.
 - Specification: [[../../specifications/components/tabs]].
 - Registry: `navigation.tabs`, status `specified`.
-- Planned React source: `packages/react/src/Tabs/Tabs.tsx`; planned Storybook ID:
-  `components-tabs--overview`; planned portal: `/components/tabs/`. None exists
-  or is published at this stage.
+- Exact local candidate `33236f7db48a3ee551d2743802407c50c46fae03` contains
+  `packages/react/src/Tabs/Tabs.tsx`, Storybook `components-tabs--overview` and
+  portal `/components/tabs/`. They are not published external surfaces.
 
 ## Неподтверждённое
 
-No implementation, rendered Storybook/portal, tests, visual parity,
-accessibility verification, CODE_APPROVED, QA_PASSED or release evidence exists
-for this knowledge commit. Those require the separate Role30/35/40 delivery
-steps on one exact future candidate SHA.
+Role35's current-SHA preflight records `CODE_CHANGES_REQUESTED`: F1 RSC initial
+selection and F2 real Hover/Pressed evidence remain unresolved on
+`33236f7db48a3ee551d2743802407c50c46fae03`.
+
+No visual parity, accessibility verification, CODE_APPROVED, QA_PASSED, release
+or production evidence is claimed. Those require a remediated exact SHA, a new
+Role35 review and independent Role40 QA.

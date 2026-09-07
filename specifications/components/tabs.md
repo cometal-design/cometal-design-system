@@ -18,9 +18,9 @@ Tabs переключает связанные persistent content panels в пр
 
 Письменный contract создан для delivery candidate. Figma — визуальный source,
 а API, keyboard behavior и ownership утверждены в
-`tabs-role35-engineering-design-2026-09-07.md`. React, Storybook и portal route
-пока отсутствуют; этот документ не является claim об их готовности или
-публикации.
+`tabs-role35-engineering-design-2026-09-07.md`. Exact local candidate
+`33236f7db48a3ee551d2743802407c50c46fae03` contains React Tabs, Storybook and
+portal route; it is not a code approval, QA, publication or production claim.
 
 ## Stable identity и источники
 
@@ -31,8 +31,8 @@ Tabs переключает связанные persistent content panels в пр
   не API count constraint.
 - Nested Button dependency: `857:1477` `Inverse Ghost`. `Button` владеет
   содержимым и native button behavior; outer `Label` отсутствует.
-- Planned local Storybook ID: `components-tabs--overview`; planned portal route:
-  `/components/tabs/`. Эти two implementation surfaces не опубликованы.
+- Local candidate Storybook ID: `components-tabs--overview`; local portal route:
+  `/components/tabs/`. They are not published external surfaces.
 
 ## Public exports и API
 
@@ -140,8 +140,14 @@ interactive descendants are excluded.
   24 internal visual combinations are design evidence, not runtime props.
 - Architecture: `ARCHITECTURE_APPROVED`; latest MANUAL activation contract
   supersedes the earlier automatic-activation callback.
-- This local knowledge candidate has no React implementation, Storybook story,
-  portal page, visual comparison, test, accessibility or release evidence yet.
+- Exact local candidate `33236f7db48a3ee551d2743802407c50c46fae03` contains
+  `packages/react/src/Tabs/Tabs.tsx`, Tabs Storybook story and portal
+  `/components/tabs/`. The current Role35 preflight is
+  `CODE_CHANGES_REQUESTED`: F1 RSC initial selection and F2 real Hover/Pressed
+  evidence are unresolved.
+- Therefore no visual parity, accessibility verification, CODE_APPROVED,
+  QA_PASSED, release or production evidence is claimed. A remediated exact SHA
+  requires a new Role35 review and later independent QA.
 - No new token is authorized. A missing source-backed binding requires a new
   Role35 decision before scope expands.
 

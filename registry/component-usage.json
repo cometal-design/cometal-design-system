@@ -71,7 +71,7 @@
   },
   "navigation.tabs": {
     "packageName": "@cometal/react",
-    "availability": "candidate-not-implemented",
+    "availability": "beta-target",
     "install": "Internal package only; no npm publication claim.",
     "import": "import '@cometal/tokens/css';\nimport '@cometal/react/styles.css';\nimport { Tabs, TabList, Tab, TabPanel } from '@cometal/react';",
     "example": "<Tabs defaultValue=\"overview\" size=\"m\">\n  <TabList aria-label=\"Разделы карточки\">\n    <Tab value=\"overview\">Обзор</Tab>\n    <Tab value=\"history\">История</Tab>\n  </TabList>\n  <TabPanel value=\"overview\">Сводка</TabPanel>\n  <TabPanel value=\"history\">Изменения</TabPanel>\n</Tabs>"
