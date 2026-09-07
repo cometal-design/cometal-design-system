@@ -14,6 +14,9 @@ import {
   RadioButton,
   Select,
   Switch,
+  Tab,
+  TabList,
+  TabPanel,
   Table,
   TableBody,
   TableCell,
@@ -23,6 +26,7 @@ import {
   TextArea,
   TextField,
   Tooltip,
+  Tabs,
   Widget,
 } from '@cometal/react';
 import { contractorOptions, statusOptions } from '../lib/demo-options';
@@ -79,6 +83,18 @@ export function ComponentCatalogPreview({ id }: { id: string }) {
   }
   if (id === 'selection.radio-button') return <RadioButton label="Выбрать вариант" name="catalog-radio" defaultChecked />;
   if (id === 'selection.switch') return <Switch label="Получать уведомления" defaultChecked />;
+  if (id === 'navigation.tabs') {
+    return (
+      <Tabs defaultValue="overview" size="s">
+        <TabList aria-label="Разделы компонента">
+          <Tab value="overview">Обзор</Tab>
+          <Tab value="history">История</Tab>
+        </TabList>
+        <TabPanel value="overview">Сводка</TabPanel>
+        <TabPanel value="history">Изменения</TabPanel>
+      </Tabs>
+    );
+  }
   if (id === 'status.badge') return <Badge surface="dark" tone="green">Согласовано</Badge>;
   throw new Error(`Component family preview is not implemented for ${id}`);
 }

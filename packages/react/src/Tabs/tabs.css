@@ -1,0 +1,53 @@
+.cometal-tabs {
+  display: block;
+  min-width: 0;
+}
+
+.cometal-tabs__list {
+  display: flex;
+  width: max-content;
+  min-width: max-content;
+  align-items: flex-start;
+  gap: var(--cometal-primitive-spacing-25);
+  overflow: visible;
+  white-space: nowrap;
+}
+
+.cometal-tabs__item {
+  position: relative;
+  display: inline-flex;
+  flex: 0 0 auto;
+  flex-direction: column;
+  align-items: stretch;
+  gap: calc(var(--cometal-primitive-spacing-25) + var(--cometal-primitive-spacing-12));
+  overflow: visible;
+}
+
+.cometal-tabs__indicator {
+  display: block;
+  width: 100%;
+  height: var(--cometal-primitive-stroke-200);
+  flex: 0 0 var(--cometal-primitive-stroke-200);
+  background: transparent;
+  pointer-events: none;
+}
+
+.cometal-tabs__item[data-selected='true'] > .cometal-tabs__indicator {
+  background: var(--cometal-semantic-color-global-action-brand-default);
+}
+
+.cometal-tabs__item[data-selected='true']:hover:not([data-disabled='true']) > .cometal-tabs__indicator {
+  background: var(--cometal-semantic-color-global-action-brand-hover);
+}
+
+.cometal-tabs__item[data-selected='true']:active:not([data-disabled='true']) > .cometal-tabs__indicator {
+  background: var(--cometal-semantic-color-global-action-brand-pressed);
+}
+
+.cometal-tabs__item[data-selected='true'][data-disabled='true'] > .cometal-tabs__indicator {
+  background: var(--cometal-semantic-color-global-text-disabled);
+}
+
+.cometal-tabs__panel[hidden] {
+  display: none;
+}

@@ -23,6 +23,8 @@ export { Tooltip, tooltipPlacements, tooltipSizes } from './Tooltip/Tooltip';
 export type { TooltipPlacement, TooltipProps, TooltipSize } from './Tooltip/Tooltip';
 export { ContextMenu, ContextMenuDivider, ContextMenuItem, contextMenuSizes } from './ContextMenu/ContextMenu';
 export type { ContextMenuItemProps, ContextMenuProps, ContextMenuSize } from './ContextMenu/ContextMenu';
+export { Tab, TabList, TabPanel, Tabs, tabSizes } from './Tabs/Tabs';
+export type { TabListProps, TabPanelProps, TabProps, TabsProps, TabSize } from './Tabs/Tabs';
 export {
   FileIcon,
   Table,
