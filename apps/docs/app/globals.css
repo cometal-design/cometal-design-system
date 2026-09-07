@@ -883,6 +883,7 @@ code, pre, kbd, samp {
 .component-detail--button .button-states-example .button-state-specimen--focus { outline: var(--cometal-semantic-stroke-global-state-focus) solid var(--cometal-semantic-color-global-state-focus-ring); outline-offset: var(--cometal-primitive-spacing-12); }
 .component-detail--button .button-example__description { max-width: 72ch; margin: 0; color: var(--portal-text-secondary); }
 .component-detail--button .button-example__usage { min-width: 0; }
+.component-detail--button .button-example__usage .docs-code-block__toolbar { align-items: flex-start; }
 .docs-code-block { display: grid; min-width: 0; overflow: hidden; border: var(--portal-hairline) solid var(--portal-line); border-radius: var(--portal-radius-l); background: color-mix(in srgb, var(--portal-blue) 4%, var(--portal-surface-raised)); }
 .docs-code-block__toolbar { display: flex; min-width: 0; min-height: var(--cometal-documentation-layout-height-code-toolbar); padding: var(--cometal-primitive-spacing-50); box-sizing: border-box; align-items: center; justify-content: flex-end; gap: var(--cometal-primitive-spacing-100); border-bottom: var(--portal-hairline) solid var(--portal-line-soft); background: var(--portal-surface-raised); }
 .docs-code-block__toolbar-start { min-width: 0; flex: 1; }
@@ -897,6 +898,7 @@ code, pre, kbd, samp {
 .docs-code-block[data-compact='true'] { grid-template-columns: minmax(0, 1fr) auto; align-items: center; }
 .docs-code-block[data-compact='true'] .docs-code-block__toolbar { grid-column: 2; grid-row: 1; min-height: auto; border-bottom: 0; background: transparent; }
 .docs-code-block[data-compact='true'] pre { grid-column: 1; grid-row: 1; max-height: none; white-space: nowrap; }
+.component-detail--button .docs-code-block[data-compact='true'] { align-items: start; }
 .api-table { border-top: var(--portal-hairline) solid var(--portal-line); }
 .api-table > div { display: grid; min-height: var(--cometal-documentation-layout-height-data-row); padding: var(--cometal-primitive-spacing-100) 0; grid-template-columns: var(--cometal-documentation-layout-width-definition-title) minmax(var(--portal-sidebar-width), 1fr) calc(var(--cometal-primitive-spacing-750) + var(--cometal-primitive-spacing-125)); align-items: center; gap: var(--cometal-primitive-spacing-150); border-bottom: var(--portal-hairline) solid var(--portal-line); font-family: var(--cometal-typography-body-s-default-font-family); font-size: var(--cometal-typography-body-s-default-font-size); line-height: var(--cometal-typography-body-s-default-line-height); }
 .api-table > div:last-child { border-bottom: 0; }
