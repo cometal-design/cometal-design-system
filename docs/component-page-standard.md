@@ -1,6 +1,6 @@
 # Стандарт страницы компонента
 
-Версия: `1.0`
+Версия: `1.1`
 Дата: `2026-09-07`
 Reference implementation: Button page at
 `45fdd5e404134321f0d54c4b2b07f7e198973a72`
@@ -31,6 +31,19 @@ Reference implementation: Button page at
   или в Settings.
 - `@cometal/react` остаётся workspace dependency, пока package publication
   отдельно не подтверждена. Не добавляйте фиктивную команду установки.
+- GitHub link optional: показывайте его только при подтверждённом exact source.
+  Если source ещё не опубликован (например, Tabs
+  `/blob/main/packages/react/src/Tabs/Tabs.tsx` возвращает `404`), скрывайте
+  link и честно помечайте локальную версию. Не изобретайте replacement URL и не
+  публикуйте source ради заполнения header.
+
+### Reuse entrypoints
+
+Для следующей страницы используйте `component-page-standard.tsx` как shell,
+`component-page-example.tsx` для article preview/code и
+`component-page-settings.tsx` для live Settings. Existing `CodeBlock` и
+`ComponentPageHeader` остаются обязательными shared entrypoints; не создавайте
+параллельные copies этих паттернов без нового scope.
 
 ## Структура страницы
 
@@ -116,10 +129,16 @@ Settings — это live preview, `Показать код`/`Скрыть код
 
 ## Geometry, code и layout
 
-- Reuse existing portal tokens and Button preview geometry: `16:9`, approved
-  min-height, padding, radius and responsive behavior.
+- Reuse existing portal tokens and Button preview geometry. На mobile это
+  `min-height: 322px` с одинаковыми approved padding/radius, а не жёсткая
+  высота: плотные examples (Badge palette, Radio sizes и подобные) растут по
+  content без vertical clipping.
 - Все examples на странице имеют одну baseline geometry. Если component требует
   real overflow content, документируйте конкретную адаптацию, а не скрывайте её.
+- Document не получает horizontal overflow. Допускается только внутренняя
+  прокрутка code block или tab row; все управляющие Buttons остаются полностью
+  видимыми, правый верхний code control сохраняет место, а Reset может перейти
+  на новую строку.
 - На page toolbar — один divider. Внутри контента используйте section spacing;
   `Композиция` имеет только свой header rule. Не размножайте декоративные
   разделители.
@@ -131,8 +150,8 @@ Settings — это live preview, `Показать код`/`Скрыть код
 
 Текущая Button reference page использует real Tabs для Overview/Settings/
 Accessibility, но выбранный tab пока не получает собственный URL и не
-восстанавливается по deep link. Это известное browser limitation reference
-implementation, не доказательство поддержки tab URLs.
+восстанавливается по deep link. Это ограничение текущей реализации, не
+доказательство поддержки tab URLs.
 
 Для будущего reusable component-page shell каждый named documentation tab
 должен иметь открываемый direct URL и восстанавливаться без initial autofocus.
