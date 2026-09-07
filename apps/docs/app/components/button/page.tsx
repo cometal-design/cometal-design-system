@@ -1,7 +1,8 @@
 import type { Metadata } from 'next';
-import { Badge, Button, Tab, TabList, TabPanel, Tabs } from '@cometal/react';
+import { Badge, Button, TabPanel, Tabs } from '@cometal/react';
 import type { ButtonVariant } from '@cometal/react';
 import { ButtonInteractiveDemo } from '../../../components/button-interactive-demo';
+import { ButtonPageTabList } from '../../../components/button-page-tabs';
 import { ButtonUsageExample } from '../../../components/button-usage-example';
 import { CodeExample } from '../../../components/code-example';
 import { ComponentEnvironmentNotes } from '../../../components/component-environment-notes';
@@ -40,13 +41,7 @@ export default function ButtonPage() {
             compactSummary
             identityAfterSummary
             linksAtEnd
-            toolbarStart={(
-              <TabList aria-label="Разделы документации Button">
-                <Tab value="overview">Overview</Tab>
-                <Tab value="react-api">React API</Tab>
-                <Tab value="accessibility">Accessibility</Tab>
-              </TabList>
-            )}
+            toolbarStart={<ButtonPageTabList />}
           />
         </div>
 

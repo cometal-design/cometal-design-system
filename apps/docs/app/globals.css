@@ -855,7 +855,16 @@ code, pre, kbd, samp {
 .button-composition-note { margin: var(--cometal-primitive-spacing-100) 0 0; color: var(--portal-muted); font-family: var(--cometal-typography-body-s-default-font-family); font-size: var(--cometal-typography-body-s-default-font-size); line-height: var(--cometal-typography-body-s-default-line-height); }.button-composition-note code { font-family: var(--portal-font-code); }
 .button-size-strip { grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--cometal-primitive-spacing-200); }.button-size-strip article { grid-template-columns: 1fr; justify-items: start; gap: var(--cometal-primitive-spacing-100); }
 .component-detail--button .component-title { padding-bottom: 0; }
-.component-detail--button .component-title__toolbar { border-bottom: var(--portal-hairline) solid var(--portal-line); }
+.component-detail--button .component-title__toolbar { align-items: flex-start; border-bottom: var(--portal-hairline) solid var(--portal-line); }
+.component-detail--button .component-title__toolbar-start {
+  padding: var(--cometal-primitive-spacing-25);
+  margin: calc(var(--cometal-primitive-spacing-25) * -1);
+  box-sizing: border-box;
+  scroll-padding-inline: var(--cometal-primitive-spacing-25);
+}
+.component-detail--button .component-title__toolbar-start .cometal-tabs__item {
+  scroll-margin-inline: var(--cometal-primitive-spacing-25);
+}
 .button-page-tabs__panel { min-width: 0; }
 .api-table { border-top: var(--portal-hairline) solid var(--portal-line); }
 .api-table > div { display: grid; min-height: var(--cometal-documentation-layout-height-data-row); padding: var(--cometal-primitive-spacing-100) 0; grid-template-columns: var(--cometal-documentation-layout-width-definition-title) minmax(var(--portal-sidebar-width), 1fr) calc(var(--cometal-primitive-spacing-750) + var(--cometal-primitive-spacing-125)); align-items: center; gap: var(--cometal-primitive-spacing-150); border-bottom: var(--portal-hairline) solid var(--portal-line); font-family: var(--cometal-typography-body-s-default-font-family); font-size: var(--cometal-typography-body-s-default-font-size); line-height: var(--cometal-typography-body-s-default-line-height); }
@@ -1022,7 +1031,16 @@ code, pre, kbd, samp {
   .content-page { padding: var(--cometal-primitive-spacing-300) var(--cometal-primitive-spacing-125) var(--cometal-primitive-spacing-450); }.page-header { padding-bottom: var(--cometal-primitive-spacing-300); }.page-header h1, .component-title h1 { font-family: var(--cometal-typography-display-s-font-family); font-size: var(--cometal-typography-display-s-font-size); line-height: var(--cometal-typography-display-s-line-height); letter-spacing: var(--cometal-typography-display-s-letter-spacing); }.page-header p, .component-title p { font-size: var(--cometal-typography-body-m-default-font-size); line-height: var(--cometal-typography-body-m-default-line-height); }
   .button-size-strip { grid-template-columns: 1fr; }
   .component-detail--button .component-title__toolbar-start { order: 2; flex-basis: 100%; }
-  .component-detail--button .component-title__links { order: 1; width: 100%; margin-left: 0; overflow-x: auto; flex-wrap: nowrap; }
+  .component-detail--button .component-title__links {
+    order: 1;
+    width: 100%;
+    padding: var(--cometal-primitive-spacing-25);
+    margin: calc(var(--cometal-primitive-spacing-25) * -1);
+    box-sizing: border-box;
+    overflow-x: auto;
+    flex-wrap: nowrap;
+    scroll-padding-inline: var(--cometal-primitive-spacing-25);
+  }
   .page-header--with-stat { align-items: flex-start; flex-direction: column; }.page-stat { align-items: flex-start; }
   .content-section { padding: var(--portal-space-section) 0; }
   .definition-list article { grid-template-columns: var(--cometal-documentation-layout-width-definition-index) 1fr; }.definition-list p { grid-column: 2; }
