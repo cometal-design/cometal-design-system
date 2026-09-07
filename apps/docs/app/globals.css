@@ -886,6 +886,7 @@ code, pre, kbd, samp {
 .component-detail--button .button-example__usage .docs-code-block__toolbar { align-items: flex-start; }
 .docs-code-block { display: grid; min-width: 0; overflow: hidden; border: var(--portal-hairline) solid var(--portal-line); border-radius: var(--portal-radius-l); background: color-mix(in srgb, var(--portal-blue) 4%, var(--portal-surface-raised)); }
 .docs-code-block__toolbar { display: flex; min-width: 0; min-height: var(--cometal-documentation-layout-height-code-toolbar); padding: var(--cometal-primitive-spacing-50); box-sizing: border-box; align-items: center; justify-content: flex-end; gap: var(--cometal-primitive-spacing-100); border-bottom: var(--portal-hairline) solid var(--portal-line-soft); background: var(--portal-surface-raised); }
+.component-detail--button .docs-code-block__toolbar { border-bottom: 0; background: transparent; }
 .docs-code-block__toolbar-start { min-width: 0; flex: 1; }
 .docs-code-block__toolbar-start [role='tablist'] { display: flex; min-width: 0; align-items: center; gap: var(--cometal-primitive-spacing-25); overflow-x: auto; }
 .docs-code-block__toolbar-start [role='tab'] { min-height: var(--cometal-primitive-size-40); padding: 0 var(--cometal-primitive-spacing-75); border: 0; border-radius: var(--portal-radius-s); background: transparent; color: var(--portal-text-secondary); cursor: pointer; font-family: var(--cometal-typography-body-s-default-font-family); font-size: var(--cometal-typography-body-s-default-font-size); line-height: var(--cometal-typography-body-s-default-line-height); }
