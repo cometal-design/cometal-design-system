@@ -83,6 +83,15 @@ interactive descendants are excluded.
 
 - `value` is the sole controlled selection source. `defaultValue` initializes
   uncontrolled selection; otherwise the first enabled Tab is selected.
+- For directly inspectable children, omitted `defaultValue` selects the first
+  enabled Tab in SSR. At an opaque/RSC composition boundary, deterministic SSR
+  selection requires explicit `value` or `defaultValue`; that explicit value
+  remains authoritative until the collection is available.
+- With opaque/RSC children and omitted `defaultValue`, first-enabled selection
+  may resolve only after registration. This is not SSR first-enabled support and
+  must not cause autofocus. Once a real collection exists, the existing
+  missing/disabled fallback and focus-stability rules apply. No collection or
+  registration prop is added.
 - User activation calls `onValueChange(nextValue)` only for an enabled value
   different from current selection. Controlled Tabs never mutate owner value.
 - Panels remain mounted; inactive panels use `hidden`, preserving panel state.
@@ -154,7 +163,9 @@ interactive descendants are excluded.
 ## Implementation acceptance evidence (pending)
 
 - Controlled/uncontrolled selection, persistent panels, dynamic collection,
-  SSR/ref behavior and no fixed four-item assumption.
+  SSR/ref behavior and no fixed four-item assumption, including direct-child
+  first-enabled SSR, opaque explicit-default SSR/hydration and opaque
+  omitted-default post-registration fallback.
 - Keyboard/manual activation, RTL direction, roving focus, native disabled and
   exact `tablist`/`tab`/`tabpanel` relationships.
 - L/M/S geometry, 4/6/2px composition, existing native Button 4px focus
