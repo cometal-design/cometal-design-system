@@ -203,7 +203,8 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(function Tabs(
 
   useEffect(() => {
     if (storedFocusValue !== focusValue) {
-      const focusedValueWasRemoved = lastFocusedValueRef.current === storedFocusValue
+      const focusedValueWasRemoved = storedFocusValue !== undefined
+        && lastFocusedValueRef.current === storedFocusValue
         && !items.some((item) => item.value === storedFocusValue);
       setStoredFocusValue(focusValue);
       if (focusedValueWasRemoved && focusValue) triggerNodesRef.current.get(focusValue)?.focus();

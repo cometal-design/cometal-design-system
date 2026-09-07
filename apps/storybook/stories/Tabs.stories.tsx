@@ -50,6 +50,29 @@ function ControlledExample() {
   );
 }
 
+function OpaqueTabContent() {
+  return (
+    <>
+      <TabList aria-label="Opaque registration tabs">
+        <Tab value="overview">Обзор</Tab>
+        <Tab value="history">История</Tab>
+      </TabList>
+      <TabPanel value="overview">Сводка</TabPanel>
+      <TabPanel value="history">Изменения</TabPanel>
+    </>
+  );
+}
+
+function OpaqueRegistrationExample() {
+  const [mounted, setMounted] = useState(false);
+  return (
+    <div className="ds-tabs-standalone">
+      <Button size="s" variant="secondary" onClick={() => setMounted(true)}>Показать вкладки</Button>
+      {mounted && <Tabs defaultValue="overview" size="m"><OpaqueTabContent /></Tabs>}
+    </div>
+  );
+}
+
 function SourceMatrix() {
   return (
     <div className="ds-tabs-source-matrix">
@@ -233,6 +256,21 @@ export const Controlled: Story = {
     await expect(canvas.getByLabelText('Изменения значения')).toHaveTextContent('history,files');
     await userEvent.click(overview);
     await expect(canvas.getByLabelText('Изменения значения')).toHaveTextContent('history,files,overview');
+  },
+};
+
+export const OpaqueRegistrationFocus: Story = {
+  name: 'Opaque registration focus',
+  render: () => <OpaqueRegistrationExample />,
+  play: async ({ canvasElement }) => {
+    const canvas = within(canvasElement);
+    const mountButton = canvas.getByRole('button', { name: 'Показать вкладки' });
+    mountButton.focus();
+    await userEvent.click(mountButton);
+    const overview = await canvas.findByRole('tab', { name: 'Обзор' });
+    await waitFor(() => expect(overview).toHaveAttribute('aria-selected', 'true'));
+    await expect(mountButton).toHaveFocus();
+    await expect(overview).not.toHaveFocus();
   },
 };
 
