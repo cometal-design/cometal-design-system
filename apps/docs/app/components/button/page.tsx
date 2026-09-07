@@ -1,6 +1,7 @@
 import type { Metadata } from 'next';
 import { Badge, TabPanel, Tabs } from '@cometal/react';
 import { ButtonInteractiveDemo } from '../../../components/button-interactive-demo';
+import { ButtonExamples } from '../../../components/button-examples';
 import { ButtonPageTabList } from '../../../components/button-page-tabs';
 import { ButtonUsageExample } from '../../../components/button-usage-example';
 import { CodeExample } from '../../../components/code-example';
@@ -81,6 +82,11 @@ export default function ButtonPage() {
             <tr><td><Badge tone="red">Don’t</Badge></td><th scope="row">Навигация</th><td>Не используйте кнопку для перехода на другую страницу — используйте ссылку.</td></tr>
           </tbody>
         </table>
+      </section>
+
+      <section className="content-section button-examples-section" id="examples">
+        <SectionHeading title="Примеры" description="Сравните варианты, размеры, настоящие интерактивные состояния и поддержанные композиции с иконками. Превью остаётся на месте, пока вы читаете описание или копируете код." />
+        <ButtonExamples />
       </section>
 
         </TabPanel>

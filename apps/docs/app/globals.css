@@ -866,6 +866,27 @@ code, pre, kbd, samp {
   scroll-margin-inline: var(--cometal-primitive-spacing-25);
 }
 .button-page-tabs__panel { min-width: 0; }
+.component-detail--button .button-examples { display: grid; min-width: 0; gap: var(--portal-space-section); }
+.component-detail--button .button-example { min-width: 0; }
+.component-detail--button .button-example > h3 { margin: 0 0 var(--cometal-primitive-spacing-100); font-family: var(--cometal-typography-heading-m-font-family); font-size: var(--cometal-typography-heading-m-font-size); font-weight: var(--cometal-typography-heading-m-font-weight); line-height: var(--cometal-typography-heading-m-line-height); letter-spacing: var(--cometal-typography-heading-m-letter-spacing); }
+.component-detail--button .button-example__preview { display: grid; min-width: 0; min-height: var(--cometal-documentation-layout-height-component-preview); padding: var(--cometal-primitive-spacing-200); box-sizing: border-box; place-items: center; border-radius: var(--portal-radius-l); background: var(--portal-canvas); }
+.component-detail--button .button-variants-example { display: grid; width: 100%; min-width: 0; gap: var(--cometal-primitive-spacing-100); }
+.component-detail--button .button-variants-example__light,
+.component-detail--button .button-variants-example__dark,
+.component-detail--button .button-sizes-example,
+.component-detail--button .button-icons-example { display: flex; min-width: 0; align-items: center; justify-content: center; flex-wrap: wrap; gap: var(--cometal-primitive-spacing-100); }
+.component-detail--button .button-variants-example__dark { padding: var(--cometal-primitive-spacing-150); border-radius: var(--portal-radius-l); background: var(--portal-inverse); }
+.component-detail--button .button-states-example { display: grid; width: 100%; min-width: 0; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: var(--cometal-primitive-spacing-150); }
+.component-detail--button .button-states-example > div { display: grid; min-width: 0; justify-items: center; gap: var(--cometal-primitive-spacing-75); }
+.component-detail--button .button-states-example code { color: var(--portal-text-secondary); font: var(--portal-code-xs-size)/var(--portal-code-line-height) var(--portal-font-code); }
+.component-detail--button .button-example__details { min-width: 0; margin-top: var(--cometal-primitive-spacing-100); }
+.component-detail--button .button-example__details-toolbar { padding: var(--cometal-primitive-spacing-50); border-bottom: var(--portal-hairline) solid var(--portal-line-soft); background: var(--portal-surface-raised); }
+.component-detail--button .button-example__description { padding: var(--cometal-primitive-spacing-150); background: var(--portal-surface-raised); }
+.component-detail--button .button-example__description p { max-width: 72ch; margin: 0; color: var(--portal-text-secondary); }
+.component-detail--button .button-example__code { min-width: 0; background: var(--portal-surface-raised); }
+.component-detail--button .button-example__code-toolbar { display: flex; padding: var(--cometal-primitive-spacing-50); justify-content: flex-end; }
+.component-detail--button .button-example__code pre { min-width: 0; min-height: var(--cometal-documentation-layout-height-code); overflow: auto; margin: 0; padding: var(--cometal-primitive-spacing-150) var(--cometal-primitive-spacing-200); background: color-mix(in srgb, var(--portal-blue) 4%, var(--portal-surface-raised)); color: var(--portal-ink); tab-size: 2; }
+.component-detail--button .button-example__code pre code { font: var(--portal-code-s-size)/var(--portal-code-line-height) var(--portal-font-code); }
 .api-table { border-top: var(--portal-hairline) solid var(--portal-line); }
 .api-table > div { display: grid; min-height: var(--cometal-documentation-layout-height-data-row); padding: var(--cometal-primitive-spacing-100) 0; grid-template-columns: var(--cometal-documentation-layout-width-definition-title) minmax(var(--portal-sidebar-width), 1fr) calc(var(--cometal-primitive-spacing-750) + var(--cometal-primitive-spacing-125)); align-items: center; gap: var(--cometal-primitive-spacing-150); border-bottom: var(--portal-hairline) solid var(--portal-line); font-family: var(--cometal-typography-body-s-default-font-family); font-size: var(--cometal-typography-body-s-default-font-size); line-height: var(--cometal-typography-body-s-default-line-height); }
 .api-table > div:last-child { border-bottom: 0; }
@@ -1030,6 +1051,9 @@ code, pre, kbd, samp {
   .home-hero__actions { align-items: center; flex-direction: row; flex-wrap: nowrap; }
   .content-page { padding: var(--cometal-primitive-spacing-300) var(--cometal-primitive-spacing-125) var(--cometal-primitive-spacing-450); }.page-header { padding-bottom: var(--cometal-primitive-spacing-300); }.page-header h1, .component-title h1 { font-family: var(--cometal-typography-display-s-font-family); font-size: var(--cometal-typography-display-s-font-size); line-height: var(--cometal-typography-display-s-line-height); letter-spacing: var(--cometal-typography-display-s-letter-spacing); }.page-header p, .component-title p { font-size: var(--cometal-typography-body-m-default-font-size); line-height: var(--cometal-typography-body-m-default-line-height); }
   .button-size-strip { grid-template-columns: 1fr; }
+  .component-detail--button .button-example__preview { padding: var(--cometal-primitive-spacing-150) var(--cometal-primitive-spacing-100); }
+  .component-detail--button .button-states-example { grid-template-columns: 1fr; }
+  .component-detail--button .button-example__code pre { min-height: var(--cometal-documentation-layout-height-code-mobile); padding: var(--cometal-primitive-spacing-150); }
   .component-detail--button .component-title__toolbar-start { order: 2; flex-basis: 100%; }
   .component-detail--button .component-title__links {
     order: 1;
