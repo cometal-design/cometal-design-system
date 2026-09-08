@@ -1,4 +1,6 @@
 import { useState } from 'react';
+import { hydrateRoot } from 'react-dom/client';
+import { renderToString } from 'react-dom/server';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, userEvent, waitFor, within } from 'storybook/test';
 import { Button, Tab, TabList, TabPanel, Tabs, tabSizes } from '@cometal/react';
@@ -347,6 +349,73 @@ export const OpaqueRegistrationFocus: Story = {
     await expect(mountButton).toHaveFocus();
     await expect(explicitHistory).not.toHaveFocus();
     await expect(omittedOverview).not.toHaveFocus();
+  },
+};
+
+export const OpaqueSsrHydration: Story = {
+  name: 'Opaque SSR hydration',
+  render: () => <div data-opaque-hydration-host />,
+  play: async ({ canvasElement }) => {
+    const host = canvasElement.querySelector<HTMLElement>('[data-opaque-hydration-host]')!;
+    const ownerDocument = host.ownerDocument;
+    const activeElementBeforeHydration = ownerDocument.activeElement;
+    const tree = (
+      <Tabs defaultValue="history" size="m">
+        <OpaqueTabContent />
+      </Tabs>
+    );
+    host.innerHTML = renderToString(tree);
+
+    const readRelationships = () => ({
+      tabs: Array.from(host.querySelectorAll<HTMLElement>('[role="tab"]')).map((tab) => ({
+        id: tab.id,
+        controls: tab.getAttribute('aria-controls'),
+      })),
+      panels: Array.from(host.querySelectorAll<HTMLElement>('[role="tabpanel"]')).map((panel) => ({
+        id: panel.id,
+        labelledBy: panel.getAttribute('aria-labelledby'),
+      })),
+    });
+    const serverRelationships = readRelationships();
+    const serverTabs = within(host).getAllByRole('tab');
+    const serverPanels = Array.from(host.querySelectorAll<HTMLElement>('[role="tabpanel"]'));
+    await expect(serverTabs[1]).toHaveAttribute('aria-selected', 'true');
+    await expect(serverPanels[0]).toHaveAttribute('hidden');
+    await expect(serverPanels[1]).not.toHaveAttribute('hidden');
+    await expect(serverRelationships.tabs.every(({ id, controls }) => Boolean(id && controls))).toBe(true);
+    await expect(serverRelationships.panels.every(({ id, labelledBy }) => Boolean(id && labelledBy))).toBe(true);
+
+    const originalConsoleError = console.error;
+    const consoleErrors: unknown[][] = [];
+    const recoverableErrors: unknown[] = [];
+    console.error = (...args: unknown[]) => {
+      consoleErrors.push(args);
+      originalConsoleError(...args);
+    };
+    let hydratedRoot: ReturnType<typeof hydrateRoot> | undefined;
+    try {
+      hydratedRoot = hydrateRoot(host, tree, {
+        onRecoverableError: (error) => recoverableErrors.push(error),
+      });
+      const hydrated = within(host);
+      const hydratedHistory = await hydrated.findByRole('tab', { name: 'История' });
+      await waitFor(() => expect(hydratedHistory).toHaveAttribute('aria-selected', 'true'));
+      await expect(hydrated.getByRole('tabpanel', { name: 'История' })).toBeVisible();
+      await expect(readRelationships()).toEqual(serverRelationships);
+      await expect(ownerDocument.activeElement).toBe(activeElementBeforeHydration);
+      await expect(host.querySelector('[role="tab"]:focus')).toBeNull();
+      await new Promise<void>((resolve) => requestAnimationFrame(() => requestAnimationFrame(() => resolve())));
+      const hydrationWarnings = consoleErrors
+        .flat()
+        .map((value) => String(value))
+        .filter((message) => /hydration|hydrated|did not match|server rendered/i.test(message));
+      await expect(hydrationWarnings).toHaveLength(0);
+      await expect(recoverableErrors).toHaveLength(0);
+    } finally {
+      hydratedRoot?.unmount();
+      console.error = originalConsoleError;
+      host.replaceChildren();
+    }
   },
 };
 

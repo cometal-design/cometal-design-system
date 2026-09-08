@@ -397,7 +397,6 @@ function createFoundationInventory() {
       'This inventory is generated from the canonical 2026-08-20 Figma snapshots and current token source.',
       'Documentation and motion layers remain code-owned and are preserved outside the Figma snapshot token graph.',
       'Icons remain inventory-only until a canonical SVG source and public API are approved.',
-      'Tabs remain blocked for public publication until a reviewed API decision exists.',
     ],
     sourceConflicts: [],
   };
