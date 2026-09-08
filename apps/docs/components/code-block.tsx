@@ -76,7 +76,7 @@ export function CodeBlock({
           {visibleCopyLabel}
         </Button>
       </div>
-      <pre id={panelId} role={labelledBy ? 'tabpanel' : undefined} aria-labelledby={labelledBy} tabIndex={labelledBy ? 0 : undefined}><code>{code}</code></pre>
+      <pre id={panelId} role={labelledBy ? 'tabpanel' : 'region'} aria-label={labelledBy ? undefined : copyName} aria-labelledby={labelledBy} tabIndex={0}><code>{code}</code></pre>
       <span className="visually-hidden" aria-live="polite">
         {copyState === 'copied' ? `Скопировано: ${copyName}` : copyState === 'failed' ? `Не удалось скопировать: ${copyName}` : ''}
       </span>
