@@ -62,7 +62,7 @@ type TabsContextValue = {
   moveFocus: (value: string, key: string, direction: string) => void;
   noteFocus: (value: string) => void;
   setTriggerNode: (value: string, node: HTMLButtonElement | null) => void;
-  reportItems: (items: readonly TabItem[]) => void;
+  reportItems: (items: readonly TabItem[] | undefined) => void;
   registerPanel: (registrationId: string, value: string) => () => void;
 };
 
@@ -78,9 +78,9 @@ function childElements(children: ReactNode): ReactElement[] {
   return Children.toArray(children).filter(isValidElement);
 }
 
-function collectTabs(children: ReactNode): TabItem[] {
+function collectTabs(children: ReactNode): TabItem[] | undefined {
   const list = childElements(children).find((child) => child.type === TabList);
-  if (!list) return [];
+  if (!list) return undefined;
   const listChildren = (list.props as { children?: ReactNode }).children;
   return childElements(listChildren)
     .filter((child) => child.type === Tab)
@@ -163,12 +163,13 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(function Tabs(
   const controlled = value !== undefined;
   const collectedItems = collectTabs(children);
   const collectedPanels = collectPanels(children);
-  const [reportedItems, setReportedItems] = useState<readonly TabItem[]>([]);
+  const [reportedItems, setReportedItems] = useState<readonly TabItem[] | undefined>(undefined);
   const [, refreshRegisteredCollection] = useState(0);
   const triggerNodesRef = useRef(new Map<string, HTMLButtonElement>());
   const registeredPanelsRef = useRef(new Map<string, string>());
   const lastFocusedValueRef = useRef<string | undefined>(undefined);
-  const items = collectedItems.length ? collectedItems : reportedItems;
+  const itemsKnown = collectedItems !== undefined || reportedItems !== undefined;
+  const items = collectedItems ?? reportedItems ?? [];
   const panels = collectedPanels.length ? collectedPanels : Array.from(registeredPanelsRef.current.values());
   const previousItemsRef = useRef(items);
   const generatedId = useId();
@@ -178,22 +179,27 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(function Tabs(
   ));
   const requestedValue = controlled ? value : uncontrolledValue;
   const selectedExists = requestedValue !== undefined && items.some((item) => item.value === requestedValue);
-  const fallbackSelection = controlled || selectedExists
+  const fallbackSelection = controlled || !itemsKnown || selectedExists
     ? requestedValue
     : nearestEnabled(items, previousItemsRef.current, requestedValue);
   const selectedValue = controlled ? value : fallbackSelection;
-  const initialFocus = selectedValue && items.some((item) => item.value === selectedValue && !item.disabled)
+  const initialFocus = !itemsKnown
     ? selectedValue
-    : firstEnabled(items);
+    : selectedValue && items.some((item) => item.value === selectedValue && !item.disabled)
+      ? selectedValue
+      : firstEnabled(items);
   const [storedFocusValue, setStoredFocusValue] = useState<string | undefined>(initialFocus);
   const focusExists = storedFocusValue !== undefined
     && items.some((item) => item.value === storedFocusValue && !item.disabled);
-  const focusValue = focusExists
-    ? storedFocusValue
-    : nearestEnabled(items, previousItemsRef.current, storedFocusValue);
-  const contractSignature = `${items.map((item) => `${item.value}:${item.disabled}`).join('|')}::${panels.join('|')}::${controlled ? value ?? '' : ''}`;
+  const focusValue = !itemsKnown
+    ? storedFocusValue ?? selectedValue
+    : focusExists
+      ? storedFocusValue
+      : nearestEnabled(items, previousItemsRef.current, storedFocusValue);
+  const contractSignature = `${itemsKnown ? 'known' : 'unknown'}::${items.map((item) => `${item.value}:${item.disabled}`).join('|')}::${panels.join('|')}::${controlled ? value ?? '' : ''}`;
 
   useEffect(() => {
+    if (!itemsKnown) return;
     warnInvalidContract(items, panels, controlled ? value : undefined);
   }, [contractSignature]);
 
@@ -229,7 +235,7 @@ export const Tabs = forwardRef<HTMLDivElement, TabsProps>(function Tabs(
     else triggerNodesRef.current.delete(itemValue);
   }, []);
 
-  const reportItems = useCallback((nextItems: readonly TabItem[]) => {
+  const reportItems = useCallback((nextItems: readonly TabItem[] | undefined) => {
     setReportedItems(nextItems);
   }, []);
 
@@ -299,7 +305,7 @@ export const TabList = forwardRef<HTMLDivElement, TabListProps>(function TabList
   const itemSignature = describedItems.map((item) => `${item.value}:${item.disabled}`).join('|');
   useEffect(() => {
     reportItems(describedItems);
-    return () => reportItems([]);
+    return () => reportItems(undefined);
   }, [itemSignature, reportItems]);
   return (
     <div

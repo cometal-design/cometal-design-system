@@ -5,7 +5,7 @@ import { Button, Tab, TabList, TabPanel, Tabs, tabSizes } from '@cometal/react';
 import { ComponentCodeExample } from './ComponentCodeExample';
 
 const SOURCE_URL = 'https://github.com/cometal-design/cometal-design-system/blob/main/packages/react/src/Tabs/Tabs.tsx';
-const sourceStates = ['Default', 'Hover', 'Pressed', 'Disabled'] as const;
+const sourceStates = ['Default', 'Disabled'] as const;
 
 function PanelCounter({ label }: { label: string }) {
   const [count, setCount] = useState(0);
@@ -68,7 +68,12 @@ function OpaqueRegistrationExample() {
   return (
     <div className="ds-tabs-standalone">
       <Button size="s" variant="secondary" onClick={() => setMounted(true)}>Показать вкладки</Button>
-      {mounted && <Tabs defaultValue="overview" size="m"><OpaqueTabContent /></Tabs>}
+      {mounted ? (
+        <>
+          <div data-opaque-registration="explicit-default"><Tabs defaultValue="history" size="m"><OpaqueTabContent /></Tabs></div>
+          <div data-opaque-registration="omitted-default"><Tabs size="m"><OpaqueTabContent /></Tabs></div>
+        </>
+      ) : null}
     </div>
   );
 }
@@ -122,7 +127,7 @@ function OverviewPage() {
     <main className="ds-component-page">
       <header className="ds-component-hero"><div><span className="ds-eyebrow">COMPONENT · WEB · CANDIDATE</span><h1>Tabs</h1><p>Переключает связанные persistent panels внутри текущего контекста. Selection и focus остаются раздельными до явной активации.</p></div><a href="https://www.figma.com/design/KKNGucImxFAtQLBhPy8tLs?node-id=1572-181" target="_blank" rel="noreferrer">Открыть в Figma ↗</a></header>
       <section className="ds-component-section"><div className="ds-component-section__intro"><span>01</span><div><h2>Рабочий пример</h2><p>Manual activation, disabled skip, persistent panel state и dynamic removal работают через публичный compound API.</p></div></div><InteractionExample /></section>
-      <section className="ds-component-section"><div className="ds-component-section__intro"><span>02</span><div><h2>Размеры и source states</h2><p>24 комбинации Figma: L/M/S × Default/Hover/Pressed/Disabled × Selected/Unselected. Focus проверяется независимо клавиатурой.</p></div></div><SourceMatrix /></section>
+      <section className="ds-component-section"><div className="ds-component-section__intro"><span>02</span><div><h2>Размеры и source states</h2><p>12 устойчивых комбинаций: L/M/S × Default/Disabled × Selected/Unselected. Hover и Pressed создаются реальным pointer interaction в тесте; Focus проверяется независимо клавиатурой.</p></div></div><SourceMatrix /></section>
       <section className="ds-component-section"><div className="ds-component-section__intro"><span>03</span><div><h2>Count и overflow</h2><p>Один, четыре и длинный набор остаются одной intrinsic nowrap строкой; scroll принадлежит consumer.</p></div></div><ResponsiveCounts /></section>
       <section className="ds-component-section"><div className="ds-component-section__intro"><span>04</span><div><h2>Код</h2><p>Public API: Tabs, TabList, Tab и persistent TabPanel.</p></div></div><ComponentCodeExample componentId="navigation.tabs" componentName="Tabs" sourceHref={SOURCE_URL} /></section>
     </main>
@@ -144,6 +149,9 @@ export const Overview: Story = {
   render: () => <OverviewPage />,
   play: async ({ canvasElement }) => {
     const canvas = within(canvasElement);
+    const vitestBrowser = typeof (globalThis as { __vitest_worker__?: unknown }).__vitest_worker__ === 'undefined'
+      ? undefined
+      : await import('vitest/browser');
     const tablist = canvas.getByRole('tablist', { name: 'Разделы проекта' });
     const tabs = within(tablist).getAllByRole('tab');
     const [overview, history, files, access] = tabs;
@@ -161,6 +169,16 @@ export const Overview: Story = {
       probe.remove();
       return color;
     };
+    const resolveBackground = (token: string) => {
+      const probe = canvasElement.ownerDocument.createElement('span');
+      probe.style.backgroundColor = `var(${token})`;
+      canvasElement.append(probe);
+      const color = getComputedStyle(probe).backgroundColor;
+      probe.remove();
+      return color;
+    };
+    const hoverBackground = resolveBackground('--cometal-component-button-inverse-ghost-surface-hover');
+    const pressedBackground = resolveBackground('--cometal-component-button-inverse-ghost-surface-pressed');
     await expect(getComputedStyle(selectedIndicator).backgroundColor).toBe(resolveColor('--cometal-semantic-color-global-action-brand-default'));
     overview.focus();
     await userEvent.keyboard('{ArrowRight}');
@@ -220,13 +238,62 @@ export const Overview: Story = {
     await expect(mediumItem.getBoundingClientRect().height).toBe(48);
     await expect(Number.parseFloat(getComputedStyle(mediumItem).gap)).toBe(6);
     await expect(Number.parseFloat(getComputedStyle(tablist).gap)).toBe(4);
-    await expect(canvasElement.querySelectorAll('[data-source-combination]')).toHaveLength(24);
+    await expect(canvasElement.querySelectorAll('[data-source-combination]')).toHaveLength(12);
     const disabledSelectedIndicator = canvasElement.querySelector<HTMLElement>('[data-source-combination="m-Disabled-selected"] .cometal-tabs__indicator')!;
     await expect(getComputedStyle(disabledSelectedIndicator).backgroundColor).toBe(resolveColor('--cometal-semantic-color-global-text-disabled'));
     for (const [size, triggerHeight, itemHeight] of [['l', 48, 56], ['m', 40, 48], ['s', 32, 40]] as const) {
       const sourceItem = canvasElement.querySelector<HTMLElement>(`[data-source-combination="${size}-Default-selected"] .cometal-tabs__item`)!;
       await expect(sourceItem.querySelector<HTMLElement>('.cometal-tabs__trigger')!.getBoundingClientRect().height).toBe(triggerHeight);
       await expect(sourceItem.getBoundingClientRect().height).toBe(itemHeight);
+    }
+    for (const size of tabSizes) {
+      for (const selected of [false, true]) {
+        const state = selected ? 'selected' : 'unselected';
+        const source = canvasElement.querySelector<HTMLElement>(`[data-source-combination="${size}-Default-${state}"]`)!;
+        const trigger = source.querySelector<HTMLButtonElement>('.cometal-tabs__trigger')!;
+        const indicator = source.querySelector<HTMLElement>('.cometal-tabs__indicator')!;
+        await (vitestBrowser?.userEvent ?? userEvent).hover(trigger);
+        try {
+          if (vitestBrowser) {
+            await waitFor(() => expect(getComputedStyle(trigger).backgroundColor).toBe(hoverBackground));
+            await expect(getComputedStyle(indicator).backgroundColor).toBe(selected
+              ? resolveColor('--cometal-semantic-color-global-action-brand-hover')
+              : 'rgba(0, 0, 0, 0)');
+            let pointerWasActive = false;
+            let pressedTriggerBackground = '';
+            let pressedIndicatorBackground = '';
+            let finishPressedCapture = () => {};
+            const pressedCapture = new Promise<void>((resolve) => { finishPressedCapture = resolve; });
+            const transitionMs = Math.max(...getComputedStyle(trigger).transitionDuration.split(',').map((duration) => (
+              duration.trim().endsWith('ms')
+                ? Number.parseFloat(duration)
+                : Number.parseFloat(duration) * 1000
+            )));
+            const capturePressedState = () => {
+              window.setTimeout(() => {
+                pointerWasActive = trigger.matches(':active');
+                pressedTriggerBackground = getComputedStyle(trigger).backgroundColor;
+                pressedIndicatorBackground = getComputedStyle(indicator).backgroundColor;
+                finishPressedCapture();
+              }, transitionMs + 16);
+            };
+            trigger.addEventListener('pointerdown', capturePressedState, { once: true });
+            try {
+              await vitestBrowser.userEvent.click(trigger, { delay: transitionMs + 64 });
+              await pressedCapture;
+              await expect(pointerWasActive).toBe(true);
+              await expect(pressedTriggerBackground).toBe(pressedBackground);
+              await expect(pressedIndicatorBackground).toBe(selected
+                ? resolveColor('--cometal-semantic-color-global-action-brand-pressed')
+                : 'rgba(0, 0, 0, 0)');
+            } finally {
+              trigger.removeEventListener('pointerdown', capturePressedState);
+            }
+          }
+        } finally {
+          await (vitestBrowser?.userEvent ?? userEvent).unhover(trigger);
+        }
+      }
     }
     await expect(canvasElement.querySelector('[data-tabs-count="1"] [role="tablist"]')?.children).toHaveLength(1);
     await expect(canvasElement.querySelector('[data-tabs-count="4"] [role="tablist"]')?.children).toHaveLength(4);
@@ -267,10 +334,19 @@ export const OpaqueRegistrationFocus: Story = {
     const mountButton = canvas.getByRole('button', { name: 'Показать вкладки' });
     mountButton.focus();
     await userEvent.click(mountButton);
-    const overview = await canvas.findByRole('tab', { name: 'Обзор' });
-    await waitFor(() => expect(overview).toHaveAttribute('aria-selected', 'true'));
+    const explicitRegion = canvasElement.querySelector<HTMLElement>('[data-opaque-registration="explicit-default"]')!;
+    const omittedRegion = canvasElement.querySelector<HTMLElement>('[data-opaque-registration="omitted-default"]')!;
+    const explicit = within(explicitRegion);
+    const omitted = within(omittedRegion);
+    const explicitHistory = await explicit.findByRole('tab', { name: 'История' });
+    const omittedOverview = await omitted.findByRole('tab', { name: 'Обзор' });
+    await waitFor(() => expect(explicitHistory).toHaveAttribute('aria-selected', 'true'));
+    await waitFor(() => expect(omittedOverview).toHaveAttribute('aria-selected', 'true'));
+    await expect(explicit.getByRole('tabpanel', { name: 'История' })).toBeVisible();
+    await expect(omitted.getByRole('tabpanel', { name: 'Обзор' })).toBeVisible();
     await expect(mountButton).toHaveFocus();
-    await expect(overview).not.toHaveFocus();
+    await expect(explicitHistory).not.toHaveFocus();
+    await expect(omittedOverview).not.toHaveFocus();
   },
 };
 

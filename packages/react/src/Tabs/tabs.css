@@ -40,7 +40,7 @@
   background: var(--cometal-semantic-color-global-action-brand-hover);
 }
 
-.cometal-tabs__item[data-selected='true']:active:not([data-disabled='true']) > .cometal-tabs__indicator {
+.cometal-tabs__item[data-selected='true'] > .cometal-tabs__trigger:active:not(:disabled) + .cometal-tabs__indicator {
   background: var(--cometal-semantic-color-global-action-brand-pressed);
 }
 

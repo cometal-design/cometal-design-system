@@ -183,8 +183,21 @@ for (const [id, count] of familyMemberCounts) {
   if (count !== 1) errors.push(`${id}: expected exactly one portal family, found ${count}`);
 }
 
-for (const usageId of Object.keys(usageRegistry)) {
+const usageAvailabilities = new Set(['beta-target', 'published']);
+for (const [usageId, usage] of Object.entries(usageRegistry)) {
   if (!ids.has(usageId) && !aliasIds.has(usageId)) errors.push(`usage: unknown stable ID or documented alias ${usageId}`);
+  if (!usage || typeof usage !== 'object') {
+    errors.push(`usage: ${usageId} must be an object`);
+    continue;
+  }
+  if (!usageAvailabilities.has(usage.availability)) {
+    errors.push(`usage: ${usageId} has unsupported availability ${usage.availability ?? 'missing'}`);
+  }
+  for (const field of ['packageName', 'install', 'import', 'example']) {
+    if (typeof usage[field] !== 'string' || usage[field].trim().length === 0) {
+      errors.push(`usage: ${usageId} must define a non-empty ${field}`);
+    }
+  }
 }
 
 const usageSource = JSON.stringify(usageRegistry);

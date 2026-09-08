@@ -19,6 +19,19 @@ function BasicTabs({ value, defaultValue }: { value?: string; defaultValue?: str
   );
 }
 
+function OpaqueTabContent() {
+  return (
+    <>
+      <TabList aria-label="Opaque tabs">
+        <Tab value="overview">Обзор</Tab>
+        <Tab value="history">История</Tab>
+      </TabList>
+      <TabPanel value="overview">Сводка</TabPanel>
+      <TabPanel value="history">Изменения</TabPanel>
+    </>
+  );
+}
+
 describe('Tabs', () => {
   it('publishes the exact L/M/S size contract', () => {
     expect(tabSizes).toEqual(['l', 'm', 's']);
@@ -53,6 +66,28 @@ describe('Tabs', () => {
       expect((html.match(/role="tabpanel"/g) ?? [])).toHaveLength(3);
       expect((html.match(/hidden=""/g) ?? [])).toHaveLength(2);
     }
+  });
+
+  it('preserves explicit selection in opaque server-rendered composition', () => {
+    const controlled = renderToStaticMarkup(<Tabs value="history"><OpaqueTabContent /></Tabs>);
+    const uncontrolled = renderToStaticMarkup(<Tabs defaultValue="history"><OpaqueTabContent /></Tabs>);
+
+    for (const html of [controlled, uncontrolled]) {
+      expect((html.match(/aria-selected="true"/g) ?? [])).toHaveLength(1);
+      expect(html).toMatch(/aria-selected="true"[^>]*tabindex="0"[^>]*>.*История/s);
+      expect((html.match(/role="tabpanel"/g) ?? [])).toHaveLength(2);
+      expect((html.match(/hidden=""/g) ?? [])).toHaveLength(1);
+      expect(html).toMatch(/role="tabpanel"[^>]*tabindex="0"[^>]*>Изменения/);
+    }
+  });
+
+  it('defers omitted default selection for opaque server-rendered composition', () => {
+    const html = renderToStaticMarkup(<Tabs><OpaqueTabContent /></Tabs>);
+
+    expect((html.match(/aria-selected="true"/g) ?? [])).toHaveLength(0);
+    expect((html.match(/aria-selected="false"/g) ?? [])).toHaveLength(2);
+    expect((html.match(/hidden=""/g) ?? [])).toHaveLength(2);
+    expect(html).not.toContain('tabindex="0"');
   });
 
   it('keeps a disabled selected tab valid while another enabled tab owns the roving entry', () => {
@@ -120,7 +155,7 @@ describe('Tabs', () => {
 
     expect(css).toContain("[data-selected='true']:hover:not([data-disabled='true'])");
     expect(css).toContain('--cometal-semantic-color-global-action-brand-hover');
-    expect(css).toContain("[data-selected='true']:active:not([data-disabled='true'])");
+    expect(css).toContain("[data-selected='true'] > .cometal-tabs__trigger:active:not(:disabled) + .cometal-tabs__indicator");
     expect(css).toContain('--cometal-semantic-color-global-action-brand-pressed');
     expect(css).toContain("[data-selected='true'][data-disabled='true']");
     expect(css).toContain('--cometal-semantic-color-global-text-disabled');
