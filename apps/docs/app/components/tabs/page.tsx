@@ -76,7 +76,6 @@ const overview = (
     <section className="content-section" aria-labelledby="tabs-usage-title">
       <header className="section-heading"><h2 id="tabs-usage-title">Использование</h2><p>Импортируйте compound-компоненты и сопоставьте каждой вкладке одну панель с тем же value.</p></header>
       <CodeBlock code="import { Tab, TabList, TabPanel, Tabs } from '@cometal/react';" copyName="импорт Tabs" compact />
-      <p className="component-standard-settings__note">Исходник Tabs пока доступен только в локальной рабочей версии; ссылка GitHub появится после публикации.</p>
     </section>
     <section className="content-section" aria-labelledby="tabs-composition-title">
       <header className="section-heading"><h2 id="tabs-composition-title">Композиция</h2></header>
@@ -131,5 +130,5 @@ const accessibility = (
 );
 
 export default function TabsPage() {
-  return <ComponentPageStandard title="Tabs" summary="Переключает связанные persistent content panels внутри текущего контекста страницы." status={component.status} statusLabel={statusLabels[component.status]} stableId="navigation.tabs" reactExport="Tabs · TabList · Tab · TabPanel" figmaHref={component.links.figma} storybookHref="/storybook/?path=/story/components-tabs--overview" overview={overview} settings={<TabsSettings />} accessibility={accessibility} />;
+  return <ComponentPageStandard title="Tabs" summary="Переключает связанные persistent content panels внутри текущего контекста страницы." status={component.status} statusLabel={statusLabels[component.status]} stableId="navigation.tabs" reactExport="Tabs · TabList · Tab · TabPanel" figmaHref={component.links.figma} storybookHref="/storybook/?path=/story/components-tabs--overview" sourceHref="https://github.com/cometal-design/cometal-design-system/blob/main/packages/react/src/Tabs/Tabs.tsx" overview={overview} settings={<TabsSettings />} accessibility={accessibility} />;
 }
