@@ -1,14 +1,11 @@
 {
-  "schemaVersion": 3,
+  "schemaVersion": 4,
   "profiles": {
     "legacy-linear": {
       "description": "Existing eight-phase content contract; criteria and order remain unchanged."
     },
     "component-standard": {
       "description": "Page standard v1.1: Overview, Settings, Accessibility; actual panel wiring and route-selected content."
-    },
-    "family-chooser": {
-      "description": "Fields chooser delegates details to explicit child pages; identity, live previews, links and legacy anchors remain required."
     }
   },
   "componentPhases": [
@@ -27,11 +24,38 @@
     "tableFamilyNavigationFile": "components/table-family-header.tsx",
     "registryFile": "../../registry/components.json",
     "expectedTableChildRoutes": 4,
-    "expectedTotalDetailRoutes": 21,
+    "expectedTotalDetailRoutes": 20,
     "fieldDocumentationFile": "lib/field-documentation.ts",
     "navigationFile": "lib/navigation.ts",
-    "portalShellFile": "components/portal-shell.tsx"
+    "portalShellFile": "components/portal-shell.tsx",
+    "catalogProjectionFile": "lib/registry.ts"
   },
+  "compatibilityRoutes": [
+    {
+      "route": "/components/fields/",
+      "target": "/components/"
+    },
+    {
+      "route": "/components/fields/text-field/",
+      "target": "/components/text-field/"
+    },
+    {
+      "route": "/components/fields/text-area/",
+      "target": "/components/text-area/"
+    },
+    {
+      "route": "/components/fields/select/",
+      "target": "/components/select/"
+    },
+    {
+      "route": "/components/fields/combobox/",
+      "target": "/components/combobox/"
+    },
+    {
+      "route": "/components/fields/multi-select/",
+      "target": "/components/multi-select/"
+    }
+  ],
   "criteria": [
     {
       "id": "identity",
@@ -170,19 +194,6 @@
         "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["figmaHref=\\{component\\.links\\.figma\\}"] }] } },
         "real-example": { "evidence": { "clauses": [{ "scope": "content", "all": ["<Badge\\b"] }] } },
         "behavior-a11y": { "evidence": { "clauses": [{ "scope": "content", "all": ["только цветом", "aria-label"] }] } }
-      }
-    },
-    {
-      "route": "/components/fields/",
-      "source": "app/components/fields/page.tsx",
-      "tier": "primary",
-      "profile": "family-chooser",
-      "stableIds": ["input.text-field", "input.text-area", "input.select", "input.combobox", "input.multi-select"],
-      "contentFiles": [],
-      "requirements": {
-        "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>input\\.text-field</code>", "<code>input\\.text-area</code>", "<code>input\\.select</code>", "<code>input\\.combobox</code>", "<code>input\\.multi-select</code>"] }] } },
-        "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["figmaHref=\\{fieldsFamilyFigma\\}"] }] } },
-        "real-example": { "evidence": { "clauses": [{ "scope": "content", "all": ["<TextField\\b", "<TextArea\\b", "<SelectModeDemo\\b", "<ComboboxModeDemo\\b", "<MultiSelectModeDemo\\b"] }] } }
       }
     },
     {
@@ -360,10 +371,9 @@
       ]
     },
     {
-      "route": "/components/fields/text-field/",
-      "source": "app/components/fields/text-field/page.tsx",
-      "tier": "family-child",
-      "parent": "/components/fields/",
+      "route": "/components/text-field/",
+      "source": "app/components/text-field/page.tsx",
+      "tier": "primary",
       "profile": "component-standard",
       "stableIds": [
         "input.text-field"
@@ -377,10 +387,9 @@
       ]
     },
     {
-      "route": "/components/fields/text-area/",
-      "source": "app/components/fields/text-area/page.tsx",
-      "tier": "family-child",
-      "parent": "/components/fields/",
+      "route": "/components/text-area/",
+      "source": "app/components/text-area/page.tsx",
+      "tier": "primary",
       "profile": "component-standard",
       "stableIds": [
         "input.text-area"
@@ -394,10 +403,9 @@
       ]
     },
     {
-      "route": "/components/fields/select/",
-      "source": "app/components/fields/select/page.tsx",
-      "tier": "family-child",
-      "parent": "/components/fields/",
+      "route": "/components/select/",
+      "source": "app/components/select/page.tsx",
+      "tier": "primary",
       "profile": "component-standard",
       "stableIds": [
         "input.select"
@@ -411,10 +419,9 @@
       ]
     },
     {
-      "route": "/components/fields/combobox/",
-      "source": "app/components/fields/combobox/page.tsx",
-      "tier": "family-child",
-      "parent": "/components/fields/",
+      "route": "/components/combobox/",
+      "source": "app/components/combobox/page.tsx",
+      "tier": "primary",
       "profile": "component-standard",
       "stableIds": [
         "input.combobox"
@@ -428,10 +435,9 @@
       ]
     },
     {
-      "route": "/components/fields/multi-select/",
-      "source": "app/components/fields/multi-select/page.tsx",
-      "tier": "family-child",
-      "parent": "/components/fields/",
+      "route": "/components/multi-select/",
+      "source": "app/components/multi-select/page.tsx",
+      "tier": "primary",
       "profile": "component-standard",
       "stableIds": [
         "input.multi-select"

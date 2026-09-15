@@ -913,30 +913,6 @@ code, pre, kbd, samp {
   gap: var(--cometal-primitive-spacing-100);
 }
 .field-doc-stack { gap: var(--cometal-primitive-spacing-250); }
-.field-doc-chooser__cards {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(min(100%, var(--portal-copy-small-width)), 1fr));
-  gap: var(--cometal-primitive-spacing-200);
-}
-.field-doc-chooser__cards > article {
-  display: grid;
-  align-content: start;
-  gap: var(--cometal-primitive-spacing-100);
-  min-width: 0;
-  padding: var(--cometal-primitive-spacing-150);
-  border: var(--portal-hairline) solid var(--portal-line);
-  border-radius: var(--portal-radius-m);
-}
-.field-doc-chooser__cards p, .field-doc-chooser__cards h3 { margin: 0; }
-.field-doc-nav { min-width: 0; }
-.field-doc-nav__children {
-  display: grid;
-  gap: var(--cometal-primitive-spacing-25);
-  list-style: none;
-  margin: 0;
-  padding: 0 0 0 var(--cometal-primitive-spacing-100);
-}
-.field-doc-nav__children a { display: block; }
 .component-standard-settings__control > .cometal-field { width: 100%; }
 .component-standard-settings__note { max-width: var(--portal-copy-section-width); margin: 0; color: var(--portal-text-secondary); }
 .component-standard-sources { display: flex; margin: var(--cometal-primitive-spacing-150) 0 0; align-items: center; flex-wrap: wrap; gap: var(--cometal-primitive-spacing-100) var(--cometal-primitive-spacing-150); }

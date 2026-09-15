@@ -3,7 +3,7 @@ import type { SelectOption } from '@cometal/react';
 // One association per public field. Lifecycle and source URLs remain registry-owned.
 export const fieldDocumentation = {
   'text-field': {
-    route: '/components/fields/text-field/',
+    route: '/components/text-field/',
     stableId: 'input.text-field',
     reactExport: 'TextField',
     title: 'Text Field',
@@ -22,7 +22,7 @@ export const fieldDocumentation = {
     apg: 'https://www.w3.org/WAI/tutorials/forms/labels/',
   },
   'text-area': {
-    route: '/components/fields/text-area/',
+    route: '/components/text-area/',
     stableId: 'input.text-area',
     reactExport: 'TextArea',
     title: 'Text Area',
@@ -41,7 +41,7 @@ export const fieldDocumentation = {
     apg: 'https://www.w3.org/WAI/tutorials/forms/instructions/',
   },
   select: {
-    route: '/components/fields/select/',
+    route: '/components/select/',
     stableId: 'input.select',
     reactExport: 'Select',
     title: 'Select',
@@ -60,7 +60,7 @@ export const fieldDocumentation = {
     apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/combobox/',
   },
   combobox: {
-    route: '/components/fields/combobox/',
+    route: '/components/combobox/',
     stableId: 'input.combobox',
     reactExport: 'Combobox',
     title: 'Combobox',
@@ -80,7 +80,7 @@ export const fieldDocumentation = {
     apg: 'https://www.w3.org/WAI/ARIA/apg/patterns/combobox/',
   },
   'multi-select': {
-    route: '/components/fields/multi-select/',
+    route: '/components/multi-select/',
     stableId: 'input.multi-select',
     reactExport: 'MultiSelect',
     title: 'Multi Select',

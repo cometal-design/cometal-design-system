@@ -1,13 +1,14 @@
 #!/usr/bin/env node
 import { readFile, readdir, stat } from 'node:fs/promises';
 import { createRequire } from 'node:module';
+import { runInNewContext } from 'node:vm';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const docsRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
 const require = createRequire(path.join(docsRoot, 'package.json'));
 const ts = require('typescript');
-const profiles = new Set(['legacy-linear', 'component-standard', 'family-chooser']);
+const profiles = new Set(['legacy-linear', 'component-standard']);
 const sorted = (values) => [...new Set(values)].sort();
 const equal = (a, b) => JSON.stringify(sorted(a)) === JSON.stringify(sorted(b));
 const parse = (source) => ts.createSourceFile('content.tsx', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
@@ -218,19 +219,34 @@ function checkNativeStandard(route, sources) {
   };
 }
 
-export function checkChooser(source, fields) {
+// Execute the actual portal projection with only its three declared data imports.
+export function readCatalogProjection(source, families, registry, fields) {
+  const imports = {
+    '../../../registry/components.json': { components: registry },
+    '../../../registry/component-families.json': { families },
+    './field-documentation': { fieldDocumentation: fields },
+  };
+  const module = { exports: {} };
+  const compiled = ts.transpileModule(source, { compilerOptions: { module: ts.ModuleKind.CommonJS, target: ts.ScriptTarget.ES2022, esModuleInterop: true } }).outputText;
+  runInNewContext(compiled, {
+    module, exports: module.exports,
+    require(name) { if (!(name in imports)) throw Error('Unexpected projection import: ' + name); return imports[name]; },
+  }, { timeout: 1000 });
+  return structuredClone(module.exports.componentCatalog);
+}
+
+export function redirectTarget(source) {
   const ast = parse(source);
-  const header = jsx(ast, 'ComponentPageHeader')[0];
-  const ids = nodes(ast, (node) => ts.isJsxAttribute(node) && node.name.getText() === 'id').map((node) => stringValue(node.initializer));
-  const results = [
-    result('identity-sources', ['title', 'summary', 'status', 'statusLabel', 'figmaHref', 'playgroundHref'].every((name) => attribute(header, name))
-      && source.includes('doc.stableId') && source.includes('components.find')),
-    result('chooser-links', source.includes('fieldSlugs.map') && jsx(ast, 'Link').some((node) => attribute(node, 'href')?.getText() === 'doc.route')
-      && jsx(ast, 'FieldDemo').some((node) => attribute(node, 'kind')?.getText() === 'slug') && Object.keys(fields).length === 5),
-    result('legacy-anchors', ['family', 'sizes', 'states', 'code', 'usage', 'behavior', 'api'].every((id) => ids.includes(id))
-      && nodes(ast, (node) => ts.isJsxAttribute(node) && node.name.getText() === 'id').some((node) => ts.isJsxExpression(node.initializer) && node.initializer.expression?.getText() === 'slug')),
-  ];
-  return { results, orderStatus: 'PASS', phaseOrder: { expected: ['header', 'chooser', 'reference-links'], actual: ['header', 'chooser', 'reference-links'], errors: [] } };
+  if (ast.statements.length !== 2) return null;
+  const [importNode, declaration] = ast.statements;
+  if (!ts.isImportDeclaration(importNode) || stringValue(importNode.moduleSpecifier) !== 'next/navigation'
+    || importNode.importClause?.namedBindings?.getText() !== '{ redirect }'
+    || !ts.isFunctionDeclaration(declaration) || !declaration.modifiers?.some((m) => m.kind === ts.SyntaxKind.DefaultKeyword)
+    || declaration.body?.statements.length !== 1) return null;
+  const statement = declaration.body.statements[0];
+  if (!ts.isExpressionStatement(statement) || !ts.isCallExpression(statement.expression)
+    || statement.expression.expression.getText() !== 'redirect' || statement.expression.arguments.length !== 1) return null;
+  return stringValue(statement.expression.arguments[0]);
 }
 
 function matches(source, pattern) { return new RegExp(pattern, 'iu').test(source); }
@@ -259,22 +275,47 @@ export function checkLegacy(route, content, graph, contract) {
   return { results, orderStatus: orderPass ? 'PASS' : 'MISSING', phaseOrder: { expected, actual: declarations, errors: orderPass ? [] : ['phase-order'] } };
 }
 
-export function checkInventory({ contract, sourceRoutes, families, registry, tableChildren, fields, navigation, shell }) {
+export function checkInventory({ contract, sourceRoutes, families, registry, tableChildren, fields, navigation, shell, projectionSource, compatibilitySources = {} }) {
   const errors = [];
   const routes = contract.routes;
   const compare = (label, left, right) => { if (!equal(left, right)) errors.push(label); };
-  if (contract.schemaVersion !== 3) errors.push('schema-version');
+  if (contract.schemaVersion !== 4) errors.push('schema-version');
   if (contract.componentPhases.some((phase, index) => phase.order !== index)
     || new Set(contract.componentPhases.map((phase) => phase.id)).size !== contract.componentPhases.length) errors.push('phase-definition');
   if (new Set(routes.map((route) => route.route)).size !== routes.length) errors.push('duplicate-route');
-  compare('contract-vs-source', routes.map((route) => route.route), sourceRoutes);
-  compare('primary-navigation', routes.filter((route) => route.tier === 'primary').map((route) => route.route), families.map((family) => family.route));
+  const aliases = contract.compatibilityRoutes ?? [];
+  const canonical = routes.map((route) => route.route);
+  const aliasRoutes = aliases.map((alias) => alias.route);
+  const expectedAliases = [
+    { route: '/components/fields/', target: '/components/' },
+    ...Object.entries(fields).map(([slug, field]) => ({ route: '/components/fields/' + slug + '/', target: field.route })),
+  ];
+  if (new Set(aliasRoutes).size !== aliases.length) errors.push('duplicate-alias');
+  compare('exact-compatibility', aliases.map((a) => a.route + '>' + a.target), expectedAliases.map((a) => a.route + '>' + a.target));
+  for (const alias of aliases) {
+    if (canonical.includes(alias.route)) errors.push('alias-canonical-overlap');
+    if (aliasRoutes.includes(alias.target)) errors.push('alias-chain-or-loop');
+    if (alias.target !== '/components/' && !canonical.includes(alias.target)) errors.push('unknown-alias-target');
+    if (redirectTarget(compatibilitySources[alias.route] ?? '') !== alias.target) errors.push('redirect-only-source:' + alias.route);
+  }
+  compare('contract-vs-source', [...canonical, ...aliasRoutes], sourceRoutes);
+  let catalog = [];
+  try { catalog = readCatalogProjection(projectionSource, families, registry, fields); }
+  catch (error) { errors.push('catalog-projection:' + error.message); }
+  compare('primary-navigation', routes.filter((route) => route.tier === 'primary').map((route) => route.route), catalog.map((entry) => entry.route));
+  const projectedMembers = catalog.flatMap((entry) => entry.members);
+  if (projectedMembers.length !== registry.length || new Set(projectedMembers).size !== projectedMembers.length
+    || !equal(projectedMembers, registry.map((item) => item.id))) errors.push('projected-member-coverage');
+  if (catalog.some((entry) => entry.id === 'input.fields' || aliasRoutes.includes(entry.route))) errors.push('visible-source-family');
+  for (const field of Object.values(fields)) {
+    if (!catalog.some((entry) => entry.id === field.stableId && entry.route === field.route)) errors.push('field-projection:' + field.stableId);
+  }
   compare('table-navigation', routes.filter((route) => route.parent === '/components/table/').map((route) => route.route), tableChildren);
-  compare('field-navigation', routes.filter((route) => route.parent === '/components/fields/').map((route) => route.route), Object.values(fields).map((field) => field.route));
-  if (sourceRoutes.length !== contract.inventory.expectedTotalDetailRoutes) errors.push('source-count');
+  compare('field-navigation', routes.filter((route) => route.selection).map((route) => route.route), Object.values(fields).map((field) => field.route));
+  if (routes.length !== contract.inventory.expectedTotalDetailRoutes) errors.push('source-count');
   if (tableChildren.length !== contract.inventory.expectedTableChildRoutes) errors.push('table-child-count');
-  if (!navigation.includes("from './field-documentation'") || !navigation.includes('fieldSlugs.map')
-    || !navigation.includes('fieldDocumentation[slug].route') || !shell.includes('item.children.map')) errors.push('field-navigation-wiring');
+  if (!navigation.includes("import { componentCatalog } from './registry'") || !navigation.includes('...componentCatalog.map')
+    || shell.includes('item.children') || navigation.includes('children:')) errors.push('catalog-navigation-wiring');
   for (const route of routes) {
     if (!profiles.has(route.profile)) errors.push('unsupported-profile:' + route.route);
     if (route.standardLayout && route.standardLayout !== 'native-tabs') errors.push('unsupported-layout:' + route.route);
@@ -288,16 +329,21 @@ export function checkInventory({ contract, sourceRoutes, families, registry, tab
       if (override.requirement && !['required', 'conditional', 'na'].includes(override.requirement)) errors.push('invalid-phase-requirement:' + id);
       if (override.requirement === 'na' && !override.rationale) errors.push('missing-phase-na-rationale:' + id);
     }
-    const family = families.find((item) => item.route === (route.parent ?? route.route));
-    if (!family || (route.tier === 'family-child' && (!route.parent || !route.route.startsWith(route.parent)))) errors.push('wrong-parent:' + route.route);
+    const family = route.selection
+      ? families.find((item) => item.members.includes(fields[route.selection.kind]?.stableId))
+      : families.find((item) => item.route === (route.parent ?? route.route));
+    if (!family || (route.selection && (route.parent || route.tier !== 'primary')) || (route.tier === 'family-child' && (!route.parent || !route.route.startsWith(route.parent)))) errors.push('wrong-parent:' + route.route);
     if (family && (route.stableIds.some((id) => !family.members.includes(id)) || route.stableIds.some((id) => !registry.some((item) => item.id === id)))) errors.push('wrong-stable-id:' + route.route);
-    if (route.tier === 'primary' && family && !equal(route.stableIds, family.members)) errors.push('primary-members:' + route.route);
+    if (route.tier === 'primary' && family && !equal(route.stableIds, route.selection ? [fields[route.selection.kind]?.stableId] : family.members)) errors.push('primary-members:' + route.route);
     if (route.selection) {
       const field = fields[route.selection.kind];
       if (!field || field.route !== route.route || !equal([field.stableId], route.stableIds)) errors.push('field-selection:' + route.route);
     }
   }
   const fieldIds = Object.values(fields).map((field) => field.stableId);
+  for (const [slug, field] of Object.entries(fields)) {
+    if (field.stableId !== 'input.' + slug || field.route !== '/components/' + slug + '/') errors.push('field-canonical-association:' + slug);
+  }
   if (new Set(fieldIds).size !== fieldIds.length) errors.push('duplicate-field-id');
   return errors;
 }
@@ -349,7 +395,10 @@ export async function audit(selection) {
   const tableSource = await read(contract.inventory.tableFamilyNavigationFile);
   const tableChildren = sorted([...tableSource.matchAll(/['"](\/components\/table\/[a-z-]+\/)['"]/g)].map((match) => match[1]));
   const errors = checkInventory({ contract, sourceRoutes, families, registry, tableChildren, fields,
-    navigation: await read(contract.inventory.navigationFile), shell: await read(contract.inventory.portalShellFile) });
+    navigation: await read(contract.inventory.navigationFile), shell: await read(contract.inventory.portalShellFile),
+    projectionSource: await read(contract.inventory.catalogProjectionFile),
+    compatibilitySources: Object.fromEntries(await Promise.all((contract.compatibilityRoutes ?? []).map(async (alias) =>
+      [alias.route, await read('app' + alias.route + 'page.tsx').catch(() => '')]))) });
   const reports = [];
   for (const route of selectRoutes(contract.routes, selection)) {
     let evidence;
@@ -358,7 +407,6 @@ export async function audit(selection) {
       const sources = await Promise.all(files.map(read));
       if (route.profile === 'legacy-linear') evidence = checkLegacy(route, sources.join('\n'), await graphSources(files.map((file) => path.join(docsRoot, file))), contract);
       else if (route.profile === 'component-standard') evidence = checkStandard(route, sources, fields);
-      else if (route.profile === 'family-chooser') evidence = checkChooser(sources[0], fields);
       else throw Error('Unsupported profile');
       for (const id of route.stableIds) {
         const component = registry.find((item) => item.id === id);
@@ -374,8 +422,8 @@ export async function audit(selection) {
     reports.push({ route: route.route, profile: route.profile, ...evidence, contentStatus,
       status: contentStatus === 'PASS' && evidence.orderStatus === 'PASS' ? 'PASS' : 'MISSING' });
   }
-  return { schemaVersion: 3, scope: selection === undefined ? 'global' : 'selected (inventory remains global)',
-    inventory: { status: errors.length ? 'MISSING' : 'PASS', errors, routes: sourceRoutes.length },
+  return { schemaVersion: 4, scope: selection === undefined ? 'global' : 'selected (inventory remains global)',
+    inventory: { status: errors.length ? 'MISSING' : 'PASS', errors, routes: contract.routes.length, compatibilityRoutes: contract.compatibilityRoutes.length },
     routes: reports, summary: { pass: reports.filter((route) => route.status === 'PASS').length, total: reports.length } };
 }
 if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {

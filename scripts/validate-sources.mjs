@@ -1,6 +1,7 @@
 import { access, readFile, readdir } from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
+import { audit, readFieldMap, readCatalogProjection } from '../apps/docs/scripts/validate-component-page-content.mjs';
 
 const root = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const registryPath = path.join(root, 'registry/components.json');
@@ -20,6 +21,18 @@ const requiredReadyChecks = [
   'knowledgeUpdated',
 ];
 const errors = [];
+// Canonical portal inventory and redirect-only compatibility are distinct from source families.
+const portalAudit = await audit();
+errors.push(...portalAudit.inventory.errors.map((error) => 'portal: ' + error));
+const portalCatalog = readCatalogProjection(
+  await readFile(path.join(root, 'apps/docs/lib/registry.ts'), 'utf8'),
+  familyRegistry.families, registry.components,
+  readFieldMap(await readFile(path.join(root, 'apps/docs/lib/field-documentation.ts'), 'utf8')),
+);
+for (const entry of portalCatalog) {
+  try { await access(path.join(root, 'apps/docs/app', entry.route, 'page.tsx')); }
+  catch { errors.push('Missing canonical portal route ' + entry.route); }
+}
 const expectedSources = new Set([
   'figma',
   'git-specification-registry',
@@ -207,9 +220,10 @@ const catalogSource = await readFile(path.join(root, 'apps/docs/app/components/p
 const navigationSource = await readFile(path.join(root, 'apps/docs/lib/navigation.ts'), 'utf8');
 const previewSource = await readFile(path.join(root, 'apps/docs/components/component-catalog-preview.tsx'), 'utf8');
 if (!catalogSource.includes('componentCatalog')) errors.push('portal catalog must derive from the validated family registry');
-if (!navigationSource.includes('component-families.json')) errors.push('component navigation must derive from the validated family registry');
+if (!navigationSource.includes("import { componentCatalog } from './registry'")
+  || !navigationSource.includes('...componentCatalog.map')) errors.push('component navigation must derive from the validated portal catalog projection');
 if (!previewSource.includes('throw new Error(`Component family preview is not implemented')) errors.push('component previews must fail closed for unknown family IDs');
-for (const preview of new Set(familyRegistry.families.map((family) => family.preview))) {
+for (const preview of new Set(portalCatalog.map((entry) => entry.preview))) {
   if (!previewSource.includes(`id === '${preview}'`)) errors.push(`preview: missing explicit renderer for ${preview}`);
 }
 
@@ -232,5 +246,5 @@ if (errors.length > 0) {
   console.error(['Source validation failed:', ...errors.map((error) => `- ${error}`)].join('\n'));
   process.exitCode = 1;
 } else {
-  console.log(`Source validation passed for 5 logical sources, ${registry.components.length} component(s), ${familyRegistry.families.length} portal families and ${storyIds.size} exact Storybook route(s).`);
+  console.log(`Source validation passed for 5 logical sources, ${registry.components.length} component(s), ${familyRegistry.families.length} source families, ${portalCatalog.length} canonical catalog entries and ${storyIds.size} exact Storybook route(s).`);
 }

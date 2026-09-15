@@ -2,7 +2,7 @@
 import assert from 'node:assert/strict';
 import { createRequire } from 'node:module';
 import { readFile } from 'node:fs/promises';
-import { readFieldMap } from './validate-component-page-content.mjs';
+import { readFieldMap, readCatalogProjection } from './validate-component-page-content.mjs';
 
 const require = createRequire(new URL('../../storybook/package.json', import.meta.url));
 const { chromium } = require('playwright');
@@ -19,6 +19,10 @@ const routes = [
   { kind: 'date-picker', route: '/components/date-picker/', title: 'Date Picker', stableId: 'input.date-picker' },
   { kind: 'tooltip', route: '/components/tooltip/', title: 'Tooltip', stableId: 'overlay.tooltip' },
 ];
+const families = JSON.parse(await readFile(new URL('../../../registry/component-families.json', import.meta.url), 'utf8')).families;
+const contract = JSON.parse(await readFile(new URL('../lib/component-page-content-contract.json', import.meta.url), 'utf8'));
+const catalog = readCatalogProjection(await readFile(new URL('../lib/registry.ts', import.meta.url), 'utf8'), families, registry, fields);
+const checkCatalog = args.includes('--catalog') || !args.includes('--kinds');
 const browser = await chromium.launch({ headless: true });
 const selectedKinds = args.includes('--kinds') ? args[args.indexOf('--kinds') + 1].split(',') : null;
 if (selectedKinds?.some((kind) => !routes.some((route) => route.kind === kind))) throw Error('Unknown --kinds');
@@ -286,7 +290,7 @@ async function componentInteraction(page, route) {
 }
 try {
   for (const width of [320, 768, 1440]) {
-    for (const route of routes.filter((route) => !selectedKinds || selectedKinds.includes(route.kind))) {
+    for (const route of routes.filter((route) => !args.includes('--catalog-only') && (!selectedKinds || selectedKinds.includes(route.kind)))) {
       const context = await browser.newContext({ viewport: { width, height: 1000 } });
       const page = await context.newPage();
       await page.addInitScript(() => {
@@ -379,26 +383,72 @@ try {
         console.error('FAIL', width, route.route, error.message);
       } finally { await context.close(); }
     }
-    if (selectedKinds) continue;
+    if (!checkCatalog) continue;
     const page = await browser.newPage({ viewport: { width, height: 1000 } });
+    page.setDefaultTimeout(6000);
+    const errors = [];
+    page.on('pageerror', (error) => errors.push(error.message));
+    page.on('console', (message) => { if (message.type() === 'error') errors.push(message.text()); });
     try {
-      assert.equal((await page.goto(new URL('/components/fields/', base).href)).status(), 200);
+      assert.equal((await page.goto(new URL('/components/', base).href)).status(), 200);
       await page.reload();
       await page.waitForLoadState('networkidle');
-      await noOverlays(page);
-      assert.equal(await page.locator('main h1').count(), 1);
-      for (const id of ['family', 'sizes', 'states', 'code', 'usage', 'behavior', 'api', ...Object.keys(fields)]) assert.equal(await page.locator('main #' + id).count(), 1);
-      for (const doc of Object.values(fields)) assert.ok(await page.locator('main').getByRole('link', { name: doc.title, exact: true }).count() > 0);
+      // Existing Tooltip/ContextMenu catalog specimens intentionally defaultOpen.
+      // The five newly exposed Field specimens must not introduce open popups.
+      assert.equal(await page.locator('[role=listbox]:visible, [role=dialog]:visible').count(), 0);
+      const cards = page.locator('.component-catalog > .component-card');
+      assert.equal(await cards.count(), 16);
+      assert.deepEqual(await cards.evaluateAll((nodes) => nodes.map((node) => ({
+        id: node.getAttribute('data-component-id'), route: node.querySelector('h2 a').getAttribute('href'),
+        name: node.querySelector('.component-card__body h2').textContent,
+      }))), catalog.map((entry) => ({ id: entry.id, route: entry.route, name: entry.name })));
+      assert.equal(await page.locator('.field-doc-chooser__cards, .field-doc-nav, [data-component-id="input.fields"]').count(), 0);
+      const nav = page.getByRole('navigation', { name: 'Навигация раздела', exact: true });
+      assert.deepEqual(await nav.getByRole('link').evaluateAll((links) => links.map((node) => node.getAttribute('href'))),
+        ['/components/', ...catalog.map((entry) => entry.route)]);
+      assert.equal(await nav.getByRole('link', { name: 'Fields', exact: true }).count(), 0);
+      assert.equal(await nav.locator('ul, .field-doc-nav').count(), 0);
+      for (const doc of Object.values(fields)) {
+        const card = page.locator('.component-card[data-component-id="' + doc.stableId + '"]');
+        const entry = catalog.find((entry) => entry.id === doc.stableId);
+        assert.equal(await card.locator('.cometal-field').count(), 1);
+        assert.match(await card.locator('.component-card__body').innerText(), new RegExp(entry.status === 'ready' ? 'Ready' : 'In review'));
+      }
       await geometry(page);
-      await page.locator('main').getByRole('link', { name: 'Text Field', exact: true }).first().click();
-      await page.waitForURL('**/components/fields/text-field/');
-      assert.equal(await page.getByRole('navigation', { name: 'Навигация раздела', exact: true }).locator('[aria-current=page]').getAttribute('href'), fields['text-field'].route);
-      console.log('PASS', width, 'chooser/navigation');
-    } catch (error) { failures.push({ route: '/components/fields/', width, error: error.message }); }
+      for (const doc of Object.values(fields)) {
+        await page.locator('.component-card[data-component-id="' + doc.stableId + '"] h2 a').click();
+        await page.waitForURL(new URL(doc.route, base).href);
+        assert.equal(await page.locator('main h1').innerText(), doc.title);
+        await nav.getByRole('link', { name: 'Обзор', exact: true }).click();
+        await page.waitForURL(new URL('/components/', base).href);
+        await nav.getByRole('link', { name: doc.title, exact: true }).click();
+        await page.waitForURL(new URL(doc.route, base).href);
+        assert.equal(await nav.locator('[aria-current=page]').count(), 1);
+        assert.equal(await nav.locator('[aria-current=page]').getAttribute('href'), doc.route);
+        await nav.getByRole('link', { name: 'Обзор', exact: true }).click();
+        await page.waitForURL(new URL('/components/', base).href);
+      }
+      for (const alias of contract.compatibilityRoutes) {
+        await page.goto(new URL(alias.route, base).href);
+        await page.waitForURL(new URL(alias.target, base).href);
+        await page.reload();
+        await page.waitForURL(new URL(alias.target, base).href);
+        await page.locator('main h1').waitFor();
+        assert.equal(await page.locator('main h1').count(), 1);
+        assert.notEqual(await page.locator('main h1').innerText(), 'Fields');
+        assert.equal(await page.locator('.field-doc-chooser__cards, .field-doc-nav').count(), 0);
+        console.log('PASS redirect', width, alias.route, '→', alias.target);
+      }
+      assert.deepEqual(errors, []);
+      console.log('PASS', width, 'flat catalog/navigation/compatibility');
+    } catch (error) {
+      failures.push({ route: '/components/', width, error: error.message, console: errors });
+      console.error('FAIL catalog', width, error.message);
+    }
     finally { await page.close(); }
   }
   // Shared navigation/layout smoke only: do not redefine untouched component contracts.
-  for (const slug of selectedKinds ? [] : ['button', 'badge', 'checkbox', 'radio-button', 'switch', 'tabs', 'context-menu']) {
+  for (const slug of !checkCatalog ? [] : ['button', 'badge', 'checkbox', 'radio-button', 'switch', 'tabs', 'context-menu']) {
     const page = await browser.newPage({ viewport: { width: 320, height: 1000 } });
     try {
       assert.equal((await page.goto(new URL('/components/' + slug + '/', base).href)).status(), 200);

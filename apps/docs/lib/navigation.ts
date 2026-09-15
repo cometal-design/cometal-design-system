@@ -1,5 +1,4 @@
-import familyRegistry from '../../../registry/component-families.json';
-import { fieldDocumentation, fieldSlugs } from './field-documentation';
+import { componentCatalog } from './registry';
 
 export type NavItem = {
   label: string;
@@ -8,7 +7,6 @@ export type NavItem = {
   external?: boolean;
   activePrefix?: string;
   activeSections?: string[];
-  children?: NavItem[];
 };
 
 export type FoundationTab = Pick<NavItem, 'label' | 'href'>;
@@ -39,14 +37,10 @@ export const sectionNavigation: Record<string, NavItem[]> = {
   ],
   components: [
     { label: 'Обзор', href: '/components/' },
-    ...familyRegistry.families.map((family) => ({
+    ...componentCatalog.map((family) => ({
       label: family.name,
       href: family.route,
       ...(family.id === 'data-display.table' ? { activePrefix: family.route } : {}),
-      ...(family.id === 'input.fields' ? {
-        activePrefix: family.route,
-        children: fieldSlugs.map((slug) => ({ label: fieldDocumentation[slug].title, href: fieldDocumentation[slug].route })),
-      } : {}),
     })),
   ],
   patterns: [{ label: 'Обзор', href: '/patterns/' }],

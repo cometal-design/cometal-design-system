@@ -1,7 +1,7 @@
 import { test } from 'node:test';
 import assert from 'node:assert/strict';
 import { readFile } from 'node:fs/promises';
-import { checkStandard, checkChooser, checkLegacy, checkInventory, readFieldMap, selectRoutes } from './validate-component-page-content.mjs';
+import { checkStandard, readCatalogProjection, checkLegacy, checkInventory, readFieldMap, selectRoutes } from './validate-component-page-content.mjs';
 
 const read = (file) => readFile(new URL('../' + file, import.meta.url), 'utf8');
 const contract = JSON.parse(await read('lib/component-page-content-contract.json'));
@@ -9,12 +9,13 @@ const fieldSource = await read('components/field-detail.tsx');
 const fields = readFieldMap(await read('lib/field-documentation.ts'));
 const route = contract.routes.find((item) => item.selection?.kind === 'text-field');
 const entry = await read(route.source);
-const chooser = await read('app/components/fields/page.tsx');
 const families = JSON.parse(await read(contract.inventory.familyRegistryFile)).families;
 const registry = JSON.parse(await read(contract.inventory.registryFile)).components;
 const model = {
   contract, fields, families, registry,
-  sourceRoutes: contract.routes.map((item) => item.route),
+  sourceRoutes: [...contract.routes, ...contract.compatibilityRoutes].map((item) => item.route),
+  projectionSource: await read('lib/registry.ts'),
+  compatibilitySources: Object.fromEntries(await Promise.all(contract.compatibilityRoutes.map(async (item) => [item.route, await read('app' + item.route + 'page.tsx')]))),
   tableChildren: contract.routes.filter((item) => item.parent === '/components/table/').map((item) => item.route),
   navigation: await read('lib/navigation.ts'), shell: await read('components/portal-shell.tsx'),
 };
@@ -44,10 +45,6 @@ test('sibling JSX cannot replace selected actual component', () => {
 });
 test('wrong route kind fails', () => assert.equal(allPass(standard(fieldSource, fields, entry.replace('kind="text-field"', 'kind="text-area"'))), false));
 test('unused shared detail cannot satisfy route wiring', () => assert.equal(allPass(standard(fieldSource, fields, entry.replace('<FieldDetail kind="text-field" />', '<p>Empty route</p>'))), false));
-test('chooser succeeds and missing child link fails', () => {
-  assert.ok(allPass(checkChooser(chooser, fields)));
-  assert.equal(allPass(checkChooser(chooser.replaceAll('href={doc.route}', 'href="/"'), fields)), false);
-});
 test('legacy Table full phase fixture succeeds and inversion fails', () => {
   const fixture = contract.componentPhases.map((phase) => '<section data-component-phase="' + phase.id + '">Table</section>').join('\n');
   const minimal = { ...contract, criteria: [{ id: 'table-source', defaultRequirement: 'required', evidence: { clauses: [{ all: ['Table'] }] } }] };
@@ -69,7 +66,7 @@ test('wrong parent fails', () => {
   assert.ok(checkInventory(next).some((error) => error.startsWith('wrong-parent:')));
 });
 test('missing navigation wiring fails', () => {
-  assert.ok(checkInventory({ ...model, navigation: model.navigation.replace('fieldSlugs.map', 'unrelated.map') }).includes('field-navigation-wiring'));
+  assert.ok(checkInventory({ ...model, navigation: model.navigation.replace('componentCatalog.map', 'unrelated.map') }).includes('catalog-navigation-wiring'));
 });
 test('missing Table child fails global inventory even for targeted selection', () => {
   assert.ok(checkInventory({ ...model, tableChildren: model.tableChildren.slice(1) }).includes('table-navigation'));
@@ -103,3 +100,57 @@ test('invalid legacy requirement or phase definition is never silently accepted'
   assert.ok(checkInventory(next).includes('phase-definition'));
   assert.ok(checkInventory(next).includes('invalid-requirement:identity'));
 });
+
+test('canonical projection has 16 entries and exact per-member field metadata', () => {
+  const catalog = readCatalogProjection(model.projectionSource, families, registry, fields);
+  assert.equal(catalog.length, 16);
+  assert.equal(catalog.some((entry) => entry.id === 'input.fields'), false);
+  assert.deepEqual(catalog.flatMap((entry) => entry.members).sort(), registry.map((entry) => entry.id).sort());
+  for (const field of Object.values(fields)) {
+    const entry = catalog.find((entry) => entry.id === field.stableId);
+    const member = registry.find((entry) => entry.id === field.stableId);
+    assert.equal(entry.route, field.route);
+    assert.equal(entry.name, member.name);
+    assert.equal(entry.status, member.status);
+    assert.equal(entry.figma, member.links.figma);
+    assert.equal(entry.checks, Object.values(member.checks).filter(Boolean).length);
+  }
+});
+test('projection rejects missing, unknown and duplicate family members', () => {
+  for (const mutation of ['missing', 'unknown', 'duplicate']) {
+    const next = structuredClone(families);
+    const family = next.find((entry) => entry.id === 'input.fields');
+    if (mutation === 'missing') family.members.pop();
+    if (mutation === 'unknown') family.members[0] = 'input.unknown';
+    if (mutation === 'duplicate') family.members[0] = family.members[1];
+    assert.throws(() => readCatalogProjection(model.projectionSource, next, registry, fields));
+  }
+});
+test('compatibility aliases are exact, not canonical content', () => {
+  assert.equal(contract.routes.length, 20);
+  assert.equal(contract.compatibilityRoutes.length, 6);
+  assert.equal(contract.routes.some((route) => route.route.startsWith('/components/fields/')), false);
+  assert.throws(() => selectRoutes(contract.routes, '/components/fields/'));
+  const missingCanonical = { ...model, sourceRoutes: model.sourceRoutes.filter((item) => item !== route.route) };
+  assert.ok(checkInventory(missingCanonical).includes('contract-vs-source'));
+});
+test('field route association cannot drift together with the projection', () => {
+  const next = structuredClone(model);
+  next.fields['text-field'].route = '/components/invented-field/';
+  assert.ok(checkInventory(next).includes('field-canonical-association:text-field'));
+});
+for (const scenario of ['missing', 'extra', 'wrong-target', 'duplicate', 'loop', 'chain', 'overlap', 'content-stub']) {
+  test('bad compatibility mapping fails: ' + scenario, () => {
+    const next = structuredClone(model);
+    const aliases = next.contract.compatibilityRoutes;
+    if (scenario === 'missing') aliases.pop();
+    if (scenario === 'extra') aliases.push({ route: '/components/legacy/', target: '/components/' });
+    if (scenario === 'wrong-target') aliases[0].target = '/components/unknown/';
+    if (scenario === 'duplicate') aliases.push(aliases[0]);
+    if (scenario === 'loop') aliases[0].target = aliases[0].route;
+    if (scenario === 'chain') aliases[0].target = aliases[1].route;
+    if (scenario === 'overlap') aliases[0].route = route.route;
+    if (scenario === 'content-stub') next.compatibilitySources[aliases[0].route] += '\nexport const content = <h1>Fields</h1>;';
+    assert.ok(checkInventory(next).length > 0);
+  });
+}
