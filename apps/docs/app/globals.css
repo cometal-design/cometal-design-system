@@ -908,6 +908,10 @@ code, pre, kbd, samp {
   width: min(100%, var(--portal-copy-small-width));
   min-width: 0;
 }
+.component-standard-presentation > .field-doc-control:is([data-field-kind], [data-date-kind]),
+.component-standard-settings__preview > .field-doc-control:is([data-field-kind], [data-date-kind]) {
+  width: min(100%, calc(var(--cometal-primitive-size-40) * 10));
+}
 .field-doc-stack, .field-doc-stack > article {
   display: grid;
   gap: var(--cometal-primitive-spacing-100);

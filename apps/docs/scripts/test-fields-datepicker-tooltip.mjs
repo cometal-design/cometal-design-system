@@ -49,7 +49,11 @@ async function geometry(page) {
         const box = node.getBoundingClientRect();
         const child = node.querySelector('.field-doc-control') ?? node.querySelector('.cometal-tooltip');
         const rect = child?.getBoundingClientRect();
-        return { width: box.width, left: box.left, right: box.right, centerDelta: rect ? Math.abs(rect.left + rect.width / 2 - box.left - box.width / 2) : 0 };
+        const style = getComputedStyle(node);
+        const available = node.clientWidth - parseFloat(style.paddingLeft) - parseFloat(style.paddingRight);
+        const field = child?.matches('[data-field-kind], [data-date-kind]') ? child.querySelector('.cometal-field') : null;
+        return { width: box.width, left: box.left, right: box.right, centerDelta: rect ? Math.abs(rect.left + rect.width / 2 - box.left - box.width / 2) : 0,
+          fieldWidth: field?.getBoundingClientRect().width, expectedFieldWidth: Math.min(400, available) };
       }),
     };
   });
@@ -57,6 +61,7 @@ async function geometry(page) {
   for (const preview of result.previews) {
     assert.ok(preview.left >= -1 && preview.right <= result.width + 1, JSON.stringify(preview));
     assert.ok(preview.centerDelta <= 1, 'Centered preview ' + JSON.stringify(preview));
+    if (preview.fieldWidth !== undefined) assert.ok(Math.abs(preview.fieldWidth - preview.expectedFieldWidth) < 1, 'Scoped 400px actual field width ' + JSON.stringify(preview));
   }
   return result;
 }
@@ -217,7 +222,10 @@ async function componentInteraction(page, route) {
     await page.getByRole('dialog').getByRole('button', { name: /21 сентября 2026/ }).click();
     assert.equal(await input.inputValue(), '21.09.2026');
     await preview.getByRole('button', { name: 'Открыть календарь', exact: true }).click();
-    await page.getByRole('tab', { name: 'Настройки', exact: true }).click();
+    // Use the real keyboard path while the open calendar may cover a tab at 320px.
+    const settingsTab = page.getByRole('tab', { name: 'Настройки', exact: true });
+    await settingsTab.focus();
+    await settingsTab.press('Enter');
     await noOverlays(page);
     const settingsInput = page.locator('.component-standard-settings__preview').getByRole('textbox');
     assert.equal(await settingsInput.inputValue(), '18.09.2026');
@@ -234,6 +242,7 @@ async function componentInteraction(page, route) {
     await contained(page, 'dialog');
     await resetDateSettings(page);
     await choose(page, 'Вид даты', 'Период');
+    await geometry(page);
     const rangePreview = page.locator('.component-standard-settings__preview');
     await rangePreview.getByRole('button', { name: 'Открыть календарь периода' }).click();
     await contained(page, 'dialog');
