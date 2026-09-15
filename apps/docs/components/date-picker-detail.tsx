@@ -169,6 +169,7 @@ function DateDemo({
 
 function DateSettings({ active }: { active: boolean }) {
   const [config, setConfig] = useState<DateConfiguration>(initialConfiguration);
+  const [generation, setGeneration] = useState(0);
   const [date, setDate] = useState<string | null>(initialDate);
   const [range, setRange] = useState<DateRangeValue>(initialRange);
   const [open, setOpen] = useState(false);
@@ -184,6 +185,7 @@ function DateSettings({ active }: { active: boolean }) {
     setDate(initialDate);
     setRange(initialRange());
     setOpen(false);
+    setGeneration((current) => current + 1);
   }
   if (!active) return null;
   return (
@@ -195,6 +197,7 @@ function DateSettings({ active }: { active: boolean }) {
       preview={
         <div className="field-doc-control" data-date-kind={config.kind}>
           <DateControl
+            key={generation}
             config={config}
             date={date}
             setDate={setDate}

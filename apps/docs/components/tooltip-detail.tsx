@@ -107,7 +107,7 @@ function TooltipSettings({ active }: { active: boolean }) {
         />
       }
       code={tooltipCode(size, placement, content, disabled)}
-      note="Tooltip открывается наведением или фокусом на кнопке. Настройки используют реальные defaults compact / top-center / disabled=false; open первоначально false."
+      note="Tooltip открывается наведением или фокусом на кнопке. API defaults: compact / top-start / disabled=false; open первоначально false. В этом примере явно выбран top-center; Reset восстанавливает эту конфигурацию примера."
     >
       <ComponentPageSetting
         name="size"
@@ -129,7 +129,7 @@ function TooltipSettings({ active }: { active: boolean }) {
       <ComponentPageSetting
         name="placement"
         type="TooltipPlacement"
-        defaultValue="top-center"
+        defaultValue="top-start"
         description="Предпочитаемая позиция. Если места мало, shared Tooltip выбирает fallback и сдвиг в viewport."
       >
         <Select

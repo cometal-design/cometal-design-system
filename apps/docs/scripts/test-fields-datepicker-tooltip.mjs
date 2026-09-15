@@ -75,6 +75,23 @@ async function choose(page, label, option) {
   const list = page.getByRole('listbox', { name: label + ': варианты', exact: true });
   await list.getByRole('option', { name: option, exact: true }).click();
 }
+async function resetDateSettings(page) {
+  const reset = page.getByRole('button', { name: 'Сбросить', exact: true });
+  await reset.click();
+  const preview = page.locator('.component-standard-settings__preview');
+  const input = preview.getByRole('textbox', { name: 'Дата поставки', exact: true });
+  assert.equal(await input.inputValue(), '18.09.2026');
+  assert.notEqual(await input.getAttribute('aria-invalid'), 'true');
+  assert.deepEqual(await input.evaluate((node) => ({ valid: node.validity.valid, message: node.validationMessage })), { valid: true, message: '' });
+  assert.equal(await preview.locator('[data-date-kind="date"] .cometal-field[data-size="l"]').count(), 1);
+  await noOverlays(page);
+  assert.equal(await reset.evaluate((node) => document.activeElement === node), true, 'Reset retains focus');
+  await preview.getByRole('button', { name: 'Показать код', exact: true }).click();
+  const code = await page.locator('.component-standard-settings__code pre').innerText();
+  assert.ok(code.includes('useState<string | null>("2026-09-18")'));
+  assert.ok(code.includes('<DatePicker') && !code.includes('DateRangePicker'));
+  await preview.getByRole('button', { name: 'Скрыть код', exact: true }).click();
+}
 async function listboxLifecycle(page, kind) {
   const originalViewport = page.viewportSize();
   // A shorter viewport makes the real demo reachable at its bottom edge even
@@ -198,6 +215,20 @@ async function componentInteraction(page, route) {
     await preview.getByRole('button', { name: 'Открыть календарь', exact: true }).click();
     await page.getByRole('tab', { name: 'Настройки', exact: true }).click();
     await noOverlays(page);
+    const settingsInput = page.locator('.component-standard-settings__preview').getByRole('textbox');
+    assert.equal(await settingsInput.inputValue(), '18.09.2026');
+    await settingsInput.fill('31.02.2026');
+    await settingsInput.press('Tab');
+    await until(async () => await settingsInput.getAttribute('aria-invalid') === 'true', 'Invalid initial-date draft');
+    await resetDateSettings(page);
+    await resetDateSettings(page);
+    await settingsInput.fill('22.09.2026');
+    await settingsInput.press('Tab');
+    assert.equal(await settingsInput.inputValue(), '22.09.2026');
+    assert.notEqual(await settingsInput.getAttribute('aria-invalid'), 'true');
+    await page.locator('.component-standard-settings__preview').getByRole('button', { name: 'Открыть календарь', exact: true }).click();
+    await contained(page, 'dialog');
+    await resetDateSettings(page);
     await choose(page, 'Вид даты', 'Период');
     const rangePreview = page.locator('.component-standard-settings__preview');
     await rangePreview.getByRole('button', { name: 'Открыть календарь периода' }).click();
@@ -208,7 +239,8 @@ async function componentInteraction(page, route) {
     await rangePreview.getByRole('textbox').fill('31.02.2026 — 24.09.2026');
     await rangePreview.getByRole('textbox').press('Tab');
     await until(async () => await rangePreview.getByRole('textbox').getAttribute('aria-invalid') === 'true', 'Invalid range parsing');
-    await page.getByRole('button', { name: 'Сбросить', exact: true }).click();
+    await resetDateSettings(page);
+    await resetDateSettings(page);
     await page.getByRole('tab', { name: 'Обзор', exact: true }).click();
   } else {
     const button = preview.getByRole('button', { name: 'Сохранить', exact: true });
@@ -221,6 +253,23 @@ async function componentInteraction(page, route) {
     await button.press('Escape');
     await noOverlays(page);
     await page.getByRole('tab', { name: 'Настройки', exact: true }).click();
+    const settings = page.locator('.component-standard-settings');
+    assert.match(await settings.locator('[data-property="placement"] .component-standard-settings__property-copy').innerText(), /Default: top-start/);
+    assert.match(await settings.locator('.component-standard-settings__note').innerText(), /API defaults: compact \/ top-start/);
+    assert.match(await settings.locator('.component-standard-settings__note').innerText(), /примере явно выбран top-center/);
+    await choose(page, 'Положение', 'Bottom End');
+    await settings.getByRole('button', { name: 'Сбросить', exact: true }).click();
+    assert.match(await settings.getByRole('combobox', { name: 'Положение', exact: true }).innerText(), /Top Center/);
+    await settings.getByRole('button', { name: 'Показать код', exact: true }).click();
+    assert.ok((await settings.locator('pre').innerText()).includes('placement="top-center"'));
+    await settings.getByRole('button', { name: 'Скрыть код', exact: true }).click();
+    const resetTrigger = settings.locator('.component-standard-settings__preview').getByRole('button', { name: 'Сохранить', exact: true });
+    await resetTrigger.evaluate((node) => node.scrollIntoView({ block: 'center' }));
+    await resetTrigger.hover();
+    await contained(page, 'tooltip');
+    assert.equal(await page.getByRole('tooltip').getAttribute('data-placement'), 'top-center');
+    await resetTrigger.press('Escape');
+    await noOverlays(page);
     await choose(page, 'Размер', 'Wide');
     const text = 'Длинное пояснение '.repeat(12);
     await page.getByRole('textbox', { name: 'Текст подсказки', exact: true }).fill(text);
