@@ -912,6 +912,9 @@ code, pre, kbd, samp {
 .component-standard-settings__preview > .field-doc-control:is([data-field-kind], [data-date-kind]) {
   width: min(100%, calc(var(--cometal-primitive-size-40) * 10));
 }
+.component-standard-tabs__panel > .component-standard-settings:has(> .component-standard-settings__preview-section > .component-standard-settings__preview > .field-doc-control:is([data-field-kind], [data-date-kind])) {
+  padding-top: var(--portal-space-section);
+}
 .field-doc-stack, .field-doc-stack > article {
   display: grid;
   gap: var(--cometal-primitive-spacing-100);

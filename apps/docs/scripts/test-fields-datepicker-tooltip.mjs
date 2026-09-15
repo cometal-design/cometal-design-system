@@ -79,6 +79,35 @@ async function contained(page, role, trigger) {
     assert.ok(Math.abs(rect.width - anchorWidth) < 1, 'Full control anchor width');
   }
 }
+async function previewTopOffset(page) {
+  const measure = () => page.evaluate(() => {
+    const panel = document.querySelector('.component-standard-tabs__panel:not([hidden])');
+    const demo = panel.querySelector('.component-standard-presentation, .component-standard-settings__preview');
+    const divider = document.querySelector('.component-title__toolbar').getBoundingClientRect();
+    const rect = demo.getBoundingClientRect();
+    return { offset: rect.top - divider.bottom, documentTop: rect.top + scrollY,
+      dividerDocumentBottom: divider.bottom + scrollY, scrollY };
+  });
+  const initial = await measure();
+  const expected = await page.locator('.component-standard-tabs__panel:not([hidden]) > .content-section').first()
+    .evaluate((node) => parseFloat(getComputedStyle(node).paddingTop));
+  assert.ok(Math.abs(initial.offset - expected) < 1, 'Overview section spacing');
+  for (const mode of ['click', 'keyboard']) {
+    for (const name of ['Настройки', 'Обзор']) {
+      const tab = page.getByRole('tab', { name, exact: true });
+      if (mode === 'click') await tab.click();
+      else { await tab.focus(); await tab.press('Enter'); }
+      await until(async () => await tab.getAttribute('aria-selected') === 'true', 'Selected section');
+      const next = await measure();
+      assert.ok(Math.abs(next.offset - initial.offset) < 1, mode + ' divider-to-demo offset ' + JSON.stringify(next));
+      assert.ok(Math.abs(next.documentTop - initial.documentTop) < 1, mode + ' stable document demo top');
+      assert.ok(Math.abs(next.dividerDocumentBottom - initial.dividerDocumentBottom) < 1, 'Stable header divider');
+      assert.equal(next.scrollY, initial.scrollY, 'No scroll workaround or focus autoscroll');
+      await geometry(page);
+    }
+  }
+  return initial.offset;
+}
 async function choose(page, label, option) {
   await page.getByRole('combobox', { name: label, exact: true }).click();
   const list = page.getByRole('listbox', { name: label + ': варианты', exact: true });
@@ -340,6 +369,10 @@ try {
         assert.equal(await nav.locator('[aria-current=page]').count(), 1);
         assert.equal(await nav.locator('[aria-current=page]').getAttribute('href'), route.route);
         const initialGeometry = await geometry(page);
+        if (route.kind !== 'tooltip') {
+          const offset = await previewTopOffset(page);
+          console.log('PASS preview offset', width, route.route, offset, 'click+keyboard round-trip');
+        }
         const overviewPanel = main.locator('[role=tabpanel]:visible');
         await copyChecks(page, overviewPanel);
         for (const pre of await overviewPanel.locator('pre').all()) {
