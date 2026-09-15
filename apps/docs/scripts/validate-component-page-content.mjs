@@ -1,250 +1,395 @@
 #!/usr/bin/env node
-
-import { readdir, readFile, stat } from 'node:fs/promises';
+import { readFile, readdir, stat } from 'node:fs/promises';
+import { createRequire } from 'node:module';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
 
 const docsRoot = path.resolve(path.dirname(fileURLToPath(import.meta.url)), '..');
-const repositoryRoot = path.resolve(docsRoot, '../..');
-const contractPath = path.join(docsRoot, 'lib/component-page-content-contract.json');
-const args = new Set(process.argv.slice(2));
-const strict = args.has('--strict');
-const jsonOutput = args.has('--json');
-
-const contract = JSON.parse(await readFile(contractPath, 'utf8'));
-
-if (contract.schemaVersion !== 2) throw new Error(`Unsupported contract schemaVersion: ${contract.schemaVersion}`);
-
-const criterionById = new Map(contract.criteria.map((criterion) => [criterion.id, criterion]));
-const allowedRequirements = new Set(['required', 'conditional', 'na']);
-const phases = [...contract.componentPhases].sort((a, b) => a.order - b.order);
-const phaseById = new Map(phases.map((phase) => [phase.id, phase]));
-
-if (phaseById.size !== phases.length) throw new Error('componentPhases contains duplicate IDs');
-if (phases.some((phase, index) => phase.order !== index)) throw new Error('componentPhases orders must be contiguous and start at 0');
-
-for (const route of contract.routes) {
-  for (const [criterionId, override] of Object.entries(route.requirements ?? {})) {
-    if (!criterionById.has(criterionId)) throw new Error(`${route.route}: unknown criterion ${criterionId}`);
-    const requirement = override.requirement ?? criterionById.get(criterionId).defaultRequirement;
-    if (!allowedRequirements.has(requirement)) throw new Error(`${route.route}/${criterionId}: invalid requirement ${requirement}`);
-    if (requirement === 'na' && !override.rationale) throw new Error(`${route.route}/${criterionId}: N/A requires a rationale`);
+const require = createRequire(path.join(docsRoot, 'package.json'));
+const ts = require('typescript');
+const profiles = new Set(['legacy-linear', 'component-standard', 'family-chooser']);
+const sorted = (values) => [...new Set(values)].sort();
+const equal = (a, b) => JSON.stringify(sorted(a)) === JSON.stringify(sorted(b));
+const parse = (source) => ts.createSourceFile('content.tsx', source, ts.ScriptTarget.Latest, true, ts.ScriptKind.TSX);
+function nodes(root, predicate) {
+  const result = [];
+  function walk(node) {
+    if (predicate(node)) result.push(node);
+    ts.forEachChild(node, walk);
   }
-  for (const [phaseId, override] of Object.entries(route.phaseRequirements ?? {})) {
-    if (!phaseById.has(phaseId)) throw new Error(`${route.route}: unknown phase ${phaseId}`);
-    const requirement = override.requirement ?? phaseById.get(phaseId).defaultRequirement;
-    if (!allowedRequirements.has(requirement)) throw new Error(`${route.route}/${phaseId}: invalid phase requirement ${requirement}`);
-    if (requirement === 'na' && !override.rationale) throw new Error(`${route.route}/${phaseId}: phase N/A requires a rationale`);
+  walk(root);
+  return result;
+}
+const jsx = (root, name) => nodes(root, (node) =>
+  (ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node)) && node.tagName.getText() === name);
+function attribute(node, name) {
+  const item = node?.attributes.properties.find((prop) => ts.isJsxAttribute(prop) && prop.name.getText() === name);
+  if (!item?.initializer) return null;
+  return ts.isJsxExpression(item.initializer) ? item.initializer.expression : item.initializer;
+}
+function stringValue(node) {
+  return node && (ts.isStringLiteral(node) || ts.isNoSubstitutionTemplateLiteral(node)) ? node.text : null;
+}
+function unwrap(node) {
+  while (node && (ts.isAsExpression(node) || ts.isParenthesizedExpression(node) || ts.isSatisfiesExpression(node))) node = node.expression;
+  return node;
+}
+export function readFieldMap(source, variable = 'fieldDocumentation') {
+  const ast = parse(source);
+  const declaration = nodes(ast, ts.isVariableDeclaration).find((node) => node.name.getText() === variable);
+  const object = unwrap(declaration?.initializer);
+  if (!object || !ts.isObjectLiteralExpression(object)) return {};
+  return Object.fromEntries(object.properties.filter(ts.isPropertyAssignment).map((entry) => {
+    const value = unwrap(entry.initializer);
+    return [stringValue(entry.name) ?? entry.name.getText(), value && ts.isObjectLiteralExpression(value)
+      ? Object.fromEntries(value.properties.filter(ts.isPropertyAssignment).map((prop) => [prop.name.getText(), stringValue(prop.initializer)]))
+      : {}];
+  }));
+}
+function definitions(asts) {
+  const map = new Map();
+  for (const ast of asts) {
+    for (const node of nodes(ast, (item) => ts.isFunctionDeclaration(item) || ts.isVariableDeclaration(item))) {
+      if (node.name && ts.isIdentifier(node.name)) map.set(node.name.text, ts.isFunctionDeclaration(node) ? node : node.initializer);
+    }
   }
+  return map;
+}
+// Follow named local page/helper references only. Imported registry/shared shells are not content evidence.
+function reachable(root, defs) {
+  const seen = new Set();
+  const output = [];
+  function visit(node) {
+    if (!node || seen.has(node)) return;
+    seen.add(node);
+    output.push(node.getText());
+    for (const identifier of nodes(node, ts.isIdentifier)) {
+      if (identifier.parent && ts.isPropertyAccessExpression(identifier.parent) && identifier.parent.name === identifier) continue;
+      visit(defs.get(identifier.text));
+    }
+  }
+  visit(root);
+  return output.join('\n');
+}
+function result(id, pass, rationale) {
+  return { id, status: pass ? 'PASS' : 'MISSING', rationale };
 }
 
-async function walkPages(directory) {
-  const entries = await readdir(directory, { withFileTypes: true });
-  const files = [];
-  for (const entry of entries) {
-    const absolute = path.join(directory, entry.name);
-    if (entry.isDirectory()) files.push(...await walkPages(absolute));
-    else if (entry.name === 'page.tsx') files.push(absolute);
+export function checkStandard(route, sources, fields) {
+  if (route.standardLayout === 'native-tabs') return checkNativeStandard(route, sources);
+  const asts = sources.map(parse);
+  const defs = definitions(asts);
+  const shells = asts.flatMap((ast) => jsx(ast, 'ComponentPageStandard'));
+  const shell = shells[0];
+  const errors = [];
+  const entry = asts[0].statements.find((node) => ts.isFunctionDeclaration(node)
+    && node.modifiers?.some((modifier) => modifier.kind === ts.SyntaxKind.DefaultKeyword));
+  const wired = Boolean(entry && shell && reachable(entry, defs).includes(shell.getText()));
+  if (!wired) errors.push('entry-shell-wiring');
+  const panels = {};
+  for (const name of ['overview', 'settings', 'accessibility']) {
+    const value = attribute(shell, name);
+    panels[name] = reachable(value, defs);
+    if (!value || !panels[name].trim()) errors.push('missing-panel:' + name);
   }
-  return files;
+  if (shells.length !== 1) errors.push('standard-shell');
+  const overview = parse(panels.overview);
+  const settings = parse(panels.settings);
+  const accessibility = panels.accessibility;
+  const whole = sources.join('\n');
+  const selected = route.selection ? fields[route.selection.kind] : null;
+  let selectedValid = true;
+  let realComponent = false;
+  if (route.selection) {
+    const selector = jsx(asts[0], 'FieldDetail')[0];
+    selectedValid = Boolean(selected)
+      && stringValue(attribute(selector, 'kind')) === route.selection.kind
+      && selected.route === route.route
+      && equal([selected.stableId], route.stableIds)
+      && selected.reactExport === route.selection.export;
+    const control = defs.get('FieldControl');
+    const branch = control && nodes(control, ts.isCaseClause).find((item) => stringValue(item.expression) === route.selection.kind);
+    realComponent = Boolean(branch && jsx(branch, route.selection.export).length);
+    // A sibling's prose never satisfies this route's required content.
+    for (const key of ['summary', 'label', 'placeholder', 'use', 'avoid', 'anatomy', 'keyboard', 'semantics', 'edge', 'apg']) {
+      if (!selected?.[key]?.trim()) errors.push('selected-content:' + key);
+    }
+  } else {
+    const stable = stringValue(attribute(shell, 'stableId'));
+    selectedValid = stable ? route.stableIds.includes(stable) : route.stableIds.every((id) => whole.includes(id));
+    const exported = stringValue(attribute(shell, 'reactExport'));
+    realComponent = Boolean(exported && exported.split(' · ').every((name) => asts.some((ast) => jsx(ast, name).length)));
+    const selection = jsx(asts[0], 'SelectionDetail')[0];
+    if (selection) {
+      const kind = stringValue(attribute(selection, 'kind'));
+      const copy = readFieldMap(whole, 'content')[kind];
+      selectedValid = Boolean(copy && route.stableIds.includes(copy.id));
+      const preview = defs.get('SelectionPreview');
+      const branch = preview?.body?.statements.find((node) => ts.isIfStatement(node)
+        && ts.isBinaryExpression(node.expression) && stringValue(node.expression.right) === kind);
+      const target = branch?.thenStatement ?? preview?.body?.statements.find(ts.isReturnStatement);
+      realComponent = Boolean(selectedValid && target && jsx(target, copy.reactExport).length);
+    }
+  }
+  const props = jsx(settings, 'ComponentPageSetting');
+  const examples = jsx(overview, 'ComponentPageExample');
+  const headings = nodes(overview, ts.isJsxElement)
+    .filter((node) => node.openingElement.tagName.getText() === 'h2').map((node) => node.getText());
+  const expectedHeadings = ['Использование', 'Композиция', 'Правила использования', 'Примеры'];
+  const headingIndices = expectedHeadings.map((label) => headings.findIndex((value) => value.includes(label)));
+  const ordered = headingIndices.every((index, position) => index >= 0 && (position === 0 || index > headingIndices[position - 1]));
+  const has = (name) => Boolean(attribute(shell, name));
+  const selectedContent = selectedValid && !errors.some((error) => error.startsWith('selected-content:'));
+  return {
+    orderStatus: wired && !errors.some((error) => error.startsWith('missing-panel:')) && shells.length === 1 && ordered ? 'PASS' : 'MISSING',
+    phaseOrder: { expected: ['overview', 'settings', 'accessibility'], actual: Object.keys(panels).filter((key) => panels[key]), errors },
+    results: [
+      result('identity', selectedValid && has('stableId') && has('reactExport')),
+      result('title-summary', has('title') && has('summary') && selectedContent),
+      result('lifecycle', has('status') && has('statusLabel') && whole.includes('statusLabels')),
+      result('figma', has('figmaHref') && whole.includes('component.links.figma')),
+      result('storybook', has('storybookHref')),
+      result('react-source', has('sourceHref') && (whole.includes('component.links.source')
+        || /https:\/\/github\.com\/cometal-design\/cometal-design-system\/blob\/main\/packages\/react\/src\//.test(whole))),
+      result('usage-boundaries', ordered && selectedContent && /Do/.test(panels.overview) && /Don.t/.test(panels.overview)),
+      result('real-example', realComponent && panels.overview.includes('component-standard-presentation') && whole.includes('@cometal/react')),
+      result('code-example', jsx(overview, 'CodeBlock').some((node) => attribute(node, 'code'))
+        && examples.length > 0 && examples.every((node) => attribute(node, 'code') && attribute(node, 'preview'))),
+      result('matrix', examples.length > 1 && /size|Sizes|Размер|placement|states|состояни/i.test(panels.overview)),
+      result('behavior-a11y', selectedContent && /[Кк]лавиатур|keyboard/.test(accessibility) && /aria-|семантик/i.test(accessibility)),
+      result('public-api', jsx(settings, 'ComponentPageSettings').some((node) => attribute(node, 'code') && attribute(node, 'onReset'))
+        && props.length > 0 && props.every((node) => ['name', 'type', 'defaultValue', 'description'].every((name) => {
+          const value = attribute(node, name);
+          return value && (stringValue(value) === null || stringValue(value).trim().length > 0);
+        }))),
+      result('responsive-theme-edge', selectedContent && /viewport|адаптац|ширин/i.test(accessibility)
+        && /theme|тем[аы]/i.test(accessibility) && /длинн|огранич|edge|disabled/i.test(accessibility)),
+    ],
+  };
 }
 
-function sourceFileToRoute(file) {
-  const relative = path.relative(path.join(docsRoot, contract.inventory.sourceRoot), file);
-  const directory = path.dirname(relative).split(path.sep).join('/');
-  return directory === '.' ? '/components/' : `/components/${directory}/`;
+// The original Button reference predates ComponentPageStandard but implements the same
+// three-panel contract. Inspect its real TabPanels and named local helpers, not a bypass.
+function checkNativeStandard(route, sources) {
+  const asts = sources.map(parse);
+  const defs = definitions(asts);
+  const entry = asts[0];
+  const header = jsx(entry, 'ComponentPageHeader')[0];
+  const panelElements = nodes(entry, ts.isJsxElement).filter((node) => node.openingElement.tagName.getText() === 'TabPanel');
+  const expected = ['overview', 'react-api', 'accessibility'];
+  const actual = panelElements.map((node) => stringValue(attribute(node.openingElement, 'value')));
+  const texts = panelElements.map((node) => reachable(node, defs));
+  const [overview = '', settings = '', accessibility = ''] = texts;
+  const previewAst = parse(overview);
+  const settingsAst = parse(settings);
+  const whole = sources.join('\n');
+  const headingNodes = nodes(previewAst, (node) =>
+    ts.isJsxElement(node) && node.openingElement.tagName.getText() === 'h2'
+    || (ts.isJsxOpeningElement(node) || ts.isJsxSelfClosingElement(node)) && node.tagName.getText() === 'SectionHeading');
+  const headings = headingNodes.map((node) => node.getText());
+  const indices = ['Использование', 'Композиция', 'Правила использования', 'Примеры'].map((name) => headings.findIndex((text) => text.includes(name)));
+  const order = JSON.stringify(actual) === JSON.stringify(expected)
+    && indices.every((value, index) => value >= 0 && (index === 0 || value > indices[index - 1]))
+    && jsx(entry, 'Tabs').some((node) => stringValue(attribute(node, 'defaultValue')) === 'overview');
+  const props = jsx(settingsAst, 'PropertyRow');
+  const examples = jsx(previewAst, 'ButtonExample');
+  const has = (name) => Boolean(attribute(header, name));
+  return {
+    orderStatus: order ? 'PASS' : 'MISSING',
+    phaseOrder: { expected, actual, errors: order ? [] : ['native-panel-order'] },
+    results: [
+      result('identity', has('identityLabel') && route.stableIds.every((id) => reachable(attribute(header, 'identityLabel'), defs).includes(id))),
+      result('title-summary', has('title') && has('summary')),
+      result('lifecycle', has('status') && has('statusLabel')),
+      result('figma', has('figmaHref') && whole.includes('component.links.figma')),
+      result('storybook', has('playgroundHref')),
+      result('react-source', has('sourceHref') && whole.includes('component.links.source')),
+      result('usage-boundaries', order && overview.includes('Don’t') && overview.includes('Do')),
+      result('real-example', jsx(previewAst, 'Button').length > 0 && whole.includes('@cometal/react')),
+      result('code-example', jsx(previewAst, 'CodeBlock').some((node) => attribute(node, 'code'))
+        && examples.length > 0 && examples.every((node) => attribute(node, 'code') && attribute(node, 'preview'))),
+      result('matrix', examples.length > 1 && /Размеры|Состояния/.test(overview)),
+      result('behavior-a11y', /Клавиатура/.test(accessibility) && /aria-/.test(accessibility)),
+      result('public-api', props.length > 0 && props.every((node) => ['name', 'type', 'defaultValue', 'description'].every((name) => attribute(node, name)))
+        && jsx(settingsAst, 'CodeBlock').length > 0 && jsx(settingsAst, 'Button').some((node) => attribute(node, 'onClick')?.getText() === 'reset')),
+      result('responsive-theme-edge', /viewport|адаптац|ширин|overflow/i.test(accessibility)
+        && /theme|тем[аы]/i.test(accessibility) && /длинн|огранич|edge|disabled/i.test(accessibility)),
+    ],
+  };
 }
 
-function extractRoutes(source) {
-  return [...source.matchAll(/['"](\/components\/[a-z0-9-/]*\/?)['"]/g)].map((match) => {
-    const value = match[1];
-    return value.endsWith('/') ? value : `${value}/`;
+export function checkChooser(source, fields) {
+  const ast = parse(source);
+  const header = jsx(ast, 'ComponentPageHeader')[0];
+  const ids = nodes(ast, (node) => ts.isJsxAttribute(node) && node.name.getText() === 'id').map((node) => stringValue(node.initializer));
+  const results = [
+    result('identity-sources', ['title', 'summary', 'status', 'statusLabel', 'figmaHref', 'playgroundHref'].every((name) => attribute(header, name))
+      && source.includes('doc.stableId') && source.includes('components.find')),
+    result('chooser-links', source.includes('fieldSlugs.map') && jsx(ast, 'Link').some((node) => attribute(node, 'href')?.getText() === 'doc.route')
+      && jsx(ast, 'FieldDemo').some((node) => attribute(node, 'kind')?.getText() === 'slug') && Object.keys(fields).length === 5),
+    result('legacy-anchors', ['family', 'sizes', 'states', 'code', 'usage', 'behavior', 'api'].every((id) => ids.includes(id))
+      && nodes(ast, (node) => ts.isJsxAttribute(node) && node.name.getText() === 'id').some((node) => ts.isJsxExpression(node.initializer) && node.initializer.expression?.getText() === 'slug')),
+  ];
+  return { results, orderStatus: 'PASS', phaseOrder: { expected: ['header', 'chooser', 'reference-links'], actual: ['header', 'chooser', 'reference-links'], errors: [] } };
+}
+
+function matches(source, pattern) { return new RegExp(pattern, 'iu').test(source); }
+export function checkLegacy(route, content, graph, contract) {
+  const phases = [...contract.componentPhases].sort((a, b) => a.order - b.order);
+  const declarations = [...content.matchAll(/data-component-phase=["']([a-z0-9-]+)["']/g)].map((match) => match[1]);
+  const expected = phases.filter((phase) => (route.phaseRequirements?.[phase.id]?.requirement ?? phase.defaultRequirement) !== 'na').map((phase) => phase.id);
+  const orderPass = equal(declarations, expected) && declarations.length === expected.length
+    && declarations.every((id, index) => id === expected[index]);
+  const results = contract.criteria.map((criterion) => {
+    const override = route.requirements?.[criterion.id] ?? {};
+    const requirement = override.requirement ?? criterion.defaultRequirement;
+    if (requirement === 'na') {
+      if (!override.rationale) throw Error('N/A requires rationale');
+      return { id: criterion.id, status: 'NA', rationale: override.rationale };
+    }
+    const evidence = override.evidence ?? criterion.evidence;
+    const pass = evidence?.clauses?.length && evidence.clauses.every((clause) => {
+      const source = { content, graph }[clause.scope ?? 'content'];
+      if (typeof source !== 'string') throw Error('Unknown evidence scope');
+      return (clause.all ?? []).every((pattern) => matches(source, pattern))
+        && (!clause.any?.length || clause.any.some((pattern) => matches(source, pattern)));
+    });
+    return result(criterion.id, pass);
   });
+  return { results, orderStatus: orderPass ? 'PASS' : 'MISSING', phaseOrder: { expected, actual: declarations, errors: orderPass ? [] : ['phase-order'] } };
 }
 
-function uniqueSorted(values) {
-  return [...new Set(values)].sort();
-}
-
-const actualSourceRoutes = uniqueSorted((await walkPages(path.join(docsRoot, contract.inventory.sourceRoot)))
-  .map(sourceFileToRoute)
-  .filter((route) => route !== '/components/'));
-const contractRoutes = uniqueSorted(contract.routes.map((route) => route.route));
-const tableNavigationSource = await readFile(path.join(docsRoot, contract.inventory.tableFamilyNavigationFile), 'utf8');
-const registry = JSON.parse(await readFile(path.join(docsRoot, contract.inventory.registryFile), 'utf8'));
-const familyRegistry = JSON.parse(await readFile(path.join(docsRoot, contract.inventory.familyRegistryFile), 'utf8'));
-const registryIds = new Set(registry.components.map((component) => component.id));
-const primaryRoutes = uniqueSorted(familyRegistry.families.map((family) => family.route));
-const tableChildRoutes = uniqueSorted(extractRoutes(tableNavigationSource).filter((route) => route.startsWith('/components/table/') && route !== '/components/table/'));
-
-const inventoryErrors = [];
-const compareRouteSets = (label, expected, actual) => {
-  const missing = expected.filter((route) => !actual.includes(route));
-  const extra = actual.filter((route) => !expected.includes(route));
-  if (missing.length || extra.length) inventoryErrors.push(`${label}: missing=[${missing.join(', ')}] extra=[${extra.join(', ')}]`);
-};
-
-compareRouteSets('contract vs source', actualSourceRoutes, contractRoutes);
-compareRouteSets('primary navigation vs primary contract routes', contract.routes.filter((route) => route.tier === 'primary').map((route) => route.route).sort(), primaryRoutes);
-compareRouteSets('Table family navigation vs child contract routes', contract.routes.filter((route) => route.tier === 'family-child').map((route) => route.route).sort(), tableChildRoutes);
-
-if (tableChildRoutes.length !== contract.inventory.expectedTableChildRoutes) inventoryErrors.push(`Table child route count: expected ${contract.inventory.expectedTableChildRoutes}, found ${tableChildRoutes.length}`);
-if (actualSourceRoutes.length !== contract.inventory.expectedTotalDetailRoutes) inventoryErrors.push(`total detail route count: expected ${contract.inventory.expectedTotalDetailRoutes}, found ${actualSourceRoutes.length}`);
-for (const route of contract.routes) {
-  for (const stableId of route.stableIds) {
-    if (!registryIds.has(stableId)) inventoryErrors.push(`${route.route}: stable ID is absent from registry: ${stableId}`);
+export function checkInventory({ contract, sourceRoutes, families, registry, tableChildren, fields, navigation, shell }) {
+  const errors = [];
+  const routes = contract.routes;
+  const compare = (label, left, right) => { if (!equal(left, right)) errors.push(label); };
+  if (contract.schemaVersion !== 3) errors.push('schema-version');
+  if (contract.componentPhases.some((phase, index) => phase.order !== index)
+    || new Set(contract.componentPhases.map((phase) => phase.id)).size !== contract.componentPhases.length) errors.push('phase-definition');
+  if (new Set(routes.map((route) => route.route)).size !== routes.length) errors.push('duplicate-route');
+  compare('contract-vs-source', routes.map((route) => route.route), sourceRoutes);
+  compare('primary-navigation', routes.filter((route) => route.tier === 'primary').map((route) => route.route), families.map((family) => family.route));
+  compare('table-navigation', routes.filter((route) => route.parent === '/components/table/').map((route) => route.route), tableChildren);
+  compare('field-navigation', routes.filter((route) => route.parent === '/components/fields/').map((route) => route.route), Object.values(fields).map((field) => field.route));
+  if (sourceRoutes.length !== contract.inventory.expectedTotalDetailRoutes) errors.push('source-count');
+  if (tableChildren.length !== contract.inventory.expectedTableChildRoutes) errors.push('table-child-count');
+  if (!navigation.includes("from './field-documentation'") || !navigation.includes('fieldSlugs.map')
+    || !navigation.includes('fieldDocumentation[slug].route') || !shell.includes('item.children.map')) errors.push('field-navigation-wiring');
+  for (const route of routes) {
+    if (!profiles.has(route.profile)) errors.push('unsupported-profile:' + route.route);
+    if (route.standardLayout && route.standardLayout !== 'native-tabs') errors.push('unsupported-layout:' + route.route);
+    for (const [id, override] of Object.entries(route.requirements ?? {})) {
+      if (!contract.criteria.some((criterion) => criterion.id === id)) errors.push('unknown-criterion:' + id);
+      if (override.requirement && !['required', 'conditional', 'na'].includes(override.requirement)) errors.push('invalid-requirement:' + id);
+      if (override.requirement === 'na' && !override.rationale) errors.push('missing-na-rationale:' + id);
+    }
+    for (const [id, override] of Object.entries(route.phaseRequirements ?? {})) {
+      if (!contract.componentPhases.some((phase) => phase.id === id)) errors.push('unknown-phase:' + id);
+      if (override.requirement && !['required', 'conditional', 'na'].includes(override.requirement)) errors.push('invalid-phase-requirement:' + id);
+      if (override.requirement === 'na' && !override.rationale) errors.push('missing-phase-na-rationale:' + id);
+    }
+    const family = families.find((item) => item.route === (route.parent ?? route.route));
+    if (!family || (route.tier === 'family-child' && (!route.parent || !route.route.startsWith(route.parent)))) errors.push('wrong-parent:' + route.route);
+    if (family && (route.stableIds.some((id) => !family.members.includes(id)) || route.stableIds.some((id) => !registry.some((item) => item.id === id)))) errors.push('wrong-stable-id:' + route.route);
+    if (route.tier === 'primary' && family && !equal(route.stableIds, family.members)) errors.push('primary-members:' + route.route);
+    if (route.selection) {
+      const field = fields[route.selection.kind];
+      if (!field || field.route !== route.route || !equal([field.stableId], route.stableIds)) errors.push('field-selection:' + route.route);
+    }
   }
+  const fieldIds = Object.values(fields).map((field) => field.stableId);
+  if (new Set(fieldIds).size !== fieldIds.length) errors.push('duplicate-field-id');
+  return errors;
 }
 
-const extensionCandidates = ['', '.ts', '.tsx', '.js', '.jsx', '.mjs', '.json'];
-async function resolveLocalImport(fromFile, specifier) {
-  const base = path.resolve(path.dirname(fromFile), specifier);
-  for (const suffix of extensionCandidates) {
-    const candidate = `${base}${suffix}`;
-    try {
-      if ((await stat(candidate)).isFile()) return candidate;
-    } catch {}
-  }
-  for (const suffix of ['.ts', '.tsx', '.js', '.mjs']) {
-    const candidate = path.join(base, `index${suffix}`);
-    try {
-      if ((await stat(candidate)).isFile()) return candidate;
-    } catch {}
-  }
-  return null;
+export function selectRoutes(routes, selection) {
+  if (selection === undefined) return routes;
+  const selected = selection.split(',').map((route) => route.trim());
+  if (selected.some((route) => !route || !routes.some((item) => item.route === route)) || new Set(selected).size !== selected.length) throw Error('Unknown, duplicate or empty --routes selection');
+  return routes.filter((route) => selected.includes(route.route));
 }
 
-async function collectGraph(entryFiles) {
-  const queue = [...entryFiles];
-  const visited = new Set();
-  const sources = [];
+async function walk(directory) {
+  const result = [];
+  for (const entry of await readdir(directory, { withFileTypes: true })) {
+    const file = path.join(directory, entry.name);
+    if (entry.isDirectory()) result.push(...await walk(file));
+    else if (entry.name === 'page.tsx') result.push(file);
+  }
+  return result;
+}
+async function graphSources(files) {
+  const queue = [...files], visited = new Set(), sources = [];
   while (queue.length) {
     const file = queue.shift();
-    if (!file || visited.has(file)) continue;
+    if (visited.has(file)) continue;
     visited.add(file);
     const source = await readFile(file, 'utf8');
     sources.push(source);
-    if (file.endsWith('.json')) continue;
     for (const match of source.matchAll(/(?:from\s+|import\s*)['"](\.[^'"]+)['"]/g)) {
-      const resolved = await resolveLocalImport(file, match[1]);
-      if (resolved && resolved.startsWith(repositoryRoot)) queue.push(resolved);
+      const base = path.resolve(path.dirname(file), match[1]);
+      for (const suffix of ['', '.ts', '.tsx', '.mjs', '.json', '/index.ts', '/index.tsx']) {
+        const candidate = base + suffix;
+        if (!candidate.startsWith(path.resolve(docsRoot, '../..'))) continue;
+        if (await stat(candidate).then((item) => item.isFile()).catch(() => false)) { queue.push(candidate); break; }
+      }
     }
   }
   return sources.join('\n');
 }
-
-function regexMatches(source, pattern) {
-  return new RegExp(pattern, 'iu').test(source);
-}
-
-function evaluateEvidence(evidence, sources) {
-  if (!evidence?.clauses?.length) return false;
-  return evidence.clauses.every((clause) => {
-    const source = sources[clause.scope ?? 'content'];
-    if (typeof source !== 'string') throw new Error(`Unknown evidence scope: ${clause.scope}`);
-    const allPass = (clause.all ?? []).every((pattern) => regexMatches(source, pattern));
-    const anyPass = !clause.any?.length || clause.any.some((pattern) => regexMatches(source, pattern));
-    return allPass && anyPass;
-  });
-}
-
-function evaluatePhaseOrder(route, content) {
-  const declarations = [...content.matchAll(/data-component-phase=["']([a-z0-9-]+)["']/g)].map((match) => match[1]);
-  const unknown = declarations.filter((phaseId) => !phaseById.has(phaseId));
-  const duplicates = declarations.filter((phaseId, index) => declarations.indexOf(phaseId) !== index);
-  const required = phases.filter((phase) => (route.phaseRequirements?.[phase.id]?.requirement ?? phase.defaultRequirement) !== 'na');
-  const missing = required.filter((phase) => !declarations.includes(phase.id)).map((phase) => phase.id);
-  const expected = required.map((phase) => phase.id);
-  const actual = declarations;
-  const outOfOrder = declarations.some((phaseId, index) => {
-    if (index === 0 || !phaseById.has(phaseId) || !phaseById.has(declarations[index - 1])) return false;
-    return phaseById.get(declarations[index - 1]).order >= phaseById.get(phaseId).order;
-  });
-  const status = unknown.length || duplicates.length || missing.length || outOfOrder ? 'MISSING' : 'PASS';
-  return {
-    status,
-    expected,
-    actual,
-    missing,
-    unknown: uniqueSorted(unknown),
-    duplicates: uniqueSorted(duplicates),
-    outOfOrder,
-  };
-}
-
-const routeReports = [];
-for (const route of contract.routes) {
-  const contentPaths = [route.source, ...(route.contentFiles ?? [])].map((file) => path.join(docsRoot, file));
-  const content = (await Promise.all(contentPaths.map((file) => readFile(file, 'utf8')))).join('\n');
-  const graph = await collectGraph(contentPaths);
-  const results = contract.criteria.map((criterion) => {
-    const override = route.requirements?.[criterion.id] ?? {};
-    const requirement = override.requirement ?? criterion.defaultRequirement;
-    const rationale = override.rationale ?? criterion.condition ?? null;
-    const evidence = override.evidence ?? criterion.evidence;
-    const status = requirement === 'na' ? 'NA' : evaluateEvidence(evidence, { content, graph }) ? 'PASS' : 'MISSING';
-    return { id: criterion.id, label: criterion.label, requirement, status, rationale };
-  });
-  const phaseOrder = evaluatePhaseOrder(route, content);
-  const contentStatus = results.some((result) => result.status === 'MISSING') ? 'MISSING' : 'PASS';
-  routeReports.push({
-    route: route.route,
-    source: route.source,
-    tier: route.tier,
-    stableIds: route.stableIds,
-    status: contentStatus === 'PASS' && phaseOrder.status === 'PASS' ? 'PASS' : 'MISSING',
-    contentStatus,
-    orderStatus: phaseOrder.status,
-    phaseOrder,
-    results,
-  });
-}
-
-const summary = {
-  routes: routeReports.length,
-  routePass: routeReports.filter((route) => route.status === 'PASS').length,
-  routeMissing: routeReports.filter((route) => route.status === 'MISSING').length,
-  contentPass: routeReports.filter((route) => route.contentStatus === 'PASS').length,
-  contentMissing: routeReports.filter((route) => route.contentStatus === 'MISSING').length,
-  orderPass: routeReports.filter((route) => route.orderStatus === 'PASS').length,
-  orderMissing: routeReports.filter((route) => route.orderStatus === 'MISSING').length,
-  criteriaPass: routeReports.flatMap((route) => route.results).filter((result) => result.status === 'PASS').length,
-  criteriaMissing: routeReports.flatMap((route) => route.results).filter((result) => result.status === 'MISSING').length,
-  criteriaNa: routeReports.flatMap((route) => route.results).filter((result) => result.status === 'NA').length,
-  inventoryPass: inventoryErrors.length === 0,
-};
-
-const report = {
-  schemaVersion: contract.schemaVersion,
-  mode: strict ? 'strict' : 'report',
-  inventory: {
-    sourceRoutes: actualSourceRoutes,
-    primaryRoutes,
-    tableChildRoutes,
-    errors: inventoryErrors,
-  },
-  routes: routeReports,
-  summary,
-};
-
-if (jsonOutput) {
-  console.log(JSON.stringify(report, null, 2));
-} else {
-  console.log(`COMPONENT_PAGE_CONTENT_AUDIT mode=${report.mode}`);
-  console.log(`INVENTORY ${summary.inventoryPass ? 'PASS' : 'MISSING'} primary=${primaryRoutes.length} table-children=${tableChildRoutes.length} total=${actualSourceRoutes.length}`);
-  for (const error of inventoryErrors) console.log(`  MISSING ${error}`);
-  for (const route of routeReports) {
-    const missing = route.results.filter((result) => result.status === 'MISSING').map((result) => `${result.id}[${result.requirement}]`);
-    const na = route.results.filter((result) => result.status === 'NA').map((result) => result.id);
-    const phaseIssues = [
-      route.phaseOrder.missing.length ? `missing:${route.phaseOrder.missing.join('|')}` : null,
-      route.phaseOrder.duplicates.length ? `duplicate:${route.phaseOrder.duplicates.join('|')}` : null,
-      route.phaseOrder.unknown.length ? `unknown:${route.phaseOrder.unknown.join('|')}` : null,
-      route.phaseOrder.outOfOrder ? `actual:${route.phaseOrder.actual.join('>')}` : null,
-    ].filter(Boolean).join(',');
-    console.log(`${route.status.padEnd(7)} ${route.route} content=${route.contentStatus} order=${route.orderStatus} missing=${missing.length ? missing.join(',') : 'none'} na=${na.length ? na.join(',') : 'none'} phases=${phaseIssues || 'canonical'}`);
+export async function audit(selection) {
+  const read = (file) => readFile(path.join(docsRoot, file), 'utf8');
+  const contract = JSON.parse(await read('lib/component-page-content-contract.json'));
+  const fields = readFieldMap(await read(contract.inventory.fieldDocumentationFile));
+  const sourceRoutes = (await walk(path.join(docsRoot, contract.inventory.sourceRoot)))
+    .map((file) => '/' + path.relative(path.join(docsRoot, 'app'), path.dirname(file)).split(path.sep).join('/') + '/')
+    .filter((route) => route !== '/components/');
+  const families = JSON.parse(await read(contract.inventory.familyRegistryFile)).families;
+  const registry = JSON.parse(await read(contract.inventory.registryFile)).components;
+  const tableSource = await read(contract.inventory.tableFamilyNavigationFile);
+  const tableChildren = sorted([...tableSource.matchAll(/['"](\/components\/table\/[a-z-]+\/)['"]/g)].map((match) => match[1]));
+  const errors = checkInventory({ contract, sourceRoutes, families, registry, tableChildren, fields,
+    navigation: await read(contract.inventory.navigationFile), shell: await read(contract.inventory.portalShellFile) });
+  const reports = [];
+  for (const route of selectRoutes(contract.routes, selection)) {
+    let evidence;
+    try {
+      const files = [route.source, ...(route.contentFiles ?? [])];
+      const sources = await Promise.all(files.map(read));
+      if (route.profile === 'legacy-linear') evidence = checkLegacy(route, sources.join('\n'), await graphSources(files.map((file) => path.join(docsRoot, file))), contract);
+      else if (route.profile === 'component-standard') evidence = checkStandard(route, sources, fields);
+      else if (route.profile === 'family-chooser') evidence = checkChooser(sources[0], fields);
+      else throw Error('Unsupported profile');
+      for (const id of route.stableIds) {
+        const component = registry.find((item) => item.id === id);
+        if (!component || !component.links.figma || !component.links.storybook || !component.links.source
+          || !await stat(path.resolve(docsRoot, '../..', component.links.source)).then((item) => item.isFile()).catch(() => false)) {
+          evidence.results.push(result('registry-source-existence', false));
+        }
+      }
+    } catch (error) {
+      evidence = { results: [result('source', false, error.message)], orderStatus: 'MISSING', phaseOrder: { errors: [error.message] } };
+    }
+    const contentStatus = evidence.results.some((item) => item.status === 'MISSING') ? 'MISSING' : 'PASS';
+    reports.push({ route: route.route, profile: route.profile, ...evidence, contentStatus,
+      status: contentStatus === 'PASS' && evidence.orderStatus === 'PASS' ? 'PASS' : 'MISSING' });
   }
-  console.log(`SUMMARY routes=${summary.routes} pass=${summary.routePass} missing=${summary.routeMissing} content-pass=${summary.contentPass} content-missing=${summary.contentMissing} order-pass=${summary.orderPass} order-missing=${summary.orderMissing} criteria-pass=${summary.criteriaPass} criteria-missing=${summary.criteriaMissing} criteria-na=${summary.criteriaNa}`);
+  return { schemaVersion: 3, scope: selection === undefined ? 'global' : 'selected (inventory remains global)',
+    inventory: { status: errors.length ? 'MISSING' : 'PASS', errors, routes: sourceRoutes.length },
+    routes: reports, summary: { pass: reports.filter((route) => route.status === 'PASS').length, total: reports.length } };
 }
-
-if (strict && (!summary.inventoryPass || summary.routeMissing > 0)) process.exitCode = 1;
+if (process.argv[1] && path.resolve(process.argv[1]) === fileURLToPath(import.meta.url)) {
+  const args = process.argv.slice(2);
+  const index = args.indexOf('--routes');
+  const report = await audit(index < 0 ? undefined : args[index + 1] ?? '');
+  if (args.includes('--json')) console.log(JSON.stringify(report, null, 2));
+  else {
+    console.log('INVENTORY', report.inventory);
+    for (const route of report.routes) console.log(route.status, route.route, 'profile=' + route.profile,
+      'content=' + route.contentStatus, 'order=' + route.orderStatus,
+      'missing=' + route.results.filter((item) => item.status === 'MISSING').map((item) => item.id).join(','),
+      route.phaseOrder.errors);
+    console.log('SUMMARY', report.scope, report.summary);
+  }
+  if (args.includes('--strict') && (report.inventory.errors.length || report.summary.pass !== report.summary.total)) process.exitCode = 1;
+}

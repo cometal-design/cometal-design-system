@@ -1,5 +1,16 @@
 {
-  "schemaVersion": 2,
+  "schemaVersion": 3,
+  "profiles": {
+    "legacy-linear": {
+      "description": "Existing eight-phase content contract; criteria and order remain unchanged."
+    },
+    "component-standard": {
+      "description": "Page standard v1.1: Overview, Settings, Accessibility; actual panel wiring and route-selected content."
+    },
+    "family-chooser": {
+      "description": "Fields chooser delegates details to explicit child pages; identity, live previews, links and legacy anchors remain required."
+    }
+  },
   "componentPhases": [
     { "id": "identity", "order": 0, "label": "Header, visible identity and exact sources", "defaultRequirement": "required" },
     { "id": "overview", "order": 1, "label": "Live component or family overview", "defaultRequirement": "required" },
@@ -16,7 +27,10 @@
     "tableFamilyNavigationFile": "components/table-family-header.tsx",
     "registryFile": "../../registry/components.json",
     "expectedTableChildRoutes": 4,
-    "expectedTotalDetailRoutes": 15
+    "expectedTotalDetailRoutes": 21,
+    "fieldDocumentationFile": "lib/field-documentation.ts",
+    "navigationFile": "lib/navigation.ts",
+    "portalShellFile": "components/portal-shell.tsx"
   },
   "criteria": [
     {
@@ -134,8 +148,10 @@
       "route": "/components/button/",
       "source": "app/components/button/page.tsx",
       "tier": "primary",
+      "profile": "component-standard",
+      "standardLayout": "native-tabs",
       "stableIds": ["action.button"],
-      "contentFiles": [],
+      "contentFiles": ["components/button-interactive-demo.tsx","components/button-examples.tsx","components/button-settings.tsx","components/button-usage-example.tsx","components/button-page-tabs.tsx"],
       "requirements": {
         "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>action\\.button</code>"] }] } },
         "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["figmaHref=\\{component\\.links\\.figma\\}"] }] } },
@@ -146,6 +162,7 @@
       "route": "/components/badge/",
       "source": "app/components/badge/page.tsx",
       "tier": "primary",
+      "profile": "component-standard",
       "stableIds": ["status.badge"],
       "contentFiles": ["components/badge-detail.tsx"],
       "requirements": {
@@ -159,6 +176,7 @@
       "route": "/components/fields/",
       "source": "app/components/fields/page.tsx",
       "tier": "primary",
+      "profile": "family-chooser",
       "stableIds": ["input.text-field", "input.text-area", "input.select", "input.combobox", "input.multi-select"],
       "contentFiles": [],
       "requirements": {
@@ -171,8 +189,9 @@
       "route": "/components/date-picker/",
       "source": "app/components/date-picker/page.tsx",
       "tier": "primary",
+      "profile": "component-standard",
       "stableIds": ["input.date-picker"],
-      "contentFiles": [],
+      "contentFiles": ["components/date-picker-detail.tsx"],
       "requirements": {
         "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>input\\.date-picker</code>"] }] } },
         "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["figmaHref=\\{component\\.links\\.figma\\}"] }] } },
@@ -183,6 +202,7 @@
       "route": "/components/checkbox/",
       "source": "app/components/checkbox/page.tsx",
       "tier": "primary",
+      "profile": "component-standard",
       "stableIds": ["selection.checkbox"],
       "contentFiles": ["components/selection-detail.tsx"],
       "requirements": {
@@ -195,6 +215,7 @@
       "route": "/components/radio-button/",
       "source": "app/components/radio-button/page.tsx",
       "tier": "primary",
+      "profile": "component-standard",
       "stableIds": ["selection.radio-button"],
       "contentFiles": ["components/selection-detail.tsx"],
       "requirements": {
@@ -207,6 +228,7 @@
       "route": "/components/switch/",
       "source": "app/components/switch/page.tsx",
       "tier": "primary",
+      "profile": "component-standard",
       "stableIds": ["selection.switch"],
       "contentFiles": ["components/selection-detail.tsx"],
       "requirements": {
@@ -219,8 +241,9 @@
       "route": "/components/tooltip/",
       "source": "app/components/tooltip/page.tsx",
       "tier": "primary",
+      "profile": "component-standard",
       "stableIds": ["overlay.tooltip"],
-      "contentFiles": [],
+      "contentFiles": ["components/tooltip-detail.tsx"],
       "requirements": {
         "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>overlay\\.tooltip</code>"] }] } },
         "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["figmaHref=\\{component\\.links\\.figma\\}"] }] } },
@@ -231,6 +254,7 @@
       "route": "/components/table/",
       "source": "app/components/table/page.tsx",
       "tier": "primary",
+      "profile": "legacy-linear",
       "stableIds": ["data-display.table"],
       "contentFiles": ["components/table-family-header.tsx"],
       "requirements": {
@@ -243,6 +267,8 @@
       "route": "/components/table/cells/",
       "source": "app/components/table/cells/page.tsx",
       "tier": "family-child",
+      "profile": "legacy-linear",
+      "parent": "/components/table/",
       "stableIds": ["data-display.table"],
       "contentFiles": ["components/table-family-header.tsx", "components/table-child-documentation.tsx"],
       "requirements": {
@@ -255,6 +281,8 @@
       "route": "/components/table/headers/",
       "source": "app/components/table/headers/page.tsx",
       "tier": "family-child",
+      "profile": "legacy-linear",
+      "parent": "/components/table/",
       "stableIds": ["data-display.table"],
       "contentFiles": ["components/table-family-header.tsx", "components/table-child-documentation.tsx"],
       "requirements": {
@@ -267,6 +295,8 @@
       "route": "/components/table/columns/",
       "source": "app/components/table/columns/page.tsx",
       "tier": "family-child",
+      "profile": "legacy-linear",
+      "parent": "/components/table/",
       "stableIds": ["data-display.table"],
       "contentFiles": ["components/table-family-header.tsx", "components/table-child-documentation.tsx"],
       "requirements": {
@@ -279,6 +309,8 @@
       "route": "/components/table/paginator/",
       "source": "app/components/table/paginator/page.tsx",
       "tier": "family-child",
+      "profile": "legacy-linear",
+      "parent": "/components/table/",
       "stableIds": ["data-display.table"],
       "contentFiles": ["components/table-family-header.tsx", "components/table-child-documentation.tsx"],
       "requirements": {
@@ -291,6 +323,7 @@
       "route": "/components/widget/",
       "source": "app/components/widget/page.tsx",
       "tier": "primary",
+      "profile": "legacy-linear",
       "stableIds": ["template.widget"],
       "contentFiles": [],
       "requirements": {
@@ -304,14 +337,112 @@
       "route": "/components/context-menu/",
       "source": "app/components/context-menu/page.tsx",
       "tier": "primary",
+      "profile": "component-standard",
       "stableIds": ["overlay.context-menu"],
-      "contentFiles": [],
+      "contentFiles": ["components/context-menu-detail.tsx"],
       "requirements": {
         "identity": { "evidence": { "clauses": [{ "scope": "content", "all": ["<code>overlay\\.context-menu</code>"] }] } },
         "figma": { "evidence": { "clauses": [{ "scope": "content", "all": ["figmaHref=\\{component\\.links\\.figma\\}"] }] } },
         "real-example": { "evidence": { "clauses": [{ "scope": "content", "all": ["<ContextMenu\\b", "<ContextMenuItem\\b"] }] } },
         "matrix": { "evidence": { "clauses": [{ "scope": "content", "all": ["id=\"sizes\"", "<ContextMenu\\s+size=\"l\"", "<ContextMenu\\s+size=\"m\"", "<ContextMenu\\s+size=\"s\""] }] } }
       }
+    },
+    {
+      "route": "/components/tabs/",
+      "source": "app/components/tabs/page.tsx",
+      "tier": "primary",
+      "profile": "component-standard",
+      "stableIds": [
+        "navigation.tabs"
+      ],
+      "contentFiles": [
+        "components/tabs-settings.tsx"
+      ]
+    },
+    {
+      "route": "/components/fields/text-field/",
+      "source": "app/components/fields/text-field/page.tsx",
+      "tier": "family-child",
+      "parent": "/components/fields/",
+      "profile": "component-standard",
+      "stableIds": [
+        "input.text-field"
+      ],
+      "selection": {
+        "kind": "text-field",
+        "export": "TextField"
+      },
+      "contentFiles": [
+        "components/field-detail.tsx"
+      ]
+    },
+    {
+      "route": "/components/fields/text-area/",
+      "source": "app/components/fields/text-area/page.tsx",
+      "tier": "family-child",
+      "parent": "/components/fields/",
+      "profile": "component-standard",
+      "stableIds": [
+        "input.text-area"
+      ],
+      "selection": {
+        "kind": "text-area",
+        "export": "TextArea"
+      },
+      "contentFiles": [
+        "components/field-detail.tsx"
+      ]
+    },
+    {
+      "route": "/components/fields/select/",
+      "source": "app/components/fields/select/page.tsx",
+      "tier": "family-child",
+      "parent": "/components/fields/",
+      "profile": "component-standard",
+      "stableIds": [
+        "input.select"
+      ],
+      "selection": {
+        "kind": "select",
+        "export": "Select"
+      },
+      "contentFiles": [
+        "components/field-detail.tsx"
+      ]
+    },
+    {
+      "route": "/components/fields/combobox/",
+      "source": "app/components/fields/combobox/page.tsx",
+      "tier": "family-child",
+      "parent": "/components/fields/",
+      "profile": "component-standard",
+      "stableIds": [
+        "input.combobox"
+      ],
+      "selection": {
+        "kind": "combobox",
+        "export": "Combobox"
+      },
+      "contentFiles": [
+        "components/field-detail.tsx"
+      ]
+    },
+    {
+      "route": "/components/fields/multi-select/",
+      "source": "app/components/fields/multi-select/page.tsx",
+      "tier": "family-child",
+      "parent": "/components/fields/",
+      "profile": "component-standard",
+      "stableIds": [
+        "input.multi-select"
+      ],
+      "selection": {
+        "kind": "multi-select",
+        "export": "MultiSelect"
+      },
+      "contentFiles": [
+        "components/field-detail.tsx"
+      ]
     }
   ]
 }

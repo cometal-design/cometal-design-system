@@ -112,7 +112,7 @@ describe('Fields', () => {
     expect(html).toContain('Выберите хотя бы одно значение');
   });
 
-  it('caps visible combobox suggestions without limiting its search source', () => {
+  it('keeps capped combobox suggestions out of SSR until a hydrated anchor exists', () => {
     const html = renderToStaticMarkup(
       <Combobox
         label="Иконка"
@@ -127,9 +127,10 @@ describe('Fields', () => {
       />,
     );
 
-    expect((html.match(/role="option"/g) ?? [])).toHaveLength(2);
-    expect(html).toContain('icon-a');
-    expect(html).toContain('icon-b');
+    expect(html).not.toContain('role="option"');
+    expect(html).not.toContain('role="listbox"');
+    expect(html).toContain('aria-expanded="true"');
+    expect(html).toContain('value="icon"');
     expect(html).not.toContain('icon-c');
   });
 
@@ -149,13 +150,15 @@ describe('Fields', () => {
     expect(html).not.toContain('cometal-field__clear');
   });
 
-  it('keeps hydrated Select portal content out of SSR while preserving the native form value', () => {
+  it('keeps all hydrated listbox portals out of SSR while preserving controls and native Select value', () => {
     const select = renderToStaticMarkup(<Select label="Статус" expanded options={[{ value: 'active', label: 'Активный' }]} />);
     const combobox = renderToStaticMarkup(<Combobox label="Контрагент" defaultValue="north" expanded options={[{ value: 'north', label: 'Северсталь' }]} />);
     expect(select).not.toContain('role="option"');
-    expect(combobox).toContain('role="option"');
+    expect(combobox).not.toContain('role="option"');
+    expect(combobox).not.toContain('role="listbox"');
     expect(select).toContain('tabindex="-1"');
-    expect(combobox).toContain('tabindex="-1"');
+    expect(combobox).toContain('aria-expanded="true"');
+    expect(combobox).toContain('value="north"');
     expect(select).toContain('aria-hidden="true"');
     expect((select.match(/role="combobox"/g) ?? [])).toHaveLength(1);
   });
@@ -186,7 +189,23 @@ describe('Fields', () => {
     expect(html).toContain('Северсталь');
     expect(html).toContain('ММК');
     expect(html).not.toContain('✓');
-    expect(html).toContain('aria-multiselectable="true"');
+    expect(html).not.toContain('role="listbox"');
+    expect(html).toContain('aria-expanded="true"');
     expect((html.match(/data-cometal-icon-library="outline"/g) ?? []).length).toBeGreaterThanOrEqual(3);
+  });
+  it.each([true, false])('preserves controlled/default-expanded SSR state without DOM access (%s)', (controlled) => {
+    const expansion = controlled ? { expanded: true } : { defaultExpanded: true };
+    const options = [{ value: 'north', label: 'Северсталь' }];
+    for (const element of [
+      <Combobox id="combo" listboxId="combo-options" label="Поиск" defaultValue="north" options={options} {...expansion} />,
+      <MultiSelect id="multi" label="Выбор" selectedValues={['north']} options={options} {...expansion} />,
+    ]) {
+      const html = renderToStaticMarkup(element);
+      expect(html).not.toContain('role="listbox"');
+      expect(html).not.toContain('role="option"');
+      expect(html).toContain('aria-expanded="true"');
+      expect(html).toContain('aria-controls=');
+      expect(html).toContain('role="combobox"');
+    }
   });
 });

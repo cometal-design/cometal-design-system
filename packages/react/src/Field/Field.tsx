@@ -2,9 +2,11 @@ import { forwardRef, useEffect, useId, useImperativeHandle, useRef, useState } f
 import { createPortal } from 'react-dom';
 import type {
   ButtonHTMLAttributes,
+  CSSProperties,
   KeyboardEvent,
   InputHTMLAttributes,
   ReactNode,
+  Ref,
   SelectHTMLAttributes,
   TextareaHTMLAttributes,
 } from 'react';
@@ -224,6 +226,9 @@ function getTypeaheadOptionIndex(options: SelectOption[], query: string, activeI
 }
 
 type FieldListboxProps = {
+  surfaceRef?: Ref<HTMLDivElement>;
+  style?: CSSProperties;
+  placement?: string;
   id: string;
   label: string;
   options: SelectOption[];
@@ -236,9 +241,23 @@ type FieldListboxProps = {
   onSelect?: (value: string) => void;
 };
 
-function FieldListbox({ id, label, options, selectedValues = [], size, multiple = false, motion = false, activeIndex, onActiveChange, onSelect }: FieldListboxProps) {
+function FieldListbox({
+  id, label, options, selectedValues = [], size, multiple = false, motion = false,
+  activeIndex, onActiveChange, onSelect, surfaceRef, style, placement,
+}: FieldListboxProps) {
   return (
-    <div className="cometal-field__listbox" id={id} role="listbox" aria-label={label} aria-multiselectable={multiple || undefined} data-size={size} data-motion={motion ? 'enter' : undefined}>
+    <div
+      ref={surfaceRef}
+      style={style}
+      data-placement={placement}
+      className="cometal-field__listbox"
+      id={id}
+      role="listbox"
+      aria-label={label}
+      aria-multiselectable={multiple || undefined}
+      data-size={size}
+      data-motion={motion ? 'enter' : undefined}
+    >
       {options.map((option, index) => {
         const selected = selectedValues.includes(option.value);
         return (
@@ -516,10 +535,11 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
   const resolvedListboxId = listboxId ?? `${controlId}-listbox`;
   const supportingId = helperText || error ? `${controlId}-supporting` : undefined;
   const popupRef = useRef<HTMLSpanElement | null>(null);
+  const listboxRef = useRef<HTMLDivElement | null>(null);
+  const hydrated = useHydrated();
   const inputRef = useRef<HTMLInputElement | null>(null);
   useImperativeHandle(forwardedRef, () => inputRef.current as HTMLInputElement);
   const [isExpanded, setExpanded] = usePopupState(expanded, defaultExpanded, onExpandedChange);
-  useOutsidePointerDismiss(isExpanded, [popupRef], () => setExpanded(false));
   const [internalInputValue, setInternalInputValue] = useState(String(defaultValue ?? ''));
   const inputValue = String(value ?? internalInputValue);
   const normalizedQuery = inputValue.trim().toLocaleLowerCase('ru-RU');
@@ -527,6 +547,17 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
     ? options.filter((option) => `${option.label} ${option.value}`.toLocaleLowerCase('ru-RU').includes(normalizedQuery))
     : [];
   const filteredOptions = maxVisibleOptions === undefined ? matchingOptions : matchingOptions.slice(0, maxVisibleOptions);
+  const listboxVisible = hydrated && isExpanded && mode === 'edit' && !disabled && filteredOptions.length > 0;
+  const listboxOverlay = useAnchoredOverlay({
+    open: listboxVisible,
+    anchorRef: popupRef,
+    surfaceRef: listboxRef,
+    gap: 6,
+    viewportInset: 8,
+    matchAnchorWidth: true,
+    onLostAnchor: () => setExpanded(false),
+  });
+  useOutsidePointerDismiss(listboxVisible, [popupRef, listboxRef], () => setExpanded(false));
   const [activeIndex, setActiveIndex] = useState(-1);
   const selectedOption = options.find((option) => option.value === inputValue || option.label === inputValue);
   const moveActive = (direction: 1 | -1) => {
@@ -571,7 +602,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
               onBlur?.(event);
               if (event.defaultPrevented) return;
               const nextTarget = event.relatedTarget;
-              if (!nextTarget || !popupRef.current?.contains(nextTarget)) setExpanded(false);
+              if (!nextTarget || (!popupRef.current?.contains(nextTarget) && !listboxRef.current?.contains(nextTarget))) setExpanded(false);
             }}
             onChange={(event) => {
               if (value === undefined) setInternalInputValue(event.currentTarget.value);
@@ -607,7 +638,7 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
               onPointerDown={(event) => event.preventDefault()}
               onBlur={(event) => {
                 const nextTarget = event.relatedTarget;
-                if (!nextTarget || !popupRef.current?.contains(nextTarget)) setExpanded(false);
+                if (!nextTarget || (!popupRef.current?.contains(nextTarget) && !listboxRef.current?.contains(nextTarget))) setExpanded(false);
               }}
               onClick={() => {
                 if (value === undefined) setInternalInputValue('');
@@ -621,8 +652,11 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
             </button>
           ) : null}
         </span>
-        {isExpanded && filteredOptions.length ? (
+        {listboxVisible ? createPortal(
           <FieldListbox
+            surfaceRef={listboxRef}
+            style={listboxOverlay.style}
+            placement={listboxOverlay.placement}
             id={resolvedListboxId}
             label={`${label}: результаты`}
             options={filteredOptions}
@@ -636,7 +670,8 @@ export const Combobox = forwardRef<HTMLInputElement, ComboboxProps>(function Com
               onOptionSelect?.(nextValue);
               setExpanded(false);
             }}
-          />
+          />,
+          popupRef.current?.ownerDocument.body ?? document.body,
         ) : null}
       </span>
     </FieldChrome>
@@ -668,6 +703,8 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(funct
   const listboxId = `${controlId}-listbox`;
   const supportingId = helperText || error ? `${controlId}-supporting` : undefined;
   const popupRef = useRef<HTMLSpanElement | null>(null);
+  const listboxRef = useRef<HTMLDivElement | null>(null);
+  const hydrated = useHydrated();
   const tagsRef = useRef<HTMLSpanElement | null>(null);
   const tagsMeasureRef = useRef<HTMLSpanElement | null>(null);
   const displayValues = selectedValues.map((value) => options.find((option) => option.value === value)?.label ?? value);
@@ -675,7 +712,17 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(funct
   const [visibleTagCount, setVisibleTagCount] = useState(displayValues.length);
   const [isExpanded, setExpanded] = usePopupState(expanded, defaultExpanded, onExpandedChange);
   const [listboxMotion, setListboxMotion] = useState(false);
-  useOutsidePointerDismiss(isExpanded, [popupRef], () => setExpanded(false));
+  const listboxVisible = hydrated && isExpanded && mode === 'edit' && !disabled && options.length > 0;
+  const listboxOverlay = useAnchoredOverlay({
+    open: listboxVisible,
+    anchorRef: popupRef,
+    surfaceRef: listboxRef,
+    gap: 6,
+    viewportInset: 8,
+    matchAnchorWidth: true,
+    onLostAnchor: () => setExpanded(false),
+  });
+  useOutsidePointerDismiss(listboxVisible, [popupRef, listboxRef], () => setExpanded(false));
   const [activeIndex, setActiveIndex] = useState(-1);
   useActiveOptionVisibility(listboxId, activeIndex, isExpanded);
   const typeaheadQueryRef = useRef('');
@@ -816,7 +863,7 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(funct
             onBlur={(event) => {
               onBlur?.(event);
               const nextTarget = event.relatedTarget;
-              if (!(nextTarget instanceof Node) || !popupRef.current?.contains(nextTarget)) setExpanded(false);
+              if (!nextTarget || (!popupRef.current?.contains(nextTarget) && !listboxRef.current?.contains(nextTarget))) setExpanded(false);
             }}
             className="cometal-field__multi-select-trigger"
           />
@@ -853,8 +900,11 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(funct
           ) : null}
           <span className="cometal-field__asset" aria-hidden="true"><ChevronIcon expanded={isExpanded} /></span>
         </span>
-        {isExpanded && options.length ? (
+        {listboxVisible ? createPortal(
           <FieldListbox
+            surfaceRef={listboxRef}
+            style={listboxOverlay.style}
+            placement={listboxOverlay.placement}
             id={listboxId}
             label={`${label}: варианты`}
             options={options}
@@ -865,7 +915,8 @@ export const MultiSelect = forwardRef<HTMLButtonElement, MultiSelectProps>(funct
             activeIndex={activeIndex}
             onActiveChange={setActiveIndex}
             onSelect={toggleValue}
-          />
+          />,
+          popupRef.current?.ownerDocument.body ?? document.body,
         ) : null}
       </span>
     </FieldChrome>

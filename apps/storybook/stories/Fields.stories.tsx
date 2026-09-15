@@ -1,4 +1,6 @@
-import { StrictMode, useState } from 'react';
+import { StrictMode, createRef, useState } from 'react';
+import { renderToString } from 'react-dom/server';
+import { hydrateRoot } from 'react-dom/client';
 import type { Meta, StoryObj } from '@storybook/react-vite';
 import { expect, fireEvent, userEvent, waitFor, within } from 'storybook/test';
 import { Button, Combobox, DatePicker, DateRangePicker, MultiSelect, Select, TextArea, TextField, fieldSizes } from '@cometal/react';
@@ -31,6 +33,30 @@ const longOptions = Array.from({ length: 16 }, (_, index) => ({
   value: `status-${index + 1}`,
   label: `Статус ${index + 1}`,
 }));
+
+const portalOptions = [
+  { value: 'a', label: 'Компания A' },
+  { value: 'b', label: 'Компания B' },
+  { value: 'c', label: 'Компания C' },
+  { value: 'disabled', label: 'Компания недоступна', disabled: true },
+];
+
+function ListboxPortalExample() {
+  const [mounted, setMounted] = useState(true);
+  const [values, setValues] = useState<string[]>([]);
+  return (
+    <>
+      <Button onClick={() => setMounted(false)}>Unmount listboxes</Button>
+      <Button>Outside listboxes</Button>
+      {mounted ? <StrictMode>
+        <div data-listbox-clip-root style={{ width: 224, height: 160, overflow: 'hidden' }}>
+          <Combobox label="Portal search" options={portalOptions} maxVisibleOptions={2} />
+          <MultiSelect label="Portal multiple" options={portalOptions} selectedValues={values} onSelectedValuesChange={setValues} />
+        </div>
+      </StrictMode> : null}
+    </>
+  );
+}
 
 function SelectInteractionExample() {
   const [value, setValue] = useState('');
@@ -292,7 +318,7 @@ export const ComboboxActive: Story = {
   name: 'Combobox · Active Listbox',
   parameters: { controls: { disable: true } },
   render: () => <div className="ds-field-story-shell"><Combobox label="Контрагент" placeholder="Найдите значение" options={contractorOptions} defaultValue="НЛМК" expanded /></div>,
-  play: async ({ canvasElement }) => { await expect(within(canvasElement).getByRole('listbox')).toBeInTheDocument(); },
+  play: async ({ canvasElement }) => { await expect(await within(canvasElement.ownerDocument.body).findByRole('listbox')).toBeInTheDocument(); },
 };
 export const MultiSelectActive: Story = {
   name: 'Multi Select · Active Listbox',
@@ -307,9 +333,9 @@ export const MultiSelectActive: Story = {
     await expect(chevron.getBoundingClientRect().width).toBe(20);
     await expect(chevron.getBoundingClientRect().height).toBe(20);
     await expect(Number.parseFloat(getComputedStyle(chevron.querySelector('path')!).strokeWidth) * chevron.getBoundingClientRect().width / chevron.viewBox.baseVal.width).toBeCloseTo(1.4, 2);
-    await expect(canvas.getByRole('listbox')).toHaveAttribute('aria-multiselectable', 'true');
-    await expect(canvas.getByRole('option', { name: /Северсталь/ })).toHaveAttribute('aria-selected', 'true');
-    await expect(canvas.getByRole('option', { name: /ММК/ })).toHaveAttribute('aria-selected', 'true');
+    await expect(await within(canvasElement.ownerDocument.body).findByRole('listbox')).toHaveAttribute('aria-multiselectable', 'true');
+    await expect(within(canvasElement.ownerDocument.body).getByRole('option', { name: /Северсталь/ })).toHaveAttribute('aria-selected', 'true');
+    await expect(within(canvasElement.ownerDocument.body).getByRole('option', { name: /ММК/ })).toHaveAttribute('aria-selected', 'true');
   },
 };
 export const SelectInteraction: Story = {
@@ -514,7 +540,7 @@ export const ComboboxInteraction: Story = {
     await expect(input).toHaveAttribute('aria-expanded', 'false');
     await userEvent.clear(input);
     await userEvent.type(input, 'сталь');
-    const listbox = canvas.getByRole('listbox');
+    const listbox = within(canvasElement.ownerDocument.body).getByRole('listbox');
     await expect(within(listbox).getAllByRole('option')).toHaveLength(1);
     const severstalOption = within(listbox).getByRole('option', { name: 'Северсталь' });
     await expect(severstalOption).not.toHaveAttribute('data-active');
@@ -529,7 +555,7 @@ export const ComboboxInteraction: Story = {
     await userEvent.click(input);
     await userEvent.clear(input);
     await userEvent.type(input, 'сталь');
-    const reopenedSeverstalOption = within(canvas.getByRole('listbox')).getByRole('option', { name: 'Северсталь' });
+    const reopenedSeverstalOption = within(within(canvasElement.ownerDocument.body).getByRole('listbox')).getByRole('option', { name: 'Северсталь' });
     await userEvent.keyboard('{ArrowDown}');
     await expect(reopenedSeverstalOption).toHaveAttribute('data-active');
     await userEvent.keyboard('{Enter}');
@@ -559,11 +585,11 @@ export const MultiSelectInteraction: Story = {
     await expect(trigger).toHaveAttribute('aria-expanded', 'true');
     await expect(getChevron()).toHaveAttribute('data-chevron-direction', 'up');
     await userEvent.keyboard('{Home}');
-    await expect(canvas.getByRole('option', { name: 'Северсталь' })).toHaveAttribute('data-active');
+    await expect(within(canvasElement.ownerDocument.body).getByRole('option', { name: 'Северсталь' })).toHaveAttribute('data-active');
     await userEvent.keyboard('{End}');
-    await expect(canvas.getByRole('option', { name: 'Евраз' })).toHaveAttribute('data-active');
+    await expect(within(canvasElement.ownerDocument.body).getByRole('option', { name: 'Евраз' })).toHaveAttribute('data-active');
     await userEvent.keyboard('с');
-    await expect(canvas.getByRole('option', { name: 'Северсталь' })).toHaveAttribute('data-active');
+    await expect(within(canvasElement.ownerDocument.body).getByRole('option', { name: 'Северсталь' })).toHaveAttribute('data-active');
     await userEvent.keyboard('{Escape}');
     await expect(trigger).toHaveAttribute('aria-expanded', 'false');
     await expect(getChevron()).toHaveAttribute('data-chevron-direction', 'down');
@@ -580,5 +606,133 @@ export const MultiSelectResponsiveTags: Story = {
     await userEvent.click(canvas.getByRole('button', { name: 'Сузить поле' }));
     await new Promise((resolve) => setTimeout(resolve, 100));
     await expect(canvasElement.querySelector('.cometal-field__tags > .cometal-field__tag--counter')).toBeInTheDocument();
+  },
+};
+
+export const ListboxPortalContract: Story = {
+  name: 'Combobox / MultiSelect · anchored portals',
+  parameters: { controls: { disable: true } },
+  render: () => <ListboxPortalExample />,
+  play: async ({ canvasElement }) => {
+    const document = canvasElement.ownerDocument;
+    const ownerWindow = document.defaultView!;
+    const canvas = within(canvasElement);
+    const body = within(document.body);
+    const clip = canvasElement.querySelector<HTMLElement>('[data-listbox-clip-root]')!;
+    Object.assign(clip.style, { position: 'fixed', right: '0px', bottom: '0px' });
+    const search = canvas.getByRole('combobox', { name: 'Portal search' });
+    const multiple = canvas.getByRole('combobox', { name: 'Portal multiple' });
+    async function geometry(trigger: HTMLElement, name: string, expectedPlacement = 'top-start') {
+      const surface = await body.findByRole('listbox', { name });
+      const anchor = trigger.closest<HTMLElement>('.cometal-field__trigger-stack')!;
+      await waitFor(() => {
+        const box = surface.getBoundingClientRect();
+        expect(box.width).toBeCloseTo(anchor.getBoundingClientRect().width, 1);
+        expect(box.left).toBeGreaterThanOrEqual(8);
+        expect(box.right).toBeLessThanOrEqual(ownerWindow.innerWidth - 8);
+        expect(surface).toHaveAttribute('data-placement', expectedPlacement);
+      });
+      await expect(surface.parentElement).toBe(document.body);
+      await expect(getComputedStyle(surface).position).toBe('fixed');
+      const optionStyle = getComputedStyle(within(surface).getAllByRole('option')[0]);
+      await expect(optionStyle.fontFamily).toBe(getComputedStyle(trigger.closest('.cometal-field')!).fontFamily);
+      await expect(optionStyle.fontSize).toBe('14px');
+      await expect(optionStyle.lineHeight).toBe('20px');
+      await expect(getComputedStyle(surface).padding).toBe('8px');
+      return surface;
+    }
+    await userEvent.click(search);
+    await expect(body.queryByRole('listbox')).not.toBeInTheDocument();
+    await userEvent.type(search, 'Компания');
+    let surface = await geometry(search, 'Portal search: результаты');
+    await expect(within(surface).getAllByRole('option')).toHaveLength(2);
+    const firstRect = surface.getBoundingClientRect();
+    clip.style.bottom = '48px';
+    fireEvent.scroll(ownerWindow);
+    await waitFor(() => expect(surface.getBoundingClientRect().top).toBeLessThan(firstRect.top));
+    await userEvent.click(within(surface).getByRole('option', { name: 'Компания B' }));
+    await expect(search).toHaveValue('Компания B');
+    await expect(search).toHaveFocus();
+    await expect(search.closest('.cometal-field')).not.toHaveAttribute('data-focus-visible');
+    await expect(body.queryByRole('listbox')).not.toBeInTheDocument();
+    await userEvent.clear(search);
+    await userEvent.type(search, 'Компания C');
+    surface = await geometry(search, 'Portal search: результаты', 'bottom-start');
+    await expect(within(surface).getAllByRole('option')).toHaveLength(1);
+    await userEvent.keyboard('{ArrowDown}');
+    await expect(document.getElementById(search.getAttribute('aria-activedescendant')!)).toHaveAttribute('role', 'option');
+    await userEvent.keyboard('{Enter}');
+    await expect(search).toHaveValue('Компания C');
+    await userEvent.click(canvas.getByRole('button', { name: 'Очистить поле' }));
+    await expect(search).toHaveValue('');
+    await expect(search).toHaveFocus();
+    await userEvent.click(multiple);
+    surface = await geometry(multiple, 'Portal multiple: варианты');
+    await expect(surface).toHaveAttribute('aria-multiselectable', 'true');
+    await userEvent.click(within(surface).getByRole('option', { name: 'Компания A' }));
+    await expect(surface).toBeInTheDocument();
+    await expect(within(surface).getByRole('option', { name: 'Компания A' })).toHaveAttribute('aria-selected', 'true');
+    await expect(multiple).toHaveFocus();
+    await expect(multiple.closest('.cometal-field')).not.toHaveAttribute('data-focus-visible');
+    await userEvent.keyboard('{ArrowDown}{Enter}');
+    await expect(document.getElementById(multiple.getAttribute('aria-activedescendant')!)).toBeInTheDocument();
+    await userEvent.keyboard('{Escape}');
+    await expect(body.queryByRole('listbox')).not.toBeInTheDocument();
+    await expect(multiple).toHaveFocus();
+    await userEvent.keyboard('{ArrowDown}');
+    await geometry(multiple, 'Portal multiple: варианты');
+    await userEvent.click(canvas.getByRole('button', { name: 'Outside listboxes' }));
+    await expect(body.queryByRole('listbox')).not.toBeInTheDocument();
+    multiple.focus();
+    await userEvent.keyboard('{ArrowDown}');
+    await geometry(multiple, 'Portal multiple: варианты');
+    clip.style.display = 'none';
+    await waitFor(() => expect(body.queryByRole('listbox')).not.toBeInTheDocument());
+    clip.style.display = '';
+    multiple.focus();
+    await userEvent.keyboard('{ArrowDown}');
+    await geometry(multiple, 'Portal multiple: варианты');
+    await userEvent.click(canvas.getByRole('button', { name: 'Unmount listboxes' }));
+    await expect(body.queryByRole('listbox')).not.toBeInTheDocument();
+    fireEvent.scroll(ownerWindow);
+    fireEvent.resize(ownerWindow);
+    await expect(canvasElement.querySelector('[data-listbox-clip-root]')).not.toBeInTheDocument();
+  },
+};
+
+export const ListboxHydrationContract: Story = {
+  name: 'Combobox / MultiSelect · SSR and hydration',
+  parameters: { controls: { disable: true } },
+  render: () => <div data-listbox-hydration-host />,
+  play: async ({ canvasElement }) => {
+    const document = canvasElement.ownerDocument;
+    const host = canvasElement.querySelector<HTMLElement>('[data-listbox-hydration-host]')!;
+    const body = within(document.body);
+    for (const kind of ['combobox', 'multi-select'] as const) {
+      const ref = createRef<HTMLInputElement>();
+      const multiRef = createRef<HTMLButtonElement>();
+      const element = <StrictMode>{kind === 'combobox'
+        ? <Combobox ref={ref} label="Hydration search" defaultValue="Компания" defaultExpanded options={portalOptions} maxVisibleOptions={2} />
+        : <MultiSelect ref={multiRef} label="Hydration multiple" expanded options={portalOptions} />
+      }</StrictMode>;
+      host.innerHTML = renderToString(element);
+      await expect(host.querySelector('[role="listbox"]')).not.toBeInTheDocument();
+      const recoverable: unknown[] = [];
+      const root = hydrateRoot(host, element, { onRecoverableError: (error) => recoverable.push(error) });
+      try {
+        const surface = await body.findByRole('listbox');
+        await waitFor(() => expect(surface).toBeVisible());
+        const trigger = within(host).getByRole('combobox');
+        await expect(kind === 'combobox' ? ref.current : multiRef.current).toBe(trigger);
+        await expect(document.getElementById(trigger.getAttribute('aria-controls')!)).toBe(surface);
+        await expect(within(surface).getAllByRole('option')).toHaveLength(kind === 'combobox' ? 2 : portalOptions.length);
+        await expect(surface.parentElement).toBe(document.body);
+        await expect(recoverable).toEqual([]);
+      } finally {
+        root.unmount();
+        host.replaceChildren();
+      }
+      await expect(body.queryByRole('listbox')).not.toBeInTheDocument();
+    }
   },
 };

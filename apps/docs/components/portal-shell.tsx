@@ -104,7 +104,21 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
                 const currentPath = normalizePath(currentPathname);
                 const activePrefix = item.activePrefix ? normalizePath(item.activePrefix) : null;
                 const active = currentPath === itemPath || Boolean(activePrefix && currentPath.startsWith(`${activePrefix}/`));
-                return <Link key={item.href} href={item.href} data-active={active || undefined} aria-current={active ? 'page' : undefined}>{item.label}</Link>;
+                return item.children ? (
+                  <div key={item.href} className="field-doc-nav" data-active={active || undefined}>
+                    <Link href={item.href} data-active={active || undefined} aria-current={currentPath === itemPath ? 'page' : undefined}>{item.label}</Link>
+                    <ul className="field-doc-nav__children">
+                      {item.children.map((child) => (
+                        <li key={child.href}>
+                          <Link href={child.href} data-active={currentPath === normalizePath(child.href) || undefined}
+                            aria-current={currentPath === normalizePath(child.href) ? 'page' : undefined}>
+                            {child.label}
+                          </Link>
+                        </li>
+                      ))}
+                    </ul>
+                  </div>
+                ) : <Link key={item.href} href={item.href} data-active={active || undefined} aria-current={active ? 'page' : undefined}>{item.label}</Link>;
               })}
             </nav>
           </aside>
