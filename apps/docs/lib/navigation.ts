@@ -7,6 +7,7 @@ export type NavItem = {
   external?: boolean;
   activePrefix?: string;
   activeSections?: string[];
+  prefetch?: false;
 };
 
 export type FoundationTab = Pick<NavItem, 'label' | 'href'>;
@@ -14,10 +15,20 @@ export type FoundationTab = Pick<NavItem, 'label' | 'href'>;
 export const primaryNavigation: NavItem[] = [
   { label: 'Документация', href: '/documentation/', activeSections: ['documentation', 'releases'] },
   { label: 'Foundation', href: '/foundation/' },
-  { label: 'Компоненты', href: '/components/' },
+  { label: 'Компоненты', href: '/components/', activeSections: ['components', 'mui-components'] },
   { label: 'Паттерны', href: '/patterns/' },
   { label: 'Шаблоны', href: '/templates/' },
   { label: 'Storybook', href: '/storybook/', external: true },
+];
+
+const componentsNavigation: NavItem[] = [
+  { label: 'Обзор', href: '/components/' },
+  { label: 'Компоненты на MUI', href: '/mui-components/', prefetch: false },
+  ...componentCatalog.map((family) => ({
+    label: family.name,
+    href: family.route,
+    ...(family.id === 'data-display.table' ? { activePrefix: family.route } : {}),
+  })),
 ];
 
 export const sectionNavigation: Record<string, NavItem[]> = {
@@ -35,14 +46,8 @@ export const sectionNavigation: Record<string, NavItem[]> = {
     { label: 'Иконки', href: '/foundation/icons/catalog/', activePrefix: '/foundation/icons/' },
     { label: 'Motion', href: '/foundation/motion/' },
   ],
-  components: [
-    { label: 'Обзор', href: '/components/' },
-    ...componentCatalog.map((family) => ({
-      label: family.name,
-      href: family.route,
-      ...(family.id === 'data-display.table' ? { activePrefix: family.route } : {}),
-    })),
-  ],
+  components: componentsNavigation,
+  'mui-components': componentsNavigation,
   patterns: [{ label: 'Обзор', href: '/patterns/' }],
   templates: [{ label: 'Обзор', href: '/templates/' }],
   releases: [

@@ -104,7 +104,7 @@ export function PortalShell({ children }: { children: React.ReactNode }) {
                 const currentPath = normalizePath(currentPathname);
                 const activePrefix = item.activePrefix ? normalizePath(item.activePrefix) : null;
                 const active = currentPath === itemPath || Boolean(activePrefix && currentPath.startsWith(`${activePrefix}/`));
-                return <Link key={item.href} href={item.href} data-active={active || undefined} aria-current={active ? 'page' : undefined}>{item.label}</Link>;
+                return <Link key={item.href} href={item.href} prefetch={item.prefetch} data-active={active || undefined} aria-current={active ? 'page' : undefined}>{item.label}</Link>;
               })}
             </nav>
           </aside>
