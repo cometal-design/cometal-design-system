@@ -43,11 +43,23 @@ export function MuiBoard({ sources }: { sources: MuiDemoSources }) {
   const [fixture, setFixture] = useState<string | null>(null);
   const [hydrated, setHydrated] = useState(false);
   useEffect(() => {
-    const query = new URLSearchParams(window.location.search);
-    setSelected(demos.find((demo) => demo.id === query.get('component'))?.id ?? 'button');
-    const state = query.get('state');
-    setFixture(state === 'disabled' || state === 'error' ? state : null);
-    setHydrated(true);
+    let disposed = false;
+    let frame = 0;
+    // Let native MUI scroll buttons settle after hydration and final font metrics.
+    void document.fonts.ready.then(() => {
+      if (disposed) return;
+      frame = requestAnimationFrame(() => {
+        frame = requestAnimationFrame(() => {
+          if (disposed) return;
+          const query = new URLSearchParams(window.location.search);
+          setSelected(demos.find((demo) => demo.id === query.get('component'))?.id ?? 'button');
+          const state = query.get('state');
+          setFixture(state === 'disabled' || state === 'error' ? state : null);
+          setHydrated(true);
+        });
+      });
+    });
+    return () => { disposed = true; cancelAnimationFrame(frame); };
   }, []);
   const adapterSource = sources['visual-adapter.tsx'];
   const [sizes, setSizes] = useState<DemoSizeState>({ button: 'm', textfield: 'm', textarea: 'm', select: 'm', combobox: 'm', multiselect: 'm', checkbox: 'm', radiobutton: 'm', switch: 'm', tabs: 'm' });

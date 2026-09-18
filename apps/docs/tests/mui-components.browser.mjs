@@ -135,6 +135,16 @@ if (process.env.MUI_TEST_PASS === 'integration') {
   await visit(page, url + '?component=invalid&state=invalid');
   assert.equal(await page.locator('#pilot-board-tab-button').getAttribute('aria-selected'), 'true');
   assert.equal(await page.getByRole('navigation', { name: 'Навигация раздела', exact: true }).getByRole('link').count(), sidebarCount);
+  await page.setViewportSize({ width: 320, height: 900 });
+  await visit(page, url + '?component=select');
+  await page.waitForFunction(() => {
+    const tab = document.getElementById('pilot-board-tab-select');
+    const rect = tab.getBoundingClientRect();
+    const viewport = tab.closest('.MuiTabs-scroller').getBoundingClientRect();
+    return rect.left >= viewport.left - 1 && rect.right <= viewport.right + 1;
+  });
+  assert.equal(await page.evaluate(() => document.activeElement.tagName), 'BODY');
+  assert.equal(await page.evaluate(() => scrollY), 0);
   const meta = await (await page.request.get(origin + '/cometal-build-meta.json')).json();
   const storyMeta = await (await page.request.get(origin + '/storybook/cometal-build-meta.json')).json();
   assert.equal(meta.buildSha, storyMeta.buildSha);
