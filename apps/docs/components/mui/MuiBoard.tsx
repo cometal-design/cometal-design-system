@@ -4,7 +4,7 @@ import type { MuiDemoSources } from '../../lib/mui-demo-sources';
 import type { DemoSizeState } from './visual-adapter';
 import ToggleButton from '@mui/material/ToggleButton';
 import ToggleButtonGroup from '@mui/material/ToggleButtonGroup';
-import { useEffect, useState } from 'react';
+import { useEffect, useRef, useState } from 'react';
 import Box from '@mui/material/Box';
 import Tab from '@mui/material/Tab';
 import Tabs from '@mui/material/Tabs';
@@ -42,6 +42,7 @@ export function MuiBoard({ sources }: { sources: MuiDemoSources }) {
   const [selected, setSelected] = useState<(typeof demos)[number]['id']>('button');
   const [fixture, setFixture] = useState<string | null>(null);
   const [hydrated, setHydrated] = useState(false);
+  const userSelected = useRef(false);
   useEffect(() => {
     let disposed = false;
     let frame = 0;
@@ -52,9 +53,11 @@ export function MuiBoard({ sources }: { sources: MuiDemoSources }) {
         frame = requestAnimationFrame(() => {
           if (disposed) return;
           const query = new URLSearchParams(window.location.search);
-          setSelected(demos.find((demo) => demo.id === query.get('component'))?.id ?? 'button');
           const state = query.get('state');
-          setFixture(state === 'disabled' || state === 'error' ? state : null);
+          if (!userSelected.current) {
+            setSelected(demos.find((demo) => demo.id === query.get('component'))?.id ?? 'button');
+            setFixture(state === 'disabled' || state === 'error' ? state : null);
+          }
           setHydrated(true);
         });
       });
@@ -71,7 +74,7 @@ export function MuiBoard({ sources }: { sources: MuiDemoSources }) {
     </header>
     <Tabs aria-label="Компоненты MUI пилота" value={selected} onChange={(_, next: string) => {
       const demo = demos.find((item) => item.id === next);
-      if (demo) setSelected(demo.id);
+      if (demo) { userSelected.current = true; setSelected(demo.id); }
     }} variant="scrollable" scrollButtons="auto" allowScrollButtonsMobile sx={{ ...tabsStyles, marginBottom: 'var(--cometal-primitive-spacing-150)' }}>
       {demos.map((demo) => <Tab key={demo.id} value={demo.id} label={demo.label} id={`pilot-board-tab-${demo.id}`} aria-controls={`pilot-board-panel-${demo.id}`} sx={tabStyles} />)}
     </Tabs>

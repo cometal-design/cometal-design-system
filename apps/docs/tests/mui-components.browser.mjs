@@ -38,6 +38,48 @@ if (!process.env.MUI_TEST_PASS) {
 if (process.env.MUI_TEST_PASS === 'integration') {
   const errors = [];
   const serverBrowser = await chromium.launch();
+  // Slow fonts must never let late query/default initialization replace explicit user intent.
+  for (const { query, unmount } of [
+    { query: '', unmount: false },
+    { query: '?component=invalid', unmount: false },
+    { query: '?component=select&state=disabled', unmount: false },
+    { query: '?component=select', unmount: true },
+  ]) {
+    const slow = await serverBrowser.newContext({ viewport: { width: 320, height: 900 } });
+    const early = await slow.newPage();
+    early.on('pageerror', error => errors.push(error.message));
+    early.on('console', message => { if (message.type() === 'error') errors.push(message.text()); });
+    let releaseFonts;
+    let heldFonts = 0;
+    const fontGate = new Promise(resolve => { releaseFonts = resolve; });
+    await early.route(/\.(woff2?|ttf|otf)(\?|$)/, async route => { heldFonts++; await fontGate; await route.continue(); });
+    try {
+      await early.goto(url + query, { waitUntil: 'domcontentloaded' });
+      const chosen = early.locator('#pilot-board-tab-textfield');
+      await chosen.click();
+      await early.waitForFunction(() => document.getElementById('pilot-board-tab-textfield').getAttribute('aria-selected') === 'true');
+      const input = early.getByRole('textbox');
+      await input.fill('Explicit user draft before fonts');
+      assert.ok(heldFonts > 0);
+      assert.equal(await early.locator('main').getAttribute('data-mui-board-hydrated'), 'false');
+      if (unmount) {
+        await early.getByRole('navigation', { name: 'Навигация раздела', exact: true }).getByRole('link', { name: 'Button', exact: true }).click();
+        await early.waitForURL(origin + '/components/button/', { waitUntil: 'domcontentloaded' });
+        releaseFonts();
+        await early.evaluate(() => document.fonts.ready);
+        await early.evaluate(() => new Promise(resolve => requestAnimationFrame(() => requestAnimationFrame(resolve))));
+        assert.equal(await early.locator('main[data-mui-board-hydrated]').count(), 0);
+        assert.equal(await early.locator('#pilot-board-tab-select').count(), 0);
+        assert.notEqual(await early.evaluate(() => getComputedStyle(document.body).overflow), 'hidden');
+        continue;
+      }
+      releaseFonts();
+      await early.locator('main[data-mui-board-hydrated="true"]').waitFor();
+      assert.equal(await chosen.getAttribute('aria-selected'), 'true');
+      assert.equal(await input.inputValue(), 'Explicit user draft before fonts');
+      assert.equal(await input.evaluate(element => element === document.activeElement), true);
+    } finally { releaseFonts(); await slow.close(); }
+  }
   const chunkDirectory = new URL('../out/_next/static/chunks/', import.meta.url);
   const chunkSources = await Promise.all((await readdir(chunkDirectory)).filter(name => name.endsWith('.js')).map(async name => ({
     path: '/_next/static/chunks/' + name, text: await readFile(new URL(name, chunkDirectory), 'utf8'),
